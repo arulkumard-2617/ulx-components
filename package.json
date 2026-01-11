@@ -1,0 +1,40 @@
+{
+  "name": "uls-components",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "uls-sync": "npx uls-sync",
+    "ulsBuild": "vite build -c vite.config.build.mjs",
+    "ulsDev": "npm run ulsBuild",
+    "ulsBuild:css": "vite build -c vite.config.build.mjs -m less",
+    "ulsBuild:css:core": "vite build -c vite.config.build.mjs -m less-only",
+    "ulsBuild:js": "vite build -c vite.config.build.mjs -m js",
+    "ulsDev:watch": "uls-watch-less",
+    "ulsDev:watch:vite": "vite build -c vite.config.build.mjs -m less -w",
+    "dev": "npm run ulsDev:watch",
+    "create": "node node_modules/uls-v2/src/scripts/create-uls-app.js",
+    "ulsBuild:guls": "ULS_APP=guls npm run ulsBuild",
+    "ulsDev:guls": "ULS_APP=guls npm run ulsDev:watch",
+    "uls-init": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-init || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/uls.js init",
+    "uls-config": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-config || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/update-config.mjs",
+    "uls-update-config": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-config || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/update-config.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "uls-v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#dev",
+    "primereact": "^10.9.7",
+    "clsx": "^2.1.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.0",
+    "less": "^4.4.2"
+  }
+}

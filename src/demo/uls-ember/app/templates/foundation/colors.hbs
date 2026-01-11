@@ -1,0 +1,18 @@
+{{page-title "Colors - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Colors" 
+  @description="Palette layers, semantic tokens, and theming workflow."
+>
+  <div class="uls-foundation-page">
+    {{! Color Palette }}
+    <Common::DocMain::FoundationSection 
+      @id="colors-palette"
+      @title="Color Palette"
+      @subtitle="Reference swatches mapped to the core LESS tokens and CSS custom properties."
+    >
+      <Common::DocMain::ColorPalette @paletteGroups={{@model.paletteGroups}} />
+    </Common::DocMain::FoundationSection>
+  </div>
+</Common::DocMain::FoundationLayout>
+
