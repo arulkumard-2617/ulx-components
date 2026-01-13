@@ -1,4 +1,4 @@
-# uls-components-backup
+# addon-temp
 
 [Short description of the addon.]
 
@@ -11,7 +11,7 @@
 ## Installation
 
 ```
-ember install uls-components-backup
+ember install addon-temp
 ```
 
 ## Usage

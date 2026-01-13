@@ -18,7 +18,7 @@ try {
 
 // Resolve paths from config or use defaults (embedded at generation time)
 // These defaults ensure correct paths even if config loading fails
-const stylesPath = ulsConfig.stylesPath || 'src/styles/uls'
+const stylesPath = ulsConfig.stylesPath || 'styles/uls'
 const passthroughPath = ulsConfig.passthroughPath || 'src/scripts/passthrough.js'
 
 // Resolve app bundle name

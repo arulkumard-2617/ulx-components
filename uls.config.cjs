@@ -4,10 +4,10 @@
  */
 module.exports = {
   // Where your compiled assets live
-  srcPath: 'src',
+  srcPath: '',
 
   // Centralized ULS styles directory
-  stylesPath: 'src/styles/uls',
+  stylesPath: 'styles/uls',
 
   // Framework demo scaffolding (primereact | ember)
   framework: 'ember',
@@ -24,7 +24,7 @@ module.exports = {
 
   // Demo directories
   demoPrimereactPath: 'src/demo/uls-primereact',
-  demoEmberPath: 'src/demo/uls-ember',
+  demoEmberPath: 'demo/uls-ember',
   demoComponentsPath: 'src/components',
 
   // CSS Purge Configuration
