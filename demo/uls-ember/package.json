@@ -30,6 +30,8 @@
     "@babel/core": "^7.27.1",
     "@babel/eslint-parser": "^7.27.1",
     "@babel/plugin-proposal-decorators": "^7.27.1",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@ember/optional-features": "^2.2.0",
     "@ember/test-helpers": "^5.2.1",
     "@embroider/macros": "^1.17.2",
@@ -51,11 +53,13 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-test-loader": "^3.1.0",
+    "ember-code-snippet": "^3.0.0",
     "ember-data": "~5.4.1",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.2.0",
     "ember-page-title": "^9.0.1",
+    "ember-prism": "^1.0.0",
     "ember-qunit": "^9.0.2",
     "ember-resolver": "^13.1.0",
     "ember-source": "~6.4.0",
@@ -83,5 +87,11 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "@uls/foundation": "file:../uls-foundation",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "uls-components": "file:../.."
   }
 }

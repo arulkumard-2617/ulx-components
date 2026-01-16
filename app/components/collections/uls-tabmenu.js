@@ -1,0 +1,1 @@
+export { default } from 'uls-components/components/collections/uls-tabmenu';

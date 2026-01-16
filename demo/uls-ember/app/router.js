@@ -13,4 +13,42 @@ Router.map(function () {
     this.route('typography', { path: '/typography' });
     this.route('colors', { path: '/colors' });
   });
+
+  this.route('components', { path: '/components' }, function () {
+    this.route('collections', { path: '/collections' }, function () {
+      this.route('tabmenu', { path: '/tabmenu' });});
+  });
+
+  this.route('utilities', { path: '/utilities' }, function () {
+    this.route('index', { path: '/' });
+    this.route('space', { path: '/space' });
+    this.route('gap', { path: '/gap' });
+    this.route('grid', { path: '/grid' });
+    this.route('flex', { path: '/flex' });
+    this.route('display', { path: '/display' });
+    this.route('position', { path: '/position' });
+    this.route('size', { path: '/size' });
+    this.route('cursor', { path: '/cursor' });
+    this.route('text-align', { path: '/text-align' });
+    this.route('text-transform', { path: '/text-transform' });
+    this.route('text-decoration', { path: '/text-decoration' });
+    this.route('vertical-align', { path: '/vertical-align' });
+    this.route('float', { path: '/float' });
+    this.route('clear', { path: '/clear' });
+    this.route('word-break', { path: '/word-break' });
+    this.route('visibility', { path: '/visibility' });
+    this.route('overflow', { path: '/overflow' });
+    this.route('color', { path: '/color' });
+    this.route('hover', { path: '/hover' });
+    this.route('line-clamp', { path: '/line-clamp' });
+    this.route('border', { path: '/border' });
+    this.route('shadow', { path: '/shadow' });
+    this.route('z-index', { path: '/z-index' });
+    this.route('opacity', { path: '/opacity' });
+    this.route('filter', { path: '/filter' });
+    this.route('object-fit', { path: '/object-fit' });
+    this.route('user-select', { path: '/user-select' });
+    this.route('pointer-events', { path: '/pointer-events' });
+    this.route('white-space', { path: '/white-space' });
+  });
 });

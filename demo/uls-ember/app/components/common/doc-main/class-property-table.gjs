@@ -35,7 +35,7 @@ export default class ClassPropertyTableComponent extends Component {
               {{#each this.rows as |row|}}
                 <tr class="datatable-body-row">
                   <td class="datatable-column-body-cell">
-                    <div class="fxb fvc gp3">
+                    <div class="fxb fvc gp2">
                       {{#if row.color}}
                         <div
                           class="rds-circle bdr w20 h20"

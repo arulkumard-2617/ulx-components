@@ -5,14 +5,20 @@
   @description="Palette layers, semantic tokens, and theming workflow."
 >
   <div class="uls-foundation-page">
-    {{! Color Palette }}
-    <Common::DocMain::FoundationSection 
-      @id="colors-palette"
-      @title="Color Palette"
-      @subtitle="Reference swatches mapped to the core LESS tokens and CSS custom properties."
-    >
-      <Common::DocMain::ColorPalette @paletteGroups={{@model.paletteGroups}} />
-    </Common::DocMain::FoundationSection>
+    {{#if @model.useReactComponents}}
+      <UlsReactBridge
+        @component={{@model.ReactColors}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="colors-overview"
+        @title="Colors"
+        @subtitle="Palette layers, semantic tokens, and theming workflow."
+      >
+        <p class="fg-text-secondary">React Colors component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
 

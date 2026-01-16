@@ -1,7 +1,470 @@
 // Import ULS master file (includes all ULS styles and overrides)
-@import "../../../../src/styles/uls/default/uls-master.less";
+@import "uls-master.less";
 
-/* ULS Design System Entry */
-@import "../../styles/uls.less";
+::-webkit-scrollbar-thumb {
+    background: transparent;
+    display: none;
+}
 
-/* Demo app styles (later, if needed) */
+.ulsp-sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex: 0 0 250px;
+    position: sticky;
+    left: 0;
+    top: 5rem;
+    height: calc(100vh - 9rem);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: transform .4s cubic-bezier(.05,.74,.2,.99), opacity .3s;
+
+    .s-nav-link {
+        background: transparent;
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .s-nav-link-icon {
+        .menu-toggle-icon {
+            transition: transform 0.3s ease;
+            display: inline-block;
+            
+            &.rotate-180 {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .accordion-content {
+        will-change: max-height;
+        transition: max-height 0.3s ease-in-out;
+    }
+}
+
+.ulsp-tabpanel {
+    .ulsp-tabpanel-header {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0;
+        border-bottom: 1px solid var(--uls-border-color, #e0e0e0);
+    }
+    
+    .ulsp-tabpanel-header-item {
+        overflow: hidden;
+        
+        a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--uls-text-secondary, #666);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            text-transform: uppercase;
+            
+            &:hover {
+                color: var(--uls-primary-color, #2196F3);
+            }
+            
+            &[aria-selected="true"],
+            &.active {
+                color: var(--uls-primary-color, #2196F3) !important;
+                border-bottom: 2px solid var(--uls-primary-color);
+                font-weight: 600;
+            }
+        }
+    }
+    
+    .ulsp-tabpanel-content {
+        padding: 1.5rem 0;
+    }
+}
+
+.code-preview-container {
+    .demo-and-code {
+        .demo {
+            .code-preview-container {
+                .code-block {
+                    position: relative;
+                    max-height: 400px;
+                    overflow: auto;
+                    
+                    > pre {
+                        border-radius: 12px;
+                    }
+                    
+                    .code-actions {
+                        position: absolute;
+                        top: 1rem;
+                        right: 0.5rem;
+                        transition: opacity 0.3s ease-in-out;
+                        background: hsla(0, 0%, 100%, .05);
+                        border-radius: 10px;
+                        backdrop-filter: blur(6px);
+                        border: 1px solid hsla(0, 0%, 100%, .1);
+                        
+                        > button {
+                            background-color: transparent;
+                            margin: 0;
+                            padding: 0;
+                            border: 0;
+                            outline: 0;
+                            color: var(--static-white, #fff);
+                            cursor: pointer;
+                            
+                            &:hover {
+                                opacity: 0.8;
+                            }
+                        }
+                    }
+                    
+                    &:hover .code-actions {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback for code-block without demo
+    .code-block {
+        position: relative;
+        max-height: 400px;
+        overflow: auto;
+        
+        > pre {
+            border-radius: 12px;
+        }
+        
+        .code-actions {
+            position: absolute;
+            top: 1rem;
+            right: 0.5rem;
+            transition: opacity 0.3s ease-in-out;
+            background: hsla(0, 0%, 100%, .05);
+            border-radius: 10px;
+            backdrop-filter: blur(6px);
+            border: 1px solid hsla(0, 0%, 100%, .1);
+            
+            > button {
+                background-color: transparent;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0;
+                color: var(--static-white, #fff);
+                cursor: pointer;
+                
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+        
+        &:hover .code-actions {
+            opacity: 1;
+        }
+    }
+}
+
+.doc-panel-wrapper {
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.doc-section-nav {
+    position: sticky;
+    top: 4rem;
+    min-width: 200px;
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    a {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        color: var(--uls-text-secondary, #666);
+        text-decoration: none;
+        font-size: 0.875rem;
+        border-left: 2px solid transparent;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            color: var(--uls-primary-color, #2196F3);
+            background-color: rgba(33, 150, 243, 0.05);
+        }
+        
+        &.active {
+            color: var(--uls-primary-color, #2196F3);
+            border-left-color: var(--uls-primary-color, #2196F3);
+            font-weight: 600;
+            background-color: rgba(33, 150, 243, 0.08);
+        }
+    }
+}
+
+.code-block pre {
+    white-space: pre; /* prevent wrapping */
+    overflow-x: auto;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    
+    // Layered Liquid Glass Effect with Minimal Turbulence
+    background: transparent;
+    border-radius: 0 0 24px 24px;
+    overflow: hidden;
+    
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    
+    // Glass filter layer with minimal turbulence
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        backdrop-filter: blur(2px) saturate(105%) brightness(100.5%) contrast(100.5%);
+        -webkit-backdrop-filter: blur(2px) saturate(105%) brightness(100.5%) contrast(100.5%);
+        filter: url(#lg-minimal);
+        isolation: isolate;
+        pointer-events: none;
+    }
+    
+    // Glass overlay layer
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: transparent;
+        border-radius: inherit;
+        box-shadow: 
+            inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+            inset 0 0 8px rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+        pointer-events: none;
+    }
+    
+    // Ensure content is above glass layers
+    > * {
+        position: relative;
+        z-index: 2;
+    }
+    
+    // Smooth transitions for glass effect
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+    
+    // Liquid glass interaction with minimal turbulence
+    &:hover,
+    &:focus-within {
+        &::before {
+            backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
+            -webkit-backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
+        }
+        
+        &::after {
+            background: transparent;
+            box-shadow: 
+                inset 1px 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 0 10px rgba(255, 255, 255, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.03);
+        }
+        
+        box-shadow: 
+            // Subtle outer glow on hover
+            0 0 0 1px rgba(255, 255, 255, 0.1),
+            0 4px 20px rgba(0, 0, 0, 0.12),
+            0 8px 32px rgba(0, 0, 0, 0.08),
+            // Subtle inner shine on hover
+            inset 0 1px 0 rgba(255, 255, 255, 0.25),
+            inset 0 2px 4px rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+            inset 0 -2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    // Enhanced liquid glass for header elements with advanced effects
+    &.ulsp-topbar {
+        // Header-specific squishy bounce
+        @keyframes header-squish {
+            0% { transform: scaleY(1) scaleX(1); }
+            30% { transform: scaleY(0.97) scaleX(1.01); }
+            60% { transform: scaleY(1.02) scaleX(0.99); }
+            100% { transform: scaleY(1) scaleX(1); }
+        }
+        
+        &::before {
+            backdrop-filter: blur(2px) saturate(105%) brightness(101%) contrast(101%);
+            -webkit-backdrop-filter: blur(2px) saturate(105%) brightness(101%) contrast(101%);
+            filter: url(#lg-minimal);
+        }
+        
+        &::after {
+            background: transparent;
+            box-shadow: 
+                inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 0 6px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+        }
+        
+        &:hover,
+        &:focus-within {
+            &::before {
+                backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
+                -webkit-backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
+            }
+            
+            &::after {
+                background: transparent;
+                box-shadow: 
+                    inset 1px 1px 0 rgba(255, 255, 255, 0.25),
+                    inset 0 0 10px rgba(255, 255, 255, 0.15),
+                    inset 0 0 20px rgba(255, 255, 255, 0.1),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+                    inset 0 -2px 4px rgba(0, 0, 0, 0.03);
+            }
+        }
+        // Ensure header content is above glass layers
+        > * {
+            position: relative;
+            z-index: 3;
+        }
+    }
+}
+
+.ulsp-app-routes-container {
+    flex: 1 1 auto;
+    width: 1%;
+    padding-top: .5rem;
+    .panel-main {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 0;
+        min-width: 0;
+    }
+}
+
+code[class*="language-"], pre[class*="language-"] {
+    tab-size: 2;
+}
+
+// Dark theme for code blocks
+.code-block-dark,
+pre.code-block-dark,
+code.code-block-dark,
+.code-block-dark pre,
+.code-block-dark code {
+    background: #1e1e1e !important;
+    color: #d4d4d4 !important;
+}
+
+pre.code-block-dark,
+.code-block-dark pre {
+    padding: 1rem !important;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0;
+    
+    code {
+        background: transparent !important;
+        color: inherit !important;
+        padding: 0;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+}
+
+// Prism dark theme colors
+pre.code-block-dark {
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: #6a9955;
+    }
+    
+    .token.punctuation {
+        color: #d4d4d4;
+    }
+    
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+        color: #569cd6;
+    }
+    
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+        color: #ce9178;
+    }
+    
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+        color: #d4d4d4;
+    }
+    
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+        color: #c586c0;
+    }
+    
+    .token.function,
+    .token.class-name {
+        color: #dcdcaa;
+    }
+    
+    .token.regex,
+    .token.important,
+    .token.variable {
+        color: #d16969;
+    }
+    
+    // Line numbers
+    &.line-numbers {
+        .line-numbers-rows {
+            border-right: 1px solid #3e3e3e;
+            
+            > span {
+                color: #858585;
+            }
+        }
+    }
+}

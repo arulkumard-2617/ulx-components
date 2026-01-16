@@ -206,11 +206,11 @@ export default class DocSidebarComponent extends Component {
   <template>
   {{! Force evaluation of computedActiveItem to update activeItem }}
   {{#if false}}{{this.computedActiveItem}}{{/if}}
-  <aside class="ulsp-sidebar overflow-x-hidden overflow-y-auto mgb15 mgr20">
+  <aside class="ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10">
     <nav class="sidebar-nav fxgrow">
-      <ol class="s-nav-list mgt4">
+      <ol class="s-nav-list mgt2">
         {{#each this.navItems as |item|}}
-          <li class="s-nav-item mgb8">
+          <li class="s-nav-item mgb4">
             {{#if item.to}}
               {{#if (this.hasChildren item)}}
                 {{! Parent with children - dropdown button only (not LinkTo) }}
@@ -228,7 +228,7 @@ export default class DocSidebarComponent extends Component {
                   </span>
                 </button>
                 <button 
-                  class="s-nav-link-icon mgl-auto pdl2"
+                  class="s-nav-link-icon mgl-auto pdl1"
                   {{on "click" (fn this.handleToggle item.menuTitle)}}
                   aria-label="Toggle {{item.menuTitle}} menu"
                   type="button"
@@ -240,7 +240,7 @@ export default class DocSidebarComponent extends Component {
                 {{! Simple clickable link without children }}
                 <LinkTo 
                   @route={{item.route}}
-                  class="s-nav-link fxb fvc fhs gp2 w-100p {{if (this.isItemActive item this.currentPath) 'fg-primary' ''}}"
+                  class="s-nav-link fxb fvc fhs gp2 w-100p {{if (this.isItemActive item this.currentPath) 'fg-primary' 'fg-text'}}"
                 >
                   {{#if item.icon}}
                     <span class="s-nav-link-icon w32 h32 fxb fvc fhc bdr rds2">
@@ -277,19 +277,19 @@ export default class DocSidebarComponent extends Component {
                 style={{this.getAccordionStyle item}}
                 {{this.setContentRef item.menuTitle}}
               >
-                <ol class="s-nav-list mgt2 pdl3">
+                <ol class="s-nav-list mgt1 pdl2">
                   {{#each item.children as |childItem|}}
                     {{#if childItem.category}}
-                      <li class="s-nav-item pdb4 pdt4">
+                      <li class="s-nav-item pdb2 pdt2">
                         <div class="s-nav-category medium-font fg-text-secondary">{{childItem.category}}</div>
                         {{#if childItem.items}}
-                          <ol class="s-nav-list mgt4">
+                          <ol class="s-nav-list mgt2">
                             {{#each childItem.items as |subItem|}}
                               <li class="s-nav-item">
                                 <LinkTo
                                   @route={{subItem.route}}
                                   @activeClass="bdr-primary fg-primary"
-                                  class="bdr-l pdl10 pdt4 pdb4 font-size14 text-left w-100p fg-text"
+                                  class="bdr-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
                                 >
                                   {{subItem.menuItem}}
                                 </LinkTo>
@@ -303,7 +303,7 @@ export default class DocSidebarComponent extends Component {
                         <LinkTo
                           @route={{childItem.route}}
                           @activeClass="bdr-primary fg-primary"
-                          class="bdr-l pdl10 pdb4 pdt4 font-size14 text-left w-100p block"
+                          class="bdr-l pdl5 pdb2 pdt2 font-size14 text-left w-100p block fg-text"
                         >
                           {{childItem.menuItem}}
                         </LinkTo>

@@ -1,0 +1,21 @@
+{{page-title "Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Utilities" 
+  @description="Utility classes for spacing, layout, typography, and more."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlsReactBridge @component={{@model.ReactUtilities}} />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-overview"
+        @title="Utilities"
+        @subtitle="Utility classes for common styling needs."
+      >
+        <p class="fg-text-secondary">React Utilities components could not be loaded. Please ensure the uls-foundation package is available.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+
