@@ -1,22 +1,37 @@
-# Ignore source files
-/src/
+# Source files (not needed - only dist/ is published)
+/tests/
 
-# Config files
+# Config files (not needed in published package)
 babel.config.json
 rollup.config.mjs
 tsconfig.json
 .eslintrc.cjs
 .prettierrc.js
+.prettierrc.cjs
+.prettierignore
 .editorconfig
-
-# Development
-.eslintcache
-.gitignore
 .eslintignore
+.eslintcache
+.template-lintrc.cjs
+.npmrc
 
-# Tests
-/tests/
+# IDE files
+.vscode/
+.idea/
+
+# Development files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # Build artifacts
 *.map
+
+# Dependencies (should not be published)
+node_modules/
+
+# Git files
+.git/
+.gitignore
+.github/
 
