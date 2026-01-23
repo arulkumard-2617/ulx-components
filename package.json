@@ -20,10 +20,6 @@
       ]
     }
   },
-  "files": [
-    "addon-main.cjs",
-    "dist"
-  ],
   "scripts": {
     "build": "rollup --config",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
