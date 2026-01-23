@@ -24,7 +24,7 @@ export default function SpacingUtilities() {
       subtitle="Utilities mirror the base token scale, making the spacing system predictable."
     >
       {utilityGroups.map((group) => (
-        <article key={group.name} className="uls-foundation-card w-30p pd6 rds2 bdr">
+        <article key={group.name} className="uls-foundation-card w-30p pd6 rds2 bd">
           <h3 className="mgt0">{group.name}</h3>
           <p className="fg-secondary">{group.classes}</p>
         </article>

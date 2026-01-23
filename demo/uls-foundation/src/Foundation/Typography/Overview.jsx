@@ -27,7 +27,7 @@ export default function TypographyOverview() {
       <div className="uls-messages info m-size mgt10">
         {keyPrinciples.map((item) => (
           <article key={item.title} className="info uls-messages s-size enter-done mgy2" role='alert'>
-            <h5 className="font-bold mgt0">{item.title}</h5>
+            <h5 className="bold-font mgt0">{item.title}</h5>
             <p className="mgb0 fg-secondary font-regular">{item.description}</p>
           </article>
         ))}

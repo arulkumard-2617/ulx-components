@@ -31,7 +31,7 @@ export default function ClassPropertyTable({ rows, columnLabels = ['Class', 'Pro
                   <div className="fxb fvc gp3">
                     {color && (
                       <div
-                        className="rds-circle bdr w20 h20 "
+                        className="rds-circle bd w20 h20 "
                         style={{
                           backgroundColor: color,
                           borderColor: 'var(--uls-default-border-color, #dee2e6)'
@@ -39,7 +39,7 @@ export default function ClassPropertyTable({ rows, columnLabels = ['Class', 'Pro
                         aria-hidden="true"
                       />
                     )}
-                    <span className='font-bold fg-primary font-size16'>{formatClassName(className)}</span>
+                    <span className='bold-font fg-primary font-size16'>{formatClassName(className)}</span>
                   </div>
                 </td>
                 <td className="datatable-column-body-cell">

@@ -7,7 +7,7 @@ const weightUtilities = [
   { className: '.font-regular', property: 'font-family: @font-face-regular; font-weight: 400;' },
   { className: '.font-medium', property: 'font-family: @font-face-medium; font-weight: 500;' },
   { className: '.font-semibold', property: 'font-family: @font-face-semibold; font-weight: 600;' },
-  { className: '.font-bold', property: 'font-family: @font-face-bold; font-weight: 700;' }
+  { className: '.bold-font', property: 'font-family: @font-face-bold; font-weight: 700;' }
 ];
 
 export default function FontWeights() {

@@ -117,27 +117,27 @@ export default function PositionUtilities() {
     >
       <div className="fxb fcol gp10">
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Position Types</h4>
+          <h4 className="mgt0 mgb4 bold-font">Position Types</h4>
           <ClassPropertyTable rows={positionTypeUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Top Position</h4>
+          <h4 className="mgt0 mgb4 bold-font">Top Position</h4>
           <ClassPropertyTable rows={topUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Right Position</h4>
+          <h4 className="mgt0 mgb4 bold-font">Right Position</h4>
           <ClassPropertyTable rows={rightUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Bottom Position</h4>
+          <h4 className="mgt0 mgb4 bold-font">Bottom Position</h4>
           <ClassPropertyTable rows={bottomUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Left Position</h4>
+          <h4 className="mgt0 mgb4 bold-font">Left Position</h4>
           <ClassPropertyTable rows={leftUtilities} />
         </div>
       </div>

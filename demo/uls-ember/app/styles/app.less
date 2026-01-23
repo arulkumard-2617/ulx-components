@@ -1,5 +1,5 @@
 // Import ULS master file (includes all ULS styles and overrides)
-@import "uls-master.less";
+@import "uls-editor.less";
 
 ::-webkit-scrollbar-thumb {
     background: transparent;
@@ -19,7 +19,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: transform .4s cubic-bezier(.05,.74,.2,.99), opacity .3s;
+    transition: transform .4s cubic-bezier(.05, .74, .2, .99), opacity .3s;
 
     .s-nav-link {
         background: transparent;
@@ -27,12 +27,12 @@
         margin: 0;
         padding: 0;
     }
-    
+
     .s-nav-link-icon {
         .menu-toggle-icon {
             transition: transform 0.3s ease;
             display: inline-block;
-            
+
             &.rotate-180 {
                 transform: rotate(180deg);
             }
@@ -55,10 +55,10 @@
         gap: 0;
         border-bottom: 1px solid var(--uls-border-color, #e0e0e0);
     }
-    
+
     .ulsp-tabpanel-header-item {
         overflow: hidden;
-        
+
         a {
             display: block;
             padding: 0.75rem 1rem;
@@ -68,11 +68,12 @@
             border-bottom: 2px solid transparent;
             cursor: pointer;
             text-transform: uppercase;
-            
+            font-family: var(--uls-font-face-bold);
+
             &:hover {
                 color: var(--uls-primary-color, #2196F3);
             }
-            
+
             &[aria-selected="true"],
             &.active {
                 color: var(--uls-primary-color, #2196F3) !important;
@@ -81,7 +82,7 @@
             }
         }
     }
-    
+
     .ulsp-tabpanel-content {
         padding: 1.5rem 0;
     }
@@ -95,11 +96,11 @@
                     position: relative;
                     max-height: 400px;
                     overflow: auto;
-                    
-                    > pre {
+
+                    >pre {
                         border-radius: 12px;
                     }
-                    
+
                     .code-actions {
                         position: absolute;
                         top: 1rem;
@@ -109,8 +110,8 @@
                         border-radius: 10px;
                         backdrop-filter: blur(6px);
                         border: 1px solid hsla(0, 0%, 100%, .1);
-                        
-                        > button {
+
+                        >button {
                             background-color: transparent;
                             margin: 0;
                             padding: 0;
@@ -118,13 +119,13 @@
                             outline: 0;
                             color: var(--static-white, #fff);
                             cursor: pointer;
-                            
+
                             &:hover {
                                 opacity: 0.8;
                             }
                         }
                     }
-                    
+
                     &:hover .code-actions {
                         opacity: 1;
                     }
@@ -132,17 +133,17 @@
             }
         }
     }
-    
+
     // Fallback for code-block without demo
     .code-block {
         position: relative;
         max-height: 400px;
         overflow: auto;
-        
-        > pre {
+
+        >pre {
             border-radius: 12px;
         }
-        
+
         .code-actions {
             position: absolute;
             top: 1rem;
@@ -152,8 +153,8 @@
             border-radius: 10px;
             backdrop-filter: blur(6px);
             border: 1px solid hsla(0, 0%, 100%, .1);
-            
-            > button {
+
+            >button {
                 background-color: transparent;
                 margin: 0;
                 padding: 0;
@@ -161,16 +162,73 @@
                 outline: 0;
                 color: var(--static-white, #fff);
                 cursor: pointer;
-                
+
                 &:hover {
                     opacity: 0.8;
                 }
             }
         }
-        
+
         &:hover .code-actions {
             opacity: 1;
         }
+    }
+
+    .copy-icon {
+        display: inline-block;
+    }
+    
+    /* Initial state */
+    .icon-check {
+        stroke-dasharray: 20;
+        stroke-dashoffset: 20;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+    
+    .icon-copy {
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    
+    /* When copied */
+    .is-copied .icon-copy {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    
+    .is-copied .icon-check {
+        opacity: 1;
+        stroke-dashoffset: 0;
+        transition: stroke-dashoffset 0.3s ease, opacity 0.2s ease;
+    }
+    .fit-width-icon {
+        display: inline-block;
+    }
+    
+    .fit-width-icon path {
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+    
+    /* Default = collapsed (arrows inward) */
+    .fit-width-icon .arrow.left {
+        transform: translateX(2px);
+    }
+    
+    .fit-width-icon .arrow.right {
+        transform: translateX(-2px);
+    }
+    
+    /* Expanded = fit to width */
+    .is-expanded .fit-width-icon .arrow.left {
+        transform: translateX(-2px);
+    }
+    
+    .is-expanded .fit-width-icon .arrow.right {
+        transform: translateX(2px);
     }
 }
 
@@ -186,18 +244,18 @@
     max-height: calc(100vh - 6rem);
     overflow-y: auto;
     overflow-x: hidden;
-    
-    > ul {
+
+    >ul {
         list-style: none;
         padding: 0;
         margin: 0;
     }
-    
+
     li {
         margin: 0;
         padding: 0;
     }
-    
+
     a {
         display: block;
         padding: 0.5rem 0.75rem;
@@ -206,12 +264,12 @@
         font-size: 0.875rem;
         border-left: 2px solid transparent;
         transition: all 0.2s ease;
-        
+
         &:hover {
             color: var(--uls-primary-color, #2196F3);
             background-color: rgba(33, 150, 243, 0.05);
         }
-        
+
         &.active {
             color: var(--uls-primary-color, #2196F3);
             border-left-color: var(--uls-primary-color, #2196F3);
@@ -222,7 +280,8 @@
 }
 
 .code-block pre {
-    white-space: pre; /* prevent wrapping */
+    white-space: pre;
+    /* prevent wrapping */
     overflow-x: auto;
 }
 
@@ -231,17 +290,17 @@
     top: 0;
     left: 0;
     z-index: 10;
-    
+
     // Layered Liquid Glass Effect with Minimal Turbulence
     background: transparent;
     border-radius: 0 0 24px 24px;
     overflow: hidden;
-    
-    box-shadow: 
+
+    box-shadow:
         0 2px 8px rgba(0, 0, 0, 0.08),
         0 1px 3px rgba(0, 0, 0, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    
+
     // Glass filter layer with minimal turbulence
     &::before {
         content: '';
@@ -254,7 +313,7 @@
         isolation: isolate;
         pointer-events: none;
     }
-    
+
     // Glass overlay layer
     &::after {
         content: '';
@@ -263,22 +322,22 @@
         z-index: 1;
         background: transparent;
         border-radius: inherit;
-        box-shadow: 
+        box-shadow:
             inset 1px 1px 0 rgba(255, 255, 255, 0.2),
             inset 0 0 8px rgba(255, 255, 255, 0.1),
             inset 0 -1px 0 rgba(0, 0, 0, 0.04);
         pointer-events: none;
     }
-    
+
     // Ensure content is above glass layers
-    > * {
+    >* {
         position: relative;
         z-index: 2;
     }
-    
+
     // Smooth transitions for glass effect
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-    
+
     // Liquid glass interaction with minimal turbulence
     &:hover,
     &:focus-within {
@@ -286,63 +345,74 @@
             backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
             -webkit-backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
         }
-        
+
         &::after {
             background: transparent;
-            box-shadow: 
+            box-shadow:
                 inset 1px 1px 0 rgba(255, 255, 255, 0.3),
                 inset 0 0 10px rgba(255, 255, 255, 0.2),
                 inset 0 0 20px rgba(255, 255, 255, 0.1),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.05),
                 inset 0 -2px 4px rgba(0, 0, 0, 0.03);
         }
-        
-        box-shadow: 
-            // Subtle outer glow on hover
-            0 0 0 1px rgba(255, 255, 255, 0.1),
-            0 4px 20px rgba(0, 0, 0, 0.12),
-            0 8px 32px rgba(0, 0, 0, 0.08),
-            // Subtle inner shine on hover
-            inset 0 1px 0 rgba(255, 255, 255, 0.25),
-            inset 0 2px 4px rgba(255, 255, 255, 0.15),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-            inset 0 -2px 8px rgba(0, 0, 0, 0.05);
+
+        box-shadow: // Subtle outer glow on hover
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 4px 20px rgba(0, 0, 0, 0.12),
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        // Subtle inner shine on hover
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.05);
     }
-    
+
     // Enhanced liquid glass for header elements with advanced effects
     &.ulsp-topbar {
+
         // Header-specific squishy bounce
         @keyframes header-squish {
-            0% { transform: scaleY(1) scaleX(1); }
-            30% { transform: scaleY(0.97) scaleX(1.01); }
-            60% { transform: scaleY(1.02) scaleX(0.99); }
-            100% { transform: scaleY(1) scaleX(1); }
+            0% {
+                transform: scaleY(1) scaleX(1);
+            }
+
+            30% {
+                transform: scaleY(0.97) scaleX(1.01);
+            }
+
+            60% {
+                transform: scaleY(1.02) scaleX(0.99);
+            }
+
+            100% {
+                transform: scaleY(1) scaleX(1);
+            }
         }
-        
+
         &::before {
             backdrop-filter: blur(2px) saturate(105%) brightness(101%) contrast(101%);
             -webkit-backdrop-filter: blur(2px) saturate(105%) brightness(101%) contrast(101%);
             filter: url(#lg-minimal);
         }
-        
+
         &::after {
             background: transparent;
-            box-shadow: 
+            box-shadow:
                 inset 1px 1px 0 rgba(255, 255, 255, 0.2),
                 inset 0 0 6px rgba(255, 255, 255, 0.1),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.03);
         }
-        
+
         &:hover,
         &:focus-within {
             &::before {
                 backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
                 -webkit-backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
             }
-            
+
             &::after {
                 background: transparent;
-                box-shadow: 
+                box-shadow:
                     inset 1px 1px 0 rgba(255, 255, 255, 0.25),
                     inset 0 0 10px rgba(255, 255, 255, 0.15),
                     inset 0 0 20px rgba(255, 255, 255, 0.1),
@@ -350,8 +420,9 @@
                     inset 0 -2px 4px rgba(0, 0, 0, 0.03);
             }
         }
+
         // Ensure header content is above glass layers
-        > * {
+        >* {
             position: relative;
             z-index: 3;
         }
@@ -362,6 +433,7 @@
     flex: 1 1 auto;
     width: 1%;
     padding-top: .5rem;
+
     .panel-main {
         flex-grow: 1;
         flex-shrink: 1;
@@ -370,7 +442,8 @@
     }
 }
 
-code[class*="language-"], pre[class*="language-"] {
+code[class*="language-"],
+pre[class*="language-"] {
     tab-size: 2;
 }
 
@@ -390,7 +463,7 @@ pre.code-block-dark,
     border-radius: 8px;
     overflow-x: auto;
     margin: 0;
-    
+
     code {
         background: transparent !important;
         color: inherit !important;
@@ -402,17 +475,18 @@ pre.code-block-dark,
 
 // Prism dark theme colors
 pre.code-block-dark {
+
     .token.comment,
     .token.prolog,
     .token.doctype,
     .token.cdata {
         color: #6a9955;
     }
-    
+
     .token.punctuation {
         color: #d4d4d4;
     }
-    
+
     .token.property,
     .token.tag,
     .token.boolean,
@@ -422,7 +496,7 @@ pre.code-block-dark {
     .token.deleted {
         color: #569cd6;
     }
-    
+
     .token.selector,
     .token.attr-name,
     .token.string,
@@ -431,7 +505,7 @@ pre.code-block-dark {
     .token.inserted {
         color: #ce9178;
     }
-    
+
     .token.operator,
     .token.entity,
     .token.url,
@@ -439,30 +513,30 @@ pre.code-block-dark {
     .style .token.string {
         color: #d4d4d4;
     }
-    
+
     .token.atrule,
     .token.attr-value,
     .token.keyword {
         color: #c586c0;
     }
-    
+
     .token.function,
     .token.class-name {
         color: #dcdcaa;
     }
-    
+
     .token.regex,
     .token.important,
     .token.variable {
         color: #d16969;
     }
-    
+
     // Line numbers
     &.line-numbers {
         .line-numbers-rows {
             border-right: 1px solid #3e3e3e;
-            
-            > span {
+
+            >span {
                 color: #858585;
             }
         }

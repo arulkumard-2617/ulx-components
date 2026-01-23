@@ -74,6 +74,7 @@ const categoryPascal = toPascalCase(category);
 
 const componentDocPath = path.join(documentationPath, kebabName);
 const componentDemoPath = path.join(demoComponentsPath, pascalName);
+const snippetsPath = path.join(componentDocPath, 'snippets');
 
 if (!fs.existsSync(componentDocPath)) {
   fs.mkdirSync(componentDocPath, { recursive: true });
@@ -81,6 +82,10 @@ if (!fs.existsSync(componentDocPath)) {
 
 if (!fs.existsSync(componentDemoPath)) {
   fs.mkdirSync(componentDemoPath, { recursive: true });
+}
+
+if (!fs.existsSync(snippetsPath)) {
+  fs.mkdirSync(snippetsPath, { recursive: true });
 }
 
 // 1. Create route file
@@ -258,12 +263,12 @@ const importsContent = `// =====================================================
 export { default as BasicDemo } from '../../../../components/Demo/${pascalName}/Basic';
 
 // Import source (for import section)
-export const ImportSource = \`import ${pascalName} from 'uls-components/components/${category}/${kebabName}';\`;
+export { default as ImportSource } from './snippets/Import.gjs';
 
 // ${pascalName} Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all ${pascalName} demo source files
-export const BasicSource = \`<${pascalName} />\`;
+export { default as BasicSource } from './snippets/Basic.gjs';
 `;
 
 const importsFilePath = path.join(componentDocPath, 'imports.js');
@@ -272,6 +277,22 @@ if (fs.existsSync(importsFilePath)) {
 } else {
   fs.writeFileSync(importsFilePath, importsContent);
   console.log(`✓ Created imports: ${importsFilePath}`);
+}
+
+// 4d. Create snippet files
+// Create Import.gjs.js snippet
+const importSnippetContent = `export default \`
+import ${pascalName} from 'uls-components/components/${category}/${kebabName}';
+
+\`;
+`;
+
+const importSnippetPath = path.join(snippetsPath, 'Import.gjs.js');
+if (fs.existsSync(importSnippetPath)) {
+  console.log(`⚠ Import snippet file already exists: ${importSnippetPath}`);
+} else {
+  fs.writeFileSync(importSnippetPath, importSnippetContent);
+  console.log(`✓ Created Import snippet: ${importSnippetPath}`);
 }
 
 // 4c. Create features.js
@@ -378,6 +399,19 @@ if (fs.existsSync(basicDemoFilePath)) {
 } else {
   fs.writeFileSync(basicDemoFilePath, basicDemoContent);
   console.log(`✓ Created Basic demo: ${basicDemoFilePath}`);
+}
+
+// Create Basic.gjs.js snippet file
+const basicSnippetContent = `export default \`
+${basicDemoContent}\`;
+`;
+
+const basicSnippetPath = path.join(snippetsPath, 'Basic.gjs.js');
+if (fs.existsSync(basicSnippetPath)) {
+  console.log(`⚠ Basic snippet file already exists: ${basicSnippetPath}`);
+} else {
+  fs.writeFileSync(basicSnippetPath, basicSnippetContent);
+  console.log(`✓ Created Basic snippet: ${basicSnippetPath}`);
 }
 
 // 6. Update router.js

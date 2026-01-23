@@ -1,1 +1,137 @@
-// tabmenu overrides here
+// // tabmenu overrides here
+
+// // tab menu variables
+// @import "../base/tabmenu-vars.less";
+
+// // ==========================================================================
+// // TAB MENU COMPONENT
+// // ==========================================================================
+// // Horizontal tab menu with active state indicators and size variations
+
+// .uls-tab-menu {
+//     display: grid;
+//     width: 100%;
+//     align-items: flex-end;
+//     border-bottom: @1px solid @default-border-color;
+//     grid-auto-flow: column;
+//     justify-content: space-between;
+//     border-radius: @border-radius-md @border-radius-md 0 0;
+
+//     // Left and right menu sections
+//     .left-menu,
+//     .right-menu {
+//         display: inline-grid;
+//         grid-auto-flow: column;
+
+//         // Menu item styling
+//         >.menu-item {
+//             position: relative;
+//             text-decoration: none;
+//             color: @secondary-text-color;
+//             border: none;
+
+//             // Active indicator line (animated)
+//             &:after {
+//                 width: 100%;
+//                 position: absolute;
+//                 inset-inline-start: 0; // Use logical property for RTL
+//                 bottom: @0px;
+//                 height: @3px;
+//                 background-color: transparent;
+//                 content: "";
+//                 transform: scaleX(0);
+//                 transform-origin: center;
+//                 transition: transform @default-duration ease-out;
+//                 border-radius: @border-radius-md @border-radius-md 0 0;
+//             }
+
+//             // Active state - show indicator line
+//             &.active::after {
+//                 transform: scaleX(1);
+//                 transform-origin: center;
+//             }
+
+//             // Disabled state
+//             &.disabled {
+//                 opacity: 0.6;
+//                 pointer-events: none;
+//             }
+//         }
+
+//         // Active menu item styling
+//         >.menu-item.active {
+//             font-family: @bold-font;
+//             background: transparent;
+//         }
+
+//         // Link menu items
+//         >a.menu-item {
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//             display: block;
+//         }
+//     }
+
+//     // Segment integration
+//     >.uls-segment {
+//         padding-top: 0;
+//         padding-bottom: 0;
+//     }
+
+//     // ==========================================================================
+//     // SIZE VARIATIONS
+//     // ==========================================================================
+
+//     // Medium size variant
+//     &.m-size {
+//         @item-gap: @20px;
+//         @item-font-size: @font-size-default; // default is 14px
+//         @item-lineheight: @default-lineheight;
+//         @padding: @8px 0;
+//         .tab-menu-size(); // Call mixin with updated variables
+//     }
+
+//     // Large size variant
+//     &.l-size {
+//         @item-gap: @32px;
+//         @item-font-size: @font-size-h7; // h7 is 15px
+//         @item-lineheight: @line-height-h7;
+//         @padding: @16px 0;
+//         .tab-menu-size(); // Call mixin with updated variables
+//     }
+
+//     // ==========================================================================
+//     // VISUAL VARIANTS
+//     // ==========================================================================
+
+//     // Secondary variant (no padding)
+//     &.secondary {
+//         .left-menu > .menu-item,
+//         .right-menu > .menu-item {
+//             padding-top: 0;
+//             padding-inline-start: 0; // Use logical property for RTL
+//             padding-inline-end: 0; // Use logical property for RTL
+//         }
+//     }
+
+//     // ==========================================================================
+//     // COLOR VARIATIONS
+//     // ==========================================================================
+
+//     // Default color variant
+//     &.default-color {
+//         @bg-color: @default-background;
+//         @fg-color: @pointing-menu-fg;
+//         @active-fg-color: @pointing-menu-active;
+//         @active-border-color: @pointing-menu-active;
+//         .tab-menu-color(); // Call mixin with updated variables
+//     }
+
+//     // Basic/transparent variant
+//     &.basic {
+//         @bg-color: transparent;
+//         @fg-color: @pointing-menu-fg;
+//         @active-fg-color: @pointing-menu-active;
+//         @active-border-color: @pointing-menu-active;
+//         .tab-menu-color(); // Call mixin with updated variables
+//     }
+// }

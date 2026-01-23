@@ -46,16 +46,25 @@
     "uls-config": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-config || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/update-config.mjs",
     "uls-update-config": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-config || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/update-config.mjs",
     "ulsBuild:editor": "ULS_APP=editor npm run ulsBuild",
-    "ulsDev:editor": "ULS_APP=editor npm run ulsDev:watch"
+    "ulsDev:editor": "ULS_APP=editor npm run ulsDev:watch",
+    "ulsBuild:foundation": "ULS_APP=foundation npm run ulsBuild",
+    "ulsDev:foundation": "ULS_APP=foundation npm run ulsDev:watch",
+    "ulsEditor": "node scripts/less/uls-editor-build.js",
+    "ulsEditor:watch": "node scripts/less/uls-editor-build.js --watch",
+    "sync-snippets": "node scripts/watch-snipper.js",
+    "ulsBuild:onair": "ULS_APP=onair npm run ulsBuild",
+    "ulsDev:onair": "ULS_APP=onair npm run ulsDev:watch"
   },
   "dependencies": {
     "@babel/core": "^7.25.2",
     "clsx": "^2.1.1",
+    "ember-auto-import": "^2.8.1",
     "ember-cli-babel": "^8.2.0",
     "ember-cli-htmlbars": "^6.3.0",
     "ember-template-imports": "^4.1.1",
+    "ember-truth-helpers": "^5.0.0",
     "primereact": "^10.9.7",
-    "uls-v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#master"
+    "uls-v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#dev"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
@@ -66,8 +75,8 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "broccoli-asset-rev": "^3.0.0",
+    "chokidar": "^5.0.0",
     "concurrently": "^8.2.2",
-    "ember-auto-import": "^2.8.1",
     "ember-cli": "~5.12.0",
     "ember-cli-clean-css": "^3.0.0",
     "ember-cli-dependency-checker": "^3.3.2",

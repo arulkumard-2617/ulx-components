@@ -25,6 +25,13 @@ const passthroughPath = ulsConfig.passthroughPath || 'src/scripts/passthrough.js
 // Priority: ULS_APP env var -> uls.config.cjs defaultApp -> 'default'
 const appName = (process.env.ULS_APP || ulsConfig.defaultApp || 'default').toString().trim() || 'default'
 
+// Get prefix from config (supports per-app prefixes)
+// Priority: prefixes[appName] -> prefix -> 'uls-'
+const componentPrefix = ulsConfig.prefixes?.[appName] || ulsConfig.prefix || 'uls-'
+// CSS variable prefix defaults to component prefix, but can be overridden
+// Priority: cssVarPrefixes[appName] -> cssVarPrefix -> componentPrefix -> 'uls-'
+const cssVarPrefix = ulsConfig.cssVarPrefixes?.[appName] || ulsConfig.cssVarPrefix || componentPrefix || 'uls-'
+
 // Global file watchers (persist across rebuilds in watch mode)
 let globalLessFileWatchers = []
 let globalRebuildTimeout = null
@@ -72,6 +79,10 @@ function lessBuildPlugin(options = {}) {
         resolve(process.cwd(), 'node_modules'),
         resolve(uiPackagePath, 'node_modules'),
       ],
+      modifyVars: {
+        'uls-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
+        'uls-css-var-prefix': cssVarPrefix, // Inject CSS variable prefix from config
+      },
     })
     
     if (!cssResult || !cssResult.css) {
@@ -98,6 +109,10 @@ function lessBuildPlugin(options = {}) {
         resolve(process.cwd(), 'node_modules'),
         resolve(uiPackagePath, 'node_modules'),
       ],
+      modifyVars: {
+        'uls-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
+        'uls-css-var-prefix': cssVarPrefix, // Inject CSS variable prefix from config
+      },
       compress: true,
     })
     

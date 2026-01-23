@@ -106,3 +106,26 @@ Each component has pre-defined classes in ULS. For example:
 - Then implement these concepts using native Ember/Glimmer code
 - Example: If PrimeReact TabMenu has an `activeIndex` prop, your Ember component might have `@activeItem` argument, but implement the logic using Ember's `@tracked` and `@action` decorators
 
+### Component Logic & HTML Structure Reference
+- ✅ **MUST**: Follow implementation logic patterns from `ui-lab/addon/components/*.gjs` files
+  - Reference existing `.gjs` components in ui-lab for:
+    - Component class structure and organization
+    - Method naming conventions
+    - State management patterns (`@tracked`, `@action`)
+    - Lifecycle handling (modifiers, event listeners)
+    - Service injection patterns
+    - Utility usage patterns
+- ✅ **MUST**: Use HTML structure/DOM from PrimeReact components
+  - Reference PrimeReact component source code for:
+    - HTML element structure and nesting
+    - CSS class names and hierarchy
+    - ARIA attributes and accessibility markup
+    - Semantic HTML elements
+- **Combined Approach**:
+  - **Logic/Implementation**: Follow patterns from `ui-lab/addon/components/*.gjs` files
+  - **HTML Structure**: Follow DOM structure from PrimeReact components
+  - **Example**: Use `bs-modal.gjs` logic patterns (modifiers, tracked state, actions) but structure the `<dialog>` HTML as PrimeReact Dialog component does
+- ❌ **NEVER**: Copy entire component logic from ui-lab - adapt patterns only
+- ❌ **NEVER**: Use PrimeReact's React-specific logic - only reference HTML structure
+- ✅ **MUST**: Ensure HTML structure aligns with ULS CSS classes (from `uls-styles/less/`)
+

@@ -23,7 +23,7 @@ export default function NavLinks() {
     >
       <div className="fxb wrap gap-lg">
         {navLinkUtilities.map((item) => (
-          <article key={item.className} className="uls-foundation-card pd6 rds4 bdr w-100p md-w-1-3">
+          <article key={item.className} className="uls-foundation-card pd6 rds4 bd w-100p md-w-1-3">
             <p className="font-semibold mgb2"><code>{item.className}</code></p>
             <p className="fg-text-secondary mgb0">{item.description}</p>
           </article>

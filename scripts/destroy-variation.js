@@ -145,6 +145,8 @@ console.log(`✓ Found component '${componentName}' in category '${category}'`);
 const importsFilePath = path.join(componentDocPath, 'imports.js');
 const featuresFilePath = path.join(componentDocPath, 'features.js');
 const demoComponentPath = path.join(demoComponentsPath, componentPascal, `${variationPascal}.gjs`);
+const snippetsPath = path.join(componentDocPath, 'snippets');
+const snippetFilePath = path.join(snippetsPath, `${variationPascal}.gjs.js`);
 
 // Check if variation exists
 if (!fs.existsSync(demoComponentPath)) {
@@ -158,6 +160,14 @@ if (fs.existsSync(demoComponentPath)) {
   console.log(`✓ Deleted demo component: ${demoComponentPath}`);
 }
 
+// 1b. Delete snippet file
+if (fs.existsSync(snippetFilePath)) {
+  fs.unlinkSync(snippetFilePath);
+  console.log(`✓ Deleted snippet file: ${snippetFilePath}`);
+} else {
+  console.log(`⚠ Snippet file not found: ${snippetFilePath}`);
+}
+
 // 2. Update imports.js - remove demo export and source
 let importsContent = fs.readFileSync(importsFilePath, 'utf8');
 
@@ -165,9 +175,14 @@ let importsContent = fs.readFileSync(importsFilePath, 'utf8');
 const demoExportPattern = new RegExp(`export\\s*\\{\\s*default\\s+as\\s+${variationPascal}Demo\\s*\\}\\s*from\\s+['"][^'"]+['"];?\\s*\\n?`, 'g');
 importsContent = importsContent.replace(demoExportPattern, '');
 
-// Remove source export
-const sourceExportPattern = new RegExp(`export\\s+const\\s+${variationPascal}Source\\s*=\\s*\`[^\`]+\`;?\\s*\\n?`, 'g');
-importsContent = importsContent.replace(sourceExportPattern, '');
+// Remove source export - handle both snippet imports and hardcoded strings
+// Pattern 1: Snippet import: export { default as VariationSource } from './snippets/Variation.gjs';
+const snippetImportPattern = new RegExp(`export\\s*\\{\\s*default\\s+as\\s+${variationPascal}Source\\s*\\}\\s*from\\s+['"][^'"]+['"];?\\s*\\n?`, 'g');
+importsContent = importsContent.replace(snippetImportPattern, '');
+
+// Pattern 2: Hardcoded string: export const VariationSource = `...`;
+const hardcodedSourcePattern = new RegExp(`export\\s+const\\s+${variationPascal}Source\\s*=\\s*\`[^\`]+\`;?\\s*\\n?`, 'g');
+importsContent = importsContent.replace(hardcodedSourcePattern, '');
 
 // Clean up extra blank lines
 importsContent = importsContent.replace(/\n{3,}/g, '\n\n');

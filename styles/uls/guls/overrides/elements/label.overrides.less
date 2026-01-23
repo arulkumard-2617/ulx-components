@@ -1,0 +1,499 @@
+// // ==========================================================================
+// // ULS LABEL COMPONENT
+// // ==========================================================================
+// // Label component with size variations, color variants, and visual modifiers
+
+// .uls-label {
+//     display: inline-grid;
+//     border-radius: @border-radius-md;
+//     align-items: center;
+//     text-align: center;
+//     grid-auto-flow: column;
+//     font-family: @medium-font;
+//     background-color: var(--uls-label-bg-color); // Runtime CSS custom property
+//     box-shadow: 0 0 0 1px var(--uls-label-border-color) inset; // Runtime CSS custom property
+//     color: var(--uls-label-text-color); // Runtime CSS custom property
+
+//     // Pilled variant (rounded)
+//     &.pilled {
+//         border-radius: @40px;
+//     }
+
+//     // Closable variant with close icon
+//     &.closable {
+//         grid-gap: @4px;
+
+//         >.close-icon {
+//             transform: translate(@6px, @0px);
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//             color: var(--uls-label-text-color);
+//             -webkit-text-stroke: 0.5px;
+//         }
+//     }
+
+//     // Marked variant with indicator dot
+//     &.lb-marked {
+//         position: relative;
+//         grid-gap: @4px;
+
+//         &:before {
+//             content: "";
+//             background: var(--uls-label-marked-color, var(--uls-label-text-color));
+//             height: @7px;
+//             width: @7px;
+//             border-radius: 50%;
+//         }
+//     }
+
+//     // Outline variant (transparent background)
+//     &.outline {
+//         color: var(--uls-label-bg-color);
+//         background-color: transparent;
+
+//         &:before {
+//             background: var(--uls-label-bg-color);
+//         }
+//     }
+
+//     // With icon variant
+//     &.wt-icon {
+//         display: inline-grid;
+//         grid-auto-flow: column;
+//         grid-template-columns: max-content;
+//         align-items: center;
+//         grid-gap: @4px;
+
+//         &.xs-size {
+//             .bs-icons1 {
+//                 font-size: @font-size12; // tiny is 12px
+//             }
+//         }
+//     }
+
+//     // Rounded variant (circular)
+//     &.rds {
+//         border-radius: 50%;
+//     }
+// }
+
+// // ==========================================================================
+// // SIZE VARIATIONS
+// // ==========================================================================
+
+// .uls-label {
+//     &:not(.empty) {
+//         &.xs-size {
+//             @font-size: @font-size11; // mini is 11px
+//             @line-height: @mini-lineheight;
+//             @padding: 0 @8px;
+//             @height: @20px;
+//             font-family: @bold-font;
+//             .element-size(); // Note: This mixin needs to be defined or replaced
+//         }
+
+//         &.s-size {
+//             @font-size: @font-size13; // small is 13px
+//             @line-height: @small-lineheight;
+//             @padding: 0 @12px;
+//             @height: @24px;
+//             .element-size();
+//         }
+
+//         &.m-size {
+//             @font-size: @font-size-default; // default is 14px
+//             @line-height: @default-lineheight;
+//             @padding: 0 @12px;
+//             @height: @28px;
+//             .element-size();
+//         }
+
+//         &.l-size {
+//             @font-size: @font-size-default; // default is 14px
+//             @line-height: @default-lineheight;
+//             @padding: 0 @12px;
+//             @height: @32px;
+//             .element-size();
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // DEFAULT COLOR VARIATIONS
+// // ==========================================================================
+
+// .uls-label,
+// .uls-label.empty {
+//     &.primary {
+//         --uls-label-bg-color: @primary-color;
+//         --uls-label-border-color: @primary-color;
+//         --uls-label-text-color: @primary-fg-color;
+//     }
+
+//     &.green {
+//         --uls-label-bg-color: @green-bg;
+//         --uls-label-border-color: @green-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.orange {
+//         --uls-label-bg-color: @orange-bg;
+//         --uls-label-border-color: @orange-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.gold {
+//         --uls-label-bg-color: @gold-bg;
+//         --uls-label-border-color: @gold-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.red {
+//         --uls-label-bg-color: @red-bg;
+//         --uls-label-border-color: @red-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.blue {
+//         --uls-label-bg-color: @blue-bg;
+//         --uls-label-border-color: @blue-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.blue1 {
+//         --uls-label-bg-color: @blue1-bg;
+//         --uls-label-border-color: @blue1-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.purple {
+//         --uls-label-bg-color: @purple-bg;
+//         --uls-label-border-color: @purple-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.black {
+//         --uls-label-bg-color: @black-bg;
+//         --uls-label-border-color: @black-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.magenta {
+//         --uls-label-bg-color: @magenta-bg;
+//         --uls-label-border-color: @magenta-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.yellow {
+//         --uls-label-bg-color: @yellow-bg;
+//         --uls-label-border-color: @yellow-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.violet {
+//         --uls-label-bg-color: @violet-bg;
+//         --uls-label-border-color: @violet-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.teal {
+//         --uls-label-bg-color: @teal-bg;
+//         --uls-label-border-color: @teal-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.pink {
+//         --uls-label-bg-color: @pink-bg;
+//         --uls-label-border-color: @pink-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.brown {
+//         --uls-label-bg-color: @brown-bg;
+//         --uls-label-border-color: @brown-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.olive {
+//         --uls-label-bg-color: @olive-bg;
+//         --uls-label-border-color: @olive-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.darkturquoise {
+//         --uls-label-bg-color: @darkturquoise-bg;
+//         --uls-label-border-color: @darkturquoise-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.nightblue {
+//         --uls-label-bg-color: @nightblue-bg;
+//         --uls-label-border-color: @nightblue-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.white {
+//         --uls-label-bg-color: @default-background;
+//         --uls-label-border-color: @default-border-color;
+//         --uls-label-text-color: @text-color;
+//     }
+
+//     &.default-color {
+//         --uls-label-bg-color: transparent;
+//         --uls-label-border-color: @default-border-color;
+//         --uls-label-text-color: @text-color;
+//     }
+
+//     &.grey {
+//         --uls-label-bg-color: @bg-layer4;
+//         --uls-label-border-color: @default-border-color;
+//         --uls-label-text-color: @text-color;
+//     }
+    
+//     &.bd-white {
+//         border: solid @1px @static-white;
+//     }
+    
+//     &.bg-bluelayer1 {
+//         --uls-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
+//         --uls-label-text-color: @text-color;
+//     }
+// }
+
+// // ==========================================================================
+// // USER ROLE COLORS
+// // ==========================================================================
+
+// .uls-label {
+//     &.attendee-color {
+//         --uls-label-bg-color: #1890ff; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.eo-color {
+//         --uls-label-bg-color: #d93f89; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.speaker-color {
+//         --uls-label-bg-color: #2c9e75; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.sponsor-color {
+//         --uls-label-bg-color: #01aed3; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.exhibitor-color {
+//         --uls-label-bg-color: #e07817; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.visitor-color {
+//         --uls-label-bg-color: #d63333; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.host-color {
+//         --uls-label-bg-color: #3f6fc6; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.event-team-member-color {
+//         --uls-label-bg-color: #a1b71c; // Keep direct hex value
+//         --uls-label-text-color: @static-white;
+//     }
+// }
+
+// // ==========================================================================
+// // LIGHT COLOR VARIATIONS
+// // ==========================================================================
+
+// .uls-label,
+// .uls-label.empty {
+//     &.lt-green {
+//         --uls-label-bg-color: @bg-greenLayer2;
+//         --uls-label-text-color: @green-fg-dark;
+//     }
+
+//     &.lt-green1 {
+//         --uls-label-bg-color: @bg-greenLayer3;
+//         --uls-label-text-color: @green-fg-dark;
+//     }
+
+//     &.lt-orange {
+//         --uls-label-bg-color: @bg-orangeLayer2;
+//         --uls-label-text-color: @orange-fg-dark;
+//     }
+
+//     &.lt-gold {
+//         --uls-label-bg-color: @bg-goldLayer2;
+//         --uls-label-text-color: @gold-fg-dark;
+//     }
+
+//     &.lt-red {
+//         --uls-label-bg-color: @bg-redLayer3;
+//         --uls-label-text-color: @red-fg;
+//     }
+
+//     &.lt-red1 {
+//         --uls-label-bg-color: @bg-redLayer1;
+//         --uls-label-text-color: @red-fg;
+//     }
+
+//     &.lt-blue {
+//         --uls-label-bg-color: @bg-BlueLayer2;
+//         --uls-label-text-color: @blue-fg;
+//     }
+
+//     &.lt-blue1 {
+//         --uls-label-bg-color: @bg-BlueLayer1;
+//         --uls-label-text-color: @blue-fg;
+//     }
+
+//     &.lt-purple {
+//         --uls-label-bg-color: @bg-purpleLayer2;
+//         --uls-label-text-color: @purple-fg;
+//     }
+
+//     &.lt-purple1 {
+//         --uls-label-bg-color: @bg-purpleLayer4;
+//         --uls-label-text-color: @purple-fg;
+//     }
+
+//     &.lt-neutral {
+//         --uls-label-bg-color: @grey-bg;
+//         --uls-label-text-color: @grey-fg;
+//     }
+
+//     &.lt-neutral1 {
+//         --uls-label-bg-color: @bg-blackLayer3;
+//         --uls-label-text-color: @static-black;
+//     }
+
+//     &.lt-magenta {
+//         --uls-label-bg-color: @bg-magentaLayer2;
+//         --uls-label-text-color: @magenta-fg;
+//     }
+
+//     &.lt-brown {
+//         --uls-label-bg-color: @bg-brownLayer2;
+//         --uls-label-text-color: @brown-fg;
+//     }
+
+//     // User availability status
+//     &.user-in-label {
+//         --uls-label-bg-color: @user-in-bg; // Note: Check if this variable exists
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.user-out-label {
+//         --uls-label-bg-color: @user-out-bg; // Note: Check if this variable exists
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.user-yet-in {
+//         --uls-label-bg-color: @user-yet-in-bg; // Note: Check if this variable exists
+//         --uls-label-text-color: @static-white;
+//     }
+
+//     &.user-attended {
+//         --uls-label-bg-color: @blue-bg;
+//         --uls-label-text-color: @static-white;
+//     }
+    
+//     &.bg-blueLayer1 {
+//         --uls-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
+//         --uls-label-text-color: @text-color;
+//     }
+
+//     // User checkin status with marked variant
+//     &.lb-marked {
+//         &.user-in-label {
+//             --uls-label-bg-color: @user-in-LayerBg; // Note: Check if this variable exists
+//             --uls-label-text-color: @static-black;
+
+//             &:before {
+//                 background-color: @user-in-bg; // Note: Check if this variable exists
+//             }
+//         }
+
+//         &.user-out-label {
+//             --uls-label-bg-color: @user-out-LayerBg; // Note: Check if this variable exists
+//             --uls-label-text-color: @static-black;
+
+//             &:before {
+//                 background-color: @user-out-bg; // Note: Check if this variable exists
+//             }
+//         }
+
+//         &.user-yet-in {
+//             --uls-label-bg-color: @user-yet-in-LayerBg; // Note: Check if this variable exists
+//             --uls-label-text-color: @static-black;
+
+//             &:before {
+//                 background-color: @user-yet-in-bg; // Note: Check if this variable exists
+//             }
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // EMPTY LABEL SIZE VARIATIONS
+// // ==========================================================================
+// // Circular empty labels (dots/indicators)
+
+// .uls-label.empty {
+//     border-radius: 50% !important;
+//     padding: 0;
+
+//     &.xxs-size {
+//         width: @4px;
+//         height: @4px;
+//         min-height: auto;
+//     }
+
+//     &.xs-size {
+//         width: @8px;
+//         height: @8px;
+//         min-height: auto;
+//     }
+
+//     &.s-size {
+//         width: @12px;
+//         height: @12px;
+//         min-height: auto;
+//     }
+
+//     &.m-size {
+//         width: @24px;
+//         height: @24px;
+//         min-height: 0;
+//         padding: 0;
+//     }
+
+//     &.xl-size {
+//         width: @32px;
+//         height: @32px;
+//         min-height: 0;
+//         padding: 0;
+//     }
+// }
+
+// // ==========================================================================
+// // BUTTON LABEL COMPONENT
+// // ==========================================================================
+
+// .uls-btn-label {
+//     background: @bg-layer4;
+//     box-shadow: 0 @2px 0 @bg-layer5;
+//     border-radius: @border-radius-sm; // 4px
+//     height: @20px;
+//     padding: 0 @4px;
+//     color: @text-color;
+//     border: @1px solid @default-border-color;
+//     font-size: @font-size12; // tiny is 12px
+//     line-height: @20px;
+//     display: inline-block;
+//     font-family: @medium-font;
+// }

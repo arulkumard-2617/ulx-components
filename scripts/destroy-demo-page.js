@@ -124,7 +124,25 @@ if (fs.existsSync(templateFilePath)) {
 
 // 4. Delete documentation files and directory
 if (fs.existsSync(componentDocPath)) {
-  // Delete all files in the documentation directory
+  // Delete snippets directory if it exists
+  const snippetsPath = path.join(componentDocPath, 'snippets');
+  if (fs.existsSync(snippetsPath)) {
+    // Delete all files in the snippets directory
+    const snippetFiles = fs.readdirSync(snippetsPath);
+    snippetFiles.forEach(file => {
+      const filePath = path.join(snippetsPath, file);
+      if (fs.statSync(filePath).isFile()) {
+        fs.unlinkSync(filePath);
+        console.log(`✓ Deleted snippet file: ${filePath}`);
+      }
+    });
+    
+    // Delete the snippets directory
+    fs.rmdirSync(snippetsPath);
+    console.log(`✓ Deleted snippets directory: ${snippetsPath}`);
+  }
+  
+  // Delete all remaining files in the documentation directory
   const files = fs.readdirSync(componentDocPath);
   files.forEach(file => {
     const filePath = path.join(componentDocPath, file);

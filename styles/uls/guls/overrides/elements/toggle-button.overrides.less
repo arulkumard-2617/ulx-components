@@ -1,1 +1,230 @@
-// toggle-button overrides here
+// // toggle-button overrides here
+
+// // ==========================================================================
+// // TOGGLE BUTTON MIXINS
+// // ==========================================================================
+
+// // Toggle button size mixin
+// .toggle-button-size() {
+//     span {
+//         padding-inline-start: @width; // Use logical property for RTL
+//         font-size: @font-size;
+//         line-height: @height;
+//         min-height: @height;
+
+//         &:before {
+//             width: @width;
+//             height: @height;
+//             border-radius: @height;
+//         }
+//     }
+
+//     input {
+//         height: @height;
+//         width: @width;
+//     }
+
+//     span:after {
+//         width: @height;
+//         height: @height;
+//     }
+
+//     input:checked+span:after {
+//         inset-inline-start: (@width - @height) !important; // Use logical property for RTL
+//     }
+
+//     &.fitted {
+//         padding-inline-start: 0; // Use logical property for RTL
+//     }
+// }
+
+// // Toggle button color mixin
+// .toggle-button-color() {
+//     input:checked+span:before,
+//     input:checked+span:before {
+//         background-color: @active-bg-color;
+//         box-shadow: 0 0 0 @1px @active-bg-color inset;
+//     }
+// }
+
+// // ==========================================================================
+// // TOGGLE COMPONENT
+// // ==========================================================================
+
+// .uls-toggle {
+//     display: flex;
+//     justify-content: space-between;
+
+//     .toggle {
+//         position: relative;
+
+//         span {
+//             padding-top: 0;
+//             font-size: @font-size;
+//             color: @text-color;
+//             margin: 0;
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//             display: block;
+//             text-transform: lowercase;
+//         }
+
+//         // Toggle track (background)
+//         span:before {
+//             content: "";
+//             display: inline-block;
+//             position: absolute;
+//             inset-inline-start: 0; // Use logical property for RTL
+//             top: 0;
+//             background-color: color-mix(in srgb, var(--uls-toggle-before-bg), var(--uls-contrast-color) var(--uls-contrast-intensity-40));
+//             box-shadow: none;
+//         }
+
+//         // Hidden input
+//         input {
+//             position: absolute;
+//             top: 0;
+//             inset-inline-start: 0; // Use logical property for RTL
+//             opacity: 0 !important;
+//             outline: 0;
+//             z-index: 1;
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//         }
+
+//         // Focus and hover states
+//         input:focus~span:before,
+//         span:hover:before {
+//             background-color: color-mix(in srgb, var(--uls-toggle-before-bg), var(--uls-contrast-color) var(--uls-contrast-intensity-40));
+//             border: inherit;
+//         }
+
+//         // Unchecked state
+//         input:not(:checked)+span:before {
+//             border: none !important;
+//         }
+
+//         // Toggle handle (slider circle)
+//         span:after {
+//             content: "";
+//             position: absolute;
+//             top: 0 !important;
+//             border-radius: 100%;
+//             background: var(--uls-toggle-after-bg);
+//             box-shadow: 0 0 @1px 0 @box-shadow-color inset;
+//             transform: scale(.8);
+//             inset-inline-start: @1px !important; // Use logical property for RTL
+//             transition: inset-inline-start @default-duration; // Use logical property for RTL
+//         }
+
+//         // On/Off labels
+//         .on-lbl,
+//         .off-lbl {
+//             display: none;
+//             position: absolute;
+//             top: -@1px; // Use negative variable
+//             font-size: @font-size-mini; // mini is 11px
+//             font-family: @medium-font;
+//         }
+
+//         .on-lbl {
+//             inset-inline-start: @6px; // Use logical property for RTL
+//             color: @static-white;
+//         }
+
+//         .off-lbl {
+//             inset-inline-end: @6px; // Use logical property for RTL
+//         }
+
+//         // Fitted variant
+//         &.fitted {
+//             min-width: @40px !important;
+//             width: @40px !important;
+//         }
+
+//         // ==========================================================================
+//         // SIZE VARIATIONS
+//         // ==========================================================================
+
+//         // Default size (medium)
+//         @width: @40px;
+//         @height: @20px;
+//         @font-size: @font-size-default; // default is 14px
+//         .toggle-button-size();
+
+//         // Large size variant
+//         &.l-size {
+//             @width: @48px;
+//             @height: @24px;
+//             @font-size: @font-size-h6; // h6 is 16px
+//             .toggle-button-size();
+//         }
+
+//         // Small size variant
+//         &.s-size {
+//             @width: @36px;
+//             @height: @18px;
+//             @font-size: @font-size-small; // small is 13px (or use @font-size13)
+//             .toggle-button-size();
+//         }
+
+//         // ==========================================================================
+//         // DISABLED STATE
+//         // ==========================================================================
+
+//         input[disabled]~span {
+//             cursor: default !important;
+
+//             &:before {
+//                 background-color: @input-disable-bg !important;
+//             }
+//         }
+
+//         // ==========================================================================
+//         // COLOR VARIATIONS
+//         // ==========================================================================
+
+//         // Primary color variant
+//         &.primary {
+//             @active-bg-color: @primary-color !important;
+//             .toggle-button-color();
+//         }
+
+//         // Green color variant
+//         &.green {
+//             @active-bg-color: @green-bg !important; // Use @green-bg instead of @green-bg-color
+//             .toggle-button-color();
+
+//             // Disabled state for green variant
+//             input:checked[disabled]~span {
+//                 &:before {
+//                     background-color: @green-disabled-color !important;
+//                     box-shadow: 0 0 0 @1px @green-disabled-color inset !important;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // UI CHECKBOX TOGGLE (BACKWARD COMPATIBILITY)
+// // ==========================================================================
+
+// .ui.checkbox.toggle {
+//     .on-lbl,
+//     .off-lbl {
+//         display: none;
+//         position: absolute;
+//         top: -@1px; // Use negative variable
+//         font-size: @font-size-mini; // mini is 11px
+//         font-family: @medium-font;
+//         z-index: 1;
+//     }
+
+//     .on-lbl {
+//         inset-inline-start: @3px; // Use logical property for RTL
+//         color: @static-white;
+//     }
+
+//     .off-lbl {
+//         inset-inline-start: @20px; // Use logical property for RTL
+//     }
+// }

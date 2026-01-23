@@ -630,15 +630,15 @@ export default function ColorUtilities() {
     >
       <div className="fxb wrap gp10">
         <div>
-          <h4 className="mgt0 mgb4 font-bold fg-primary">Background Colors</h4>
+          <h4 className="mgt0 mgb4 bold-font fg-primary">Background Colors</h4>
           <ClassPropertyTable rows={backgroundUtilities} columnLabels={['Utility Class', 'Description']} />
         </div>
         <div>
-          <h4 className="mgt0 mgb4 font-bold fg-primary">Foreground Colors</h4>
+          <h4 className="mgt0 mgb4 bold-font fg-primary">Foreground Colors</h4>
           <ClassPropertyTable rows={foregroundUtilities} columnLabels={['Utility Class', 'Description']} />
         </div>
         <div>
-          <h4 className="mgt0 mgb4 font-bold fg-primary">Border Colors</h4>
+          <h4 className="mgt0 mgb4 bold-font fg-primary">Border Colors</h4>
           <ClassPropertyTable rows={borderUtilities} columnLabels={['Utility Class', 'Description']} />
         </div>
       </div>

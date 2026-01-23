@@ -68,7 +68,7 @@ export default class UlsDocsHeaderComponent extends Component {
         {{! LEFT: Title }}
         <div class="t-left">
             <div class="t-logo">
-                <h3 class="font-bold">ULS 
+                <h3 class="bold-font">ULS 
                     <span class="fg-primary">EMBER</span>
                 </h3>
             </div>

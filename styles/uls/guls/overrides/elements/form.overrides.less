@@ -1,0 +1,196 @@
+// // ==========================================================================
+// // FORM SIZE MIXIN
+// // ==========================================================================
+// // Reusable mixin for consistent form sizing across size variants
+// // Sets grid gap, label styling, meta spacing, and header spacing
+
+// .form-size() {
+//     grid-gap: @item-gap;
+    
+//     .field > label, 
+//     .field-label {
+//         font-size: @item-title-font-size;
+//         line-height: @item-title-lineheight;
+//         margin-bottom: @item-title-gap;
+//     }
+    
+//     .field > .meta {
+//         margin-top: @item-title-gap;
+//     }
+    
+//     .form-head {
+//         margin-bottom: @header-gap;
+//     }
+// }
+
+// // ==========================================================================
+// // ULS FORM COMPONENT
+// // ==========================================================================
+// // Form container with flexible layout and consistent field styling
+// // Supports size variants, fluid layout, and various field types
+
+// .uls-form {
+//     display: flex;
+//     flex-direction: column;
+//     min-width: 0;
+    
+//     // ==========================================================================
+//     // FIELD LABEL STYLES
+//     // ==========================================================================
+//     .field > label, 
+//     .field-label {
+//         margin-bottom: 0.25em; // Relative unit for responsive spacing
+//         font-family: @bold-font;
+//         display: block;
+//         font-size: @font-size-default;
+//         line-height: @small-lineheight;
+        
+//         // Required field indicator
+//         &.required:after {
+//             content: "*";
+//             color: @red-fg;
+//         }
+//     }
+    
+//     // ==========================================================================
+//     // FORM HEADER STYLES
+//     // ==========================================================================
+//     .form-head {
+//         font-family: @medium-font;
+//     }
+    
+//     // ==========================================================================
+//     // FIELD META INFORMATION STYLES
+//     // ==========================================================================
+//     .field > .meta {
+//         color: @secondary-text-color;
+//         font-size: @font-size13; // Small text size (13px)
+//         line-height: @small-lineheight;
+//         margin-top: @4px;
+//     }
+    
+//     // ==========================================================================
+//     // FIELD DESCRIPTION STYLES
+//     // ==========================================================================
+//     .field > .ui.description {
+//         color: @secondary-text-color;
+//         font-size: @font-size13; // Small text size (13px)
+//         line-height: @small-lineheight;
+//     }
+    
+//     // ==========================================================================
+//     // ERROR MESSAGE STYLES
+//     // ==========================================================================
+//     .error-message {
+//         color: @red-fg;
+//         font-size: @font-size13; // Small text size (13px)
+//         line-height: @small-lineheight;
+//     }
+    
+//     // ==========================================================================
+//     // FLUID LAYOUT VARIANT
+//     // ==========================================================================
+//     // Full-width form with full-width inputs and dropdowns
+//     &.fluid {
+//         width: 100%;
+        
+//         .uls-input {
+//             width: 100%;
+//         }
+        
+//         .field > .ui.dropdown {
+//             width: 100%;
+//         }
+//     }
+    
+//     // ==========================================================================
+//     // SIZE VARIATIONS
+//     // ==========================================================================
+    
+//     // Small Size Variant
+//     // Uses compact spacing (12px gaps) and small font sizes
+//     &.s-size {
+//         @item-gap: @12px; // gap-3 equivalent (12px)
+//         @header-gap: @12px; // gap-3 equivalent (12px)
+//         @item-title-gap: @4px; // gap-1 equivalent (4px)
+//         @item-title-font-size: @font-size13; // Small text (13px)
+//         @item-title-lineheight: @small-lineheight;
+//         .form-size();
+//     }
+    
+//     // Medium Size Variant (Default)
+//     // Uses medium spacing (16-24px gaps) and default font sizes
+//     &.m-size {
+//         @item-gap: @24px; // gap-6 equivalent (24px)
+//         @header-gap: @16px; // gap-4 equivalent (16px)
+//         @item-title-gap: @4px; // gap-1 equivalent (4px)
+//         @item-title-font-size: @font-size-default; // Default text (14px)
+//         @item-title-lineheight: @16px; // Specific line height calculation
+//         font-size: @font-size-default;
+//         .form-size();
+//     }
+    
+//     // Large Size Variant
+//     // Uses larger spacing (24px gaps) and h7 font size for titles
+//     &.l-size {
+//         @item-gap: @24px; // gap-6 equivalent (24px)
+//         @header-gap: @24px; // gap-6 equivalent (24px)
+//         @item-title-gap: @4px; // gap-1 equivalent (4px)
+//         @item-title-font-size: @font-size15; // h7 size (15px)
+//         @item-title-lineheight: @line-height-h6; // h6 line height
+//         .form-size();
+//     }
+    
+//     // ==========================================================================
+//     // SALUTATION FIELD STYLES
+//     // ==========================================================================
+//     // Hides label for first salutation field when using left floated layout
+    
+//     .salutation-field {
+//         &:first-child {
+//             .field > label.left.floated {
+//                 display: none;
+//             }
+//         }
+//     }
+    
+//     .salutation-field {
+//         .form-item:first-child .field > label.left.floated {
+//             display: none;
+//         }
+//     }
+    
+//     // ==========================================================================
+//     // SEGMENT HEADER STYLES
+//     // ==========================================================================
+//     // Flexbox layout for segment headers with space-between alignment
+    
+//     .bs-segment .head .form-head {
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+//         margin-bottom: 0;
+//     }
+
+//     // ==========================================================================
+//     // MULTIPLE FORM GROUP STYLES
+//     // ==========================================================================
+//     // Spacing between multiple form groups (segments)
+    
+//     .multiple-form-group {
+//         >.bs-segment:not(:last-child) {
+//             margin-bottom: @20px;
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // FORM TEXTAREA STYLES
+// // ==========================================================================
+// // Global textarea styling within forms
+// // Limits max height and disables resize for consistent appearance
+
+// .uls-form textarea {
+//     max-height: 24em; // Relative unit for responsive scaling
+//     resize: none;
+// }

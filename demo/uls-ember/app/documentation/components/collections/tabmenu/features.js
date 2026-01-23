@@ -2,11 +2,14 @@
 // TabMenu Feature Items
 // ==========================================================================
 import RichText from '../../../../components/common/doc-main/rich-text';
+
 import { 
   // Demos
-  BasicDemo,// Sources
+  BasicDemo,
+  ControlledDemo,// Sources
   ImportSource,
-  BasicSource} from './imports';
+  BasicSource,
+  ControlledSource} from './imports';
 
 export const TabMenuFeatureItems = [
   {
@@ -23,9 +26,7 @@ export const TabMenuFeatureItems = [
       component: null, // Import section doesn't need demo
       props: {
         source: ImportSource,
-        snippetName: "import",
-        language: "jsx"
-      }
+        snippetName: "import"}
     }
   },
   {
@@ -42,11 +43,28 @@ export const TabMenuFeatureItems = [
       component: BasicDemo,
       props: {
         source: BasicSource,
-        snippetName: "basic",
-        language: "handlebars"
+        snippetName: "basic"}
+    }
+  },
+  {
+    id: "controlled",
+    sectionNav: "Controlled",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the TabMenu component."
+      }
+    },
+    demo: {
+      component: ControlledDemo,
+      props: {
+        source: ControlledSource,
+        snippetName: "controlled"
       }
     }
-  }];
+  }
+];
 
 export default function TabMenuFeatures() {
   return TabMenuFeatureItems;

@@ -1,1 +1,140 @@
-// menubar overrides here
+// // menubar overrides here
+// // ==========================================================================
+// // FILTER MENU COMPONENT
+// // ==========================================================================
+// // Grid-based filter menu with left and right menu sections
+
+// .uls-filter-menu {
+//     display: grid;
+//     grid-gap: @12px;
+//     grid-auto-flow: column;
+//     grid-template-columns: auto;
+//     grid-auto-columns: 1fr;
+//     align-items: center;
+
+//     >.left-menu {
+//         display: grid;
+//         grid-gap: @16px;
+//         grid-auto-flow: column;
+//         justify-content: flex-start;
+//         align-items: center;
+//         grid-auto-columns: auto;
+//     }
+
+//     .menu-item {
+//         padding: 0;
+//     }
+
+//     >.right-menu {
+//         display: grid;
+//         grid-gap: @16px;
+//         margin-inline-start: auto; // Use logical property for RTL support
+//         grid-auto-flow: column;
+//         grid-template-columns: auto;
+//         grid-auto-columns: auto;
+//         justify-content: flex-end;
+//         align-items: center;
+//     }
+// }
+
+// // ==========================================================================
+// // VERTICAL MENU COMPONENT
+// // ==========================================================================
+// // Vertical navigation menu with header, footer, and sub-menu support
+
+// .uls-vertical-menu {
+//     position: relative;
+//     background-color: @vnav-bg-color;
+//     display: flex;
+//     flex-direction: column;
+//     color: @Vnav-fg-color; // Note: Capital V in variable name
+
+//     .menu-items:not(.header-items):not(.footer-items) {
+//         flex-grow: 1;
+//     }
+
+//     // Header items styling
+//     .menu-items.header-items {
+//         border-bottom: @1px solid @vnav-item-divider-color;
+//         padding: @8px @20px;
+//         font-family: @bold-font;
+
+//         .menu-item {
+//             padding-inline-start: 0; // Use logical property for RTL
+//             padding-inline-end: 0; // Use logical property for RTL
+//         }
+//     }
+
+//     // Footer items styling
+//     .menu-items.footer-items {
+//         position: sticky;
+//         bottom: 0;
+//         width: 100%;
+//     }
+
+//     // Main menu items styling
+//     .menu-items {
+//         position: relative;
+//         z-index: 2;
+//         background-color: @vnav-bg-color;
+//         padding: @12px;
+
+//         >.menu-item {
+//             color: @Vnav-link-fg-color; // Note: Capital V in variable name
+//             padding: @6px @16px;
+//             font-size: @font-size-default; // default is 14px
+//             line-height: @default-lineheight;
+//             border-radius: @border-radius-md;
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//             display: block;
+//             position: relative;
+
+//             &:not(:last-child) {
+//                 margin-bottom: @4px;
+//             }
+
+//             .down-arrow-icon {
+//                 transition: all @default-duration;
+//             }
+
+//             &:hover:not(.header) {
+//                 color: @vnav-item-active-fg-color;
+//             }
+
+//             &.active {
+//                 color: @vnav-item-active-fg-color;
+//             }
+//         }
+
+//         >.divider {
+//             margin-bottom: @12px;
+//         }
+//     }
+
+//     // Sub-menu items styling
+//     .menu-items.sub-menu-items {
+//         .menu-item.active {
+//             color: @vnav-item-active-fg-color;
+//         }
+//     }
+
+//     // Non-sub-menu items with selected/active states
+//     .menu-items:not(.sub-menu-items) {
+//         >.menu-item:not(.header) {
+//             &.selected,
+//             &.active {
+//                 background-color: @vnav-item-active-bg-color;
+//                 color: @vnav-item-active-fg-color;
+//                 font-family: @bold-font;
+
+//                 .down-arrow-icon {
+//                     transform: rotate(-90deg);
+//                 }
+//             }
+
+//             &.selected+.sub-menu-items {
+//                 height: var(--menu-elm-height); // Keep CSS custom property for runtime value
+//             }
+//         }
+//     }
+// }

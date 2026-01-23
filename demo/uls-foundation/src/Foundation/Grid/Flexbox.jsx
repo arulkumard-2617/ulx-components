@@ -16,7 +16,7 @@ export default function FlexboxDocs() {
       subtitle="Composable helpers for one-dimensional layouts."
     >
       {flexUtilities.map((utility) => (
-        <article key={utility.className} className="uls-foundation-card w-45p pd6 rds2 bdr">
+        <article key={utility.className} className="uls-foundation-card w-45p pd6 rds2 bd">
           <h3 className="mgt0"><code>{utility.className}</code></h3>
           <p className="fg-secondary">{utility.desc}</p>
         </article>

@@ -2,15 +2,18 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import UlsTabmenu from 'uls-components/components/collections/uls-tabmenu';
+import UlsInput, { UlsTextArea } from 'uls-components/components/elements/uls-input';
+import { hash } from '@ember/helper';
+
 
 export default class BasicDemoComponent extends Component {
   @tracked activeItem = 'dashboard';
 
   items = [
-    { label: 'Dashboard', icon: 'pi pi-home', id: 'dashboard' },
-    { label: 'Transactions', icon: 'pi pi-chart-line', id: 'transactions' },
-    { label: 'Products', icon: 'pi pi-list', id: 'products' },
-    { label: 'Messages', icon: 'pi pi-inbox', id: 'messages' }
+    { label: 'Dashboard',  id: 'dashboard' },
+    { label: 'Transactions', id: 'transactions' },
+    { label: 'Products',  id: 'products' },
+    { label: 'Messages',  id: 'messages' }
   ];
 
   @action
@@ -21,13 +24,13 @@ export default class BasicDemoComponent extends Component {
   }
 
   <template>
-    {{! BEGIN-SNIPPET tabmenu-basic.gjs }}
-    <UlsTabmenu 
-      @model={{this.items}}
-      @activeItem={{this.activeItem}}
-      @onTabChange={{this.handleTabChange}}
-    />
-    {{! END-SNIPPET }}
+    <div>
+      <UlsTabmenu 
+        @model={{this.items}}
+        @activeItem={{this.activeItem}}
+        @onTabChange={{this.handleTabChange}}
+      />
+    </div>
   </template>
 }
 

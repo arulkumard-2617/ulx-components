@@ -3,7 +3,7 @@ import DocTab from './doc-tab';
 
 export default class ComponentLayoutComponent extends Component {
   <template>
-    <div class="doc-component-page pdx10">
+    <div class="doc-component-page">
       {{#if @tabs}}
         <DocTab
           @tabs={{@tabs}}
@@ -11,7 +11,7 @@ export default class ComponentLayoutComponent extends Component {
           @onChange={{@onTabChange}}
         >
           <header class="doc-component-page__header mgb8">
-            <h1 class="mgt0 mgb2 font-bold">{{@title}}</h1>
+            <h1 class="mgt0 mgb2 bold-font">{{@title}}</h1>
             {{#if @description}}
               <p class="fg-text-secondary mgt0">{{@description}}</p>
             {{/if}}
@@ -22,7 +22,7 @@ export default class ComponentLayoutComponent extends Component {
         </DocTab>
       {{else}}
         <header class="doc-component-page__header mgb8">
-          <h1 class="mgt0 mgb2 font-bold">{{@title}}</h1>
+          <h1 class="mgt0 mgb2 bold-font">{{@title}}</h1>
           {{#if @description}}
             <p class="fg-text-secondary mgt0">{{@description}}</p>
           {{/if}}

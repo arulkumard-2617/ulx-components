@@ -11,7 +11,7 @@ export default class DocPanelComponent extends Component {
 
   <template>
     <div class="doc-panel-wrapper fxb fsb">
-      <div class="doc-panel fxgrow">
+      <div class="doc-panel fxgrow w-100p">
         {{#if @features}}
           {{#each @features as |feature|}}
             <FoundationSection 

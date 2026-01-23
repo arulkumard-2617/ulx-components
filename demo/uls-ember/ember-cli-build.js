@@ -35,7 +35,7 @@ module.exports = function (defaults) {
     // Add options here
     lessOptions: {
       paths: [
-        path.resolve(__dirname, '../../styles/uls/guls'),
+        path.resolve(__dirname, '../../styles/uls'),
         path.resolve(__dirname, '../../node_modules')
       ]
     },

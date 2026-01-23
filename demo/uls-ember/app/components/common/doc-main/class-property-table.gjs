@@ -38,12 +38,12 @@ export default class ClassPropertyTableComponent extends Component {
                     <div class="fxb fvc gp2">
                       {{#if row.color}}
                         <div
-                          class="rds-circle bdr w20 h20"
+                          class="rds-circle bd w20 h20"
                           style={{this.getStyleString row.color}}
                           aria-hidden="true"
                         ></div>
                       {{/if}}
-                      <span class="font-bold fg-primary font-size16">{{this.formatClassName row.className}}</span>
+                      <span class="bold-font fg-primary font-size16">{{this.formatClassName row.className}}</span>
                     </div>
                   </td>
                   <td class="datatable-column-body-cell">

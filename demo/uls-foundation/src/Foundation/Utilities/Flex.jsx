@@ -152,22 +152,22 @@ export default function Flex() {
     >
       <div className="fxb fcol gp10">
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Column Layout (.uls-column)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Column Layout (.uls-column)</h4>
           <ClassPropertyTable rows={columnUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Flex Helper (.fxb)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Flex Helper (.fxb)</h4>
           <ClassPropertyTable rows={fxbAllUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Shared & Item Utilities</h4>
+          <h4 className="mgt0 mgb4 bold-font">Shared & Item Utilities</h4>
           <ClassPropertyTable rows={sharedAndItemUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Mobile (mv) Variants</h4>
+          <h4 className="mgt0 mgb4 bold-font">Mobile (mv) Variants</h4>
           <ClassPropertyTable rows={mobileMvUtilities} />
         </div>
       </div>

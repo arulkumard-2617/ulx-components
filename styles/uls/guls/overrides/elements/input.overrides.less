@@ -1,1 +1,635 @@
-// input overrides here
+// // input overrides here
+// // ==========================================================================
+// // INPUT SIZE MIXIN
+// // ==========================================================================
+// // Reusable mixin for input sizing (backward compatibility)
+
+// .input-size() {
+//     padding: @padding;
+//     line-height: @line-height;
+//     font-size: @font-size;
+// }
+
+// // ==========================================================================
+// // INPUT COLOR MIXIN
+// // ==========================================================================
+// // Reusable mixin for input colors using box-shadow inset approach (old style)
+
+// .input-color() {
+//     box-shadow: 0 0 0 1px @border-color inset;
+//     color: @fg-color;
+//     background-color: @bg-color;
+
+//     &:focus {
+//         box-shadow: 0 0 0 1px @active-border-color inset;
+//     }
+// }
+
+// // ==========================================================================
+// // IE CLEAR BUTTON HIDE
+// // ==========================================================================
+// // Hide IE's clear button for text and search inputs
+
+// input[type="text"]::-ms-clear,
+// input[type="search"]::-ms-clear {
+//     display: none;
+// }
+
+// // ==========================================================================
+// // PLACEHOLDER STYLING
+// // ==========================================================================
+// // Global placeholder color (also defined in base .uls-input)
+
+// input::placeholder {
+//     color: @place-holder-color;
+// }
+
+// // ==========================================================================
+// // BASE INPUT STYLES
+// // ==========================================================================
+
+// input.uls-input {
+//     width: @120px; // Default width
+//     border-radius: @border-radius-md;
+//     border: none;
+
+//     &.disabled,
+//     &[disabled] {
+//         pointer-events: none;
+//         background-color: @input-disable-bg;
+//         color: @secondary-text-color;
+//     }
+
+//     &:focus {
+//         outline: none;
+//         box-shadow: 0 0 0 1px @primary-text-color inset; // link-color equivalent
+//     }
+
+//     &.error {
+//         background: @bg-redLayer1;
+//         box-shadow: 0 0 0 1px @error-border-color inset;
+//         color: @red-fg;
+//     }
+
+//     // Text center aligned variant
+//     &.txt-mid {
+//         text-align: center;
+//     }
+
+//     // Color variation using mixin
+//     @bg-color: @input-bg-color;
+//     @fg-color: @input-fg-color;
+//     @border-color: @input-border-color;
+//     @active-border-color: @primary-color;
+//     .input-color();
+
+//     // ==========================================================================
+//     // SIZE VARIATIONS
+//     // ==========================================================================
+    
+//     &.xs-size {
+//         @font-size: @font-size12; // tiny is 12px
+//         @line-height: @tiny-lineheight;
+//         @padding: @4px @8px;
+//         @height: @24px;
+//         .element-size(); // Note: This mixin needs to be defined or replaced
+//     }
+
+//     &.s-size {
+//         @font-size: @font-size13; // small is 13px
+//         @line-height: @small-lineheight;
+//         @padding: @4px @8px;
+//         @height: @28px;
+//         .element-size();
+//     }
+
+//     &.m-size {
+//         @font-size: @font-size13; // small is 13px
+//         @line-height: @small-lineheight;
+//         @padding: @4px @8px;
+//         @height: @32px;
+//         .element-size();
+//     }
+
+//     &.l-size {
+//         @font-size: @font-size-default; // default is 14px
+//         @line-height: @default-lineheight;
+//         @padding: @4px @12px;
+//         @height: @36px;
+//         .element-size();
+//     }
+
+//     &.xl-size {
+//         @font-size: @font-size16; // h6 is 16px
+//         @line-height: @line-height-h6;
+//         @padding: @4px @12px;
+//         @height: @40px;
+//         .element-size();
+//     }
+
+//     // Fluid width variant
+//     &.fluid {
+//         width: 100%;
+//     }
+// }
+
+// // ==========================================================================
+// // TEXTAREA INPUT STYLES
+// // ==========================================================================
+
+// textarea.uls-input {
+//     min-height: @76px; // If @76px doesn't exist, use 76px directly
+//     resize: none;
+//     outline: none;
+//     padding: @8px;
+//     width: 100%;
+//     border-radius: @border-radius-md;
+//     border: none;
+//     font-size: @font-size13; // small is 13px
+//     line-height: @small-lineheight;
+
+//     // Color variation using mixin
+//     @bg-color: @input-bg-color;
+//     @fg-color: @input-fg-color;
+//     @border-color: @input-border-color;
+//     @active-border-color: @primary-color;
+//     .input-color();
+
+//     // Disabled state
+//     &.disabled,
+//     &[disabled] {
+//         pointer-events: none;
+//         background-color: @input-disable-bg;
+//     }
+// }
+
+// // ==========================================================================
+// // ICON INPUT COMPONENT
+// // ==========================================================================
+// // Input with icon support (left or right positioning)
+
+// .uls-icon-input {
+//     position: relative;
+//     display: flex;
+//     color: @text-color;
+
+//     >.uls-input {
+//         flex-grow: 1;
+//     }
+
+//     &.left {
+//         >i.bs-icons1,
+//         >.ip-icon {
+//             width: @32px;
+//             height: 100%;
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             position: absolute;
+//             left: 0;
+//         }
+
+//         >.uls-input {
+//             padding-inline-start: @32px; // Use logical property for RTL
+//         }
+//     }
+
+//     &.right {
+//         >i.bs-icons1,
+//         >.ip-icon {
+//             width: @32px;
+//             height: 100%;
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             position: absolute;
+//             right: 0;
+
+//             &.action {
+//                 cursor: var(--zdr-cursor-pointer, pointer);
+
+//                 &:hover {
+//                     color: @primary-text-color;
+//                 }
+//             }
+//         }
+
+//         >.uls-button-link {
+//             position: absolute;
+//             right: 0;
+//         }
+
+//         >.uls-input {
+//             padding-inline-end: @32px; // Use logical property for RTL
+//         }
+
+//         &.item2 {
+//             >.uls-input {
+//                 padding-inline-end: @64px; // Use logical property for RTL
+//             }
+
+//             >i.bs-icons1:nth-of-type(1) {
+//                 right: @32px;
+//             }
+//         }
+
+//         >.ui.loader {
+//             right: @4px;
+//             left: auto;
+//             margin: 0;
+//             top: @4px;
+//             position: absolute;
+//             transform: none;
+//         }
+//     }
+
+//     // Disabled state
+//     &.disabled,
+//     &[disabled] {
+//         pointer-events: none;
+//         background-color: @input-disable-bg;
+//         opacity: 0.55;
+//     }
+// }
+
+// // ==========================================================================
+// // LABEL INPUT COMPONENT
+// // ==========================================================================
+// // Input with animated label that moves on edit mode
+
+// .uls-label-input {
+//     padding: @8px;
+//     display: flex;
+//     align-items: center;
+//     border-radius: @border-radius-md;
+//     height: @36px;
+//     position: relative;
+
+//     @bg-color: @input-bg-color;
+//     @fg-color: @input-fg-color;
+//     @border-color: @input-border-color;
+//     @active-border-color: @primary-color;
+//     .input-color();
+
+//     >.uls-input {
+//         flex-grow: 1;
+//         width: auto !important;
+//     }
+
+//     &.disable {
+//         background-color: @input-disable-bg;
+//     }
+
+//     >.uls-input {
+//         opacity: 0;
+//         visibility: hidden;
+//         transition: all @default-duration;
+//         box-shadow: none;
+//         background-color: transparent;
+//         padding: 0;
+//         height: 100%;
+
+//         &:focus {
+//             box-shadow: none;
+//         }
+//     }
+
+//     .lbl-anim-text {
+//         position: absolute;
+//         left: @8px;
+//         top: @8px;
+//         transition: all @default-duration;
+//     }
+
+//     &.edit-mode {
+//         background-color: @input-bg-color;
+//         box-shadow: 0 0 0 1px @primary-color;
+
+//         >.uls-input {
+//             visibility: visible;
+//             opacity: 1;
+//         }
+
+//         .lbl-anim-text {
+//             top: @40px;
+//             left: 0;
+//         }
+
+//         .lbl-text {
+//             display: none;
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // RTL SUPPORT
+// // ==========================================================================
+
+// [dir="rtl"] {
+//     .uls-icon-input {
+//         &.left {
+//             >i.bs-icons1 {
+//                 left: auto;
+//                 right: 0;
+//             }
+
+//             >.uls-input {
+//                 padding-inline-start: 0;
+//                 padding-inline-end: @32px;
+//             }
+//         }
+//     }
+
+//     .uls-input-attach {
+//         &.left .uls-input {
+//             margin-inline-end: -@1px; // Use logical property
+//             border-radius: @border-radius-md 0 0 @border-radius-md !important;
+//         }
+
+//         &.right .uls-input {
+//             margin-inline-start: -@1px; // Use logical property
+//             border-radius: 0 @border-radius-md @border-radius-md 0 !important;
+//         }
+
+//         .left-item {
+//             border-radius: 0 @border-radius-md @border-radius-md 0 !important;
+//             margin-inline-end: -@1px !important;
+//             margin-inline-start: 0 !important;
+//         }
+
+//         .right-item {
+//             border-radius: @border-radius-md 0 0 @border-radius-md !important;
+//         }
+
+//         &.hide-field {
+//             >.left-item {
+//                 >.field {
+//                     .uls-dropdown {
+//                         border-radius: 0 @border-radius-md @border-radius-md 0 !important;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // INPUT ATTACH COMPONENT (GRID)
+// // ==========================================================================
+
+// .uls-input.attach {
+//     display: grid;
+//     grid-auto-flow: column;
+
+//     >input {
+//         border-top-right-radius: 0;
+//         border-bottom-right-radius: 0;
+//     }
+// }
+
+// // ==========================================================================
+// // INPUT ATTACH COMPONENT (FLEX)
+// // ==========================================================================
+// // Input with attached labels or buttons
+
+// .uls-input-attach {
+//     display: flex;
+
+//     >label {
+//         min-width: @32px;
+//         padding: 0 @8px;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//     }
+
+//     >.left-item {
+//         border-radius: @border-radius-md 0 0 @border-radius-md !important;
+
+//         &.ellipsis {
+//             display: block;
+//             padding: @4px;
+//             line-height: 1.8em;
+//         }
+//     }
+
+//     &.hide-field {
+//         >.left-item {
+//             >.field {
+//                 >label {
+//                     display: none;
+//                 }
+
+//                 .uls-dropdown {
+//                     border-radius: @border-radius-md 0 0 @border-radius-md !important;
+//                 }
+//             }
+//         }
+//     }
+
+//     >.right-item {
+//         border-radius: 0 @border-radius-md @border-radius-md 0 !important;
+//     }
+
+//     >.uls-input {
+//         flex-grow: 1;
+//         width: auto !important;
+//         min-width: 0;
+//         padding-inline-start: @8px; // Use logical property for RTL
+
+//         &:focus {
+//             z-index: 1;
+//         }
+//     }
+
+//     &.left>.uls-input {
+//         margin-inline-start: -@1px !important; // Use logical property
+//         border-top-left-radius: 0;
+//         border-bottom-left-radius: 0;
+//     }
+
+//     &.left>.fluid.uls-input {
+//         width: 100% !important;
+//     }
+
+//     &.right>.uls-input {
+//         margin-inline-end: -@1px !important; // Use logical property
+//         border-top-right-radius: 0;
+//         border-bottom-right-radius: 0;
+//     }
+
+//     &.bdr {
+//         box-shadow: 0 0 0 1px @input-border-color;
+//         border-radius: @border-radius-md;
+
+//         .uls-input {
+//             box-shadow: none;
+//         }
+//     }
+
+//     &.dashed-bdr {
+//         border: @1px dashed @input-border-color;
+
+//         .uls-input {
+//             box-shadow: none;
+//         }
+//     }
+
+//     >.attach-label {
+//         background-color: @secondary-background;
+//         color: @text-color;
+//         border: @1px solid @input-border-color;
+//         max-width: 50%;
+//     }
+
+//     &.btn-num1 {
+//         box-shadow: 0 0 0 1px @input-border-color;
+//         border-radius: @border-radius-xs; // 2px
+//         background-color: @default-background;
+
+//         >.attach-label {
+//             min-width: @16px;
+//             background-color: transparent;
+//             border: 0;
+//             opacity: 0;
+//             visibility: hidden;
+//             transition: @default-duration ease;
+//             z-index: 1;
+//         }
+
+//         >.uls-input {
+//             box-shadow: none;
+//         }
+
+//         &.right {
+//             >.attach-label {
+//                 border-inline-start: @1px solid @input-border-color; // Use logical property
+//             }
+//         }
+
+//         &:hover>.attach-label,
+//         &.active>.attach-label {
+//             opacity: 1;
+//             visibility: visible;
+//             transition: @default-duration ease;
+//         }
+//     }
+
+//     &.btn-num,
+//     &.btn-num1 {
+//         >.attach-label {
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: space-around;
+//             padding: 0;
+//             text-align: center;
+
+//             .uls-divider {
+//                 width: 100%;
+//             }
+
+//             .num-i {
+//                 color: @text-color;
+//                 font-size: @font-size12;
+//             }
+//         }
+
+//         /* Firefox */
+//         input[type=number] {
+//             -moz-appearance: textfield;
+//         }
+
+//         /* Chrome, Safari, Edge, Opera */
+//         input::-webkit-outer-spin-button,
+//         input::-webkit-inner-spin-button {
+//             -webkit-appearance: none;
+//             margin: 0;
+//         }
+//     }
+
+//     &.btn-num>.uls-label {
+//         &.left {
+//             border-radius: @border-radius-md 0 0 @border-radius-md; // 6px equivalent
+//         }
+
+//         &.right {
+//             border-radius: 0 @border-radius-md @border-radius-md 0; // 6px equivalent
+//         }
+//     }
+
+//     &.wt42 {
+//         >.uls-input {
+//             min-width: @42px; // If @42px doesn't exist, use 42px directly
+//             width: @42px !important;
+//             padding: @4px !important;
+//         }
+//     }
+
+//     &.no-arw {
+//         /* Chrome, Safari, Edge, Opera */
+//         input::-webkit-outer-spin-button,
+//         input::-webkit-inner-spin-button {
+//             -webkit-appearance: none;
+//             margin: 0;
+//         }
+
+//         /* Firefox */
+//         input[type=number] {
+//             -moz-appearance: textfield;
+//         }
+//     }
+
+//     &.disabled {
+//         pointer-events: none;
+//         opacity: 0.45;
+//         background-color: transparent;
+//     }
+
+//     // Dropdown and input icon type
+//     &.icon-type {
+//         box-shadow: 0 0 0 1px @input-border-color;
+//         border-radius: @border-radius-xs; // 2px
+//         background-color: @default-background;
+
+//         >.uls-input,
+//         >.icon-drop {
+//             box-shadow: none !important;
+//         }
+
+//         // Icon result
+//         .icon-input {
+//             width: 100%;
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//         }
+
+//         >.icon-drop {
+//             min-width: @32px !important;
+
+//             >.menu {
+//                 border-color: @input-border-color;
+//                 box-shadow: none !important;
+
+//                 .item {
+//                     text-align: center;
+//                 }
+//             }
+
+//             &.right-item>.menu {
+//                 left: auto;
+//                 right: 0;
+//             }
+//         }
+//     }
+
+//     .uls-social-icons {
+//         z-index: 1;
+
+//         i.bs-icons2,
+//         i.bs-icons,
+//         i.bs-icons1 {
+//             border-radius: @border-radius-xs; // 2px
+//         }
+//     }
+// }

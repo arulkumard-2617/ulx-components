@@ -146,6 +146,8 @@ console.log(`✓ Found component '${componentName}' in category '${category}'`);
 const importsFilePath = path.join(componentDocPath, 'imports.js');
 const featuresFilePath = path.join(componentDocPath, 'features.js');
 const demoComponentPath = path.join(demoComponentsPath, componentPascal, `${variationPascal}.gjs`);
+const snippetsPath = path.join(componentDocPath, 'snippets');
+const snippetFilePath = path.join(snippetsPath, `${variationPascal}.gjs.js`);
 
 // Check if variation already exists
 if (fs.existsSync(demoComponentPath)) {
@@ -159,31 +161,71 @@ if (!fs.existsSync(demoComponentDir)) {
   fs.mkdirSync(demoComponentDir, { recursive: true });
 }
 
-// Get the actual component import name and tag name from existing imports.js
+// Create snippets directory if it doesn't exist
+if (!fs.existsSync(snippetsPath)) {
+  fs.mkdirSync(snippetsPath, { recursive: true });
+}
+
+// Get the actual component import name and tag name from existing files
 let actualComponentImportName = `Uls${componentPascal}`;
 let actualComponentTagName = `Uls${componentPascal}`;
 let actualComponentPath = `uls-${toKebabCase(componentName)}`;
 
-if (fs.existsSync(importsFilePath)) {
-  const importsContent = fs.readFileSync(importsFilePath, 'utf8');
-  // Extract component name from ImportSource
-  const importSourceMatch = importsContent.match(/import\s+(\w+)\s+from\s+['"]uls-components\/components\/[\w\/]+\/([\w-]+)['"]/);
-  if (importSourceMatch) {
-    actualComponentImportName = importSourceMatch[1];
-    actualComponentPath = importSourceMatch[2];
-    // Default tag name to import name (Ember components use import name in templates)
-    actualComponentTagName = actualComponentImportName;
+// First, try to read from Import snippet file (most reliable)
+const importSnippetPath = path.join(snippetsPath, 'Import.gjs.js');
+if (fs.existsSync(importSnippetPath)) {
+  const importSnippetContent = fs.readFileSync(importSnippetPath, 'utf8');
+  // Extract from: import ComponentName from 'uls-components/components/category/path';
+  const importMatch = importSnippetContent.match(/import\s+(\w+)\s+from\s+['"]uls-components\/components\/([\w\/]+)\/([\w-]+)['"]/);
+  if (importMatch) {
+    actualComponentImportName = importMatch[1];
+    actualComponentPath = importMatch[3];
+    actualComponentTagName = importMatch[1]; // Tag name matches import name
   }
-  
-  // Try to extract component tag name from existing sources
-  // First try sources with props (like @items)
-  let sourceMatch = importsContent.match(/<(\w+)\s+@items/);
-  if (!sourceMatch) {
-    // If not found, try any source with opening tag (like <ComponentName /> or <ComponentName>)
-    sourceMatch = importsContent.match(/<(\w+)(?:\s+[^>]*)?\s*\/?>/);
-  }
-  if (sourceMatch) {
-    actualComponentTagName = sourceMatch[1];
+} else {
+  // Fallback: try reading from an existing demo component file (like Basic.gjs)
+  const basicDemoPath = path.join(demoComponentsPath, componentPascal, 'Basic.gjs');
+  if (fs.existsSync(basicDemoPath)) {
+    const basicDemoContent = fs.readFileSync(basicDemoPath, 'utf8');
+    const importMatch = basicDemoContent.match(/import\s+(\w+)\s+from\s+['"]uls-components\/components\/([\w\/]+)\/([\w-]+)['"]/);
+    if (importMatch) {
+      actualComponentImportName = importMatch[1];
+      actualComponentPath = importMatch[3];
+      actualComponentTagName = importMatch[1];
+      
+      // Also try to extract tag name from template
+      const tagMatch = basicDemoContent.match(/<(\w+)\s+@/);
+      if (tagMatch) {
+        actualComponentTagName = tagMatch[1];
+      }
+    }
+  } else if (fs.existsSync(importsFilePath)) {
+    // Last resort: try to extract from existing demo component imports in imports.js
+    const importsContent = fs.readFileSync(importsFilePath, 'utf8');
+    // Try to find an existing demo component import path to infer the structure
+    const demoImportMatch = importsContent.match(/components\/Demo\/(\w+)\//);
+    if (demoImportMatch) {
+      // We can't get the exact import from imports.js, so use defaults
+      // But we can try to read any existing demo file
+      const demoFiles = fs.readdirSync(path.join(demoComponentsPath, componentPascal));
+      const existingDemoFile = demoFiles.find(f => f.endsWith('.gjs'));
+      if (existingDemoFile) {
+        const existingDemoPath = path.join(demoComponentsPath, componentPascal, existingDemoFile);
+        const existingDemoContent = fs.readFileSync(existingDemoPath, 'utf8');
+        const importMatch = existingDemoContent.match(/import\s+(\w+)\s+from\s+['"]uls-components\/components\/([\w\/]+)\/([\w-]+)['"]/);
+        if (importMatch) {
+          actualComponentImportName = importMatch[1];
+          actualComponentPath = importMatch[3];
+          actualComponentTagName = importMatch[1];
+          
+          // Extract tag name from template
+          const tagMatch = existingDemoContent.match(/<(\w+)\s+@/);
+          if (tagMatch) {
+            actualComponentTagName = tagMatch[1];
+          }
+        }
+      }
+    }
   }
 }
 
@@ -230,6 +272,18 @@ export default class ${variationPascal}DemoComponent extends Component {
 fs.writeFileSync(demoComponentPath, demoComponentContent);
 console.log(`✓ Created demo component: ${demoComponentPath}`);
 
+// 1b. Create snippet file
+const snippetContent = `export default \`
+${demoComponentContent}\`;
+`;
+
+if (fs.existsSync(snippetFilePath)) {
+  console.log(`⚠ Snippet file already exists: ${snippetFilePath}`);
+} else {
+  fs.writeFileSync(snippetFilePath, snippetContent);
+  console.log(`✓ Created snippet file: ${snippetFilePath}`);
+}
+
 // 2. Update imports.js
 let importsContent = fs.readFileSync(importsFilePath, 'utf8');
 
@@ -253,14 +307,26 @@ if (lastDemoExport) {
   }
 }
 
-// Add source code export
-// Find the last Source export
-const sourcePattern = /(export\s+const\s+\w+Source\s*=\s*`[^`]+`;)/g;
-const sources = [...importsContent.matchAll(sourcePattern)];
-const lastSource = sources[sources.length - 1];
+// Add source code export - check if using snippet imports or hardcoded strings
+const snippetImportPattern = /(export\s*\{\s*default\s+as\s+\w+Source\s*\}\s*from\s+['"]\.\/snippets\/[\w\/\.]+['"];?)/g;
+const hardcodedSourcePattern = /(export\s+const\s+\w+Source\s*=\s*`[^`]+`;)/g;
 
-if (lastSource) {
-  // Extract the component tag name from existing source to match the pattern
+const snippetImports = [...importsContent.matchAll(snippetImportPattern)];
+const hardcodedSources = [...importsContent.matchAll(hardcodedSourcePattern)];
+
+// Prefer snippet imports if they exist, otherwise use hardcoded pattern
+if (snippetImports.length > 0) {
+  // Using snippet imports pattern
+  const lastSnippetImport = snippetImports[snippetImports.length - 1];
+  const newSnippetImport = `export { default as ${variationPascal}Source } from './snippets/${variationPascal}.gjs';`;
+  
+  if (!importsContent.includes(newSnippetImport)) {
+    const insertPosition = lastSnippetImport.index + lastSnippetImport[0].length;
+    importsContent = importsContent.slice(0, insertPosition) + '\n' + newSnippetImport + importsContent.slice(insertPosition);
+  }
+} else if (hardcodedSources.length > 0) {
+  // Fallback to hardcoded pattern (for backward compatibility)
+  const lastSource = hardcodedSources[hardcodedSources.length - 1];
   const lastSourceContent = lastSource[0];
   const componentTagMatch = lastSourceContent.match(/<(\w+)\s/);
   const componentTagName = componentTagMatch ? componentTagMatch[1] : actualComponentTagName;
@@ -274,6 +340,20 @@ if (lastSource) {
   if (!importsContent.includes(`${variationPascal}Source`)) {
     const insertPosition = lastSource.index + lastSource[0].length;
     importsContent = importsContent.slice(0, insertPosition) + '\n' + newSource + importsContent.slice(insertPosition);
+  }
+} else {
+  // No sources found, add after ImportSource if it exists, otherwise add after demo exports
+  const importSourcePattern = /(export\s*\{\s*default\s+as\s+ImportSource\s*\}\s*from\s+['"]\.\/snippets\/[\w\/]+['"];)/;
+  if (importSourcePattern.test(importsContent)) {
+    const newSnippetImport = `export { default as ${variationPascal}Source } from './snippets/${variationPascal}.gjs';`;
+    importsContent = importsContent.replace(importSourcePattern, `$1\n${newSnippetImport}`);
+  } else {
+    // Add after demo exports section
+    const demoExportsSection = /(\/\/\s*Demo Components[\s\S]*?)(\/\/\s*Import source)/;
+    if (demoExportsSection.test(importsContent)) {
+      const newSnippetImport = `export { default as ${variationPascal}Source } from './snippets/${variationPascal}.gjs';`;
+      importsContent = importsContent.replace(demoExportsSection, `$1\n\n// ${componentPascal} Demo Sources Barrel Export\n// ==========================================================================\n// Centralized exports for all ${componentPascal} demo source files\n${newSnippetImport}\n$2`);
+    }
   }
 }
 

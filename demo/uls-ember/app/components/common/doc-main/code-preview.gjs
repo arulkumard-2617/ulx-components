@@ -15,6 +15,20 @@ export default class CodePreviewComponent extends Component {
     this.isCodeTab = isCodeTab;
   }
 
+  get effectiveLanguage() {
+    return !this.expanded ? 'markup' : 'javascript';
+  }
+
+  extractTemplateOnly(source) {
+    if(!source) {
+      return ""
+    }
+
+    const match = source.match(/<template>[\s\S]*?<\/template>/m)
+
+    return match ? match[0].trim() : "";
+  }
+
   @action
   toggleExpanded() {
     this.expanded = !this.expanded;
@@ -73,14 +87,27 @@ export default class CodePreviewComponent extends Component {
   }
 
   get displayCode() {
+
     const source = this.args.source;
-    if (!source) {
-      return "";
+    if (!source) return "";
+
+    const code = String(source);    
+
+    // collapsed → template only
+    if (!this.expanded) {
+      const templateOnly = this.extractTemplateOnly(code);
+
+      // 👇 IMPORTANT FIX
+      if (!templateOnly) {
+        return this.dedentBlock(code);
+      }
+
+      return this.dedentBlock(templateOnly);
     }
-    const code = String(source);
-    const dedented = this.dedentBlock(code);
-    // Return dedented code (already trimmed)
-    return dedented;
+
+    // expanded → full code
+    return this.dedentBlock(code);
+  
   }
 
   get language() {
@@ -111,25 +138,71 @@ export default class CodePreviewComponent extends Component {
           <div class="demo-and-code">
             <div class="demo">
               <div class="code-preview-container">
-                <div class="demo bg-default bdr pd8 mgb2 rds3">
+                <div class="demo bg-default bd pd8 mgb2 rds3">
                   {{yield}}
                 </div>
                 {{#if this.displayCode}}
-                  <div class="code-block">
-                    <CodeBlock
-                      @code={{this.displayCode}}
-                      @language={{this.language}}
-                    />
+                  <div class="code-block asdad">
+                    {{#if this.expanded}}
+                      <CodeBlock
+                        @code={{this.displayCode}}
+                        @language="javascript"
+                      />
+                      {{else}}
+                        <CodeBlock
+                          @code={{this.displayCode}}
+                          @language={{this.effectiveLanguage}}
+                        />
+                    {{/if}}
                     <div class="code-actions fxb gp4 pdy1 pdx3">
-                      <button type="button" aria-label="Toggle code view" {{on "click" this.toggleExpanded}}>
-                        code
+                      <button type="button"
+                              class="expand-btn {{if this.expanded "is-expanded"}}"
+                              {{on "click" this.toggleExpanded}}
+                              aria-label={{if this.expanded "Collapse code" "Expand code"}}
+                      >
+                        <svg
+  class="fit-width-icon"
+  width="18"
+  height="18"
+  viewBox="0 0 24 24"
+  fill="none"
+  aria-hidden="true"
+>
+  <!-- left bar -->
+  <path class="bar left" d="M4 4v16" />
+
+  <!-- right bar -->
+  <path class="bar right" d="M20 4v16" />
+
+  <!-- left arrow -->
+  <path class="arrow left" d="M10 12H6m0 0l2-2m-2 2l2 2" />
+
+  <!-- right arrow -->
+  <path class="arrow right" d="M14 12h4m0 0l-2-2m2 2l-2 2" />
+</svg>
                       </button>
-                      <button type="button" aria-label="Copy code" {{on "click" this.copyCode}}>
-                        {{#if this.copied}}
-                          copied
-                        {{else}}
-                          copy
-                        {{/if}}
+                      <button type="button" class="copy-btn {{if this.copied "is-copied"}}" aria-label="Copy code" {{on "click" this.copyCode}}>
+                        <svg class="copy-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
+                          <!-- Copy icon -->
+                          <g class="icon-copy">
+                            <rect x="6" y="2" width="13" height="13" rx="2"
+                              stroke="currentColor" stroke-width="2"/>
+                            <rect x="1" y="8" width="13" height="13" rx="2"
+                              stroke="currentColor" stroke-width="2" fill="#272822"/>
+                            
+                          </g>
+
+                          <!-- Check icon -->
+                          <path
+                            class="icon-check"
+                            d="M5 13l4 4L19 7"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -141,16 +214,32 @@ export default class CodePreviewComponent extends Component {
           {{#if this.displayCode}}
             <div class="code-block">
               <CodeBlock
-                @code={{this.displayCode}}
-                @language={{this.language}}
-              />
+                  @code={{this.displayCode}}
+                  @language={{this.effectiveLanguage}}
+                />
               <div class="code-actions fxb gp4 pdy1 pdx3">
-                <button type="button" aria-label="Copy code" {{on "click" this.copyCode}}>
-                  {{#if this.copied}}
-                    copied
-                  {{else}}
-                    copy
-                  {{/if}}
+                <button type="button" class="copy-btn {{if this.copied "is-copied"}}" aria-label="Copy code" {{on "click" this.copyCode}}>
+                  <svg class="copy-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
+                    <!-- Copy icon -->
+                    <g class="icon-copy">
+                      <rect x="6" y="2" width="13" height="13" rx="2"
+                        stroke="currentColor" stroke-width="2"/>
+                      <rect x="1" y="8" width="13" height="13" rx="2"
+                        stroke="currentColor" stroke-width="2" fill="#272822"/>
+                      
+                    </g>
+
+                    <!-- Check icon -->
+                    <path
+                      class="icon-check"
+                      d="M5 13l4 4L19 7"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
@@ -158,10 +247,10 @@ export default class CodePreviewComponent extends Component {
         {{/if}}
       {{else}}
         {{#if this.displayCode}}
-          <div class="code-block">
+          <div class="code-block asdad">
             <CodeBlock
               @code={{this.displayCode}}
-              @language={{this.language}}
+              @language={{this.effectiveLanguage}}
             />
             <div class="code-actions fxb gp4 pdy1 pdx3">
               <button type="button" aria-label="Copy code" {{on "click" this.copyCode}}>

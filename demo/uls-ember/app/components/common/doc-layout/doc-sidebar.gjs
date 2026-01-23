@@ -220,11 +220,11 @@ export default class DocSidebarComponent extends Component {
                   class="s-nav-link fxb fvc gp2 text-left {{if (this.isItemActive item this.currentPath) 'fg-primary' ''}}"
                   {{on "click" (fn this.toggleItem item.menuTitle)}}
                 >
-                  <span class="s-nav-link-icon w32 h32 fxb fvc fhc bdr rds2">
+                  <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
                     <i class={{item.icon}}></i>
                   </span>
                   <span class="s-nav-link-text">
-                    <span class="font-bold">{{item.menuTitle}}</span>
+                    <span class="bold-font">{{item.menuTitle}}</span>
                   </span>
                 </button>
                 <button 
@@ -243,12 +243,12 @@ export default class DocSidebarComponent extends Component {
                   class="s-nav-link fxb fvc fhs gp2 w-100p {{if (this.isItemActive item this.currentPath) 'fg-primary' 'fg-text'}}"
                 >
                   {{#if item.icon}}
-                    <span class="s-nav-link-icon w32 h32 fxb fvc fhc bdr rds2">
+                    <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
                       <i class={{item.icon}}></i>
                     </span>
                   {{/if}}
                   <span class="s-nav-link-text">
-                    <span class="font-bold">{{item.menuTitle}}</span>
+                    <span class="bold-font">{{item.menuTitle}}</span>
                   </span>
                 </LinkTo>
               {{/if}}
@@ -259,11 +259,11 @@ export default class DocSidebarComponent extends Component {
                 type="button"
                 {{on "click" (fn this.toggleItem item.menuTitle)}}
               >
-                  <span class="s-nav-link-icon w32 h32 fxb fvc fhc bdr rds2">
+                  <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
                     <i class={{item.icon}}></i>
                   </span>
                   <span class="s-nav-link-text">
-                    <span class="font-bold">{{item.menuTitle}}</span>
+                    <span class="bold-font">{{item.menuTitle}}</span>
                   </span>
                   <span class="s-nav-link-icon mgl-auto">
                     <i class="menu-toggle-icon pi pi-angle-down transition {{if (this.isExpanded item) 'rotate-180' ''}}"></i>
@@ -288,8 +288,8 @@ export default class DocSidebarComponent extends Component {
                               <li class="s-nav-item">
                                 <LinkTo
                                   @route={{subItem.route}}
-                                  @activeClass="bdr-primary fg-primary"
-                                  class="bdr-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
+                                  @activeClass="bd-primary fg-primary"
+                                  class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
                                 >
                                   {{subItem.menuItem}}
                                 </LinkTo>
@@ -302,8 +302,8 @@ export default class DocSidebarComponent extends Component {
                       <li class="s-nav-item">
                         <LinkTo
                           @route={{childItem.route}}
-                          @activeClass="bdr-primary fg-primary"
-                          class="bdr-l pdl5 pdb2 pdt2 font-size14 text-left w-100p block fg-text"
+                          @activeClass="bd-primary fg-primary"
+                          class="bd-l pdl5 pdb2 pdt2 font-size14 text-left w-100p block fg-text"
                         >
                           {{childItem.menuItem}}
                         </LinkTo>

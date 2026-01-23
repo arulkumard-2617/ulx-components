@@ -295,12 +295,12 @@ export default function ColorPalette() {
       <div className="fxb fcol gp15 w-100p">
         {paletteGroups.map((group) => (
           <div key={group.title} className="fxcol gp4">
-            <h5 className="mgt0 mgb4 font-bold fg-primary">{group.title}</h5>
+            <h5 className="mgt0 mgb4 bold-font fg-primary">{group.title}</h5>
             <div className="uls-grid col-4">
               {group.colors.map((color) => (
-                <article key={color.token} className="uls-foundation-card pd6 rds2 bdr flex-column md-w-1-3 text-center">
+                <article key={color.token} className="uls-foundation-card pd6 rds2  flex-column md-w-1-3 text-center">
                   <div
-                    className="rds2 mgb4 bdr mg-auto"
+                    className="rds2 mgb4 bd mg-auto"
                     style={{
                       width: '70px',
                       height: '70px',

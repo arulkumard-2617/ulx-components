@@ -92,6 +92,7 @@
     "@uls/foundation": "file:../uls-foundation",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "uls-components": "file:../.."
+    "uls-components": "file:../..",
+    "uls-v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#master"
   }
 }

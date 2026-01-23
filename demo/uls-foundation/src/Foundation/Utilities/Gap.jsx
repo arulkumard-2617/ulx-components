@@ -65,17 +65,17 @@ export default function Gap() {
     >
       <div className="fxb fcol gp10">
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Gap (All)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Gap (All)</h4>
           <ClassPropertyTable rows={gapAllUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Horizontal Gap (Column)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Horizontal Gap (Column)</h4>
           <ClassPropertyTable rows={horizontalGapUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Vertical Gap (Row)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Vertical Gap (Row)</h4>
           <ClassPropertyTable rows={verticalGapUtilities} />
         </div>
       </div>

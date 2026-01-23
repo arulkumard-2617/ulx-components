@@ -9,12 +9,12 @@ export default class ColorPaletteComponent extends Component {
     <div class="fxb fcol gp8 w-100p">
       {{#each @paletteGroups as |group|}}
         <div class="fxcol gp2">
-          <h5 class="mgt0 mgb2 font-bold fg-primary">{{group.title}}</h5>
+          <h5 class="mgt0 mgb2 bold-font fg-primary">{{group.title}}</h5>
           <div class="uls-grid col-4">
             {{#each group.colors as |color|}}
-              <article class="uls-foundation-card pd3 rds2 bdr flex-column md-w-1-3 text-center">
+              <article class="uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center">
                 <div
-                  class="rds2 mgb2 bdr mg-auto"
+                  class="rds2 mgb2 bd mg-auto"
                   style={{this.getStyleString color.cssVar}}
                 ></div>
                 <p class="mgb1 fg-text-secondary"><code>{{color.token}}</code></p>

@@ -115,87 +115,87 @@ export default function Space() {
     >
       <div className="fxb fcol gp10">
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - All Sides</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - All Sides</h4>
           <ClassPropertyTable rows={paddingAllUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Top</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Top</h4>
           <ClassPropertyTable rows={paddingTopUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Bottom</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Bottom</h4>
           <ClassPropertyTable rows={paddingBottomUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Left</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Left</h4>
           <ClassPropertyTable rows={paddingLeftUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Right</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Right</h4>
           <ClassPropertyTable rows={paddingRightUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Horizontal (Inline)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Horizontal (Inline)</h4>
           <ClassPropertyTable rows={paddingXUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Vertical (Block)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Vertical (Block)</h4>
           <ClassPropertyTable rows={paddingYUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Padding - Auto</h4>
+          <h4 className="mgt0 mgb4 bold-font">Padding - Auto</h4>
           <ClassPropertyTable rows={autoPaddingUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - All Sides</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - All Sides</h4>
           <ClassPropertyTable rows={marginAllUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Top</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Top</h4>
           <ClassPropertyTable rows={marginTopUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Bottom</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Bottom</h4>
           <ClassPropertyTable rows={marginBottomUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Left</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Left</h4>
           <ClassPropertyTable rows={marginLeftUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Right</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Right</h4>
           <ClassPropertyTable rows={marginRightUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Horizontal (Inline)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Horizontal (Inline)</h4>
           <ClassPropertyTable rows={marginXUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Vertical (Block)</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Vertical (Block)</h4>
           <ClassPropertyTable rows={marginYUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Negative</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Negative</h4>
           <ClassPropertyTable rows={negativeMarginUtilities} />
         </div>
 
         <div>
-          <h4 className="mgt0 mgb4 font-bold">Margin - Auto</h4>
+          <h4 className="mgt0 mgb4 bold-font">Margin - Auto</h4>
           <ClassPropertyTable rows={autoMarginUtilities} />
         </div>
       </div>
