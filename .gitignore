@@ -1,8 +1,23 @@
-# you definitely want this:
+# dependencies
 node_modules
 
-# and you can put in anything else that tends to accumulate in your environment:
+# compiled output
+dist
+declarations
+addon/dist
+
+# misc
 .pnpm-debug.log
 .DS_Store
-dist
-addon/dist
+**/.DS_Store
+.npm
+.yarn-integrity
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# cache files
+.eslintcache
+
+# IDE
+.idea

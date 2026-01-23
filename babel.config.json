@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    "@babel/plugin-transform-typescript",
+    [
+      "babel-plugin-ember-template-compilation",
+      {
+        "targetFormat": "hbs",
+        "transforms": []
+      }
+    ]
+  ]
+}

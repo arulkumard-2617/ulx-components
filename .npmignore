@@ -1,0 +1,22 @@
+# Ignore source files
+/src/
+
+# Config files
+babel.config.json
+rollup.config.mjs
+tsconfig.json
+.eslintrc.cjs
+.prettierrc.js
+.editorconfig
+
+# Development
+.eslintcache
+.gitignore
+.eslintignore
+
+# Tests
+/tests/
+
+# Build artifacts
+*.map
+

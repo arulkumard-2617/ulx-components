@@ -1,0 +1,26 @@
+{
+  "extends": "@tsconfig/ember/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "declarationDir": "dist",
+    "declarationMap": true,
+    "declaration": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": false,
+    "outDir": "dist",
+    "paths": {
+      "uls-components": ["./src/index.js"],
+      "uls-components/*": ["./src/*"]
+    },
+    "rootDir": "src",
+    "target": "esnext"
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.gjs",
+    "**/*.gts"
+  ]
+}

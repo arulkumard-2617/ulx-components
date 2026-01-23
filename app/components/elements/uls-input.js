@@ -1,1 +1,0 @@
-export { default, UlsTextArea } from 'uls-components/components/elements/uls-input';
