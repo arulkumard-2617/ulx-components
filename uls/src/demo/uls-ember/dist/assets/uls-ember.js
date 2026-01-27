@@ -937,14 +937,17 @@
     {{#each @paletteGroups as |group|}}
       <div class="fxcol gp2">
         <h5 class="mgt0 mgb2 bold-font fg-primary">{{group.title}}</h5>
-        <div class="uls-grid col-4">
+        <div class="uls-grid col-4 gp5">
           {{#each group.colors as |color|}}
-            <article class="uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center">
+            <article
+              class="uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center"
+            >
               <div
                 class="rds2 mgb2 bd mg-auto"
                 style={{this.getStyleString color.cssVar}}
               ></div>
-              <p class="mgb1 fg-text-secondary"><code>{{color.token}}</code></p>
+              <p class="mgb1 fg-text-secondary"><code
+                >{{color.token}}</code></p>
             </article>
           {{/each}}
         </div>
@@ -953,8 +956,8 @@
   </div>
   */
   {
-    "id": "6NA9KZ9q",
-    "block": "[[[10,0],[14,0,\"fxb fcol gp8 w-100p\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxcol gp2\"],[12],[1,\"\\n      \"],[10,\"h5\"],[14,0,\"mgt0 mgb2 bold-font fg-primary\"],[12],[1,[30,2,[\"title\"]]],[13],[1,\"\\n      \"],[10,0],[14,0,\"uls-grid col-4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,2,[\"colors\"]]],null]],null],null,[[[1,\"          \"],[10,\"article\"],[14,0,\"uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"rds2 mgb2 bd mg-auto\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,3,[\"cssVar\"]]],null]],[12],[13],[1,\"\\n            \"],[10,2],[14,0,\"mgb1 fg-text-secondary\"],[12],[10,\"code\"],[12],[1,[30,3,[\"token\"]]],[13],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[3]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[2]],null],[13]],[\"@paletteGroups\",\"group\",\"color\"],[\"each\",\"-track-array\"]]",
+    "id": "dNUCt9cT",
+    "block": "[[[10,0],[14,0,\"fxb fcol gp8 w-100p\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxcol gp2\"],[12],[1,\"\\n      \"],[10,\"h5\"],[14,0,\"mgt0 mgb2 bold-font fg-primary\"],[12],[1,[30,2,[\"title\"]]],[13],[1,\"\\n      \"],[10,0],[14,0,\"uls-grid col-4 gp5\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,2,[\"colors\"]]],null]],null],null,[[[1,\"          \"],[10,\"article\"],[14,0,\"uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"rds2 mgb2 bd mg-auto\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,3,[\"cssVar\"]]],null]],[12],[13],[1,\"\\n            \"],[10,2],[14,0,\"mgb1 fg-text-secondary\"],[12],[10,\"code\"],[12],[1,[30,3,[\"token\"]]],[13],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[3]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[2]],null],[13]],[\"@paletteGroups\",\"group\",\"color\"],[\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/uls-components/uls/src/demo/uls-ember/uls-ember/components/common/doc-main/color-palette.js",
     "isStrictMode": true
   }), _ColorPaletteComponent);
@@ -5311,61 +5314,59 @@ export default class LinkDemoComponent extends Component {
   /*
     {{page-title "Get started with ULS - ULS Ember Documentation"}}
   
-  <div class="ulsp-doc-tabpanel fxb fsb">
+  <div class="ulsp-doc-tabpanel fxb fsb mgb10">
     <div class="panel-main mgr5">
-      {{! Doc Intro }}
-      <div class="doc-intro mgb6">
-        <h2 class="mgb2 bold-font">Get started with ULS</h2>
-        <div>
-          A comprehensive step-by-step guide to getting started with ULS_V2.0. Learn installation, setup, theming, customization, and best practices through interactive examples.
-        </div>
-      </div>
+      <h2 class="mgt0 mgb4 bold-font">Commands</h2>
+      <p class="fg-text-secondary mgb6">Run these commands from the
+        <code>uls</code>
+        directory. Use these npm scripts to create or remove demo pages and
+        component variations. Replace
+        <strong>ComponentName</strong>
+        and
+        <strong>VariationName</strong>
+        with your component and variation names as needed.</p>
   
-      {{! Features List - Simplified for now }}
-      <section class="features-list">
-        <div class="mgb9 mgt5">
-          <h4 class="mgb1 mgt2">UI Language System (ULS) - Your Complete Design System Solution</h4>
-          <p class="mgb2">
-            ULS is a comprehensive, production-ready CSS design system that provides everything you need to build consistent, 
-            scalable, and accessible user interfaces. It's not just a CSS library—it's a complete design language that ensures 
-            visual consistency across all your projects.
-          </p>
-        </div>
+      <section class="mgb6">
+        <Common::DocMain::CodePreview
+          @title="Create demo-page"
+          @description="Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure."
+          @source="npm run create demo-page ComponentName --category collections --submodule menu"
+          @language="bash"
+        />
+      </section>
   
-        <div class="mgb10">
-          <h5 class="mgy3 bold-font">Key Features & Advantages</h5>
-          <div class="mgb2 pd4 bg-layer1" style="border-radius: 0.375rem;">
-            <ul class="mgl3 mgt1 mgb0">
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Design System-First:</strong> Predefined tokens, components, and patterns for consistency</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Strong Consistency:</strong> Enforced design system patterns across all components</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Theme System:</strong> Runtime theming with CSS custom properties (light/dark modes)</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Less HTML Markup:</strong> Semantic component classes instead of utility combinations</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Centralized Design Tokens:</strong> Single source of truth for colors, spacing, typography</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Flexible Customization:</strong> Runtime CSS custom properties or compile-time LESS overrides</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Sleek Override System:</strong> Clean, organized override structure</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Built-in Accessibility:</strong> WCAG AA compliant components out of the box</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>RTL Support:</strong> Built-in right-to-left language support via logical properties</li>
-              <li class="mgb4 fxb fvc gp1">✅ <strong>Component Mixin System:</strong> Consistent behavior across all components</li>
-              <li class="mgb0 fxb fvc gp1">✅ <strong>PrimeReact Integration:</strong> Seamless integration via passthrough mappings</li>
-            </ul>
-          </div>
-        </div>
+      <section class="mgb6">
+        <Common::DocMain::CodePreview
+          @title="Delete demo-page"
+          @description="Removes an existing demo page. Use the same --category value as when the page was created."
+          @source="npm run destroy demo-page ComponentName --category collections"
+          @language="bash"
+        />
+      </section>
   
-        <div class="mgt3 pd2 bg-layer1 mgb0" style="border-radius: 0.375rem; border-left: 4px solid var(--uls-primary-color, #2196F3);">
-          <p class="mg0" style="font-weight: 500;">
-            ULS provides <strong>consistency, built-in accessibility, a strong theme system, and centralized design tokens</strong> 
-            to help you build beautiful, production-ready user interfaces faster. Ready to get started? Follow the steps below!
-          </p>
-        </div>
+      <section class="mgb6">
+        <Common::DocMain::CodePreview
+          @title="Create variations"
+          @description="Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script."
+          @source="npm run add-variation -- --component=ComponentName --variation=VariationName"
+          @language="bash"
+        />
+      </section>
+  
+      <section class="mgb6">
+        <Common::DocMain::CodePreview
+          @title="Delete variations"
+          @description="Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:"
+          @source="npm run destroy-variation -- --component=ComponentName --variation=VariationName"
+          @language="bash"
+        />
       </section>
     </div>
   </div>
-  
-  
   */
   {
-    "id": "5L+tyfiT",
-    "block": "[[[1,[28,[35,0],[\"Get started with ULS - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[10,0],[14,0,\"ulsp-doc-tabpanel fxb fsb\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"panel-main mgr5\"],[12],[1,\"\\n\"],[1,\"    \"],[10,0],[14,0,\"doc-intro mgb6\"],[12],[1,\"\\n      \"],[10,\"h2\"],[14,0,\"mgb2 bold-font\"],[12],[1,\"Get started with ULS\"],[13],[1,\"\\n      \"],[10,0],[12],[1,\"\\n        A comprehensive step-by-step guide to getting started with ULS_V2.0. Learn installation, setup, theming, customization, and best practices through interactive examples.\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,\"section\"],[14,0,\"features-list\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"mgb9 mgt5\"],[12],[1,\"\\n        \"],[10,\"h4\"],[14,0,\"mgb1 mgt2\"],[12],[1,\"UI Language System (ULS) - Your Complete Design System Solution\"],[13],[1,\"\\n        \"],[10,2],[14,0,\"mgb2\"],[12],[1,\"\\n          ULS is a comprehensive, production-ready CSS design system that provides everything you need to build consistent, \\n          scalable, and accessible user interfaces. It's not just a CSS library—it's a complete design language that ensures \\n          visual consistency across all your projects.\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n      \"],[10,0],[14,0,\"mgb10\"],[12],[1,\"\\n        \"],[10,\"h5\"],[14,0,\"mgy3 bold-font\"],[12],[1,\"Key Features & Advantages\"],[13],[1,\"\\n        \"],[10,0],[14,0,\"mgb2 pd4 bg-layer1\"],[14,5,\"border-radius: 0.375rem;\"],[12],[1,\"\\n          \"],[10,\"ul\"],[14,0,\"mgl3 mgt1 mgb0\"],[12],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Design System-First:\"],[13],[1,\" Predefined tokens, components, and patterns for consistency\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Strong Consistency:\"],[13],[1,\" Enforced design system patterns across all components\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Theme System:\"],[13],[1,\" Runtime theming with CSS custom properties (light/dark modes)\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Less HTML Markup:\"],[13],[1,\" Semantic component classes instead of utility combinations\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Centralized Design Tokens:\"],[13],[1,\" Single source of truth for colors, spacing, typography\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Flexible Customization:\"],[13],[1,\" Runtime CSS custom properties or compile-time LESS overrides\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Sleek Override System:\"],[13],[1,\" Clean, organized override structure\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Built-in Accessibility:\"],[13],[1,\" WCAG AA compliant components out of the box\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"RTL Support:\"],[13],[1,\" Built-in right-to-left language support via logical properties\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb4 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"Component Mixin System:\"],[13],[1,\" Consistent behavior across all components\"],[13],[1,\"\\n            \"],[10,\"li\"],[14,0,\"mgb0 fxb fvc gp1\"],[12],[1,\"✅ \"],[10,\"strong\"],[12],[1,\"PrimeReact Integration:\"],[13],[1,\" Seamless integration via passthrough mappings\"],[13],[1,\"\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n      \"],[10,0],[14,0,\"mgt3 pd2 bg-layer1 mgb0\"],[14,5,\"border-radius: 0.375rem; border-left: 4px solid var(--uls-primary-color, #2196F3);\"],[12],[1,\"\\n        \"],[10,2],[14,0,\"mg0\"],[14,5,\"font-weight: 500;\"],[12],[1,\"\\n          ULS provides \"],[10,\"strong\"],[12],[1,\"consistency, built-in accessibility, a strong theme system, and centralized design tokens\"],[13],[1,\" \\n          to help you build beautiful, production-ready user interfaces faster. Ready to get started? Follow the steps below!\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"]],[],[\"page-title\",\"div\",\"h2\",\"section\",\"h4\",\"p\",\"h5\",\"ul\",\"li\",\"strong\"]]",
+    "id": "y/UUiyTd",
+    "block": "[[[1,[28,[35,0],[\"Get started with ULS - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[10,0],[14,0,\"ulsp-doc-tabpanel fxb fsb mgb10\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"panel-main mgr5\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"mgt0 mgb4 bold-font\"],[12],[1,\"Commands\"],[13],[1,\"\\n    \"],[10,2],[14,0,\"fg-text-secondary mgb6\"],[12],[1,\"Run these commands from the\\n      \"],[10,\"code\"],[12],[1,\"uls\"],[13],[1,\"\\n      directory. Use these npm scripts to create or remove demo pages and\\n      component variations. Replace\\n      \"],[10,\"strong\"],[12],[1,\"ComponentName\"],[13],[1,\"\\n      and\\n      \"],[10,\"strong\"],[12],[1,\"VariationName\"],[13],[1,\"\\n      with your component and variation names as needed.\"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create demo-page\",\"Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure.\",\"npm run create demo-page ComponentName --category collections --submodule menu\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete demo-page\",\"Removes an existing demo page. Use the same --category value as when the page was created.\",\"npm run destroy demo-page ComponentName --category collections\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create variations\",\"Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script.\",\"npm run add-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete variations\",\"Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:\",\"npm run destroy-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"page-title\",\"div\",\"h2\",\"p\",\"code\",\"strong\",\"section\",\"common/doc-main/code-preview\"]]",
     "moduleName": "uls-ember/templates/walkthrough.hbs",
     "isStrictMode": false
   });
@@ -5485,7 +5486,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("uls-ember/app")["default"].create({"name":"uls-ember","version":"0.0.0+cadfbe73"});
+            require("uls-ember/app")["default"].create({"name":"uls-ember","version":"0.0.0+2bfa59e6"});
           }
         
 //# sourceMappingURL=uls-ember.map
