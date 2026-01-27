@@ -1,0 +1,293 @@
+// // tooltip overrides here
+// // popup overrides here
+// // ==========================================================================
+// // POPUP AND TOOLTIP COMPONENTS
+// // ==========================================================================
+// // Base popup and tooltip components with positioning and arrow support
+
+// .uls-tooltip {
+//     inset: unset;
+//     font-size: @font-size-default; // default is 14px
+//     line-height: @default-lineheight;
+//     background: transparent;
+//     border: none;
+//     overflow: unset;
+//     padding: 0;
+//     text-align: start; // Use logical property for RTL support
+//     visibility: hidden;
+//     opacity: 0;
+//     transition: all @default-duration;
+//     display: block;
+//     font-family: @font-family-base; // Use font-family-base instead of regular-font
+
+//     // Popover open state
+//     &:popover-open {
+//         opacity: 1;
+//         visibility: visible;
+//     }
+
+//     // Top positioning variant
+//     &.top {
+//         padding-bottom: @8px;
+//     }
+
+//     // Bottom positioning variant
+//     &.bottom {
+//         padding-top: @8px;
+//     }
+
+//     // Content container
+//     >.content {
+//         background: @default-background;
+//         border: @1px solid @default-border-color;
+//         border-radius: @border-radius-md;
+//         color: @text-color;
+//         padding: @12px;
+//     }
+
+//     // ==========================================================================
+//     // ARROW DESIGN
+//     // ==========================================================================
+//     // Arrow pseudo-elements for pointing to anchor element
+
+//     &:after,
+//     &:before {
+//         top: 0;
+//         border: solid transparent;
+//         content: "";
+//         height: 0;
+//         width: 0;
+//         position: absolute;
+//         pointer-events: none;
+//         border-width: 0 @8px @8px @8px;
+//     }
+
+//     &:after {
+//         border-bottom-color: @default-background;
+//         top: @2px;
+//     }
+
+//     &:before {
+//         border-bottom-color: @default-border-color;
+//     }
+
+//     // Top arrow variant (rotated)
+//     &.top {
+//         &:after,
+//         &:before {
+//             transform: rotate(180deg);
+//             top: auto;
+//             bottom: 0;
+//         }
+
+//         &:after {
+//             bottom: @2px;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // POSITION VARIANTS
+//     // ==========================================================================
+
+//     // Bottom left position
+//     &.bottom.left {
+//         top: anchor(bottom);
+//         left: anchor(left);
+
+//         &:before,
+//         &:after {
+//             left: var(--arr-left, 50%); // Keep CSS custom property for runtime positioning
+//         }
+//     }
+
+//     // Bottom center position
+//     &.bottom.center {
+//         top: anchor(bottom);
+//         justify-self: anchor-center;
+//         inset-area: y-end;
+//         position-area: y-end;
+//         margin: 0;
+
+//         &:before,
+//         &:after {
+//             left: ~"calc(50% - @{8px})"; // Use LESS string interpolation
+//         }
+//     }
+
+//     // Bottom right position
+//     &.bottom.right {
+//         top: anchor(bottom);
+//         right: anchor(right);
+
+//         &:before,
+//         &:after {
+//             inset-inline-end: var(--arr-left, 50%); // Use logical property for RTL
+//         }
+//     }
+
+//     // Top left position
+//     &.top.left {
+//         bottom: anchor(top);
+//         left: anchor(left);
+
+//         &:before,
+//         &:after {
+//             left: var(--arr-left, 50%); // Keep CSS custom property for runtime positioning
+//         }
+//     }
+
+//     // Top center position
+//     &.top.center {
+//         bottom: anchor(top);
+//         justify-self: anchor-center;
+//         inset-area: y-start;
+//         position-area: y-start;
+//         margin: 0;
+
+//         &:before,
+//         &:after {
+//             left: ~"calc(50% - @{8px})"; // Use LESS string interpolation
+//         }
+//     }
+
+//     // Top right position
+//     &.top.right {
+//         bottom: anchor(top);
+//         right: anchor(right);
+
+//         &:before,
+//         &:after {
+//             inset-inline-end: var(--arr-left, 50%); // Use logical property for RTL
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // TOOLTIP COMPONENT SPECIFIC STYLES
+// // ==========================================================================
+
+// .uls-tooltip {
+//     font-size: @font-size-small; // small is 13px (or use @font-size13)
+//     line-height: @small-lineheight;
+//     max-width: 252px; // If @252px doesn't exist, use 252px directly
+
+//     >.content {
+//         background-color: @tooltip-inverted-bg;
+//         color: @tooltip-inverted-fg;
+//         border: @1px solid @tooltip-inverted-border-color;
+//         padding: @4px @12px;
+//     }
+
+//     // Arrow colors for tooltip (inverted theme)
+//     &:after {
+//         border-bottom-color: @tooltip-inverted-bg;
+//         top: @2px;
+//     }
+
+//     &:before {
+//         border-bottom-color: @tooltip-inverted-border-color;
+//     }
+
+//     >.content>.body-content {
+//         word-break: break-word;
+//         white-space: normal;
+//     }
+// }
+
+// // ==========================================================================
+// // QUICK MENU COMPONENT
+// // ==========================================================================
+// // Context menu component with list items
+
+// .uls-quick-menu {
+//     min-width: 120px; // If @120px doesn't exist, use 120px directly
+
+//     >.content {
+//         padding: 0;
+
+//         .body-content {
+//             padding: 0;
+
+//             >ul {
+//                 padding: 0;
+//                 margin: 0;
+//                 list-style: none;
+
+//                 li:not(.uls-divider) {
+//                     cursor: var(--zdr-cursor-pointer, pointer);
+//                     padding: @8px @12px;
+//                     font-size: @font-size-small; // small is 13px (or use @font-size13)
+//                     display: grid;
+//                     grid-template-columns: max-content;
+//                     grid-auto-flow: column;
+//                     grid-gap: @8px;
+//                     align-items: center;
+
+//                     &:hover {
+//                         background-color: @default-hover-bg;
+//                     }
+
+//                     &:not(:last-child) {
+//                         border-bottom: @1px solid @default-border-color;
+//                     }
+
+//                     &.disabled {
+//                         opacity: 0.5;
+//                         pointer-events: none;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     // Remove padding for positioned variants
+//     &.bottom,
+//     &.top {
+//         padding: 0;
+//     }
+
+//     // Remove arrows for quick menu
+//     &:before,
+//     &:after {
+//         content: normal;
+//     }
+
+//     // Static positioning variant
+//     &.static-position {
+//         position: absolute;
+//         inset: auto;
+
+//         &.bottom.right {
+//             top: 100%;
+//             inset-inline-end: 0; // Use logical property for RTL
+//         }
+
+//         &.top.right {
+//             bottom: 100%;
+//             inset-inline-end: 0; // Use logical property for RTL
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // BACKWARD COMPATIBILITY FOR OLD BROWSERS
+// // ==========================================================================
+// // Support for browsers that don't support :popover-open pseudo-class
+
+// .uls-tooltip {
+//     &.\:popover-open {
+//         opacity: 1;
+//         visibility: visible;
+//     }
+// }
+
+// .uls-slide-pane,
+// .ui.modal {
+//     .\:popover-open {
+//         position: absolute;
+//         inset-inline-start: 0 !important; // Use logical property for RTL
+//         top: @32px !important;
+//         visibility: visible;
+//         opacity: 1;
+//     }
+// }

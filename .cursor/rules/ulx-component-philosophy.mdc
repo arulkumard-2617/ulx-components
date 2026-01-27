@@ -1,0 +1,36 @@
+---
+description: ULX component philosophy, Ember 6.8, and PrimeReact-as-reference
+globs: src/components/**/*.gjs, src/components/**/*.hbs, src/components/**/*.js
+alwaysApply: true
+---
+
+# ULX Component Philosophy
+
+## Ember Version
+
+- **Use Ember 6.8.** All component code must be valid for and follow idioms of Ember 6.8 (e.g. Glimmer Components, `@tracked`, `@action`, modern helpers/modifiers).
+
+## Paths
+
+- **Component source**: `src/components`
+
+## PrimeReact as Reference Only
+
+- **MAY** use PrimeReact as a reference for: behavior, public API shape, interaction patterns, props/arguments, and a11y.
+- **MUST** implement everything as **native Ember/Glimmer** components — no PrimeReact dependency.
+- **MUST** align with Ember 6.8 patterns: Glimmer reactivity, `@tracked` / `@action`, Ember routing and services as needed.
+
+## How to Use PrimeReact
+
+- Use PrimeReact docs to learn: which arguments to expose, how the component should behave, which a11y features to support.
+- Implement those ideas in Ember (e.g. if PrimeReact has `activeIndex`, you might have `@activeItem` and implement with `@tracked` and `@action`).
+
+## Rules
+
+- All components live under `src/components` and are built from scratch in Ember.
+- No PrimeReact (or other React) code or imports in the codebase.
+- **Class prefix**: Use `NAMESPACE` from `src/utils/component-config.js` for the component class prefix. Prefer `getComponentClass(componentName)` from that file when building class names (e.g. `getComponentClass('button')` → `uls-button`). Do not hardcode prefix strings like `ulx-` or `uls-` in components.
+- **Avoid Ember 6.8 deprecations**: Do not use deprecated APIs. Prefer: Glimmer Components (`@glimmer/component`) and `this.args`; `@tracked` for state; `@action` or `fn` for callbacks; `{{on}}` from `@ember/modifier` for DOM events. Avoid: `Ember.Component`, `Ember.get` / `Ember.set`, `computed()`, `observer()`, `@ember/object` get/set, `sendAction`, classic lifecycle hooks (`didInsertElement` → use modifiers or `{{did-insert}}`).
+- **Component structure**: Use class-based Glimmer components with an embedded template (`.gjs`). Put elements in `src/components/elements/`, collections in `src/components/collections/`, modules in `src/components/modules/`.
+- **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
+- **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.

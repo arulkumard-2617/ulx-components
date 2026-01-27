@@ -1,0 +1,84 @@
+import React from 'react';
+import { FoundationSection, ClassPropertyTable } from '../../components/index.js';
+
+// Gap utilities (gp1 - gp15) - gap: @value
+const gapAllUtilities = [
+  { className: '.gp1', property: 'gap: @4px;' },
+  { className: '.gp2', property: 'gap: @8px;' },
+  { className: '.gp3', property: 'gap: @12px;' },
+  { className: '.gp4', property: 'gap: @16px;' },
+  { className: '.gp5', property: 'gap: @20px;' },
+  { className: '.gp6', property: 'gap: @24px;' },
+  { className: '.gp7', property: 'gap: @28px;' },
+  { className: '.gp8', property: 'gap: @32px;' },
+  { className: '.gp9', property: 'gap: @36px;' },
+  { className: '.gp10', property: 'gap: @40px;' },
+  { className: '.gp11', property: 'gap: @44px;' },
+  { className: '.gp12', property: 'gap: @48px;' },
+  { className: '.gp13', property: 'gap: @52px;' },
+  { className: '.gp14', property: 'gap: @56px;' },
+  { className: '.gp15', property: 'gap: @60px;' }
+];
+
+// Horizontal gap utilities (hgap1 - hgap15) - column-gap: @value
+const horizontalGapUtilities = [
+  { className: '.hgap1', property: 'column-gap: @4px;' },
+  { className: '.hgap2', property: 'column-gap: @8px;' },
+  { className: '.hgap3', property: 'column-gap: @12px;' },
+  { className: '.hgap4', property: 'column-gap: @16px;' },
+  { className: '.hgap5', property: 'column-gap: @20px;' },
+  { className: '.hgap6', property: 'column-gap: @24px;' },
+  { className: '.hgap7', property: 'column-gap: @28px;' },
+  { className: '.hgap8', property: 'column-gap: @32px;' },
+  { className: '.hgap9', property: 'column-gap: @36px;' },
+  { className: '.hgap10', property: 'column-gap: @40px;' },
+  { className: '.hgap11', property: 'column-gap: @44px;' },
+  { className: '.hgap12', property: 'column-gap: @48px;' },
+  { className: '.hgap13', property: 'column-gap: @52px;' },
+  { className: '.hgap14', property: 'column-gap: @56px;' },
+  { className: '.hgap15', property: 'column-gap: @60px;' }
+];
+
+// Vertical gap utilities (vgap1 - vgap15) - row-gap: @value
+const verticalGapUtilities = [
+  { className: '.vgap1', property: 'row-gap: @4px;' },
+  { className: '.vgap2', property: 'row-gap: @8px;' },
+  { className: '.vgap3', property: 'row-gap: @12px;' },
+  { className: '.vgap4', property: 'row-gap: @16px;' },
+  { className: '.vgap5', property: 'row-gap: @20px;' },
+  { className: '.vgap6', property: 'row-gap: @24px;' },
+  { className: '.vgap7', property: 'row-gap: @28px;' },
+  { className: '.vgap8', property: 'row-gap: @32px;' },
+  { className: '.vgap9', property: 'row-gap: @36px;' },
+  { className: '.vgap10', property: 'row-gap: @40px;' },
+  { className: '.vgap11', property: 'row-gap: @44px;' },
+  { className: '.vgap12', property: 'row-gap: @48px;' },
+  { className: '.vgap13', property: 'row-gap: @52px;' },
+  { className: '.vgap14', property: 'row-gap: @56px;' },
+  { className: '.vgap15', property: 'row-gap: @60px;' }
+];
+
+export default function Gap() {
+  return (
+    <FoundationSection
+      id="utilities-gap"
+    >
+      <div className="fxb fcol gp10">
+        <div>
+          <h4 className="mgt0 mgb4 bold-font">Gap (All)</h4>
+          <ClassPropertyTable rows={gapAllUtilities} />
+        </div>
+
+        <div>
+          <h4 className="mgt0 mgb4 bold-font">Horizontal Gap (Column)</h4>
+          <ClassPropertyTable rows={horizontalGapUtilities} />
+        </div>
+
+        <div>
+          <h4 className="mgt0 mgb4 bold-font">Vertical Gap (Row)</h4>
+          <ClassPropertyTable rows={verticalGapUtilities} />
+        </div>
+      </div>
+    </FoundationSection>
+  );
+}

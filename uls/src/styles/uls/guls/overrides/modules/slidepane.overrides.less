@@ -1,0 +1,223 @@
+// // slidepane overrides here
+// // ==========================================================================
+// // SIDE PANE COMPONENT
+// // ==========================================================================
+// // Slide-out side panel component with header, content, and footer sections
+
+// .uls-side-pane {
+//     --side-pane-width: 600px; // Keep CSS custom property for runtime width
+//     inset-inline-start: ~"calc(100% - var(--side-pane-width))"; // Use logical property for RTL
+//     inset-inline-end: auto; // Use logical property for RTL
+//     width: var(--side-pane-width); // Keep CSS custom property for runtime width
+//     background-color: @default-background;
+//     height: 100vh;
+//     top: 0;
+//     bottom: 0;
+//     max-width: none;
+//     max-height: none;
+//     padding: 0;
+//     border: none;
+//     border-inline-start: @1px solid @default-border-color; // Use logical property for RTL
+//     color: @text-color;
+
+//     // Backdrop overlay
+//     &::backdrop {
+//         background: @overlay-bg;
+//         opacity: 0;
+//         transition: all @default-duration;
+//     }
+
+//     // No overlay variant (fixed positioning)
+//     &.no-overlay {
+//         z-index: 1005;
+//         position: fixed;
+
+//         &::backdrop {
+//             background: none;
+//         }
+//     }
+
+//     // Content section
+//     >.content {
+//         height: ~"calc(100% - @{112px})"; // Use LESS string interpolation
+//         padding: @16px @32px;
+//         overflow: auto;
+//     }
+
+//     // Header section
+//     >.header {
+//         height: @56px;
+//         padding: @12px @32px;
+//         border-bottom: @1px solid @default-border-color !important;
+//         position: relative;
+//         display: flex;
+//         align-items: center;
+//         justify-content: space-between;
+
+//         h5 {
+//             font-family: @bold-font; // Use bold font family variable
+//         }
+
+//         .close-icon {
+//             position: absolute;
+//             inset-inline-end: @18px; // Use logical property for RTL
+//             top: @16px;
+//         }
+//     }
+
+//     // Footer section
+//     >.footer {
+//         height: @56px;
+//         padding: @12px @32px;
+//         border-bottom: @1px solid @default-border-color !important;
+//         background: @bg-layer1;
+//         border-top: @1px solid @default-border-color;
+//         position: relative;
+
+//         .actions {
+//             display: flex;
+//             justify-content: space-between;
+//             gap: @12px;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // ANIMATION STATES
+//     // ==========================================================================
+
+//     // Open state
+//     &[open] {
+//         animation: side-pane-open @default-duration;
+
+//         &::backdrop {
+//             opacity: 1;
+//         }
+//     }
+
+//     // Hide/close state
+//     &.hide {
+//         animation: side-pane-close @default-duration;
+
+//         &::backdrop {
+//             opacity: 0;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // POSITION VARIANTS
+//     // ==========================================================================
+
+//     // Left pane variant
+//     &.left-pane {
+//         inset-inline-start: 0; // Use logical property for RTL
+
+//         &[open] {
+//             animation: side-pane-left-open @default-duration;
+//         }
+
+//         &.hide {
+//             animation: side-pane-left-close @default-duration;
+//         }
+//     }
+
+//     // Tab pane variant
+//     &.uls-tab-pane {
+//         >.content {
+//             padding-top: 0 !important;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // SIZE VARIATIONS
+//     // ==========================================================================
+
+//     // Small and medium size variants
+//     &.s-size,
+//     &.m-size,
+//     &.s800 {
+//         >.header,
+//         >.footer {
+//             padding: @12px @24px;
+//         }
+
+//         >.content {
+//             padding: @16px @24px;
+//         }
+//     }
+
+//     // Small size (280px width)
+//     &.s-size {
+//         --side-pane-width: @280px; // Use ULS variable in CSS custom property
+//     }
+
+//     // Medium size (400px width)
+//     &.m-size {
+//         --side-pane-width: 400px; // If @400px doesn't exist, use 400px directly
+//     }
+
+//     // Large size (800px width)
+//     &.s800 {
+//         --side-pane-width: 800px; // If @800px doesn't exist, use 800px directly
+//     }
+// }
+
+// // ==========================================================================
+// // ANIMATIONS
+// // ==========================================================================
+
+// // Slide in from right animation
+// @keyframes side-pane-open {
+//     from {
+//         inset-inline-start: 100%; // Use logical property for RTL
+//     }
+
+//     to {
+//         inset-inline-start: ~"calc(100% - var(--side-pane-width))"; // Use logical property for RTL
+//     }
+// }
+
+// // Slide out to right animation
+// @keyframes side-pane-close {
+//     from {
+//         inset-inline-start: ~"calc(100% - var(--side-pane-width))"; // Use logical property for RTL
+//     }
+
+//     to {
+//         inset-inline-start: 100%; // Use logical property for RTL
+//     }
+// }
+
+// // Slide in from left animation
+// @keyframes side-pane-left-open {
+//     from {
+//         inset-inline-start: ~"calc(-1 * var(--side-pane-width))"; // Use logical property for RTL
+//     }
+
+//     to {
+//         inset-inline-start: 0; // Use logical property for RTL
+//     }
+// }
+
+// // Slide out to left animation
+// @keyframes side-pane-left-close {
+//     from {
+//         inset-inline-start: 0; // Use logical property for RTL
+//     }
+
+//     to {
+//         inset-inline-start: ~"calc(-1 * var(--side-pane-width))"; // Use logical property for RTL
+//     }
+// }
+
+// // ==========================================================================
+// // RTL SUPPORT
+// // ==========================================================================
+
+// [dir="rtl"] {
+//     .uls-side-pane {
+//         >.header .close-icon {
+//             inset-inline-end: auto; // Reset logical property
+//             inset-inline-start: @18px; // Use logical property for RTL
+//         }
+//     }
+// }

@@ -5,10 +5,5 @@ import Component from '@glimmer/component';
  * Simple component for testing the addon structure
  */
 export default class UlsTest extends Component {
-  <template>
-    <div class="uls-test">
-      Hello World
-    </div>
-  </template>
+  <template></template>
 }
-

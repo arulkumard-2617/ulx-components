@@ -1,0 +1,24 @@
+{{page-title "Overflow Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Overflow Utilities" 
+  @description="Overflow utility classes for controlling element overflow behavior."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlsReactBridge
+        @component={{@model.ReactOverflowUtilities}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-overflow"
+        @title="Overflow Utilities"
+        @subtitle="Overflow utility classes for controlling element overflow behavior."
+      >
+        <p class="fg-text-secondary">React OverflowUtilities component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+

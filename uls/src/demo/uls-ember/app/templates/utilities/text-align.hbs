@@ -1,0 +1,24 @@
+{{page-title "Text Align Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Text Align Utilities" 
+  @description="Text alignment utility classes."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlsReactBridge
+        @component={{@model.ReactTextAlign}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-text-align"
+        @title="Text Align Utilities"
+        @subtitle="Text alignment utility classes."
+      >
+        <p class="fg-text-secondary">React TextAlign component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+

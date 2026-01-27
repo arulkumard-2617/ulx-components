@@ -1,0 +1,67 @@
+// // dataview overrides here
+// // ==========================================================================
+// // DATA VIEW COMPONENT
+// // ==========================================================================
+// // Data view container with panel layout and filter integration
+
+// .uls-data-view {
+//     border-radius: @border-radius-md;
+
+//     // Data container section
+//     .data-container {
+//         padding: @24px 0;
+
+//         // Panel variant
+//         &.panel {
+//             padding: 0;
+
+//             .panel-container {
+//                 display: grid;
+//                 grid-template-columns: auto 1fr;
+//                 background-color: @bg-layer2;
+
+//                 // Left panel section
+//                 .left-panel {
+//                     width: 360px; // If @360px doesn't exist, use 360px directly
+//                     background-color: @default-background;
+//                     padding: @24px;
+//                 }
+//             }
+//         }
+
+//         // Hide last comma separator in filter labels
+//         .selected-filters .uls-label .comma-separator:last-child {
+//             display: none;
+//         }
+//     }
+
+//     // No title variant (remove top padding)
+//     &.pg-no-title:not(.old-ui-view) .data-container {
+//         padding-top: 0;
+//     }
+
+//     // Tab menu integration (remove top padding)
+//     >.uls-tab-menu .left-menu > .menu-item,
+//     >.uls-tab-menu .right-menu > .menu-item {
+//         padding-top: 0;
+//     }
+
+//     // Filter menu integration
+//     .data-container > .uls-filter-menu {
+//         // Compact button popover target styling
+//         .uls-button.compact > [popovertarget] {
+//             line-height: 1em;
+//         }
+
+//         margin-bottom: @20px;
+//     }
+
+//     // Nested data view (remove borders and padding)
+//     .uls-data-view {
+//         border: 0;
+
+//         .data-container {
+//             padding: 0;
+//         }
+//     }
+// }

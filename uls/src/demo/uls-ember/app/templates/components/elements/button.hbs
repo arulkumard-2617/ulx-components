@@ -1,0 +1,33 @@
+{{page-title "Button - ULS Ember Documentation"}}
+
+<Common::DocMain::ComponentLayout 
+  @title={{@model.meta.header}} 
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <Common::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection 
+        @id="components-elements-button-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for Button component."
+      >
+        <p class="fg-text-secondary">Theming content goes here.</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection 
+        @id="components-elements-button-passthrough"
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for Button component."
+      >
+        <p class="fg-text-secondary">Pass Through content goes here.</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</Common::DocMain::ComponentLayout>

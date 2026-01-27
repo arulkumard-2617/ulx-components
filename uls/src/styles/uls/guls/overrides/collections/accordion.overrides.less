@@ -1,0 +1,168 @@
+// // accordion overrides here
+// // ==========================================================================
+// // ACCORDION COMPONENT
+// // ==========================================================================
+// // Accordion component with expandable/collapsible sections
+
+// .uls-accordion {
+//     // Accordion item styling
+//     >.accordion-item {
+//         border-top: @1px solid @dark-border-color;
+
+//         &:last-child {
+//             border-bottom: @1px solid @dark-border-color;
+//         }
+//     }
+
+//     // Accordion content section
+//     >.accordion-item > .accordion-content {
+//         display: none;
+//         padding-bottom: @12px;
+
+//         &.active {
+//             display: block;
+//         }
+//     }
+
+//     // Accordion menu/header section
+//     >.accordion-item > .accordion-menu {
+//         cursor: var(--zdr-cursor-pointer, pointer);
+//         padding: @12px 0;
+
+//         >.down-arrow-icon {
+//             transition: @default-duration all; // 0.6s
+//         }
+
+//         // Inactive state
+//         &.inactive {
+//             opacity: 0.5; // Keep decimal value as-is
+//             pointer-events: none;
+//         }
+
+//         // Active state
+//         &.active {
+//             >.down-arrow-icon {
+//                 transform: rotate(-180deg); // Keep angle value as-is
+//             }
+//         }
+//     }
+
+//     // ==========================================================================
+//     // SECONDARY VARIANT
+//     // ==========================================================================
+
+//     &.secondary {
+//         >.accordion-item {
+//             border-color: @bg-layer3;
+//         }
+
+//         >.accordion-item > .accordion-menu {
+//             display: flex;
+//             justify-content: space-between;
+//             padding: @8px;
+
+//             &.active {
+//                 background-color: @bg-layer2;
+//             }
+//         }
+
+//         >.accordion-item > .accordion-content {
+//             padding: @8px @8px @12px;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // LISTING VARIANT
+//     // ==========================================================================
+
+//     &.listing {
+//         display: flex;
+//         flex-direction: column;
+//         gap: @12px;
+
+//         >.accordion-item {
+//             border: @1px solid @dark-border-color;
+//             border-radius: @border-radius-md;
+//             padding: @12px;
+//         }
+
+//         >.accordion-item > .accordion-content,
+//         >.accordion-item > .accordion-menu {
+//             padding: 0;
+//             border: 0;
+//         }
+
+//         >.accordion-item > .accordion-content {
+//             margin-top: @12px;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // NO ITEM BORDER VARIANT
+//     // ==========================================================================
+
+//     &.no-item-border {
+//         .accordion-item {
+//             border-top: none;
+
+//             &:last-child {
+//                 border-bottom: none;
+//             }
+//         }
+//     }
+
+//     // ==========================================================================
+//     // GROUPED STYLE VARIANT
+//     // ==========================================================================
+
+//     &.grouped-style {
+//         display: flex;
+//         flex-direction: column;
+//         gap: @24px;
+
+//         >.accordion-item {
+//             border: 0 !important;
+//         }
+
+//         >.accordion-item > .accordion-menu {
+//             background-color: @bg-layer3;
+//             padding: @8px @16px;
+//             border-radius: @border-radius-md;
+//             border: @1px solid @default-border-color;
+
+//             .theme-icon.directions-down-icon {
+//                 font-size: ~"calc(@{24px} * var(--uls-global-text-size))"; // Use LESS string interpolation
+//                 transition: transform 0.3s ease-in-out; // Keep 0.3s as-is (shorter than default-duration)
+//             }
+
+//             &[aria-expanded='true'] {
+//                 border-radius: @border-radius-md @border-radius-md 0 0;
+//             }
+//         }
+
+//         >.accordion-item.active > .accordion-menu {
+//             .theme-icon.directions-down-icon {
+//                 color: @link-color;
+//                 transform: rotate(180deg); // Keep angle value as-is
+//             }
+//         }
+
+//         >.accordion-item > .accordion-panel {
+//             padding: @16px;
+//             border: @1px solid @default-border-color;
+//             margin-top: -@1px; // Use negative variable
+//             background-color: @bg-layer3;
+//             display: none;
+//             border-radius: 0 0 @border-radius-md @border-radius-md; // Use @border-radius-md for 6px
+//             background-color: @default-background; // Note: Duplicate background-color, last one wins
+//         }
+
+//         // No box style variant
+//         &.no-box-style {
+//             >.accordion-item > .accordion-panel {
+//                 border: 0;
+//                 padding: 0;
+//             }
+//         }
+//     }
+// }

@@ -1,0 +1,322 @@
+import React from 'react';
+import FoundationSection from '../../components/FoundationSection';
+
+const paletteGroups = [
+  {
+    title: 'Brand & Actions',
+    colors: [
+      { label: 'Primary', token: '@primary-color', cssVar: 'var(--uls-primary-color)', detail: 'Primary brand accent & actions' },
+      { label: 'Primary Hover', token: '@primary-hover-color', cssVar: 'var(--uls-primary-hover-color)', detail: 'Hover/active state' },
+      { label: 'Primary FG', token: '@primary-fg-color', cssVar: 'var(--uls-primary-fg-color)', detail: 'Text on primary surfaces' },
+      { label: 'Primary Border', token: '@primary-bdr', cssVar: 'var(--uls-primary-border-color)', detail: 'Primary border color' },
+      { label: 'Secondary', token: '@secondary-color', cssVar: 'var(--uls-secondary-color)', detail: 'Secondary accent' },
+      { label: 'Secondary Hover', token: '@secondary-hover-color', cssVar: 'var(--uls-secondary-hover-color)', detail: 'Secondary hover state' },
+      { label: 'Secondary FG', token: '@secondary-fg-color', cssVar: 'var(--uls-secondary-fg-color)', detail: 'Text on secondary surfaces' }
+    ]
+  },
+  {
+    title: 'Semantic States',
+    colors: [
+      { label: 'Success', token: '@success-color', cssVar: 'var(--uls-success-color)', detail: 'Affirmative actions' },
+      { label: 'Success Hover', token: '@success-hover-color', cssVar: 'var(--uls-success-hover-color)', detail: 'Success hover state' },
+      { label: 'Success BG', token: '@success-bg-color', cssVar: 'var(--uls-success-bg-color)', detail: 'Success background' },
+      { label: 'Warning', token: '@warning-color', cssVar: 'var(--uls-warning-color)', detail: 'Cautionary notices' },
+      { label: 'Warning Hover', token: '@warning-hover-color', cssVar: 'var(--uls-warning-hover-color)', detail: 'Warning hover state' },
+      { label: 'Warning BG', token: '@warning-bg-color', cssVar: 'var(--uls-warning-bg-color)', detail: 'Warning background' },
+      { label: 'Danger', token: '@danger-color', cssVar: 'var(--uls-danger-color)', detail: 'Errors & destructive actions' },
+      { label: 'Danger Hover', token: '@danger-hover-color', cssVar: 'var(--uls-danger-hover-color)', detail: 'Danger hover state' },
+      { label: 'Danger BG', token: '@danger-bg-color', cssVar: 'var(--uls-danger-bg-color)', detail: 'Danger background' },
+      { label: 'Info', token: '@info-color', cssVar: 'var(--uls-info-color)', detail: 'Informational highlights' },
+      { label: 'Info Hover', token: '@info-hover-color', cssVar: 'var(--uls-info-hover-color)', detail: 'Info hover state' },
+      { label: 'Info BG', token: '@info-bg-color', cssVar: 'var(--uls-info-bg-color)', detail: 'Info background' }
+    ]
+  },
+  {
+    title: 'Text Hierarchy',
+    colors: [
+      { label: 'Primary text', token: '@text-color', cssVar: 'var(--uls-text-color)', detail: 'Default body copy' },
+      { label: 'Secondary text', token: '@secondary-text-color', cssVar: 'var(--uls-secondary-text-color)', detail: 'De-emphasized copy' },
+      { label: 'Tertiary text', token: '@tertiary-text-color', cssVar: 'var(--uls-tertiary-text-color)', detail: 'Muted text' },
+      { label: 'Light text', token: '@light-text-color', cssVar: 'var(--uls-light-text-color)', detail: 'Light text variant' },
+      { label: 'Info text', token: '@info-text-color', cssVar: 'var(--uls-info-text-color)', detail: 'Informational text' },
+      { label: 'Disabled text', token: '@disabled-fg-color', cssVar: 'var(--uls-disabled-fg-color)', detail: 'Muted/disabled content' },
+      { label: 'Link', token: '@link-color', cssVar: 'var(--uls-link-color)', detail: 'Link color' },
+      { label: 'Link Hover', token: '@link-hover-color', cssVar: 'var(--uls-link-hover-color)', detail: 'Link hover state' },
+      { label: 'Placeholder', token: '@place-holder-color', cssVar: 'var(--place-holder-color)', detail: 'Input placeholder text' }
+    ]
+  },
+  {
+    title: 'Background Colors',
+    colors: [
+      { label: 'Body background', token: '@body-background', cssVar: 'var(--uls-body-bg)', detail: 'App canvas' },
+      { label: 'Default background', token: '@default-background', cssVar: 'var(--uls-default-bg)', detail: 'Default surface' },
+      { label: 'Secondary background', token: '@secondary-background', cssVar: 'var(--uls-secondary-bg)', detail: 'Secondary surface' },
+      { label: 'Header background', token: '@header-background', cssVar: 'var(--uls-header-bg)', detail: 'Header surface' },
+      { label: 'Overlay', token: '@overlay-bg', cssVar: 'var(--uls-overlay-bg)', detail: 'Modal overlay' },
+      { label: 'Overlay White', token: '@overlay-bg-white', cssVar: 'var(--uls-overlay-bg-white)', detail: 'White overlay' },
+      { label: 'Dark Overlay', token: '@dark-overlay-bg', cssVar: 'var(--uls-dark-overlay-bg)', detail: 'Dark overlay' },
+      { label: 'Dimmer', token: '@dimmer-background', cssVar: 'var(--uls-dimmer-bg)', detail: 'Dimmer background' }
+    ]
+  },
+  {
+    title: 'Surface Layers',
+    colors: [
+      { label: 'Layer 1', token: '@bg-layer1', cssVar: 'var(--layer1-bg)', detail: 'Cards / elevated surfaces' },
+      { label: 'Layer 2', token: '@bg-layer2', cssVar: 'var(--layer2-bg)', detail: 'Nested surfaces' },
+      { label: 'Layer 3', token: '@bg-layer3', cssVar: 'var(--layer3-bg)', detail: 'Overlays / popovers' },
+      { label: 'Layer 4', token: '@bg-layer4', cssVar: 'var(--layer4-bg)', detail: 'Deep overlays' },
+      { label: 'Layer 5', token: '@bg-layer5', cssVar: 'var(--layer5-bg)', detail: 'Deepest layer' },
+      { label: 'Layer 6', token: '@bg-layer6', cssVar: 'var(--layer6-bg)', detail: 'Maximum depth' },
+      { label: 'Blue Layer 1', token: '@bg-blueLayer1', cssVar: 'var(--blue-layer1-bg)', detail: 'Blue-tinted layer 1' },
+      { label: 'Blue Layer 2', token: '@bg-blueLayer2', cssVar: 'var(--blue-layer2-bg)', detail: 'Blue-tinted layer 2' }
+    ]
+  },
+  {
+    title: 'Border Colors',
+    colors: [
+      { label: 'Default border', token: '@default-border-color', cssVar: 'var(--uls-default-border-color)', detail: 'Default border' },
+      { label: 'Dark border', token: '@dark-border-color', cssVar: 'var(--uls-dark-border-color)', detail: 'Dark border variant' },
+      { label: 'Light border', token: '@light-border-color', cssVar: 'var(--uls-light-border-color)', detail: 'Light border variant' },
+      { label: 'Error border', token: '@error-border-color', cssVar: 'var(--uls-error-border-color)', detail: 'Error state border' },
+      { label: 'Input border', token: '@input-border-color', cssVar: 'var(--uls-input-border-color)', detail: 'Input field border' }
+    ]
+  },
+  {
+    title: 'Extended Color Palette - Primary',
+    colors: [
+      { label: 'Red', token: '@red-bg', cssVar: '#CF1322', detail: 'Critical indicators' },
+      { label: 'Red Hover', token: '@red-hover-color', cssVar: '#A8071A', detail: 'Red hover state' },
+      { label: 'Red Border', token: '@red-bdr', cssVar: '#CF1322', detail: 'Red border' },
+      { label: 'Green', token: '@green-bg', cssVar: '#16A34A', detail: 'Success accent' },
+      { label: 'Green Hover', token: '@green-hover-color', cssVar: '#15803d', detail: 'Green hover state' },
+      { label: 'Green Border', token: '@green-bdr', cssVar: '#16A34A', detail: 'Green border' },
+      { label: 'Orange', token: '@orange-bg', cssVar: '#FA8C16', detail: 'Highlight / warnings' },
+      { label: 'Orange Hover', token: '@orange-hover-color', cssVar: '#D46B08', detail: 'Orange hover state' },
+      { label: 'Orange Border', token: '@orange-bdr', cssVar: '#FA8C16', detail: 'Orange border' },
+      { label: 'Blue', token: '@blue-bg', cssVar: '#096DD9', detail: 'Navigation & info' },
+      { label: 'Blue Hover', token: '@blue-hover-color', cssVar: '#0050B3', detail: 'Blue hover state' },
+      { label: 'Blue Border', token: '@blue-bdr', cssVar: '#096DD9', detail: 'Blue border' },
+      { label: 'Purple', token: '@purple-bg', cssVar: '#6554C0', detail: 'Decorative accent' },
+      { label: 'Purple Hover', token: '@purple-hover-color', cssVar: '#473C99', detail: 'Purple hover state' },
+      { label: 'Purple Border', token: '@purple-bdr', cssVar: '#6554C0', detail: 'Purple border' },
+      { label: 'Gold', token: '@gold-bg', cssVar: '#D48806', detail: 'Premium states' },
+      { label: 'Gold Hover', token: '@gold-hover-color', cssVar: '#D48806', detail: 'Gold hover state' },
+      { label: 'Gold Border', token: '@gold-bdr', cssVar: '#D48806', detail: 'Gold border' },
+      { label: 'Black', token: '@black-bg', cssVar: '#252F3F', detail: 'Dark accent' },
+      { label: 'Black Hover', token: '@black-hover-color', cssVar: '#000', detail: 'Black hover state' },
+      { label: 'Black Border', token: '@black-bdr', cssVar: '#252F3F', detail: 'Black border' },
+      { label: 'Grey', token: '@grey-bg', cssVar: '#E5E5EB', detail: 'Neutral grey' }
+    ]
+  },
+  {
+    title: 'Extended Color Palette - Additional Accents',
+    colors: [
+      { label: 'Yellow', token: '@yellow-bg', cssVar: '#FF9800', detail: 'Yellow accent' },
+      { label: 'Violet', token: '@violet-bg', cssVar: '#5d2dbe', detail: 'Violet accent' },
+      { label: 'Pink', token: '@pink-bg', cssVar: '#E91E63', detail: 'Pink accent' },
+      { label: 'Brown', token: '@brown-bg', cssVar: '#C5804F', detail: 'Brown accent' },
+      { label: 'Teal', token: '@teal-bg', cssVar: '#607D8B', detail: 'Teal accent' },
+      { label: 'Darkturquoise', token: '@darkturquoise-bg', cssVar: '#2FC4C6', detail: 'Dark turquoise accent' },
+      { label: 'Olive', token: '@olive-bg', cssVar: '#5a97ab', detail: 'Olive accent' },
+      { label: 'Nightblue', token: '@nightblue-bg', cssVar: '#3079ba', detail: 'Night blue accent' },
+      { label: 'Magenta', token: '@magenta-bg', cssVar: '#C41D7F', detail: 'Magenta accent' },
+      { label: 'Blue1', token: '@blue1-bg', cssVar: '#4089FF', detail: 'Blue variant 1' }
+    ]
+  },
+  {
+    title: 'Color Layers - Red',
+    colors: [
+      { label: 'Red Layer 1', token: '@bg-redLayer1', cssVar: '#FFF1F0', detail: 'Light red background' },
+      { label: 'Red Layer 2', token: '@bg-redLayer2', cssVar: '#FAD0CC', detail: 'Medium red background' },
+      { label: 'Red Layer 3', token: '@bg-redLayer3', cssVar: '#FFCCC7', detail: 'Darker red background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Green',
+    colors: [
+      { label: 'Green Layer 1', token: '@bg-greenLayer1', cssVar: '#DCFCE7', detail: 'Light green background' },
+      { label: 'Green Layer 2', token: '@bg-greenLayer2', cssVar: '#BBF7D0', detail: 'Medium green background' },
+      { label: 'Green Layer 3', token: '@bg-greenLayer3', cssVar: '#86efac', detail: 'Darker green background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Orange',
+    colors: [
+      { label: 'Orange Layer 1', token: '@bg-orangeLayer1', cssVar: '#FFE7BA', detail: 'Light orange background' },
+      { label: 'Orange Layer 2', token: '@bg-orangeLayer2', cssVar: '#FFD591', detail: 'Medium orange background' },
+      { label: 'Orange Layer 3', token: '@bg-orangeLayer3', cssVar: '#FFC069', detail: 'Darker orange background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Blue',
+    colors: [
+      { label: 'Blue Layer 1', token: '@bg-BlueLayer1', cssVar: '#E6F7FF', detail: 'Light blue background' },
+      { label: 'Blue Layer 2', token: '@bg-BlueLayer2', cssVar: '#BAE7FF', detail: 'Medium blue background' },
+      { label: 'Blue Layer 3', token: '@bg-BlueLayer3', cssVar: '#91D5FF', detail: 'Darker blue background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Purple',
+    colors: [
+      { label: 'Purple Layer 1', token: '@bg-purpleLayer1', cssVar: '#f5f0ff', detail: 'Light purple background' },
+      { label: 'Purple Layer 2', token: '@bg-purpleLayer2', cssVar: '#E8E4F2', detail: 'Medium purple background' },
+      { label: 'Purple Layer 3', token: '@bg-purpleLayer3', cssVar: '#D8D3E6', detail: 'Darker purple background' },
+      { label: 'Purple Layer 4', token: '@bg-purpleLayer4', cssVar: '#DED1FB', detail: 'Deepest purple background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Gold',
+    colors: [
+      { label: 'Gold Layer 1', token: '@bg-goldLayer1', cssVar: '#FFFBE6', detail: 'Light gold background' },
+      { label: 'Gold Layer 2', token: '@bg-goldLayer2', cssVar: '#FFECAD', detail: 'Medium gold background' },
+      { label: 'Gold Layer 3', token: '@bg-goldLayer3', cssVar: '#FFDE85', detail: 'Darker gold background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Black',
+    colors: [
+      { label: 'Black Layer 1', token: '@bg-blackLayer1', cssVar: '#FAFBFC', detail: 'Light black background' },
+      { label: 'Black Layer 2', token: '@bg-blackLayer2', cssVar: '#F4F5F7', detail: 'Medium black background' },
+      { label: 'Black Layer 3', token: '@bg-blackLayer3', cssVar: '#E2E7EB', detail: 'Darker black background' },
+      { label: 'Black Layer 4', token: '@bg-blackLayer4', cssVar: '#2f3c49', detail: 'Deepest black background' }
+    ]
+  },
+  {
+    title: 'Color Layers - Additional',
+    colors: [
+      { label: 'Magenta Layer 2', token: '@bg-magentaLayer2', cssVar: '#F7C3DB', detail: 'Magenta layer background' },
+      { label: 'Brown Layer 2', token: '@bg-brownLayer2', cssVar: '#FEDBC2', detail: 'Brown layer background' },
+      { label: 'Teal Layer 3', token: '@bg-tealLayer3', cssVar: '#8aa2ae', detail: 'Teal layer background' }
+    ]
+  },
+  {
+    title: 'Input Colors',
+    colors: [
+      { label: 'Input BG', token: '@input-bg-color', cssVar: 'var(--uls-input-bg-color)', detail: 'Input background' },
+      { label: 'Input FG', token: '@input-fg-color', cssVar: 'var(--uls-input-fg-color)', detail: 'Input text color' },
+      { label: 'Input Disabled BG', token: '@input-disable-bg', cssVar: 'var(--uls-input-disable-bg)', detail: 'Disabled input background' },
+      { label: 'Input Focus BG', token: '@input-focus-bg', cssVar: 'var(--uls-input-focus-bg)', detail: 'Focused input background' },
+      { label: 'Input Focus Border', token: '@input-focus-bdr', cssVar: 'var(--uls-input-focus-bdr)', detail: 'Focused input border' }
+    ]
+  },
+  {
+    title: 'Navigation Colors',
+    colors: [
+      { label: 'Nav BG', token: '@nav-bg-color', cssVar: 'var(--uls-nav-bg-color)', detail: 'Main nav background' },
+      { label: 'Nav FG', token: '@nav-fg-color', cssVar: 'var(--uls-nav-fg-color)', detail: 'Main nav text' },
+      { label: 'Nav Link', token: '@nav-link-fg-color', cssVar: 'var(--uls-navlink-fg-color)', detail: 'Nav link color' },
+      { label: 'Nav Active BG', token: '@nav-item-active-bg-color', cssVar: 'var(--uls-nav-item-active-bg-color)', detail: 'Active nav item background' },
+      { label: 'VNav BG', token: '@vnav-bg-color', cssVar: 'var(--uls-vnav-bg-color)', detail: 'Vertical nav background' },
+      { label: 'VNav FG', token: '@vnav-fg-color', cssVar: 'var(--uls-vnav-fg-color)', detail: 'Vertical nav text' },
+      { label: 'VNav Link', token: '@vnav-link-fg-color', cssVar: 'var(--uls-vnav-link-fg-color)', detail: 'Vertical nav link' },
+      { label: 'VNav Hover', token: '@vnav-link-hover-color', cssVar: 'var(--uls-vnav-hover-color)', detail: 'Vertical nav hover' }
+    ]
+  },
+  {
+    title: 'Inverted Theme Colors',
+    colors: [
+      { label: 'Inverted BG', token: '@inverted-bg-color', cssVar: 'var(--uls-inverted-bg-color)', detail: 'Inverted background' },
+      { label: 'Inverted Hover', token: '@inverted-hover-color', cssVar: 'var(--uls-inverted-hover-color)', detail: 'Inverted hover state' },
+      { label: 'Inverted FG', token: '@inverted-fg-color', cssVar: 'var(--uls-inverted-fg-color)', detail: 'Inverted text color' },
+      { label: 'Inverted Border', token: '@inverted-border-color', cssVar: 'var(--uls-inverted-border-color)', detail: 'Inverted border' },
+      { label: 'Inverted Link', token: '@inverted-link-color', cssVar: 'var(--uls-inverted-link-color)', detail: 'Inverted link color' }
+    ]
+  },
+  {
+    title: 'Tooltip Colors',
+    colors: [
+      { label: 'Tooltip BG', token: '@tooltip-bg', cssVar: 'var(--uls-tooltip-bg)', detail: 'Tooltip background' },
+      { label: 'Tooltip FG', token: '@tooltip-fg', cssVar: 'var(--uls-tooltip-fg)', detail: 'Tooltip text' },
+      { label: 'Tooltip Border', token: '@tooltip-border-color', cssVar: 'var(--uls-tooltip-border)', detail: 'Tooltip border' },
+      { label: 'Tooltip Inverted BG', token: '@tooltip-inverted-bg', cssVar: 'var(--uls-tooltip-inverted-bg)', detail: 'Inverted tooltip background' },
+      { label: 'Tooltip Inverted FG', token: '@tooltip-inverted-fg', cssVar: 'var(--uls-tooltip-inverted-fg)', detail: 'Inverted tooltip text' }
+    ]
+  },
+  {
+    title: 'Modal & Top Bar',
+    colors: [
+      { label: 'Modal BG', token: '@modal-bg-color', cssVar: 'var(--uls-modal-bg-color)', detail: 'Modal background' },
+      { label: 'Modal FG', token: '@modal-fg-color', cssVar: 'var(--uls-modal-fg-color)', detail: 'Modal text' },
+      { label: 'Modal Footer BG', token: '@modalfooter-bg-color', cssVar: 'var(--uls-modalfooter-bg-color)', detail: 'Modal footer background' },
+      { label: 'Topbar BG', token: '@topbar-bg-color', cssVar: 'var(--uls-topbar-bg-color)', detail: 'Top bar background' },
+      { label: 'Topbar FG', token: '@topbar-fg-color', cssVar: 'var(--uls-topbar-fg-color)', detail: 'Top bar text' },
+      { label: 'Topbar Link', token: '@topbar-link-color', cssVar: 'var(--uls-topbar-link-color)', detail: 'Top bar link' }
+    ]
+  },
+  {
+    title: 'User State Colors',
+    colors: [
+      { label: 'User Online', token: '@user-online-color', cssVar: 'var(--uls-user-online-color)', detail: 'Online status indicator' },
+      { label: 'User Offline', token: '@user-offline-color', cssVar: 'var(--uls-user-offline-color)', detail: 'Offline status indicator' },
+      { label: 'User Idle', token: '@user-idle-color', cssVar: 'var(--uls-user-idle-color)', detail: 'Idle status indicator' },
+      { label: 'User In BG', token: '@user-in-bg', cssVar: 'var(--event-checkin-bg)', detail: 'Check-in background' },
+      { label: 'User Out BG', token: '@user-out-bg', cssVar: 'var(--event-checkout-bg)', detail: 'Check-out background' },
+      { label: 'User Yet In BG', token: '@user-yet-in-bg', cssVar: 'var(--event-yet-to-checkin-bg)', detail: 'Pending check-in background' }
+    ]
+  },
+  {
+    title: 'Static Colors',
+    colors: [
+      { label: 'Static White', token: '@static-white', cssVar: 'var(--static-white)', detail: 'Fixed white color' },
+      { label: 'Static Black', token: '@static-black', cssVar: 'var(--static-black)', detail: 'Fixed black color' },
+      { label: 'Light Red', token: '@lt-red', cssVar: 'var(--lt-red-static)', detail: 'Light red static' }
+    ]
+  },
+  {
+    title: 'Theme Accents',
+    colors: [
+      { label: 'Cobalt', token: '@cobalt-theme-color', cssVar: 'var(--cobalt-theme-color)', detail: 'Cobalt theme accent' },
+      { label: 'Cardinal', token: '@cardinal-theme-color', cssVar: 'var(--cardinal-theme-color)', detail: 'Cardinal theme accent' },
+      { label: 'Fern', token: '@fern-theme-color', cssVar: 'var(--fern-theme-color)', detail: 'Fern theme accent' },
+      { label: 'Tangerine', token: '@tangerine-theme-color', cssVar: 'var(--tangerine-theme-color)', detail: 'Tangerine theme accent' }
+    ]
+  },
+  {
+    title: 'Social Brand Colors',
+    colors: [
+      { label: 'Facebook', token: '@facebook-color', cssVar: '#3B589C', detail: 'Facebook brand color' },
+      { label: 'Twitter', token: '@twitter-color', cssVar: '#000000', detail: 'Twitter brand color' },
+      { label: 'Google', token: '@google-color', cssVar: '#e8212d', detail: 'Google brand color' },
+      { label: 'LinkedIn', token: '@linkedin-color', cssVar: '#007bb6', detail: 'LinkedIn brand color' },
+      { label: 'Showtime', token: '@showtime-color', cssVar: '#36b875', detail: 'Showtime brand color' },
+      { label: 'Medium', token: '@medium-color', cssVar: '#000000', detail: 'Medium brand color' },
+      { label: 'Website', token: '@websiteColor', cssVar: '#6868F1', detail: 'Website brand color' }
+    ]
+  }
+];
+
+export default function ColorPalette() {
+  return (
+    <FoundationSection
+      id="colors-palette"
+      title="Color Palette"
+      subtitle="Reference swatches mapped to the core LESS tokens and CSS custom properties."
+    >
+      <div className="fxb fcol gp15 w-100p">
+        {paletteGroups.map((group) => (
+          <div key={group.title} className="fxcol gp4">
+            <h5 className="mgt0 mgb4 bold-font fg-primary">{group.title}</h5>
+            <div className="uls-grid col-4">
+              {group.colors.map((color) => (
+                <article key={color.token} className="uls-foundation-card pd6 rds2  flex-column md-w-1-3 text-center">
+                  <div
+                    className="rds2 mgb4 bd mg-auto"
+                    style={{
+                      width: '70px',
+                      height: '70px',
+                      margin: '0 auto 1rem',
+                      background: color.cssVar
+                    }}
+                  />
+                  {/* <p className="mgb1 font-semibold">{color.label}</p> */}
+                  <p className="mgb1 fg-text-secondary"><code>{color.token}</code></p>
+                  
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </FoundationSection>
+  );
+}

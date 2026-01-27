@@ -1,0 +1,82 @@
+// // radio overrides here
+// // ==========================================================================
+// // BACKWARD COMPATIBILITY: Old label.uls-radio structure
+// // ==========================================================================
+// // Support for old structure: <label class="uls-radio"><input type="radio" /></label>
+// label.uls-radio {
+//     display: inline-flex;
+//     grid-gap: @8px;
+//     font-family: @font-family-base;
+//     line-height: @line-height-normal;
+
+//     input[type="checkbox"],
+//     input[type="radio"] {
+//         appearance: none;
+//         background-color: @body-background;
+//         box-shadow: 0 0 0 1px @input-border-color inset;
+//         position: relative;
+//         border-radius: @border-radius-sm; // 4px
+//         width: var(--checkbox-size, @16px);
+//         height: var(--checkbox-size, @16px);
+//         margin-top: @3px;
+//         flex-shrink: 0;
+//         cursor: var(--zdr-cursor-pointer, pointer);
+
+//         &[disabled] {
+//             opacity: 0.7;
+//             pointer-events: none;
+//             background: @bg-layer4;
+//         }
+//     }
+
+//     &.checked,
+//     &.interminate { // Support typo for backward compatibility
+//         input[type="checkbox"] {
+//             background-color: @primary-color !important;
+//         }
+//     }
+
+//     &.indeterminate input[type="checkbox"] {
+//         background-color: @primary-color;
+//         box-shadow: none;
+
+//         &:before {
+//             content: "";
+//             position: absolute;
+//             height: @2px;
+//             width: 65%;
+//             background-color: @static-white;
+//             top: 50%;
+//             border-radius: @border-radius-md; // 3px equivalent (using md which is 6px, but closest)
+//             left: 50%;
+//             transform: translate(-50%, -50%);
+//         }
+//     }
+
+//     &.s20 {
+//         --checkbox-size: @20px;
+//     }
+// }
+
+// // Radio default case
+// .uls-radio input[type="radio"] {
+//     border-radius: 50% !important;
+// }
+
+// // Radio checked case
+// .uls-radio.checked input[type="radio"] {
+//     box-shadow: 0 0 0 1px @primary-color inset;
+
+//     &::after {
+//         content: '';
+//         position: absolute;
+//         background-color: @primary-color;
+//         height: @8px;
+//         width: @8px;
+//         border-radius: @border-radius-7xl; // 32px
+//         left: 50%;
+//         top: 50%;
+//         margin-top: -@4px;
+//         margin-inline-start: -@4px; // Use logical property instead of margin-left
+//     }
+// }
