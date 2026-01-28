@@ -1,0 +1,63 @@
+@import (optional) "base/root-config.overrides";
+// ==========================================================================
+// ULX PrimeReact - Auto-Discovery Override Entry Point
+// ==========================================================================
+// This file automatically imports all override files in the correct order.
+// Users only need to create override files - no manual imports required!
+//
+// Usage:
+//   @import 'ulx-styles/ulx';
+//   @import "ulx-overrides/less/ulx-primereact/ulx-overrides";
+//
+// Or in your project:
+//   @import "node_modules/uls-v2/src/styles/uls-overrides/less/uls-primereact/uls-overrides";
+//
+// Version: 2.2.0
+// Last Updated: 2025-01-17
+// ==========================================================================
+
+// ==========================================================================
+// IMPORT ORDER (Critical for proper cascading)
+// ==========================================================================
+// 1. Core system overrides (variables, root config)
+// 2. Base implementations (typography, grid, utilities)
+// 3. Elements (buttons, inputs, etc.)
+// 4. Collections (cards, accordions, etc.)
+// 5. Modules (dialogs, tooltips, etc.)
+// 6. Themes (theme-specific overrides)
+// ==========================================================================
+
+// ==========================================================================
+// 1. CORE SYSTEM OVERRIDES
+// ==========================================================================
+// These affect the entire system - import first
+@import (optional) "base/root-config.overrides.less";
+@import (optional) "base/color-vars.overrides.less";
+@import (optional) "base/typography-vars.overrides.less";
+@import (optional) "base/size-vars.overrides.less";
+@import (optional) "base/container-vars.overrides.less";
+@import (optional) "base/common-vars.overrides.less";
+@import (optional) "base/palette.overrides.less";
+
+// ==========================================================================
+// 2. BASE IMPLEMENTATIONS
+// ==========================================================================
+// Typography, grid, utilities, and common styles
+@import (optional) "base/typography.overrides.less";
+@import (optional) "base/grid.overrides.less";
+@import (optional) "base/utill.overrides.less";
+@import (optional) "base/container.overrides.less";
+@import (optional) "base/common.overrides.less";
+@import (optional) "base/transition.overrides.less";
+@import (optional) "base/component-mixins.overrides.less";
+@import (optional) "base/colors-mixins.overrides.less";
+
+
+// ==========================================================================
+// NOTES
+// ==========================================================================
+// - The (optional) flag means files are only imported if they exist
+// - Users can create any override file and it will be automatically included
+// - Import order is critical - core → base → elements → collections → modules → themes
+// - To disable an override, simply delete or rename the file
+// ==========================================================================

@@ -1,0 +1,24 @@
+{{page-title "Clear Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Clear Utilities" 
+  @description="Clear utility classes for controlling element clear behavior."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlxReactBridge
+        @component={{@model.ReactClearUtilities}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-clear"
+        @title="Clear Utilities"
+        @subtitle="Clear utility classes for controlling element clear behavior."
+      >
+        <p class="fg-text-secondary">React ClearUtilities component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+

@@ -1,0 +1,24 @@
+{{page-title "Pointer Events Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Pointer Events Utilities" 
+  @description="Pointer events utility classes for controlling pointer event handling."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlxReactBridge
+        @component={{@model.ReactPointerEventsUtilities}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-pointer-events"
+        @title="Pointer Events Utilities"
+        @subtitle="Pointer events utility classes for controlling pointer event handling."
+      >
+        <p class="fg-text-secondary">React PointerEventsUtilities component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+

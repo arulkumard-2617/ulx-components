@@ -1,0 +1,24 @@
+{{page-title "Word Break Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Word Break Utilities" 
+  @description="Word break utility classes for controlling text wrapping."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlxReactBridge
+        @component={{@model.ReactWordBreakUtilities}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-word-break"
+        @title="Word Break Utilities"
+        @subtitle="Word break utility classes for controlling text wrapping."
+      >
+        <p class="fg-text-secondary">React WordBreakUtilities component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+

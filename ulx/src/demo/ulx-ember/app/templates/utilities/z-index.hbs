@@ -1,0 +1,24 @@
+{{page-title "Z-Index Utilities - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Z-Index Utilities" 
+  @description="Z-index utility classes for controlling element stacking order."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlxReactBridge
+        @component={{@model.ReactZIndexUtilities}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="utilities-z-index"
+        @title="Z-Index Utilities"
+        @subtitle="Z-index utility classes for controlling element stacking order."
+      >
+        <p class="fg-text-secondary">React ZIndexUtilities component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>
+

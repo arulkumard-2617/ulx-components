@@ -1,0 +1,23 @@
+{{page-title "Typography - ULS Ember Documentation"}}
+
+<Common::DocMain::FoundationLayout 
+  @title="Typography" 
+  @description="Standardized font scale, heading system, and other utilities."
+>
+  <div class="uls-foundation-page">
+    {{#if @model.useReactComponents}}
+      <UlxReactBridge
+        @component={{@model.ReactTypography}}
+        @props={{@model.reactProps}}
+      />
+    {{else}}
+      <Common::DocMain::FoundationSection 
+        @id="typography-overview"
+        @title="Typography"
+        @subtitle="Standardized font scale, heading system, and other utilities."
+      >
+        <p class="fg-text-secondary">React Typography component could not be loaded.</p>
+      </Common::DocMain::FoundationSection>
+    {{/if}}
+  </div>
+</Common::DocMain::FoundationLayout>

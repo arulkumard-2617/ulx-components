@@ -1,0 +1,54 @@
+{
+    "name": "bds-lab",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "uls-sync": "npx uls-sync",
+        "ulsBuild": "vite build -c vite.config.build.mjs",
+        "ulsDev": "npm run ulsBuild",
+        "ulsBuild:css": "vite build -c vite.config.build.mjs -m less",
+        "ulsBuild:css:core": "vite build -c vite.config.build.mjs -m less-only",
+        "ulsBuild:js": "vite build -c vite.config.build.mjs -m js",
+        "ulsDev:watch": "uls-watch-less",
+        "ulsDev:watch:vite": "vite build -c vite.config.build.mjs -m less -w",
+        "dev": "npm run ulsDev:watch",
+        "create": "node src/scripts/create.js",
+        "create:demo-page": "node src/scripts/create-demo-page.js",
+        "add-variation": "node src/scripts/create.js add-variation",
+        "destroy-variation": "node src/scripts/create.js destroy-variation",
+        "destroy": "node src/scripts/create.js destroy",
+        "ulsBuild:guls": "ULS_APP=guls npm run ulsBuild",
+        "ulsDev:guls": "ULS_APP=guls npm run ulsDev:watch",
+        "uls-init": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-init || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/uls.js init",
+        "uls-config": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-config || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/update-config.mjs",
+        "uls-update-config": "npm run --prefix \"/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ULS_V2.0\" uls-config || node ../ULS_V2.0/node_modules/uls-v2/src/scripts/update-config.mjs",
+        "ulsBuild:editor": "ULS_APP=editor npm run ulsBuild",
+        "ulsDev:editor": "ULS_APP=editor npm run ulsDev:watch",
+        "ulsBuild:foundation": "ULS_APP=foundation npm run ulsBuild",
+        "ulsDev:foundation": "ULS_APP=foundation npm run ulsDev:watch",
+        "ulxEditor": "node src/scripts/less/ulx-editor-build.js",
+        "ulxEditor:watch": "node src/scripts/less/ulx-editor-build.js --watch",
+        "sync-snippets": "node src/scripts/watch-snipper.js",
+        "ulsBuild:onair": "ULS_APP=onair npm run ulsBuild",
+        "ulsDev:onair": "ULS_APP=onair npm run ulsDev:watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "clsx": "^2.1.1",
+        "primereact": "^10.9.7",
+        "uls-v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#master"
+    },
+    "devDependencies": {
+        "ember-cli-less": "^3.0.2",
+        "less": "^4.4.2",
+        "vite": "^7.3.0"
+    },
+    "peerDependencies": {
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
+    }
+}

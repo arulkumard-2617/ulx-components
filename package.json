@@ -79,12 +79,6 @@
         "version": 2,
         "type": "addon",
         "main": "addon-main.cjs",
-        "app-js": {
-            "./components/elements/uls-button/_content.js": "./dist/_app_/components/elements/uls-button/_content.js",
-            "./components/elements/uls-button/index.js": "./dist/_app_/components/elements/uls-button/index.js",
-            "./components/elements/uls-test/index.js": "./dist/_app_/components/elements/uls-test/index.js",
-            "./components/uls-button.js": "./dist/_app_/components/uls-button.js",
-            "./components/uls-test.js": "./dist/_app_/components/uls-test.js"
-        }
+        "app-js": {}
     }
 }
