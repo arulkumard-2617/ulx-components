@@ -12,6 +12,8 @@ export default function ClearUtilities() {
   return (
     <FoundationSection
       id="utilities-clear"
+      title="Clear Utilities"
+      subtitle="Clear utility classes for controlling element clear behavior."
     >
       <ClassPropertyTable rows={clearUtilities} />
     </FoundationSection>

@@ -11,6 +11,8 @@ export default function PointerEventsUtilities() {
   return (
     <FoundationSection
       id="utilities-pointer-events"
+      title="Pointer Events Utilities"
+      subtitle="Pointer events utility classes for controlling pointer event handling."
     >
       <ClassPropertyTable rows={pointerUtilities} />
     </FoundationSection>

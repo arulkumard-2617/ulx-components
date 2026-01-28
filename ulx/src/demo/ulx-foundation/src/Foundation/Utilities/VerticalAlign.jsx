@@ -14,6 +14,8 @@ export default function VerticalAlignUtilities() {
   return (
     <FoundationSection
       id="utilities-vertical-align"
+      title="Vertical Align Utilities"
+      subtitle="Vertical alignment utility classes."
     >
       <ClassPropertyTable rows={verticalAlignUtilities} />
     </FoundationSection>

@@ -113,7 +113,8 @@ export default function PositionUtilities() {
   return (
     <FoundationSection
       id="utilities-position"
-      
+      title="Position Utilities"
+      subtitle="Position utility classes for controlling element positioning."
     >
       <div className="fxb fcol gp10">
         <div>

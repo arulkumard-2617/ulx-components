@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Script to create demo sections for utility components in uls-foundation
+ * Script to create demo sections for utility components in ulx-foundation
  * Usage: npm run create demo-section --component=Password
  * Example: npm run create demo-section --component=Password
  */
@@ -29,7 +29,7 @@ if (!componentName) {
 }
 
 // Paths
-const foundationPath = path.join(__dirname, '../demo/uls-foundation/src');
+const foundationPath = path.join(__dirname, '../demo/ulx-foundation/src');
 const utilitiesPath = path.join(foundationPath, 'Foundation/Utilities');
 const utilitiesIndexPath = path.join(utilitiesPath, 'index.jsx');
 
@@ -165,7 +165,7 @@ fs.writeFileSync(utilitiesIndexPath, indexContent);
 console.log(`✓ Updated ${utilitiesIndexPath}`);
 
 // Also need to create corresponding Ember route and template
-const emberDemoPath = path.join(__dirname, '../demo/uls-ember');
+const emberDemoPath = path.join(__dirname, '../demo/ulx-ember');
 const emberRoutesPath = path.join(emberDemoPath, 'app/routes/utilities');
 const emberTemplatesPath = path.join(emberDemoPath, 'app/templates/utilities');
 const emberRouterPath = path.join(emberDemoPath, 'app/router.js');
@@ -207,7 +207,7 @@ const emberTemplateContent = `{{page-title "${pascalName} Utilities - ULS Ember 
   @title="${pascalName} Utilities" 
   @description="${pascalName} utility classes for controlling element properties."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlsReactBridge
         @component={{@model.React${componentExportName}}}

@@ -17,6 +17,8 @@ export default function ShadowUtilities() {
   return (
     <FoundationSection
       id="utilities-shadow"
+      title="Shadow Utilities"
+      subtitle="Shadow utility classes for controlling element shadows."
     >
       <ClassPropertyTable rows={shadowUtilities} />
     </FoundationSection>

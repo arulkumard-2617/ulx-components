@@ -13,6 +13,8 @@ export default function WordBreakUtilities() {
   return (
     <FoundationSection
       id="utilities-word-break"
+      title="Word Break Utilities"
+      subtitle="Word break utility classes for controlling text wrapping."
     >
       <ClassPropertyTable rows={wordBreakUtilities} />
     </FoundationSection>

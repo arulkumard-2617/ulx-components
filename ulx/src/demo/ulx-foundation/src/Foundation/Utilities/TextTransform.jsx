@@ -15,6 +15,8 @@ export default function TextTransformUtilities() {
   return (
     <FoundationSection
       id="utilities-text-transform"
+      title="Text Transform Utilities"
+      subtitle="Text transformation utility classes."
     >
       <ClassPropertyTable rows={textTransformUtilities} />
     </FoundationSection>

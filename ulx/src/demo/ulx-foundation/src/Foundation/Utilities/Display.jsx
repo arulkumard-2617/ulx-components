@@ -35,6 +35,8 @@ export default function DisplayUtilities() {
   return (
     <FoundationSection
       id="utilities-display"
+      title="Display Utilities"
+      subtitle="Display utility classes for controlling element display type."
     >
       <ClassPropertyTable rows={displayUtilities} />
     </FoundationSection>

@@ -15,6 +15,8 @@ export default function LineClampUtilities() {
   return (
     <FoundationSection
       id="utilities-line-clamp"
+      title="Line Clamp Utilities"
+      subtitle="Line clamp utility classes for truncating text to specific line counts."
     >
       <ClassPropertyTable rows={lineClampUtilities} />
     </FoundationSection>

@@ -14,6 +14,8 @@ export default function TextAlignUtilities() {
   return (
     <FoundationSection
       id="utilities-text-align"
+      title="Text Align Utilities"
+      subtitle="Text alignment utility classes."
     >
       <ClassPropertyTable rows={textAlignUtilities} />
     </FoundationSection>

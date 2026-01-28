@@ -132,6 +132,8 @@ export default function SizeUtilities() {
   return (
     <FoundationSection
       id="utilities-size"
+      title="Size Utilities"
+      subtitle="Size utility classes for controlling element dimensions."
     >
       <div className="fxb wrap gp6">
         <div className="fxauto w-100p md-w-1-2">

@@ -21,10 +21,12 @@ export default function BorderUtilities() {
   return (
     <FoundationSection
       id="utilities-border"
+      title="Border Utilities"
+      subtitle="Border utility classes for controlling element borders."
     >
       <ClassPropertyTable rows={borderUtilities} columnLabels={['Utility', 'Description']} />
       <h4 className="bold-font mgb5 mgt20">Border Radius</h4>
-      <ClassPropertyTable rows={radiusUtilities} />
+      <ClassPropertyTable rows={radiusUtilities} columnLabels={['Utility', 'Description']} />
     </FoundationSection>
   );
 }

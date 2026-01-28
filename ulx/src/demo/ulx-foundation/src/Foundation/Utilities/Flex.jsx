@@ -149,6 +149,8 @@ export default function Flex() {
   return (
     <FoundationSection
       id="utilities-flex"
+      title="Flex Utilities"
+      subtitle="Flexbox utility classes for layout."
     >
       <div className="fxb fcol gp10">
         <div>

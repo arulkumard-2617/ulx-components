@@ -13,6 +13,8 @@ export default function WhiteSpaceUtilities() {
   return (
     <FoundationSection
       id="utilities-white-space"
+      title="White Space Utilities"
+      subtitle="White space utility classes for controlling how whitespace is handled."
     >
       <ClassPropertyTable rows={whiteSpaceUtilities} />
     </FoundationSection>

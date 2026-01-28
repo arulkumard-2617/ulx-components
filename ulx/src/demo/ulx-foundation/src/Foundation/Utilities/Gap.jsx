@@ -62,6 +62,8 @@ export default function Gap() {
   return (
     <FoundationSection
       id="utilities-gap"
+      title="Gap Utilities"
+      subtitle="Gap utility classes for flexbox and grid layouts."
     >
       <div className="fxb fcol gp10">
         <div>

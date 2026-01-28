@@ -14,6 +14,7 @@ export default {
         addon.publicEntrypoints([
             'index.js',
             'components/**/*.js',
+            'components/**/*.gjs',
             'helpers/**/*.js',
             'modifiers/**/*.js',
             'services/**/*.js',
@@ -22,6 +23,7 @@ export default {
 
         addon.appReexports([
             'components/**/*.js',
+            'components/**/*.gjs',
             'helpers/**/*.js',
             'modifiers/**/*.js',
             'services/**/*.js',

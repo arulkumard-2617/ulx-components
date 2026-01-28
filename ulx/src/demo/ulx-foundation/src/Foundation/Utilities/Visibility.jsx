@@ -12,6 +12,8 @@ export default function VisibilityUtilities() {
   return (
     <FoundationSection
       id="utilities-visibility"
+      title="Visibility Utilities"
+      subtitle="Visibility utility classes for controlling element visibility."
     >
       <ClassPropertyTable rows={visibilityUtilities} />
     </FoundationSection>

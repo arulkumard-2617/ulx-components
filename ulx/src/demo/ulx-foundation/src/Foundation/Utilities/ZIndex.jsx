@@ -12,6 +12,8 @@ export default function ZIndexUtilities() {
   return (
     <FoundationSection
       id="utilities-zindex"
+      title="Z-Index Utilities"
+      subtitle="Z-index utility classes for controlling element stacking order."
     >
       <ClassPropertyTable rows={zIndexUtilities} />
     </FoundationSection>

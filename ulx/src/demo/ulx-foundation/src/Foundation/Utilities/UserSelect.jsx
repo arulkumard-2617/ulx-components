@@ -13,6 +13,8 @@ export default function UserSelectUtilities() {
   return (
     <FoundationSection
       id="utilities-user-select"
+      title="User Select Utilities"
+      subtitle="User select utility classes for controlling text selection behavior."
     >
       <ClassPropertyTable rows={userSelectUtilities} />
     </FoundationSection>

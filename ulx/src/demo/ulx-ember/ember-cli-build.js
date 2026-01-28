@@ -4,6 +4,7 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const path = require('path');
 
 module.exports = function (defaults) {
+  const projectRoot = __dirname;
   const app = new EmberApp(defaults, {
     emberData: {
       deprecations: {
@@ -40,7 +41,14 @@ module.exports = function (defaults) {
       ]
     },
     autoImport: {
-      webpack: {}
+      webpack: {
+        resolve: {
+          alias: {
+            react: path.resolve(projectRoot, 'node_modules/react'),
+            'react-dom': path.resolve(projectRoot, 'node_modules/react-dom')
+          }
+        }
+      }
     },
   });
 

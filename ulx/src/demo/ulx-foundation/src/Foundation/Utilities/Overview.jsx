@@ -5,6 +5,8 @@ export default function UtilitiesOverview() {
   return (
     <FoundationSection
       id="utilities-overview"
+      title="Utilities Overview"
+      subtitle="Utility classes for spacing, layout, typography, and more."
     >
       <article className="uls-foundation-card w-45p pd6 rds2 bd">
         <h3 className="mgt0">Predictable naming</h3>

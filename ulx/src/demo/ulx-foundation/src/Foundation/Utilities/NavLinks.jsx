@@ -21,7 +21,7 @@ const navLinkUtilities = [
 
 export default function NavLinks() {
     return (
-        <FoundationSection id="utilities-nav-links">
+        <FoundationSection id="utilities-nav-links" title="Nav Links" subtitle="Navigation link and toggle utility classes.">
             <div className="fxb wrap gap-lg">
                 {navLinkUtilities.map((item) => (
                     <article

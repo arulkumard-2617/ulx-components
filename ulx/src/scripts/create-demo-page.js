@@ -47,7 +47,7 @@ if (categoryIndex !== -1) {
 }
 
 // Paths
-const demoEmberPath = path.join(__dirname, '../demo/uls-ember');
+const demoEmberPath = path.join(__dirname, '../demo/ulx-ember');
 const routesPath = path.join(demoEmberPath, 'app/routes/components', category);
 const templatesPath = path.join(demoEmberPath, 'app/templates/components', category);
 const controllersPath = path.join(demoEmberPath, 'app/controllers/components', category);

@@ -14,6 +14,8 @@ export default function ObjectFitUtilities() {
   return (
     <FoundationSection
       id="utilities-object-fit"
+      title="Object Fit Utilities"
+      subtitle="Object fit utility classes for controlling how replaced elements are sized."
     >
       <ClassPropertyTable rows={objectFitUtilities} />
     </FoundationSection>

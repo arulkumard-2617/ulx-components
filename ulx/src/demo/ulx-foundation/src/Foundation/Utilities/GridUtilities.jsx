@@ -19,6 +19,8 @@ export default function GridUtilities() {
   return (
     <FoundationSection
       id="utilities-grid"
+      title="Grid Utilities"
+      subtitle="Grid utility classes for layout."
     >
       <ClassPropertyTable rows={gridUtilities} columnLabels={['Selector / Class', 'Description']} />
     </FoundationSection>

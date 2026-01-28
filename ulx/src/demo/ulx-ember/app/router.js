@@ -16,7 +16,8 @@ Router.map(function () {
 
   this.route('components', { path: '/components' }, function () {
     this.route('collections', { path: '/collections' }, function () {});
-    this.route('elements', { path: '/elements' }, function () {});
+    this.route('elements', { path: '/elements' }, function () {      this.route('icon', { path: '/icon' });
+});
   });
 
   this.route('utilities', { path: '/utilities' }, function () {

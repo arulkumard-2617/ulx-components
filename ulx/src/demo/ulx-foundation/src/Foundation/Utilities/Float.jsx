@@ -12,6 +12,8 @@ export default function FloatUtilities() {
   return (
     <FoundationSection
       id="utilities-float"
+      title="Float Utilities"
+      subtitle="Float utility classes for controlling element float behavior."
     >
       <ClassPropertyTable rows={floatUtilities} />
     </FoundationSection>

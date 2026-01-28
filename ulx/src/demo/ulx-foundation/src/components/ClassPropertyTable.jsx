@@ -2,7 +2,7 @@ import React from 'react';
 
 function formatClassName(value) {
   if (typeof value !== 'string') {
-    return value;
+    return typeof value === 'number' ? String(value) : '';
   }
   return value.replace(/(^|\s)\./g, '$1');
 }
@@ -12,7 +12,8 @@ export default function ClassPropertyTable({ rows, columnLabels = ['Class', 'Pro
     return null;
   }
 
-  const [classLabel, propertyLabel] = columnLabels;
+  const [classLabel, propertyLabel] = Array.isArray(columnLabels) ? columnLabels : ['Class', 'Properties'];
+  const safeLabel = (v) => (typeof v === 'string' || typeof v === 'number' ? v : '');
 
   return (
     <div className='uls-datatable s-size' style={{ width: '850px' }}>
@@ -20,16 +21,16 @@ export default function ClassPropertyTable({ rows, columnLabels = ['Class', 'Pro
         <table className="datatable-table" style={{ tableLayout: 'fixed' }}>
           <thead className='datatable-header'>
             <tr className="datatable-header-row">
-              <th className="datatable-column-header-cell">{classLabel}</th>
-              <th className="datatable-column-header-cell">{propertyLabel}</th>
+              <th className="datatable-column-header-cell">{safeLabel(classLabel)}</th>
+              <th className="datatable-column-header-cell">{safeLabel(propertyLabel)}</th>
             </tr>
           </thead>
           <tbody className='datatable-tbody'>
-            {rows.map(({ className, property, color }) => (
-              <tr key={className} className='datatable-body-row'>
+            {rows.map(({ className, property, color }, index) => (
+              <tr key={typeof className === 'string' ? className : `row-${index}`} className='datatable-body-row'>
                 <td className="datatable-column-body-cell">
                   <div className="fxb fvc gp3">
-                    {color && (
+                    {color && typeof color === 'string' && (
                       <div
                         className="rds-circle bd w20 h20 "
                         style={{
@@ -43,7 +44,7 @@ export default function ClassPropertyTable({ rows, columnLabels = ['Class', 'Pro
                   </div>
                 </td>
                 <td className="datatable-column-body-cell">
-                  <span className='font-size16'>{property}</span>
+                  <span className='font-size16'>{typeof property === 'string' || typeof property === 'number' ? property : ''}</span>
                 </td>
               </tr>
             ))}

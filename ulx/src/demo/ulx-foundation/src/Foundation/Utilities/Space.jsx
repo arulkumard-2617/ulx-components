@@ -112,6 +112,8 @@ export default function Space() {
   return (
     <FoundationSection
       id="utilities-space"
+      title="Space Utilities"
+      subtitle="Padding and margin utility classes."
     >
       <div className="fxb fcol gp10">
         <div>

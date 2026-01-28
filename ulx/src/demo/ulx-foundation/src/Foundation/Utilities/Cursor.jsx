@@ -17,6 +17,8 @@ export default function CursorUtilities() {
   return (
     <FoundationSection
       id="utilities-cursor"
+      title="Cursor Utilities"
+      subtitle="Cursor utility classes for controlling mouse cursor appearance."
     >
       <ClassPropertyTable rows={cursorUtilities} />
     </FoundationSection>

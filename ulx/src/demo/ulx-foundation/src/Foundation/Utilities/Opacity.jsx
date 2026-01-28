@@ -14,6 +14,8 @@ export default function OpacityUtilities() {
   return (
     <FoundationSection
       id="utilities-opacity"
+      title="Opacity Utilities"
+      subtitle="Opacity utility classes for controlling element transparency."
     >
       <ClassPropertyTable rows={opacityUtilities} />
     </FoundationSection>

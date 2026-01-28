@@ -13,6 +13,8 @@ export default function TextDecorationUtilities() {
   return (
     <FoundationSection
       id="utilities-text-decoration"
+      title="Text Decoration Utilities"
+      subtitle="Text decoration utility classes."
     >
       <ClassPropertyTable rows={textDecorationUtilities} />
     </FoundationSection>

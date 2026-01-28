@@ -9,12 +9,12 @@ const path = require('path');
 
   const SRC_ROOT = path.join(
     ROOT,
-    'src/demo/uls-ember/app/components/Demo'
+    'src/demo/ulx-ember/app/components/Demo'
   );
 
   const DOCS_ROOT = path.join(
     ROOT,
-    'src/demo/uls-ember/app/documentation/components'
+    'src/demo/ulx-ember/app/documentation/components'
   );
 
   function getDestinationPath(srcFile) {

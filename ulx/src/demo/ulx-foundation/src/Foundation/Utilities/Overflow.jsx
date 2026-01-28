@@ -13,6 +13,8 @@ export default function OverflowUtilities() {
   return (
     <FoundationSection
       id="utilities-overflow"
+      title="Overflow Utilities"
+      subtitle="Overflow utility classes for controlling element overflow behavior."
     >
       <ClassPropertyTable rows={overflowUtilities} />
     </FoundationSection>

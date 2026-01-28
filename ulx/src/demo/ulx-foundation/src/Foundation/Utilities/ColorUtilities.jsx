@@ -627,6 +627,8 @@ export default function ColorUtilities() {
   return (
     <FoundationSection
       id="utilities-color"
+      title="Color Utilities"
+      subtitle="Color utility classes for text and background colors."
     >
       <div className="fxb wrap gp10">
         <div>

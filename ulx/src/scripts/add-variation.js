@@ -54,7 +54,7 @@ if (!componentName || !variationName) {
 }
 
 // Paths
-const demoEmberPath = path.join(__dirname, '../demo/uls-ember');
+const demoEmberPath = path.join(__dirname, '../demo/ulx-ember');
 const documentationPath = path.join(demoEmberPath, 'app/documentation/components');
 const demoComponentsPath = path.join(demoEmberPath, 'app/components/Demo');
 

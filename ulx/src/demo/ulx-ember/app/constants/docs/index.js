@@ -194,7 +194,17 @@ export const DocNavItems = [
             to: '/collections/card'
           }
         ]
+      },
+      {
+        category: 'Icons',
+        items: [
+          {
+            menuItem: 'Icon',
+            to: '/components/elements/icon',
+            route: 'components.elements.icon'
+          }
+        ]
       }
     ]
   }
-  ];
+];

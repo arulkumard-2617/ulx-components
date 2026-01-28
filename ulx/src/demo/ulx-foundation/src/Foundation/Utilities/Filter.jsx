@@ -15,6 +15,8 @@ export default function FilterUtilities() {
   return (
     <FoundationSection
       id="utilities-filter"
+      title="Filter Utilities"
+      subtitle="Filter utility classes for applying CSS filters."
     >
       <ClassPropertyTable rows={filterUtilities} />
     </FoundationSection>
