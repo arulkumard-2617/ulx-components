@@ -1318,6 +1318,254 @@
     "isStrictMode": true
   }), _ColorPaletteComponent);
 });
+;define("ulx-ember/components/common/doc-main/component-builder", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/modifier", "@ember/helper", "ember-prism/components/code-block", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _modifier, _helper, _codeBlock, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2, _ComponentBuilderComponent;
+  /**
+   * Reusable doc builder: renders schema-driven controls, live preview, and generated code.
+   * Yields resolved props to the <:preview> block so the parent can render the component.
+   *
+   * @param {Object} schema - Builder schema: { props, stateToProps, stateToSnippet, importLine?, componentName? }
+   */
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/modifier",0,"@ember/helper",0,"ember-prism/components/code-block",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentBuilderComponent = _exports.default = (_class = (_ComponentBuilderComponent = class ComponentBuilderComponent extends _component.default {
+    constructor(owner, args) {
+      super(owner, args);
+      _initializerDefineProperty(this, "stateSnapshot", _descriptor, this);
+      _initializerDefineProperty(this, "copied", _descriptor2, this);
+      const schema = args?.schema;
+      const props = schema?.props ?? [];
+      this.stateSnapshot = props.reduce((acc, p) => ({
+        ...acc,
+        [p.key]: p.default
+      }), {});
+    }
+    get state() {
+      return this.stateSnapshot ?? {};
+    }
+    get schema() {
+      return this.args.schema ?? {};
+    }
+    get resolvedProps() {
+      const fn = this.schema.stateToProps;
+      return typeof fn === 'function' ? fn(this.state) : {};
+    }
+    get generatedSnippet() {
+      const fn = this.schema.stateToSnippet;
+      return typeof fn === 'function' ? fn(this.state) : '';
+    }
+    get importLine() {
+      return this.schema.importLine ?? '';
+    }
+    get displayCode() {
+      const importLine = this.importLine;
+      const snippet = this.generatedSnippet;
+      if (!snippet) return '';
+      if (importLine) {
+        return `${importLine}\n\n<template>\n  ${snippet.split('\n').join('\n  ')}\n</template>`;
+      }
+      return `<template>\n  ${snippet.split('\n').join('\n  ')}\n</template>`;
+    }
+    /**
+    * Options for a prop: from static options or getOptions(state).
+    */
+    optionsFor(prop) {
+      if (prop.getOptions && typeof prop.getOptions === 'function') {
+        return prop.getOptions(this.state) ?? [];
+      }
+      return prop.options ?? [];
+    }
+    /**
+    * Props with resolved options, current value, and type flags so the template
+    * never calls methods with arguments (which can lose `this` in Glimmer).
+    */
+    get propsWithOptions() {
+      const state = this.state;
+      const schema = this.schema;
+      const list = schema.props ?? [];
+      return list.filter(prop => this.visible(prop)).map(prop => {
+        const opts = this.optionsFor(prop);
+        const currentValue = state[prop.key];
+        return {
+          ...prop,
+          currentValue,
+          inputName: `builder-${prop.key}`,
+          isRadio: prop.type === 'radio',
+          isSelect: prop.type === 'select',
+          isCheckbox: prop.type === 'checkbox',
+          resolvedOptions: opts.map(opt => ({
+            ...opt,
+            selected: currentValue === opt.value
+          }))
+        };
+      });
+    }
+    visible(prop) {
+      if (prop.visibleWhen && typeof prop.visibleWhen === 'function') {
+        return prop.visibleWhen(this.state);
+      }
+      return true;
+    }
+    updateProp(key, value) {
+      this.stateSnapshot = {
+        ...this.stateSnapshot,
+        [key]: value
+      };
+    }
+    selectChange(propKey, event) {
+      this.updateProp(propKey, event.target.value);
+    }
+    checkboxChange(propKey, event) {
+      this.updateProp(propKey, event.target.checked);
+    }
+    async copyCode() {
+      if (!this.displayCode || typeof navigator === 'undefined' || !navigator.clipboard) return;
+      try {
+        await navigator.clipboard.writeText(this.displayCode);
+        this.copied = true;
+        setTimeout(() => {
+          this.copied = false;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy code:', err);
+      }
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="doc-section component-builder">
+    <div class="ulx-grid gp12">
+  
+      {{! Preview + code column }}
+      <div class="fxgrow fxb column gp6 col-7">
+        {{#if (has-block "preview")}}
+          <div class="demo bg-default bd pd8 rds3">
+            <p class="font-size12 fg-text-secondary mgt0 mgb4">Preview</p>
+            {{yield this.resolvedProps to="preview"}}
+          </div>
+        {{/if}}
+        {{#if this.displayCode}}
+          <div class="code-block-wrapper">
+            <div class="fxb fvc fsb">
+              <p class="font-size12 fg-text-secondary mgt0">Generated code</p>
+              <div class="code-actions fxb gp4 pdy1 pdx3">
+                <button
+                  type="button"
+                  class="ulx-button link xs-size
+                    {{if this.copied 'is-copied'}}"
+                  aria-label="Copy code"
+                  {{on "click" this.copyCode}}
+                >
+                  {{#if this.copied}}
+                    Copied
+                  {{else}}
+                    Copy
+                  {{/if}}
+                </button>
+              </div>
+            </div>
+            <div class="code-block">
+              <CodeBlock @code={{this.displayCode}} @language="markup" />
+  
+            </div>
+          </div>
+        {{/if}}
+      </div>
+  
+      {{! Controls column }}
+      <div
+        class="col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col"
+      >
+        <h4 class="mgt0 mgb4 bold-font font-size14">Properties</h4>
+        {{#each this.propsWithOptions as |prop|}}
+          <div class="mgb4">
+            <label
+              class="block font-size12 font-medium mgb1 fg-text-secondary"
+            >{{prop.label}}</label>
+            {{#if prop.isRadio}}
+              <div
+                class="fxb wrap gp4"
+                role="group"
+                aria-label={{prop.label}}
+              >
+                {{#each prop.resolvedOptions as |opt|}}
+                  <label class="fxb fvc cursor-pointer">
+                    <input
+                      type="radio"
+                      name={{prop.inputName}}
+                      value={{opt.value}}
+                      checked={{opt.selected}}
+                      {{on "change" (fn this.updateProp prop.key opt.value)}}
+                      class="mgr1"
+                    />
+                    <span class="font-size12">{{opt.label}}</span>
+                  </label>
+                {{/each}}
+              </div>
+            {{else if prop.isSelect}}
+              <select
+                class="block w-100p pd2 rds2 bd font-size12"
+                value={{prop.currentValue}}
+                {{on "change" (fn this.selectChange prop.key)}}
+                aria-label={{prop.label}}
+              >
+                {{#each prop.resolvedOptions as |opt|}}
+                  <option
+                    value={{opt.value}}
+                    selected={{opt.selected}}
+                  >{{opt.label}}</option>
+                {{/each}}
+              </select>
+            {{else if prop.isCheckbox}}
+              <label class="fxb fvc gp2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={{prop.currentValue}}
+                  {{on "change" (fn this.checkboxChange prop.key)}}
+                  class="mgr1"
+                />
+                <span class="font-size12">{{prop.label}}</span>
+              </label>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+  
+    </div>
+  </div>
+  */
+  {
+    "id": "CTXUlw8W",
+    "block": "[[[10,0],[14,0,\"doc-section component-builder\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"ulx-grid gp12\"],[12],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"fxgrow fxb column gp6 col-7\"],[12],[1,\"\\n\"],[41,[48,[30,4]],[[[1,\"        \"],[10,0],[14,0,\"demo bg-default bd pd8 rds3\"],[12],[1,\"\\n          \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0 mgb4\"],[12],[1,\"Preview\"],[13],[1,\"\\n          \"],[18,4,[[30,0,[\"resolvedProps\"]]]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[41,[30,0,[\"displayCode\"]],[[[1,\"        \"],[10,0],[14,0,\"code-block-wrapper\"],[12],[1,\"\\n          \"],[10,0],[14,0,\"fxb fvc fsb\"],[12],[1,\"\\n            \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0\"],[12],[1,\"Generated code\"],[13],[1,\"\\n            \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n              \"],[11,\"button\"],[16,0,[29,[\"ulx-button link xs-size\\n                  \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"                  Copied\\n\"]],[]],[[[1,\"                  Copy\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n          \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n            \"],[8,[32,1],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"markup\"]],null],[1,\"\\n\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col\"],[12],[1,\"\\n      \"],[10,\"h4\"],[14,0,\"mgt0 mgb4 bold-font font-size14\"],[12],[1,\"Properties\"],[13],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,0,[\"propsWithOptions\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"mgb4\"],[12],[1,\"\\n          \"],[10,\"label\"],[14,0,\"block font-size12 font-medium mgb1 fg-text-secondary\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n\"],[41,[30,1,[\"isRadio\"]],[[[1,\"            \"],[10,0],[14,0,\"fxb wrap gp4\"],[14,\"role\",\"group\"],[15,\"aria-label\",[30,1,[\"label\"]]],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"label\"],[14,0,\"fxb fvc cursor-pointer\"],[12],[1,\"\\n                  \"],[11,\"input\"],[16,3,[30,1,[\"inputName\"]]],[16,2,[30,2,[\"value\"]]],[16,\"checked\",[30,2,[\"selected\"]]],[24,0,\"mgr1\"],[24,4,\"radio\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"updateProp\"]],[30,1,[\"key\"]],[30,2,[\"value\"]]],null]],null],[12],[13],[1,\"\\n                  \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,2,[\"label\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n\"]],[2]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isSelect\"]],[[[1,\"            \"],[11,\"select\"],[24,0,\"block w-100p pd2 rds2 bd font-size12\"],[16,2,[30,1,[\"currentValue\"]]],[16,\"aria-label\",[30,1,[\"label\"]]],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"selectChange\"]],[30,1,[\"key\"]]],null]],null],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"option\"],[15,2,[30,3,[\"value\"]]],[15,\"selected\",[30,3,[\"selected\"]]],[12],[1,[30,3,[\"label\"]]],[13],[1,\"\\n\"]],[3]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isCheckbox\"]],[[[1,\"            \"],[10,\"label\"],[14,0,\"fxb fvc gp2 cursor-pointer\"],[12],[1,\"\\n              \"],[11,\"input\"],[16,\"checked\",[30,1,[\"currentValue\"]]],[24,0,\"mgr1\"],[24,4,\"checkbox\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"checkboxChange\"]],[30,1,[\"key\"]]],null]],null],[12],[13],[1,\"\\n              \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"]],[]],null]],[]]]],[]]],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\\n  \"],[13],[1,\"\\n\"],[13]],[\"prop\",\"opt\",\"opt\",\"&preview\"],[\"if\",\"has-block\",\"yield\",\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/component-builder.js",
+    "scope": () => [_modifier.on, _codeBlock.default, _helper.fn],
+    "isStrictMode": true
+  }), _ComponentBuilderComponent), _ComponentBuilderComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "stateSnapshot", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return null;
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "copied", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "updateProp", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateProp"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "selectChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "selectChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "checkboxChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "checkboxChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "copyCode", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "copyCode"), _class.prototype), _class);
+});
 ;define("ulx-ember/components/common/doc-main/component-layout", ["exports", "@glimmer/component", "ulx-ember/components/common/doc-main/doc-tab", "@ember/component", "@ember/template-factory"], function (_exports, _component, _docTab, _component2, _templateFactory) {
   "use strict";
 
@@ -1857,7 +2105,7 @@
   }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div
-    class="ulsp-topbar h64 pd1 --ulxgrid col-1 w-100p
+    class="ulsp-topbar h64 pd1 ulx-grid col-1 w-100p
       {{if this.isSticky 'sticky' ''}}"
     {{this.setupScrollObserver}}
   >
@@ -1930,8 +2178,8 @@
   </div>
   */
   {
-    "id": "trO5VQ1+",
-    "block": "[[[11,0],[16,0,[29,[\"ulsp-topbar h64 pd1 --ulxgrid col-1 w-100p\\n    \",[52,[30,0,[\"isSticky\"]],\"sticky\",\"\"]]]],[4,[30,0,[\"setupScrollObserver\"]],null,null],[12],[1,\"\\n  \"],[10,\"header\"],[14,0,\"ulx-container-fluid fxb fvc fsb\"],[12],[1,\"\\n\"],[1,\"    \"],[10,0],[14,0,\"t-left\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"t-logo\"],[12],[1,\"\\n        \"],[10,\"h3\"],[14,0,\"bold-font\"],[12],[1,\"ULX\\n          \"],[10,1],[14,0,\"fg-primary\"],[12],[1,\"EMBER\"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"t-right fxb fvc gp2\"],[12],[1,\"\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button secondary outlined m-size fxb fvc gp1\"],[14,\"aria-haspopup\",\"dialog\"],[14,\"aria-expanded\",\"false\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[14,0,\"fg-text-secondary\"],[12],[1,\"Search docs\"],[13],[1,\"\\n        \"],[10,1],[14,0,\"t-key-hint mgl2\"],[12],[1,\"⌘ K\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button primary fxb fvc gp1 m-size\"],[14,\"aria-haspopup\",\"menu\"],[14,\"aria-controls\",\"doc-download-menu\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[12],[1,\"Download ZIP\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"\\n      \"],[11,\"button\"],[16,\"aria-label\",[52,[30,0,[\"isDarkMode\"]],\"Switch to light theme\",\"Switch to dark theme\"]],[24,0,\"pd2 --ulxbutton secondary outlined icon-only s-size\"],[24,\"data-pc-name\",\"button\"],[24,\"data-pc-section\",\"root\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"toggleDarkMode\"]]],null],[12],[1,\"\\n        \"],[10,\"i\"],[14,0,\"--ulxicons s18\"],[14,\"aria-hidden\",\"true\"],[12],[1,[52,[30,0,[\"isDarkMode\"]],\"☀️\",\"🌙\"]],[13],[1,\"\\n        \"],[10,1],[14,0,\"--ulxbutton-label\"],[14,\"data-pc-section\",\"label\"],[12],[1,\" \"],[13],[1,\"\\n        \"],[10,1],[14,\"role\",\"presentation\"],[14,\"aria-hidden\",\"true\"],[14,0,\"--ulxbutton-ink\"],[14,\"data-pc-name\",\"ripple\"],[14,\"data-pc-section\",\"root\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"if\"]]",
+    "id": "8d6iA30V",
+    "block": "[[[11,0],[16,0,[29,[\"ulsp-topbar h64 pd1 ulx-grid col-1 w-100p\\n    \",[52,[30,0,[\"isSticky\"]],\"sticky\",\"\"]]]],[4,[30,0,[\"setupScrollObserver\"]],null,null],[12],[1,\"\\n  \"],[10,\"header\"],[14,0,\"ulx-container-fluid fxb fvc fsb\"],[12],[1,\"\\n\"],[1,\"    \"],[10,0],[14,0,\"t-left\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"t-logo\"],[12],[1,\"\\n        \"],[10,\"h3\"],[14,0,\"bold-font\"],[12],[1,\"ULX\\n          \"],[10,1],[14,0,\"fg-primary\"],[12],[1,\"EMBER\"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"t-right fxb fvc gp2\"],[12],[1,\"\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button secondary outlined m-size fxb fvc gp1\"],[14,\"aria-haspopup\",\"dialog\"],[14,\"aria-expanded\",\"false\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[14,0,\"fg-text-secondary\"],[12],[1,\"Search docs\"],[13],[1,\"\\n        \"],[10,1],[14,0,\"t-key-hint mgl2\"],[12],[1,\"⌘ K\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button primary fxb fvc gp1 m-size\"],[14,\"aria-haspopup\",\"menu\"],[14,\"aria-controls\",\"doc-download-menu\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[12],[1,\"Download ZIP\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"\\n      \"],[11,\"button\"],[16,\"aria-label\",[52,[30,0,[\"isDarkMode\"]],\"Switch to light theme\",\"Switch to dark theme\"]],[24,0,\"pd2 --ulxbutton secondary outlined icon-only s-size\"],[24,\"data-pc-name\",\"button\"],[24,\"data-pc-section\",\"root\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"toggleDarkMode\"]]],null],[12],[1,\"\\n        \"],[10,\"i\"],[14,0,\"--ulxicons s18\"],[14,\"aria-hidden\",\"true\"],[12],[1,[52,[30,0,[\"isDarkMode\"]],\"☀️\",\"🌙\"]],[13],[1,\"\\n        \"],[10,1],[14,0,\"--ulxbutton-label\"],[14,\"data-pc-section\",\"label\"],[12],[1,\" \"],[13],[1,\"\\n        \"],[10,1],[14,\"role\",\"presentation\"],[14,\"aria-hidden\",\"true\"],[14,0,\"--ulxbutton-ink\"],[14,\"data-pc-name\",\"ripple\"],[14,\"data-pc-section\",\"root\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"if\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-docs-header.js",
     "scope": () => [_modifier.on],
     "isStrictMode": true
@@ -2270,8 +2518,8 @@
         id: 'theming',
         label: 'THEMING'
       }, {
-        id: 'passthrough',
-        label: 'PASS THROUGH'
+        id: 'builder',
+        label: 'BUILDER'
       }]);
     }
     get isFeaturesTab() {
@@ -2280,8 +2528,8 @@
     get isThemingTab() {
       return this.activeTab === 'theming';
     }
-    get isPassthroughTab() {
-      return this.activeTab === 'passthrough';
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
     }
     onTabChange(tabId) {
       this.activeTab = tabId;
@@ -2375,6 +2623,119 @@ export default class BasicTestCompDemo extends Component {
 }
 
 `;
+});
+;define("ulx-ember/documentation/components/elements/icon/builder-schema", ["exports", "ulx-ember/tokens/icon-tokens", "ulx-ember/documentation/utils/builder-schema-helpers"], function (_exports, _iconTokens, _builderSchemaHelpers) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/tokens/icon-tokens",0,"ulx-ember/documentation/utils/builder-schema-helpers"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Icon Builder Schema
+  // ==========================================================================
+  // Drives the ComponentBuilder for the Icon doc page. Size, layers, and spin
+  // options are taken from icon-tokens.js, which is generated from
+  // @uls-builder comments in uls-v2/.../less/elements/icon.less.
+  // Run: node scripts/extract-uls-builder-tokens.js [path-to-icon.less]
+  const normalSizes = _iconTokens.default['normal size'] ?? [];
+  const shapedSizes = _iconTokens.default['shaped icons size'] ?? [];
+  const layerTokens = _iconTokens.default['layers'] ?? [];
+  const spinTokens = _iconTokens.default['spin'] ?? [];
+  const spinClass = spinTokens[0] ?? 'spin-anim';
+  const stateToProps = state => {
+    const customParts = [state.customClass].filter(Boolean);
+    if (state.spin && spinClass) customParts.push(spinClass);
+    const customClass = customParts.join(' ');
+    return {
+      componentClass: 'bs-icons1',
+      type: 'font',
+      iconName: state.iconName,
+      size: state.size,
+      ariaLabel: state.ariaLabel ?? 'Icon',
+      ...(customClass ? {
+        customClass
+      } : {})
+    };
+  };
+  const stateToSnippet = state => {
+    const p = stateToProps(state);
+    const attrs = [`@componentClass="${p.componentClass}"`, `@type="${p.type}"`, `@iconName="${p.iconName}"`, `@size="${p.size}"`, `@ariaLabel="${p.ariaLabel}"`];
+    if (p.customClass) attrs.push(`@customClass="${p.customClass}"`);
+    return `<UlxIcon\n  ${attrs.join('\n  ')}\n/>`;
+  };
+  const defaultNormalSize = normalSizes.includes('s24') ? 's24' : normalSizes[0] ?? 's24';
+  var _default = _exports.default = {
+    componentName: 'UlxIcon',
+    importLine: "import { UlxIcon } from 'uls-components';",
+    props: [{
+      key: 'sizeMode',
+      label: 'Size mode',
+      type: 'radio',
+      default: 'normal',
+      options: [{
+        value: 'normal',
+        label: 'Normal'
+      }, {
+        value: 'layeredBg',
+        label: 'Layered background'
+      }]
+    }, (0, _builderSchemaHelpers.createConditionalSizeProp)({
+      key: 'size',
+      label: 'Size',
+      modeKey: 'sizeMode',
+      normalTokens: normalSizes,
+      shapedTokens: shapedSizes,
+      defaultNormal: defaultNormalSize
+    }), {
+      key: 'iconName',
+      label: 'Icon',
+      type: 'select',
+      default: 'comment-icon',
+      options: [{
+        value: 'ls-tick-icon',
+        label: 'Tick'
+      }, {
+        value: 'close-icon-01',
+        label: 'Close'
+      }, {
+        value: 'comment-icon',
+        label: 'Comment'
+      }, {
+        value: 'session-settings-icon',
+        label: 'Settings'
+      }]
+    }, (0, _builderSchemaHelpers.createLayerProp)({
+      key: 'customClass',
+      label: 'Layer',
+      modeKey: 'sizeMode',
+      layerTokens
+    }), (0, _builderSchemaHelpers.createClassCheckboxProp)({
+      key: 'spin',
+      label: 'Spin'
+    }), {
+      key: 'ariaLabel',
+      label: 'Aria label',
+      type: 'select',
+      default: 'Icon',
+      options: [{
+        value: 'Icon',
+        label: 'Icon'
+      }, {
+        value: 'Close',
+        label: 'Close'
+      }, {
+        value: 'Settings',
+        label: 'Settings'
+      }, {
+        value: '',
+        label: '(empty)'
+      }]
+    }],
+    stateToProps,
+    stateToSnippet
+  };
 });
 ;define("ulx-ember/documentation/components/elements/icon/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/icon/imports"], function (_exports, _richText, _imports) {
   "use strict";
@@ -2647,16 +3008,16 @@ export default class BasicTestCompDemo extends Component {
       route: '/theming',
       id: 'theming'
     }, {
-      name: 'Pass Through',
-      route: '/passthrough',
-      id: 'passthrough'
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
     }],
     // Import message for the component
     importMsg: "import { Icon } from 'uls-components'",
     // Accessibility information
     accessibility: {
-      description: "Icon component description for accessibility.",
-      example: "<Icon />"
+      description: 'Icon component description for accessibility.',
+      example: '<Icon />'
     }
   };
 });
@@ -3118,6 +3479,188 @@ import { UlxIcon } from 'uls-components';
 </template>
 
 `;
+});
+;define("ulx-ember/documentation/utils/builder-schema-helpers", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.createClassCheckboxProp = createClassCheckboxProp;
+  _exports.createConditionalSizeProp = createConditionalSizeProp;
+  _exports.createLayerProp = createLayerProp;
+  _exports.toLayerOption = toLayerOption;
+  _exports.toSimpleOption = toSimpleOption;
+  _exports.toSizeOption = toSizeOption;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Builder Schema Helpers
+  // ==========================================================================
+  // Reusable utilities for creating component builder schemas from extracted tokens.
+  // Used by icon, button, input, badge, and other component builders.
+  //
+  // Each component imports its own tokens file and uses these helpers to build options.
+  //
+  // Example usage (for button component):
+  //   import buttonTokens from '../../../../tokens/button-tokens';
+  //   import { toSimpleOption, createConditionalSizeProp } from '../../../utils/builder-schema-helpers';
+  //
+  //   export default {
+  //     componentName: 'UlxButton',
+  //     importLine: "import { UlxButton } from 'uls-components';",
+  //     props: [
+  //       {
+  //         key: 'severity',
+  //         label: 'Severity',
+  //         type: 'radio',
+  //         default: 'primary',
+  //         options: (buttonTokens['severity'] ?? []).map(toSimpleOption),
+  //       },
+  //       createConditionalSizeProp({
+  //         normalTokens: buttonTokens['sizes'] ?? [],
+  //         shapedTokens: buttonTokens['shaped sizes'] ?? [],
+  //       }),
+  //       // ... other props
+  //     ],
+  //     stateToProps: (state) => ({ ... }),
+  //     stateToSnippet: (state) => { ... },
+  //   };
+
+  /**
+   * Convert a size value to an option object with value and label.
+   * Handles patterns like "s24" → {value: "s24", label: "24"} and "xl2" → {value: "xl2", label: "2XL"}.
+   */
+  function toSizeOption(value) {
+    if (/^s\d+$/.test(value)) {
+      return {
+        value,
+        label: value.replace(/^s/, '')
+      };
+    }
+    if (value === 'xl2') return {
+      value,
+      label: '2XL'
+    };
+    if (value === 'xl3') return {
+      value,
+      label: '3XL'
+    };
+    if (value === 'xl4') return {
+      value,
+      label: '4XL'
+    };
+    if (value === 'xl5') return {
+      value,
+      label: '5XL'
+    };
+    if (value === 'xl6') return {
+      value,
+      label: '6XL'
+    };
+    if (value === 'xl7') return {
+      value,
+      label: '7XL'
+    };
+    return {
+      value,
+      label: value.toUpperCase()
+    };
+  }
+
+  /**
+   * Convert a layer class value to an option with "rounded" suffix.
+   * Example: "primary-layer" → {value: "primary-layer rounded", label: "Primary"}.
+   */
+  function toLayerOption(value, suffix = ' rounded') {
+    const label = value.replace(/-layer$/, '').replace(/^(\w)/, c => c.toUpperCase());
+    return {
+      value: `${value}${suffix}`,
+      label
+    };
+  }
+
+  /**
+   * Convert a simple token value to an option (capitalizes label).
+   * Example: "primary" → {value: "primary", label: "Primary"}.
+   */
+  function toSimpleOption(value) {
+    const label = value.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    return {
+      value,
+      label
+    };
+  }
+
+  /**
+   * Create a size prop with conditional options based on a mode.
+   * @param {Object} config - {key, label, modeKey, normalTokens, shapedTokens, defaultNormal, defaultShaped}
+   */
+  function createConditionalSizeProp(config) {
+    const {
+      key = 'size',
+      label = 'Size',
+      modeKey = 'sizeMode',
+      normalTokens = [],
+      shapedTokens = [],
+      defaultNormal
+    } = config;
+    const defaultVal = defaultNormal ?? normalTokens[0] ?? '';
+    return {
+      key,
+      label,
+      type: 'radio',
+      default: defaultVal,
+      getOptions(state) {
+        if (state[modeKey] === 'layeredBg' || state[modeKey] === 'shaped') {
+          return shapedTokens.map(toSizeOption);
+        }
+        return normalTokens.map(toSizeOption);
+      }
+    };
+  }
+
+  /**
+   * Create a layer prop that's visible only when a mode is set.
+   * @param {Object} config - {key, label, modeKey, layerTokens, suffix}
+   */
+  function createLayerProp(config) {
+    const {
+      key = 'customClass',
+      label = 'Layer',
+      modeKey = 'sizeMode',
+      layerTokens = [],
+      suffix = ' rounded'
+    } = config;
+    return {
+      key,
+      label,
+      type: 'select',
+      default: '',
+      visibleWhen: state => state[modeKey] === 'layeredBg' || state[modeKey] === 'shaped',
+      options: [{
+        value: '',
+        label: 'None'
+      }, ...layerTokens.map(v => toLayerOption(v, suffix))]
+    };
+  }
+
+  /**
+   * Create a checkbox prop (typically used to toggle a class in stateToProps).
+   * The class name is handled in the component's stateToProps function.
+   * @param {Object} config - {key, label}
+   */
+  function createClassCheckboxProp(config) {
+    const {
+      key = 'spin',
+      label = 'Spin'
+    } = config;
+    return {
+      key,
+      label,
+      type: 'checkbox',
+      default: false
+    };
+  }
 });
 ;define("ulx-ember/helpers/and", ["exports", "ember-truth-helpers/helpers/and"], function (_exports, _and) {
   "use strict";
@@ -3678,19 +4221,20 @@ import { UlxIcon } from 'uls-components';
   }
   _exports.default = ComponentsCollectionsRoute;
 });
-;define("ulx-ember/routes/components/elements/icon", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/icon/features", "ulx-ember/documentation/components/elements/icon/meta"], function (_exports, _route, _features, _meta) {
+;define("ulx-ember/routes/components/elements/icon", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/icon/features", "ulx-ember/documentation/components/elements/icon/meta", "ulx-ember/documentation/components/elements/icon/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/icon/features",0,"ulx-ember/documentation/components/elements/icon/meta"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/icon/features",0,"ulx-ember/documentation/components/elements/icon/meta",0,"ulx-ember/documentation/components/elements/icon/builder-schema"eaimeta@70e063a35619d71f
   class ComponentsElementsIconRoute extends _route.default {
     model() {
       return {
         features: _features.IconFeatureItems,
-        meta: _meta.default
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
       };
     }
   }
@@ -4425,8 +4969,8 @@ import { UlxIcon } from 'uls-components';
   /*
     {{page-title "Icon - ULS Ember Documentation"}}
   
-  <Common::DocMain::ComponentLayout 
-    @title={{@model.meta.header}} 
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
     @description={{@model.meta.subHeader}}
     @tabs={{this.tabs}}
     @activeTab={{this.activeTab}}
@@ -4436,7 +4980,7 @@ import { UlxIcon } from 'uls-components';
       <Common::DocMain::DocPanel @features={{@model.features}} />
     {{else if this.isThemingTab}}
       <div class="doc-section">
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="components-elements-icon-theming"
           @title="Theming"
           @subtitle="Theming documentation for Icon component."
@@ -4444,23 +4988,25 @@ import { UlxIcon } from 'uls-components';
           <p class="fg-text-secondary">Theming content goes here.</p>
         </Common::DocMain::FoundationSection>
       </div>
-    {{else if this.isPassthroughTab}}
-      <div class="doc-section">
-        <Common::DocMain::FoundationSection 
-          @id="components-elements-icon-passthrough"
-          @title="Pass Through"
-          @subtitle="Pass Through props documentation for Icon component."
-        >
-          <p class="fg-text-secondary">Pass Through content goes here.</p>
-        </Common::DocMain::FoundationSection>
-      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview as |props|>
+          <UlxIcon
+            @componentClass={{props.componentClass}}
+            @type={{props.type}}
+            @iconName={{props.iconName}}
+            @size={{props.size}}
+            @ariaLabel={{props.ariaLabel}}
+            @customClass={{props.customClass}}
+          />
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
     {{/if}}
   </Common::DocMain::ComponentLayout>
-  
   */
   {
-    "id": "8rl9LkwQ",
-    "block": "[[[1,[28,[35,0],[\"Icon - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-icon-theming\",\"Theming\",\"Theming documentation for Icon component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-icon-passthrough\",\"Pass Through\",\"Pass Through props documentation for Icon component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "4KiJEQW0",
+    "block": "[[[1,[28,[35,0],[\"Icon - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-icon-theming\",\"Theming\",\"Theming documentation for Icon component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[8,[39,9],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[[30,2,[\"componentClass\"]],[30,2,[\"type\"]],[30,2,[\"iconName\"]],[30,2,[\"size\"]],[30,2,[\"ariaLabel\"]],[30,2,[\"customClass\"]]]],null],[1,\"\\n      \"]],[2]]]]],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]]]],[\"@model\",\"props\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"ulx-icon\"]]",
     "moduleName": "ulx-ember/templates/components/elements/icon.hbs",
     "isStrictMode": false
   });
@@ -5897,6 +6443,24 @@ import { UlxIcon } from 'uls-components';
     "isStrictMode": false
   });
 });
+;define("ulx-ember/tokens/icon-tokens", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // Auto-generated from @uls-builder comments in uls-v2 .../less/elements/icon.less
+  // Run: node scripts/extract-uls-builder-tokens.js [path-to-icon.less]
+  var _default = _exports.default = {
+    "normal size": ["s11", "s12", "s13", "s14", "s16", "s18", "s20", "s22", "s24", "s26", "s28", "s30", "s32"],
+    "colors": ["primary", "success", "warning", "danger", "info", "muted", "inverted"],
+    "shaped icons size": ["xs", "sm", "md", "lg", "xl", "xl2", "xl3", "xl4", "xl5", "xl6", "xl7"],
+    "layers": ["primary-layer", "success-layer", "warning-layer", "danger-layer", "info-layer"],
+    "spin": ["spin-anim"]
+  };
+});
 ;define("ulx-ember/transforms/boolean", ["exports", "@ember/debug", "@ember-data/serializer/transform"], function (_exports, _debug, _transform) {
   "use strict";
 
@@ -6012,7 +6576,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+aaee1a81"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+20f28a0d"});
           }
         
 //# sourceMappingURL=ulx-ember.map

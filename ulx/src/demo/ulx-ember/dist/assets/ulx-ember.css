@@ -30710,6 +30710,9 @@ body {
 .doc-component-page {
   min-width: 0;
 }
+.component-builder-controls-col {
+  min-width: 220px;
+}
 .doc-section-nav {
   position: sticky;
   top: 4rem;

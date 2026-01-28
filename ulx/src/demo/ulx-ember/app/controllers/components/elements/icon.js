@@ -8,7 +8,7 @@ export default class ComponentsElementsIconController extends Controller {
   tabs = [
     { id: 'features', label: 'FEATURES' },
     { id: 'theming', label: 'THEMING' },
-    { id: 'passthrough', label: 'PASS THROUGH' }
+    { id: 'builder', label: 'BUILDER' },
   ];
 
   get isFeaturesTab() {
@@ -19,8 +19,8 @@ export default class ComponentsElementsIconController extends Controller {
     return this.activeTab === 'theming';
   }
 
-  get isPassthroughTab() {
-    return this.activeTab === 'passthrough';
+  get isBuilderTab() {
+    return this.activeTab === 'builder';
   }
 
   @action

@@ -1,7 +1,7 @@
 {{page-title "Icon - ULS Ember Documentation"}}
 
-<Common::DocMain::ComponentLayout 
-  @title={{@model.meta.header}} 
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
   @description={{@model.meta.subHeader}}
   @tabs={{this.tabs}}
   @activeTab={{this.activeTab}}
@@ -11,7 +11,7 @@
     <Common::DocMain::DocPanel @features={{@model.features}} />
   {{else if this.isThemingTab}}
     <div class="doc-section">
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="components-elements-icon-theming"
         @title="Theming"
         @subtitle="Theming documentation for Icon component."
@@ -19,15 +19,18 @@
         <p class="fg-text-secondary">Theming content goes here.</p>
       </Common::DocMain::FoundationSection>
     </div>
-  {{else if this.isPassthroughTab}}
-    <div class="doc-section">
-      <Common::DocMain::FoundationSection 
-        @id="components-elements-icon-passthrough"
-        @title="Pass Through"
-        @subtitle="Pass Through props documentation for Icon component."
-      >
-        <p class="fg-text-secondary">Pass Through content goes here.</p>
-      </Common::DocMain::FoundationSection>
-    </div>
+  {{else if this.isBuilderTab}}
+    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview as |props|>
+        <UlxIcon
+          @componentClass={{props.componentClass}}
+          @type={{props.type}}
+          @iconName={{props.iconName}}
+          @size={{props.size}}
+          @ariaLabel={{props.ariaLabel}}
+          @customClass={{props.customClass}}
+        />
+      </:preview>
+    </Common::DocMain::ComponentBuilder>
   {{/if}}
 </Common::DocMain::ComponentLayout>
