@@ -14,13 +14,13 @@ const path = require('path');
 const args = process.argv.slice(2);
 
 // If called from wrapper, first arg might be 'demo-page', otherwise it's the page name
-const commandIndex = args.findIndex(arg => arg === 'demo-page');
+const commandIndex = args.findIndex((arg) => arg === 'demo-page');
 const pageName = commandIndex !== -1 ? args[commandIndex + 1] : args[0];
 if (!pageName) {
-  console.error('Error: Page name is required');
-  console.error('Usage: npm run create demo-page PageName category submodule');
-  console.error('   OR: npm run create demo-page PageName --category collections --submodule menu');
-  process.exit(1);
+	console.error('Error: Page name is required');
+	console.error('Usage: npm run create demo-page PageName category submodule');
+	console.error('   OR: npm run create demo-page PageName --category collections --submodule menu');
+	process.exit(1);
 }
 
 // Extract component name from PageName[TabMenu] format
@@ -35,15 +35,15 @@ const submoduleIndex = args.indexOf('--submodule');
 let category, submodule;
 
 if (categoryIndex !== -1) {
-  // Flag format: --category value
-  category = args[categoryIndex + 1] || 'collections';
-  submodule = submoduleIndex !== -1 ? args[submoduleIndex + 1] : null;
+	// Flag format: --category value
+	category = args[categoryIndex + 1] || 'collections';
+	submodule = submoduleIndex !== -1 ? args[submoduleIndex + 1] : null;
 } else {
-  // Positional format: demo-page PageName category submodule
-  // Args after pageName are positional
-  const pageIndex = commandIndex !== -1 ? commandIndex + 1 : 0;
-  category = args[pageIndex + 1] || 'collections';
-  submodule = args[pageIndex + 2] || null;
+	// Positional format: demo-page PageName category submodule
+	// Args after pageName are positional
+	const pageIndex = commandIndex !== -1 ? commandIndex + 1 : 0;
+	category = args[pageIndex + 1] || 'collections';
+	submodule = args[pageIndex + 2] || null;
 }
 
 // Paths
@@ -58,48 +58,47 @@ const docsIndexPath = path.join(demoEmberPath, 'app/constants/docs/index.js');
 
 // Helper to convert to kebab-case
 function toKebabCase(str) {
-  return str
-    .replace(/([a-z])([A-Z])/g, '$1-$2')
-    .toLowerCase();
+	return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
 // Helper to convert to camelCase
 function toCamelCase(str) {
-  return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+	return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
 
 // Helper to convert to PascalCase
 function toPascalCase(str) {
-  const camel = toCamelCase(str);
-  return camel.charAt(0).toUpperCase() + camel.slice(1);
+	const camel = toCamelCase(str);
+	return camel.charAt(0).toUpperCase() + camel.slice(1);
 }
 
 const kebabName = toKebabCase(componentName);
-const camelName = toCamelCase(componentName);
 const pascalName = toPascalCase(componentName);
 const categoryPascal = toPascalCase(category);
 
 // Create directories if they don't exist
-[routesPath, templatesPath, controllersPath, documentationPath, demoComponentsPath].forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-});
+[routesPath, templatesPath, controllersPath, documentationPath, demoComponentsPath].forEach(
+	(dir) => {
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir, { recursive: true });
+		}
+	}
+);
 
 const componentDocPath = path.join(documentationPath, kebabName);
 const componentDemoPath = path.join(demoComponentsPath, pascalName);
 const snippetsPath = path.join(componentDocPath, 'snippets');
 
 if (!fs.existsSync(componentDocPath)) {
-  fs.mkdirSync(componentDocPath, { recursive: true });
+	fs.mkdirSync(componentDocPath, { recursive: true });
 }
 
 if (!fs.existsSync(componentDemoPath)) {
-  fs.mkdirSync(componentDemoPath, { recursive: true });
+	fs.mkdirSync(componentDemoPath, { recursive: true });
 }
 
 if (!fs.existsSync(snippetsPath)) {
-  fs.mkdirSync(snippetsPath, { recursive: true });
+	fs.mkdirSync(snippetsPath, { recursive: true });
 }
 
 // 1. Create route file
@@ -119,10 +118,10 @@ export default class Components${categoryPascal}${pascalName}Route extends Route
 
 const routeFilePath = path.join(routesPath, `${kebabName}.js`);
 if (fs.existsSync(routeFilePath)) {
-  console.log(`⚠ Route file already exists: ${routeFilePath}`);
+	console.log(`⚠ Route file already exists: ${routeFilePath}`);
 } else {
-  fs.writeFileSync(routeFilePath, routeContent);
-  console.log(`✓ Created route: ${routeFilePath}`);
+	fs.writeFileSync(routeFilePath, routeContent);
+	console.log(`✓ Created route: ${routeFilePath}`);
 }
 
 // 2. Create controller file
@@ -160,17 +159,17 @@ export default class Components${categoryPascal}${pascalName}Controller extends 
 
 const controllerFilePath = path.join(controllersPath, `${kebabName}.js`);
 if (fs.existsSync(controllerFilePath)) {
-  console.log(`⚠ Controller file already exists: ${controllerFilePath}`);
+	console.log(`⚠ Controller file already exists: ${controllerFilePath}`);
 } else {
-  fs.writeFileSync(controllerFilePath, controllerContent);
-  console.log(`✓ Created controller: ${controllerFilePath}`);
+	fs.writeFileSync(controllerFilePath, controllerContent);
+	console.log(`✓ Created controller: ${controllerFilePath}`);
 }
 
 // 3. Create template file
 const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"}}
 
-<Common::DocMain::ComponentLayout 
-  @title={{@model.meta.header}} 
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
   @description={{@model.meta.subHeader}}
   @tabs={{this.tabs}}
   @activeTab={{this.activeTab}}
@@ -180,7 +179,7 @@ const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"
     <Common::DocMain::DocPanel @features={{@model.features}} />
   {{else if this.isThemingTab}}
     <div class="doc-section">
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="components-${category}-${kebabName}-theming"
         @title="Theming"
         @subtitle="Theming documentation for ${displayName} component."
@@ -190,7 +189,7 @@ const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"
     </div>
   {{else if this.isPassthroughTab}}
     <div class="doc-section">
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="components-${category}-${kebabName}-passthrough"
         @title="Pass Through"
         @subtitle="Pass Through props documentation for ${displayName} component."
@@ -204,10 +203,10 @@ const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"
 
 const templateFilePath = path.join(templatesPath, `${kebabName}.hbs`);
 if (fs.existsSync(templateFilePath)) {
-  console.log(`⚠ Template file already exists: ${templateFilePath}`);
+	console.log(`⚠ Template file already exists: ${templateFilePath}`);
 } else {
-  fs.writeFileSync(templateFilePath, templateContent);
-  console.log(`✓ Created template: ${templateFilePath}`);
+	fs.writeFileSync(templateFilePath, templateContent);
+	console.log(`✓ Created template: ${templateFilePath}`);
 }
 
 // 4. Create documentation files
@@ -224,11 +223,11 @@ export default {
   menuItem: '${displayName}',
   routeBase: '/components/${category}/${kebabName}',
   icon: 'pi pi-compass',
-  
+
   // Page metadata
   header: '${displayName}',
   subHeader: '${displayName} is a component for user interaction.',
-  
+
   // Tab configuration
   tabs: [
     {
@@ -247,10 +246,10 @@ export default {
       id: 'passthrough'
     }
   ],
-  
+
   // Import message for the component
   importMsg: "import { ${pascalName} } from 'uls-components'",
-  
+
   // Accessibility information
   accessibility: {
     description: "${pascalName} component description for accessibility.",
@@ -261,10 +260,10 @@ export default {
 
 const metaFilePath = path.join(componentDocPath, 'meta.js');
 if (fs.existsSync(metaFilePath)) {
-  console.log(`⚠ Meta file already exists: ${metaFilePath}`);
+	console.log(`⚠ Meta file already exists: ${metaFilePath}`);
 } else {
-  fs.writeFileSync(metaFilePath, metaContent);
-  console.log(`✓ Created meta: ${metaFilePath}`);
+	fs.writeFileSync(metaFilePath, metaContent);
+	console.log(`✓ Created meta: ${metaFilePath}`);
 }
 
 // 4b. Create imports.js
@@ -287,10 +286,10 @@ export { default as BasicSource } from './snippets/Basic.gjs';
 
 const importsFilePath = path.join(componentDocPath, 'imports.js');
 if (fs.existsSync(importsFilePath)) {
-  console.log(`⚠ Imports file already exists: ${importsFilePath}`);
+	console.log(`⚠ Imports file already exists: ${importsFilePath}`);
 } else {
-  fs.writeFileSync(importsFilePath, importsContent);
-  console.log(`✓ Created imports: ${importsFilePath}`);
+	fs.writeFileSync(importsFilePath, importsContent);
+	console.log(`✓ Created imports: ${importsFilePath}`);
 }
 
 // 4d. Create snippet files
@@ -303,10 +302,10 @@ import { ${pascalName} } from 'uls-components';
 
 const importSnippetPath = path.join(snippetsPath, 'Import.gjs.js');
 if (fs.existsSync(importSnippetPath)) {
-  console.log(`⚠ Import snippet file already exists: ${importSnippetPath}`);
+	console.log(`⚠ Import snippet file already exists: ${importSnippetPath}`);
 } else {
-  fs.writeFileSync(importSnippetPath, importSnippetContent);
-  console.log(`✓ Created Import snippet: ${importSnippetPath}`);
+	fs.writeFileSync(importSnippetPath, importSnippetContent);
+	console.log(`✓ Created Import snippet: ${importSnippetPath}`);
 }
 
 // 4c. Create features.js
@@ -314,7 +313,7 @@ const featuresContent = `// ====================================================
 // ${pascalName} Feature Items
 // ==========================================================================
 import RichText from '../../../../components/common/doc-main/rich-text';
-import { 
+import {
   // Demos
   BasicDemo,
   // Sources
@@ -370,10 +369,10 @@ export default function ${pascalName}Features() {
 
 const featuresFilePath = path.join(componentDocPath, 'features.js');
 if (fs.existsSync(featuresFilePath)) {
-  console.log(`⚠ Features file already exists: ${featuresFilePath}`);
+	console.log(`⚠ Features file already exists: ${featuresFilePath}`);
 } else {
-  fs.writeFileSync(featuresFilePath, featuresContent);
-  console.log(`✓ Created features: ${featuresFilePath}`);
+	fs.writeFileSync(featuresFilePath, featuresContent);
+	console.log(`✓ Created features: ${featuresFilePath}`);
 }
 
 // 5. Create Basic demo component
@@ -409,10 +408,10 @@ export default class Basic${pascalName}Demo extends Component {
 
 const basicDemoFilePath = path.join(componentDemoPath, 'Basic.gjs');
 if (fs.existsSync(basicDemoFilePath)) {
-  console.log(`⚠ Basic demo file already exists: ${basicDemoFilePath}`);
+	console.log(`⚠ Basic demo file already exists: ${basicDemoFilePath}`);
 } else {
-  fs.writeFileSync(basicDemoFilePath, basicDemoContent);
-  console.log(`✓ Created Basic demo: ${basicDemoFilePath}`);
+	fs.writeFileSync(basicDemoFilePath, basicDemoContent);
+	console.log(`✓ Created Basic demo: ${basicDemoFilePath}`);
 }
 
 // Create Basic.gjs.js snippet file
@@ -422,10 +421,10 @@ ${basicDemoContent}\`;
 
 const basicSnippetPath = path.join(snippetsPath, 'Basic.gjs.js');
 if (fs.existsSync(basicSnippetPath)) {
-  console.log(`⚠ Basic snippet file already exists: ${basicSnippetPath}`);
+	console.log(`⚠ Basic snippet file already exists: ${basicSnippetPath}`);
 } else {
-  fs.writeFileSync(basicSnippetPath, basicSnippetContent);
-  console.log(`✓ Created Basic snippet: ${basicSnippetPath}`);
+	fs.writeFileSync(basicSnippetPath, basicSnippetContent);
+	console.log(`✓ Created Basic snippet: ${basicSnippetPath}`);
 }
 
 // 6. Update router.js
@@ -434,52 +433,55 @@ const routeLine = `      this.route('${kebabName}', { path: '/${kebabName}' });\
 
 // Check if route already exists
 if (routerContent.includes(`this.route('${kebabName}'`)) {
-  console.log(`⚠ Route '${kebabName}' already exists in router.js`);
+	console.log(`⚠ Route '${kebabName}' already exists in router.js`);
 } else {
-  // Check if components route exists
-  const componentsRoutePattern = /(this\.route\('components', \{ path: '\/components' \}, function \(\) \{[\s\S]*?)(\}\);)/;
-  if (componentsRoutePattern.test(routerContent)) {
-    // Check if category route exists within components
-    // Find the category route opening
-    const categoryRouteStart = new RegExp(`this\\.route\\('${category}', \\{ path: '/${category}' \\}, function \\(\\) \\{`);
-    const categoryMatch = routerContent.match(categoryRouteStart);
-    
-    if (categoryMatch) {
-      // Category route exists, find its closing brace by counting braces
-      const startIndex = categoryMatch.index + categoryMatch[0].length;
-      let braceCount = 1;
-      let endIndex = startIndex;
-      
-      for (let i = startIndex; i < routerContent.length; i++) {
-        if (routerContent[i] === '{') {
-          braceCount++;
-        } else if (routerContent[i] === '}') {
-          braceCount--;
-          if (braceCount === 0) {
-            endIndex = i;
-            break;
-          }
-        }
-      }
-      
-      // Insert the new route before the closing brace, after any existing routes
-      const beforeClosing = routerContent.substring(0, endIndex);
-      const afterClosing = routerContent.substring(endIndex);
-      
-      // Add the new route with proper indentation (routeLine already has correct indentation)
-      routerContent = beforeClosing + routeLine + afterClosing;
-      fs.writeFileSync(routerPath, routerContent);
-      console.log(`✓ Updated router.js`);
-    } else {
-      // Category route doesn't exist, add it with component route
-      const categoryRouteBlock = `    this.route('${category}', { path: '/${category}' }, function () {\n${routeLine}    });\n`;
-      routerContent = routerContent.replace(componentsRoutePattern, `$1${categoryRouteBlock}  $2`);
-      fs.writeFileSync(routerPath, routerContent);
-      console.log(`✓ Updated router.js (added ${category} route)`);
-    }
-  } else {
-    console.log(`⚠ Could not find components route in router.js. Please add manually.`);
-  }
+	// Check if components route exists
+	const componentsRoutePattern =
+		/(this\.route\('components', \{ path: '\/components' \}, function \(\) \{[\s\S]*?)(\}\);)/;
+	if (componentsRoutePattern.test(routerContent)) {
+		// Check if category route exists within components
+		// Find the category route opening
+		const categoryRouteStart = new RegExp(
+			`this\\.route\\('${category}', \\{ path: '/${category}' \\}, function \\(\\) \\{`
+		);
+		const categoryMatch = routerContent.match(categoryRouteStart);
+
+		if (categoryMatch) {
+			// Category route exists, find its closing brace by counting braces
+			const startIndex = categoryMatch.index + categoryMatch[0].length;
+			let braceCount = 1;
+			let endIndex = startIndex;
+
+			for (let i = startIndex; i < routerContent.length; i++) {
+				if (routerContent[i] === '{') {
+					braceCount++;
+				} else if (routerContent[i] === '}') {
+					braceCount--;
+					if (braceCount === 0) {
+						endIndex = i;
+						break;
+					}
+				}
+			}
+
+			// Insert the new route before the closing brace, after any existing routes
+			const beforeClosing = routerContent.substring(0, endIndex);
+			const afterClosing = routerContent.substring(endIndex);
+
+			// Add the new route with proper indentation (routeLine already has correct indentation)
+			routerContent = beforeClosing + routeLine + afterClosing;
+			fs.writeFileSync(routerPath, routerContent);
+			console.log(`✓ Updated router.js`);
+		} else {
+			// Category route doesn't exist, add it with component route
+			const categoryRouteBlock = `    this.route('${category}', { path: '/${category}' }, function () {\n${routeLine}    });\n`;
+			routerContent = routerContent.replace(componentsRoutePattern, `$1${categoryRouteBlock}  $2`);
+			fs.writeFileSync(routerPath, routerContent);
+			console.log(`✓ Updated router.js (added ${category} route)`);
+		}
+	} else {
+		console.log(`⚠ Could not find components route in router.js. Please add manually.`);
+	}
 }
 
 // 7. Update docs/index.js
@@ -487,9 +489,12 @@ let docsContent = fs.readFileSync(docsIndexPath, 'utf8');
 
 // Find the category in the navigation - match the specific menuTitle and its entire children array
 // Third group allows optional comma after ] so we match "],\n  }" (e.g. children: [],)
-const categoryPattern = new RegExp(`(\\{\\s*menuTitle: '${categoryPascal}',\\s*icon: [^,]+,\\s*children: \\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`, 'm');
-const menuItem = submodule 
-  ? `      {
+const categoryPattern = new RegExp(
+	`(\\{\\s*menuTitle: '${categoryPascal}',\\s*icon: [^,]+,\\s*children: \\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`,
+	'm'
+);
+const menuItem = submodule
+	? `      {
         category: '${toPascalCase(submodule)}',
         items: [
           {
@@ -499,109 +504,114 @@ const menuItem = submodule
           }
         ]
       }`
-  : `      {
+	: `      {
         menuItem: '${displayName}',
         to: '/components/${category}/${kebabName}',
         route: 'components.${category}.${kebabName}'
       }`;
 
 if (categoryPattern.test(docsContent)) {
-  // Category exists, add item
-  if (submodule) {
-    // Check if submodule category exists within this specific category
-    const categoryMatch = docsContent.match(categoryPattern);
-    if (categoryMatch) {
-      const categoryChildren = categoryMatch[2]; // The children array content
-      const submodulePattern = new RegExp(`(category: '${toPascalCase(submodule)}',[\\s\\S]*?items: \\[[\\s\\S]*?)(\\]\\s*\\})`, 'm');
-      
-      if (submodulePattern.test(categoryChildren)) {
-        // Add to existing submodule
-        docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
-          const updatedChildren = children.replace(submodulePattern, (match, p1, p2) => {
-            if (match.includes(`menuItem: '${displayName}'`)) {
-              return match; // Already exists
-            }
-            
-            // Find the last closing brace in p1 (the last item in the array)
-            const lastBraceIndex = p1.lastIndexOf('}');
-            if (lastBraceIndex !== -1) {
-              const beforeLastBrace = p1.substring(0, lastBraceIndex);
-              const afterLastBrace = p1.substring(lastBraceIndex + 1);
-              
-              // Check if there's a comma after the last brace
-              const afterBraceTrimmed = afterLastBrace.trim();
-              const hasComma = afterBraceTrimmed.startsWith(',') || 
-                              (afterLastBrace.match(/^\s*[,]/) !== null);
-              const nextCharIsBracket = afterBraceTrimmed.startsWith(']');
-              
-              const newItem = `          {
+	// Category exists, add item
+	if (submodule) {
+		// Check if submodule category exists within this specific category
+		const categoryMatch = docsContent.match(categoryPattern);
+		if (categoryMatch) {
+			const categoryChildren = categoryMatch[2]; // The children array content
+			const submodulePattern = new RegExp(
+				`(category: '${toPascalCase(submodule)}',[\\s\\S]*?items: \\[[\\s\\S]*?)(\\]\\s*\\})`,
+				'm'
+			);
+
+			if (submodulePattern.test(categoryChildren)) {
+				// Add to existing submodule
+				docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
+					const updatedChildren = children.replace(submodulePattern, (match, p1, p2) => {
+						if (match.includes(`menuItem: '${displayName}'`)) {
+							return match; // Already exists
+						}
+
+						// Find the last closing brace in p1 (the last item in the array)
+						const lastBraceIndex = p1.lastIndexOf('}');
+						if (lastBraceIndex !== -1) {
+							const beforeLastBrace = p1.substring(0, lastBraceIndex);
+							const afterLastBrace = p1.substring(lastBraceIndex + 1);
+
+							// Check if there's a comma after the last brace
+							const afterBraceTrimmed = afterLastBrace.trim();
+							const hasComma =
+								afterBraceTrimmed.startsWith(',') || afterLastBrace.match(/^\s*[,]/) !== null;
+							const nextCharIsBracket = afterBraceTrimmed.startsWith(']');
+
+							const newItem = `          {
             menuItem: '${displayName}',
             to: '/components/${category}/${kebabName}',
             route: 'components.${category}.${kebabName}'
           }`;
-              
-              if (hasComma) {
-                return `${beforeLastBrace}}${afterLastBrace}\n${newItem},\n        ${p2}`;
-              } else if (nextCharIsBracket) {
-                return `${beforeLastBrace}},\n${newItem}\n        ${p2}`;
-              } else {
-                return `${beforeLastBrace}},\n${newItem},\n        ${p2}`;
-              }
-            }
-            
-            // Fallback if no brace found
-            const newItem = `          {
+
+							if (hasComma) {
+								return `${beforeLastBrace}}${afterLastBrace}\n${newItem},\n        ${p2}`;
+							} else if (nextCharIsBracket) {
+								return `${beforeLastBrace}},\n${newItem}\n        ${p2}`;
+							} else {
+								return `${beforeLastBrace}},\n${newItem},\n        ${p2}`;
+							}
+						}
+
+						// Fallback if no brace found
+						const newItem = `          {
             menuItem: '${displayName}',
             to: '/components/${category}/${kebabName}',
             route: 'components.${category}.${kebabName}'
           }`;
-            return `${p1.trimEnd()},\n${newItem},\n        ${p2}`;
-          });
-          return `${p1}${updatedChildren}${p3}`;
-        });
-      } else {
-        // Add new submodule to this category
-        docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
-          const insert = children.trim() ? `\n${menuItem},` : `\n${menuItem}`;
-          return `${p1}${children}${insert}\n      ${p3}`;
-        });
-      }
-    }
-  } else {
-    // Add directly to category (no submodule)
-    if (docsContent.includes(`menuItem: '${displayName}'`)) {
-      console.log(`⚠ Navigation item for '${displayName}' already exists in docs/index.js`);
-    } else {
-      docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
-        const insert = children.trim() ? `\n${menuItem},` : `\n${menuItem}`;
-        return `${p1}${children}${insert}\n      ${p3}`;
-      });
-    }
-  }
-  fs.writeFileSync(docsIndexPath, docsContent);
-  console.log(`✓ Updated docs/index.js`);
+						return `${p1.trimEnd()},\n${newItem},\n        ${p2}`;
+					});
+					return `${p1}${updatedChildren}${p3}`;
+				});
+			} else {
+				// Add new submodule to this category
+				docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
+					const insert = children.trim() ? `\n${menuItem},` : `\n${menuItem}`;
+					return `${p1}${children}${insert}\n      ${p3}`;
+				});
+			}
+		}
+	} else {
+		// Add directly to category (no submodule)
+		if (docsContent.includes(`menuItem: '${displayName}'`)) {
+			console.log(`⚠ Navigation item for '${displayName}' already exists in docs/index.js`);
+		} else {
+			docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
+				const insert = children.trim() ? `\n${menuItem},` : `\n${menuItem}`;
+				return `${p1}${children}${insert}\n      ${p3}`;
+			});
+		}
+	}
+	fs.writeFileSync(docsIndexPath, docsContent);
+	console.log(`✓ Updated docs/index.js`);
 } else {
-  // Category doesn't exist, add it
-  const lastNavItemPattern = /(export const DocNavItems = \[[\s\S]*?)(\];)/;
-  const newCategory = `  {
+	// Category doesn't exist, add it
+	const lastNavItemPattern = /(export const DocNavItems = \[[\s\S]*?)(\];)/;
+	const newCategory = `  {
     menuTitle: '${categoryPascal}',
     icon: 'pi pi-list',
     children: [
 ${menuItem}
     ]
   },\n`;
-  
-  if (lastNavItemPattern.test(docsContent)) {
-    docsContent = docsContent.replace(lastNavItemPattern, `$1${newCategory}  $2`);
-    fs.writeFileSync(docsIndexPath, docsContent);
-    console.log(`✓ Updated docs/index.js (added ${categoryPascal} category)`);
-  } else {
-    console.log(`⚠ Could not update docs/index.js. Please add manually.`);
-  }
+
+	if (lastNavItemPattern.test(docsContent)) {
+		docsContent = docsContent.replace(lastNavItemPattern, `$1${newCategory}  $2`);
+		fs.writeFileSync(docsIndexPath, docsContent);
+		console.log(`✓ Updated docs/index.js (added ${categoryPascal} category)`);
+	} else {
+		console.log(`⚠ Could not update docs/index.js. Please add manually.`);
+	}
 }
 
 console.log(`\n✅ Demo page for ${displayName} created successfully!`);
 console.log(`\nNext steps:`);
 console.log(`1. Update the Basic demo component in app/components/Demo/${pascalName}/Basic.gjs`);
-console.log(`2. Add more demo components and features in app/documentation/components/${category}/${kebabName}/`);
+console.log(
+	`2. Add more demo components and features in app/documentation/components/${category}/${kebabName}/`
+);
 console.log(`3. Update the meta.js file with correct import path and component details`);

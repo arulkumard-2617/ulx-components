@@ -66,11 +66,11 @@ export default class UlxDocsHeaderComponent extends Component {
 
   <template>
     <div
-      class="ulsp-topbar h64 pd1 uls-grid col-1 w-100p
+      class="ulsp-topbar h64 pd1 --ulxgrid col-1 w-100p
         {{if this.isSticky 'sticky' ''}}"
       {{this.setupScrollObserver}}
     >
-      <header class="uls-container-fluid fxb fvc fsb">
+      <header class="ulx-container-fluid fxb fvc fsb">
         {{! LEFT: Title }}
         <div class="t-left">
           <div class="t-logo">
@@ -85,7 +85,7 @@ export default class UlxDocsHeaderComponent extends Component {
           {{! Search Button }}
           <button
             type="button"
-            class="uls-button secondary outlined m-size fxb fvc gp1"
+            class="ulx-button secondary outlined m-size fxb fvc gp1"
             aria-haspopup="dialog"
             aria-expanded="false"
           >
@@ -96,7 +96,7 @@ export default class UlxDocsHeaderComponent extends Component {
           {{! Download Button }}
           <button
             type="button"
-            class="uls-button primary fxb fvc gp1 m-size"
+            class="ulx-button primary fxb fvc gp1 m-size"
             aria-haspopup="menu"
             aria-controls="doc-download-menu"
           >
@@ -112,24 +112,26 @@ export default class UlxDocsHeaderComponent extends Component {
               "Switch to light theme"
               "Switch to dark theme"
             }}
-            class="pd2 uls-button secondary outlined icon-only s-size"
+            class="pd2 --ulxbutton secondary outlined icon-only s-size"
             data-pc-name="button"
             data-pc-section="root"
             {{on "click" this.toggleDarkMode}}
           >
-            <i class="uls-icons s18" aria-hidden="true">{{if
+            <i class="--ulxicons s18" aria-hidden="true">{{if
                 this.isDarkMode
                 "☀️"
                 "🌙"
               }}</i>
-            <span class="uls-button-label" data-pc-section="label">&nbsp;</span>
+            <span
+              class="--ulxbutton-label"
+              data-pc-section="label"
+            >&nbsp;</span>
             <span
               role="presentation"
               aria-hidden="true"
-              class="uls-button-ink"
+              class="--ulxbutton-ink"
               data-pc-name="ripple"
               data-pc-section="root"
-              style="height: 40px; width: 40px;"
             ></span>
           </button>
         </div>

@@ -1,30 +1,30 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "prettier.requireConfig": true,
-  "prettier.useEditorConfig": false,
-  "files.associations": {
-    "*.gjs": "javascript",
-    "*.gts": "typescript"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": false,
-    "editor.detectIndentation": false
-  },
-  "[gjs]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
-    "editor.insertSpaces": false,
-    "editor.detectIndentation": false
-  },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.validate.enable": true,
-  "javascript.validate.enable": false
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"prettier.requireConfig": true,
+	"prettier.useEditorConfig": false,
+	"files.associations": {
+		"*.gjs": "glimmer-js",
+		"*.gts": "glimmer-ts"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true,
+		"editor.tabSize": 4,
+		"editor.insertSpaces": false,
+		"editor.detectIndentation": false
+	},
+	"[gjs]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true,
+		"editor.tabSize": 4,
+		"editor.insertSpaces": false,
+		"editor.detectIndentation": false
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.validate.enable": true,
+	"javascript.validate.enable": false
 }

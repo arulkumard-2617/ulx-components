@@ -41,31 +41,478 @@
   });
   0; //eaimeta@70e063a35619d71f0,"@glimmer/component/-private/ember-component-manager"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/Demo/Icon/Basic", ["exports", "@glimmer/component", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Icon/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  var _BasicIconDemo;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
-  class BasicIconDemo extends _component.default {}
-  _exports.default = BasicIconDemo;
-  _BasicIconDemo = BasicIconDemo;
-  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="fxb fvc gp4">
-    <UlsIcon class="fg-primary" />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="ls-tick-icon"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="close-icon-01"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon>
+      <:icon>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 1024 1024"
+        >
+          <path
+            fill="currentColor"
+            transform="scale(1, -1) translate(0, -1024)"
+            d="M 831.488 602.112h -24.576c -12.288 0.000 -20.480 8.192 -28.672 20.480 -4.096 12.288 -4.096 24.576 4.096 32.768l 20.480 20.480c 36.864 36.864 36.864 94.208 0.000 126.976 -36.864 36.864 -94.208 36.864 -126.976 0.000l -20.480 -20.480c -8.192 -8.192 -20.480 -12.288 -32.768 -4.096 -12.288 4.096 -20.480 16.384 -20.480 28.672v 24.576c 0.000 49.152 -40.960 90.112 -90.112 90.112s -90.112 -40.960 -90.112 -90.112v -24.576c 0.000 -12.288 -8.192 -20.480 -20.480 -28.672 -12.288 -4.096 -24.576 -4.096 -32.768 4.096l -16.384 20.480c -36.864 36.864 -94.208 36.864 -126.976 0.000 -36.864 -36.864 -36.864 -94.208 0.000 -126.976l 16.384 -20.480c 8.192 -8.192 8.192 -20.480 4.096 -32.768s -16.384 -20.480 -28.672 -20.480h -24.576c -49.152 0.000 -90.112 -40.960 -90.112 -90.112s 40.960 -90.112 90.112 -90.112h 24.576c 12.288 0.000 20.480 -8.192 28.672 -20.480 4.096 -12.288 4.096 -24.576 -4.096 -32.768l -20.480 -20.480c -36.864 -36.864 -36.864 -94.208 0.000 -126.976 36.864 -36.864 94.208 -36.864 126.976 0.000l 20.480 20.480c 8.192 8.192 20.480 12.288 32.768 4.096 12.288 -4.096 20.480 -16.384 20.480 -28.672v -24.576c 0.000 -49.152 40.960 -90.112 90.112 -90.112s 90.112 40.960 90.112 90.112v 24.576c 0.000 12.288 8.192 20.480 20.480 28.672 12.288 4.096 24.576 4.096 32.768 -4.096l 20.480 -20.480c 36.864 -36.864 94.208 -36.864 126.976 0.000s 36.864 94.208 0.000 126.976l -20.480 20.480c -8.192 8.192 -12.288 20.480 -4.096 32.768 4.096 12.288 16.384 20.480 28.672 20.480h 24.576c 49.152 0.000 90.112 40.960 90.112 90.112s -40.960 90.112 -90.112 90.112zM 831.488 471.040h -24.576c -32.768 0.000 -61.440 -20.480 -73.728 -49.152s -8.192 -61.440 16.384 -86.016l 20.480 -20.480c 16.384 -16.384 16.384 -40.960 0.000 -57.344s -40.960 -16.384 -57.344 0.000l -20.480 20.480c -24.576 24.576 -57.344 28.672 -86.016 16.384s -49.152 -36.864 -49.152 -73.728v -24.576c 0.000 -24.576 -20.480 -40.960 -40.960 -40.960 -24.576 0.000 -40.960 20.480 -40.960 40.960v 24.576c 0.000 32.768 -20.480 61.440 -49.152 73.728s -61.440 8.192 -86.016 -16.384l -20.480 -20.480c -16.384 -16.384 -40.960 -16.384 -57.344 0.000s -16.384 40.960 0.000 57.344l 20.480 20.480c 24.576 24.576 28.672 57.344 16.384 86.016s -36.864 49.152 -73.728 49.152h -32.768c -24.576 0.000 -40.960 20.480 -40.960 40.960s 20.480 40.960 40.960 40.960h 24.576c 32.768 0.000 61.440 20.480 73.728 49.152s 8.192 61.440 -16.384 86.016l -16.384 20.480c -16.384 16.384 -16.384 40.960 0.000 57.344s 40.960 16.384 57.344 0.000l 20.480 -20.480c 24.576 -24.576 57.344 -28.672 86.016 -16.384s 49.152 36.864 49.152 73.728v 28.672c 0.000 24.576 20.480 40.960 40.960 40.960 24.576 0.000 40.960 -20.480 40.960 -40.960v -24.576c 0.000 -32.768 20.480 -61.440 49.152 -73.728s 61.440 -8.192 86.016 16.384l 20.480 20.480c 16.384 16.384 40.960 16.384 57.344 0.000s 16.384 -40.960 0.000 -57.344l -20.480 -20.480c -24.576 -24.576 -28.672 -57.344 -16.384 -86.016s 36.864 -49.152 73.728 -49.152h 24.576c 24.576 0.000 40.960 -20.480 40.960 -40.960s -16.384 -45.056 -36.864 -45.056zM 512.000 647.168c -73.728 0.000 -135.168 -61.440 -135.168 -135.168s 61.440 -135.168 135.168 -135.168c 73.728 0.000 135.168 61.440 135.168 135.168s -61.440 135.168 -135.168 135.168zM 512.000 425.984c -49.152 0.000 -86.016 40.960 -86.016 86.016s 40.960 86.016 86.016 86.016c 49.152 0.000 86.016 -40.960 86.016 -86.016s -36.864 -86.016 -86.016 -86.016z"
+          />
+        </svg>
+      </:icon>
+    </UlxIcon>
   </div>
   */
   {
-    "id": "iJyJqFYG",
-    "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,0,\"fg-primary\"]],null,null],[1,\"\\n\"],[13]],[],[]]",
+    "id": "tPl95DEK",
+    "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"close-icon-01\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,null,[[\"icon\"],[[[[1,\"\\n      \"],[10,\"svg\"],[14,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[14,\"width\",\"24\"],[14,\"height\",\"24\"],[14,\"viewBox\",\"0 0 1024 1024\"],[12],[1,\"\\n        \"],[10,\"path\"],[14,\"fill\",\"currentColor\"],[14,\"transform\",\"scale(1, -1) translate(0, -1024)\"],[14,\"d\",\"M 831.488 602.112h -24.576c -12.288 0.000 -20.480 8.192 -28.672 20.480 -4.096 12.288 -4.096 24.576 4.096 32.768l 20.480 20.480c 36.864 36.864 36.864 94.208 0.000 126.976 -36.864 36.864 -94.208 36.864 -126.976 0.000l -20.480 -20.480c -8.192 -8.192 -20.480 -12.288 -32.768 -4.096 -12.288 4.096 -20.480 16.384 -20.480 28.672v 24.576c 0.000 49.152 -40.960 90.112 -90.112 90.112s -90.112 -40.960 -90.112 -90.112v -24.576c 0.000 -12.288 -8.192 -20.480 -20.480 -28.672 -12.288 -4.096 -24.576 -4.096 -32.768 4.096l -16.384 20.480c -36.864 36.864 -94.208 36.864 -126.976 0.000 -36.864 -36.864 -36.864 -94.208 0.000 -126.976l 16.384 -20.480c 8.192 -8.192 8.192 -20.480 4.096 -32.768s -16.384 -20.480 -28.672 -20.480h -24.576c -49.152 0.000 -90.112 -40.960 -90.112 -90.112s 40.960 -90.112 90.112 -90.112h 24.576c 12.288 0.000 20.480 -8.192 28.672 -20.480 4.096 -12.288 4.096 -24.576 -4.096 -32.768l -20.480 -20.480c -36.864 -36.864 -36.864 -94.208 0.000 -126.976 36.864 -36.864 94.208 -36.864 126.976 0.000l 20.480 20.480c 8.192 8.192 20.480 12.288 32.768 4.096 12.288 -4.096 20.480 -16.384 20.480 -28.672v -24.576c 0.000 -49.152 40.960 -90.112 90.112 -90.112s 90.112 40.960 90.112 90.112v 24.576c 0.000 12.288 8.192 20.480 20.480 28.672 12.288 4.096 24.576 4.096 32.768 -4.096l 20.480 -20.480c 36.864 -36.864 94.208 -36.864 126.976 0.000s 36.864 94.208 0.000 126.976l -20.480 20.480c -8.192 8.192 -12.288 20.480 -4.096 32.768 4.096 12.288 16.384 20.480 28.672 20.480h 24.576c 49.152 0.000 90.112 40.960 90.112 90.112s -40.960 90.112 -90.112 90.112zM 831.488 471.040h -24.576c -32.768 0.000 -61.440 -20.480 -73.728 -49.152s -8.192 -61.440 16.384 -86.016l 20.480 -20.480c 16.384 -16.384 16.384 -40.960 0.000 -57.344s -40.960 -16.384 -57.344 0.000l -20.480 20.480c -24.576 24.576 -57.344 28.672 -86.016 16.384s -49.152 -36.864 -49.152 -73.728v -24.576c 0.000 -24.576 -20.480 -40.960 -40.960 -40.960 -24.576 0.000 -40.960 20.480 -40.960 40.960v 24.576c 0.000 32.768 -20.480 61.440 -49.152 73.728s -61.440 8.192 -86.016 -16.384l -20.480 -20.480c -16.384 -16.384 -40.960 -16.384 -57.344 0.000s -16.384 40.960 0.000 57.344l 20.480 20.480c 24.576 24.576 28.672 57.344 16.384 86.016s -36.864 49.152 -73.728 49.152h -32.768c -24.576 0.000 -40.960 20.480 -40.960 40.960s 20.480 40.960 40.960 40.960h 24.576c 32.768 0.000 61.440 20.480 73.728 49.152s 8.192 61.440 -16.384 86.016l -16.384 20.480c -16.384 16.384 -16.384 40.960 0.000 57.344s 40.960 16.384 57.344 0.000l 20.480 -20.480c 24.576 -24.576 57.344 -28.672 86.016 -16.384s 49.152 36.864 49.152 73.728v 28.672c 0.000 24.576 20.480 40.960 40.960 40.960 24.576 0.000 40.960 -20.480 40.960 -40.960v -24.576c 0.000 -32.768 20.480 -61.440 49.152 -73.728s 61.440 -8.192 86.016 16.384l 20.480 20.480c 16.384 16.384 40.960 16.384 57.344 0.000s 16.384 -40.960 0.000 -57.344l -20.480 -20.480c -24.576 -24.576 -28.672 -57.344 -16.384 -86.016s 36.864 -49.152 73.728 -49.152h 24.576c 24.576 0.000 40.960 -20.480 40.960 -40.960s -16.384 -45.056 -36.864 -45.056zM 512.000 647.168c -73.728 0.000 -135.168 -61.440 -135.168 -135.168s 61.440 -135.168 135.168 -135.168c 73.728 0.000 135.168 61.440 135.168 135.168s -61.440 135.168 -135.168 135.168zM 512.000 425.984c -49.152 0.000 -86.016 40.960 -86.016 86.016s 40.960 86.016 86.016 86.016c 49.152 0.000 86.016 -40.960 86.016 -86.016s -36.864 -86.016 -86.016 -86.016z\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Basic.js",
-    "scope": () => [_ulsComponents.UlsIcon],
+    "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
-  }), _BasicIconDemo);
+  }), (0, _templateOnly.default)(undefined, "Basic"));
+});
+;define("ulx-ember/components/Demo/Icon/Color", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s12"
+      @ariaLabel="tick icon"
+      @customClass="primary"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s13"
+      @ariaLabel="tick icon"
+      @customClass="success"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s14"
+      @ariaLabel="tick icon"
+      @customClass="warning"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s16"
+      @ariaLabel="tick icon"
+      @customClass="danger"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s18"
+      @ariaLabel="tick icon"
+      @customClass="info"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s20"
+      @ariaLabel="tick icon"
+      @customClass="muted"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s22"
+      @ariaLabel="tick icon"
+      @customClass="inverted"
+    />
+  </div>
+  */
+  {
+    "id": "C/PArxpG",
+    "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s12\",\"tick icon\",\"primary\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s13\",\"tick icon\",\"success\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s14\",\"tick icon\",\"warning\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s16\",\"tick icon\",\"danger\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s18\",\"tick icon\",\"info\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s20\",\"tick icon\",\"muted\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s22\",\"tick icon\",\"inverted\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Color.js",
+    "scope": () => [_ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Color"));
+});
+;define("ulx-ember/components/Demo/Icon/Layer", ["exports", "@glimmer/component", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _DemoIconLayer;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  const LAYER_VARIATIONS = ['primary', 'success', 'warning', 'danger', 'info'];
+  const SAMPLE_ICONS = ['ls-tick-icon', 'close-icon-01', 'comment-icon'];
+  class DemoIconLayer extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _defineProperty(this, "layerVariations", LAYER_VARIATIONS);
+      _defineProperty(this, "sampleIcons", SAMPLE_ICONS);
+    }
+    layerClass(color) {
+      return `${color}-layer rounded`;
+    }
+  }
+  _exports.default = DemoIconLayer;
+  _DemoIconLayer = DemoIconLayer;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-column col-3 gp8 fhc">
+    {{#each this.layerVariations as |color|}}
+      <div class="fxb column fvc gp2 col-3">
+        <div class="text-sm">bg-{{color}}</div>
+        <div class="fxb gp4">
+          {{#each this.sampleIcons as |iconName|}}
+            <UlxIcon
+              @componentClass="bs-icons1"
+              @type="font"
+              @iconName={{iconName}}
+              @size="l"
+              @ariaLabel=""
+              @customClass={{this.layerClass color}}
+            />
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "oXOQvddR",
+    "block": "[[[10,0],[14,0,\"ulx-column col-3 gp8 fhc\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"layerVariations\"]]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxb column fvc gp2 col-3\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"text-sm\"],[12],[1,\"bg-\"],[1,[30,1]],[13],[1,\"\\n      \"],[10,0],[14,0,\"fxb gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"sampleIcons\"]]],null]],null],null,[[[1,\"          \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",[30,2],\"l\",\"\",[28,[30,0,[\"layerClass\"]],[[30,1]],null]]],null],[1,\"\\n\"]],[2]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[1]],null],[13]],[\"color\",\"iconName\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Layer.js",
+    "scope": () => [_ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), _DemoIconLayer);
+});
+;define("ulx-ember/components/Demo/Icon/List", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/modifier", "ember-modifier", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _modifier, _emberModifier, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2, _DemoIconList;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/modifier",0,"ember-modifier",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  const BS_ICONS_CSS_URL = 'https://cdn.zicons.in/21598000000025464/v2/bs-icons1.css';
+  const ICON_NAME_REGEX = /\.bs-icons1\.([a-zA-Z0-9_-]+):before/g;
+  let DemoIconList = _exports.default = (_class = (_DemoIconList = class DemoIconList extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _defineProperty(this, "on", _modifier.on);
+      _defineProperty(this, "runOnInsert", (0, _emberModifier.modifier)(() => {
+        this.loadIcons();
+      }));
+      _initializerDefineProperty(this, "query", _descriptor, this);
+      _initializerDefineProperty(this, "icons", _descriptor2, this);
+    }
+    get filteredIcons() {
+      const q = this.query.trim().toLowerCase();
+      if (!q) return this.icons;
+      return this.icons.filter(name => name.toLowerCase().includes(q));
+    }
+    loadIcons() {
+      this.collectFromStyleSheets() || this.fetchAndParseCss();
+    }
+    collectFromStyleSheets() {
+      const collected = new Set();
+      try {
+        Array.from(document.styleSheets).forEach(sheet => {
+          // Only parse the bs-icons1 icon-font stylesheet; skip app/vendor CSS
+          // so we don't pick up utility classes like .bs-icons1.primary, .bs-icons1.s12, etc.
+          if (!sheet.href || !sheet.href.includes('bs-icons1.css')) return;
+          let rules;
+          try {
+            rules = sheet.cssRules || sheet.rules;
+          } catch {
+            return;
+          }
+          if (!rules) return;
+          Array.from(rules).forEach(rule => {
+            if (!rule.selectorText) return;
+            const selectors = rule.selectorText.split(',');
+            selectors.forEach(sel => {
+              const s = sel.trim();
+              if (s.startsWith('.bs-icons1.')) {
+                const withoutPseudo = s.split(':')[0];
+                if (withoutPseudo === '.bs-icons1') return;
+                const match = /\.bs-icons1\.([a-zA-Z0-9_-]+)$/.exec(withoutPseudo);
+                if (match && !match[1].includes(' ')) {
+                  collected.add(match[1]);
+                }
+              }
+            });
+          });
+        });
+        if (collected.size > 0) {
+          this.icons = Array.from(collected).sort();
+          return true;
+        }
+      } catch {
+        // ignore
+      }
+      return false;
+    }
+    fetchAndParseCss() {
+      fetch(BS_ICONS_CSS_URL).then(r => r.text()).then(css => {
+        const collected = new Set();
+        let m;
+        ICON_NAME_REGEX.lastIndex = 0;
+        while (m = ICON_NAME_REGEX.exec(css)) {
+          collected.add(m[1]);
+        }
+        this.icons = Array.from(collected).sort();
+      }).catch(() => {
+        this.icons = [];
+      });
+    }
+    updateQuery(e) {
+      this.query = e.target.value ?? '';
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxc gp4" {{this.runOnInsert}}>
+    <div class="fxb fvc gp3 mgb8">
+      <input
+        type="text"
+        placeholder="Search icons..."
+        class="ulx-input"
+        aria-label="Search icons"
+        value={{this.query}}
+        {{this.on "input" this.updateQuery}}
+      />
+      <span class="text-sm ulx-badge">{{this.filteredIcons.length}}
+        icons</span>
+    </div>
+  
+    {{#if this.filteredIcons.length}}
+      <div class="ulx-grid gp5 col-5 pdt5 text-center bd-t">
+        {{#each this.filteredIcons as |iconName|}}
+          <div class="pd3 fxb column fvc gp3">
+            <UlxIcon
+              @componentClass="bs-icons1"
+              @type="font"
+              @iconName={{iconName}}
+              @size="s20"
+              @ariaLabel=""
+            />
+            <span class="text-sm">{{iconName}}</span>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="text-center fg-text-muted pdy6 bd-t">No icons found</div>
+    {{/if}}
+  </div>
+  */
+  {
+    "id": "T/vlRwz+",
+    "block": "[[[11,0],[24,0,\"fxc gp4\"],[4,[30,0,[\"runOnInsert\"]],null,null],[12],[1,\"\\n  \"],[10,0],[14,0,\"fxb fvc gp3 mgb8\"],[12],[1,\"\\n    \"],[11,\"input\"],[24,\"placeholder\",\"Search icons...\"],[24,0,\"ulx-input\"],[24,\"aria-label\",\"Search icons\"],[16,2,[30,0,[\"query\"]]],[24,4,\"text\"],[4,[30,0,[\"on\"]],[\"input\",[30,0,[\"updateQuery\"]]],null],[12],[13],[1,\"\\n    \"],[10,1],[14,0,\"text-sm ulx-badge\"],[12],[1,[30,0,[\"filteredIcons\",\"length\"]]],[1,\"\\n      icons\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"filteredIcons\",\"length\"]],[[[1,\"    \"],[10,0],[14,0,\"ulx-grid gp5 col-5 pdt5 text-center bd-t\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"filteredIcons\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"pd3 fxb column fvc gp3\"],[12],[1,\"\\n          \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",[30,1],\"s20\",\"\"]],null],[1,\"\\n          \"],[10,1],[14,0,\"text-sm\"],[12],[1,[30,1]],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\"]],[]],[[[1,\"    \"],[10,0],[14,0,\"text-center fg-text-muted pdy6 bd-t\"],[12],[1,\"No icons found\"],[13],[1,\"\\n\"]],[]]],[13]],[\"iconName\"],[\"if\",\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/List.js",
+    "scope": () => [_ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), _DemoIconList), _DemoIconList), _descriptor = _applyDecoratedDescriptor(_class.prototype, "query", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return '';
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "icons", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "loadIcons", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "loadIcons"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateQuery", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateQuery"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Icon/Size", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s12"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s13"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s14"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s16"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s18"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s20"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s22"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s26"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s28"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s30"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s32"
+      @ariaLabel="tick icon"
+    />
+  </div>
+  */
+  {
+    "id": "bnesuOAa",
+    "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s12\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s13\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s14\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s16\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s20\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s22\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s26\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s28\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s30\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s32\",\"tick icon\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Size.js",
+    "scope": () => [_ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Size"));
+});
+;define("ulx-ember/components/Demo/Icon/Spin", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="session-settings-icon"
+      @size="s28"
+      @ariaLabel="tick icon"
+      @customClass="primary spin-anim"
+    />
+  </div>
+  */
+  {
+    "id": "ISidHcqN",
+    "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"session-settings-icon\",\"s28\",\"tick icon\",\"primary spin-anim\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Spin.js",
+    "scope": () => [_ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Spin"));
 });
 ;define("ulx-ember/components/Demo/TestComp/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object"], function (_exports, _component, _tracking, _object) {
   "use strict";
@@ -1329,7 +1776,7 @@
     "isStrictMode": true
   }), _RichTextComponent);
 });
-;define("ulx-ember/components/elements/uls-icon/index", ["exports", "uls-components/components/elements/uls-icon/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-icon/index", ["exports", "uls-components/components/elements/ulx-icon/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1341,21 +1788,7 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/uls-icon/index"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/components/uls-icon", ["exports", "uls-components/components/uls-icon"], function (_exports, _ulsIcon) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _ulsIcon.default;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/uls-icon"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-icon/index"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-docs-header", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ember-modifier", "@ember/modifier", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _emberModifier, _modifier, _component2, _templateFactory) {
   "use strict";
@@ -1424,11 +1857,11 @@
   }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div
-    class="ulsp-topbar h64 pd1 uls-grid col-1 w-100p
+    class="ulsp-topbar h64 pd1 --ulxgrid col-1 w-100p
       {{if this.isSticky 'sticky' ''}}"
     {{this.setupScrollObserver}}
   >
-    <header class="uls-container-fluid fxb fvc fsb">
+    <header class="ulx-container-fluid fxb fvc fsb">
       {{! LEFT: Title }}
       <div class="t-left">
         <div class="t-logo">
@@ -1443,7 +1876,7 @@
         {{! Search Button }}
         <button
           type="button"
-          class="uls-button secondary outlined m-size fxb fvc gp1"
+          class="ulx-button secondary outlined m-size fxb fvc gp1"
           aria-haspopup="dialog"
           aria-expanded="false"
         >
@@ -1454,7 +1887,7 @@
         {{! Download Button }}
         <button
           type="button"
-          class="uls-button primary fxb fvc gp1 m-size"
+          class="ulx-button primary fxb fvc gp1 m-size"
           aria-haspopup="menu"
           aria-controls="doc-download-menu"
         >
@@ -1470,24 +1903,26 @@
             "Switch to light theme"
             "Switch to dark theme"
           }}
-          class="pd2 uls-button secondary outlined icon-only s-size"
+          class="pd2 --ulxbutton secondary outlined icon-only s-size"
           data-pc-name="button"
           data-pc-section="root"
           {{on "click" this.toggleDarkMode}}
         >
-          <i class="uls-icons s18" aria-hidden="true">{{if
+          <i class="--ulxicons s18" aria-hidden="true">{{if
               this.isDarkMode
               "☀️"
               "🌙"
             }}</i>
-          <span class="uls-button-label" data-pc-section="label">&nbsp;</span>
+          <span
+            class="--ulxbutton-label"
+            data-pc-section="label"
+          >&nbsp;</span>
           <span
             role="presentation"
             aria-hidden="true"
-            class="uls-button-ink"
+            class="--ulxbutton-ink"
             data-pc-name="ripple"
             data-pc-section="root"
-            style="height: 40px; width: 40px;"
           ></span>
         </button>
       </div>
@@ -1495,8 +1930,8 @@
   </div>
   */
   {
-    "id": "1DwiwG/w",
-    "block": "[[[11,0],[16,0,[29,[\"ulsp-topbar h64 pd1 uls-grid col-1 w-100p\\n    \",[52,[30,0,[\"isSticky\"]],\"sticky\",\"\"]]]],[4,[30,0,[\"setupScrollObserver\"]],null,null],[12],[1,\"\\n  \"],[10,\"header\"],[14,0,\"uls-container-fluid fxb fvc fsb\"],[12],[1,\"\\n\"],[1,\"    \"],[10,0],[14,0,\"t-left\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"t-logo\"],[12],[1,\"\\n        \"],[10,\"h3\"],[14,0,\"bold-font\"],[12],[1,\"ULX\\n          \"],[10,1],[14,0,\"fg-primary\"],[12],[1,\"EMBER\"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"t-right fxb fvc gp2\"],[12],[1,\"\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"uls-button secondary outlined m-size fxb fvc gp1\"],[14,\"aria-haspopup\",\"dialog\"],[14,\"aria-expanded\",\"false\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[14,0,\"fg-text-secondary\"],[12],[1,\"Search docs\"],[13],[1,\"\\n        \"],[10,1],[14,0,\"t-key-hint mgl2\"],[12],[1,\"⌘ K\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"uls-button primary fxb fvc gp1 m-size\"],[14,\"aria-haspopup\",\"menu\"],[14,\"aria-controls\",\"doc-download-menu\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[12],[1,\"Download ZIP\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"\\n      \"],[11,\"button\"],[16,\"aria-label\",[52,[30,0,[\"isDarkMode\"]],\"Switch to light theme\",\"Switch to dark theme\"]],[24,0,\"pd2 uls-button secondary outlined icon-only s-size\"],[24,\"data-pc-name\",\"button\"],[24,\"data-pc-section\",\"root\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"toggleDarkMode\"]]],null],[12],[1,\"\\n        \"],[10,\"i\"],[14,0,\"uls-icons s18\"],[14,\"aria-hidden\",\"true\"],[12],[1,[52,[30,0,[\"isDarkMode\"]],\"☀️\",\"🌙\"]],[13],[1,\"\\n        \"],[10,1],[14,0,\"uls-button-label\"],[14,\"data-pc-section\",\"label\"],[12],[1,\" \"],[13],[1,\"\\n        \"],[10,1],[14,\"role\",\"presentation\"],[14,\"aria-hidden\",\"true\"],[14,0,\"uls-button-ink\"],[14,\"data-pc-name\",\"ripple\"],[14,\"data-pc-section\",\"root\"],[14,5,\"height: 40px; width: 40px;\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"if\"]]",
+    "id": "trO5VQ1+",
+    "block": "[[[11,0],[16,0,[29,[\"ulsp-topbar h64 pd1 --ulxgrid col-1 w-100p\\n    \",[52,[30,0,[\"isSticky\"]],\"sticky\",\"\"]]]],[4,[30,0,[\"setupScrollObserver\"]],null,null],[12],[1,\"\\n  \"],[10,\"header\"],[14,0,\"ulx-container-fluid fxb fvc fsb\"],[12],[1,\"\\n\"],[1,\"    \"],[10,0],[14,0,\"t-left\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"t-logo\"],[12],[1,\"\\n        \"],[10,\"h3\"],[14,0,\"bold-font\"],[12],[1,\"ULX\\n          \"],[10,1],[14,0,\"fg-primary\"],[12],[1,\"EMBER\"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"t-right fxb fvc gp2\"],[12],[1,\"\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button secondary outlined m-size fxb fvc gp1\"],[14,\"aria-haspopup\",\"dialog\"],[14,\"aria-expanded\",\"false\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[14,0,\"fg-text-secondary\"],[12],[1,\"Search docs\"],[13],[1,\"\\n        \"],[10,1],[14,0,\"t-key-hint mgl2\"],[12],[1,\"⌘ K\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button primary fxb fvc gp1 m-size\"],[14,\"aria-haspopup\",\"menu\"],[14,\"aria-controls\",\"doc-download-menu\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[12],[1,\"Download ZIP\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"\\n      \"],[11,\"button\"],[16,\"aria-label\",[52,[30,0,[\"isDarkMode\"]],\"Switch to light theme\",\"Switch to dark theme\"]],[24,0,\"pd2 --ulxbutton secondary outlined icon-only s-size\"],[24,\"data-pc-name\",\"button\"],[24,\"data-pc-section\",\"root\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"toggleDarkMode\"]]],null],[12],[1,\"\\n        \"],[10,\"i\"],[14,0,\"--ulxicons s18\"],[14,\"aria-hidden\",\"true\"],[12],[1,[52,[30,0,[\"isDarkMode\"]],\"☀️\",\"🌙\"]],[13],[1,\"\\n        \"],[10,1],[14,0,\"--ulxbutton-label\"],[14,\"data-pc-section\",\"label\"],[12],[1,\" \"],[13],[1,\"\\n        \"],[10,1],[14,\"role\",\"presentation\"],[14,\"aria-hidden\",\"true\"],[14,0,\"--ulxbutton-ink\"],[14,\"data-pc-name\",\"ripple\"],[14,\"data-pc-section\",\"root\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"if\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-docs-header.js",
     "scope": () => [_modifier.on],
     "isStrictMode": true
@@ -1515,6 +1950,20 @@
       return false;
     }
   }), _applyDecoratedDescriptor(_class.prototype, "toggleDarkMode", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleDarkMode"), _class.prototype), _class);
+});
+;define("ulx-ember/components/ulx-icon", ["exports", "uls-components/components/ulx-icon"], function (_exports, _ulxIcon) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxIcon.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-icon"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-react-bridge", ["exports", "@glimmer/component", "ember-modifier", "react-dom/client", "react", "@ember/component", "@ember/template-factory"], function (_exports, _component, _emberModifier, _client, _react, _component2, _templateFactory) {
   "use strict";
@@ -1887,6 +2336,46 @@
     ]
   });
 });
+;define("ulx-ember/documentation/components/collections/test-comp/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+
+export default class BasicTestCompDemo extends Component {
+  @tracked activeItem = null;
+
+  constructor() {
+    super(...arguments);
+    // Initialize with first item active
+    if (this.items && this.items.length > 0) {
+      this.activeItem = this.items[0];
+    }
+  }
+
+  get items() {
+    return [
+      { label: 'Item 1', value: 'item1' },
+      { label: 'Item 2', value: 'item2' },
+      { label: 'Item 3', value: 'item3' }
+    ];
+  }
+
+  @action
+  handleItemClick(item) {
+    this.activeItem = item;
+  }
+}
+
+`;
+});
 ;define("ulx-ember/documentation/components/elements/icon/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/icon/imports"], function (_exports, _richText, _imports) {
   "use strict";
 
@@ -1936,12 +2425,102 @@
         language: "handlebars"
       }
     }
+  }, {
+    id: "size",
+    sectionNav: "Size",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Size</code> demo shows size usage of the Icon component."
+      }
+    },
+    demo: {
+      component: _imports.SizeDemo,
+      props: {
+        source: _imports.SizeSource,
+        snippetName: "size",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "color",
+    sectionNav: "Color",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Color</code> demo shows color usage of the Icon component."
+      }
+    },
+    demo: {
+      component: _imports.ColorDemo,
+      props: {
+        source: _imports.ColorSource,
+        snippetName: "color",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "spin",
+    sectionNav: "Spin",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Spin</code> demo shows spin usage of the Icon component."
+      }
+    },
+    demo: {
+      component: _imports.SpinDemo,
+      props: {
+        source: _imports.SpinSource,
+        snippetName: "spin",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "layer",
+    sectionNav: "Layer",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Layer</code> demo shows layer usage of the Icon component."
+      }
+    },
+    demo: {
+      component: _imports.LayerDemo,
+      props: {
+        source: _imports.LayerSource,
+        snippetName: "layer",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "list",
+    sectionNav: "List",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>List</code> demo shows list usage of the Icon component."
+      }
+    },
+    demo: {
+      component: _imports.ListDemo,
+      props: {
+        source: _imports.ListSource,
+        snippetName: "list",
+        language: "handlebars"
+      }
+    }
   }];
   function IconFeatures() {
     return IconFeatureItems;
   }
 });
-;define("ulx-ember/documentation/components/elements/icon/imports", ["exports", "ulx-ember/components/Demo/Icon/Basic", "ulx-ember/documentation/components/elements/icon/snippets/Import.gjs", "ulx-ember/documentation/components/elements/icon/snippets/Basic.gjs"], function (_exports, _Basic, _Import, _Basic2) {
+;define("ulx-ember/documentation/components/elements/icon/imports", ["exports", "ulx-ember/components/Demo/Icon/Basic", "ulx-ember/components/Demo/Icon/Size", "ulx-ember/components/Demo/Icon/Color", "ulx-ember/components/Demo/Icon/Spin", "ulx-ember/components/Demo/Icon/Layer", "ulx-ember/components/Demo/Icon/List", "ulx-ember/documentation/components/elements/icon/snippets/Import.gjs", "ulx-ember/documentation/components/elements/icon/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/icon/snippets/Size.gjs", "ulx-ember/documentation/components/elements/icon/snippets/Color.gjs", "ulx-ember/documentation/components/elements/icon/snippets/Spin.gjs", "ulx-ember/documentation/components/elements/icon/snippets/Layer.gjs", "ulx-ember/documentation/components/elements/icon/snippets/List.gjs"], function (_exports, _Basic, _Size, _Color, _Spin, _Layer, _List, _Import, _Basic2, _Size2, _Color2, _Spin2, _Layer2, _List2) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1959,13 +2538,73 @@
       return _Basic2.default;
     }
   });
+  Object.defineProperty(_exports, "ColorDemo", {
+    enumerable: true,
+    get: function () {
+      return _Color.default;
+    }
+  });
+  Object.defineProperty(_exports, "ColorSource", {
+    enumerable: true,
+    get: function () {
+      return _Color2.default;
+    }
+  });
   Object.defineProperty(_exports, "ImportSource", {
     enumerable: true,
     get: function () {
       return _Import.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Icon/Basic",0,"ulx-ember/documentation/components/elements/icon/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/Basic.gjs"eaimeta@70e063a35619d71f
+  Object.defineProperty(_exports, "LayerDemo", {
+    enumerable: true,
+    get: function () {
+      return _Layer.default;
+    }
+  });
+  Object.defineProperty(_exports, "LayerSource", {
+    enumerable: true,
+    get: function () {
+      return _Layer2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ListDemo", {
+    enumerable: true,
+    get: function () {
+      return _List.default;
+    }
+  });
+  Object.defineProperty(_exports, "ListSource", {
+    enumerable: true,
+    get: function () {
+      return _List2.default;
+    }
+  });
+  Object.defineProperty(_exports, "SizeDemo", {
+    enumerable: true,
+    get: function () {
+      return _Size.default;
+    }
+  });
+  Object.defineProperty(_exports, "SizeSource", {
+    enumerable: true,
+    get: function () {
+      return _Size2.default;
+    }
+  });
+  Object.defineProperty(_exports, "SpinDemo", {
+    enumerable: true,
+    get: function () {
+      return _Spin.default;
+    }
+  });
+  Object.defineProperty(_exports, "SpinSource", {
+    enumerable: true,
+    get: function () {
+      return _Spin2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Icon/Basic",0,"ulx-ember/components/Demo/Icon/Size",0,"ulx-ember/components/Demo/Icon/Color",0,"ulx-ember/components/Demo/Icon/Spin",0,"ulx-ember/components/Demo/Icon/Layer",0,"ulx-ember/components/Demo/Icon/List",0,"ulx-ember/documentation/components/elements/icon/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/Size.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/Color.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/Spin.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/Layer.gjs",0,"ulx-ember/documentation/components/elements/icon/snippets/List.gjs"eaimeta@70e063a35619d71f
   // ==========================================================================
   // Icon Demo Components Barrel Export
   // ==========================================================================
@@ -2030,34 +2669,124 @@
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+import { UlxIcon } from 'uls-components';
 
-export default class BasicIconDemo extends Component {
-  @tracked activeItem = null;
+<template>
+  <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="ls-tick-icon"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="close-icon-01"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon>
+      <:icon>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 1024 1024"
+        >
+          <path
+            fill="currentColor"
+            transform="scale(1, -1) translate(0, -1024)"
+            d="M 831.488 602.112h -24.576c -12.288 0.000 -20.480 8.192 -28.672 20.480 -4.096 12.288 -4.096 24.576 4.096 32.768l 20.480 20.480c 36.864 36.864 36.864 94.208 0.000 126.976 -36.864 36.864 -94.208 36.864 -126.976 0.000l -20.480 -20.480c -8.192 -8.192 -20.480 -12.288 -32.768 -4.096 -12.288 4.096 -20.480 16.384 -20.480 28.672v 24.576c 0.000 49.152 -40.960 90.112 -90.112 90.112s -90.112 -40.960 -90.112 -90.112v -24.576c 0.000 -12.288 -8.192 -20.480 -20.480 -28.672 -12.288 -4.096 -24.576 -4.096 -32.768 4.096l -16.384 20.480c -36.864 36.864 -94.208 36.864 -126.976 0.000 -36.864 -36.864 -36.864 -94.208 0.000 -126.976l 16.384 -20.480c 8.192 -8.192 8.192 -20.480 4.096 -32.768s -16.384 -20.480 -28.672 -20.480h -24.576c -49.152 0.000 -90.112 -40.960 -90.112 -90.112s 40.960 -90.112 90.112 -90.112h 24.576c 12.288 0.000 20.480 -8.192 28.672 -20.480 4.096 -12.288 4.096 -24.576 -4.096 -32.768l -20.480 -20.480c -36.864 -36.864 -36.864 -94.208 0.000 -126.976 36.864 -36.864 94.208 -36.864 126.976 0.000l 20.480 20.480c 8.192 8.192 20.480 12.288 32.768 4.096 12.288 -4.096 20.480 -16.384 20.480 -28.672v -24.576c 0.000 -49.152 40.960 -90.112 90.112 -90.112s 90.112 40.960 90.112 90.112v 24.576c 0.000 12.288 8.192 20.480 20.480 28.672 12.288 4.096 24.576 4.096 32.768 -4.096l 20.480 -20.480c 36.864 -36.864 94.208 -36.864 126.976 0.000s 36.864 94.208 0.000 126.976l -20.480 20.480c -8.192 8.192 -12.288 20.480 -4.096 32.768 4.096 12.288 16.384 20.480 28.672 20.480h 24.576c 49.152 0.000 90.112 40.960 90.112 90.112s -40.960 90.112 -90.112 90.112zM 831.488 471.040h -24.576c -32.768 0.000 -61.440 -20.480 -73.728 -49.152s -8.192 -61.440 16.384 -86.016l 20.480 -20.480c 16.384 -16.384 16.384 -40.960 0.000 -57.344s -40.960 -16.384 -57.344 0.000l -20.480 20.480c -24.576 24.576 -57.344 28.672 -86.016 16.384s -49.152 -36.864 -49.152 -73.728v -24.576c 0.000 -24.576 -20.480 -40.960 -40.960 -40.960 -24.576 0.000 -40.960 20.480 -40.960 40.960v 24.576c 0.000 32.768 -20.480 61.440 -49.152 73.728s -61.440 8.192 -86.016 -16.384l -20.480 -20.480c -16.384 -16.384 -40.960 -16.384 -57.344 0.000s -16.384 40.960 0.000 57.344l 20.480 20.480c 24.576 24.576 28.672 57.344 16.384 86.016s -36.864 49.152 -73.728 49.152h -32.768c -24.576 0.000 -40.960 20.480 -40.960 40.960s 20.480 40.960 40.960 40.960h 24.576c 32.768 0.000 61.440 20.480 73.728 49.152s 8.192 61.440 -16.384 86.016l -16.384 20.480c -16.384 16.384 -16.384 40.960 0.000 57.344s 40.960 16.384 57.344 0.000l 20.480 -20.480c 24.576 -24.576 57.344 -28.672 86.016 -16.384s 49.152 36.864 49.152 73.728v 28.672c 0.000 24.576 20.480 40.960 40.960 40.960 24.576 0.000 40.960 -20.480 40.960 -40.960v -24.576c 0.000 -32.768 20.480 -61.440 49.152 -73.728s 61.440 -8.192 86.016 16.384l 20.480 20.480c 16.384 16.384 40.960 16.384 57.344 0.000s 16.384 -40.960 0.000 -57.344l -20.480 -20.480c -24.576 -24.576 -28.672 -57.344 -16.384 -86.016s 36.864 -49.152 73.728 -49.152h 24.576c 24.576 0.000 40.960 -20.480 40.960 -40.960s -16.384 -45.056 -36.864 -45.056zM 512.000 647.168c -73.728 0.000 -135.168 -61.440 -135.168 -135.168s 61.440 -135.168 135.168 -135.168c 73.728 0.000 135.168 61.440 135.168 135.168s -61.440 135.168 -135.168 135.168zM 512.000 425.984c -49.152 0.000 -86.016 40.960 -86.016 86.016s 40.960 86.016 86.016 86.016c 49.152 0.000 86.016 -40.960 86.016 -86.016s -36.864 -86.016 -86.016 -86.016z"
+          />
+        </svg>
+      </:icon>
+    </UlxIcon>
+  </div>
+</template>
 
-  constructor() {
-    super(...arguments);
-    // Initialize with first item active
-    if (this.items && this.items.length > 0) {
-      this.activeItem = this.items[0];
-    }
-  }
+`;
+});
+;define("ulx-ember/documentation/components/elements/icon/snippets/Color.gjs", ["exports"], function (_exports) {
+  "use strict";
 
-  get items() {
-    return [
-      { label: 'Item 1', value: 'item1' },
-      { label: 'Item 2', value: 'item2' },
-      { label: 'Item 3', value: 'item3' }
-    ];
-  }
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxIcon } from 'uls-components';
 
-  @action
-  handleItemClick(item) {
-    this.activeItem = item;
-  }
-}
+<template>
+  <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s12"
+      @ariaLabel="tick icon"
+      @customClass="primary"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s13"
+      @ariaLabel="tick icon"
+      @customClass="success"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s14"
+      @ariaLabel="tick icon"
+      @customClass="warning"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s16"
+      @ariaLabel="tick icon"
+      @customClass="danger"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s18"
+      @ariaLabel="tick icon"
+      @customClass="info"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s20"
+      @ariaLabel="tick icon"
+      @customClass="muted"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s22"
+      @ariaLabel="tick icon"
+      @customClass="inverted"
+    />
+  </div>
+</template>
+
 `;
 });
 ;define("ulx-ember/documentation/components/elements/icon/snippets/Import.gjs", ["exports"], function (_exports) {
@@ -2070,6 +2799,323 @@ export default class BasicIconDemo extends Component {
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
 import { Icon } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/icon/snippets/Layer.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxIcon } from 'uls-components';
+
+const LAYER_VARIATIONS = ['primary', 'success', 'warning', 'danger', 'info'];
+const SAMPLE_ICONS = ['ls-tick-icon', 'close-icon-01', 'comment-icon'];
+
+export default class DemoIconLayer extends Component {
+  layerVariations = LAYER_VARIATIONS;
+  sampleIcons = SAMPLE_ICONS;
+
+  layerClass(color) {
+    return \`\${color}-layer rounded\`;
+  }
+
+  <template>
+    <div class="ulx-column col-3 gp8 fhc">
+      {{#each this.layerVariations as |color|}}
+        <div class="fxb column fvc gp2 col-3">
+          <div class="text-sm">bg-{{color}}</div>
+          <div class="fxb gp4">
+            {{#each this.sampleIcons as |iconName|}}
+              <UlxIcon
+                @componentClass="bs-icons1"
+                @type="font"
+                @iconName={{iconName}}
+                @size="l"
+                @ariaLabel=""
+                @customClass={{this.layerClass color}}
+              />
+            {{/each}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/icon/snippets/List.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
+import { modifier } from 'ember-modifier';
+import { UlxIcon } from 'uls-components';
+
+const BS_ICONS_CSS_URL =
+  'https://cdn.zicons.in/21598000000025464/v2/bs-icons1.css';
+const ICON_NAME_REGEX = /\\.bs-icons1\\.([a-zA-Z0-9_-]+):before/g;
+
+export default class DemoIconList extends Component {
+  on = on;
+  runOnInsert = modifier(() => {
+    this.loadIcons();
+  });
+  @tracked query = '';
+  @tracked icons = [];
+
+  get filteredIcons() {
+    const q = this.query.trim().toLowerCase();
+    if (!q) return this.icons;
+    return this.icons.filter((name) => name.toLowerCase().includes(q));
+  }
+
+  @action
+  loadIcons() {
+    this.collectFromStyleSheets() || this.fetchAndParseCss();
+  }
+
+  collectFromStyleSheets() {
+    const collected = new Set();
+    try {
+      Array.from(document.styleSheets).forEach((sheet) => {
+        // Only parse the bs-icons1 icon-font stylesheet; skip app/vendor CSS
+        // so we don't pick up utility classes like .bs-icons1.primary, .bs-icons1.s12, etc.
+        if (!sheet.href || !sheet.href.includes('bs-icons1.css')) return;
+        let rules;
+        try {
+          rules = sheet.cssRules || sheet.rules;
+        } catch {
+          return;
+        }
+        if (!rules) return;
+        Array.from(rules).forEach((rule) => {
+          if (!rule.selectorText) return;
+          const selectors = rule.selectorText.split(',');
+          selectors.forEach((sel) => {
+            const s = sel.trim();
+            if (s.startsWith('.bs-icons1.')) {
+              const withoutPseudo = s.split(':')[0];
+              if (withoutPseudo === '.bs-icons1') return;
+              const match = /\\.bs-icons1\\.([a-zA-Z0-9_-]+)$/.exec(
+                withoutPseudo,
+              );
+              if (match && !match[1].includes(' ')) {
+                collected.add(match[1]);
+              }
+            }
+          });
+        });
+      });
+      if (collected.size > 0) {
+        this.icons = Array.from(collected).sort();
+        return true;
+      }
+    } catch {
+      // ignore
+    }
+    return false;
+  }
+
+  fetchAndParseCss() {
+    fetch(BS_ICONS_CSS_URL)
+      .then((r) => r.text())
+      .then((css) => {
+        const collected = new Set();
+        let m;
+        ICON_NAME_REGEX.lastIndex = 0;
+        while ((m = ICON_NAME_REGEX.exec(css))) {
+          collected.add(m[1]);
+        }
+        this.icons = Array.from(collected).sort();
+      })
+      .catch(() => {
+        this.icons = [];
+      });
+  }
+
+  @action
+  updateQuery(e) {
+    this.query = e.target.value ?? '';
+  }
+  <template>
+    <div class="fxc gp4" {{this.runOnInsert}}>
+      <div class="fxb fvc gp3 mgb8">
+        <input
+          type="text"
+          placeholder="Search icons..."
+          class="ulx-input"
+          aria-label="Search icons"
+          value={{this.query}}
+          {{this.on "input" this.updateQuery}}
+        />
+        <span class="text-sm ulx-badge">{{this.filteredIcons.length}}
+          icons</span>
+      </div>
+
+      {{#if this.filteredIcons.length}}
+        <div class="ulx-grid gp5 col-5 pdt5 text-center bd-t">
+          {{#each this.filteredIcons as |iconName|}}
+            <div class="pd3 fxb column fvc gp3">
+              <UlxIcon
+                @componentClass="bs-icons1"
+                @type="font"
+                @iconName={{iconName}}
+                @size="s20"
+                @ariaLabel=""
+              />
+              <span class="text-sm">{{iconName}}</span>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="text-center fg-text-muted pdy6 bd-t">No icons found</div>
+      {{/if}}
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/icon/snippets/Size.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxIcon } from 'uls-components';
+
+<template>
+  <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s12"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s13"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s14"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s16"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s18"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s20"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s22"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s24"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s26"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s28"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s30"
+      @ariaLabel="tick icon"
+    />
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="comment-icon"
+      @size="s32"
+      @ariaLabel="tick icon"
+    />
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/icon/snippets/Spin.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxIcon } from 'uls-components';
+
+<template>
+  <div class="fxb fvc gp4">
+    <UlxIcon
+      @componentClass="bs-icons1"
+      @type="font"
+      @iconName="session-settings-icon"
+      @size="s28"
+      @ariaLabel="tick icon"
+      @customClass="primary spin-anim"
+    />
+  </div>
+</template>
 
 `;
 });
@@ -3334,18 +4380,16 @@ import { Icon } from 'uls-components';
   
   <UlxDocsHeader />
   
-  <div class="uls-container-fluid pdt6 fxb">
+  <div class="ulx-container-fluid pdt6 fxb">
     <Common::DocLayout::DocSidebar />
     <div class="ulsp-app-routes-container fxauto">
-  {{outlet}}
+      {{outlet}}
     </div>
   </div>
-  
-  
   */
   {
-    "id": "A1GY2ArI",
-    "block": "[[[1,[28,[35,0],[\"ULX Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,null,null],[1,\"\\n\\n\"],[10,0],[14,0,\"uls-container-fluid pdt6 fxb\"],[12],[1,\"\\n  \"],[8,[39,3],null,null,null],[1,\"\\n  \"],[10,0],[14,0,\"ulsp-app-routes-container fxauto\"],[12],[1,\"\\n\"],[46,[28,[37,5],null,null],null,null,null],[1,\"\\n  \"],[13],[1,\"\\n\"],[13],[1,\"\\n\\n\"]],[],[\"page-title\",\"ulx-docs-header\",\"div\",\"common/doc-layout/doc-sidebar\",\"component\",\"-outlet\"]]",
+    "id": "UPcQcDkW",
+    "block": "[[[1,[28,[35,0],[\"ULX Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,null,null],[1,\"\\n\\n\"],[10,0],[14,0,\"ulx-container-fluid pdt6 fxb\"],[12],[1,\"\\n  \"],[8,[39,3],null,null,null],[1,\"\\n  \"],[10,0],[14,0,\"ulsp-app-routes-container fxauto\"],[12],[1,\"\\n    \"],[46,[28,[37,5],null,null],null,null,null],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"page-title\",\"ulx-docs-header\",\"div\",\"common/doc-layout/doc-sidebar\",\"component\",\"-outlet\"]]",
     "moduleName": "ulx-ember/templates/application.hbs",
     "isStrictMode": false
   });
@@ -4968,7 +6012,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+7e24d557"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+aaee1a81"});
           }
         
 //# sourceMappingURL=ulx-ember.map

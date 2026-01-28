@@ -1,2 +1,2 @@
-export { default as UlsIcon } from './components/elements/uls-icon/index.js';
+export { default as UlxIcon } from './components/elements/ulx-icon/index.js';
 //# sourceMappingURL=index.js.map
