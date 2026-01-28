@@ -80,8 +80,8 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
-      "./components/elements/uls-icon.js": "./dist/_app_/components/elements/uls-icon.js",
       "./components/elements/uls-icon/index.js": "./dist/_app_/components/elements/uls-icon/index.js",
+      "./components/index.js": "./dist/_app_/components/index.js",
       "./components/uls-icon.js": "./dist/_app_/components/uls-icon.js"
     }
   }

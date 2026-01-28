@@ -1329,7 +1329,7 @@
     "isStrictMode": true
   }), _RichTextComponent);
 });
-;define("ulx-ember/components/elements/uls-icon", ["exports", "uls-components/components/elements/uls-icon"], function (_exports, _ulsIcon) {
+;define("ulx-ember/components/elements/uls-icon/index", ["exports", "uls-components/components/elements/uls-icon/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1338,10 +1338,10 @@
   Object.defineProperty(_exports, "default", {
     enumerable: true,
     get: function () {
-      return _ulsIcon.default;
+      return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/uls-icon"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/uls-icon/index"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/uls-icon", ["exports", "uls-components/components/uls-icon"], function (_exports, _ulsIcon) {
   "use strict";
@@ -4968,7 +4968,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+5de27ed2"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+7e24d557"});
           }
         
 //# sourceMappingURL=ulx-ember.map
