@@ -186,12 +186,9 @@ export const DocNavItems = [
         category: 'Form',
         items: [
           {
-            menuItem: 'Checkbox',
-            to: '/collections/accordion'
-          },
-          {
-            menuItem: 'Dropdown',
-            to: '/collections/card'
+            menuItem: 'Input',
+            to: '/components/elements/input',
+            route: 'components.elements.input'
           }
         ]
       },
@@ -202,6 +199,26 @@ export const DocNavItems = [
             menuItem: 'Icon',
             to: '/components/elements/icon',
             route: 'components.elements.icon'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    menuTitle: 'Collections',
+    icon: 'pi pi-list',
+    children: [
+      {
+        category: 'Form',
+        items: []
+      },
+      {
+        category: 'Menu',
+        items: [
+          {
+            menuItem: 'test-comp',
+            to: '/components/collections/test-comp',
+            route: 'components.collections.test-comp'
           }
         ]
       }
