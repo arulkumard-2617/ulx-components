@@ -36,6 +36,26 @@ alwaysApply: true
 - **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
 - **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.
 
+## Component Design Principles
+
+Best components are:
+
+- **Argument-driven**: Components receive data and behavior through arguments (`this.args`), not internal state or external dependencies.
+- **Stateless by default**: Prefer components that derive their output from arguments without maintaining internal state.
+- **No lifecycle hooks**: Avoid component lifecycle hooks that introduce side effects or complexity.
+- **No side effects**: Components should be pure functions of their arguments, rendering output without side effects.
+
+❌ **Avoid**:
+
+- `did-insert`
+- `did-update`
+- `will-destroy`
+- Constructors
+- Observers
+- Mixins
+
+**If you need effects → use resources or modifiers, not components.**
+
 ## WCAG compliance
 
 All components **MUST** meet WCAG requirements. Apply these rules so every component can pass accessibility review.
