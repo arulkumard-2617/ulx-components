@@ -80,8 +80,14 @@
 		"type": "addon",
 		"main": "addon-main.cjs",
 		"app-js": {
+			"./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
 			"./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
-			"./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js"
+			"./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
+			"./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
+			"./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
+			"./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
+			"./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
+			"./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js"
 		}
 	}
 }
