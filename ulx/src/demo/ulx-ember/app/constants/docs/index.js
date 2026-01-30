@@ -189,6 +189,16 @@ export const DocNavItems = [
             menuItem: 'Input',
             to: '/components/elements/input',
             route: 'components.elements.input'
+          },
+          {
+            menuItem: 'IconInput',
+            to: '/components/elements/ulx-icon-input',
+            route: 'components.elements.ulx-icon-input'
+          },
+          {
+            menuItem: 'InputGroup',
+            to: '/components/elements/input-group',
+            route: 'components.elements.input-group'
           }
         ]
       },

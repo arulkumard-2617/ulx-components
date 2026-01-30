@@ -533,24 +533,13 @@
   };
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
-    <div class="ulx-form s-size ulx-grid gp12 mgb14">
+    <div class="ulx-form m-size ulx-grid gp12 mgb14">
     <UlxInput
       @label="Input"
       @rules={{rules}}
       @helpText="Use 3–20 characters. Letters and numbers only."
-      @size="s-size"
-      @errorMessage="error"
-      @fieldClass="col-12"
-      placeholder="Enter username"
-      aria-label="Username"
-    />
-    <UlxInput
-      @type="textarea"
-      @label="textarea"
-      @rules={{rules}}
-      @helpText="Use 3–20 characters. Letters and numbers only."
-      @size="s-size"
-      @errorMessage="error"
+      @size="m-size"
+      @error="Error message here"
       @fieldClass="col-12"
       placeholder="Enter username"
       aria-label="Username"
@@ -558,8 +547,8 @@
   </div>
   */
   {
-    "id": "mAFD5f3A",
-    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Enter username\"],[24,\"aria-label\",\"Username\"]],[[\"@label\",\"@rules\",\"@helpText\",\"@size\",\"@errorMessage\",\"@fieldClass\"],[\"Input\",[32,1],\"Use 3–20 characters. Letters and numbers only.\",\"s-size\",\"error\",\"col-12\"]],null],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Enter username\"],[24,\"aria-label\",\"Username\"]],[[\"@type\",\"@label\",\"@rules\",\"@helpText\",\"@size\",\"@errorMessage\",\"@fieldClass\"],[\"textarea\",\"textarea\",[32,1],\"Use 3–20 characters. Letters and numbers only.\",\"s-size\",\"error\",\"col-12\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "id": "lv2n+BA7",
+    "block": "[[[10,0],[14,0,\"ulx-form m-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Enter username\"],[24,\"aria-label\",\"Username\"]],[[\"@label\",\"@rules\",\"@helpText\",\"@size\",\"@error\",\"@fieldClass\"],[\"Input\",[32,1],\"Use 3–20 characters. Letters and numbers only.\",\"m-size\",\"Error message here\",\"col-12\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Basic.js",
     "scope": () => [_ulsComponents.UlxInput, rules],
     "isStrictMode": true
@@ -634,17 +623,17 @@
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
-      @floatLabel="label"
-      @label="label"
+      @id="username"
+      @label="Username"
+      @floatLabel={{true}}
       @size="l-size"
       @fieldClass="col-12"
-      aria-label="label"
     />
   </div>
   */
   {
-    "id": "F9CNHuwf",
-    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"aria-label\",\"label\"]],[[\"@floatLabel\",\"@label\",\"@size\",\"@fieldClass\"],[\"label\",\"label\",\"l-size\",\"col-12\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "id": "Gs7sOx/8",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@id\",\"@label\",\"@floatLabel\",\"@size\",\"@fieldClass\"],[\"username\",\"Username\",true,\"l-size\",\"col-12\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Floatlabel.js",
     "scope": () => [_ulsComponents.UlxInput],
     "isStrictMode": true
@@ -826,6 +815,103 @@
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Sizes"));
 });
+;define("ulx-ember/components/Demo/InputGroup/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      placeholder="Website"
+      aria-label="Website"
+      @fieldClass="col-12"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="ls-tick-icon"
+            @size="s18"
+            @ariaLabel="tick icon"
+          />
+        </span>
+      </:start>
+  
+      <:end>
+        <span class="ulx-inputgroup-addon">.com</span>
+      </:end>
+    </UlxInput>
+  
+  </div>
+  */
+  {
+    "id": "Ka29+59u",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Website\"],[24,\"aria-label\",\"Website\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".com\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/InputGroup/Basic.js",
+    "scope": () => [_ulsComponents.UlxInput, _ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Basic"));
+});
+;define("ulx-ember/components/Demo/InputGroup/Multiple", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      @fieldClass="col-12"
+      placeholder="Website"
+      aria-label="Website"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="user-info-icon-01"
+            @size="s18"
+            @ariaLabel="tick icon"
+          />
+        </span>
+        <span class="ulx-inputgroup-addon">
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="user-info-icon"
+            @size="s18"
+            @ariaLabel="tick icon"
+          />
+        </span>
+      </:start>
+      <:end>
+        <span class="ulx-inputgroup-addon">.com</span>
+      </:end>
+    </UlxInput>
+  </div>
+  */
+  {
+    "id": "LOB3XDpQ",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Website\"],[24,\"aria-label\",\"Website\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"user-info-icon-01\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"user-info-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".com\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/InputGroup/Multiple.js",
+    "scope": () => [_ulsComponents.UlxInput, _ulsComponents.UlxIcon],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Multiple"));
+});
 ;define("ulx-ember/components/Demo/TestComp/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object"], function (_exports, _component, _tracking, _object) {
   "use strict";
 
@@ -873,6 +959,89 @@
       return null;
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemClick", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemClick"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/UlxIconInput/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form m-size ulx-grid gp12 mgb14">
+    <UlxIconInput
+      @iconName="search-icon"
+      @iconType="font"
+      @iconClass="bs-icons1"
+      @iconPosition="left"
+      @iconSize="s18"
+      @fieldClass="col-4"
+      placeholder="Search"
+      aria-label="Search"
+    />
+  </div>
+  */
+  {
+    "id": "/7zhwCZj",
+    "block": "[[[10,0],[14,0,\"ulx-form m-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Search\"],[24,\"aria-label\",\"Search\"]],[[\"@iconName\",\"@iconType\",\"@iconClass\",\"@iconPosition\",\"@iconSize\",\"@fieldClass\"],[\"search-icon\",\"font\",\"bs-icons1\",\"left\",\"s18\",\"col-4\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/UlxIconInput/Basic.js",
+    "scope": () => [_ulsComponents.UlxIconInput],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Basic"));
+});
+;define("ulx-ember/components/Demo/UlxIconInput/Namedblocks", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form m-size ulx-grid gp12 mgb14">
+    <UlxIconInput
+      @iconType="font"
+      @iconPosition="left"
+      @iconSize="s18"
+      @fieldClass="col-4"
+      placeholder="Search"
+      aria-label="Search"
+    >
+      <:label><span class="bold-font">Calendar</span></:label>
+      <:icon>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.1621 9.63281C15.365 9.44555 15.6809 9.45824 15.8682 9.66113C16.0554 9.86404 16.0427 10.1799 15.8398 10.3672L9.33984 16.3672C9.24106 16.4583 9.10983 16.5058 8.97559 16.499C8.87512 16.4939 8.77935 16.459 8.7002 16.3994L8.62695 16.3311L7.45996 15.0127L7.40039 14.9297C7.28452 14.7282 7.32204 14.4667 7.50293 14.3066C7.68389 14.1466 7.94792 14.1415 8.13379 14.2812L8.20801 14.3496L9.03613 15.2861L15.1621 9.63281Z"
+            fill="black"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M17 2C17.2761 2 17.5 2.22386 17.5 2.5V4H18L18.2061 4.00488C20.3194 4.11211 22 5.85996 22 8V18L21.9951 18.2061C21.8913 20.2512 20.2512 21.8913 18.2061 21.9951L18 22H6L5.79395 21.9951C3.7488 21.8913 2.10865 20.2512 2.00488 18.2061L2 18V8C2 5.85996 3.68056 4.11211 5.79395 4.00488L6 4H6.5V2.5C6.5 2.22386 6.72386 2 7 2C7.27614 2 7.5 2.22386 7.5 2.5V4H16.5V2.5C16.5 2.22386 16.7239 2 17 2ZM6 5C4.34315 5 3 6.34315 3 8V18C3 19.6569 4.34315 21 6 21H18C19.6569 21 21 19.6569 21 18V8C21 6.34315 19.6569 5 18 5H17.5V6.5C17.5 6.77614 17.2761 7 17 7C16.7239 7 16.5 6.77614 16.5 6.5V5H7.5V6.5C7.5 6.77614 7.27614 7 7 7C6.72386 7 6.5 6.77614 6.5 6.5V5H6Z"
+            fill="black"
+          />
+        </svg>
+  
+      </:icon>
+    </UlxIconInput>
+  </div>
+  */
+  {
+    "id": "zi01XFEV",
+    "block": "[[[10,0],[14,0,\"ulx-form m-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Search\"],[24,\"aria-label\",\"Search\"]],[[\"@iconType\",\"@iconPosition\",\"@iconSize\",\"@fieldClass\"],[\"font\",\"left\",\"s18\",\"col-4\"]],[[\"label\",\"icon\"],[[[[10,1],[14,0,\"bold-font\"],[12],[1,\"Calendar\"],[13]],[]],[[[1,\"\\n      \"],[10,\"svg\"],[14,\"width\",\"16\"],[14,\"height\",\"16\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[12],[1,\"\\n        \"],[10,\"path\"],[14,\"d\",\"M15.1621 9.63281C15.365 9.44555 15.6809 9.45824 15.8682 9.66113C16.0554 9.86404 16.0427 10.1799 15.8398 10.3672L9.33984 16.3672C9.24106 16.4583 9.10983 16.5058 8.97559 16.499C8.87512 16.4939 8.77935 16.459 8.7002 16.3994L8.62695 16.3311L7.45996 15.0127L7.40039 14.9297C7.28452 14.7282 7.32204 14.4667 7.50293 14.3066C7.68389 14.1466 7.94792 14.1415 8.13379 14.2812L8.20801 14.3496L9.03613 15.2861L15.1621 9.63281Z\"],[14,\"fill\",\"black\"],[12],[13],[1,\"\\n        \"],[10,\"path\"],[14,\"fill-rule\",\"evenodd\"],[14,\"clip-rule\",\"evenodd\"],[14,\"d\",\"M17 2C17.2761 2 17.5 2.22386 17.5 2.5V4H18L18.2061 4.00488C20.3194 4.11211 22 5.85996 22 8V18L21.9951 18.2061C21.8913 20.2512 20.2512 21.8913 18.2061 21.9951L18 22H6L5.79395 21.9951C3.7488 21.8913 2.10865 20.2512 2.00488 18.2061L2 18V8C2 5.85996 3.68056 4.11211 5.79395 4.00488L6 4H6.5V2.5C6.5 2.22386 6.72386 2 7 2C7.27614 2 7.5 2.22386 7.5 2.5V4H16.5V2.5C16.5 2.22386 16.7239 2 17 2ZM6 5C4.34315 5 3 6.34315 3 8V18C3 19.6569 4.34315 21 6 21H18C19.6569 21 21 19.6569 21 18V8C21 6.34315 19.6569 5 18 5H17.5V6.5C17.5 6.77614 17.2761 7 17 7C16.7239 7 16.5 6.77614 16.5 6.5V5H7.5V6.5C7.5 6.77614 7.27614 7 7 7C6.72386 7 6.5 6.77614 6.5 6.5V5H6Z\"],[14,\"fill\",\"black\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/UlxIconInput/Namedblocks.js",
+    "scope": () => [_ulsComponents.UlxIconInput],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Namedblocks"));
 });
 ;define("ulx-ember/components/code-block", ["exports", "ember-prism/components/code-block"], function (_exports, _codeBlock) {
   "use strict";
@@ -1761,19 +1930,13 @@
       {{! Preview + code column }}
       <div class="fxgrow fxb column gp6 col-7">
         {{#if (has-block "preview")}}
-          <div
-            class="demo bg-default bd pd8 rds3"
-            style="position: sticky; top: 80px"
-          >
+          <div class="demo bg-default bd pd8 rds3">
             <p class="font-size12 fg-text-secondary mgt0 mgb4">Preview</p>
             {{yield this.resolvedProps to="preview"}}
           </div>
         {{/if}}
         {{#if this.displayCode}}
-          <div
-            class="code-block-wrapper"
-            style="position: sticky; top: 260px"
-          >
+          <div class="code-block-wrapper">
             <div class="fxb fvc fsb">
               <p class="font-size12 fg-text-secondary mgt0">Generated code</p>
               <div class="code-actions fxb gp4 pdy1 pdx3">
@@ -1863,8 +2026,8 @@
   </div>
   */
   {
-    "id": "Y6hlomnD",
-    "block": "[[[10,0],[14,0,\"doc-section component-builder\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"ulx-grid gp12\"],[12],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"fxgrow fxb column gp6 col-7\"],[12],[1,\"\\n\"],[41,[48,[30,4]],[[[1,\"        \"],[10,0],[14,0,\"demo bg-default bd pd8 rds3\"],[14,5,\"position: sticky; top: 80px\"],[12],[1,\"\\n          \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0 mgb4\"],[12],[1,\"Preview\"],[13],[1,\"\\n          \"],[18,4,[[30,0,[\"resolvedProps\"]]]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[41,[30,0,[\"displayCode\"]],[[[1,\"        \"],[10,0],[14,0,\"code-block-wrapper\"],[14,5,\"position: sticky; top: 260px\"],[12],[1,\"\\n          \"],[10,0],[14,0,\"fxb fvc fsb\"],[12],[1,\"\\n            \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0\"],[12],[1,\"Generated code\"],[13],[1,\"\\n            \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n              \"],[11,\"button\"],[16,0,[29,[\"ulx-button link xs-size\\n                  \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"                  Copied\\n\"]],[]],[[[1,\"                  Copy\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n          \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n            \"],[8,[32,1],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"markup\"]],null],[1,\"\\n\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col\"],[12],[1,\"\\n      \"],[10,\"h4\"],[14,0,\"mgt0 mgb4 bold-font font-size14\"],[12],[1,\"Properties\"],[13],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,0,[\"propsWithOptions\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"mgb4\"],[12],[1,\"\\n          \"],[10,\"label\"],[14,0,\"block font-size12 font-medium mgb1 fg-text-secondary\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n\"],[41,[30,1,[\"isRadio\"]],[[[1,\"            \"],[10,0],[14,0,\"fxb wrap gp4\"],[14,\"role\",\"group\"],[15,\"aria-label\",[30,1,[\"label\"]]],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"label\"],[14,0,\"fxb fvc cursor-pointer\"],[12],[1,\"\\n                  \"],[11,\"input\"],[16,3,[30,1,[\"inputName\"]]],[16,2,[30,2,[\"value\"]]],[16,\"checked\",[30,2,[\"selected\"]]],[24,0,\"mgr1\"],[24,4,\"radio\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"updateProp\"]],[30,1,[\"key\"]],[30,2,[\"value\"]]],null]],null],[12],[13],[1,\"\\n                  \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,2,[\"label\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n\"]],[2]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isSelect\"]],[[[1,\"            \"],[11,\"select\"],[24,0,\"block w-100p pd2 rds2 bd font-size12\"],[16,2,[30,1,[\"currentValue\"]]],[16,\"aria-label\",[30,1,[\"label\"]]],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"selectChange\"]],[30,1,[\"key\"]]],null]],null],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"option\"],[15,2,[30,3,[\"value\"]]],[15,\"selected\",[30,3,[\"selected\"]]],[12],[1,[30,3,[\"label\"]]],[13],[1,\"\\n\"]],[3]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isCheckbox\"]],[[[1,\"            \"],[10,\"label\"],[14,0,\"fxb fvc gp2 cursor-pointer\"],[12],[1,\"\\n              \"],[11,\"input\"],[16,\"checked\",[30,1,[\"currentValue\"]]],[24,0,\"mgr1\"],[24,4,\"checkbox\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"checkboxChange\"]],[30,1,[\"key\"]]],null]],null],[12],[13],[1,\"\\n              \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"]],[]],null]],[]]]],[]]],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\\n  \"],[13],[1,\"\\n\"],[13]],[\"prop\",\"opt\",\"opt\",\"&preview\"],[\"if\",\"has-block\",\"yield\",\"each\",\"-track-array\"]]",
+    "id": "CTXUlw8W",
+    "block": "[[[10,0],[14,0,\"doc-section component-builder\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"ulx-grid gp12\"],[12],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"fxgrow fxb column gp6 col-7\"],[12],[1,\"\\n\"],[41,[48,[30,4]],[[[1,\"        \"],[10,0],[14,0,\"demo bg-default bd pd8 rds3\"],[12],[1,\"\\n          \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0 mgb4\"],[12],[1,\"Preview\"],[13],[1,\"\\n          \"],[18,4,[[30,0,[\"resolvedProps\"]]]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[41,[30,0,[\"displayCode\"]],[[[1,\"        \"],[10,0],[14,0,\"code-block-wrapper\"],[12],[1,\"\\n          \"],[10,0],[14,0,\"fxb fvc fsb\"],[12],[1,\"\\n            \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0\"],[12],[1,\"Generated code\"],[13],[1,\"\\n            \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n              \"],[11,\"button\"],[16,0,[29,[\"ulx-button link xs-size\\n                  \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"                  Copied\\n\"]],[]],[[[1,\"                  Copy\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n          \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n            \"],[8,[32,1],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"markup\"]],null],[1,\"\\n\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col\"],[12],[1,\"\\n      \"],[10,\"h4\"],[14,0,\"mgt0 mgb4 bold-font font-size14\"],[12],[1,\"Properties\"],[13],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,0,[\"propsWithOptions\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"mgb4\"],[12],[1,\"\\n          \"],[10,\"label\"],[14,0,\"block font-size12 font-medium mgb1 fg-text-secondary\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n\"],[41,[30,1,[\"isRadio\"]],[[[1,\"            \"],[10,0],[14,0,\"fxb wrap gp4\"],[14,\"role\",\"group\"],[15,\"aria-label\",[30,1,[\"label\"]]],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"label\"],[14,0,\"fxb fvc cursor-pointer\"],[12],[1,\"\\n                  \"],[11,\"input\"],[16,3,[30,1,[\"inputName\"]]],[16,2,[30,2,[\"value\"]]],[16,\"checked\",[30,2,[\"selected\"]]],[24,0,\"mgr1\"],[24,4,\"radio\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"updateProp\"]],[30,1,[\"key\"]],[30,2,[\"value\"]]],null]],null],[12],[13],[1,\"\\n                  \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,2,[\"label\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n\"]],[2]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isSelect\"]],[[[1,\"            \"],[11,\"select\"],[24,0,\"block w-100p pd2 rds2 bd font-size12\"],[16,2,[30,1,[\"currentValue\"]]],[16,\"aria-label\",[30,1,[\"label\"]]],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"selectChange\"]],[30,1,[\"key\"]]],null]],null],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"option\"],[15,2,[30,3,[\"value\"]]],[15,\"selected\",[30,3,[\"selected\"]]],[12],[1,[30,3,[\"label\"]]],[13],[1,\"\\n\"]],[3]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isCheckbox\"]],[[[1,\"            \"],[10,\"label\"],[14,0,\"fxb fvc gp2 cursor-pointer\"],[12],[1,\"\\n              \"],[11,\"input\"],[16,\"checked\",[30,1,[\"currentValue\"]]],[24,0,\"mgr1\"],[24,4,\"checkbox\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"checkboxChange\"]],[30,1,[\"key\"]]],null]],null],[12],[13],[1,\"\\n              \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"]],[]],null]],[]]]],[]]],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\\n  \"],[13],[1,\"\\n\"],[13]],[\"prop\",\"opt\",\"opt\",\"&preview\"],[\"if\",\"has-block\",\"yield\",\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/component-builder.js",
     "scope": () => [_modifier.on, _codeBlock.default, _helper.fn],
     "isStrictMode": true
@@ -2342,7 +2505,7 @@
     "isStrictMode": true
   }), _RichTextComponent);
 });
-;define("ulx-ember/components/elements/uls-input/index", ["exports", "uls-components/components/elements/uls-input/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-icon-input/index", ["exports", "uls-components/components/elements/ulx-icon-input/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -2354,7 +2517,7 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/uls-input/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-icon-input/index"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/elements/ulx-icon/index", ["exports", "uls-components/components/elements/ulx-icon/index"], function (_exports, _index) {
   "use strict";
@@ -2370,7 +2533,7 @@
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-icon/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/uls-input", ["exports", "uls-components/components/uls-input"], function (_exports, _ulsInput) {
+;define("ulx-ember/components/elements/ulx-input/index", ["exports", "uls-components/components/elements/ulx-input/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -2379,10 +2542,24 @@
   Object.defineProperty(_exports, "default", {
     enumerable: true,
     get: function () {
-      return _ulsInput.default;
+      return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/uls-input"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-input/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/elements/ulx-textarea/index", ["exports", "uls-components/components/elements/ulx-textarea/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-textarea/index"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-docs-header", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ember-modifier", "@ember/modifier", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _emberModifier, _modifier, _component2, _templateFactory) {
   "use strict";
@@ -2545,6 +2722,20 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "toggleDarkMode", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleDarkMode"), _class.prototype), _class);
 });
+;define("ulx-ember/components/ulx-icon-input", ["exports", "uls-components/components/ulx-icon-input"], function (_exports, _ulxIconInput) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxIconInput.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-icon-input"eaimeta@70e063a35619d71f
+});
 ;define("ulx-ember/components/ulx-icon", ["exports", "uls-components/components/ulx-icon"], function (_exports, _ulxIcon) {
   "use strict";
 
@@ -2613,6 +2804,20 @@
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-react-bridge.js",
     "isStrictMode": true
   }), _UlxReactBridge);
+});
+;define("ulx-ember/components/ulx-textarea", ["exports", "uls-components/components/ulx-textarea"], function (_exports, _ulxTextarea) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxTextarea.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-textarea"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/welcome-page", ["exports", "ember-welcome-page/components/welcome-page"], function (_exports, _welcomePage) {
   "use strict";
@@ -2788,6 +2993,14 @@
         menuItem: 'Input',
         to: '/components/elements/input',
         route: 'components.elements.input'
+      }, {
+        menuItem: 'IconInput',
+        to: '/components/elements/ulx-icon-input',
+        route: 'components.elements.ulx-icon-input'
+      }, {
+        menuItem: 'InputGroup',
+        to: '/components/elements/input-group',
+        route: 'components.elements.input-group'
       }]
     }, {
       category: 'Icons',
@@ -2966,6 +3179,63 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
 });
+;define("ulx-ember/controllers/components/elements/input-group", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsInputGroupController = _exports.default = (_class = class ComponentsElementsInputGroupController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
 ;define("ulx-ember/controllers/components/elements/input", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
   "use strict";
 
@@ -3010,6 +3280,63 @@
     }
     get isPassthroughTab() {
       return this.activeTab === 'passthrough';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
+;define("ulx-ember/controllers/components/elements/ulx-icon-input", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsUlxIconInputController = _exports.default = (_class = class ComponentsElementsUlxIconInputController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
     }
     onTabChange(tabId) {
       this.activeTab = tabId;
@@ -4107,6 +4434,301 @@ import { UlxIcon } from 'uls-components';
 
 `;
 });
+;define("ulx-ember/documentation/components/elements/input-group/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // INPUTGROUP BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for InputGroup.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'InputGroup',
+    importLine: "import { InputGroup } from 'uls-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<InputGroup />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/input-group/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/input-group/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.InputGroupFeatureItems = void 0;
+  _exports.default = InputGroupFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/input-group/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // InputGroup Feature Items
+  // ==========================================================================
+  const InputGroupFeatureItems = _exports.InputGroupFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>InputGroup</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the InputGroup component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "multiple",
+    sectionNav: "Multiple",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Multiple</code> demo shows Multiple usage of the InputGroup component."
+      }
+    },
+    demo: {
+      component: _imports.MultipleDemo,
+      props: {
+        source: _imports.MultipleSource,
+        snippetName: "multiple",
+        language: "handlebars"
+      }
+    }
+  }];
+  function InputGroupFeatures() {
+    return InputGroupFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/input-group/imports", ["exports", "ulx-ember/components/Demo/InputGroup/Basic", "ulx-ember/components/Demo/InputGroup/Multiple", "ulx-ember/documentation/components/elements/input-group/snippets/Import.gjs", "ulx-ember/documentation/components/elements/input-group/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/input-group/snippets/Multiple.gjs"], function (_exports, _Basic, _Multiple, _Import, _Basic2, _Multiple2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  Object.defineProperty(_exports, "MultipleDemo", {
+    enumerable: true,
+    get: function () {
+      return _Multiple.default;
+    }
+  });
+  Object.defineProperty(_exports, "MultipleSource", {
+    enumerable: true,
+    get: function () {
+      return _Multiple2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/InputGroup/Basic",0,"ulx-ember/components/Demo/InputGroup/Multiple",0,"ulx-ember/documentation/components/elements/input-group/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/input-group/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/input-group/snippets/Multiple.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // InputGroup Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all InputGroup demo components
+  // Demo Components
+  // Import source (for import section)
+  // InputGroup Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all InputGroup demo source files
+});
+;define("ulx-ember/documentation/components/elements/input-group/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // INPUTGROUP COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for InputGroup component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Form',
+    menuItem: 'InputGroup',
+    routeBase: '/components/elements/input-group',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'InputGroup',
+    subHeader: 'InputGroup is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { InputGroup } from 'uls-components'",
+    // Accessibility information
+    accessibility: {
+      description: "InputGroup component description for accessibility.",
+      example: "<InputGroup />"
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/input-group/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxInput } from 'uls-components';
+import { UlxIcon } from 'uls-components';
+
+<template>
+  <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      placeholder="Website"
+      aria-label="Website"
+      @fieldClass="col-12"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="ls-tick-icon"
+            @size="s18"
+            @ariaLabel="tick icon"
+          />
+        </span>
+      </:start>
+
+      <:end>
+        <span class="ulx-inputgroup-addon">.com</span>
+      </:end>
+    </UlxInput>
+
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/input-group/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { InputGroup } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/input-group/snippets/Multiple.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxInput } from 'uls-components';
+import { UlxIcon } from 'uls-components';
+
+<template>
+  <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      @fieldClass="col-12"
+      placeholder="Website"
+      aria-label="Website"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="user-info-icon-01"
+            @size="s18"
+            @ariaLabel="tick icon"
+          />
+        </span>
+        <span class="ulx-inputgroup-addon">
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="user-info-icon"
+            @size="s18"
+            @ariaLabel="tick icon"
+          />
+        </span>
+      </:start>
+      <:end>
+        <span class="ulx-inputgroup-addon">.com</span>
+      </:end>
+    </UlxInput>
+  </div>
+</template>
+
+`;
+});
 ;define("ulx-ember/documentation/components/elements/input/builder-schema", ["exports"], function (_exports) {
   "use strict";
 
@@ -4752,24 +5374,13 @@ const rules = {
 };
 
 <template>
-  <div class="ulx-form s-size ulx-grid gp12 mgb14">
+  <div class="ulx-form m-size ulx-grid gp12 mgb14">
     <UlxInput
       @label="Input"
       @rules={{rules}}
       @helpText="Use 3–20 characters. Letters and numbers only."
-      @size="s-size"
-      @errorMessage="error"
-      @fieldClass="col-12"
-      placeholder="Enter username"
-      aria-label="Username"
-    />
-    <UlxInput
-      @type="textarea"
-      @label="textarea"
-      @rules={{rules}}
-      @helpText="Use 3–20 characters. Letters and numbers only."
-      @size="s-size"
-      @errorMessage="error"
+      @size="m-size"
+      @error="Error message here"
       @fieldClass="col-12"
       placeholder="Enter username"
       aria-label="Username"
@@ -4844,11 +5455,11 @@ import { UlxInput } from 'uls-components';
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
-      @floatLabel="label"
-      @label="label"
+      @id="username"
+      @label="Username"
+      @floatLabel={{true}}
       @size="l-size"
       @fieldClass="col-12"
-      aria-label="label"
     />
   </div>
 </template>
@@ -4988,6 +5599,285 @@ const sizes = [
         aria-label={{item.label}}
       />
     {{/each}}
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // ULXICONINPUT BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for IconInput.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'UlxIconInput',
+    importLine: "import { UlxIconInput } from 'uls-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<UlxIconInput />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/ulx-icon-input/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.UlxIconInputFeatureItems = void 0;
+  _exports.default = UlxIconInputFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/ulx-icon-input/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // UlxIconInput Feature Items
+  // ==========================================================================
+  const UlxIconInputFeatureItems = _exports.UlxIconInputFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>UlxIconInput</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the UlxIconInput component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "named-blocks",
+    sectionNav: "Namedblocks",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Namedblocks</code> demo shows NamedBlocks usage of the UlxIconInput component."
+      }
+    },
+    demo: {
+      component: _imports.NamedblocksDemo,
+      props: {
+        source: _imports.NamedblocksSource,
+        snippetName: "named-blocks",
+        language: "handlebars"
+      }
+    }
+  }];
+  function UlxIconInputFeatures() {
+    return UlxIconInputFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/imports", ["exports", "ulx-ember/components/Demo/UlxIconInput/Basic", "ulx-ember/components/Demo/UlxIconInput/Namedblocks", "ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Import.gjs", "ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Namedblocks.gjs"], function (_exports, _Basic, _Namedblocks, _Import, _Basic2, _Namedblocks2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  Object.defineProperty(_exports, "NamedblocksDemo", {
+    enumerable: true,
+    get: function () {
+      return _Namedblocks.default;
+    }
+  });
+  Object.defineProperty(_exports, "NamedblocksSource", {
+    enumerable: true,
+    get: function () {
+      return _Namedblocks2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/UlxIconInput/Basic",0,"ulx-ember/components/Demo/UlxIconInput/Namedblocks",0,"ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Namedblocks.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // UlxIconInput Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all UlxIconInput demo components
+  // Demo Components
+  // Import source (for import section)
+  // UlxIconInput Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all UlxIconInput demo source files
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // ULXICONINPUT COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for UlxIconInput component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Form',
+    menuItem: 'IconInput',
+    routeBase: '/components/elements/ulx-icon-input',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'IconInput',
+    subHeader: 'IconInput is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { UlxIconInput } from 'uls-components'",
+    // Accessibility information
+    accessibility: {
+      description: "UlxIconInput component description for accessibility.",
+      example: "<UlxIconInput />"
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxIconInput } from 'uls-components';
+
+<template>
+  <div class="ulx-form m-size ulx-grid gp12 mgb14">
+    <UlxIconInput
+      @iconName="search-icon"
+      @iconType="font"
+      @iconClass="bs-icons1"
+      @iconPosition="left"
+      @iconSize="s18"
+      @fieldClass="col-4"
+      placeholder="Search"
+      aria-label="Search"
+    />
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxIconInput } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/ulx-icon-input/snippets/Namedblocks.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxIconInput } from 'uls-components';
+
+<template>
+  <div class="ulx-form m-size ulx-grid gp12 mgb14">
+    <UlxIconInput
+      @iconType="font"
+      @iconPosition="left"
+      @iconSize="s18"
+      @fieldClass="col-4"
+      placeholder="Search"
+      aria-label="Search"
+    >
+      <:label><span class="bold-font">Calendar</span></:label>
+      <:icon>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.1621 9.63281C15.365 9.44555 15.6809 9.45824 15.8682 9.66113C16.0554 9.86404 16.0427 10.1799 15.8398 10.3672L9.33984 16.3672C9.24106 16.4583 9.10983 16.5058 8.97559 16.499C8.87512 16.4939 8.77935 16.459 8.7002 16.3994L8.62695 16.3311L7.45996 15.0127L7.40039 14.9297C7.28452 14.7282 7.32204 14.4667 7.50293 14.3066C7.68389 14.1466 7.94792 14.1415 8.13379 14.2812L8.20801 14.3496L9.03613 15.2861L15.1621 9.63281Z"
+            fill="black"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M17 2C17.2761 2 17.5 2.22386 17.5 2.5V4H18L18.2061 4.00488C20.3194 4.11211 22 5.85996 22 8V18L21.9951 18.2061C21.8913 20.2512 20.2512 21.8913 18.2061 21.9951L18 22H6L5.79395 21.9951C3.7488 21.8913 2.10865 20.2512 2.00488 18.2061L2 18V8C2 5.85996 3.68056 4.11211 5.79395 4.00488L6 4H6.5V2.5C6.5 2.22386 6.72386 2 7 2C7.27614 2 7.5 2.22386 7.5 2.5V4H16.5V2.5C16.5 2.22386 16.7239 2 17 2ZM6 5C4.34315 5 3 6.34315 3 8V18C3 19.6569 4.34315 21 6 21H18C19.6569 21 21 19.6569 21 18V8C21 6.34315 19.6569 5 18 5H17.5V6.5C17.5 6.77614 17.2761 7 17 7C16.7239 7 16.5 6.77614 16.5 6.5V5H7.5V6.5C7.5 6.77614 7.27614 7 7 7C6.72386 7 6.5 6.77614 6.5 6.5V5H6Z"
+            fill="black"
+          />
+        </svg>
+
+      </:icon>
+    </UlxIconInput>
   </div>
 </template>
 
@@ -5605,6 +6495,8 @@ const sizes = [
       this.route('elements', function () {
         this.route('icon');
         this.route('input');
+        this.route('ulx-icon-input');
+        this.route('input-group');
       });
     });
     this.route('utilities', function () {
@@ -5698,6 +6590,25 @@ const sizes = [
   }
   _exports.default = ComponentsElementsIconRoute;
 });
+;define("ulx-ember/routes/components/elements/input-group", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/input-group/features", "ulx-ember/documentation/components/elements/input-group/meta", "ulx-ember/documentation/components/elements/input-group/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/input-group/features",0,"ulx-ember/documentation/components/elements/input-group/meta",0,"ulx-ember/documentation/components/elements/input-group/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsInputGroupRoute extends _route.default {
+    model() {
+      return {
+        features: _features.InputGroupFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsInputGroupRoute;
+});
 ;define("ulx-ember/routes/components/elements/input", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/input/features", "ulx-ember/documentation/components/elements/input/meta", "ulx-ember/documentation/components/elements/input/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
   "use strict";
 
@@ -5716,6 +6627,25 @@ const sizes = [
     }
   }
   _exports.default = ComponentsElementsInputRoute;
+});
+;define("ulx-ember/routes/components/elements/ulx-icon-input", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/ulx-icon-input/features", "ulx-ember/documentation/components/elements/ulx-icon-input/meta", "ulx-ember/documentation/components/elements/ulx-icon-input/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/ulx-icon-input/features",0,"ulx-ember/documentation/components/elements/ulx-icon-input/meta",0,"ulx-ember/documentation/components/elements/ulx-icon-input/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsUlxIconInputRoute extends _route.default {
+    model() {
+      return {
+        features: _features.UlxIconInputFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsUlxIconInputRoute;
 });
 ;define("ulx-ember/routes/foundation/colors", ["exports", "@ember/routing/route", "@ulx/foundation"], function (_exports, _route, _foundation) {
   "use strict";
@@ -6540,6 +7470,68 @@ const sizes = [
     "isStrictMode": false
   });
 });
+;define("ulx-ember/templates/components/elements/input-group", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "InputGroup - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-input-group-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for InputGroup component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/input-group/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-input-group-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for InputGroup component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "ultwSWh/",
+    "block": "[[[1,[28,[35,0],[\"InputGroup - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-input-group-theming\",\"Theming\",\"Theming documentation for InputGroup component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/input-group/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-input-group-passthrough\",\"Pass Through\",\"Pass Through props documentation for InputGroup component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/input-group.hbs",
+    "isStrictMode": false
+  });
+});
 ;define("ulx-ember/templates/components/elements/input", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
   "use strict";
 
@@ -6611,6 +7603,68 @@ const sizes = [
     "id": "UHp//yaM",
     "block": "[[[1,[28,[35,0],[\"Input - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-input-theming\",\"Theming\",\"Theming documentation for Input component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"ulx-form s-size ulx-grid gp12\"],[12],[1,\"\\n          \"],[8,[39,9],[[16,\"placeholder\",[30,2,[\"placeholder\"]]],[16,\"aria-label\",[30,2,[\"label\"]]]],[[\"@label\",\"@floatLabel\",\"@rules\",\"@helpText\",\"@errorMessage\",\"@size\",\"@fieldClass\",\"@type\",\"@keyfilter\",\"@filled\",\"@disabled\",\"@readonly\"],[[30,2,[\"label\"]],[30,2,[\"floatLabel\"]],[30,2,[\"rules\"]],[30,2,[\"helpText\"]],[30,2,[\"errorMessage\"]],[30,2,[\"size\"]],[30,2,[\"fieldClass\"]],[30,2,[\"type\"]],[30,2,[\"keyfilter\"]],[30,2,[\"filled\"]],[30,2,[\"disabled\"]],[30,2,[\"readonly\"]]]],null],[1,\"\\n        \"],[13],[1,\"\\n      \"]],[2]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-input-passthrough\",\"Pass Through\",\"Pass Through props documentation for Input component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]]],[\"@model\",\"props\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"ulx-input\"]]",
     "moduleName": "ulx-ember/templates/components/elements/input.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ulx-ember/templates/components/elements/ulx-icon-input", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "IconInput - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-ulx-icon-input-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for IconInput component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/ulx-icon-input/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-ulx-icon-input-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for IconInput component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "VKXQJYCu",
+    "block": "[[[1,[28,[35,0],[\"IconInput - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-ulx-icon-input-theming\",\"Theming\",\"Theming documentation for IconInput component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/ulx-icon-input/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-ulx-icon-input-passthrough\",\"Pass Through\",\"Pass Through props documentation for IconInput component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/ulx-icon-input.hbs",
     "isStrictMode": false
   });
 });
@@ -8005,7 +9059,7 @@ const sizes = [
         <Common::DocMain::CodePreview
           @title="Create demo-page"
           @description="Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure."
-          @source="npm run create demo-page ComponentName --category collections --submodule menu"
+          @source="npm run create -- demo-page 'IconInput[IconInput]' --category elements --submodule form"
           @language="bash"
         />
       </section>
@@ -8040,8 +9094,8 @@ const sizes = [
   </div>
   */
   {
-    "id": "MhlRxbAT",
-    "block": "[[[1,[28,[35,0],[\"Get started with ULS - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[10,0],[14,0,\"ulsp-doc-tabpanel fxb fsb mgb10\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"panel-main mgr5\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"mgt0 mgb4 bold-font\"],[12],[1,\"Commands\"],[13],[1,\"\\n    \"],[10,2],[14,0,\"fg-text-secondary mgb6\"],[12],[1,\"Run these commands from the\\n      \"],[10,\"code\"],[12],[1,\"uls\"],[13],[1,\"\\n      directory. Use these npm scripts to create or remove demo pages and\\n      component variations. Replace\\n      \"],[10,\"strong\"],[12],[1,\"ComponentName\"],[13],[1,\"\\n      and\\n      \"],[10,\"strong\"],[12],[1,\"VariationName\"],[13],[1,\"\\n      with your component and variation names as needed.\"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create demo-page\",\"Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure.\",\"npm run create demo-page ComponentName --category collections --submodule menu\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete demo-page\",\"Removes an existing demo page. Use the same --category value as when the page was created.\",\"npm run destroy demo-page ComponentName --category collections\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create variations\",\"Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script.\",\"npm run add-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete variations\",\"Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:\",\"npm run destroy-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"page-title\",\"div\",\"h2\",\"p\",\"code\",\"strong\",\"section\",\"common/doc-main/code-preview\"]]",
+    "id": "sbOBU8pS",
+    "block": "[[[1,[28,[35,0],[\"Get started with ULS - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[10,0],[14,0,\"ulsp-doc-tabpanel fxb fsb mgb10\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"panel-main mgr5\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"mgt0 mgb4 bold-font\"],[12],[1,\"Commands\"],[13],[1,\"\\n    \"],[10,2],[14,0,\"fg-text-secondary mgb6\"],[12],[1,\"Run these commands from the\\n      \"],[10,\"code\"],[12],[1,\"uls\"],[13],[1,\"\\n      directory. Use these npm scripts to create or remove demo pages and\\n      component variations. Replace\\n      \"],[10,\"strong\"],[12],[1,\"ComponentName\"],[13],[1,\"\\n      and\\n      \"],[10,\"strong\"],[12],[1,\"VariationName\"],[13],[1,\"\\n      with your component and variation names as needed.\"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create demo-page\",\"Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure.\",\"npm run create -- demo-page 'IconInput[IconInput]' --category elements --submodule form\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete demo-page\",\"Removes an existing demo page. Use the same --category value as when the page was created.\",\"npm run destroy demo-page ComponentName --category collections\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create variations\",\"Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script.\",\"npm run add-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete variations\",\"Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:\",\"npm run destroy-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"page-title\",\"div\",\"h2\",\"p\",\"code\",\"strong\",\"section\",\"common/doc-main/code-preview\"]]",
     "moduleName": "ulx-ember/templates/walkthrough.hbs",
     "isStrictMode": false
   });
@@ -8179,7 +9233,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+a3443ee3"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+72e22499"});
           }
         
 //# sourceMappingURL=ulx-ember.map

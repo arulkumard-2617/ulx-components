@@ -143,19 +143,13 @@ export default class ComponentBuilderComponent extends Component {
         {{! Preview + code column }}
         <div class="fxgrow fxb column gp6 col-7">
           {{#if (has-block "preview")}}
-            <div
-              class="demo bg-default bd pd8 rds3"
-              style="position: sticky; top: 80px"
-            >
+            <div class="demo bg-default bd pd8 rds3">
               <p class="font-size12 fg-text-secondary mgt0 mgb4">Preview</p>
               {{yield this.resolvedProps to="preview"}}
             </div>
           {{/if}}
           {{#if this.displayCode}}
-            <div
-              class="code-block-wrapper"
-              style="position: sticky; top: 260px"
-            >
+            <div class="code-block-wrapper">
               <div class="fxb fvc fsb">
                 <p class="font-size12 fg-text-secondary mgt0">Generated code</p>
                 <div class="code-actions fxb gp4 pdy1 pdx3">

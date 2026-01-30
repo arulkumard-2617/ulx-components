@@ -1,1 +1,1 @@
-export { default } from './elements/uls-input/index.gjs';
+export { default } from './elements/ulx-input/index.gjs';
