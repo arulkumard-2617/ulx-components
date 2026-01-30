@@ -30713,6 +30713,14 @@ body {
 .component-builder-controls-col {
   min-width: 220px;
 }
+.component-builder .demo {
+  position: sticky;
+  top: 80px;
+}
+.component-builder .code-block-wrapper {
+  position: sticky;
+  top: 260px;
+}
 .doc-section-nav {
   position: sticky;
   top: 4rem;
