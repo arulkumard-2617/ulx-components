@@ -2,19 +2,23 @@
 
 
 
-;define("ulx-ember/app", ["exports", "@ember/application", "ember-resolver", "ember-load-initializers", "ulx-ember/config/environment", "@embroider/macros/es-compat2"], function (_exports, _application, _emberResolver, _emberLoadInitializers, _environment, _esCompat) {
+;define("ulx-ember/app", ["exports", "@ember/application", "ember-resolver", "ember-load-initializers", "ulx-ember/config/environment", "@ember/version", "@embroider/macros/es-compat2"], function (_exports, _application, _emberResolver, _emberLoadInitializers, _environment, _version, _esCompat) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"@ember/application",0,"ember-resolver",0,"ember-load-initializers",0,"ulx-ember/config/environment",0,"@embroider/macros",0,"./deprecation-workflow"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@ember/application",0,"ember-resolver",0,"ember-load-initializers",0,"ulx-ember/config/environment",0,"@embroider/macros",0,"@ember/version",0,"./deprecation-workflow"eaimeta@70e063a35619d71f
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
   function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
   {
     (0, _esCompat.default)(require("ulx-ember/deprecation-workflow"));
+    // Expose Ember version and app for console debugging (development only)
+    if (typeof window !== 'undefined') {
+      window.__EMBER_VERSION__ = _version.VERSION;
+    }
   }
   class App extends _application.default {
     constructor(...args) {
@@ -40,6 +44,187 @@
     }
   });
   0; //eaimeta@70e063a35619d71f0,"@glimmer/component/-private/ember-component-manager"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/Demo/Dialog/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/modifier", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _modifier, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _BasicDialogDemo;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/modifier",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let BasicDialogDemo = _exports.default = (_class = (_BasicDialogDemo = class BasicDialogDemo extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "isVisible", _descriptor, this);
+    }
+    openModal() {
+      this.isVisible = true;
+    }
+    closeModal() {
+      this.isVisible = false;
+    }
+    handleConfirm() {
+      this.isVisible = false;
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb fvc gp4">
+    <button
+      type="button"
+      class="uls-button uls-button-primary"
+      {{on "click" this.openModal}}
+    >
+      Open Modal
+    </button>
+  
+    <UlxModal
+      @visible={{this.isVisible}}
+      @title="Basic Dialog"
+      @onHide={{this.closeModal}}
+      @showDefaultFooter={{true}}
+      @cancelButtonLabel="Cancel"
+      @doneButtonLabel="Confirm"
+      @onDone={{this.handleConfirm}}
+      @onCancel={{this.closeModal}}
+    >
+      <p>This is the default body content. You can pass any content as the default block.</p>
+    </UlxModal>
+  </div>
+  */
+  {
+    "id": "eyRGt1XD",
+    "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[11,\"button\"],[24,0,\"uls-button uls-button-primary\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"openModal\"]]],null],[12],[1,\"\\n    Open Modal\\n  \"],[13],[1,\"\\n\\n  \"],[8,[32,1],null,[[\"@visible\",\"@title\",\"@onHide\",\"@showDefaultFooter\",\"@cancelButtonLabel\",\"@doneButtonLabel\",\"@onDone\",\"@onCancel\"],[[30,0,[\"isVisible\"]],\"Basic Dialog\",[30,0,[\"closeModal\"]],true,\"Cancel\",\"Confirm\",[30,0,[\"handleConfirm\"]],[30,0,[\"closeModal\"]]]],[[\"default\"],[[[[1,\"\\n    \"],[10,2],[12],[1,\"This is the default body content. You can pass any content as the default block.\"],[13],[1,\"\\n  \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Dialog/Basic.js",
+    "scope": () => [_modifier.on, _ulsComponents.UlxModal],
+    "isStrictMode": true
+  }), _BasicDialogDemo), _BasicDialogDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "isVisible", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "openModal", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openModal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeModal", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeModal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleConfirm", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleConfirm"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Dialog/Position", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/helper", "@ember/modifier", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _helper, _modifier, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _descriptor2, _PositionDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/helper",0,"@ember/modifier",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let PositionDemoComponent = _exports.default = (_class = (_PositionDemoComponent = class PositionDemoComponent extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "isVisible", _descriptor, this);
+      _initializerDefineProperty(this, "currentPosition", _descriptor2, this);
+    }
+    get positionOptions() {
+      return [{
+        label: 'Left',
+        value: 'left',
+        arrow: '→'
+      }, {
+        label: 'Right',
+        value: 'right',
+        arrow: '←'
+      }, {
+        label: 'TopLeft',
+        value: 'top-left',
+        arrow: '↖'
+      }, {
+        label: 'Top',
+        value: 'top',
+        arrow: '↓'
+      }, {
+        label: 'TopRight',
+        value: 'top-right',
+        arrow: '↗'
+      }, {
+        label: 'BottomLeft',
+        value: 'bottom-left',
+        arrow: '↙'
+      }, {
+        label: 'Bottom',
+        value: 'bottom',
+        arrow: '↑'
+      }, {
+        label: 'BottomRight',
+        value: 'bottom-right',
+        arrow: '↘'
+      }];
+    }
+    openModal(position) {
+      this.currentPosition = position;
+      this.isVisible = true;
+    }
+    closeModal() {
+      this.isVisible = false;
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb fw-wrap gp3">
+    {{#each this.positionOptions as |option|}}
+      <button
+        type="button"
+        class="uls-button uls-button-primary"
+        {{on "click" (fn this.openModal option.value)}}
+      >
+        {{option.label}}
+        <span aria-hidden="true">{{option.arrow}}</span>
+      </button>
+    {{/each}}
+  </div>
+  
+  <UlxModal
+    @visible={{this.isVisible}}
+    @position={{this.currentPosition}}
+    @title="Position: {{this.currentPosition}}"
+    @onHide={{this.closeModal}}
+    @showDefaultFooter={{true}}
+    @cancelButtonLabel="Close"
+    @onCancel={{this.closeModal}}
+  >
+    <p>This modal is positioned at <strong>{{this.currentPosition}}</strong>.</p>
+  </UlxModal>
+  */
+  {
+    "id": "IMUNjdTn",
+    "block": "[[[10,0],[14,0,\"fxb fw-wrap gp3\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"positionOptions\"]]],null]],null],null,[[[1,\"    \"],[11,\"button\"],[24,0,\"uls-button uls-button-primary\"],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"openModal\"]],[30,1,[\"value\"]]],null]],null],[12],[1,\"\\n      \"],[1,[30,1,[\"label\"]]],[1,\"\\n      \"],[10,1],[14,\"aria-hidden\",\"true\"],[12],[1,[30,1,[\"arrow\"]]],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[1]],null],[13],[1,\"\\n\\n\"],[8,[32,2],null,[[\"@visible\",\"@position\",\"@title\",\"@onHide\",\"@showDefaultFooter\",\"@cancelButtonLabel\",\"@onCancel\"],[[30,0,[\"isVisible\"]],[30,0,[\"currentPosition\"]],[29,[\"Position: \",[30,0,[\"currentPosition\"]]]],[30,0,[\"closeModal\"]],true,\"Close\",[30,0,[\"closeModal\"]]]],[[\"default\"],[[[[1,\"\\n  \"],[10,2],[12],[1,\"This modal is positioned at \"],[10,\"strong\"],[12],[1,[30,0,[\"currentPosition\"]]],[13],[1,\".\"],[13],[1,\"\\n\"]],[]]]]]],[\"option\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Dialog/Position.js",
+    "scope": () => [_modifier.on, _helper.fn, _ulsComponents.UlxModal],
+    "isStrictMode": true
+  }), _PositionDemoComponent), _PositionDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "isVisible", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return false;
+    }
+  }), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "currentPosition", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'center';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "openModal", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "openModal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeModal", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "closeModal"), _class.prototype), _class);
 });
 ;define("ulx-ember/components/Demo/Icon/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
@@ -92,9 +277,9 @@
   </div>
   */
   {
-    "id": "tPl95DEK",
+    "id": "/nz5FJde",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"close-icon-01\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,null,[[\"icon\"],[[[[1,\"\\n      \"],[10,\"svg\"],[14,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[14,\"width\",\"24\"],[14,\"height\",\"24\"],[14,\"viewBox\",\"0 0 1024 1024\"],[12],[1,\"\\n        \"],[10,\"path\"],[14,\"fill\",\"currentColor\"],[14,\"transform\",\"scale(1, -1) translate(0, -1024)\"],[14,\"d\",\"M 831.488 602.112h -24.576c -12.288 0.000 -20.480 8.192 -28.672 20.480 -4.096 12.288 -4.096 24.576 4.096 32.768l 20.480 20.480c 36.864 36.864 36.864 94.208 0.000 126.976 -36.864 36.864 -94.208 36.864 -126.976 0.000l -20.480 -20.480c -8.192 -8.192 -20.480 -12.288 -32.768 -4.096 -12.288 4.096 -20.480 16.384 -20.480 28.672v 24.576c 0.000 49.152 -40.960 90.112 -90.112 90.112s -90.112 -40.960 -90.112 -90.112v -24.576c 0.000 -12.288 -8.192 -20.480 -20.480 -28.672 -12.288 -4.096 -24.576 -4.096 -32.768 4.096l -16.384 20.480c -36.864 36.864 -94.208 36.864 -126.976 0.000 -36.864 -36.864 -36.864 -94.208 0.000 -126.976l 16.384 -20.480c 8.192 -8.192 8.192 -20.480 4.096 -32.768s -16.384 -20.480 -28.672 -20.480h -24.576c -49.152 0.000 -90.112 -40.960 -90.112 -90.112s 40.960 -90.112 90.112 -90.112h 24.576c 12.288 0.000 20.480 -8.192 28.672 -20.480 4.096 -12.288 4.096 -24.576 -4.096 -32.768l -20.480 -20.480c -36.864 -36.864 -36.864 -94.208 0.000 -126.976 36.864 -36.864 94.208 -36.864 126.976 0.000l 20.480 20.480c 8.192 8.192 20.480 12.288 32.768 4.096 12.288 -4.096 20.480 -16.384 20.480 -28.672v -24.576c 0.000 -49.152 40.960 -90.112 90.112 -90.112s 90.112 40.960 90.112 90.112v 24.576c 0.000 12.288 8.192 20.480 20.480 28.672 12.288 4.096 24.576 4.096 32.768 -4.096l 20.480 -20.480c 36.864 -36.864 94.208 -36.864 126.976 0.000s 36.864 94.208 0.000 126.976l -20.480 20.480c -8.192 8.192 -12.288 20.480 -4.096 32.768 4.096 12.288 16.384 20.480 28.672 20.480h 24.576c 49.152 0.000 90.112 40.960 90.112 90.112s -40.960 90.112 -90.112 90.112zM 831.488 471.040h -24.576c -32.768 0.000 -61.440 -20.480 -73.728 -49.152s -8.192 -61.440 16.384 -86.016l 20.480 -20.480c 16.384 -16.384 16.384 -40.960 0.000 -57.344s -40.960 -16.384 -57.344 0.000l -20.480 20.480c -24.576 24.576 -57.344 28.672 -86.016 16.384s -49.152 -36.864 -49.152 -73.728v -24.576c 0.000 -24.576 -20.480 -40.960 -40.960 -40.960 -24.576 0.000 -40.960 20.480 -40.960 40.960v 24.576c 0.000 32.768 -20.480 61.440 -49.152 73.728s -61.440 8.192 -86.016 -16.384l -20.480 -20.480c -16.384 -16.384 -40.960 -16.384 -57.344 0.000s -16.384 40.960 0.000 57.344l 20.480 20.480c 24.576 24.576 28.672 57.344 16.384 86.016s -36.864 49.152 -73.728 49.152h -32.768c -24.576 0.000 -40.960 20.480 -40.960 40.960s 20.480 40.960 40.960 40.960h 24.576c 32.768 0.000 61.440 20.480 73.728 49.152s 8.192 61.440 -16.384 86.016l -16.384 20.480c -16.384 16.384 -16.384 40.960 0.000 57.344s 40.960 16.384 57.344 0.000l 20.480 -20.480c 24.576 -24.576 57.344 -28.672 86.016 -16.384s 49.152 36.864 49.152 73.728v 28.672c 0.000 24.576 20.480 40.960 40.960 40.960 24.576 0.000 40.960 -20.480 40.960 -40.960v -24.576c 0.000 -32.768 20.480 -61.440 49.152 -73.728s 61.440 -8.192 86.016 16.384l 20.480 20.480c 16.384 16.384 40.960 16.384 57.344 0.000s 16.384 -40.960 0.000 -57.344l -20.480 -20.480c -24.576 -24.576 -28.672 -57.344 -16.384 -86.016s 36.864 -49.152 73.728 -49.152h 24.576c 24.576 0.000 40.960 -20.480 40.960 -40.960s -16.384 -45.056 -36.864 -45.056zM 512.000 647.168c -73.728 0.000 -135.168 -61.440 -135.168 -135.168s 61.440 -135.168 135.168 -135.168c 73.728 0.000 135.168 61.440 135.168 135.168s -61.440 135.168 -135.168 135.168zM 512.000 425.984c -49.152 0.000 -86.016 40.960 -86.016 86.016s 40.960 86.016 86.016 86.016c 49.152 0.000 86.016 -40.960 86.016 -86.016s -36.864 -86.016 -86.016 -86.016z\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Basic.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Basic.js",
     "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Basic"));
@@ -169,9 +354,9 @@
   </div>
   */
   {
-    "id": "C/PArxpG",
+    "id": "VdqpyRG7",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s12\",\"tick icon\",\"primary\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s13\",\"tick icon\",\"success\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s14\",\"tick icon\",\"warning\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s16\",\"tick icon\",\"danger\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s18\",\"tick icon\",\"info\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s20\",\"tick icon\",\"muted\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s22\",\"tick icon\",\"inverted\"]],null],[1,\"\\n\"],[13]],[],[]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Color.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Color.js",
     "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Color"));
@@ -225,9 +410,9 @@
   </div>
   */
   {
-    "id": "oXOQvddR",
+    "id": "ir9tuuZU",
     "block": "[[[10,0],[14,0,\"ulx-column col-3 gp8 fhc\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"layerVariations\"]]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxb column fvc gp2 col-3\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"text-sm\"],[12],[1,\"bg-\"],[1,[30,1]],[13],[1,\"\\n      \"],[10,0],[14,0,\"fxb gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"sampleIcons\"]]],null]],null],null,[[[1,\"          \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",[30,2],\"l\",\"\",[28,[30,0,[\"layerClass\"]],[[30,1]],null]]],null],[1,\"\\n\"]],[2]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[1]],null],[13]],[\"color\",\"iconName\"],[\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Layer.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Layer.js",
     "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
   }), _DemoIconLayer);
@@ -359,9 +544,9 @@
   </div>
   */
   {
-    "id": "T/vlRwz+",
+    "id": "Ql9Uzi2v",
     "block": "[[[11,0],[24,0,\"fxc gp4\"],[4,[30,0,[\"runOnInsert\"]],null,null],[12],[1,\"\\n  \"],[10,0],[14,0,\"fxb fvc gp3 mgb8\"],[12],[1,\"\\n    \"],[11,\"input\"],[24,\"placeholder\",\"Search icons...\"],[24,0,\"ulx-input\"],[24,\"aria-label\",\"Search icons\"],[16,2,[30,0,[\"query\"]]],[24,4,\"text\"],[4,[30,0,[\"on\"]],[\"input\",[30,0,[\"updateQuery\"]]],null],[12],[13],[1,\"\\n    \"],[10,1],[14,0,\"text-sm ulx-badge\"],[12],[1,[30,0,[\"filteredIcons\",\"length\"]]],[1,\"\\n      icons\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"filteredIcons\",\"length\"]],[[[1,\"    \"],[10,0],[14,0,\"ulx-grid gp5 col-5 pdt5 text-center bd-t\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"filteredIcons\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"pd3 fxb column fvc gp3\"],[12],[1,\"\\n          \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",[30,1],\"s20\",\"\"]],null],[1,\"\\n          \"],[10,1],[14,0,\"text-sm\"],[12],[1,[30,1]],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\"]],[]],[[[1,\"    \"],[10,0],[14,0,\"text-center fg-text-muted pdy6 bd-t\"],[12],[1,\"No icons found\"],[13],[1,\"\\n\"]],[]]],[13]],[\"iconName\"],[\"if\",\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/List.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/List.js",
     "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
   }), _DemoIconList), _DemoIconList), _descriptor = _applyDecoratedDescriptor(_class.prototype, "query", [_tracking.tracked], {
@@ -478,9 +663,9 @@
   </div>
   */
   {
-    "id": "bnesuOAa",
+    "id": "BCZSLxyZ",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s12\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s13\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s14\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s16\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s20\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s22\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s26\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s28\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s30\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s32\",\"tick icon\"]],null],[1,\"\\n\"],[13]],[],[]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Size.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Size.js",
     "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Size"));
@@ -507,9 +692,9 @@
   </div>
   */
   {
-    "id": "ISidHcqN",
+    "id": "76zaz7mu",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"session-settings-icon\",\"s28\",\"tick icon\",\"primary spin-anim\"]],null],[1,\"\\n\"],[13]],[],[]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Spin.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Spin.js",
     "scope": () => [_ulsComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Spin"));
@@ -878,9 +1063,9 @@
     </aside>
   */
   {
-    "id": "AAgtDOyw",
+    "id": "XPF7nlzY",
     "block": "[[[41,false,[[[1,[30,0,[\"computedActiveItem\"]]]],[]],null],[1,\"\\n\"],[10,\"aside\"],[14,0,\"ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10\"],[12],[1,\"\\n  \"],[10,\"nav\"],[14,0,\"sidebar-nav fxgrow\"],[12],[1,\"\\n    \"],[10,\"ol\"],[14,0,\"s-nav-list mgt2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"navItems\"]]],null]],null],null,[[[1,\"        \"],[10,\"li\"],[14,0,\"s-nav-item mgb4\"],[12],[1,\"\\n\"],[41,[30,1,[\"to\"]],[[[41,[28,[30,0,[\"hasChildren\"]],[[30,1]],null],[[[1,\"            \"],[10,0],[14,0,\"fxb fvc gp2 w-100p\"],[12],[1,\"\\n              \"],[11,\"button\"],[16,0,[29,[\"s-nav-link fxb fvc gp2 text-left \",[52,[28,[30,0,[\"isItemActive\"]],[[30,1],[30,0,[\"currentPath\"]]],null],\"fg-primary\",\"\"]]]],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"toggleItem\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n              \"],[11,\"button\"],[24,0,\"s-nav-link-icon mgl-auto pdl1\"],[16,\"aria-label\",[29,[\"Toggle \",[30,1,[\"menuTitle\"]],\" menu\"]]],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"handleToggle\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                \"],[10,\"i\"],[15,0,[29,[\"menu-toggle-icon pi pi-angle-down transition \",[52,[28,[30,0,[\"isExpanded\"]],[[30,1]],null],\"rotate-180\",\"\"]]]],[12],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],[[[1,\"              \"],[8,[32,2],[[16,0,[29,[\"s-nav-link fxb fvc fhs gp2 w-100p \",[52,[28,[30,0,[\"isItemActive\"]],[[30,1],[30,0,[\"currentPath\"]]],null],\"fg-primary\",\"fg-text\"]]]]],[[\"@route\"],[[30,1,[\"route\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,1,[\"icon\"]],[[[1,\"                  \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n                    \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n                  \"],[13],[1,\"\\n\"]],[]],null],[1,\"                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"]],[]]]]],[1,\"\\n\"]],[]]]],[]],[[[1,\"           \"],[11,\"button\"],[24,0,\"s-nav-link fxb fvc gp2 w-100p\"],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"toggleItem\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-icon mgl-auto\"],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[29,[\"menu-toggle-icon pi pi-angle-down transition \",[52,[28,[30,0,[\"isExpanded\"]],[[30,1]],null],\"rotate-180\",\"\"]]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]]],[1,\"          \\n\"],[41,[28,[30,0,[\"hasChildren\"]],[[30,1]],null],[[[1,\"            \"],[11,0],[24,0,\"accordion-content\"],[16,5,[28,[30,0,[\"getAccordionStyle\"]],[[30,1]],null]],[4,[30,0,[\"setContentRef\"]],[[30,1,[\"menuTitle\"]]],null],[12],[1,\"\\n              \"],[10,\"ol\"],[14,0,\"s-nav-list mgt1 pdl2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,1,[\"children\"]]],null]],null],null,[[[41,[30,2,[\"category\"]],[[[1,\"                    \"],[10,\"li\"],[14,0,\"s-nav-item pdb2 pdt2\"],[12],[1,\"\\n                      \"],[10,0],[14,0,\"s-nav-category medium-font fg-text-secondary\"],[12],[1,[30,2,[\"category\"]]],[13],[1,\"\\n\"],[41,[30,2,[\"items\"]],[[[1,\"                        \"],[10,\"ol\"],[14,0,\"s-nav-list mgt2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,2,[\"items\"]]],null]],null],null,[[[1,\"                            \"],[10,\"li\"],[14,0,\"s-nav-item\"],[12],[1,\"\\n                              \"],[8,[32,2],[[24,0,\"bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block\"]],[[\"@route\",\"@activeClass\"],[[30,3,[\"route\"]],\"bd-primary fg-primary\"]],[[\"default\"],[[[[1,\"\\n                                \"],[1,[30,3,[\"menuItem\"]]],[1,\"\\n                              \"]],[]]]]],[1,\"\\n                            \"],[13],[1,\"\\n\"]],[3]],null],[1,\"                        \"],[13],[1,\"\\n\"]],[]],null],[1,\"                    \"],[13],[1,\"\\n\"]],[]],[[[1,\"                    \"],[10,\"li\"],[14,0,\"s-nav-item\"],[12],[1,\"\\n                      \"],[8,[32,2],[[24,0,\"bd-l pdl5 pdb2 pdt2 font-size14 text-left w-100p block fg-text\"]],[[\"@route\",\"@activeClass\"],[[30,2,[\"route\"]],\"bd-primary fg-primary\"]],[[\"default\"],[[[[1,\"\\n                        \"],[1,[30,2,[\"menuItem\"]]],[1,\"\\n                      \"]],[]]]]],[1,\"\\n                    \"],[13],[1,\"\\n\"]],[]]]],[2]],null],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],null],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n  \"],[13]],[\"item\",\"childItem\",\"subItem\"],[\"if\",\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-layout/doc-sidebar.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-layout/doc-sidebar.js",
     "scope": () => [_modifier.on, _helper.fn, _routing.LinkTo],
     "isStrictMode": true
   }), _DocSidebarComponent), _DocSidebarComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "router", [_service.service], {
@@ -970,9 +1155,9 @@
   {{/if}}
   */
   {
-    "id": "ECpZW1Lj",
+    "id": "Cs/vJEZ4",
     "block": "[[[41,[30,0,[\"rows\",\"length\"]],[[[1,\"  \"],[10,0],[14,0,\"uls-datatable s-size\"],[14,5,\"width: 850px;\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"datatable-wrapper\"],[12],[1,\"\\n      \"],[10,\"table\"],[14,0,\"datatable-table\"],[14,5,\"table-layout: fixed;\"],[12],[1,\"\\n        \"],[10,\"thead\"],[14,0,\"datatable-header\"],[12],[1,\"\\n          \"],[10,\"tr\"],[14,0,\"datatable-header-row\"],[12],[1,\"\\n            \"],[10,\"th\"],[14,0,\"datatable-column-header-cell\"],[12],[1,[30,0,[\"columnLabels\",\"0\"]]],[13],[1,\"\\n            \"],[10,\"th\"],[14,0,\"datatable-column-header-cell\"],[12],[1,[30,0,[\"columnLabels\",\"1\"]]],[13],[1,\"\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n        \"],[10,\"tbody\"],[14,0,\"datatable-tbody\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"rows\"]]],null]],null],null,[[[1,\"            \"],[10,\"tr\"],[14,0,\"datatable-body-row\"],[12],[1,\"\\n              \"],[10,\"td\"],[14,0,\"datatable-column-body-cell\"],[12],[1,\"\\n                \"],[10,0],[14,0,\"fxb fvc gp2\"],[12],[1,\"\\n\"],[41,[30,1,[\"color\"]],[[[1,\"                    \"],[10,0],[14,0,\"rds-circle bd w20 h20\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,1,[\"color\"]]],null]],[14,\"aria-hidden\",\"true\"],[12],[13],[1,\"\\n\"]],[]],null],[1,\"                  \"],[10,1],[14,0,\"bold-font fg-primary font-size16\"],[12],[1,[28,[30,0,[\"formatClassName\"]],[[30,1,[\"className\"]]],null]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n              \"],[10,\"td\"],[14,0,\"datatable-column-body-cell\"],[12],[1,\"\\n                \"],[10,1],[14,0,\"font-size16\"],[12],[1,[30,1,[\"property\"]]],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[1]],null],[1,\"        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],null]],[\"row\"],[\"if\",\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/class-property-table.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/class-property-table.js",
     "isStrictMode": true
   }), _ClassPropertyTableComponent);
 });
@@ -1230,9 +1415,9 @@
       </div>
   */
   {
-    "id": "uhYnALUB",
+    "id": "reQNcebO",
     "block": "[[[1,\"    \"],[11,0],[24,0,\"code-preview-container\"],[17,1],[12],[1,\"\\n\"],[41,[30,2],[[[1,\"        \"],[10,\"h5\"],[14,0,\"mgb2 font-medium\"],[12],[1,[30,2]],[13],[1,\"\\n\"]],[]],null],[41,[30,3],[[[1,\"        \"],[10,0],[14,0,\"text-small fg-text-secondary mgb4\"],[12],[1,\"\\n          \"],[1,[30,3]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[41,[48,[30,5]],[[[41,[30,4],[[[1,\"          \"],[10,0],[14,0,\"demo-and-code\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"demo\"],[12],[1,\"\\n              \"],[10,0],[14,0,\"code-preview-container\"],[12],[1,\"\\n                \"],[10,0],[14,0,\"demo bg-default bd pd8 mgb2 rds3\"],[12],[1,\"\\n                  \"],[18,5,null],[1,\"\\n                \"],[13],[1,\"\\n\"],[41,[30,0,[\"displayCode\"]],[[[1,\"                  \"],[10,0],[14,0,\"code-block asdad\"],[12],[1,\"\\n\"],[41,[30,0,[\"expanded\"]],[[[1,\"                      \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"javascript\"]],null],[1,\"\\n\"]],[]],[[[1,\"                        \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n\"]],[]]],[1,\"                    \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n                      \"],[11,\"button\"],[16,0,[29,[\"expand-btn \",[52,[30,0,[\"expanded\"]],\"is-expanded\"]]]],[16,\"aria-label\",[52,[30,0,[\"expanded\"]],\"Collapse code\",\"Expand code\"]],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"toggleExpanded\"]]],null],[12],[1,\"\\n                        \"],[10,\"svg\"],[14,0,\"fit-width-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n  \"],[3,\" left bar \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"bar left\"],[14,\"d\",\"M4 4v16\"],[12],[13],[1,\"\\n\\n  \"],[3,\" right bar \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"bar right\"],[14,\"d\",\"M20 4v16\"],[12],[13],[1,\"\\n\\n  \"],[3,\" left arrow \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"arrow left\"],[14,\"d\",\"M10 12H6m0 0l2-2m-2 2l2 2\"],[12],[13],[1,\"\\n\\n  \"],[3,\" right arrow \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"arrow right\"],[14,\"d\",\"M14 12h4m0 0l-2-2m2 2l-2 2\"],[12],[13],[1,\"\\n\"],[13],[1,\"\\n                      \"],[13],[1,\"\\n                      \"],[11,\"button\"],[16,0,[29,[\"copy-btn \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n                        \"],[10,\"svg\"],[14,0,\"copy-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                          \"],[3,\" Copy icon \"],[1,\"\\n                          \"],[10,\"g\"],[14,0,\"icon-copy\"],[12],[1,\"\\n                            \"],[10,\"rect\"],[14,\"x\",\"6\"],[14,\"y\",\"2\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[12],[13],[1,\"\\n                            \"],[10,\"rect\"],[14,\"x\",\"1\"],[14,\"y\",\"8\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"#272822\"],[12],[13],[1,\"\\n                            \\n                          \"],[13],[1,\"\\n\\n                          \"],[3,\" Check icon \"],[1,\"\\n                          \"],[10,\"path\"],[14,0,\"icon-check\"],[14,\"d\",\"M5 13l4 4L19 7\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"none\"],[14,\"stroke-linecap\",\"round\"],[14,\"stroke-linejoin\",\"round\"],[12],[13],[1,\"\\n                        \"],[13],[1,\"\\n                      \"],[13],[1,\"\\n                    \"],[13],[1,\"\\n                  \"],[13],[1,\"\\n\"]],[]],null],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"displayCode\"]],[[[1,\"            \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n              \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n              \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n                \"],[11,\"button\"],[16,0,[29,[\"copy-btn \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n                  \"],[10,\"svg\"],[14,0,\"copy-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                    \"],[3,\" Copy icon \"],[1,\"\\n                    \"],[10,\"g\"],[14,0,\"icon-copy\"],[12],[1,\"\\n                      \"],[10,\"rect\"],[14,\"x\",\"6\"],[14,\"y\",\"2\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[12],[13],[1,\"\\n                      \"],[10,\"rect\"],[14,\"x\",\"1\"],[14,\"y\",\"8\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"#272822\"],[12],[13],[1,\"\\n                      \\n                    \"],[13],[1,\"\\n\\n                    \"],[3,\" Check icon \"],[1,\"\\n                    \"],[10,\"path\"],[14,0,\"icon-check\"],[14,\"d\",\"M5 13l4 4L19 7\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"none\"],[14,\"stroke-linecap\",\"round\"],[14,\"stroke-linejoin\",\"round\"],[12],[13],[1,\"\\n                  \"],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],null]],[]]]],[]],[[[41,[30,0,[\"displayCode\"]],[[[1,\"          \"],[10,0],[14,0,\"code-block asdad\"],[12],[1,\"\\n            \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n            \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n              \"],[11,\"button\"],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"                  copied\\n\"]],[]],[[[1,\"                  copy\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[]],null]],[]]],[1,\"    \"],[13]],[\"&attrs\",\"@title\",\"@description\",\"@hasDemo\",\"&default\"],[\"if\",\"has-block\",\"yield\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/code-preview.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/code-preview.js",
     "scope": () => [_codeBlock.default, _modifier.on],
     "isStrictMode": true
   }), _CodePreviewComponent), _CodePreviewComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "isCodeTab", [_tracking.tracked], {
@@ -1312,9 +1497,9 @@
   </div>
   */
   {
-    "id": "GZ3/CgkA",
+    "id": "3PNcs26a",
     "block": "[[[10,0],[14,0,\"fxb fcol gp8 w-100p\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxcol gp2\"],[12],[1,\"\\n      \"],[10,\"h5\"],[14,0,\"mgt0 mgb2 bold-font fg-primary\"],[12],[1,[30,2,[\"title\"]]],[13],[1,\"\\n      \"],[10,0],[14,0,\"uls-grid col-4 gp5\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,2,[\"colors\"]]],null]],null],null,[[[1,\"          \"],[10,\"article\"],[14,0,\"uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"rds2 mgb2 bd mg-auto\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,3,[\"cssVar\"]]],null]],[12],[13],[1,\"\\n            \"],[10,2],[14,0,\"mgb1 fg-text-secondary\"],[12],[10,\"code\"],[12],[1,[30,3,[\"token\"]]],[13],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[3]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[2]],null],[13]],[\"@paletteGroups\",\"group\",\"color\"],[\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/color-palette.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/color-palette.js",
     "isStrictMode": true
   }), _ColorPaletteComponent);
 });
@@ -1545,9 +1730,9 @@
   </div>
   */
   {
-    "id": "CTXUlw8W",
+    "id": "baX4U8x2",
     "block": "[[[10,0],[14,0,\"doc-section component-builder\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"ulx-grid gp12\"],[12],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"fxgrow fxb column gp6 col-7\"],[12],[1,\"\\n\"],[41,[48,[30,4]],[[[1,\"        \"],[10,0],[14,0,\"demo bg-default bd pd8 rds3\"],[12],[1,\"\\n          \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0 mgb4\"],[12],[1,\"Preview\"],[13],[1,\"\\n          \"],[18,4,[[30,0,[\"resolvedProps\"]]]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[41,[30,0,[\"displayCode\"]],[[[1,\"        \"],[10,0],[14,0,\"code-block-wrapper\"],[12],[1,\"\\n          \"],[10,0],[14,0,\"fxb fvc fsb\"],[12],[1,\"\\n            \"],[10,2],[14,0,\"font-size12 fg-text-secondary mgt0\"],[12],[1,\"Generated code\"],[13],[1,\"\\n            \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n              \"],[11,\"button\"],[16,0,[29,[\"ulx-button link xs-size\\n                  \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"                  Copied\\n\"]],[]],[[[1,\"                  Copy\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n          \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n            \"],[8,[32,1],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"markup\"]],null],[1,\"\\n\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col\"],[12],[1,\"\\n      \"],[10,\"h4\"],[14,0,\"mgt0 mgb4 bold-font font-size14\"],[12],[1,\"Properties\"],[13],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,0,[\"propsWithOptions\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"mgb4\"],[12],[1,\"\\n          \"],[10,\"label\"],[14,0,\"block font-size12 font-medium mgb1 fg-text-secondary\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n\"],[41,[30,1,[\"isRadio\"]],[[[1,\"            \"],[10,0],[14,0,\"fxb wrap gp4\"],[14,\"role\",\"group\"],[15,\"aria-label\",[30,1,[\"label\"]]],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"label\"],[14,0,\"fxb fvc cursor-pointer\"],[12],[1,\"\\n                  \"],[11,\"input\"],[16,3,[30,1,[\"inputName\"]]],[16,2,[30,2,[\"value\"]]],[16,\"checked\",[30,2,[\"selected\"]]],[24,0,\"mgr1\"],[24,4,\"radio\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"updateProp\"]],[30,1,[\"key\"]],[30,2,[\"value\"]]],null]],null],[12],[13],[1,\"\\n                  \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,2,[\"label\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n\"]],[2]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isSelect\"]],[[[1,\"            \"],[11,\"select\"],[24,0,\"block w-100p pd2 rds2 bd font-size12\"],[16,2,[30,1,[\"currentValue\"]]],[16,\"aria-label\",[30,1,[\"label\"]]],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"selectChange\"]],[30,1,[\"key\"]]],null]],null],[12],[1,\"\\n\"],[42,[28,[31,4],[[28,[31,4],[[30,1,[\"resolvedOptions\"]]],null]],null],null,[[[1,\"                \"],[10,\"option\"],[15,2,[30,3,[\"value\"]]],[15,\"selected\",[30,3,[\"selected\"]]],[12],[1,[30,3,[\"label\"]]],[13],[1,\"\\n\"]],[3]],null],[1,\"            \"],[13],[1,\"\\n\"]],[]],[[[41,[30,1,[\"isCheckbox\"]],[[[1,\"            \"],[10,\"label\"],[14,0,\"fxb fvc gp2 cursor-pointer\"],[12],[1,\"\\n              \"],[11,\"input\"],[16,\"checked\",[30,1,[\"currentValue\"]]],[24,0,\"mgr1\"],[24,4,\"checkbox\"],[4,[32,0],[\"change\",[28,[32,2],[[30,0,[\"checkboxChange\"]],[30,1,[\"key\"]]],null]],null],[12],[13],[1,\"\\n              \"],[10,1],[14,0,\"font-size12\"],[12],[1,[30,1,[\"label\"]]],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"]],[]],null]],[]]]],[]]],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\\n  \"],[13],[1,\"\\n\"],[13]],[\"prop\",\"opt\",\"opt\",\"&preview\"],[\"if\",\"has-block\",\"yield\",\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/component-builder.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/component-builder.js",
     "scope": () => [_modifier.on, _codeBlock.default, _helper.fn],
     "isStrictMode": true
   }), _ComponentBuilderComponent), _ComponentBuilderComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "stateSnapshot", [_tracking.tracked], {
@@ -1611,9 +1796,9 @@
   </div>
   */
   {
-    "id": "y7qc3DAW",
+    "id": "pqYTakqe",
     "block": "[[[10,0],[14,0,\"doc-component-page\"],[12],[1,\"\\n\"],[41,[30,1],[[[1,\"    \"],[8,[32,0],null,[[\"@tabs\",\"@activeTab\",\"@onChange\"],[[30,1],[30,2],[30,3]]],[[\"default\"],[[[[1,\"\\n      \"],[10,\"header\"],[14,0,\"doc-component-page__header mgb8\"],[12],[1,\"\\n        \"],[10,\"h1\"],[14,0,\"mgt0 mgb2 bold-font\"],[12],[1,[30,4]],[13],[1,\"\\n\"],[41,[30,5],[[[1,\"          \"],[10,2],[14,0,\"fg-text-secondary mgt0\"],[12],[1,[30,5]],[13],[1,\"\\n\"]],[]],null],[1,\"      \"],[13],[1,\"\\n      \"],[10,0],[14,0,\"doc-component-page__content\"],[12],[1,\"\\n        \"],[18,6,[[30,2]]],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"]],[]],[[[1,\"    \"],[10,\"header\"],[14,0,\"doc-component-page__header mgb8\"],[12],[1,\"\\n      \"],[10,\"h1\"],[14,0,\"mgt0 mgb2 bold-font\"],[12],[1,[30,4]],[13],[1,\"\\n\"],[41,[30,5],[[[1,\"        \"],[10,2],[14,0,\"fg-text-secondary mgt0\"],[12],[1,[30,5]],[13],[1,\"\\n\"]],[]],null],[1,\"    \"],[13],[1,\"\\n    \"],[10,0],[14,0,\"doc-component-page__content\"],[12],[1,\"\\n      \"],[18,6,null],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]]],[13]],[\"@tabs\",\"@activeTab\",\"@onTabChange\",\"@title\",\"@description\",\"&default\"],[\"if\",\"yield\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/component-layout.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/component-layout.js",
     "scope": () => [_docTab.default],
     "isStrictMode": true
   }), _ComponentLayoutComponent);
@@ -1641,9 +1826,9 @@
   </FoundationSection>
   */
   {
-    "id": "5tMIjXqw",
+    "id": "iEKu23wo",
     "block": "[[[8,[32,0],null,[[\"@id\",\"@title\",\"@subtitle\"],[[30,1],[30,2],[30,3]]],[[\"default\"],[[[[1,\"\\n  \"],[18,4,null],[1,\"\\n\"]],[]]]]]],[\"@id\",\"@title\",\"@subtitle\",\"&default\"],[\"yield\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-basic-section.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-basic-section.js",
     "scope": () => [_foundationSection.default],
     "isStrictMode": true
   }), _DocBasicSectionComponent);
@@ -1675,9 +1860,9 @@
   </FoundationSection>
   */
   {
-    "id": "dAgx9cqy",
+    "id": "s89bsKfT",
     "block": "[[[8,[32,0],null,[[\"@id\",\"@title\",\"@subtitle\"],[[30,1],\"import\",[30,2]]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"code-preview-container mgb4\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n      \"],[10,\"pre\"],[12],[10,\"code\"],[12],[1,[30,3]],[13],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@id\",\"@subtitle\",\"@code\"],[]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-import-section.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-import-section.js",
     "scope": () => [_foundationSection.default],
     "isStrictMode": true
   }), _DocImportSectionComponent);
@@ -1739,9 +1924,9 @@
   </div>
   */
   {
-    "id": "6o+fU4Np",
+    "id": "fLQl2brO",
     "block": "[[[10,0],[14,0,\"doc-panel-wrapper fxb fsb\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"doc-panel fxgrow w-100p\"],[12],[1,\"\\n\"],[41,[30,1],[[[42,[28,[31,2],[[28,[31,2],[[30,1]],null]],null],null,[[[1,\"        \"],[8,[32,0],null,[[\"@id\",\"@title\"],[[30,2,[\"id\"]],[30,2,[\"sectionNav\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,2,[\"sectionDesc\"]],[[[1,\"            \"],[8,[32,1],null,[[\"@as\",\"@content\"],[[30,2,[\"sectionDesc\",\"props\",\"as\"]],[30,2,[\"sectionDesc\",\"props\",\"content\"]]]],null],[1,\"\\n\"]],[]],null],[1,\"          \\n\"],[41,[30,2,[\"demo\"]],[[[1,\"            \"],[8,[32,2],null,[[\"@source\",\"@language\",\"@snippetName\",\"@title\",\"@description\",\"@hasDemo\"],[[30,2,[\"demo\",\"props\",\"source\"]],[30,2,[\"demo\",\"props\",\"language\"]],[30,2,[\"demo\",\"props\",\"snippetName\"]],[30,2,[\"demo\",\"props\",\"title\"]],[30,2,[\"demo\",\"props\",\"description\"]],[28,[30,0,[\"hasValidComponent\"]],[[30,2]],null]]],[[\"default\"],[[[[1,\"\\n\"],[41,[28,[30,0,[\"hasValidComponent\"]],[[30,2]],null],[[[1,\"                \"],[46,[30,2,[\"demo\",\"component\"]],null,null,null],[1,\"\\n\"]],[]],null],[1,\"            \"]],[]]]]],[1,\"\\n\"]],[]],null],[1,\"        \"]],[]]]]],[1,\"\\n\"]],[2]],null]],[]],[[[1,\"      \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"No features available\"],[13],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n  \"],[8,[32,3],null,[[\"@features\"],[[30,1]]],null],[1,\"\\n\"],[13]],[\"@features\",\"feature\"],[\"if\",\"each\",\"-track-array\",\"component\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-panel.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-panel.js",
     "scope": () => [_foundationSection.default, _richText.default, _codePreview.default, _docSectionNav.default],
     "isStrictMode": true
   }), _DocPanelComponent);
@@ -1845,9 +2030,9 @@
   {{/if}}
   */
   {
-    "id": "602pZJF2",
+    "id": "wBSBur+s",
     "block": "[[[41,[30,0,[\"sections\",\"length\"]],[[[1,\"  \"],[11,\"nav\"],[24,0,\"doc-section-nav\"],[4,[30,0,[\"setupScrollObserver\"]],null,null],[12],[1,\"\\n    \"],[10,\"ul\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"sections\"]]],null]],null],null,[[[1,\"        \"],[10,\"li\"],[12],[1,\"\\n          \"],[11,3],[16,6,[29,[\"#\",[30,1,[\"id\"]]]]],[16,0,[52,[28,[30,0,[\"isActive\"]],[[30,1,[\"id\"]]],null],\"active\",\"\"]],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"scrollToSection\"]],[30,1,[\"id\"]]],null]],null],[12],[1,\"\\n            \"],[1,[30,1,[\"sectionNav\"]]],[1,\"\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],null]],[\"section\"],[\"if\",\"each\",\"-track-array\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-section-nav.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-section-nav.js",
     "scope": () => [_modifier.on, _helper.fn],
     "isStrictMode": true
   }), _DocSectionNavComponent), _DocSectionNavComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeSectionId", [_tracking.tracked], {
@@ -1905,9 +2090,9 @@
   </div>
   */
   {
-    "id": "NNlzzEcK",
+    "id": "H85elS+o",
     "block": "[[[10,0],[14,0,\"ulsp-tabpanel\"],[12],[1,\"\\n  \"],[10,\"ul\"],[14,0,\"ulsp-tabpanel-header fxb fvc gp0 mgb6\"],[14,\"role\",\"tablist\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,\"      \"],[10,\"li\"],[14,0,\"ulsp-tabpanel-header-item\"],[14,\"role\",\"presentation\"],[12],[1,\"\\n        \"],[11,3],[24,6,\"#\"],[24,\"role\",\"tab\"],[16,\"aria-selected\",[28,[30,0,[\"isActive\"]],[[30,2,[\"id\"]]],null]],[16,0,[29,[\"pd4 fg-text-secondary text-decoration-none  font-size16 \",[52,[28,[30,0,[\"isActive\"]],[[30,2,[\"id\"]]],null],\"active\",\"\"]]]],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"handleTabClick\"]],[30,2,[\"id\"]]],null]],null],[12],[1,\"\\n          \"],[1,[30,2,[\"label\"]]],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n\"]],[2]],null],[1,\"  \"],[13],[1,\"\\n  \"],[10,0],[14,0,\"ulsp-tabpanel-content\"],[12],[1,\"\\n    \"],[18,4,[[30,3]]],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[\"@tabs\",\"tab\",\"@activeTab\",\"&default\"],[\"each\",\"-track-array\",\"if\",\"yield\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-tab.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/doc-tab.js",
     "scope": () => [_modifier.on, _helper.fn],
     "isStrictMode": true
   }), _DocTabComponent), _DocTabComponent), _applyDecoratedDescriptor(_class.prototype, "handleTabClick", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleTabClick"), _class.prototype), _class);
@@ -1939,9 +2124,9 @@
   </div>
   */
   {
-    "id": "8FosM6WN",
+    "id": "7kYdbIZJ",
     "block": "[[[10,0],[14,0,\"doc-foundation-page pdx10\"],[12],[1,\"\\n  \"],[10,\"header\"],[14,0,\"doc-foundation-page__header mgb8\"],[12],[1,\"\\n    \"],[10,\"h3\"],[14,0,\"mgt0 mgb2 bold-font\"],[12],[1,[30,1]],[13],[1,\"\\n\"],[41,[30,2],[[[1,\"      \"],[10,2],[14,0,\"fg-text-secondary mgt0\"],[12],[1,[30,2]],[13],[1,\"\\n\"]],[]],null],[1,\"  \"],[13],[1,\"\\n  \"],[10,0],[14,0,\"doc-foundation-page__content\"],[12],[1,\"\\n    \"],[18,3,null],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[\"@title\",\"@description\",\"&default\"],[\"if\",\"yield\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/foundation-layout.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/foundation-layout.js",
     "isStrictMode": true
   }), _FoundationLayoutComponent);
 });
@@ -1974,9 +2159,9 @@
   </section>
   */
   {
-    "id": "43nMk5bS",
+    "id": "20H+RRYU",
     "block": "[[[10,\"section\"],[15,1,[30,1]],[14,0,\"uls-foundation-section mgb10\"],[12],[1,\"\\n  \"],[10,\"h3\"],[14,0,\"bold-font mgt0 mgb2\"],[12],[1,[30,2]],[13],[1,\"\\n  \"],[10,\"header\"],[14,0,\"mgb2\"],[12],[1,\"\\n\"],[41,[30,3],[[[1,\"      \"],[10,2],[14,0,\"uls-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0\"],[12],[1,\"\\n        \"],[1,[30,3]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],null],[1,\"  \"],[13],[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-section__content w-100p\"],[12],[1,\"\\n    \"],[18,4,null],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[\"@id\",\"@title\",\"@subtitle\",\"&default\"],[\"if\",\"yield\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/foundation-section.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/foundation-section.js",
     "isStrictMode": true
   }), _FoundationSectionComponent);
 });
@@ -2018,9 +2203,9 @@
   </div>
   */
   {
-    "id": "Cem+sbON",
+    "id": "N6RXS3G2",
     "block": "[[[10,0],[14,0,\"mgb3\"],[12],[1,\"\\n\"],[41,[30,0,[\"isSpan\"]],[[[1,\"  \"],[10,1],[12],[1,\"\\n    \"],[2,[30,0,[\"htmlContent\"]]],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],[[[1,\"  \"],[10,0],[12],[1,\"\\n    \"],[2,[30,0,[\"htmlContent\"]]],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]]],[13]],[],[\"if\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/rich-text.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/rich-text.js",
     "isStrictMode": true
   }), _RichTextComponent);
 });
@@ -2037,6 +2222,76 @@
     }
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-icon/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/modules/ulx-modal/body", ["exports", "uls-components/components/modules/ulx-modal/body"], function (_exports, _body) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _body.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/modules/ulx-modal/body"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/modules/ulx-modal/example", ["exports", "uls-components/components/modules/ulx-modal/example"], function (_exports, _example) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _example.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/modules/ulx-modal/example"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/modules/ulx-modal/footer", ["exports", "uls-components/components/modules/ulx-modal/footer"], function (_exports, _footer) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _footer.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/modules/ulx-modal/footer"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/modules/ulx-modal/header", ["exports", "uls-components/components/modules/ulx-modal/header"], function (_exports, _header) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _header.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/modules/ulx-modal/header"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/modules/ulx-modal/index", ["exports", "uls-components/components/modules/ulx-modal/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/modules/ulx-modal/index"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-docs-header", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ember-modifier", "@ember/modifier", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _emberModifier, _modifier, _component2, _templateFactory) {
   "use strict";
@@ -2178,9 +2433,9 @@
   </div>
   */
   {
-    "id": "8d6iA30V",
+    "id": "YiIS6iNR",
     "block": "[[[11,0],[16,0,[29,[\"ulsp-topbar h64 pd1 ulx-grid col-1 w-100p\\n    \",[52,[30,0,[\"isSticky\"]],\"sticky\",\"\"]]]],[4,[30,0,[\"setupScrollObserver\"]],null,null],[12],[1,\"\\n  \"],[10,\"header\"],[14,0,\"ulx-container-fluid fxb fvc fsb\"],[12],[1,\"\\n\"],[1,\"    \"],[10,0],[14,0,\"t-left\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"t-logo\"],[12],[1,\"\\n        \"],[10,\"h3\"],[14,0,\"bold-font\"],[12],[1,\"ULX\\n          \"],[10,1],[14,0,\"fg-primary\"],[12],[1,\"EMBER\"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\\n\"],[1,\"    \"],[10,0],[14,0,\"t-right fxb fvc gp2\"],[12],[1,\"\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button secondary outlined m-size fxb fvc gp1\"],[14,\"aria-haspopup\",\"dialog\"],[14,\"aria-expanded\",\"false\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[14,0,\"fg-text-secondary\"],[12],[1,\"Search docs\"],[13],[1,\"\\n        \"],[10,1],[14,0,\"t-key-hint mgl2\"],[12],[1,\"⌘ K\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"      \"],[10,\"button\"],[14,0,\"ulx-button primary fxb fvc gp1 m-size\"],[14,\"aria-haspopup\",\"menu\"],[14,\"aria-controls\",\"doc-download-menu\"],[14,4,\"button\"],[12],[1,\"\\n        \"],[10,1],[12],[1,\"Download ZIP\"],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n\"],[1,\"\\n      \"],[11,\"button\"],[16,\"aria-label\",[52,[30,0,[\"isDarkMode\"]],\"Switch to light theme\",\"Switch to dark theme\"]],[24,0,\"pd2 --ulxbutton secondary outlined icon-only s-size\"],[24,\"data-pc-name\",\"button\"],[24,\"data-pc-section\",\"root\"],[24,4,\"button\"],[4,[32,0],[\"click\",[30,0,[\"toggleDarkMode\"]]],null],[12],[1,\"\\n        \"],[10,\"i\"],[14,0,\"--ulxicons s18\"],[14,\"aria-hidden\",\"true\"],[12],[1,[52,[30,0,[\"isDarkMode\"]],\"☀️\",\"🌙\"]],[13],[1,\"\\n        \"],[10,1],[14,0,\"--ulxbutton-label\"],[14,\"data-pc-section\",\"label\"],[12],[1,\" \"],[13],[1,\"\\n        \"],[10,1],[14,\"role\",\"presentation\"],[14,\"aria-hidden\",\"true\"],[14,0,\"--ulxbutton-ink\"],[14,\"data-pc-name\",\"ripple\"],[14,\"data-pc-section\",\"root\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"if\"]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-docs-header.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-docs-header.js",
     "scope": () => [_modifier.on],
     "isStrictMode": true
   }), _UlxDocsHeaderComponent), _UlxDocsHeaderComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "isSticky", [_tracking.tracked], {
@@ -2212,6 +2467,20 @@
     }
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-icon"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/ulx-modal", ["exports", "uls-components/components/ulx-modal"], function (_exports, _ulxModal) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxModal.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-modal"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-react-bridge", ["exports", "@glimmer/component", "ember-modifier", "react-dom/client", "react", "@ember/component", "@ember/template-factory"], function (_exports, _component, _emberModifier, _client, _react, _component2, _templateFactory) {
   "use strict";
@@ -2248,9 +2517,9 @@
   <div {{this.mount}}></div>
   */
   {
-    "id": "D2wwz5RV",
+    "id": "AHRJQcNS",
     "block": "[[[3,\" IMPORTANT: React mounts into THIS div \"],[1,\"\\n\"],[11,0],[4,[30,0,[\"mount\"]],null,null],[12],[13]],[],[]]",
-    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-react-bridge.js",
+    "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/ulx-react-bridge.js",
     "isStrictMode": true
   }), _UlxReactBridge);
 });
@@ -2439,6 +2708,17 @@
         route: 'components.elements.icon'
       }]
     }]
+  }, {
+    menuTitle: 'Modules',
+    icon: 'pi pi-list',
+    children: [{
+      category: 'Overlay',
+      items: [{
+        menuItem: 'dialog',
+        to: '/components/modules/dialog',
+        route: 'components.modules.dialog'
+      }]
+    }]
   }];
 });
 ;define("ulx-ember/controllers/components/collections", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
@@ -2543,6 +2823,57 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
 });
+;define("ulx-ember/controllers/components/modules/dialog", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsModulesDialogController = _exports.default = (_class = class ComponentsModulesDialogController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
 ;define("ulx-ember/data-adapter", ["exports", "@ember-data/debug/data-adapter"], function (_exports, _dataAdapter) {
   "use strict";
 
@@ -2583,6 +2914,141 @@
       /* { handler: 'silence', matchId: 'template-action' }, */
     ]
   });
+});
+;define("ulx-ember/documentation/components/collections/dialog/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
+import { UlxModal } from 'uls-components';
+
+export default class BasicDialogDemo extends Component {
+  @tracked isVisible = false;
+
+  @action
+  openModal() {
+    this.isVisible = true;
+  }
+
+  @action
+  closeModal() {
+    this.isVisible = false;
+  }
+
+  @action
+  handleConfirm() {
+    this.isVisible = false;
+  }
+
+  <template>
+    <div class="fxb fvc gp4">
+      <button
+        type="button"
+        class="uls-button uls-button-primary"
+        {{on "click" this.openModal}}
+      >
+        Open Modal
+      </button>
+
+      <UlxModal
+        @visible={{this.isVisible}}
+        @title="Basic Dialog"
+        @onHide={{this.closeModal}}
+        @showDefaultFooter={{true}}
+        @cancelButtonLabel="Cancel"
+        @doneButtonLabel="Confirm"
+        @onDone={{this.handleConfirm}}
+        @onCancel={{this.closeModal}}
+      >
+        <p>This is the default body content. You can pass any content as the default block.</p>
+      </UlxModal>
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/collections/dialog/snippets/Position.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
+import { UlxModal } from 'uls-components';
+
+export default class PositionDemoComponent extends Component {
+  @tracked isVisible = false;
+  @tracked currentPosition = 'center';
+
+  get positionOptions() {
+    return [
+      { label: 'Left', value: 'left', arrow: '→' },
+      { label: 'Right', value: 'right', arrow: '←' },
+      { label: 'TopLeft', value: 'top-left', arrow: '↖' },
+      { label: 'Top', value: 'top', arrow: '↓' },
+      { label: 'TopRight', value: 'top-right', arrow: '↗' },
+      { label: 'BottomLeft', value: 'bottom-left', arrow: '↙' },
+      { label: 'Bottom', value: 'bottom', arrow: '↑' },
+      { label: 'BottomRight', value: 'bottom-right', arrow: '↘' },
+    ];
+  }
+
+  @action
+  openModal(position) {
+    this.currentPosition = position;
+    this.isVisible = true;
+  }
+
+  @action
+  closeModal() {
+    this.isVisible = false;
+  }
+
+  <template>
+    <div class="fxb fw-wrap gp3">
+      {{#each this.positionOptions as |option|}}
+        <button
+          type="button"
+          class="uls-button uls-button-primary"
+          {{on "click" (fn this.openModal option.value)}}
+        >
+          {{option.label}}
+          <span aria-hidden="true">{{option.arrow}}</span>
+        </button>
+      {{/each}}
+    </div>
+
+    <UlxModal
+      @visible={{this.isVisible}}
+      @position={{this.currentPosition}}
+      @title="Position: {{this.currentPosition}}"
+      @onHide={{this.closeModal}}
+      @showDefaultFooter={{true}}
+      @cancelButtonLabel="Close"
+      @onCancel={{this.closeModal}}
+    >
+      <p>This modal is positioned at <strong>{{this.currentPosition}}</strong>.</p>
+    </UlxModal>
+  </template>
+}
+
+`;
 });
 ;define("ulx-ember/documentation/components/collections/test-comp/snippets/Basic.gjs", ["exports"], function (_exports) {
   "use strict";
@@ -3480,6 +3946,290 @@ import { UlxIcon } from 'uls-components';
 
 `;
 });
+;define("ulx-ember/documentation/components/modules/dialog/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/modules/dialog/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.DialogFeatureItems = void 0;
+  _exports.default = DialogFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/modules/dialog/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Dialog Feature Items
+  // ==========================================================================
+  const DialogFeatureItems = _exports.DialogFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>UlxModal</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the UlxModal component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "position",
+    sectionNav: "Position",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Position</code> demo shows position usage of the Dialog component."
+      }
+    },
+    demo: {
+      component: _imports.PositionDemo,
+      props: {
+        source: _imports.PositionSource,
+        snippetName: "position",
+        language: "handlebars"
+      }
+    }
+  }];
+  function DialogFeatures() {
+    return DialogFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/modules/dialog/imports", ["exports", "ulx-ember/components/Demo/Dialog/Basic", "ulx-ember/components/Demo/Dialog/Position", "ulx-ember/documentation/components/modules/dialog/snippets/Import.gjs", "ulx-ember/documentation/components/modules/dialog/snippets/Basic.gjs", "ulx-ember/documentation/components/modules/dialog/snippets/Position.gjs"], function (_exports, _Basic, _Position, _Import, _Basic2, _Position2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  Object.defineProperty(_exports, "PositionDemo", {
+    enumerable: true,
+    get: function () {
+      return _Position.default;
+    }
+  });
+  Object.defineProperty(_exports, "PositionSource", {
+    enumerable: true,
+    get: function () {
+      return _Position2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Dialog/Basic",0,"ulx-ember/components/Demo/Dialog/Position",0,"ulx-ember/documentation/components/modules/dialog/snippets/Import.gjs",0,"ulx-ember/documentation/components/modules/dialog/snippets/Basic.gjs",0,"ulx-ember/documentation/components/modules/dialog/snippets/Position.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Dialog Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Dialog demo components
+  // Demo Components
+  // Import source (for import section)
+  // Dialog Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Dialog demo source files
+});
+;define("ulx-ember/documentation/components/modules/dialog/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // DIALOG COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for Dialog component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Modules',
+    subCategory: 'Overlay',
+    menuItem: 'dialog',
+    routeBase: '/components/modules/dialog',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'dialog',
+    subHeader: 'dialog is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { UlxModal } from 'uls-components'",
+    // Accessibility information
+    accessibility: {
+      description: "Dialog component description for accessibility.",
+      example: "<UlxModal />"
+    }
+  };
+});
+;define("ulx-ember/documentation/components/modules/dialog/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
+import { UlxModal } from 'uls-components';
+
+<template>
+  <div class="fxb fvc gp4">
+    <button
+      type="button"
+      class="uls-button uls-button-primary"
+      {{on "click" this.openModal}}
+    >
+      Open Modal
+    </button>
+
+    <UlxModal
+      @visible={{this.isVisible}}
+      @title="Basic Dialog"
+      @onHide={{this.closeModal}}
+      @showDefaultFooter={{true}}
+      @cancelButtonLabel="Cancel"
+      @doneButtonLabel="Confirm"
+      @onDone={{this.handleConfirm}}
+    >
+      <p>This is the default body content. You can pass any content as the default block.</p>
+    </UlxModal>
+  </div>
+</template>
+
+export default class BasicDialogDemo extends Component {
+  @tracked isVisible = false;
+
+  @action
+  openModal() {
+    this.isVisible = true;
+  }
+
+  @action
+  closeModal() {
+    this.isVisible = false;
+  }
+
+  @action
+  handleConfirm() {
+    this.isVisible = false;
+  }
+}
+`;
+});
+;define("ulx-ember/documentation/components/modules/dialog/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxModal } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/modules/dialog/snippets/Position.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxModal } from 'uls-components';
+
+export default class PositionDemoComponent extends Component {
+  @tracked activeItem = null;
+
+  constructor() {
+    super(...arguments);
+    // Initialize with first item active
+    if (this.items && this.items.length > 0) {
+      this.activeItem = this.items[0];
+    }
+  }
+
+  get items() {
+    return [
+      { label: 'Item 1', value: 'item1' },
+      { label: 'Item 2', value: 'item2' },
+      { label: 'Item 3', value: 'item3' }
+    ];
+  }
+
+  @action
+  handleItemClick(item) {
+    this.activeItem = item;
+  }
+
+  <template>
+    <UlxModal
+      @items={{this.items}}
+      @activeItem={{this.activeItem}}
+      @onItemClick={{this.handleItemClick}}
+    />
+  </template>
+}
+`;
+});
 ;define("ulx-ember/documentation/utils/builder-schema-helpers", ["exports"], function (_exports) {
   "use strict";
 
@@ -4098,7 +4848,14 @@ import { UlxIcon } from 'uls-components';
     }, function () {
       this.route('collections', {
         path: '/collections'
-      }, function () {});
+      });
+      this.route('modules', {
+        path: '/modules'
+      }, function () {
+        this.route('dialog', {
+          path: '/dialog'
+        });
+      });
       this.route('elements', {
         path: '/elements'
       }, function () {
@@ -4239,6 +4996,24 @@ import { UlxIcon } from 'uls-components';
     }
   }
   _exports.default = ComponentsElementsIconRoute;
+});
+;define("ulx-ember/routes/components/modules/dialog", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/modules/dialog/features", "ulx-ember/documentation/components/modules/dialog/meta"], function (_exports, _route, _features, _meta) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/modules/dialog/features",0,"ulx-ember/documentation/components/modules/dialog/meta"eaimeta@70e063a35619d71f
+  class ComponentsModulesDialogRoute extends _route.default {
+    model() {
+      return {
+        features: _features.DialogFeatureItems,
+        meta: _meta.default
+      };
+    }
+  }
+  _exports.default = ComponentsModulesDialogRoute;
 });
 ;define("ulx-ember/routes/foundation/colors", ["exports", "@ember/routing/route", "@ulx/foundation"], function (_exports, _route, _foundation) {
   "use strict";
@@ -5008,6 +5783,58 @@ import { UlxIcon } from 'uls-components';
     "id": "4KiJEQW0",
     "block": "[[[1,[28,[35,0],[\"Icon - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-icon-theming\",\"Theming\",\"Theming documentation for Icon component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[8,[39,9],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[[30,2,[\"componentClass\"]],[30,2,[\"type\"]],[30,2,[\"iconName\"]],[30,2,[\"size\"]],[30,2,[\"ariaLabel\"]],[30,2,[\"customClass\"]]]],null],[1,\"\\n      \"]],[2]]]]],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]]]],[\"@model\",\"props\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"ulx-icon\"]]",
     "moduleName": "ulx-ember/templates/components/elements/icon.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ulx-ember/templates/components/modules/dialog", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "dialog - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-modules-dialog-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for dialog component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-modules-dialog-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for dialog component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "jdsffHce",
+    "block": "[[[1,[28,[35,0],[\"dialog - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-modules-dialog-theming\",\"Theming\",\"Theming documentation for dialog component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-modules-dialog-passthrough\",\"Pass Through\",\"Pass Through props documentation for dialog component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "moduleName": "ulx-ember/templates/components/modules/dialog.hbs",
     "isStrictMode": false
   });
 });
@@ -6576,7 +7403,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+20f28a0d"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+a3443ee3"});
           }
         
 //# sourceMappingURL=ulx-ember.map

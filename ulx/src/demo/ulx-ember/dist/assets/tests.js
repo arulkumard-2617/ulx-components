@@ -29,9 +29,9 @@ define("ulx-ember/tests/integration/components/ulx-docs-header-test", ["qunit", 
         <UlxDocsHeader />
       */
       {
-        "id": "RbddqaT0",
+        "id": "6hbaArkk",
         "block": "[[[8,[39,0],null,null,null]],[],[\"ulx-docs-header\"]]",
-        "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/tests/integration/components/ulx-docs-header-test.js",
+        "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/tests/integration/components/ulx-docs-header-test.js",
         "isStrictMode": false
       }));
       assert.dom().hasText('');
@@ -46,9 +46,9 @@ define("ulx-ember/tests/integration/components/ulx-docs-header-test", ["qunit", 
           
       */
       {
-        "id": "f2QDKmzx",
+        "id": "jlrfdc0y",
         "block": "[[[1,\"\\n      \"],[8,[39,0],null,null,[[\"default\"],[[[[1,\"\\n        template block text\\n      \"]],[]]]]],[1,\"\\n    \"]],[],[\"ulx-docs-header\"]]",
-        "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/tests/integration/components/ulx-docs-header-test.js",
+        "moduleName": "/Users/preethi-7562/backstage2/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/tests/integration/components/ulx-docs-header-test.js",
         "isStrictMode": false
       }));
       assert.dom().hasText('template block text');

@@ -15,9 +15,13 @@ Router.map(function () {
   });
 
   this.route('components', { path: '/components' }, function () {
-    this.route('collections', { path: '/collections' }, function () {});
-    this.route('elements', { path: '/elements' }, function () {      this.route('icon', { path: '/icon' });
-});
+    this.route('collections', { path: '/collections' });
+	this.route('modules', { path: '/modules' }, function () {
+      this.route('dialog', { path: '/dialog' });
+    });
+    this.route('elements', { path: '/elements' }, function () {      
+		this.route('icon', { path: '/icon' });
+	});
   });
 
   this.route('utilities', { path: '/utilities' }, function () {

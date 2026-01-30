@@ -206,5 +206,21 @@ export const DocNavItems = [
         ]
       }
     ]
-  }
-];
+  },
+  {
+    menuTitle: 'Modules',
+    icon: 'pi pi-list',
+    children: [
+      {
+        category: 'Overlay',
+        items: [
+          {
+            menuItem: 'dialog',
+            to: '/components/modules/dialog',
+            route: 'components.modules.dialog'
+          }
+        ]
+      }
+    ]
+  },
+  ];

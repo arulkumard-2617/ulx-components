@@ -7,12 +7,13 @@ alwaysApply: false
 # ULX Styling Guidelines
 
 ## Paths
-- **Style source**: `uls/node_modules/uls-v2`
+- **Style source**: `ulx/node_modules/uls-v2`
 - **Component source**: `src/components`
 
 ## ULX Styles
-- **Primary**: `uls/node_modules/uls-v2/src/styles/uls-master.less`
-- **Component styles**: `uls/node_modules/uls-v2/src/styles/uls-styles/less/`
+- **Primary**: `ulx/node_modules/uls-v2/src/styles/uls-master.less`
+- **Component styles**: `ulx/node_modules/uls-v2/src/styles/uls-styles/less/`
+- **Component styles**: `ulx/node_modules/uls-v2/src/styles/uls-styles/less/`
   - `base/` - Variables, mixins, reset, utilities
   - `elements/` - Element components (button, input, etc.)
   - `collections/` - Collections (tabmenu, card, accordion, etc.)
