@@ -8,12 +8,14 @@ import {
   
   WithlabelDemo,
   InvalidDemo,
-  DisabledDemo,// Sources
+  DisabledDemo,
+  GroupDemo,// Sources
   ImportSource,
   BasicSource,
   WithlabelSource,
   InvalidSource,
-  DisabledSource
+  DisabledSource,
+  GroupSource
 } from './imports';
 
 export const CheckboxFeatureItems = [
@@ -111,6 +113,26 @@ export const CheckboxFeatureItems = [
       props: {
         source: DisabledSource,
         snippetName: "disabled",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "group",
+    sectionNav: "Group",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Group</code> demo shows Group usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: GroupDemo,
+      props: {
+        source: GroupSource,
+        snippetName: "group",
         language: "handlebars"
       }
     }
