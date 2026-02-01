@@ -23,6 +23,7 @@ Router.map(function () {
       this.route('input');
       this.route('ulx-icon-input');
       this.route('input-group');
+      this.route('checkbox');
 });
   });
 

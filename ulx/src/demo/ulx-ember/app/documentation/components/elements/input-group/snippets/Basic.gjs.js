@@ -1,6 +1,5 @@
 export default `
-import { UlxInput } from 'uls-components';
-import { UlxIcon } from 'uls-components';
+import { UlxInput, UlxIcon } from 'uls-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -27,7 +26,6 @@ import { UlxIcon } from 'uls-components';
         <span class="ulx-inputgroup-addon">.com</span>
       </:end>
     </UlxInput>
-
   </div>
 </template>
 

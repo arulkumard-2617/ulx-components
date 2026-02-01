@@ -199,6 +199,11 @@ export const DocNavItems = [
             menuItem: 'InputGroup',
             to: '/components/elements/input-group',
             route: 'components.elements.input-group'
+          },
+          {
+            menuItem: 'checkbox',
+            to: '/components/elements/checkbox',
+            route: 'components.elements.checkbox'
           }
         ]
       },

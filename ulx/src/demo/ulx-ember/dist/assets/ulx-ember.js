@@ -41,6 +41,74 @@
   });
   0; //eaimeta@70e063a35619d71f0,"@glimmer/component/-private/ember-component-manager"eaimeta@70e063a35619d71f
 });
+;define("ulx-ember/components/Demo/Checkbox/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _BasicCheckboxDemo;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let BasicCheckboxDemo = _exports.default = (_class = (_BasicCheckboxDemo = class BasicCheckboxDemo extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    handleItemChange(item, checked) {
+      this.items = this.items.map(i => i === item ? {
+        ...i,
+        checked
+      } : i);
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxCheckbox
+      @label="Event Day"
+      @rules={{this.requiredRules}}
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+    />
+  </div>
+  */
+  {
+    "id": "eTjhdTdu",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\"],[\"Event Day\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Basic.js",
+    "scope": () => [_ulsComponents.UlxCheckbox],
+    "isStrictMode": true
+  }), _BasicCheckboxDemo), _BasicCheckboxDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'All Event Days',
+        checked: true
+      }, {
+        label: 'Selected Event Days',
+        checked: false
+      }, {
+        label: 'Custom Dates',
+        checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
 ;define("ulx-ember/components/Demo/Icon/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
@@ -822,7 +890,7 @@
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -849,12 +917,11 @@
         <span class="ulx-inputgroup-addon">.com</span>
       </:end>
     </UlxInput>
-  
   </div>
   */
   {
-    "id": "Ka29+59u",
-    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Website\"],[24,\"aria-label\",\"Website\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".com\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\\n\"],[13]],[],[]]",
+    "id": "4/1BZHMB",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Website\"],[24,\"aria-label\",\"Website\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".com\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/InputGroup/Basic.js",
     "scope": () => [_ulsComponents.UlxInput, _ulsComponents.UlxIcon],
     "isStrictMode": true
@@ -867,46 +934,49 @@
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
       @inputGroup={{true}}
       @size="s-size"
+      placeholder="Price"
+      aria-label="Price"
       @fieldClass="col-12"
-      placeholder="Website"
-      aria-label="Website"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">$</span>
+      </:start>
+      <:end>
+        <span class="ulx-inputgroup-addon">.00</span>
+      </:end>
+    </UlxInput>
+  
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      placeholder="Search"
+      aria-label="Search"
+      @fieldClass="col-12"
     >
       <:start>
         <span class="ulx-inputgroup-addon">
           <UlxIcon
             @componentClass="bs-icons1"
             @type="font"
-            @iconName="user-info-icon-01"
+            @iconName="ls-tick-icon"
             @size="s18"
-            @ariaLabel="tick icon"
-          />
-        </span>
-        <span class="ulx-inputgroup-addon">
-          <UlxIcon
-            @componentClass="bs-icons1"
-            @type="font"
-            @iconName="user-info-icon"
-            @size="s18"
-            @ariaLabel="tick icon"
+            @ariaLabel="search icon"
           />
         </span>
       </:start>
-      <:end>
-        <span class="ulx-inputgroup-addon">.com</span>
-      </:end>
     </UlxInput>
   </div>
   */
   {
-    "id": "LOB3XDpQ",
-    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Website\"],[24,\"aria-label\",\"Website\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"user-info-icon-01\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"user-info-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".com\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
+    "id": "rDwI6E0j",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Price\"],[24,\"aria-label\",\"Price\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"$\"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".00\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Search\"],[24,\"aria-label\",\"Search\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s18\",\"search icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/InputGroup/Multiple.js",
     "scope": () => [_ulsComponents.UlxInput, _ulsComponents.UlxIcon],
     "isStrictMode": true
@@ -2505,6 +2575,20 @@
     "isStrictMode": true
   }), _RichTextComponent);
 });
+;define("ulx-ember/components/elements/ulx-checkbox/index", ["exports", "uls-components/components/elements/ulx-checkbox/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-checkbox/index"eaimeta@70e063a35619d71f
+});
 ;define("ulx-ember/components/elements/ulx-icon-input/index", ["exports", "uls-components/components/elements/ulx-icon-input/index"], function (_exports, _index) {
   "use strict";
 
@@ -2560,6 +2644,20 @@
     }
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-textarea/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/ulx-checkbox", ["exports", "uls-components/components/ulx-checkbox"], function (_exports, _ulxCheckbox) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxCheckbox.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-checkbox"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-docs-header", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ember-modifier", "@ember/modifier", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _emberModifier, _modifier, _component2, _templateFactory) {
   "use strict";
@@ -3001,6 +3099,10 @@
         menuItem: 'InputGroup',
         to: '/components/elements/input-group',
         route: 'components.elements.input-group'
+      }, {
+        menuItem: 'checkbox',
+        to: '/components/elements/checkbox',
+        route: 'components.elements.checkbox'
       }]
     }, {
       category: 'Icons',
@@ -3115,6 +3217,63 @@
     }
     get isPassthroughTab() {
       return this.activeTab === 'passthrough';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
+;define("ulx-ember/controllers/components/elements/checkbox", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsCheckboxController = _exports.default = (_class = class ComponentsElementsCheckboxController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
     }
     onTabChange(tabId) {
       this.activeTab = tabId;
@@ -3575,6 +3734,224 @@ export default class BasicTestCompDemo extends Component {
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
 import { TestComp } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/checkbox/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // CHECKBOX BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for checkbox.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'Checkbox',
+    importLine: "import { Checkbox } from 'uls-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<Checkbox />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/checkbox/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/checkbox/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.CheckboxFeatureItems = void 0;
+  _exports.default = CheckboxFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/checkbox/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Checkbox Feature Items
+  // ==========================================================================
+  const CheckboxFeatureItems = _exports.CheckboxFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>Checkbox</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }];
+  function CheckboxFeatures() {
+    return CheckboxFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/checkbox/imports", ["exports", "ulx-ember/components/Demo/Checkbox/Basic", "ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs", "ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs"], function (_exports, _Basic, _Import, _Basic2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Checkbox/Basic",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Checkbox Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Checkbox demo components
+  // Demo Components
+  // Import source (for import section)
+  // Checkbox Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Checkbox demo source files
+});
+;define("ulx-ember/documentation/components/elements/checkbox/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // CHECKBOX COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for Checkbox component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Form',
+    menuItem: 'checkbox',
+    routeBase: '/components/elements/checkbox',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'checkbox',
+    subHeader: 'checkbox is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { Checkbox } from 'uls-components'",
+    // Accessibility information
+    accessibility: {
+      description: "Checkbox component description for accessibility.",
+      example: "<Checkbox />"
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxCheckbox } from 'uls-components';
+
+export default class BasicCheckboxDemo extends Component {
+  @tracked items = [
+    { label: 'All Event Days', checked: true },
+    { label: 'Selected Event Days', checked: false },
+    { label: 'Custom Dates', checked: false },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    this.items = this.items.map((i) => (i === item ? { ...i, checked } : i));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxCheckbox
+        @label="Event Day"
+        @rules={{this.requiredRules}}
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+      />
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { Checkbox } from 'uls-components';
 
 `;
 });
@@ -4632,8 +5009,7 @@ import { UlxIcon } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
-import { UlxIcon } from 'uls-components';
+import { UlxInput, UlxIcon } from 'uls-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -4660,7 +5036,6 @@ import { UlxIcon } from 'uls-components';
         <span class="ulx-inputgroup-addon">.com</span>
       </:end>
     </UlxInput>
-
   </div>
 </template>
 
@@ -4688,41 +5063,43 @@ import { InputGroup } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
-import { UlxIcon } from 'uls-components';
+import { UlxInput, UlxIcon } from 'uls-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
       @inputGroup={{true}}
       @size="s-size"
+      placeholder="Price"
+      aria-label="Price"
       @fieldClass="col-12"
-      placeholder="Website"
-      aria-label="Website"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">$</span>
+      </:start>
+      <:end>
+        <span class="ulx-inputgroup-addon">.00</span>
+      </:end>
+    </UlxInput>
+
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      placeholder="Search"
+      aria-label="Search"
+      @fieldClass="col-12"
     >
       <:start>
         <span class="ulx-inputgroup-addon">
           <UlxIcon
             @componentClass="bs-icons1"
             @type="font"
-            @iconName="user-info-icon-01"
+            @iconName="ls-tick-icon"
             @size="s18"
-            @ariaLabel="tick icon"
-          />
-        </span>
-        <span class="ulx-inputgroup-addon">
-          <UlxIcon
-            @componentClass="bs-icons1"
-            @type="font"
-            @iconName="user-info-icon"
-            @size="s18"
-            @ariaLabel="tick icon"
+            @ariaLabel="search icon"
           />
         </span>
       </:start>
-      <:end>
-        <span class="ulx-inputgroup-addon">.com</span>
-      </:end>
     </UlxInput>
   </div>
 </template>
@@ -6065,26 +6442,6 @@ import { UlxIconInput } from 'uls-components';
     };
   }
 });
-;define("ulx-ember/helpers/and", ["exports", "ember-truth-helpers/helpers/and"], function (_exports, _and) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "and", {
-    enumerable: true,
-    get: function () {
-      return _and.and;
-    }
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _and.default;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/and"eaimeta@70e063a35619d71f
-});
 ;define("ulx-ember/helpers/app-version", ["exports", "@ember/component/helper", "ulx-ember/config/environment", "ember-cli-app-version/utils/regexp"], function (_exports, _helper, _environment, _regexp) {
   "use strict";
 
@@ -6118,26 +6475,6 @@ import { UlxIconInput } from 'uls-components';
   }
   var _default = _exports.default = (0, _helper.helper)(appVersion);
 });
-;define("ulx-ember/helpers/eq", ["exports", "ember-truth-helpers/helpers/eq"], function (_exports, _eq) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _eq.default;
-    }
-  });
-  Object.defineProperty(_exports, "equal", {
-    enumerable: true,
-    get: function () {
-      return _eq.equal;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/eq"eaimeta@70e063a35619d71f
-});
 ;define("ulx-ember/helpers/get-code-snippet", ["exports", "ember-code-snippet/helpers/get-code-snippet"], function (_exports, _getCodeSnippet) {
   "use strict";
 
@@ -6152,200 +6489,6 @@ import { UlxIconInput } from 'uls-components';
   });
   0; //eaimeta@70e063a35619d71f0,"ember-code-snippet/helpers/get-code-snippet"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/helpers/gt", ["exports", "ember-truth-helpers/helpers/gt"], function (_exports, _gt) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _gt.default;
-    }
-  });
-  Object.defineProperty(_exports, "gt", {
-    enumerable: true,
-    get: function () {
-      return _gt.gt;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/gt"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/gte", ["exports", "ember-truth-helpers/helpers/gte"], function (_exports, _gte) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _gte.default;
-    }
-  });
-  Object.defineProperty(_exports, "gte", {
-    enumerable: true,
-    get: function () {
-      return _gte.gte;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/gte"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/is-array", ["exports", "ember-truth-helpers/helpers/is-array"], function (_exports, _isArray) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _isArray.default;
-    }
-  });
-  Object.defineProperty(_exports, "isArray", {
-    enumerable: true,
-    get: function () {
-      return _isArray.isArray;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/is-array"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/is-empty", ["exports", "ember-truth-helpers/helpers/is-empty"], function (_exports, _isEmpty) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _isEmpty.default;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/is-empty"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/is-equal", ["exports", "ember-truth-helpers/helpers/is-equal"], function (_exports, _isEqual) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _isEqual.default;
-    }
-  });
-  Object.defineProperty(_exports, "isEqual", {
-    enumerable: true,
-    get: function () {
-      return _isEqual.isEqual;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/is-equal"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/lt", ["exports", "ember-truth-helpers/helpers/lt"], function (_exports, _lt) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _lt.default;
-    }
-  });
-  Object.defineProperty(_exports, "lt", {
-    enumerable: true,
-    get: function () {
-      return _lt.lt;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/lt"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/lte", ["exports", "ember-truth-helpers/helpers/lte"], function (_exports, _lte) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _lte.default;
-    }
-  });
-  Object.defineProperty(_exports, "lte", {
-    enumerable: true,
-    get: function () {
-      return _lte.lte;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/lte"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/not-eq", ["exports", "ember-truth-helpers/helpers/not-eq"], function (_exports, _notEq) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _notEq.default;
-    }
-  });
-  Object.defineProperty(_exports, "notEqualHelper", {
-    enumerable: true,
-    get: function () {
-      return _notEq.notEqualHelper;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/not-eq"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/not", ["exports", "ember-truth-helpers/helpers/not"], function (_exports, _not) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _not.default;
-    }
-  });
-  Object.defineProperty(_exports, "not", {
-    enumerable: true,
-    get: function () {
-      return _not.not;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/not"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/or", ["exports", "ember-truth-helpers/helpers/or"], function (_exports, _or) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _or.default;
-    }
-  });
-  Object.defineProperty(_exports, "or", {
-    enumerable: true,
-    get: function () {
-      return _or.or;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/or"eaimeta@70e063a35619d71f
-});
 ;define("ulx-ember/helpers/page-title", ["exports", "ember-page-title/helpers/page-title"], function (_exports, _pageTitle) {
   "use strict";
 
@@ -6359,26 +6502,6 @@ import { UlxIconInput } from 'uls-components';
     }
   });
   0; //eaimeta@70e063a35619d71f0,"ember-page-title/helpers/page-title"eaimeta@70e063a35619d71f
-});
-;define("ulx-ember/helpers/xor", ["exports", "ember-truth-helpers/helpers/xor"], function (_exports, _xor) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _xor.default;
-    }
-  });
-  Object.defineProperty(_exports, "xor", {
-    enumerable: true,
-    get: function () {
-      return _xor.xor;
-    }
-  });
-  0; //eaimeta@70e063a35619d71f0,"ember-truth-helpers/helpers/xor"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/initializers/app-version", ["exports", "ember-cli-app-version/initializer-factory", "ulx-ember/config/environment"], function (_exports, _initializerFactory, _environment) {
   "use strict";
@@ -6497,6 +6620,7 @@ import { UlxIconInput } from 'uls-components';
         this.route('input');
         this.route('ulx-icon-input');
         this.route('input-group');
+        this.route('checkbox');
       });
     });
     this.route('utilities', function () {
@@ -6570,6 +6694,25 @@ import { UlxIconInput } from 'uls-components';
     }
   }
   _exports.default = ComponentsCollectionsTestCompRoute;
+});
+;define("ulx-ember/routes/components/elements/checkbox", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/checkbox/features", "ulx-ember/documentation/components/elements/checkbox/meta", "ulx-ember/documentation/components/elements/checkbox/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/checkbox/features",0,"ulx-ember/documentation/components/elements/checkbox/meta",0,"ulx-ember/documentation/components/elements/checkbox/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsCheckboxRoute extends _route.default {
+    model() {
+      return {
+        features: _features.CheckboxFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsCheckboxRoute;
 });
 ;define("ulx-ember/routes/components/elements/icon", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/icon/features", "ulx-ember/documentation/components/elements/icon/meta", "ulx-ember/documentation/components/elements/icon/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
   "use strict";
@@ -7413,6 +7556,68 @@ import { UlxIconInput } from 'uls-components';
     "id": "ek+7Uz0i",
     "block": "[[[1,[28,[35,0],[\"test-comp - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-collections-test-comp-theming\",\"Theming\",\"Theming documentation for test-comp component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-collections-test-comp-passthrough\",\"Pass Through\",\"Pass Through props documentation for test-comp component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/components/collections/test-comp.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ulx-ember/templates/components/elements/checkbox", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "checkbox - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-checkbox-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for checkbox component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/checkbox/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-checkbox-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for checkbox component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "8GE82LUV",
+    "block": "[[[1,[28,[35,0],[\"checkbox - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-checkbox-theming\",\"Theming\",\"Theming documentation for checkbox component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/checkbox/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-checkbox-passthrough\",\"Pass Through\",\"Pass Through props documentation for checkbox component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/checkbox.hbs",
     "isStrictMode": false
   });
 });
@@ -9233,7 +9438,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+72e22499"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+a543132f"});
           }
         
 //# sourceMappingURL=ulx-ember.map

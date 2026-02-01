@@ -33,8 +33,7 @@
 	},
 	"dependencies": {
 		"@embroider/addon-shim": "^1.8.7",
-		"decorator-transforms": "^2.0.0",
-		"ember-truth-helpers": "^3.1.1"
+		"decorator-transforms": "^2.0.0"
 	},
 	"devDependencies": {
 		"ember-cli": "~6.8.0",
@@ -80,10 +79,12 @@
 		"type": "addon",
 		"main": "addon-main.cjs",
 		"app-js": {
+			"./components/elements/ulx-checkbox/index.js": "./dist/_app_/components/elements/ulx-checkbox/index.js",
 			"./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
 			"./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
 			"./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
 			"./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
+			"./components/ulx-checkbox.js": "./dist/_app_/components/ulx-checkbox.js",
 			"./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
 			"./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
 			"./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
