@@ -76,7 +76,6 @@
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxCheckbox
-      @label="Event Day"
       @rules={{this.requiredRules}}
       @size="s-size"
       @fieldClass="col-12"
@@ -86,8 +85,8 @@
   </div>
   */
   {
-    "id": "eTjhdTdu",
-    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\"],[\"Event Day\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
+    "id": "+yrbtrK7",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\"],[[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Basic.js",
     "scope": () => [_ulsComponents.UlxCheckbox],
     "isStrictMode": true
@@ -99,12 +98,219 @@
       return [{
         label: 'All Event Days',
         checked: true
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Checkbox/Disabled", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _WithlabelDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let WithlabelDemoComponent = _exports.default = (_class = (_WithlabelDemoComponent = class WithlabelDemoComponent extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    handleItemChange(item, checked) {
+      this.items = this.items.map(i => i === item ? {
+        ...i,
+        checked
+      } : i);
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxCheckbox
+      @label="With Label"
+      @rules={{this.requiredRules}}
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+    />
+  </div>
+  */
+  {
+    "id": "22cGrlWZ",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\"],[\"With Label\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Disabled.js",
+    "scope": () => [_ulsComponents.UlxCheckbox],
+    "isStrictMode": true
+  }), _WithlabelDemoComponent), _WithlabelDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'All Event Days',
+        checked: false,
+        disabled: true
       }, {
-        label: 'Selected Event Days',
+        label: 'Single Event Days',
+        checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Checkbox/Invalid", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _WithlabelDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let WithlabelDemoComponent = _exports.default = (_class = (_WithlabelDemoComponent = class WithlabelDemoComponent extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    get error() {
+      // `UlxCheckbox` expects a *field-level* string error message (not per-item).
+      // Example validation: require at least one item to be checked.
+      const hasAtLeastOneChecked = this.items.some(i => i.checked);
+      return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    }
+    handleItemChange(item, checked) {
+      this.items = this.items.map(i => i === item ? {
+        ...i,
+        checked
+      } : i);
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxCheckbox
+      @label="With Label"
+      @rules={{this.requiredRules}}
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+      @error={{this.error}}
+    />
+  </div>
+  */
+  {
+    "id": "OR2i6jqa",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@error\"],[\"With Label\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",[30,0,[\"error\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Invalid.js",
+    "scope": () => [_ulsComponents.UlxCheckbox],
+    "isStrictMode": true
+  }), _WithlabelDemoComponent), _WithlabelDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'All Event Days',
         checked: false
       }, {
-        label: 'Custom Dates',
+        label: 'Single Event Days',
         checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Checkbox/Withlabel", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _WithlabelDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let WithlabelDemoComponent = _exports.default = (_class = (_WithlabelDemoComponent = class WithlabelDemoComponent extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    // get error() {
+    //   // `UlxCheckbox` expects a *field-level* string error message (not per-item).
+    //   // Example validation: require at least one item to be checked.
+    //   const hasAtLeastOneChecked = this.items.some((i) => i.checked);
+    //   return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    // }
+    handleItemChange(item, checked) {
+      this.items = this.items.map(i => i === item ? {
+        ...i,
+        checked
+      } : i);
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxCheckbox
+      @label="With Label"
+      @rules={{this.requiredRules}}
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+      {{!-- @error={{this.error}} --}}
+    />
+  </div>
+  */
+  {
+    "id": "TTArh2Vo",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\"],[\"With Label\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Withlabel.js",
+    "scope": () => [_ulsComponents.UlxCheckbox],
+    "isStrictMode": true
+  }), _WithlabelDemoComponent), _WithlabelDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'All Event Days',
+        checked: true
+      }, {
+        label: 'Single Event Days',
+        checked: true
       }];
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
@@ -3807,12 +4013,66 @@ import { TestComp } from 'uls-components';
         language: "handlebars"
       }
     }
+  }, {
+    id: "with-label",
+    sectionNav: "Withlabel",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Withlabel</code> demo shows WithLabel usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: _imports.WithlabelDemo,
+      props: {
+        source: _imports.WithlabelSource,
+        snippetName: "with-label",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "invalid",
+    sectionNav: "Invalid",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Invalid</code> demo shows Invalid usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: _imports.InvalidDemo,
+      props: {
+        source: _imports.InvalidSource,
+        snippetName: "invalid",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "disabled",
+    sectionNav: "Disabled",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Disabled</code> demo shows Disabled usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: _imports.DisabledDemo,
+      props: {
+        source: _imports.DisabledSource,
+        snippetName: "disabled",
+        language: "handlebars"
+      }
+    }
   }];
   function CheckboxFeatures() {
     return CheckboxFeatureItems;
   }
 });
-;define("ulx-ember/documentation/components/elements/checkbox/imports", ["exports", "ulx-ember/components/Demo/Checkbox/Basic", "ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs", "ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs"], function (_exports, _Basic, _Import, _Basic2) {
+;define("ulx-ember/documentation/components/elements/checkbox/imports", ["exports", "ulx-ember/components/Demo/Checkbox/Basic", "ulx-ember/components/Demo/Checkbox/Withlabel", "ulx-ember/components/Demo/Checkbox/Invalid", "ulx-ember/components/Demo/Checkbox/Disabled", "ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs", "ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/checkbox/snippets/Withlabel.gjs", "ulx-ember/documentation/components/elements/checkbox/snippets/Invalid.gjs", "ulx-ember/documentation/components/elements/checkbox/snippets/Disabled.gjs"], function (_exports, _Basic, _Withlabel, _Invalid, _Disabled, _Import, _Basic2, _Withlabel2, _Invalid2, _Disabled2) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3830,13 +4090,49 @@ import { TestComp } from 'uls-components';
       return _Basic2.default;
     }
   });
+  Object.defineProperty(_exports, "DisabledDemo", {
+    enumerable: true,
+    get: function () {
+      return _Disabled.default;
+    }
+  });
+  Object.defineProperty(_exports, "DisabledSource", {
+    enumerable: true,
+    get: function () {
+      return _Disabled2.default;
+    }
+  });
   Object.defineProperty(_exports, "ImportSource", {
     enumerable: true,
     get: function () {
       return _Import.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Checkbox/Basic",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs"eaimeta@70e063a35619d71f
+  Object.defineProperty(_exports, "InvalidDemo", {
+    enumerable: true,
+    get: function () {
+      return _Invalid.default;
+    }
+  });
+  Object.defineProperty(_exports, "InvalidSource", {
+    enumerable: true,
+    get: function () {
+      return _Invalid2.default;
+    }
+  });
+  Object.defineProperty(_exports, "WithlabelDemo", {
+    enumerable: true,
+    get: function () {
+      return _Withlabel.default;
+    }
+  });
+  Object.defineProperty(_exports, "WithlabelSource", {
+    enumerable: true,
+    get: function () {
+      return _Withlabel2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Checkbox/Basic",0,"ulx-ember/components/Demo/Checkbox/Withlabel",0,"ulx-ember/components/Demo/Checkbox/Invalid",0,"ulx-ember/components/Demo/Checkbox/Disabled",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Withlabel.gjs",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Invalid.gjs",0,"ulx-ember/documentation/components/elements/checkbox/snippets/Disabled.gjs"eaimeta@70e063a35619d71f
   // ==========================================================================
   // Checkbox Demo Components Barrel Export
   // ==========================================================================
@@ -3911,10 +4207,50 @@ import { action } from '@ember/object';
 import { UlxCheckbox } from 'uls-components';
 
 export default class BasicCheckboxDemo extends Component {
+  @tracked items = [{ label: 'All Event Days', checked: true }];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    this.items = this.items.map((i) => (i === item ? { ...i, checked } : i));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxCheckbox
+        @rules={{this.requiredRules}}
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+      />
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/checkbox/snippets/Disabled.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxCheckbox } from 'uls-components';
+
+export default class WithlabelDemoComponent extends Component {
   @tracked items = [
-    { label: 'All Event Days', checked: true },
-    { label: 'Selected Event Days', checked: false },
-    { label: 'Custom Dates', checked: false },
+    { label: 'All Event Days', checked: false, disabled: true },
+    { label: 'Single Event Days', checked: false },
   ];
 
   get requiredRules() {
@@ -3929,12 +4265,13 @@ export default class BasicCheckboxDemo extends Component {
   <template>
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
       <UlxCheckbox
-        @label="Event Day"
+        @label="With Label"
         @rules={{this.requiredRules}}
         @size="s-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
       />
     </div>
   </template>
@@ -3952,6 +4289,114 @@ export default class BasicCheckboxDemo extends Component {
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
 import { Checkbox } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/checkbox/snippets/Invalid.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxCheckbox } from 'uls-components';
+
+export default class WithlabelDemoComponent extends Component {
+  @tracked items = [
+    { label: 'All Event Days', checked: false },
+    { label: 'Single Event Days', checked: false },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  get error() {
+    // \`UlxCheckbox\` expects a *field-level* string error message (not per-item).
+    // Example validation: require at least one item to be checked.
+    const hasAtLeastOneChecked = this.items.some((i) => i.checked);
+    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    this.items = this.items.map((i) => (i === item ? { ...i, checked } : i));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxCheckbox
+        @label="With Label"
+        @rules={{this.requiredRules}}
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
+        @error={{this.error}}
+      />
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/checkbox/snippets/Withlabel.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxCheckbox } from 'uls-components';
+
+export default class WithlabelDemoComponent extends Component {
+  @tracked items = [
+    { label: 'All Event Days', checked: true },
+    { label: 'Single Event Days', checked: true },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  // get error() {
+  //   // \`UlxCheckbox\` expects a *field-level* string error message (not per-item).
+  //   // Example validation: require at least one item to be checked.
+  //   const hasAtLeastOneChecked = this.items.some((i) => i.checked);
+  //   return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+  // }
+
+  @action
+  handleItemChange(item, checked) {
+    this.items = this.items.map((i) => (i === item ? { ...i, checked } : i));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxCheckbox
+        @label="With Label"
+        @rules={{this.requiredRules}}
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
+        {{!-- @error={{this.error}} --}}
+      />
+    </div>
+  </template>
+}
 
 `;
 });
@@ -9438,7 +9883,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+a543132f"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+36d92c78"});
           }
         
 //# sourceMappingURL=ulx-ember.map

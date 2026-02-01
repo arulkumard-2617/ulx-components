@@ -13477,7 +13477,7 @@ FEATURES IMPLEMENTED:
   box-shadow: 0 0 0 0.2rem var(--red-border, #CF1322);
 }
 .ulx-radiobutton.invalid .ulx-radiobutton-label {
-  color: var(--uls-danger-fg-color, #ffffff);
+  color: var(--uls-danger-fg-color, #f14250);
 }
 @media only screen and (max-width: 767px) {
   .ulx-radiobutton.xs-size {
@@ -13913,7 +13913,6 @@ FEATURES IMPLEMENTED:
 }
 .ulx-checkbox.disabled .checkbox-label {
   cursor: not-allowed;
-  color: var(--uls-disabled-fg-color, var(--ulx-light-text-color));
 }
 .ulx-checkbox.disabled .checkbox-box {
   color: var(--uls-disabled-fg-color, var(--ulx-light-text-color)) !important;
@@ -13942,7 +13941,7 @@ FEATURES IMPLEMENTED:
   box-shadow: 0 0 0 0.2rem var(--red-border, #CF1322);
 }
 .ulx-checkbox.invalid .checkbox-label {
-  color: var(--uls-danger-fg-color, #ffffff);
+  color: var(--uls-danger-fg-color, #f14250);
 }
 .ulx-checkbox.checked .checkbox-box {
   background-color: var(--ulx-primary-color) !important;
@@ -16590,7 +16589,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-tag.danger {
   background-color: var(--uls-danger-color, #ef4444);
-  color: var(--uls-danger-fg-color, #ffffff);
+  color: var(--uls-danger-fg-color, #f14250);
   border-color: var(--uls-danger-color, #ef4444);
 }
 .ulx-tag.danger:hover:not(.disabled) {
@@ -17186,7 +17185,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-badge.danger {
   background-color: var(--uls-danger-color, #ef4444);
-  color: var(--uls-danger-fg-color, #ffffff);
+  color: var(--uls-danger-fg-color, #f14250);
 }
 .ulx-badge.contrast {
   background-color: var(--ulx-text-color);
@@ -18032,7 +18031,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-scrolltop.danger {
   background-color: var(--uls-danger-color, #ef4444);
-  color: var(--uls-danger-fg-color, #ffffff);
+  color: var(--uls-danger-fg-color, #f14250);
   border-color: var(--uls-danger-border-color, #f99f9e);
 }
 .bs-icons1 {

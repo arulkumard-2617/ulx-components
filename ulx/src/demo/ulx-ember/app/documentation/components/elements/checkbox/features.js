@@ -5,9 +5,15 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  // Sources
+  
+  WithlabelDemo,
+  InvalidDemo,
+  DisabledDemo,// Sources
   ImportSource,
-  BasicSource
+  BasicSource,
+  WithlabelSource,
+  InvalidSource,
+  DisabledSource
 } from './imports';
 
 export const CheckboxFeatureItems = [
@@ -45,6 +51,66 @@ export const CheckboxFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "with-label",
+    sectionNav: "Withlabel",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Withlabel</code> demo shows WithLabel usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: WithlabelDemo,
+      props: {
+        source: WithlabelSource,
+        snippetName: "with-label",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "invalid",
+    sectionNav: "Invalid",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Invalid</code> demo shows Invalid usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: InvalidDemo,
+      props: {
+        source: InvalidSource,
+        snippetName: "invalid",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "disabled",
+    sectionNav: "Disabled",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Disabled</code> demo shows Disabled usage of the Checkbox component."
+      }
+    },
+    demo: {
+      component: DisabledDemo,
+      props: {
+        source: DisabledSource,
+        snippetName: "disabled",
         language: "handlebars"
       }
     }
