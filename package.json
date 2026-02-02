@@ -86,12 +86,14 @@
       "./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
       "./components/elements/ulx-radio/index.js": "./dist/_app_/components/elements/ulx-radio/index.js",
       "./components/elements/ulx-radio/radio-item.js": "./dist/_app_/components/elements/ulx-radio/radio-item.js",
+      "./components/elements/ulx-tag/index.js": "./dist/_app_/components/elements/ulx-tag/index.js",
       "./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
       "./components/ulx-checkbox.js": "./dist/_app_/components/ulx-checkbox.js",
       "./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
       "./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
       "./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
       "./components/ulx-radio.js": "./dist/_app_/components/ulx-radio.js",
+      "./components/ulx-tag.js": "./dist/_app_/components/ulx-tag.js",
       "./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js"
     }
   }

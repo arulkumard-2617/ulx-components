@@ -221,6 +221,16 @@ export const DocNavItems = [
             route: 'components.elements.icon'
           }
         ]
+      },
+      {
+        category: 'Misc',
+        items: [
+          {
+            menuItem: 'tag',
+            to: '/components/elements/tag',
+            route: 'components.elements.tag'
+          }
+        ]
       }
     ]
   },

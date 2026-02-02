@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'uls-components';
+import { UlxRadio } from 'ulx-components';
 
 export default class BasicRadioDemo extends Component {
   @tracked items = [{ label: 'Item 1', value: 'item1', checked: false }];

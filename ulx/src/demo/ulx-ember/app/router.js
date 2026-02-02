@@ -25,6 +25,7 @@ Router.map(function () {
       this.route('input-group');
       this.route('checkbox');
       this.route('radio');
+      this.route('tag');
 });
   });
 

@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class GroupDemoComponent extends Component {
   @tracked items = [

@@ -4,10 +4,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 const BS_ICONS_CSS_URL =
-  'https://cdn.zicons.in/21598000000025464/v2/bs-icons1.css';
+  'https://cdn.zicons.in/21598000000025464/v1/bs-icons1.css';
 const ICON_NAME_REGEX = /\\.bs-icons1\\.([a-zA-Z0-9_-]+):before/g;
 
 export default class DemoIconList extends Component {

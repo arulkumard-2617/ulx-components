@@ -1,5 +1,5 @@
 export default `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">

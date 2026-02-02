@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class BasicCheckboxDemo extends Component {
   @tracked items = [{ label: 'All Event Days', checked: true }];

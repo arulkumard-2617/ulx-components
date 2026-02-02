@@ -41,7 +41,7 @@
   });
   0; //eaimeta@70e063a35619d71f0,"@glimmer/component/-private/ember-component-manager"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/Demo/Checkbox/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Checkbox/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -49,7 +49,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _BasicCheckboxDemo;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -88,7 +88,7 @@
     "id": "+yrbtrK7",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\"],[[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Basic.js",
-    "scope": () => [_ulsComponents.UlxCheckbox],
+    "scope": () => [_ulxComponents.UlxCheckbox],
     "isStrictMode": true
   }), _BasicCheckboxDemo), _BasicCheckboxDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -102,7 +102,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Checkbox/Disabled", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Checkbox/Disabled", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -110,7 +110,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _WithlabelDemoComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -151,7 +151,7 @@
     "id": "22cGrlWZ",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\"],[\"With Label\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Disabled.js",
-    "scope": () => [_ulsComponents.UlxCheckbox],
+    "scope": () => [_ulxComponents.UlxCheckbox],
     "isStrictMode": true
   }), _WithlabelDemoComponent), _WithlabelDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -169,7 +169,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Checkbox/Group", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Checkbox/Group", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -177,7 +177,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _GroupDemoComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -218,7 +218,7 @@
     "id": "MnrZCSKA",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@items\",\"@onItemChange\",\"@helpText\",\"@fieldClass\",\"@groupClass\",\"@error\"],[\"Group\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",\"col-12\",\"horizontal\",[30,0,[\"error\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Group.js",
-    "scope": () => [_ulsComponents.UlxCheckbox],
+    "scope": () => [_ulxComponents.UlxCheckbox],
     "isStrictMode": true
   }), _GroupDemoComponent), _GroupDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -239,7 +239,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Checkbox/Invalid", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Checkbox/Invalid", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -247,7 +247,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _WithlabelDemoComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -295,7 +295,7 @@
     "id": "OR2i6jqa",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@error\"],[\"With Label\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",[30,0,[\"error\"]]]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Invalid.js",
-    "scope": () => [_ulsComponents.UlxCheckbox],
+    "scope": () => [_ulxComponents.UlxCheckbox],
     "isStrictMode": true
   }), _WithlabelDemoComponent), _WithlabelDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -312,7 +312,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Checkbox/Withlabel", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Checkbox/Withlabel", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -320,7 +320,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _WithlabelDemoComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -368,7 +368,7 @@
     "id": "TTArh2Vo",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@label\",\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\"],[\"With Label\",[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Checkbox/Withlabel.js",
-    "scope": () => [_ulsComponents.UlxCheckbox],
+    "scope": () => [_ulxComponents.UlxCheckbox],
     "isStrictMode": true
   }), _WithlabelDemoComponent), _WithlabelDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -385,14 +385,14 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Icon/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Icon/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="fxb fvc gp4">
@@ -439,18 +439,18 @@
     "id": "tPl95DEK",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"close-icon-01\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,null,[[\"icon\"],[[[[1,\"\\n      \"],[10,\"svg\"],[14,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[14,\"width\",\"24\"],[14,\"height\",\"24\"],[14,\"viewBox\",\"0 0 1024 1024\"],[12],[1,\"\\n        \"],[10,\"path\"],[14,\"fill\",\"currentColor\"],[14,\"transform\",\"scale(1, -1) translate(0, -1024)\"],[14,\"d\",\"M 831.488 602.112h -24.576c -12.288 0.000 -20.480 8.192 -28.672 20.480 -4.096 12.288 -4.096 24.576 4.096 32.768l 20.480 20.480c 36.864 36.864 36.864 94.208 0.000 126.976 -36.864 36.864 -94.208 36.864 -126.976 0.000l -20.480 -20.480c -8.192 -8.192 -20.480 -12.288 -32.768 -4.096 -12.288 4.096 -20.480 16.384 -20.480 28.672v 24.576c 0.000 49.152 -40.960 90.112 -90.112 90.112s -90.112 -40.960 -90.112 -90.112v -24.576c 0.000 -12.288 -8.192 -20.480 -20.480 -28.672 -12.288 -4.096 -24.576 -4.096 -32.768 4.096l -16.384 20.480c -36.864 36.864 -94.208 36.864 -126.976 0.000 -36.864 -36.864 -36.864 -94.208 0.000 -126.976l 16.384 -20.480c 8.192 -8.192 8.192 -20.480 4.096 -32.768s -16.384 -20.480 -28.672 -20.480h -24.576c -49.152 0.000 -90.112 -40.960 -90.112 -90.112s 40.960 -90.112 90.112 -90.112h 24.576c 12.288 0.000 20.480 -8.192 28.672 -20.480 4.096 -12.288 4.096 -24.576 -4.096 -32.768l -20.480 -20.480c -36.864 -36.864 -36.864 -94.208 0.000 -126.976 36.864 -36.864 94.208 -36.864 126.976 0.000l 20.480 20.480c 8.192 8.192 20.480 12.288 32.768 4.096 12.288 -4.096 20.480 -16.384 20.480 -28.672v -24.576c 0.000 -49.152 40.960 -90.112 90.112 -90.112s 90.112 40.960 90.112 90.112v 24.576c 0.000 12.288 8.192 20.480 20.480 28.672 12.288 4.096 24.576 4.096 32.768 -4.096l 20.480 -20.480c 36.864 -36.864 94.208 -36.864 126.976 0.000s 36.864 94.208 0.000 126.976l -20.480 20.480c -8.192 8.192 -12.288 20.480 -4.096 32.768 4.096 12.288 16.384 20.480 28.672 20.480h 24.576c 49.152 0.000 90.112 40.960 90.112 90.112s -40.960 90.112 -90.112 90.112zM 831.488 471.040h -24.576c -32.768 0.000 -61.440 -20.480 -73.728 -49.152s -8.192 -61.440 16.384 -86.016l 20.480 -20.480c 16.384 -16.384 16.384 -40.960 0.000 -57.344s -40.960 -16.384 -57.344 0.000l -20.480 20.480c -24.576 24.576 -57.344 28.672 -86.016 16.384s -49.152 -36.864 -49.152 -73.728v -24.576c 0.000 -24.576 -20.480 -40.960 -40.960 -40.960 -24.576 0.000 -40.960 20.480 -40.960 40.960v 24.576c 0.000 32.768 -20.480 61.440 -49.152 73.728s -61.440 8.192 -86.016 -16.384l -20.480 -20.480c -16.384 -16.384 -40.960 -16.384 -57.344 0.000s -16.384 40.960 0.000 57.344l 20.480 20.480c 24.576 24.576 28.672 57.344 16.384 86.016s -36.864 49.152 -73.728 49.152h -32.768c -24.576 0.000 -40.960 20.480 -40.960 40.960s 20.480 40.960 40.960 40.960h 24.576c 32.768 0.000 61.440 20.480 73.728 49.152s 8.192 61.440 -16.384 86.016l -16.384 20.480c -16.384 16.384 -16.384 40.960 0.000 57.344s 40.960 16.384 57.344 0.000l 20.480 -20.480c 24.576 -24.576 57.344 -28.672 86.016 -16.384s 49.152 36.864 49.152 73.728v 28.672c 0.000 24.576 20.480 40.960 40.960 40.960 24.576 0.000 40.960 -20.480 40.960 -40.960v -24.576c 0.000 -32.768 20.480 -61.440 49.152 -73.728s 61.440 -8.192 86.016 16.384l 20.480 20.480c 16.384 16.384 40.960 16.384 57.344 0.000s 16.384 -40.960 0.000 -57.344l -20.480 -20.480c -24.576 -24.576 -28.672 -57.344 -16.384 -86.016s 36.864 -49.152 73.728 -49.152h 24.576c 24.576 0.000 40.960 -20.480 40.960 -40.960s -16.384 -45.056 -36.864 -45.056zM 512.000 647.168c -73.728 0.000 -135.168 -61.440 -135.168 -135.168s 61.440 -135.168 135.168 -135.168c 73.728 0.000 135.168 61.440 135.168 135.168s -61.440 135.168 -135.168 135.168zM 512.000 425.984c -49.152 0.000 -86.016 40.960 -86.016 86.016s 40.960 86.016 86.016 86.016c 49.152 0.000 86.016 -40.960 86.016 -86.016s -36.864 -86.016 -86.016 -86.016z\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Basic.js",
-    "scope": () => [_ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Basic"));
 });
-;define("ulx-ember/components/Demo/Icon/Color", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Icon/Color", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="fxb fvc gp4">
@@ -516,11 +516,11 @@
     "id": "C/PArxpG",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s12\",\"tick icon\",\"primary\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s13\",\"tick icon\",\"success\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s14\",\"tick icon\",\"warning\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s16\",\"tick icon\",\"danger\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s18\",\"tick icon\",\"info\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s20\",\"tick icon\",\"muted\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s22\",\"tick icon\",\"inverted\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Color.js",
-    "scope": () => [_ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Color"));
 });
-;define("ulx-ember/components/Demo/Icon/Layer", ["exports", "@glimmer/component", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Icon/Layer", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -528,7 +528,7 @@
   });
   _exports.default = void 0;
   var _DemoIconLayer;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
   function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
@@ -572,11 +572,11 @@
     "id": "oXOQvddR",
     "block": "[[[10,0],[14,0,\"ulx-column col-3 gp8 fhc\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"layerVariations\"]]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxb column fvc gp2 col-3\"],[12],[1,\"\\n      \"],[10,0],[14,0,\"text-sm\"],[12],[1,\"bg-\"],[1,[30,1]],[13],[1,\"\\n      \"],[10,0],[14,0,\"fxb gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"sampleIcons\"]]],null]],null],null,[[[1,\"          \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",[30,2],\"l\",\"\",[28,[30,0,[\"layerClass\"]],[[30,1]],null]]],null],[1,\"\\n\"]],[2]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[1]],null],[13]],[\"color\",\"iconName\"],[\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Layer.js",
-    "scope": () => [_ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxIcon],
     "isStrictMode": true
   }), _DemoIconLayer);
 });
-;define("ulx-ember/components/Demo/Icon/List", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/modifier", "ember-modifier", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _modifier, _emberModifier, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Icon/List", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/modifier", "ember-modifier", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _modifier, _emberModifier, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -584,14 +584,14 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _descriptor2, _DemoIconList;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/modifier",0,"ember-modifier",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/modifier",0,"ember-modifier",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
   function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
   function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
   function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-  const BS_ICONS_CSS_URL = 'https://cdn.zicons.in/21598000000025464/v2/bs-icons1.css';
+  const BS_ICONS_CSS_URL = 'https://cdn.zicons.in/21598000000025464/v1/bs-icons1.css';
   const ICON_NAME_REGEX = /\.bs-icons1\.([a-zA-Z0-9_-]+):before/g;
   let DemoIconList = _exports.default = (_class = (_DemoIconList = class DemoIconList extends _component.default {
     constructor(...args) {
@@ -706,7 +706,7 @@
     "id": "T/vlRwz+",
     "block": "[[[11,0],[24,0,\"fxc gp4\"],[4,[30,0,[\"runOnInsert\"]],null,null],[12],[1,\"\\n  \"],[10,0],[14,0,\"fxb fvc gp3 mgb8\"],[12],[1,\"\\n    \"],[11,\"input\"],[24,\"placeholder\",\"Search icons...\"],[24,0,\"ulx-input\"],[24,\"aria-label\",\"Search icons\"],[16,2,[30,0,[\"query\"]]],[24,4,\"text\"],[4,[30,0,[\"on\"]],[\"input\",[30,0,[\"updateQuery\"]]],null],[12],[13],[1,\"\\n    \"],[10,1],[14,0,\"text-sm ulx-badge\"],[12],[1,[30,0,[\"filteredIcons\",\"length\"]]],[1,\"\\n      icons\"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n\"],[41,[30,0,[\"filteredIcons\",\"length\"]],[[[1,\"    \"],[10,0],[14,0,\"ulx-grid gp5 col-5 pdt5 text-center bd-t\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"filteredIcons\"]]],null]],null],null,[[[1,\"        \"],[10,0],[14,0,\"pd3 fxb column fvc gp3\"],[12],[1,\"\\n          \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",[30,1],\"s20\",\"\"]],null],[1,\"\\n          \"],[10,1],[14,0,\"text-sm\"],[12],[1,[30,1]],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n\"]],[]],[[[1,\"    \"],[10,0],[14,0,\"text-center fg-text-muted pdy6 bd-t\"],[12],[1,\"No icons found\"],[13],[1,\"\\n\"]],[]]],[13]],[\"iconName\"],[\"if\",\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/List.js",
-    "scope": () => [_ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxIcon],
     "isStrictMode": true
   }), _DemoIconList), _DemoIconList), _descriptor = _applyDecoratedDescriptor(_class.prototype, "query", [_tracking.tracked], {
     configurable: true,
@@ -724,14 +724,14 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "loadIcons", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "loadIcons"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateQuery", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "updateQuery"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Icon/Size", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Icon/Size", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="fxb fvc gp4">
@@ -825,18 +825,18 @@
     "id": "bnesuOAa",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s12\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s13\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s14\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s16\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s20\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s22\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s24\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s26\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s28\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s30\",\"tick icon\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"comment-icon\",\"s32\",\"tick icon\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Size.js",
-    "scope": () => [_ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Size"));
 });
-;define("ulx-ember/components/Demo/Icon/Spin", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Icon/Spin", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="fxb fvc gp4">
@@ -854,18 +854,18 @@
     "id": "ISidHcqN",
     "block": "[[[10,0],[14,0,\"fxb fvc gp4\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\",\"@customClass\"],[\"bs-icons1\",\"font\",\"session-settings-icon\",\"s28\",\"tick icon\",\"primary spin-anim\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Icon/Spin.js",
-    "scope": () => [_ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Spin"));
 });
-;define("ulx-ember/components/Demo/Input/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   const rules = {
     required: true,
     minLength: {
@@ -894,18 +894,18 @@
     "id": "lv2n+BA7",
     "block": "[[[10,0],[14,0,\"ulx-form m-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Enter username\"],[24,\"aria-label\",\"Username\"]],[[\"@label\",\"@rules\",\"@helpText\",\"@size\",\"@error\",\"@fieldClass\"],[\"Input\",[32,1],\"Use 3–20 characters. Letters and numbers only.\",\"m-size\",\"Error message here\",\"col-12\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Basic.js",
-    "scope": () => [_ulsComponents.UlxInput, rules],
+    "scope": () => [_ulxComponents.UlxInput, rules],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Basic"));
 });
-;define("ulx-ember/components/Demo/Input/Disabled", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Disabled", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -922,18 +922,18 @@
     "id": "73RdPvq6",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"aria-label\",\"label\"]],[[\"@label\",\"@size\",\"@fieldClass\",\"@disabled\"],[\"label\",\"l-size\",\"col-12\",true]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Disabled.js",
-    "scope": () => [_ulsComponents.UlxInput],
+    "scope": () => [_ulxComponents.UlxInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Disabled"));
 });
-;define("ulx-ember/components/Demo/Input/Filled", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Filled", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -951,18 +951,18 @@
     "id": "fIP7PZyA",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"aria-label\",\"label\"]],[[\"@floatLabel\",\"@label\",\"@size\",\"@fieldClass\",\"@filled\"],[\"label\",\"label\",\"l-size\",\"col-12\",true]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Filled.js",
-    "scope": () => [_ulsComponents.UlxInput],
+    "scope": () => [_ulxComponents.UlxInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Filled"));
 });
-;define("ulx-ember/components/Demo/Input/Floatlabel", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Floatlabel", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -979,18 +979,18 @@
     "id": "Gs7sOx/8",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@id\",\"@label\",\"@floatLabel\",\"@size\",\"@fieldClass\"],[\"username\",\"Username\",true,\"l-size\",\"col-12\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Floatlabel.js",
-    "scope": () => [_ulsComponents.UlxInput],
+    "scope": () => [_ulxComponents.UlxInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Floatlabel"));
 });
-;define("ulx-ember/components/Demo/Input/Invalid", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Invalid", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -1007,18 +1007,18 @@
     "id": "ZIQZ4yIN",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"aria-label\",\"label\"]],[[\"@label\",\"@size\",\"@fieldClass\",\"@invalid\"],[\"label\",\"l-size\",\"col-12\",true]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Invalid.js",
-    "scope": () => [_ulsComponents.UlxInput],
+    "scope": () => [_ulxComponents.UlxInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Invalid"));
 });
-;define("ulx-ember/components/Demo/Input/Keyfilter", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Keyfilter", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   const keyfilters = [{
     label: 'Integers',
     keyfilter: 'int',
@@ -1111,18 +1111,18 @@
     "id": "XsIgGia9",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[32,0]],null]],null],null,[[[1,\"    \"],[8,[32,1],[[16,\"placeholder\",[30,1,[\"placeholder\"]]],[16,\"aria-label\",[30,1,[\"label\"]]]],[[\"@label\",\"@size\",\"@fieldClass\",\"@keyfilter\"],[[30,1,[\"label\"]],\"s-size\",\"col-4\",[30,1,[\"keyfilter\"]]]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Keyfilter.js",
-    "scope": () => [keyfilters, _ulsComponents.UlxInput],
+    "scope": () => [keyfilters, _ulxComponents.UlxInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Keyfilter"));
 });
-;define("ulx-ember/components/Demo/Input/Sizes", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/Input/Sizes", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   const sizes = [{
     label: 's-size',
     size: 's-size'
@@ -1155,18 +1155,18 @@
     "id": "WNqSN0hl",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[32,0]],null]],null],null,[[[1,\"    \"],[8,[32,1],[[16,\"placeholder\",[30,1,[\"placeholder\"]]],[16,\"aria-label\",[30,1,[\"label\"]]]],[[\"@label\",\"@size\",\"@fieldClass\",\"@keyfilter\"],[[30,1,[\"label\"]],[30,1,[\"size\"]],\"col-12\",[30,1,[\"keyfilter\"]]]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Input/Sizes.js",
-    "scope": () => [sizes, _ulsComponents.UlxInput],
+    "scope": () => [sizes, _ulxComponents.UlxInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Sizes"));
 });
-;define("ulx-ember/components/Demo/InputGroup/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/InputGroup/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -1199,18 +1199,18 @@
     "id": "4/1BZHMB",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Website\"],[24,\"aria-label\",\"Website\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s18\",\"tick icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".com\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/InputGroup/Basic.js",
-    "scope": () => [_ulsComponents.UlxInput, _ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxInput, _ulxComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Basic"));
 });
-;define("ulx-ember/components/Demo/InputGroup/Multiple", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/InputGroup/Multiple", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -1254,11 +1254,11 @@
     "id": "rDwI6E0j",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Price\"],[24,\"aria-label\",\"Price\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\",\"end\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"$\"],[13],[1,\"\\n    \"]],[]],[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\".00\"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Search\"],[24,\"aria-label\",\"Search\"]],[[\"@inputGroup\",\"@size\",\"@fieldClass\"],[true,\"s-size\",\"col-12\"]],[[\"start\"],[[[[1,\"\\n      \"],[10,1],[14,0,\"ulx-inputgroup-addon\"],[12],[1,\"\\n        \"],[8,[32,1],null,[[\"@componentClass\",\"@type\",\"@iconName\",\"@size\",\"@ariaLabel\"],[\"bs-icons1\",\"font\",\"ls-tick-icon\",\"s18\",\"search icon\"]],null],[1,\"\\n      \"],[13],[1,\"\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/InputGroup/Multiple.js",
-    "scope": () => [_ulsComponents.UlxInput, _ulsComponents.UlxIcon],
+    "scope": () => [_ulxComponents.UlxInput, _ulxComponents.UlxIcon],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Multiple"));
 });
-;define("ulx-ember/components/Demo/Radio/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Radio/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1266,7 +1266,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _BasicRadioDemo;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -1315,7 +1315,7 @@
     "id": "znSdOYvW",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\"],[[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Basic.js",
-    "scope": () => [_ulsComponents.UlxRadio],
+    "scope": () => [_ulxComponents.UlxRadio],
     "isStrictMode": true
   }), _BasicRadioDemo), _BasicRadioDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -1330,7 +1330,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Radio/Disabled", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Radio/Disabled", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1338,7 +1338,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _DisabledDemoComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -1396,7 +1396,7 @@
     "id": "ziiDPSbp",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@error\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",[30,0,[\"error\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Disabled.js",
-    "scope": () => [_ulsComponents.UlxRadio],
+    "scope": () => [_ulxComponents.UlxRadio],
     "isStrictMode": true
   }), _DisabledDemoComponent), _DisabledDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -1421,7 +1421,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Radio/Horizontal", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Radio/Horizontal", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1429,7 +1429,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _HorizontalDemoComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -1488,7 +1488,7 @@
     "id": "aIBGOk7A",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@groupClass\",\"@error\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",\"horizontal\",[30,0,[\"error\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Horizontal.js",
-    "scope": () => [_ulsComponents.UlxRadio],
+    "scope": () => [_ulxComponents.UlxRadio],
     "isStrictMode": true
   }), _HorizontalDemoComponent), _HorizontalDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -1511,7 +1511,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Radio/Invalid", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Radio/Invalid", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1519,7 +1519,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _InvalidRadioDemo;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -1577,7 +1577,7 @@
     "id": "W97KbOQe",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@error\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",[30,0,[\"error\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Invalid.js",
-    "scope": () => [_ulsComponents.UlxRadio],
+    "scope": () => [_ulxComponents.UlxRadio],
     "isStrictMode": true
   }), _InvalidRadioDemo), _InvalidRadioDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -1600,7 +1600,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/Radio/Withlabel", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+;define("ulx-ember/components/Demo/Radio/Withlabel", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1608,7 +1608,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _BasicRadioDemo;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -1659,7 +1659,7 @@
     "id": "/t2oTv4s",
     "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\"]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Withlabel.js",
-    "scope": () => [_ulsComponents.UlxRadio],
+    "scope": () => [_ulxComponents.UlxRadio],
     "isStrictMode": true
   }), _BasicRadioDemo), _BasicRadioDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
     configurable: true,
@@ -1681,6 +1681,318 @@
       }];
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Tag/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <UlxTag @value="Tag/Label" @size="s-size" @variant="primary" />
+  */
+  {
+    "id": "qrqGHWFW",
+    "block": "[[[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\"],[\"Tag/Label\",\"s-size\",\"primary\"]],null]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Tag/Basic.js",
+    "scope": () => [_ulxComponents.UlxTag],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Basic"));
+});
+;define("ulx-ember/components/Demo/Tag/Symbol", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _SymbolDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class SymbolDemoComponent extends _component.default {
+    get examples() {
+      return [
+      // Symbol labels (tag.less §5C)
+      {
+        label: 'with-dot',
+        variant: 'primary',
+        type: undefined,
+        customClass: 'with-dot'
+      }, {
+        label: 'with-star',
+        variant: 'secondary',
+        type: undefined,
+        customClass: 'with-star'
+      },
+      // Icon positions (UlxTag @iconPosition)
+      {
+        label: 'icon left (default)',
+        variant: 'success',
+        type: undefined,
+        icon: 'ls-tick-icon',
+        iconPosition: 'left'
+      }, {
+        label: 'icon right',
+        variant: 'danger',
+        type: 'outline',
+        icon: 'close-icon-01',
+        iconPosition: 'right'
+      }, {
+        label: 'icon both sides',
+        variant: 'info',
+        type: undefined,
+        icon: 'comment-icon',
+        iconPosition: 'left',
+        rightIcon: 'session-settings-icon'
+      },
+      // Icon labels (UlxTag @icon / @iconType)
+      {
+        label: 'tick icon',
+        variant: 'success',
+        type: undefined,
+        icon: 'ls-tick-icon'
+      }, {
+        label: 'close icon + outline',
+        variant: 'danger',
+        type: 'outline',
+        icon: 'close-icon-01'
+      }, {
+        label: 'comment icon',
+        variant: 'info',
+        type: undefined,
+        icon: 'comment-icon'
+      }, {
+        label: 'settings icon + pill',
+        variant: 'secondary',
+        type: 'pill',
+        icon: 'session-settings-icon'
+      }];
+    }
+  }
+  _exports.default = SymbolDemoComponent;
+  _SymbolDemoComponent = SymbolDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4">
+    {{#each this.examples key="label" as |item|}}
+      <UlxTag
+        @value={{item.label}}
+        @size="s-size"
+        @variant={{item.variant}}
+        @type={{item.type}}
+        @customClass={{item.customClass}}
+        @icon={{item.icon}}
+        @iconPosition={{item.iconPosition}}
+        @iconType="font"
+        @iconClass="bs-icons1"
+        @iconSize="s14"
+      />
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "hMRUk8B1",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"examples\"]]],null]],null],\"label\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@type\",\"@customClass\",\"@icon\",\"@iconPosition\",\"@iconType\",\"@iconClass\",\"@iconSize\"],[[30,1,[\"label\"]],\"s-size\",[30,1,[\"variant\"]],[30,1,[\"type\"]],[30,1,[\"customClass\"]],[30,1,[\"icon\"]],[30,1,[\"iconPosition\"]],\"font\",\"bs-icons1\",\"s14\"]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Tag/Symbol.js",
+    "scope": () => [_ulxComponents.UlxTag],
+    "isStrictMode": true
+  }), _SymbolDemoComponent);
+});
+;define("ulx-ember/components/Demo/Tag/Type", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _TypeDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class TypeDemoComponent extends _component.default {
+    get types() {
+      return [{
+        label: 'Filled (default)',
+        type: undefined
+      }, {
+        label: 'Outline',
+        type: 'outline'
+      }, {
+        label: 'Pill',
+        type: 'pill'
+      }];
+    }
+  }
+  _exports.default = TypeDemoComponent;
+  _TypeDemoComponent = TypeDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4">
+    {{#each this.types key="label" as |item|}}
+      <UlxTag
+        @value={{item.label}}
+        @size="m-size"
+        @variant="primary"
+        @type={{item.type}}
+      />
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "pQdWLF3J",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"types\"]]],null]],null],\"label\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@type\"],[[30,1,[\"label\"]],\"m-size\",\"primary\",[30,1,[\"type\"]]]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Tag/Type.js",
+    "scope": () => [_ulxComponents.UlxTag],
+    "isStrictMode": true
+  }), _TypeDemoComponent);
+});
+;define("ulx-ember/components/Demo/Tag/Variations", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _VariationsDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class VariationsDemoComponent extends _component.default {
+    get variations() {
+      return [
+      // Core variants
+      {
+        label: 'primary',
+        class: 'primary'
+      }, {
+        label: 'secondary',
+        class: 'secondary'
+      }, {
+        label: 'success',
+        class: 'success'
+      }, {
+        label: 'info',
+        class: 'info'
+      }, {
+        label: 'warning',
+        class: 'warning'
+      }, {
+        label: 'danger',
+        class: 'danger'
+      }, {
+        label: 'contrast',
+        class: 'contrast'
+      }, {
+        label: 'white',
+        class: 'white'
+      }, {
+        label: 'black',
+        class: 'black'
+      },
+      // Light tone variants (lt-*)
+      {
+        label: 'lt-green',
+        class: 'lt-green'
+      }, {
+        label: 'lt-gold',
+        class: 'lt-gold'
+      }, {
+        label: 'lt-purple',
+        class: 'lt-purple'
+      }, {
+        label: 'lt-blue',
+        class: 'lt-blue'
+      }, {
+        label: 'lt-red',
+        class: 'lt-red'
+      }, {
+        label: 'lt-primary',
+        class: 'lt-primary'
+      },
+      // Light palette variants (light-*)
+      {
+        label: 'light-nebula-blue',
+        class: 'light-nebula-blue'
+      }, {
+        label: 'light-salmon-red',
+        class: 'light-salmon-red'
+      }, {
+        label: 'light-jungle-green',
+        class: 'light-jungle-green'
+      }, {
+        label: 'light-cyber-yellow',
+        class: 'light-cyber-yellow'
+      }, {
+        label: 'light-cerise-pink',
+        class: 'light-cerise-pink'
+      }, {
+        label: 'light-royal-violet',
+        class: 'light-royal-violet'
+      }, {
+        label: 'light-medium-orchid',
+        class: 'light-medium-orchid'
+      }, {
+        label: 'light-turquoise-green',
+        class: 'light-turquoise-green'
+      }, {
+        label: 'light-not-blue',
+        class: 'light-not-blue'
+      }, {
+        label: 'light-bs-grey',
+        class: 'light-bs-grey'
+      }, {
+        label: 'light-grass-green',
+        class: 'light-grass-green'
+      }, {
+        label: 'light-sandal-yellow',
+        class: 'light-sandal-yellow'
+      }, {
+        label: 'light-lomo-blue',
+        class: 'light-lomo-blue'
+      }, {
+        label: 'light-candy-orange',
+        class: 'light-candy-orange'
+      }, {
+        label: 'light-dairy-violet',
+        class: 'light-dairy-violet'
+      }, {
+        label: 'just-grey',
+        class: 'just-grey'
+      },
+      // Status tags
+      {
+        label: 'running-color',
+        class: 'running-color'
+      }, {
+        label: 'completed-color',
+        class: 'completed-color'
+      }, {
+        label: 'published-color',
+        class: 'published-color'
+      }, {
+        label: 'draft-color',
+        class: 'draft-color'
+      }, {
+        label: 'cancelled-color',
+        class: 'cancelled-color'
+      }];
+    }
+  }
+  _exports.default = VariationsDemoComponent;
+  _VariationsDemoComponent = VariationsDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4">
+    {{#each this.variations key="class" as |item|}}
+      <UlxTag @value={{item.label}} @size="s-size" @variant={{item.class}} />
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "dgikxjKY",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"variations\"]]],null]],null],\"class\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\"],[[30,1,[\"label\"]],\"s-size\",[30,1,[\"class\"]]]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Tag/Variations.js",
+    "scope": () => [_ulxComponents.UlxTag],
+    "isStrictMode": true
+  }), _VariationsDemoComponent);
 });
 ;define("ulx-ember/components/Demo/TestComp/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object"], function (_exports, _component, _tracking, _object) {
   "use strict";
@@ -1730,14 +2042,14 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "handleItemClick", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemClick"), _class.prototype), _class);
 });
-;define("ulx-ember/components/Demo/UlxIconInput/Basic", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/UlxIconInput/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form m-size ulx-grid gp12 mgb14">
@@ -1757,18 +2069,18 @@
     "id": "/7zhwCZj",
     "block": "[[[10,0],[14,0,\"ulx-form m-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Search\"],[24,\"aria-label\",\"Search\"]],[[\"@iconName\",\"@iconType\",\"@iconClass\",\"@iconPosition\",\"@iconSize\",\"@fieldClass\"],[\"search-icon\",\"font\",\"bs-icons1\",\"left\",\"s18\",\"col-4\"]],null],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/UlxIconInput/Basic.js",
-    "scope": () => [_ulsComponents.UlxIconInput],
+    "scope": () => [_ulxComponents.UlxIconInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Basic"));
 });
-;define("ulx-ember/components/Demo/UlxIconInput/Namedblocks", ["exports", "uls-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulsComponents, _component, _templateFactory, _templateOnly) {
+;define("ulx-ember/components/Demo/UlxIconInput/Namedblocks", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  0; //eaimeta@70e063a35619d71f0,"uls-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
   var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     <div class="ulx-form m-size ulx-grid gp12 mgb14">
@@ -1809,7 +2121,7 @@
     "id": "zi01XFEV",
     "block": "[[[10,0],[14,0,\"ulx-form m-size ulx-grid gp12 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],[[24,\"placeholder\",\"Search\"],[24,\"aria-label\",\"Search\"]],[[\"@iconType\",\"@iconPosition\",\"@iconSize\",\"@fieldClass\"],[\"font\",\"left\",\"s18\",\"col-4\"]],[[\"label\",\"icon\"],[[[[10,1],[14,0,\"bold-font\"],[12],[1,\"Calendar\"],[13]],[]],[[[1,\"\\n      \"],[10,\"svg\"],[14,\"width\",\"16\"],[14,\"height\",\"16\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[12],[1,\"\\n        \"],[10,\"path\"],[14,\"d\",\"M15.1621 9.63281C15.365 9.44555 15.6809 9.45824 15.8682 9.66113C16.0554 9.86404 16.0427 10.1799 15.8398 10.3672L9.33984 16.3672C9.24106 16.4583 9.10983 16.5058 8.97559 16.499C8.87512 16.4939 8.77935 16.459 8.7002 16.3994L8.62695 16.3311L7.45996 15.0127L7.40039 14.9297C7.28452 14.7282 7.32204 14.4667 7.50293 14.3066C7.68389 14.1466 7.94792 14.1415 8.13379 14.2812L8.20801 14.3496L9.03613 15.2861L15.1621 9.63281Z\"],[14,\"fill\",\"black\"],[12],[13],[1,\"\\n        \"],[10,\"path\"],[14,\"fill-rule\",\"evenodd\"],[14,\"clip-rule\",\"evenodd\"],[14,\"d\",\"M17 2C17.2761 2 17.5 2.22386 17.5 2.5V4H18L18.2061 4.00488C20.3194 4.11211 22 5.85996 22 8V18L21.9951 18.2061C21.8913 20.2512 20.2512 21.8913 18.2061 21.9951L18 22H6L5.79395 21.9951C3.7488 21.8913 2.10865 20.2512 2.00488 18.2061L2 18V8C2 5.85996 3.68056 4.11211 5.79395 4.00488L6 4H6.5V2.5C6.5 2.22386 6.72386 2 7 2C7.27614 2 7.5 2.22386 7.5 2.5V4H16.5V2.5C16.5 2.22386 16.7239 2 17 2ZM6 5C4.34315 5 3 6.34315 3 8V18C3 19.6569 4.34315 21 6 21H18C19.6569 21 21 19.6569 21 18V8C21 6.34315 19.6569 5 18 5H17.5V6.5C17.5 6.77614 17.2761 7 17 7C16.7239 7 16.5 6.77614 16.5 6.5V5H7.5V6.5C7.5 6.77614 7.27614 7 7 7C6.72386 7 6.5 6.77614 6.5 6.5V5H6Z\"],[14,\"fill\",\"black\"],[12],[13],[1,\"\\n      \"],[13],[1,\"\\n\\n    \"]],[]]]]],[1,\"\\n\"],[13]],[],[]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/UlxIconInput/Namedblocks.js",
-    "scope": () => [_ulsComponents.UlxIconInput],
+    "scope": () => [_ulxComponents.UlxIconInput],
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Namedblocks"));
 });
@@ -3373,6 +3685,20 @@
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-radio/radio-item"eaimeta@70e063a35619d71f
 });
+;define("ulx-ember/components/elements/ulx-tag/index", ["exports", "uls-components/components/elements/ulx-tag/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-tag/index"eaimeta@70e063a35619d71f
+});
 ;define("ulx-ember/components/elements/ulx-textarea/index", ["exports", "uls-components/components/elements/ulx-textarea/index"], function (_exports, _index) {
   "use strict";
 
@@ -3659,6 +3985,20 @@
     "isStrictMode": true
   }), _UlxReactBridge);
 });
+;define("ulx-ember/components/ulx-tag", ["exports", "uls-components/components/ulx-tag"], function (_exports, _ulxTag) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxTag.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-tag"eaimeta@70e063a35619d71f
+});
 ;define("ulx-ember/components/ulx-textarea", ["exports", "uls-components/components/ulx-textarea"], function (_exports, _ulxTextarea) {
   "use strict";
 
@@ -3870,6 +4210,13 @@
         menuItem: 'Icon',
         to: '/components/elements/icon',
         route: 'components.elements.icon'
+      }]
+    }, {
+      category: 'Misc',
+      items: [{
+        menuItem: 'tag',
+        to: '/components/elements/tag',
+        route: 'components.elements.tag'
       }]
     }]
   }, {
@@ -4228,6 +4575,63 @@
   function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
   function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
   let ComponentsElementsRadioController = _exports.default = (_class = class ComponentsElementsRadioController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
+;define("ulx-ember/controllers/components/elements/tag", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsTagController = _exports.default = (_class = class ComponentsElementsTagController extends _controller.default {
     constructor(...args) {
       super(...args);
       _initializerDefineProperty(this, "activeTab", _descriptor, this);
@@ -4845,7 +5249,7 @@ import { TestComp } from 'uls-components';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class BasicCheckboxDemo extends Component {
   @tracked items = [{ label: 'All Event Days', checked: true }];
@@ -4886,7 +5290,7 @@ export default class BasicCheckboxDemo extends Component {
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class WithlabelDemoComponent extends Component {
   @tracked items = [
@@ -4932,7 +5336,7 @@ export default class WithlabelDemoComponent extends Component {
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class GroupDemoComponent extends Component {
   @tracked items = [
@@ -4994,7 +5398,7 @@ import { Checkbox } from 'uls-components';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class WithlabelDemoComponent extends Component {
   @tracked items = [
@@ -5048,7 +5452,7 @@ export default class WithlabelDemoComponent extends Component {
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'uls-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class WithlabelDemoComponent extends Component {
   @tracked items = [
@@ -5496,7 +5900,7 @@ export default class WithlabelDemoComponent extends Component {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 <template>
   <div class="fxb fvc gp4">
@@ -5551,7 +5955,7 @@ import { UlxIcon } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 <template>
   <div class="fxb fvc gp4">
@@ -5639,7 +6043,7 @@ import { Icon } from 'uls-components';
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
 import Component from '@glimmer/component';
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 const LAYER_VARIATIONS = ['primary', 'success', 'warning', 'danger', 'info'];
 const SAMPLE_ICONS = ['ls-tick-icon', 'close-icon-01', 'comment-icon'];
@@ -5691,10 +6095,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 const BS_ICONS_CSS_URL =
-  'https://cdn.zicons.in/21598000000025464/v2/bs-icons1.css';
+  'https://cdn.zicons.in/21598000000025464/v1/bs-icons1.css';
 const ICON_NAME_REGEX = /\\.bs-icons1\\.([a-zA-Z0-9_-]+):before/g;
 
 export default class DemoIconList extends Component {
@@ -5827,7 +6231,7 @@ export default class DemoIconList extends Component {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 <template>
   <div class="fxb fvc gp4">
@@ -5929,7 +6333,7 @@ import { UlxIcon } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 <template>
   <div class="fxb fvc gp4">
@@ -6144,7 +6548,7 @@ import { UlxIcon } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput, UlxIcon } from 'uls-components';
+import { UlxInput, UlxIcon } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -6198,7 +6602,7 @@ import { InputGroup } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput, UlxIcon } from 'uls-components';
+import { UlxInput, UlxIcon } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -6877,7 +7281,7 @@ import { UlxInput, UlxIcon } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 const rules = {
   required: true,
@@ -6911,7 +7315,7 @@ const rules = {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -6936,7 +7340,7 @@ import { UlxInput } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -6962,7 +7366,7 @@ import { UlxInput } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -7000,7 +7404,7 @@ import { Input } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
@@ -7025,7 +7429,7 @@ import { UlxInput } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 const keyfilters = [
   { label: 'Integers', keyfilter: 'int', placeholder: 'e.g. -123' },
@@ -7090,7 +7494,7 @@ const keyfilters = [
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 const sizes = [
   { label: 's-size', size: 's-size' },
@@ -7407,7 +7811,7 @@ const sizes = [
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'uls-components';
+import { UlxRadio } from 'ulx-components';
 
 export default class BasicRadioDemo extends Component {
   @tracked items = [{ label: 'Item 1', value: 'item1', checked: false }];
@@ -7459,7 +7863,7 @@ export default class BasicRadioDemo extends Component {
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'uls-components';
+import { UlxRadio } from 'ulx-components';
 
 export default class DisabledDemoComponent extends Component {
   @tracked items = [
@@ -7525,7 +7929,7 @@ export default class DisabledDemoComponent extends Component {
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'uls-components';
+import { UlxRadio } from 'ulx-components';
 
 export default class HorizontalDemoComponent extends Component {
   @tracked items = [
@@ -7605,7 +8009,7 @@ import { Radio } from 'uls-components';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'uls-components';
+import { UlxRadio } from 'ulx-components';
 
 export default class InvalidRadioDemo extends Component {
   @tracked items = [
@@ -7671,7 +8075,7 @@ export default class InvalidRadioDemo extends Component {
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'uls-components';
+import { UlxRadio } from 'ulx-components';
 
 export default class BasicRadioDemo extends Component {
   @tracked items = [
@@ -7711,6 +8115,497 @@ export default class BasicRadioDemo extends Component {
         Selected:
         <strong>{{this.selectedValue}}</strong>
       </div>
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/tag/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // TAG BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for tag.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'Tag',
+    importLine: "import { Tag } from 'uls-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<Tag />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/tag/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/tag/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.TagFeatureItems = void 0;
+  _exports.default = TagFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/tag/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Tag Feature Items
+  // ==========================================================================
+  const TagFeatureItems = _exports.TagFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>Tag</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the Tag component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "variations",
+    sectionNav: "Variations",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Variations</code> demo shows Variations usage of the Tag component."
+      }
+    },
+    demo: {
+      component: _imports.VariationsDemo,
+      props: {
+        source: _imports.VariationsSource,
+        snippetName: "variations",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "type",
+    sectionNav: "Type",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Type</code> demo shows Type usage of the Tag component."
+      }
+    },
+    demo: {
+      component: _imports.TypeDemo,
+      props: {
+        source: _imports.TypeSource,
+        snippetName: "type",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "symbol",
+    sectionNav: "Symbol",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Symbol</code> demo shows Symbol usage of the Tag component."
+      }
+    },
+    demo: {
+      component: _imports.SymbolDemo,
+      props: {
+        source: _imports.SymbolSource,
+        snippetName: "symbol",
+        language: "handlebars"
+      }
+    }
+  }];
+  function TagFeatures() {
+    return TagFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/tag/imports", ["exports", "ulx-ember/components/Demo/Tag/Basic", "ulx-ember/components/Demo/Tag/Variations", "ulx-ember/components/Demo/Tag/Type", "ulx-ember/components/Demo/Tag/Symbol", "ulx-ember/documentation/components/elements/tag/snippets/Import.gjs", "ulx-ember/documentation/components/elements/tag/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/tag/snippets/Variations.gjs", "ulx-ember/documentation/components/elements/tag/snippets/Type.gjs", "ulx-ember/documentation/components/elements/tag/snippets/Symbol.gjs"], function (_exports, _Basic, _Variations, _Type, _Symbol, _Import, _Basic2, _Variations2, _Type2, _Symbol2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  Object.defineProperty(_exports, "SymbolDemo", {
+    enumerable: true,
+    get: function () {
+      return _Symbol.default;
+    }
+  });
+  Object.defineProperty(_exports, "SymbolSource", {
+    enumerable: true,
+    get: function () {
+      return _Symbol2.default;
+    }
+  });
+  Object.defineProperty(_exports, "TypeDemo", {
+    enumerable: true,
+    get: function () {
+      return _Type.default;
+    }
+  });
+  Object.defineProperty(_exports, "TypeSource", {
+    enumerable: true,
+    get: function () {
+      return _Type2.default;
+    }
+  });
+  Object.defineProperty(_exports, "VariationsDemo", {
+    enumerable: true,
+    get: function () {
+      return _Variations.default;
+    }
+  });
+  Object.defineProperty(_exports, "VariationsSource", {
+    enumerable: true,
+    get: function () {
+      return _Variations2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Tag/Basic",0,"ulx-ember/components/Demo/Tag/Variations",0,"ulx-ember/components/Demo/Tag/Type",0,"ulx-ember/components/Demo/Tag/Symbol",0,"ulx-ember/documentation/components/elements/tag/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/tag/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/tag/snippets/Variations.gjs",0,"ulx-ember/documentation/components/elements/tag/snippets/Type.gjs",0,"ulx-ember/documentation/components/elements/tag/snippets/Symbol.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Tag Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Tag demo components
+  // Demo Components
+  // Import source (for import section)
+  // Tag Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Tag demo source files
+});
+;define("ulx-ember/documentation/components/elements/tag/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // TAG COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for Tag component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Misc',
+    menuItem: 'tag',
+    routeBase: '/components/elements/tag',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'tag',
+    subHeader: 'tag is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { Tag } from 'uls-components'",
+    // Accessibility information
+    accessibility: {
+      description: "Tag component description for accessibility.",
+      example: "<Tag />"
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/tag/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxTag } from 'ulx-components';
+
+<template>
+  <UlxTag @value="Tag/Label" @size="s-size" @variant="primary" />
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/tag/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { Tag } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/tag/snippets/Symbol.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxTag } from 'ulx-components';
+
+export default class SymbolDemoComponent extends Component {
+  get examples() {
+    return [
+      // Symbol labels (tag.less §5C)
+      {
+        label: 'with-dot',
+        variant: 'primary',
+        type: undefined,
+        customClass: 'with-dot',
+      },
+      {
+        label: 'with-star',
+        variant: 'secondary',
+        type: undefined,
+        customClass: 'with-star',
+      },
+
+      // Icon positions (UlxTag @iconPosition)
+      {
+        label: 'icon left (default)',
+        variant: 'success',
+        type: undefined,
+        icon: 'ls-tick-icon',
+        iconPosition: 'left',
+      },
+      {
+        label: 'icon right',
+        variant: 'danger',
+        type: 'outline',
+        icon: 'close-icon-01',
+        iconPosition: 'right',
+      },
+      {
+        label: 'icon both sides',
+        variant: 'info',
+        type: undefined,
+        icon: 'comment-icon',
+        iconPosition: 'left',
+        rightIcon: 'session-settings-icon',
+      },
+
+      // Icon labels (UlxTag @icon / @iconType)
+      {
+        label: 'tick icon',
+        variant: 'success',
+        type: undefined,
+        icon: 'ls-tick-icon',
+      },
+      {
+        label: 'close icon + outline',
+        variant: 'danger',
+        type: 'outline',
+        icon: 'close-icon-01',
+      },
+      {
+        label: 'comment icon',
+        variant: 'info',
+        type: undefined,
+        icon: 'comment-icon',
+      },
+      {
+        label: 'settings icon + pill',
+        variant: 'secondary',
+        type: 'pill',
+        icon: 'session-settings-icon',
+      },
+    ];
+  }
+
+  <template>
+    <div class="fxb wrap gp4">
+      {{#each this.examples key="label" as |item|}}
+        <UlxTag
+          @value={{item.label}}
+          @size="s-size"
+          @variant={{item.variant}}
+          @type={{item.type}}
+          @customClass={{item.customClass}}
+          @icon={{item.icon}}
+          @iconPosition={{item.iconPosition}}
+          @iconType="font"
+          @iconClass="bs-icons1"
+          @iconSize="s14"
+        />
+      {{/each}}
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/tag/snippets/Type.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxTag } from 'ulx-components';
+
+export default class TypeDemoComponent extends Component {
+  get types() {
+    return [
+      { label: 'Filled (default)', type: undefined },
+      { label: 'Outline', type: 'outline' },
+      { label: 'Pill', type: 'pill' },
+    ];
+  }
+
+  <template>
+    <div class="fxb wrap gp4">
+      {{#each this.types key="label" as |item|}}
+        <UlxTag
+          @value={{item.label}}
+          @size="m-size"
+          @variant="primary"
+          @type={{item.type}}
+        />
+      {{/each}}
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/tag/snippets/Variations.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxTag } from 'ulx-components';
+
+export default class VariationsDemoComponent extends Component {
+  get variations() {
+    return [
+      // Core variants
+      { label: 'primary', class: 'primary' },
+      { label: 'secondary', class: 'secondary' },
+      { label: 'success', class: 'success' },
+      { label: 'info', class: 'info' },
+      { label: 'warning', class: 'warning' },
+      { label: 'danger', class: 'danger' },
+      { label: 'contrast', class: 'contrast' },
+      { label: 'white', class: 'white' },
+      { label: 'black', class: 'black' },
+
+      // Light tone variants (lt-*)
+      { label: 'lt-green', class: 'lt-green' },
+      { label: 'lt-gold', class: 'lt-gold' },
+      { label: 'lt-purple', class: 'lt-purple' },
+      { label: 'lt-blue', class: 'lt-blue' },
+      { label: 'lt-red', class: 'lt-red' },
+      { label: 'lt-primary', class: 'lt-primary' },
+
+      // Light palette variants (light-*)
+      { label: 'light-nebula-blue', class: 'light-nebula-blue' },
+      { label: 'light-salmon-red', class: 'light-salmon-red' },
+      { label: 'light-jungle-green', class: 'light-jungle-green' },
+      { label: 'light-cyber-yellow', class: 'light-cyber-yellow' },
+      { label: 'light-cerise-pink', class: 'light-cerise-pink' },
+      { label: 'light-royal-violet', class: 'light-royal-violet' },
+      { label: 'light-medium-orchid', class: 'light-medium-orchid' },
+      { label: 'light-turquoise-green', class: 'light-turquoise-green' },
+      { label: 'light-not-blue', class: 'light-not-blue' },
+      { label: 'light-bs-grey', class: 'light-bs-grey' },
+      { label: 'light-grass-green', class: 'light-grass-green' },
+      { label: 'light-sandal-yellow', class: 'light-sandal-yellow' },
+      { label: 'light-lomo-blue', class: 'light-lomo-blue' },
+      { label: 'light-candy-orange', class: 'light-candy-orange' },
+      { label: 'light-dairy-violet', class: 'light-dairy-violet' },
+      { label: 'just-grey', class: 'just-grey' },
+
+      // Status tags
+      { label: 'running-color', class: 'running-color' },
+      { label: 'completed-color', class: 'completed-color' },
+      { label: 'published-color', class: 'published-color' },
+      { label: 'draft-color', class: 'draft-color' },
+      { label: 'cancelled-color', class: 'cancelled-color' },
+    ];
+  }
+
+  <template>
+    <div class="fxb wrap gp4">
+      {{#each this.variations key="class" as |item|}}
+        <UlxTag @value={{item.label}} @size="s-size" @variant={{item.class}} />
+      {{/each}}
     </div>
   </template>
 }
@@ -7915,7 +8810,7 @@ export default class BasicRadioDemo extends Component {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIconInput } from 'uls-components';
+import { UlxIconInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gp12 mgb14">
@@ -7956,7 +8851,7 @@ import { UlxIconInput } from 'uls-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIconInput } from 'uls-components';
+import { UlxIconInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gp12 mgb14">
@@ -8358,6 +9253,7 @@ import { UlxIconInput } from 'uls-components';
         this.route('input-group');
         this.route('checkbox');
         this.route('radio');
+        this.route('tag');
       });
     });
     this.route('utilities', function () {
@@ -8526,6 +9422,25 @@ import { UlxIconInput } from 'uls-components';
     }
   }
   _exports.default = ComponentsElementsRadioRoute;
+});
+;define("ulx-ember/routes/components/elements/tag", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/tag/features", "ulx-ember/documentation/components/elements/tag/meta", "ulx-ember/documentation/components/elements/tag/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/tag/features",0,"ulx-ember/documentation/components/elements/tag/meta",0,"ulx-ember/documentation/components/elements/tag/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsTagRoute extends _route.default {
+    model() {
+      return {
+        features: _features.TagFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsTagRoute;
 });
 ;define("ulx-ember/routes/components/elements/ulx-icon-input", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/ulx-icon-input/features", "ulx-ember/documentation/components/elements/ulx-icon-input/meta", "ulx-ember/documentation/components/elements/ulx-icon-input/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
   "use strict";
@@ -9626,6 +10541,68 @@ import { UlxIconInput } from 'uls-components';
     "id": "B4KMtk72",
     "block": "[[[1,[28,[35,0],[\"radio - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-radio-theming\",\"Theming\",\"Theming documentation for radio component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/radio/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-radio-passthrough\",\"Pass Through\",\"Pass Through props documentation for radio component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
     "moduleName": "ulx-ember/templates/components/elements/radio.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ulx-ember/templates/components/elements/tag", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "tag - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-tag-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for tag component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/tag/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-tag-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for tag component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "IE7LSzfW",
+    "block": "[[[1,[28,[35,0],[\"tag - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-tag-theming\",\"Theming\",\"Theming documentation for tag component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/tag/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-tag-passthrough\",\"Pass Through\",\"Pass Through props documentation for tag component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/tag.hbs",
     "isStrictMode": false
   });
 });
@@ -11256,7 +12233,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+4e8e0120"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+517fd4c5"});
           }
         
 //# sourceMappingURL=ulx-ember.map
