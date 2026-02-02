@@ -1,4 +1,6 @@
 import Component from "@glimmer/component";
+import { action } from "@ember/object";
+import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
@@ -173,6 +175,21 @@ export default class UlxButton extends Component {
 		return this.args.badge !== undefined && this.args.badge !== null;
 	}
 
+	@action
+	handleClick(event) {
+		if (this.isDisabled) {
+			event.preventDefault();
+			return;
+		}
+		if (typeof this.args.onClick === "function") {
+			this.args.onClick(event);
+			// When rendered as link with custom onClick, prevent navigation
+			if (this.args.link) {
+				event.preventDefault();
+			}
+		}
+	}
+
 	get iconClass() {
 		const parts = ["icon"];
 		// Icon-only: omit left/right so no margin is applied (icon stays centered via ifxb center-all on button)
@@ -199,6 +216,7 @@ export default class UlxButton extends Component {
 				aria-disabled={{if this.isDisabled "true"}}
 				tabindex={{if this.isDisabled "-1" "0"}}
 				aria-busy={{if @loading "true"}}
+				{{on "click" this.handleClick}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
@@ -255,6 +273,7 @@ export default class UlxButton extends Component {
 				type={{this.buttonType}}
 				disabled={{this.isDisabled}}
 				aria-busy={{if @loading "true"}}
+				{{on "click" this.handleClick}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
