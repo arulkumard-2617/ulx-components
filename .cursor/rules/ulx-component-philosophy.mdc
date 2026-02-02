@@ -53,6 +53,7 @@ Best components are:
 - Constructors
 - Observers
 - Mixins
+- Don't create any .md files when component is created.
 
 **If you need effects → use resources or modifiers, not components.**
 

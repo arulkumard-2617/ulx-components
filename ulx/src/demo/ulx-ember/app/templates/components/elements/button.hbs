@@ -1,0 +1,43 @@
+{{page-title "Button - ULS Ember Documentation"}}
+
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <Common::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-elements-button-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for Button component."
+      >
+        <p class="fg-text-secondary">Button component theming uses ULS class names (uls-button, uls-button-primary, etc.) which can be styled via the ULS design system.</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview as |props|>
+        <UlxButton
+          @label={{props.label}}
+          @icon={{props.icon}}
+          @iconPos={{props.iconPos}}
+          @severity={{props.severity}}
+          @size={{props.size}}
+          @outlined={{props.outlined}}
+          @text={{props.text}}
+          @raised={{props.raised}}
+          @rounded={{props.rounded}}
+          @disabled={{props.disabled}}
+          @loading={{props.loading}}
+          @fluid={{props.fluid}}
+          @badge={{props.badge}}
+        />
+      </:preview>
+    </Common::DocMain::ComponentBuilder>
+  {{/if}}
+</Common::DocMain::ComponentLayout>

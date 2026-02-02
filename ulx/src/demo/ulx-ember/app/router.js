@@ -8,7 +8,7 @@ export default class Router extends EmberRouter {
 
 Router.map(function () {
   this.route('walkthrough', { path: '/walkthrough' });
-  
+
   this.route('foundation', { path: '/foundation' }, function () {
     this.route('typography', { path: '/typography' });
     this.route('colors', { path: '/colors' });
@@ -16,8 +16,16 @@ Router.map(function () {
 
   this.route('components', { path: '/components' }, function () {
     this.route('collections', { path: '/collections' }, function () {});
-    this.route('elements', { path: '/elements' }, function () {      this.route('icon', { path: '/icon' });
-});
+    this.route('elements', { path: '/elements' }, function () {
+      this.route('icon', { path: '/icon' });
+      this.route('button', { path: '/button' });
+      this.route('tieredmenu', { path: '/tieredmenu' });
+      this.route('progressbar', { path: '/progressbar' });
+      this.route('progressspinner', { path: '/progressspinner' });
+    });
+    this.route('modules', { path: '/modules' }, function () {
+      this.route('toast', { path: '/toast' });
+    });
   });
 
   this.route('utilities', { path: '/utilities' }, function () {
