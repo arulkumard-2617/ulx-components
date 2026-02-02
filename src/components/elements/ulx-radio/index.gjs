@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { fn } from "@ember/helper";
+import { on } from "@ember/modifier";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
 import {
 	buildAriaDescribedBy,
@@ -153,6 +154,53 @@ export default class UlxRadio extends Component {
 		this.args.onItemChange(item, event.target.checked, event);
 	}
 
+	@action
+	handleGroupKeyDown(event) {
+		// Ensure robust keyboard navigation even if CSS/custom wrappers interfere with
+		// the browser's built-in radio-group arrow-key behavior.
+		const key = event.key;
+		const isPrev = key === "ArrowLeft" || key === "ArrowUp";
+		const isNext = key === "ArrowRight" || key === "ArrowDown";
+		const isHome = key === "Home";
+		const isEnd = key === "End";
+		if (!isPrev && !isNext && !isHome && !isEnd) return;
+
+		const root = event.currentTarget;
+		if (!(root instanceof HTMLElement)) return;
+
+		const enabledRadios = Array.from(root.querySelectorAll('input[type="radio"]')).filter(
+			(el) => el instanceof HTMLInputElement && !el.disabled
+		);
+		if (enabledRadios.length === 0) return;
+
+		const active =
+			event.target instanceof HTMLInputElement
+				? event.target
+				: document.activeElement instanceof HTMLInputElement
+					? document.activeElement
+					: null;
+
+		let index = active ? enabledRadios.indexOf(active) : -1;
+		if (index === -1) {
+			const checked = enabledRadios.find((r) => r.checked);
+			index = checked ? enabledRadios.indexOf(checked) : 0;
+		}
+
+		let nextIndex = index;
+		if (isHome) nextIndex = 0;
+		else if (isEnd) nextIndex = enabledRadios.length - 1;
+		else if (isPrev) nextIndex = (index - 1 + enabledRadios.length) % enabledRadios.length;
+		else if (isNext) nextIndex = (index + 1) % enabledRadios.length;
+
+		const nextRadio = enabledRadios[nextIndex];
+		if (!nextRadio || nextRadio === active) return;
+
+		event.preventDefault();
+		nextRadio.focus();
+		// Align with WAI-ARIA radio-group behavior: Arrow keys move focus AND selection.
+		if (!nextRadio.checked) nextRadio.click();
+	}
+
 	<template>
 		<div class={{this.fieldClass}}>
 			{{! Field label (UlxInput pattern) }}
@@ -184,12 +232,14 @@ export default class UlxRadio extends Component {
 
 			{{#if this.hasItems}}
 				<div
+					...attributes
 					class={{this.groupClass}}
 					role="radiogroup"
 					aria-labelledby={{if (has-block "label") this.labelId (if @label this.labelId)}}
 					aria-describedby={{this.ariaDescribedBy}}
 					aria-invalid={{if this.isInvalid "true" "false"}}
 					aria-required={{if this.isRequired "true" "false"}}
+					{{on "keydown" this.handleGroupKeyDown}}
 				>
 					{{#each this.itemEntries key="@index" as |entry|}}
 						<UlxRadioItem

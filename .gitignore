@@ -3,11 +3,16 @@ node_modules
 
 # compiled output
 dist
+dist/**
 dist/index.js
 dist/index.js.map
 dist/components/elements/ulx-icon/index.js.map
 declarations
 addon/dist
+
+# demo app compiled output
+ulx/src/demo/ulx-ember/dist
+ulx/src/demo/ulx-ember/dist/**
 
 # misc
 .pnpm-debug.log

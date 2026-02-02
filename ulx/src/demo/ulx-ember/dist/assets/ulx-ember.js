@@ -12233,7 +12233,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+517fd4c5"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+49c79a92"});
           }
         
 //# sourceMappingURL=ulx-ember.map

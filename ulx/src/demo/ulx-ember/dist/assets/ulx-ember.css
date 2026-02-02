@@ -13314,7 +13314,7 @@ FEATURES IMPLEMENTED:
 }
 .radiobutton-label {
   color: var(--ulx-text-color);
-  font-size: var(--ed-font-size-16);
+  font-size: var(--ed-font-size-14);
   font-weight: 400;
   line-height: 1.5;
   cursor: pointer;
@@ -13380,7 +13380,7 @@ FEATURES IMPLEMENTED:
   height: 8px;
 }
 .ulx-radiobutton.m-size .radiobutton-label {
-  font-size: var(--ed-font-size-18);
+  font-size: var(--ed-font-size-16);
 }
 .ulx-radiobutton.l-size {
   min-width: 2rem;
@@ -13522,10 +13522,15 @@ FEATURES IMPLEMENTED:
     transition: none;
   }
 }
-.ulx-radiobutton:focus-visible {
-  outline: 2px solid var(--ulx-primary-color);
-  outline-offset: 2px;
-  border-radius: var(--border-radius-sm, 0.25rem);
+.ulx-radiobutton:focus-within:not(.disabled) .radiobutton-box,
+.ulx-radiobutton:focus:not(.disabled) .radiobutton-box {
+  border-color: var(--ulx-primary-color);
+  box-shadow: 0 0 0 0.15rem color-mix(in srgb, var(--ulx-primary-layer4-bg), var(--ulx-primary-color) var(--ulx-contrast-intensity-10));
+}
+.ulx-radiobutton.invalid:focus-within:not(.disabled) .radiobutton-box,
+.ulx-radiobutton:focus:not(.disabled) .radiobutton-box {
+  border-color: var(--ulx-error-border-color, #FFA39E);
+  box-shadow: 0 0 0 0.15rem var(--ulx-red-layer1-bg, #FFF1F0);
 }
 .ulx-radio-group {
   display: flex;
@@ -30303,7 +30308,7 @@ form.ulx-form.xl-size > .field .error-message,
   --ulx-warning-bg-color: #fffbeb;
   --ulx-danger-color: #ef4444;
   --ulx-danger-hover-color: #dc2626;
-  --ulx-danger-fg-color: #ffffff;
+  --ulx-danger-fg-color: #f14250;
   --ulx-danger-bg-color: #fef2f2;
   --ulx-danger-border-color: #f99f9e;
   --ulx-info-color: #3b82f6;
