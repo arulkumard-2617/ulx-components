@@ -1258,6 +1258,430 @@
     "isStrictMode": true
   }), (0, _templateOnly.default)(undefined, "Multiple"));
 });
+;define("ulx-ember/components/Demo/Radio/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _BasicRadioDemo;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let BasicRadioDemo = _exports.default = (_class = (_BasicRadioDemo = class BasicRadioDemo extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    get selectedValue() {
+      return this.items.find(i => i.checked)?.value;
+    }
+    handleItemChange(item, checked) {
+      // Radios are single-select: when one is checked, the rest must be unchecked.
+      if (!checked) return;
+      this.items = this.items.map(i => ({
+        ...i,
+        checked: i === item
+      }));
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxRadio
+      @rules={{this.requiredRules}}
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+    />
+  
+    <div class="col-12">
+      Selected:
+      <strong>{{this.selectedValue}}</strong>
+    </div>
+  </div>
+  */
+  {
+    "id": "znSdOYvW",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\"],[[30,0,[\"requiredRules\"]],\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Basic.js",
+    "scope": () => [_ulsComponents.UlxRadio],
+    "isStrictMode": true
+  }), _BasicRadioDemo), _BasicRadioDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'Item 1',
+        value: 'item1',
+        checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Radio/Disabled", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _DisabledDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let DisabledDemoComponent = _exports.default = (_class = (_DisabledDemoComponent = class DisabledDemoComponent extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    get selectedValue() {
+      return this.items.find(i => i.checked)?.value;
+    }
+    get error() {
+      // `UlxCheckbox` expects a *field-level* string error message (not per-item).
+      // Example validation: require at least one item to be checked.
+      const hasAtLeastOneChecked = this.items.some(i => i.checked);
+      return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    }
+    handleItemChange(item, checked) {
+      // Radios are single-select: when one is checked, the rest must be unchecked.
+      if (!checked) return;
+      this.items = this.items.map(i => ({
+        ...i,
+        checked: i === item
+      }));
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxRadio
+      @rules={{this.requiredRules}}
+      @label="With Label"
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+      @error={{this.error}}
+    />
+  
+    <div class="col-12">
+      Selected:
+      <strong>{{this.selectedValue}}</strong>
+    </div>
+  </div>
+  */
+  {
+    "id": "ziiDPSbp",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@error\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",[30,0,[\"error\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Disabled.js",
+    "scope": () => [_ulsComponents.UlxRadio],
+    "isStrictMode": true
+  }), _DisabledDemoComponent), _DisabledDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'Item 1',
+        value: 'item1',
+        checked: false
+      }, {
+        label: 'Item 2',
+        value: 'item2',
+        checked: true,
+        disabled: true
+      }, {
+        label: 'Item 3',
+        value: 'item3',
+        checked: false,
+        disabled: true
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Radio/Horizontal", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _HorizontalDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let HorizontalDemoComponent = _exports.default = (_class = (_HorizontalDemoComponent = class HorizontalDemoComponent extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    get selectedValue() {
+      return this.items.find(i => i.checked)?.value;
+    }
+    get error() {
+      // `UlxCheckbox` expects a *field-level* string error message (not per-item).
+      // Example validation: require at least one item to be checked.
+      const hasAtLeastOneChecked = this.items.some(i => i.checked);
+      return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    }
+    handleItemChange(item, checked) {
+      // Radios are single-select: when one is checked, the rest must be unchecked.
+      if (!checked) return;
+      this.items = this.items.map(i => ({
+        ...i,
+        checked: i === item
+      }));
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxRadio
+      @rules={{this.requiredRules}}
+      @label="With Label"
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+      @groupClass="horizontal"
+      @error={{this.error}}
+    />
+  
+    <div class="col-12">
+      Selected:
+      <strong>{{this.selectedValue}}</strong>
+    </div>
+  </div>
+  */
+  {
+    "id": "aIBGOk7A",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@groupClass\",\"@error\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",\"horizontal\",[30,0,[\"error\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Horizontal.js",
+    "scope": () => [_ulsComponents.UlxRadio],
+    "isStrictMode": true
+  }), _HorizontalDemoComponent), _HorizontalDemoComponent), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'Item 1',
+        value: 'item1',
+        checked: false
+      }, {
+        label: 'Item 2',
+        value: 'item2',
+        checked: false
+      }, {
+        label: 'Item 3',
+        value: 'item3',
+        checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Radio/Invalid", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _InvalidRadioDemo;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let InvalidRadioDemo = _exports.default = (_class = (_InvalidRadioDemo = class InvalidRadioDemo extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    get selectedValue() {
+      return this.items.find(i => i.checked)?.value;
+    }
+    get error() {
+      // `UlxCheckbox` expects a *field-level* string error message (not per-item).
+      // Example validation: require at least one item to be checked.
+      const hasAtLeastOneChecked = this.items.some(i => i.checked);
+      return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    }
+    handleItemChange(item, checked) {
+      // Radios are single-select: when one is checked, the rest must be unchecked.
+      if (!checked) return;
+      this.items = this.items.map(i => ({
+        ...i,
+        checked: i === item
+      }));
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxRadio
+      @rules={{this.requiredRules}}
+      @label="With Label"
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+      @error={{this.error}}
+    />
+  
+    <div class="col-12">
+      Selected:
+      <strong>{{this.selectedValue}}</strong>
+    </div>
+  </div>
+  */
+  {
+    "id": "W97KbOQe",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\",\"@error\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\",[30,0,[\"error\"]]]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Invalid.js",
+    "scope": () => [_ulsComponents.UlxRadio],
+    "isStrictMode": true
+  }), _InvalidRadioDemo), _InvalidRadioDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'Item 1',
+        value: 'item1',
+        checked: false
+      }, {
+        label: 'Item 2',
+        value: 'item2',
+        checked: false
+      }, {
+        label: 'Item 3',
+        value: 'item3',
+        checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
+;define("ulx-ember/components/Demo/Radio/Withlabel", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "uls-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulsComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor, _BasicRadioDemo;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"uls-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let BasicRadioDemo = _exports.default = (_class = (_BasicRadioDemo = class BasicRadioDemo extends _component.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "items", _descriptor, this);
+    }
+    get requiredRules() {
+      return {
+        required: true
+      };
+    }
+    get selectedValue() {
+      return this.items.find(i => i.checked)?.value;
+    }
+    handleItemChange(item, checked) {
+      // Radios are single-select: when one is checked, the rest must be unchecked.
+      if (!checked) return;
+      this.items = this.items.map(i => ({
+        ...i,
+        checked: i === item
+      }));
+    }
+  }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <UlxRadio
+      @rules={{this.requiredRules}}
+      @label="With Label"
+      @size="s-size"
+      @fieldClass="col-12"
+      @items={{this.items}}
+      @onItemChange={{this.handleItemChange}}
+      @helpText="Help text"
+    />
+  
+    <div class="col-12">
+      Selected:
+      <strong>{{this.selectedValue}}</strong>
+    </div>
+  </div>
+  */
+  {
+    "id": "/t2oTv4s",
+    "block": "[[[10,0],[14,0,\"ulx-form s-size ulx-grid gp8 mgb14\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@rules\",\"@label\",\"@size\",\"@fieldClass\",\"@items\",\"@onItemChange\",\"@helpText\"],[[30,0,[\"requiredRules\"]],\"With Label\",\"s-size\",\"col-12\",[30,0,[\"items\"]],[30,0,[\"handleItemChange\"]],\"Help text\"]],null],[1,\"\\n\\n  \"],[10,0],[14,0,\"col-12\"],[12],[1,\"\\n    Selected:\\n    \"],[10,\"strong\"],[12],[1,[30,0,[\"selectedValue\"]]],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Radio/Withlabel.js",
+    "scope": () => [_ulsComponents.UlxRadio],
+    "isStrictMode": true
+  }), _BasicRadioDemo), _BasicRadioDemo), _descriptor = _applyDecoratedDescriptor(_class.prototype, "items", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return [{
+        label: 'Item 1',
+        value: 'item1',
+        checked: false
+      }, {
+        label: 'Item 2',
+        value: 'item2',
+        checked: false
+      }, {
+        label: 'Item 3',
+        value: 'item3',
+        checked: false
+      }];
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+});
 ;define("ulx-ember/components/Demo/TestComp/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object"], function (_exports, _component, _tracking, _object) {
   "use strict";
 
@@ -2921,6 +3345,34 @@
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-input/index"eaimeta@70e063a35619d71f
 });
+;define("ulx-ember/components/elements/ulx-radio/index", ["exports", "uls-components/components/elements/ulx-radio/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-radio/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/elements/ulx-radio/radio-item", ["exports", "uls-components/components/elements/ulx-radio/radio-item"], function (_exports, _radioItem) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _radioItem.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-radio/radio-item"eaimeta@70e063a35619d71f
+});
 ;define("ulx-ember/components/elements/ulx-textarea/index", ["exports", "uls-components/components/elements/ulx-textarea/index"], function (_exports, _index) {
   "use strict";
 
@@ -3151,6 +3603,20 @@
     }
   });
   0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-input"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/ulx-radio", ["exports", "uls-components/components/ulx-radio"], function (_exports, _ulxRadio) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxRadio.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-radio"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-react-bridge", ["exports", "@glimmer/component", "ember-modifier", "react-dom/client", "react", "@ember/component", "@ember/template-factory"], function (_exports, _component, _emberModifier, _client, _react, _component2, _templateFactory) {
   "use strict";
@@ -3393,6 +3859,10 @@
         menuItem: 'checkbox',
         to: '/components/elements/checkbox',
         route: 'components.elements.checkbox'
+      }, {
+        menuItem: 'radio',
+        to: '/components/elements/radio',
+        route: 'components.elements.radio'
       }]
     }, {
       category: 'Icons',
@@ -3729,6 +4199,63 @@
     }
     get isPassthroughTab() {
       return this.activeTab === 'passthrough';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
+;define("ulx-ember/controllers/components/elements/radio", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsRadioController = _exports.default = (_class = class ComponentsElementsRadioController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
     }
     onTabChange(tabId) {
       this.activeTab = tabId;
@@ -6589,6 +7116,607 @@ const sizes = [
 
 `;
 });
+;define("ulx-ember/documentation/components/elements/radio/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // RADIO BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for radio.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'Radio',
+    importLine: "import { Radio } from 'uls-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<Radio />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/radio/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/radio/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.RadioFeatureItems = void 0;
+  _exports.default = RadioFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/radio/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Radio Feature Items
+  // ==========================================================================
+  const RadioFeatureItems = _exports.RadioFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>Radio</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the Radio component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "with-label",
+    sectionNav: "Withlabel",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Withlabel</code> demo shows WithLabel usage of the Radio component."
+      }
+    },
+    demo: {
+      component: _imports.WithlabelDemo,
+      props: {
+        source: _imports.WithlabelSource,
+        snippetName: "with-label",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "invalid",
+    sectionNav: "Invalid",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Invalid</code> demo shows Invalid usage of the Radio component."
+      }
+    },
+    demo: {
+      component: _imports.InvalidDemo,
+      props: {
+        source: _imports.InvalidSource,
+        snippetName: "invalid",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "disabled",
+    sectionNav: "Disabled",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Disabled</code> demo shows Disabled usage of the Radio component."
+      }
+    },
+    demo: {
+      component: _imports.DisabledDemo,
+      props: {
+        source: _imports.DisabledSource,
+        snippetName: "disabled",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "horizontal",
+    sectionNav: "Horizontal",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Horizontal</code> demo shows Horizontal usage of the Radio component."
+      }
+    },
+    demo: {
+      component: _imports.HorizontalDemo,
+      props: {
+        source: _imports.HorizontalSource,
+        snippetName: "horizontal",
+        language: "handlebars"
+      }
+    }
+  }];
+  function RadioFeatures() {
+    return RadioFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/radio/imports", ["exports", "ulx-ember/components/Demo/Radio/Basic", "ulx-ember/components/Demo/Radio/Withlabel", "ulx-ember/components/Demo/Radio/Invalid", "ulx-ember/components/Demo/Radio/Disabled", "ulx-ember/components/Demo/Radio/Horizontal", "ulx-ember/documentation/components/elements/radio/snippets/Import.gjs", "ulx-ember/documentation/components/elements/radio/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/radio/snippets/Withlabel.gjs", "ulx-ember/documentation/components/elements/radio/snippets/Invalid.gjs", "ulx-ember/documentation/components/elements/radio/snippets/Disabled.gjs", "ulx-ember/documentation/components/elements/radio/snippets/Horizontal.gjs"], function (_exports, _Basic, _Withlabel, _Invalid, _Disabled, _Horizontal, _Import, _Basic2, _Withlabel2, _Invalid2, _Disabled2, _Horizontal2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "DisabledDemo", {
+    enumerable: true,
+    get: function () {
+      return _Disabled.default;
+    }
+  });
+  Object.defineProperty(_exports, "DisabledSource", {
+    enumerable: true,
+    get: function () {
+      return _Disabled2.default;
+    }
+  });
+  Object.defineProperty(_exports, "HorizontalDemo", {
+    enumerable: true,
+    get: function () {
+      return _Horizontal.default;
+    }
+  });
+  Object.defineProperty(_exports, "HorizontalSource", {
+    enumerable: true,
+    get: function () {
+      return _Horizontal2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  Object.defineProperty(_exports, "InvalidDemo", {
+    enumerable: true,
+    get: function () {
+      return _Invalid.default;
+    }
+  });
+  Object.defineProperty(_exports, "InvalidSource", {
+    enumerable: true,
+    get: function () {
+      return _Invalid2.default;
+    }
+  });
+  Object.defineProperty(_exports, "WithlabelDemo", {
+    enumerable: true,
+    get: function () {
+      return _Withlabel.default;
+    }
+  });
+  Object.defineProperty(_exports, "WithlabelSource", {
+    enumerable: true,
+    get: function () {
+      return _Withlabel2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Radio/Basic",0,"ulx-ember/components/Demo/Radio/Withlabel",0,"ulx-ember/components/Demo/Radio/Invalid",0,"ulx-ember/components/Demo/Radio/Disabled",0,"ulx-ember/components/Demo/Radio/Horizontal",0,"ulx-ember/documentation/components/elements/radio/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/radio/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/radio/snippets/Withlabel.gjs",0,"ulx-ember/documentation/components/elements/radio/snippets/Invalid.gjs",0,"ulx-ember/documentation/components/elements/radio/snippets/Disabled.gjs",0,"ulx-ember/documentation/components/elements/radio/snippets/Horizontal.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Radio Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Radio demo components
+  // Demo Components
+  // Import source (for import section)
+  // Radio Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Radio demo source files
+});
+;define("ulx-ember/documentation/components/elements/radio/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // RADIO COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for Radio component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Form',
+    menuItem: 'radio',
+    routeBase: '/components/elements/radio',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'radio',
+    subHeader: 'radio is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { Radio } from 'uls-components'",
+    // Accessibility information
+    accessibility: {
+      description: "Radio component description for accessibility.",
+      example: "<Radio />"
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/radio/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxRadio } from 'uls-components';
+
+export default class BasicRadioDemo extends Component {
+  @tracked items = [{ label: 'Item 1', value: 'item1', checked: false }];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  get selectedValue() {
+    return this.items.find((i) => i.checked)?.value;
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    // Radios are single-select: when one is checked, the rest must be unchecked.
+    if (!checked) return;
+    this.items = this.items.map((i) => ({ ...i, checked: i === item }));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxRadio
+        @rules={{this.requiredRules}}
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+      />
+
+      <div class="col-12">
+        Selected:
+        <strong>{{this.selectedValue}}</strong>
+      </div>
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/radio/snippets/Disabled.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxRadio } from 'uls-components';
+
+export default class DisabledDemoComponent extends Component {
+  @tracked items = [
+    { label: 'Item 1', value: 'item1', checked: false },
+    { label: 'Item 2', value: 'item2', checked: true, disabled: true },
+    { label: 'Item 3', value: 'item3', checked: false, disabled: true },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  get selectedValue() {
+    return this.items.find((i) => i.checked)?.value;
+  }
+
+  get error() {
+    // \`UlxCheckbox\` expects a *field-level* string error message (not per-item).
+    // Example validation: require at least one item to be checked.
+    const hasAtLeastOneChecked = this.items.some((i) => i.checked);
+    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    // Radios are single-select: when one is checked, the rest must be unchecked.
+    if (!checked) return;
+    this.items = this.items.map((i) => ({ ...i, checked: i === item }));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxRadio
+        @rules={{this.requiredRules}}
+        @label="With Label"
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
+        @error={{this.error}}
+      />
+
+      <div class="col-12">
+        Selected:
+        <strong>{{this.selectedValue}}</strong>
+      </div>
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/radio/snippets/Horizontal.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxRadio } from 'uls-components';
+
+export default class HorizontalDemoComponent extends Component {
+  @tracked items = [
+    { label: 'Item 1', value: 'item1', checked: false },
+    { label: 'Item 2', value: 'item2', checked: false },
+    { label: 'Item 3', value: 'item3', checked: false },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  get selectedValue() {
+    return this.items.find((i) => i.checked)?.value;
+  }
+
+  get error() {
+    // \`UlxCheckbox\` expects a *field-level* string error message (not per-item).
+    // Example validation: require at least one item to be checked.
+    const hasAtLeastOneChecked = this.items.some((i) => i.checked);
+    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    // Radios are single-select: when one is checked, the rest must be unchecked.
+    if (!checked) return;
+    this.items = this.items.map((i) => ({ ...i, checked: i === item }));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxRadio
+        @rules={{this.requiredRules}}
+        @label="With Label"
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
+        @groupClass="horizontal"
+        @error={{this.error}}
+      />
+
+      <div class="col-12">
+        Selected:
+        <strong>{{this.selectedValue}}</strong>
+      </div>
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/radio/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { Radio } from 'uls-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/radio/snippets/Invalid.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxRadio } from 'uls-components';
+
+export default class InvalidRadioDemo extends Component {
+  @tracked items = [
+    { label: 'Item 1', value: 'item1', checked: false },
+    { label: 'Item 2', value: 'item2', checked: false },
+    { label: 'Item 3', value: 'item3', checked: false },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  get selectedValue() {
+    return this.items.find((i) => i.checked)?.value;
+  }
+
+  get error() {
+    // \`UlxCheckbox\` expects a *field-level* string error message (not per-item).
+    // Example validation: require at least one item to be checked.
+    const hasAtLeastOneChecked = this.items.some((i) => i.checked);
+    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    // Radios are single-select: when one is checked, the rest must be unchecked.
+    if (!checked) return;
+    this.items = this.items.map((i) => ({ ...i, checked: i === item }));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxRadio
+        @rules={{this.requiredRules}}
+        @label="With Label"
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
+        @error={{this.error}}
+      />
+
+      <div class="col-12">
+        Selected:
+        <strong>{{this.selectedValue}}</strong>
+      </div>
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/radio/snippets/Withlabel.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxRadio } from 'uls-components';
+
+export default class BasicRadioDemo extends Component {
+  @tracked items = [
+    { label: 'Item 1', value: 'item1', checked: false },
+    { label: 'Item 2', value: 'item2', checked: false },
+    { label: 'Item 3', value: 'item3', checked: false },
+  ];
+
+  get requiredRules() {
+    return { required: true };
+  }
+
+  get selectedValue() {
+    return this.items.find((i) => i.checked)?.value;
+  }
+
+  @action
+  handleItemChange(item, checked) {
+    // Radios are single-select: when one is checked, the rest must be unchecked.
+    if (!checked) return;
+    this.items = this.items.map((i) => ({ ...i, checked: i === item }));
+  }
+
+  <template>
+    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+      <UlxRadio
+        @rules={{this.requiredRules}}
+        @label="With Label"
+        @size="s-size"
+        @fieldClass="col-12"
+        @items={{this.items}}
+        @onItemChange={{this.handleItemChange}}
+        @helpText="Help text"
+      />
+
+      <div class="col-12">
+        Selected:
+        <strong>{{this.selectedValue}}</strong>
+      </div>
+    </div>
+  </template>
+}
+
+`;
+});
 ;define("ulx-ember/documentation/components/elements/ulx-icon-input/builder-schema", ["exports"], function (_exports) {
   "use strict";
 
@@ -7229,6 +8357,7 @@ import { UlxIconInput } from 'uls-components';
         this.route('ulx-icon-input');
         this.route('input-group');
         this.route('checkbox');
+        this.route('radio');
       });
     });
     this.route('utilities', function () {
@@ -7378,6 +8507,25 @@ import { UlxIconInput } from 'uls-components';
     }
   }
   _exports.default = ComponentsElementsInputRoute;
+});
+;define("ulx-ember/routes/components/elements/radio", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/radio/features", "ulx-ember/documentation/components/elements/radio/meta", "ulx-ember/documentation/components/elements/radio/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/radio/features",0,"ulx-ember/documentation/components/elements/radio/meta",0,"ulx-ember/documentation/components/elements/radio/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsRadioRoute extends _route.default {
+    model() {
+      return {
+        features: _features.RadioFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsRadioRoute;
 });
 ;define("ulx-ember/routes/components/elements/ulx-icon-input", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/ulx-icon-input/features", "ulx-ember/documentation/components/elements/ulx-icon-input/meta", "ulx-ember/documentation/components/elements/ulx-icon-input/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
   "use strict";
@@ -8416,6 +9564,68 @@ import { UlxIconInput } from 'uls-components';
     "id": "UHp//yaM",
     "block": "[[[1,[28,[35,0],[\"Input - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-input-theming\",\"Theming\",\"Theming documentation for Input component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"ulx-form s-size ulx-grid gp12\"],[12],[1,\"\\n          \"],[8,[39,9],[[16,\"placeholder\",[30,2,[\"placeholder\"]]],[16,\"aria-label\",[30,2,[\"label\"]]]],[[\"@label\",\"@floatLabel\",\"@rules\",\"@helpText\",\"@errorMessage\",\"@size\",\"@fieldClass\",\"@type\",\"@keyfilter\",\"@filled\",\"@disabled\",\"@readonly\"],[[30,2,[\"label\"]],[30,2,[\"floatLabel\"]],[30,2,[\"rules\"]],[30,2,[\"helpText\"]],[30,2,[\"errorMessage\"]],[30,2,[\"size\"]],[30,2,[\"fieldClass\"]],[30,2,[\"type\"]],[30,2,[\"keyfilter\"]],[30,2,[\"filled\"]],[30,2,[\"disabled\"]],[30,2,[\"readonly\"]]]],null],[1,\"\\n        \"],[13],[1,\"\\n      \"]],[2]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-input-passthrough\",\"Pass Through\",\"Pass Through props documentation for Input component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]]],[\"@model\",\"props\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"ulx-input\"]]",
     "moduleName": "ulx-ember/templates/components/elements/input.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ulx-ember/templates/components/elements/radio", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "radio - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-radio-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for radio component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/radio/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-radio-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for radio component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "B4KMtk72",
+    "block": "[[[1,[28,[35,0],[\"radio - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-radio-theming\",\"Theming\",\"Theming documentation for radio component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/radio/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-radio-passthrough\",\"Pass Through\",\"Pass Through props documentation for radio component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/radio.hbs",
     "isStrictMode": false
   });
 });
@@ -10046,7 +11256,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+a706e651"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+4e8e0120"});
           }
         
 //# sourceMappingURL=ulx-ember.map

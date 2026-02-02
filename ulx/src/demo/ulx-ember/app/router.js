@@ -24,6 +24,7 @@ Router.map(function () {
       this.route('ulx-icon-input');
       this.route('input-group');
       this.route('checkbox');
+      this.route('radio');
 });
   });
 

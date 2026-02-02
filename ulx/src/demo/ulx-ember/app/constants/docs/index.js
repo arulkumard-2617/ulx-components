@@ -204,6 +204,11 @@ export const DocNavItems = [
             menuItem: 'checkbox',
             to: '/components/elements/checkbox',
             route: 'components.elements.checkbox'
+          },
+          {
+            menuItem: 'radio',
+            to: '/components/elements/radio',
+            route: 'components.elements.radio'
           }
         ]
       },
