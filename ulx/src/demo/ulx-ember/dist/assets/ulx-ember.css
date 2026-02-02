@@ -11550,49 +11550,6 @@ blockquote {
   min-height: 2.85714286rem;
   line-height: 1.4em;
 }
-.ulx-input.outlined {
-  background-color: var(--ulx-input-bg-color);
-  border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-input.outlined:focus,
-.ulx-input.outlined:focus-visible {
-  border-color: var(--uls-input-focus-bdr, #2196F3);
-  background-color: var(--uls-input-focus-bg, var(--ulx-input-bg-color));
-  box-shadow: 0 0 0 0.15rem color-mix(in srgb, var(--primary-layer4-bg), var(--ulx-primary-color) var(--ulx-contrast-intensity-10));
-  border-color: var(--ulx-primary-color) !important;
-  box-shadow: 0 0 0 0.15rem color-mix(in srgb, var(--primary-layer4-bg), var(--ulx-primary-color) var(--ulx-contrast-intensity-10)) !important;
-  border-color: var(--ulx-primary-color);
-  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--primary-layer4-bg), var(--ulx-primary-color) var(--ulx-contrast-intensity-10));
-}
-.ulx-input.outlined:hover:not(:disabled):not(:read-only) {
-  border-color: var(--ulx-primary-hover-color);
-  background-color: var(--uls-input-focus-bg, var(--ulx-input-bg-color));
-}
-.ulx-input.outlined.invalid {
-  border-color: var(--red-bg-color, #CF1322);
-  box-shadow: 0 0 0 0.15rem var(--red-layer1-bg, #FFF1F0);
-  background-color: var(--ulx-input-bg-color);
-  border-color: var(--uls-error-border-color, #FFA39E);
-  box-shadow: 0 0 0 0.15rem var(--uls-error-border-color, #FFA39E);
-  border-color: var(--uls-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.15rem var(--red-layer1-bg, #FFF1F0) !important;
-  background-color: var(--ulx-input-bg-color) !important;
-  border-color: var(--red-border, #CF1322);
-  box-shadow: 0 0 0 0.2rem var(--red-border, #CF1322);
-}
-.ulx-input.outlined.invalid:focus,
-.ulx-input.outlined.invalid:focus-visible {
-  border-color: var(--red-bg-color, #CF1322);
-  box-shadow: 0 0 0 0.15rem var(--red-layer1-bg, #FFF1F0);
-  background-color: var(--ulx-input-bg-color);
-  border-color: var(--uls-error-border-color, #FFA39E);
-  box-shadow: 0 0 0 0.15rem var(--uls-error-border-color, #FFA39E);
-  border-color: var(--uls-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.15rem var(--red-layer1-bg, #FFF1F0) !important;
-  background-color: var(--ulx-input-bg-color) !important;
-  border-color: var(--red-border, #CF1322);
-  box-shadow: 0 0 0 0.2rem var(--red-border, #CF1322);
-}
 .ulx-input.filled {
   background-color: var(--ulx-secondary-bg);
   border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
@@ -11653,119 +11610,37 @@ blockquote {
   background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
   border-color: transparent;
 }
-@media only screen and (max-width: 767px) {
-  .ulx-input {
-    font-size: var(--ed-font-size-16);
-  }
-  .ulx-input.xs-size {
-    padding: 0.28571429rem 0.57142857rem;
-  }
-  .ulx-input.s-size {
-    padding: 0.28571429rem 0.57142857rem;
-  }
-  .ulx-input.m-size {
-    padding: 0.28571429rem 0.57142857rem;
-  }
-  .ulx-input.l-size {
-    padding: 0.28571429rem 0.85714286rem;
-  }
-  .ulx-input.xl-size {
-    padding: 0.28571429rem 0.85714286rem;
-  }
-}
-@media (prefers-contrast: high) {
-  .ulx-input {
-    border-width: 2px;
-  }
-  .ulx-input:focus,
-  .ulx-input:focus-visible {
-    border-width: 3px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ulx-input {
-    transition: none;
-  }
-}
-@media print {
-  .ulx-input {
-    background-color: transparent !important;
-    border: 1px solid #000 !important;
-    color: #000 !important;
-    box-shadow: none !important;
-  }
-}
-/*
-USAGE EXAMPLES:
-
-1. Basic Input (extends uls-input):
-   <input class="uls-input" type="text" />
-
-2. With Size Variant:
-   <input class="uls-input m-size" type="text" />
-
-3. With Visual Variant:
-   <input class="uls-input filled" type="text" />
-
-4. With State:
-   <input class="uls-input invalid" type="text" />
-
-5. Combined Classes:
-   <input class="uls-input l-size filled invalid" type="text" />
-
-FEATURES IMPLEMENTED:
-- ✅ Consistent sizing with dropdown component
-- ✅ Modern LESS mixins for reusable patterns
-- ✅ Consolidated focus states to avoid repetition
-- ✅ RTL support with logical properties
-- ✅ Accessibility compliance (WCAG AA)
-- ✅ Responsive design with breakpoints
-- ✅ Print optimization
-- ✅ High contrast mode support
-- ✅ Reduced motion support
-- ✅ Visual variants (outlined, filled)
-- ✅ State management (disabled, readonly, invalid)
-- ✅ Size variants (xs, s, m, l, xl) matching dropdown
-- ✅ Consistent with ULS design system
-- ✅ Uses ULS color variables and spacing tokens
-- ✅ Proper state combinations
-- ✅ Mobile-first responsive design
-*/
-.ulx-inputtext::placeholder {
-  color: var(--ulx-light-text-color);
-  opacity: 1;
-}
 .ulx-floatlabel {
   position: relative;
   display: inline-block;
   width: 100%;
 }
-.ulx-floatlabel.xs-size .ulx-floatlabel-label {
+.ulx-floatlabel.xs-size .floatlabel-label {
   font-size: var(--ed-font-size-10);
 }
-.ulx-floatlabel.s-size .ulx-floatlabel-label {
+.ulx-floatlabel.s-size .floatlabel-label {
   font-size: var(--ed-font-size-13);
 }
-.ulx-floatlabel.m-size .ulx-floatlabel-label {
+.ulx-floatlabel.m-size .floatlabel-label {
+  font-size: var(--ed-font-size-14);
+}
+.ulx-floatlabel.l-size .floatlabel-label {
+  font-size: var(--ed-font-size-15);
+}
+.ulx-floatlabel.xl-size .floatlabel-label {
   font-size: var(--ed-font-size-16);
 }
-.ulx-floatlabel.l-size .ulx-floatlabel-label {
-  font-size: var(--ed-font-size-18);
-}
-.ulx-floatlabel.xl-size .ulx-floatlabel-label {
-  font-size: var(--ed-font-size-20);
-}
-.ulx-floatlabel.outlined .ulx-floatlabel-label {
+.ulx-floatlabel.outlined .floatlabel-label {
   background-color: var(--ulx-input-bg-color);
 }
-.ulx-floatlabel.filled .ulx-floatlabel-label {
+.ulx-floatlabel.filled .floatlabel-label {
   background-color: var(--ulx-secondary-bg);
 }
-.ulx-floatlabel.disabled .ulx-floatlabel-label {
+.ulx-floatlabel.disabled .floatlabel-label {
   color: var(--ulx-light-text-color);
   cursor: not-allowed;
 }
-.ulx-floatlabel.invalid .ulx-floatlabel-label {
+.ulx-floatlabel.invalid .floatlabel-label {
   color: var(--red-bg-color, #CF1322);
 }
 .ulx-floatlabel:has(input.p-filled, textarea.p-filled) label {
@@ -11775,7 +11650,7 @@ FEATURES IMPLEMENTED:
 .ulx-floatlabel label {
   position: absolute;
   top: 50%;
-  left: 1.14285714rem;
+  left: 0.57142857rem;
   transform: translateY(-50%);
   font-family: var(--uls-font-face-regular, puviregular);
   font-weight: 400;
@@ -11861,18 +11736,34 @@ FEATURES IMPLEMENTED:
   color: var(--ulx-light-text-color);
 }
 @media only screen and (max-width: 767px) {
-  .ulx-inputtext {
+  .ulx-input {
     font-size: var(--ed-font-size-16);
+  }
+  .ulx-input.xs-size {
+    padding: 0.28571429rem 0.57142857rem;
+  }
+  .ulx-input.s-size {
+    padding: 0.28571429rem 0.57142857rem;
+  }
+  .ulx-input.m-size {
+    padding: 0.28571429rem 0.57142857rem;
+  }
+  .ulx-input.l-size {
+    padding: 0.28571429rem 0.85714286rem;
+  }
+  .ulx-input.xl-size {
+    padding: 0.28571429rem 0.85714286rem;
   }
   .ulx-floatlabel-label {
     font-size: var(--ed-font-size-13);
   }
 }
 @media (prefers-contrast: high) {
-  .ulx-inputtext {
+  .ulx-input {
     border-width: 2px;
   }
-  .ulx-inputtext:focus {
+  .ulx-input:focus,
+  .ulx-input:focus-visible {
     border-width: 3px;
   }
   .ulx-floatlabel-label {
@@ -11880,7 +11771,7 @@ FEATURES IMPLEMENTED:
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ulx-inputtext {
+  .ulx-input {
     transition: none;
   }
   .ulx-floatlabel-label {
@@ -11888,7 +11779,7 @@ FEATURES IMPLEMENTED:
   }
 }
 @media print {
-  .ulx-inputtext {
+  .ulx-input {
     background-color: transparent !important;
     border: 1px solid #000 !important;
     color: #000 !important;
@@ -11898,6 +11789,72 @@ FEATURES IMPLEMENTED:
     background-color: transparent !important;
     color: #000 !important;
     border: none !important;
+  }
+}
+/*
+USAGE EXAMPLES:
+
+1. Basic Input (extends uls-input):
+   <input class="uls-input" type="text" />
+
+2. With Size Variant:
+   <input class="uls-input m-size" type="text" />
+
+3. With Visual Variant:
+   <input class="uls-input filled" type="text" />
+
+4. With State:
+   <input class="uls-input invalid" type="text" />
+
+5. Combined Classes:
+   <input class="uls-input l-size filled invalid" type="text" />
+
+FEATURES IMPLEMENTED:
+- ✅ Consistent sizing with dropdown component
+- ✅ Modern LESS mixins for reusable patterns
+- ✅ Consolidated focus states to avoid repetition
+- ✅ RTL support with logical properties
+- ✅ Accessibility compliance (WCAG AA)
+- ✅ Responsive design with breakpoints
+- ✅ Print optimization
+- ✅ High contrast mode support
+- ✅ Reduced motion support
+- ✅ Visual variants (outlined, filled)
+- ✅ State management (disabled, readonly, invalid)
+- ✅ Size variants (xs, s, m, l, xl) matching dropdown
+- ✅ Consistent with ULS design system
+- ✅ Uses ULS color variables and spacing tokens
+- ✅ Proper state combinations
+- ✅ Mobile-first responsive design
+*/
+.ulx-inputtext::placeholder {
+  color: var(--ulx-light-text-color);
+  opacity: 1;
+}
+@media only screen and (max-width: 767px) {
+  .ulx-inputtext {
+    font-size: var(--ed-font-size-16);
+  }
+}
+@media (prefers-contrast: high) {
+  .ulx-inputtext {
+    border-width: 2px;
+  }
+  .ulx-inputtext:focus {
+    border-width: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ulx-inputtext {
+    transition: none;
+  }
+}
+@media print {
+  .ulx-inputtext {
+    background-color: transparent !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+    box-shadow: none !important;
   }
 }
 .ulx-inputtextarea {
@@ -24009,6 +23966,107 @@ img.flag {
 .ulx-timeline.layout-horizontal.align-alternate .timeline-event:nth-child(odd) {
   flex-direction: column;
 }
+form.ulx-form,
+.ulx-form {
+  gap: 0.85714286rem;
+  align-content: start;
+}
+form.ulx-form > .field:not([class*='col-']),
+.ulx-form > .field:not([class*='col-']) {
+  grid-column: -1;
+}
+form.ulx-form.cols-2 > .field:not([class*='col-']),
+.ulx-form.cols-2 > .field:not([class*='col-']) {
+  grid-column: span 6;
+}
+form.ulx-form.cols-3 > .field:not([class*='col-']),
+.ulx-form.cols-3 > .field:not([class*='col-']) {
+  grid-column: span 4;
+}
+form.ulx-form > .field,
+.ulx-form > .field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0.28571429rem;
+}
+form.ulx-form > .field > label,
+.ulx-form > .field > label {
+  display: flex;
+  align-items: baseline;
+  column-gap: 0.57142857rem;
+  min-width: 0;
+  font-family: var(--uls-font-face-bold, puvisemibold);
+  font-size: var(--ed-font-size-13);
+  color: var(--ulx-text-color);
+}
+form.ulx-form > .field > label .label-text,
+.ulx-form > .field > label .label-text {
+  min-width: 0;
+}
+form.ulx-form > .field > label .label-right,
+.ulx-form > .field > label .label-right {
+  margin-inline-start: auto;
+  flex: 0 0 auto;
+  font-family: var(--uls-font-face-medium, puvimedium);
+  font-size: var(--ed-font-size-12);
+  color: var(--ulx-tertiary-text-color);
+  text-align: end;
+  white-space: nowrap;
+}
+form.ulx-form > .field .help-text,
+.ulx-form > .field .help-text,
+form.ulx-form > .field .error-message,
+.ulx-form > .field .error-message {
+  margin: 0;
+  font-family: var(--uls-font-face-regular, puviregular);
+  font-size: var(--ed-font-size-12);
+  line-height: 1.5;
+}
+form.ulx-form > .field .help-text,
+.ulx-form > .field .help-text {
+  color: var(--ulx-tertiary-text-color);
+}
+form.ulx-form > .field .error-message,
+.ulx-form > .field .error-message {
+  color: var(--red-fg-color, #CF1322);
+}
+form.ulx-form.m-size > .field > label,
+.ulx-form.m-size > .field > label {
+  font-size: var(--ed-font-size-13);
+}
+form.ulx-form.m-size > .field > label .label-right,
+.ulx-form.m-size > .field > label .label-right,
+form.ulx-form.m-size > .field .help-text,
+.ulx-form.m-size > .field .help-text,
+form.ulx-form.m-size > .field .error-message,
+.ulx-form.m-size > .field .error-message {
+  font-size: var(--ed-font-size-12);
+}
+form.ulx-form.l-size > .field > label,
+.ulx-form.l-size > .field > label {
+  font-size: var(--ed-font-size-default);
+}
+form.ulx-form.l-size > .field > label .label-right,
+.ulx-form.l-size > .field > label .label-right,
+form.ulx-form.l-size > .field .help-text,
+.ulx-form.l-size > .field .help-text,
+form.ulx-form.l-size > .field .error-message,
+.ulx-form.l-size > .field .error-message {
+  font-size: var(--ed-font-size-13);
+}
+form.ulx-form.xl-size > .field > label,
+.ulx-form.xl-size > .field > label {
+  font-size: var(--ed-font-size-16);
+}
+form.ulx-form.xl-size > .field > label .label-right,
+.ulx-form.xl-size > .field > label .label-right,
+form.ulx-form.xl-size > .field .help-text,
+.ulx-form.xl-size > .field .help-text,
+form.ulx-form.xl-size > .field .error-message,
+.ulx-form.xl-size > .field .error-message {
+  font-size: var(--ed-font-size-default);
+}
 .ulx-page {
   display: flex;
   background-color: var(--ulx-body-bg);
@@ -30712,6 +30770,14 @@ body {
 }
 .component-builder-controls-col {
   min-width: 220px;
+}
+.component-builder .demo {
+  position: sticky;
+  top: 80px;
+}
+.component-builder .code-block-wrapper {
+  position: sticky;
+  top: 260px;
 }
 .doc-section-nav {
   position: sticky;

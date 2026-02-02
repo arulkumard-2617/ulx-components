@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { readDocNavItems, writeDocNavItems, upsertDocNavComponent } = require('./utils/docs-nav');
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -105,12 +106,14 @@ if (!fs.existsSync(snippetsPath)) {
 const routeContent = `import Route from '@ember/routing/route';
 import { ${pascalName}FeatureItems } from '../../../documentation/components/${category}/${kebabName}/features';
 import meta from '../../../documentation/components/${category}/${kebabName}/meta';
+import builderSchema from '../../../documentation/components/${category}/${kebabName}/builder-schema';
 
 export default class Components${categoryPascal}${pascalName}Route extends Route {
   model() {
     return {
       features: ${pascalName}FeatureItems,
-      meta: meta
+      meta: meta,
+      builderSchema: builderSchema
     };
   }
 }
@@ -135,6 +138,7 @@ export default class Components${categoryPascal}${pascalName}Controller extends 
   tabs = [
     { id: 'features', label: 'FEATURES' },
     { id: 'theming', label: 'THEMING' },
+    { id: 'builder', label: 'BUILDER' },
     { id: 'passthrough', label: 'PASS THROUGH' }
   ];
 
@@ -148,6 +152,10 @@ export default class Components${categoryPascal}${pascalName}Controller extends 
 
   get isPassthroughTab() {
     return this.activeTab === 'passthrough';
+  }
+
+  get isBuilderTab() {
+    return this.activeTab === 'builder';
   }
 
   @action
@@ -187,6 +195,16 @@ const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"
         <p class="fg-text-secondary">Theming content goes here.</p>
       </Common::DocMain::FoundationSection>
     </div>
+  {{else if this.isBuilderTab}}
+    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview>
+        <div class="pd6 fg-text-secondary font-size12">
+          Preview not configured yet. Update
+          <code>app/documentation/components/${category}/${kebabName}/builder-schema.js</code>
+          and this template to render the component with the generated props.
+        </div>
+      </:preview>
+    </Common::DocMain::ComponentBuilder>
   {{else if this.isPassthroughTab}}
     <div class="doc-section">
       <Common::DocMain::FoundationSection
@@ -241,6 +259,11 @@ export default {
       id: 'theming'
     },
     {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    },
+    {
       name: 'Pass Through',
       route: '/passthrough',
       id: 'passthrough'
@@ -264,6 +287,30 @@ if (fs.existsSync(metaFilePath)) {
 } else {
 	fs.writeFileSync(metaFilePath, metaContent);
 	console.log(`✓ Created meta: ${metaFilePath}`);
+}
+
+// 4b. Create builder-schema.js (default builder setup)
+const builderSchemaContent = `// ==========================================================================
+// ${pascalName.toUpperCase()} BUILDER SCHEMA
+// ==========================================================================
+// Default builder schema for ${displayName}.
+// Customize props, stateToProps, and stateToSnippet based on the component API.
+
+export default {
+  componentName: '${pascalName}',
+  importLine: "import { ${pascalName} } from 'uls-components';",
+  props: [],
+  stateToProps: () => ({}),
+  stateToSnippet: () => '<${pascalName} />',
+};
+`;
+
+const builderSchemaPath = path.join(componentDocPath, 'builder-schema.js');
+if (fs.existsSync(builderSchemaPath)) {
+	console.log(`⚠ Builder schema already exists: ${builderSchemaPath}`);
+} else {
+	fs.writeFileSync(builderSchemaPath, builderSchemaContent);
+	console.log(`✓ Created builder schema: ${builderSchemaPath}`);
 }
 
 // 4b. Create imports.js
@@ -429,183 +476,130 @@ if (fs.existsSync(basicSnippetPath)) {
 
 // 6. Update router.js
 let routerContent = fs.readFileSync(routerPath, 'utf8');
-const routeLine = `      this.route('${kebabName}', { path: '/${kebabName}' });\n`;
 
-// Check if route already exists
-if (routerContent.includes(`this.route('${kebabName}'`)) {
-	console.log(`⚠ Route '${kebabName}' already exists in router.js`);
+function findMatchingBraceIndex(str, openBraceIndex) {
+	let braceCount = 0;
+	for (let i = openBraceIndex; i < str.length; i++) {
+		if (str[i] === '{') braceCount++;
+		else if (str[i] === '}') {
+			braceCount--;
+			if (braceCount === 0) return i;
+		}
+	}
+	return -1;
+}
+
+function usesExplicitPathOptions(routerSource) {
+	return /this\.route\(\s*'components'\s*,\s*\{\s*path\s*:/.test(routerSource);
+}
+
+function ensureChildRouteInCategory(componentsBody, categoryName, childName, explicitPaths) {
+	const routeLine = explicitPaths
+		? `      this.route('${childName}', { path: '/${childName}' });`
+		: `      this.route('${childName}');`;
+
+	// Case 1: category route exists but is empty: function () {}
+	// Supports both:
+	// - this.route('x', { path: '/x' }, function () {});
+	// - this.route('x', function () {});
+	const emptyCategoryRegex = new RegExp(
+		`(\\s{4}this\\.route\\('${categoryName}'(?:\\s*,\\s*\\{\\s*path\\s*:\\s*'\\/${categoryName}'\\s*\\})?\\s*,\\s*function\\s*\\(\\)\\s*\\{)\\s*\\}\\s*\\);`
+	);
+	if (emptyCategoryRegex.test(componentsBody)) {
+		// Convert single-line empty function to multiline and insert route.
+		return componentsBody.replace(emptyCategoryRegex, `$1\n${routeLine}\n    });`);
+	}
+
+	// Case 2: category route exists with a function body; insert before its closing brace.
+	const categoryStartIndex = componentsBody.indexOf(`this.route('${categoryName}'`);
+	if (categoryStartIndex !== -1) {
+		const fnIndex = componentsBody.indexOf('function', categoryStartIndex);
+		if (fnIndex === -1) return componentsBody;
+		const openBraceIndex = componentsBody.indexOf('{', fnIndex);
+		if (openBraceIndex === -1) return componentsBody;
+		const closeBraceIndex = findMatchingBraceIndex(componentsBody, openBraceIndex);
+		if (closeBraceIndex !== -1) {
+			const before = componentsBody.slice(0, closeBraceIndex).trimEnd();
+			const after = componentsBody.slice(closeBraceIndex);
+			// Ensure we don't double-add if route exists in this category
+			const categoryBlock = componentsBody.slice(categoryStartIndex, closeBraceIndex + 1);
+			if (categoryBlock.includes(`this.route('${childName}'`)) return componentsBody;
+			return `${before}\n${routeLine}\n${after}`;
+		}
+	}
+
+	// Case 3: category route does not exist under components; add a new category block.
+	// Insert before the closing brace of the components function body.
+	const categoryRouteLine = explicitPaths
+		? `    this.route('${categoryName}', { path: '/${categoryName}' }, function () {`
+		: `    this.route('${categoryName}', function () {`;
+	const insert = `\n${categoryRouteLine}\n${routeLine}\n    });\n`;
+	return `${componentsBody.trimEnd()}${insert}`;
+}
+
+// Ensure `components.${category}.${kebabName}` is declared under Router.map
+const explicitPaths = usesExplicitPathOptions(routerContent);
+const componentsIndex = routerContent.indexOf(`this.route('components'`);
+if (componentsIndex === -1) {
+	console.log(`⚠ Could not find components route in router.js. Please add manually.`);
 } else {
-	// Check if components route exists
-	const componentsRoutePattern =
-		/(this\.route\('components', \{ path: '\/components' \}, function \(\) \{[\s\S]*?)(\}\);)/;
-	if (componentsRoutePattern.test(routerContent)) {
-		// Check if category route exists within components
-		// Find the category route opening
-		const categoryRouteStart = new RegExp(
-			`this\\.route\\('${category}', \\{ path: '/${category}' \\}, function \\(\\) \\{`
+	const fnIndex = routerContent.indexOf('function', componentsIndex);
+	if (fnIndex === -1) {
+		console.log(
+			`⚠ Could not find components route function block in router.js. Please add manually.`
 		);
-		const categoryMatch = routerContent.match(categoryRouteStart);
-
-		if (categoryMatch) {
-			// Category route exists, find its closing brace by counting braces
-			const startIndex = categoryMatch.index + categoryMatch[0].length;
-			let braceCount = 1;
-			let endIndex = startIndex;
-
-			for (let i = startIndex; i < routerContent.length; i++) {
-				if (routerContent[i] === '{') {
-					braceCount++;
-				} else if (routerContent[i] === '}') {
-					braceCount--;
-					if (braceCount === 0) {
-						endIndex = i;
-						break;
-					}
+	} else {
+		const componentsOpenBraceIndex = routerContent.indexOf('{', fnIndex);
+		if (componentsOpenBraceIndex === -1) {
+			console.log(`⚠ Could not parse components route braces in router.js. Please add manually.`);
+		} else {
+			const componentsCloseBraceIndex = findMatchingBraceIndex(
+				routerContent,
+				componentsOpenBraceIndex
+			);
+			if (componentsCloseBraceIndex === -1) {
+				console.log(
+					`⚠ Could not safely parse components route block in router.js. Please add manually.`
+				);
+			} else {
+				const bodyStart = componentsOpenBraceIndex + 1;
+				const bodyEnd = componentsCloseBraceIndex;
+				const componentsBody = routerContent.slice(bodyStart, bodyEnd);
+				const updatedBody = ensureChildRouteInCategory(
+					componentsBody,
+					category,
+					kebabName,
+					explicitPaths
+				);
+				if (updatedBody !== componentsBody) {
+					routerContent =
+						routerContent.slice(0, bodyStart) + updatedBody + routerContent.slice(bodyEnd);
+					fs.writeFileSync(routerPath, routerContent);
+					console.log(`✓ Updated router.js`);
+				} else {
+					console.log(`⚠ Route '${kebabName}' already exists under '${category}' in router.js`);
 				}
 			}
-
-			// Insert the new route before the closing brace, after any existing routes
-			const beforeClosing = routerContent.substring(0, endIndex);
-			const afterClosing = routerContent.substring(endIndex);
-
-			// Add the new route with proper indentation (routeLine already has correct indentation)
-			routerContent = beforeClosing + routeLine + afterClosing;
-			fs.writeFileSync(routerPath, routerContent);
-			console.log(`✓ Updated router.js`);
-		} else {
-			// Category route doesn't exist, add it with component route
-			const categoryRouteBlock = `    this.route('${category}', { path: '/${category}' }, function () {\n${routeLine}    });\n`;
-			routerContent = routerContent.replace(componentsRoutePattern, `$1${categoryRouteBlock}  $2`);
-			fs.writeFileSync(routerPath, routerContent);
-			console.log(`✓ Updated router.js (added ${category} route)`);
 		}
-	} else {
-		console.log(`⚠ Could not find components route in router.js. Please add manually.`);
 	}
 }
 
 // 7. Update docs/index.js
-let docsContent = fs.readFileSync(docsIndexPath, 'utf8');
-
-// Find the category in the navigation - match the specific menuTitle and its entire children array
-// Third group allows optional comma after ] so we match "],\n  }" (e.g. children: [],)
-const categoryPattern = new RegExp(
-	`(\\{\\s*menuTitle: '${categoryPascal}',\\s*icon: [^,]+,\\s*children: \\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`,
-	'm'
-);
-const menuItem = submodule
-	? `      {
-        category: '${toPascalCase(submodule)}',
-        items: [
-          {
-            menuItem: '${displayName}',
-            to: '/components/${category}/${kebabName}',
-            route: 'components.${category}.${kebabName}'
-          }
-        ]
-      }`
-	: `      {
-        menuItem: '${displayName}',
-        to: '/components/${category}/${kebabName}',
-        route: 'components.${category}.${kebabName}'
-      }`;
-
-if (categoryPattern.test(docsContent)) {
-	// Category exists, add item
-	if (submodule) {
-		// Check if submodule category exists within this specific category
-		const categoryMatch = docsContent.match(categoryPattern);
-		if (categoryMatch) {
-			const categoryChildren = categoryMatch[2]; // The children array content
-			const submodulePattern = new RegExp(
-				`(category: '${toPascalCase(submodule)}',[\\s\\S]*?items: \\[[\\s\\S]*?)(\\]\\s*\\})`,
-				'm'
-			);
-
-			if (submodulePattern.test(categoryChildren)) {
-				// Add to existing submodule
-				docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
-					const updatedChildren = children.replace(submodulePattern, (match, p1, p2) => {
-						if (match.includes(`menuItem: '${displayName}'`)) {
-							return match; // Already exists
-						}
-
-						// Find the last closing brace in p1 (the last item in the array)
-						const lastBraceIndex = p1.lastIndexOf('}');
-						if (lastBraceIndex !== -1) {
-							const beforeLastBrace = p1.substring(0, lastBraceIndex);
-							const afterLastBrace = p1.substring(lastBraceIndex + 1);
-
-							// Check if there's a comma after the last brace
-							const afterBraceTrimmed = afterLastBrace.trim();
-							const hasComma =
-								afterBraceTrimmed.startsWith(',') || afterLastBrace.match(/^\s*[,]/) !== null;
-							const nextCharIsBracket = afterBraceTrimmed.startsWith(']');
-
-							const newItem = `          {
-            menuItem: '${displayName}',
-            to: '/components/${category}/${kebabName}',
-            route: 'components.${category}.${kebabName}'
-          }`;
-
-							if (hasComma) {
-								return `${beforeLastBrace}}${afterLastBrace}\n${newItem},\n        ${p2}`;
-							} else if (nextCharIsBracket) {
-								return `${beforeLastBrace}},\n${newItem}\n        ${p2}`;
-							} else {
-								return `${beforeLastBrace}},\n${newItem},\n        ${p2}`;
-							}
-						}
-
-						// Fallback if no brace found
-						const newItem = `          {
-            menuItem: '${displayName}',
-            to: '/components/${category}/${kebabName}',
-            route: 'components.${category}.${kebabName}'
-          }`;
-						return `${p1.trimEnd()},\n${newItem},\n        ${p2}`;
-					});
-					return `${p1}${updatedChildren}${p3}`;
-				});
-			} else {
-				// Add new submodule to this category
-				docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
-					const insert = children.trim() ? `\n${menuItem},` : `\n${menuItem}`;
-					return `${p1}${children}${insert}\n      ${p3}`;
-				});
-			}
-		}
-	} else {
-		// Add directly to category (no submodule)
-		if (docsContent.includes(`menuItem: '${displayName}'`)) {
-			console.log(`⚠ Navigation item for '${displayName}' already exists in docs/index.js`);
-		} else {
-			docsContent = docsContent.replace(categoryPattern, (fullMatch, p1, children, p3) => {
-				const insert = children.trim() ? `\n${menuItem},` : `\n${menuItem}`;
-				return `${p1}${children}${insert}\n      ${p3}`;
-			});
-		}
-	}
-	fs.writeFileSync(docsIndexPath, docsContent);
+try {
+	const { header, items } = readDocNavItems(docsIndexPath);
+	upsertDocNavComponent({
+		items,
+		menuTitle: categoryPascal,
+		subCategory: submodule ? toPascalCase(submodule) : 'General',
+		displayName,
+		to: `/components/${category}/${kebabName}`,
+		route: `components.${category}.${kebabName}`
+	});
+	writeDocNavItems(docsIndexPath, header, items);
 	console.log(`✓ Updated docs/index.js`);
-} else {
-	// Category doesn't exist, add it
-	const lastNavItemPattern = /(export const DocNavItems = \[[\s\S]*?)(\];)/;
-	const newCategory = `  {
-    menuTitle: '${categoryPascal}',
-    icon: 'pi pi-list',
-    children: [
-${menuItem}
-    ]
-  },\n`;
-
-	if (lastNavItemPattern.test(docsContent)) {
-		docsContent = docsContent.replace(lastNavItemPattern, `$1${newCategory}  $2`);
-		fs.writeFileSync(docsIndexPath, docsContent);
-		console.log(`✓ Updated docs/index.js (added ${categoryPascal} category)`);
-	} else {
-		console.log(`⚠ Could not update docs/index.js. Please add manually.`);
-	}
+} catch (e) {
+	console.log(`⚠ Could not update docs/index.js automatically: ${e.message}`);
+	console.log(`   Please add the navigation item manually if needed.`);
 }
 
 console.log(`\n✅ Demo page for ${displayName} created successfully!`);

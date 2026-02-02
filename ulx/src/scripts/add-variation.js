@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { readDocNavItems, findNavEntryForComponent } = require('./utils/docs-nav');
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -57,6 +58,7 @@ if (!componentName || !variationName) {
 const demoEmberPath = path.join(__dirname, '../demo/ulx-ember');
 const documentationPath = path.join(demoEmberPath, 'app/documentation/components');
 const demoComponentsPath = path.join(demoEmberPath, 'app/components/Demo');
+const docsIndexPath = path.join(demoEmberPath, 'app/constants/docs/index.js');
 
 // Helper to convert to PascalCase
 function toPascalCase(str) {
@@ -82,7 +84,7 @@ let category = null;
 let actualComponentPascal = null;
 
 // Search through all categories
-const categories = fs
+let categories = fs
 	.readdirSync(documentationPath, { withFileTypes: true })
 	.filter((dirent) => dirent.isDirectory())
 	.map((dirent) => dirent.name);
@@ -91,6 +93,24 @@ const categories = fs
 const componentKebab = toKebabCase(componentName);
 const componentKebabNoHyphen = componentKebab.replace(/-/g, '');
 const componentLower = componentName.toLowerCase();
+
+// Prefer using docs/index.js as the source of truth for where the component lives.
+try {
+	const { items } = readDocNavItems(docsIndexPath);
+	const navEntry = findNavEntryForComponent(items, componentKebab);
+	if (navEntry && typeof navEntry.route === 'string') {
+		const parts = navEntry.route.split('.');
+		// e.g. components.elements.input → category = elements
+		if (parts[0] === 'components' && parts[1]) {
+			const preferredCategory = parts[1];
+			if (categories.includes(preferredCategory)) {
+				categories = [preferredCategory, ...categories.filter((c) => c !== preferredCategory)];
+			}
+		}
+	}
+} catch (e) {
+	// Fall back to filesystem scan if docs index can't be parsed
+}
 
 for (const cat of categories) {
 	const categoryPath = path.join(documentationPath, cat);

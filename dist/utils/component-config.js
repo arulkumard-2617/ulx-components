@@ -1,5 +1,5 @@
 // Centralized namespace prefix for all components
-const NAMESPACE = 'uls';
+const NAMESPACE = 'ulx';
 
 // Helper function to build component class names
 function getComponentClass(componentName) {
