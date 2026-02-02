@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import willDestroy from '@ember/render-modifiers/modifiers/will-destroy';
-import { UlxProgressBar, UlxToast } from 'uls-components';
+import { UlxProgressBar, UlxToast } from 'ulx-components';
 
 const INTERVAL_MS = 2000;
 

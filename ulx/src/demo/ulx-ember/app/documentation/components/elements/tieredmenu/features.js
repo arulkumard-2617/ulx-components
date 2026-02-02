@@ -22,7 +22,7 @@ export const TieredmenuFeatureItems = [
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>import</code> property is used to import the <code>UlsTieredmenu</code> component."
+        content: "The <code>import</code> property is used to import the <code>UlxTieredmenu</code> component."
       }
     },
     demo: {

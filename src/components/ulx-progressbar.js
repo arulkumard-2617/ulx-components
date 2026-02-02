@@ -1,1 +1,1 @@
-export { default } from './elements/uls-progress-bar/index.gjs';
+export { default } from './elements/ulx-progress-bar/index.gjs';

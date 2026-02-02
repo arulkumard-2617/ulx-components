@@ -35,7 +35,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { Icon } from 'uls-components'",
+  importMsg: "import { Icon } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

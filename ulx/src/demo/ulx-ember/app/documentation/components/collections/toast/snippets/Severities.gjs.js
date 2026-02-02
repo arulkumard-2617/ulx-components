@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'uls-components';
+import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class SeveritiesToastDemo extends Component {
   @tracked messages = [];

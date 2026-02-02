@@ -25,7 +25,7 @@ const stateToSnippet = (state) => {
 
 export default {
   componentName: 'UlxProgressBar',
-  importLine: "import { UlxProgressBar } from 'uls-components';",
+  importLine: "import { UlxProgressBar } from 'ulx-components';",
 
   props: [
     {

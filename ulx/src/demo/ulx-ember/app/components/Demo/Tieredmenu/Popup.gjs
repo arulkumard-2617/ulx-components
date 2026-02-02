@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
-import { UlsTieredmenu, UlxButton } from 'uls-components';
+import { UlxTieredmenu, UlxButton } from 'ulx-components';
 
 export default class PopupTieredmenuDemo extends Component {
   @tracked isMenuVisible = false;
@@ -96,7 +96,7 @@ export default class PopupTieredmenuDemo extends Component {
       />
 
       <div class="pos-abs t-100 l-0 z-1000 mgt4">
-        <UlsTieredmenu
+        <UlxTieredmenu
           @model={{this.items}}
           @popup={{true}}
           @visible={{this.isMenuVisible}}

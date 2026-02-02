@@ -1,4 +1,4 @@
 export default `
-import { InputGroup } from 'uls-components';
+import { InputGroup } from 'ulx-components';
 
 `;

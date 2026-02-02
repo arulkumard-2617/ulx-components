@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButton } from 'uls-components';
+import { UlxButton } from 'ulx-components';
 
 const ICON_ONLY_ROW = [
   { icon: 'ls-tick-icon', severity: 'primary', ariaLabel: 'Filter' },

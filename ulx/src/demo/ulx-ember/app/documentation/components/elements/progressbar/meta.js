@@ -18,7 +18,7 @@ export default {
     { name: 'Builder', route: '/builder', id: 'builder' },
   ],
 
-  importMsg: "import { UlxProgressBar } from 'uls-components';",
+  importMsg: "import { UlxProgressBar } from 'ulx-components';",
 
   accessibility: {
     description: 'Determinate: role="progressbar" with aria-valuenow, aria-valuemin, aria-valuemax. Indeterminate: aria-valuetext="Loading".',

@@ -35,7 +35,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { TestComp } from 'uls-components'",
+  importMsg: "import { TestComp } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

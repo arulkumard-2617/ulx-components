@@ -18,7 +18,7 @@ export default {
     { name: 'Builder', route: '/builder', id: 'builder' },
   ],
 
-  importMsg: "import { UlxProgressSpinner } from 'uls-components';",
+  importMsg: "import { UlxProgressSpinner } from 'ulx-components';",
 
   accessibility: {
     description: 'Use role="progressbar" (indeterminate). Pass aria-label when the spinner is the main loading indicator.',

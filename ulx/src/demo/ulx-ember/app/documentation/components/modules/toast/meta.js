@@ -36,7 +36,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { UlxToast } from 'uls-components'",
+  importMsg: "import { UlxToast } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

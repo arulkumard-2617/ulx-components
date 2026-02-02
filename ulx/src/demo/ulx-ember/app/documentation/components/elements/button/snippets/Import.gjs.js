@@ -1,4 +1,4 @@
 export default `
-import { UlxButton } from 'uls-components';
+import { UlxButton } from 'ulx-components';
 
 `;

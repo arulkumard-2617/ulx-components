@@ -1,5 +1,5 @@
 export default `
-import { UlxProgressBar } from 'uls-components';
+import { UlxProgressBar } from 'ulx-components';
 
 <template>
   <div class="pda4">

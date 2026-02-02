@@ -16,7 +16,7 @@ import TieredmenuSubmenu from "./submenu.gjs";
  * - `@onItemSelect`: optional callback invoked when an enabled item is activated
  * - `@itemTemplate`: custom component for rendering menu items
  *
- * @class UlsTieredmenu
+ * @class UlxTieredmenu
  * @param {object[]} args.model
  * @param {boolean} [args.popup]
  * @param {boolean} [args.visible]
@@ -24,9 +24,9 @@ import TieredmenuSubmenu from "./submenu.gjs";
  * @param {(item: object, event: Event) => void} [args.onItemSelect]
  * @param {Component} [args.itemTemplate]
  */
-export default class UlsTieredmenu extends Component {
+export default class UlxTieredmenu extends Component {
 	get rootClass() {
-		let classes = [getComponentClass("tieredmenu")]; // e.g. "uls-tieredmenu"
+		let classes = [getComponentClass("tieredmenu")]; // e.g. "ulx-tieredmenu"
 
 		if (this.args.popup) {
 			classes.push("popup");

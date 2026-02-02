@@ -1,7 +1,7 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { UlxToast } from 'uls-components';
+import { UlxToast } from 'ulx-components';
 
 export default class BasicToastDemo extends Component {
   get messages() {

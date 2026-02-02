@@ -35,11 +35,11 @@ export default {
   ],
   
   // Import message for the component
-  importMsg: "import { UlsTieredmenu } from 'uls-components'",
+  importMsg: "import { UlxTieredmenu } from 'ulx-components'",
   
   // Accessibility information
   accessibility: {
     description: "Tieredmenu component with keyboard navigation and ARIA support.",
-    example: "<UlsTieredmenu @model={{items}} />"
+    example: "<UlxTieredmenu @model={{items}} />"
   }
 };

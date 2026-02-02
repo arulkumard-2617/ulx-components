@@ -1,5 +1,5 @@
 export default `
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 <template>
   <div class="fxb fvc gp4">

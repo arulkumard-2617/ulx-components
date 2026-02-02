@@ -1,5 +1,5 @@
 export default `
-import { UlxProgressSpinner } from 'uls-components';
+import { UlxProgressSpinner } from 'ulx-components';
 
 <template>
   <div class="fxb fvc gp4">

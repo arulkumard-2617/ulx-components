@@ -1,4 +1,4 @@
 export default `
-import { TestComp } from 'uls-components';
+import { TestComp } from 'ulx-components';
 
 `;

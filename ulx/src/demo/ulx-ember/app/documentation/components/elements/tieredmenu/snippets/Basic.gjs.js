@@ -1,7 +1,7 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { UlsTieredmenu } from 'uls-components';
+import { UlxTieredmenu } from 'ulx-components';
 
 export default class BasicTieredmenuDemo extends Component {
   get items() {
@@ -84,7 +84,7 @@ export default class BasicTieredmenuDemo extends Component {
 
   <template>
     <div class="pda4">
-      <UlsTieredmenu
+      <UlxTieredmenu
         @model={{this.items}}
         @onItemSelect={{this.handleItemSelect}}
       />

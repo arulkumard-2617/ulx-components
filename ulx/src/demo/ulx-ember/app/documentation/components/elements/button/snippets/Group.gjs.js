@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButton, UlxButtonGroup } from 'uls-components';
+import { UlxButton, UlxButtonGroup } from 'ulx-components';
 
 export default class DemoButtonGroup extends Component {
   <template>

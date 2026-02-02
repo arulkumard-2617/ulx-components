@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxProgressBar, UlxToast } from 'uls-components';
+import { UlxProgressBar, UlxToast } from 'ulx-components';
 
 const INTERVAL_MS = 2000;
 

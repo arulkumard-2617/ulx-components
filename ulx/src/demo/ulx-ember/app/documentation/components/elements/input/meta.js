@@ -40,7 +40,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { UlxInput } from 'uls-components'",
+  importMsg: "import { UlxInput } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

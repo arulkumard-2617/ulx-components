@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxToast } from 'uls-components';
+import { UlxToast } from 'ulx-components';
 
 export default class PositionsToastDemo extends Component {
   get messages() {

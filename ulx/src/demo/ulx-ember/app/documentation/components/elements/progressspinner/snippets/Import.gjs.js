@@ -1,4 +1,4 @@
 export default `
-import { UlxProgressSpinner } from 'uls-components';
+import { UlxProgressSpinner } from 'ulx-components';
 
 `;

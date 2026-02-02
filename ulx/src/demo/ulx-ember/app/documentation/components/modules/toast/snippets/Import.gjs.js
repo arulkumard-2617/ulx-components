@@ -1,4 +1,4 @@
 export default `
-import { UlxToast } from 'uls-components';
+import { UlxToast } from 'ulx-components';
 
 `;

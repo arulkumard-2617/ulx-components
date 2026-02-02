@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxToast, UlxButton } from 'uls-components';
+import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class MultipleToastDemo extends Component {
   @tracked messages = [];

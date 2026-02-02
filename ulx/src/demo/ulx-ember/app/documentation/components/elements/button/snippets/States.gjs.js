@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxButton } from 'uls-components';
+import { UlxButton } from 'ulx-components';
 
 export default class DemoButtonStates extends Component {
   @tracked loading = false;

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxButton } from 'uls-components';
+import { UlxButton } from 'ulx-components';
 
 export default class DemoButtonBadge extends Component {
   <template>

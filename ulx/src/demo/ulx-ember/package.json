@@ -91,7 +91,7 @@
   },
   "dependencies": {
     "@ulx/foundation": "file:../ulx-foundation",
-    "uls-components": "file:../../../../",
+    "ulx-components": "file:../../../../",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }

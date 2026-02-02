@@ -35,7 +35,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { UlxButton } from 'uls-components'",
+  importMsg: "import { UlxButton } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

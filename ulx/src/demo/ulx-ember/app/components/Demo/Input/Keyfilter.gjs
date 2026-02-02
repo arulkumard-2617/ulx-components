@@ -1,4 +1,4 @@
-import { UlxInput } from 'uls-components';
+import { UlxInput } from 'ulx-components';
 
 const keyfilters = [
   { label: 'Integers', keyfilter: 'int', placeholder: 'e.g. -123' },

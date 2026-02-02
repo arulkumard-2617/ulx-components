@@ -1,4 +1,4 @@
 export default `
-import { UlsTieredmenu } from 'uls-components';
+import { UlxTieredmenu } from 'ulx-components';
 
 `;

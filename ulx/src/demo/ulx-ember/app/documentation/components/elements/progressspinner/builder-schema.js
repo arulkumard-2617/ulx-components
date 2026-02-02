@@ -19,7 +19,7 @@ const stateToSnippet = (state) => {
 
 export default {
   componentName: 'UlxProgressSpinner',
-  importLine: "import { UlxProgressSpinner } from 'uls-components';",
+  importLine: "import { UlxProgressSpinner } from 'ulx-components';",
 
   props: [
     {
