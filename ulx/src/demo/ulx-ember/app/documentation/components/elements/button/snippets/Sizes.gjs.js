@@ -5,9 +5,9 @@ import { UlxButton } from 'ulx-components';
 export default class DemoButtonSizes extends Component {
   <template>
     <div class="flex gap-3 align-items-center flex-wrap">
-      <UlxButton @label="Small" @size="small" />
+      <UlxButton @label="Small" @size="s-size" />
       <UlxButton @label="Normal" />
-      <UlxButton @label="Large" @size="large" />
+      <UlxButton @label="Large" @size="l-size" />
     </div>
   </template>
 }

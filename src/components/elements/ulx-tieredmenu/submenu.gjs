@@ -96,14 +96,8 @@ export default class TieredmenuSubmenu extends Component {
 			event?.preventDefault();
 			return;
 		}
-
-		if (typeof item?.command === "function") {
-			item.command(item, event);
-		}
-
-		if (typeof this.args.onItemClick === "function") {
-			this.args.onItemClick(item, event);
-		}
+		if (typeof item?.command === "function") item.command(item, event);
+		if (typeof this.args.onItemClick === "function") this.args.onItemClick(item, event);
 	}
 
 	nextLevel = () => {

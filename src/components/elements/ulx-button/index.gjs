@@ -6,8 +6,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 
 /**
- * Button element component based on PrimeReact Button API.
- * Supports multiple severities, sizes, variants (text, outlined, raised, rounded),
+ * Button element component. Supports multiple severities, sizes, variants (text, outlined, raised, rounded),
  * icons, loading state, badges, and link rendering.
  *
  * ## Severities
@@ -27,9 +26,7 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
  * - Rounded - use @rounded={{true}} for circular corners
  *
  * ## Sizes
- * - small
- * - normal (default)
- * - large
+ * Pass size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Default m-size.
  *
  * ## Icon Support
  * - @icon - Icon name (font icon class) passed to UlxIcon as @iconName; UlxIcon is used with type "font"
@@ -37,6 +34,7 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
  * - @iconSize - uls-v2 icon size class (e.g. s13, s16, s18) passed to UlxIcon as @size
  * - @iconPos - "left" (default) or "right"
  * - <:icon> block for custom icon markup
+ * - <:default> block for custom main content (when used with <:icon>, avoids mixing named blocks with default content)
  *
  * ## Badge Support
  * - @badge - Badge value/text
@@ -48,7 +46,7 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
  * - Support disabled state with aria-disabled
  * - Loading state shows aria-busy and aria-live for screen readers
  * - Icon-only buttons should have aria-label passed via ...attributes
- * - Link buttons render as <a> with proper role when @link={{true}}
+ * - When @href is provided, renders as <a>; otherwise renders as <button> (WCAG).
  *
  * @class UlxButton
  * @param {string} [label] - Button label text
@@ -58,13 +56,13 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
  * @param {'left'|'right'} [iconPos='left'] - Icon position relative to label
  * @param {boolean} [loading=false] - Shows loading state with spinner
  * @param {boolean} [disabled=false] - Disables the button
- * @param {boolean} [link=false] - Renders as anchor <a> tag instead of <button>
+ * @param {string} [href] - When set, renders as <a href="{{href}}">; otherwise <button>
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [severity='primary'] - Button severity/type
  * @param {boolean} [raised=false] - Adds shadow for elevation
  * @param {boolean} [rounded=false] - Circular border radius
  * @param {boolean} [text=false] - Text variant (transparent background)
  * @param {boolean} [outlined=false] - Outlined variant (transparent background with border)
- * @param {'small'|'large'} [size] - Button size (omit for normal)
+ * @param {string} [size] - Button size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Omit for m-size.
  * @param {boolean} [fluid=false] - Full width button
  * @param {string} [badge] - Badge value to display
  * @param {string} [badgeClass] - Custom badge CSS classes
@@ -79,50 +77,39 @@ export default class UlxButton extends Component {
 	}
 
 	get buttonClasses() {
+		const {
+			severity: severityArg,
+			text,
+			href,
+			outlined,
+			raised,
+			rounded,
+			size,
+			fluid,
+			loading,
+			customClass,
+			label
+		} = this.args;
 		const parts = [this.baseClass];
-
-		// Severity (as separate class, not hyphenated)
-		const severity = this.args.severity || "primary";
+		const severity = severityArg || "primary";
 		parts.push(severity);
-
-		// Variants (as separate classes)
-		if (this.args.text) parts.push("text");
-		// ULS .button.link = literal link look (link color, no bg/border); .underline = underlined by default
-		if (this.args.link && this.args.text) {
-			parts.push("link", "underline");
-		}
-		if (this.args.outlined) parts.push("outlined");
-		if (this.args.raised) parts.push("raised");
-		if (this.args.rounded) parts.push("rounded");
-
-		// Size (ULS uses s-size, m-size, l-size, xl-size, xxl-size, xs-size)
-		if (this.args.size === "small") parts.push("s-size");
-		else if (this.args.size === "large") parts.push("l-size");
-		else if (this.args.size === "xlarge") parts.push("xl-size");
-		else parts.push("m-size"); // Default medium size
-
-		// Icon only (no label): use uls-v2 ifxb center-all to center icon in button
-		if (this.hasIcon && !this.args.label) {
-			parts.push("icon-only", "ifxb", "center-all");
-		}
-
-		// Fluid (full width)
-		if (this.args.fluid) parts.push("fluid");
-
-		// Loading state
-		if (this.args.loading) parts.push("loading");
-
-		// Disabled state
+		if (text) parts.push("text");
+		if (href && text) parts.push("link", "underline");
+		if (outlined) parts.push("outlined");
+		if (raised) parts.push("raised");
+		if (rounded) parts.push("rounded");
+		parts.push(size || "m-size");
+		if (this.hasIcon && !label) parts.push("icon-only");
+		if (fluid) parts.push("fluid");
+		if (loading) parts.push("loading");
 		if (this.isDisabled) parts.push("disabled");
-
-		// Custom classes
-		if (this.args.customClass) parts.push(this.args.customClass);
-
+		if (customClass) parts.push(customClass);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get hasIcon() {
-		return this.args.icon || this.args.loading;
+		const { icon, loading } = this.args;
+		return icon || loading;
 	}
 
 	get hasCustomIconBlock() {
@@ -147,18 +134,19 @@ export default class UlxButton extends Component {
 	}
 
 	get iconToDisplay() {
-		if (this.args.loading) {
-			return this.loadingIconName;
-		}
-		return this.args.icon;
+		const { loading, icon } = this.args;
+		if (loading) return this.loadingIconName;
+		return icon;
 	}
 
 	get buttonType() {
-		return this.args.type || "button";
+		const { type } = this.args;
+		return type || "button";
 	}
 
 	get isDisabled() {
-		return this.args.disabled || this.args.loading;
+		const { disabled, loading } = this.args;
+		return disabled || loading;
 	}
 
 	get badgeClass() {
@@ -177,30 +165,22 @@ export default class UlxButton extends Component {
 
 	@action
 	handleClick(event) {
+		const { onClick, href } = this.args;
 		if (this.isDisabled) {
 			event.preventDefault();
 			return;
 		}
-		if (typeof this.args.onClick === "function") {
-			this.args.onClick(event);
-			// When rendered as link with custom onClick, prevent navigation
-			if (this.args.link) {
-				event.preventDefault();
-			}
+		if (typeof onClick === "function") {
+			onClick(event);
+			if (href) event.preventDefault();
 		}
 	}
 
 	get iconClass() {
+		const { label, loading } = this.args;
 		const parts = ["icon"];
-		// Icon-only: omit left/right so no margin is applied (icon stays centered via ifxb center-all on button)
-		// Do not add baseClass-icon: uls-v2 uses that for the standalone circular button (box-shadow, border) which would draw a ring
-		if (!(this.hasIcon && !this.args.label)) {
-			parts.push(this.iconPosition);
-		}
-		// Use uls-v2 fx-item self-center: with label = center icon vs text; icon-only = center icon in button
-		if (this.hasIcon && !this.args.loading) {
-			parts.push("fx-item", "self-center");
-		}
+		if (!(this.hasIcon && !label)) parts.push(this.iconPosition);
+		if (this.hasIcon && !loading) parts.push("fx-item", "self-center");
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -209,10 +189,10 @@ export default class UlxButton extends Component {
 	}
 
 	<template>
-		{{#if @link}}
+		{{#if @href}}
 			<a
+				href={{@href}}
 				class={{this.buttonClasses}}
-				role="button"
 				aria-disabled={{if this.isDisabled "true"}}
 				tabindex={{if this.isDisabled "-1" "0"}}
 				aria-busy={{if @loading "true"}}
@@ -222,7 +202,7 @@ export default class UlxButton extends Component {
 				{{#if this.showIconLeft}}
 					{{#if @loading}}
 						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
-							<UlxProgressSpinner @size="xs" @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size="xs-size" @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -231,21 +211,26 @@ export default class UlxButton extends Component {
 							@iconName={{this.iconToDisplay}}
 							@type="font"
 							@componentClass={{@iconComponentClass}}
-							@size={{this.args.iconSize}}
+							@size={{@iconSize}}
 							@customClass={{this.iconClass}}
 							aria-hidden="true"
 						/>
 					{{/if}}
 				{{/if}}
 
-				{{#if @label}}
-					<span class={{this.labelClass}}>{{@label}}</span>
+				{{#if (has-block "default")}}
+					{{yield to="default"}}
+				{{else}}
+					{{#if @label}}
+						<span class={{this.labelClass}}>{{@label}}</span>
+					{{/if}}
+					{{yield}}
 				{{/if}}
 
 				{{#if this.showIconRight}}
 					{{#if @loading}}
 						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
-							<UlxProgressSpinner @size="xs" @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size="xs-size" @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -254,7 +239,7 @@ export default class UlxButton extends Component {
 							@iconName={{this.iconToDisplay}}
 							@type="font"
 							@componentClass={{@iconComponentClass}}
-							@size={{this.args.iconSize}}
+							@size={{@iconSize}}
 							@customClass={{this.iconClass}}
 							aria-hidden="true"
 						/>
@@ -265,7 +250,9 @@ export default class UlxButton extends Component {
 					<span class={{this.badgeClass}}>{{@badge}}</span>
 				{{/if}}
 
-				{{yield}}
+				{{#unless (has-block "default")}}
+					{{yield}}
+				{{/unless}}
 			</a>
 		{{else}}
 			<button
@@ -279,7 +266,7 @@ export default class UlxButton extends Component {
 				{{#if this.showIconLeft}}
 					{{#if @loading}}
 						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
-							<UlxProgressSpinner @size="xs" @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size="xs-size" @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -288,21 +275,26 @@ export default class UlxButton extends Component {
 							@iconName={{this.iconToDisplay}}
 							@type="font"
 							@componentClass={{@iconComponentClass}}
-							@size={{this.args.iconSize}}
+							@size={{@iconSize}}
 							@customClass={{this.iconClass}}
 							aria-hidden="true"
 						/>
 					{{/if}}
 				{{/if}}
 
-				{{#if @label}}
-					<span class={{this.labelClass}}>{{@label}}</span>
+				{{#if (has-block "default")}}
+					{{yield to="default"}}
+				{{else}}
+					{{#if @label}}
+						<span class={{this.labelClass}}>{{@label}}</span>
+					{{/if}}
+					{{yield}}
 				{{/if}}
 
 				{{#if this.showIconRight}}
 					{{#if @loading}}
 						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
-							<UlxProgressSpinner @size="xs" @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size="xs-size" @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -311,7 +303,7 @@ export default class UlxButton extends Component {
 							@iconName={{this.iconToDisplay}}
 							@type="font"
 							@componentClass={{@iconComponentClass}}
-							@size={{this.args.iconSize}}
+							@size={{@iconSize}}
 							@customClass={{this.iconClass}}
 							aria-hidden="true"
 						/>
@@ -322,7 +314,9 @@ export default class UlxButton extends Component {
 					<span class={{this.badgeClass}}>{{@badge}}</span>
 				{{/if}}
 
-				{{yield}}
+				{{#unless (has-block "default")}}
+					{{yield}}
+				{{/unless}}
 			</button>
 		{{/if}}
 	</template>

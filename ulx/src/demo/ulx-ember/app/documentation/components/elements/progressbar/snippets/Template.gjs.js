@@ -2,7 +2,7 @@ export default `
 import { UlxProgressBar } from 'ulx-components';
 
 <template>
-  <UlxProgressBar @value={{40}} @size="m">
+  <UlxProgressBar @value={{40}} @size="m-size">
     <:content as |value|>
       {{value}}/<b>100</b>
     </:content>

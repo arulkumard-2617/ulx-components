@@ -39,7 +39,7 @@ export const ProgressSpinnerFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows a single ProgressSpinner with <code>@size="xl"</code> (largest size from uls-v2). Use <code>@ariaLabel</code> when it is the main loading indicator.',
+          'The <code>Basic</code> demo shows a single ProgressSpinner with <code>@size="xl-size"</code> (largest size from uls-v2). Use <code>@ariaLabel</code> when it is the main loading indicator.',
       },
     },
     demo: {

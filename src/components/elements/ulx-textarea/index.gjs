@@ -41,7 +41,8 @@ export default class UlxTextarea extends Component {
 	}
 
 	get floatLabelText() {
-		return resolveFloatLabelText(this.args.floatLabel, this.args.label);
+		const { floatLabel, label } = this.args;
+		return resolveFloatLabelText(floatLabel, label);
 	}
 
 	get hasFloatLabelText() {
@@ -72,19 +73,21 @@ export default class UlxTextarea extends Component {
 	}
 
 	get isInvalid() {
-		return isInvalidState(this.args.invalid, this.args.error);
+		const { invalid, error } = this.args;
+		return isInvalidState(invalid, error);
 	}
 
 	get textareaClass() {
+		const { size, filled, disabled, readonly, floatLabel, value } = this.args;
 		return buildInputClass({
 			isTextarea: true,
-			size: this.args.size,
-			filled: this.args.filled,
+			size,
+			filled,
 			invalid: this.isInvalid,
-			disabled: this.args.disabled,
-			readonly: this.args.readonly,
-			floatLabel: this.args.floatLabel,
-			value: this.args.value
+			disabled,
+			readonly,
+			floatLabel,
+			value
 		});
 	}
 
@@ -93,11 +96,12 @@ export default class UlxTextarea extends Component {
 	}
 
 	get floatLabelClass() {
+		const { size, filled, disabled } = this.args;
 		return buildFloatLabelClass({
-			size: this.args.size,
-			filled: this.args.filled,
+			size,
+			filled,
 			invalid: this.isInvalid,
-			disabled: this.args.disabled
+			disabled
 		});
 	}
 
@@ -106,10 +110,8 @@ export default class UlxTextarea extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return buildAriaDescribedBy(this.textareaId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		const { helpText, error } = this.args;
+		return buildAriaDescribedBy(this.textareaId, { helpText, error });
 	}
 
 	get keyFilterPattern() {
@@ -144,12 +146,9 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleInput(event) {
-		if (this.args.floatLabel) {
-			syncFloatLabelFilledClass(event.target);
-		}
-		if (this.args.onInput) {
-			this.args.onInput(event);
-		}
+		const { floatLabel, onInput } = this.args;
+		if (floatLabel) syncFloatLabelFilledClass(event.target);
+		if (onInput) onInput(event);
 	}
 
 	@action
@@ -161,23 +160,19 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleFocus(event) {
-		if (this.args.floatLabel) {
-			event.target.classList.add("focus");
-		}
-		if (this.args.onFocus) {
-			this.args.onFocus(event);
-		}
+		const { floatLabel, onFocus } = this.args;
+		if (floatLabel) event.target.classList.add("focus");
+		if (onFocus) onFocus(event);
 	}
 
 	@action
 	handleBlur(event) {
-		if (this.args.floatLabel) {
+		const { floatLabel, onBlur } = this.args;
+		if (floatLabel) {
 			event.target.classList.remove("focus");
 			syncFloatLabelFilledClass(event.target);
 		}
-		if (this.args.onBlur) {
-			this.args.onBlur(event);
-		}
+		if (onBlur) onBlur(event);
 	}
 
 	<template>

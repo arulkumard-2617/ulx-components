@@ -7,7 +7,7 @@ import { getComponentClass } from "../../../utils/component-config";
  *
  * @class UlxButtonGroup
  * @param {'horizontal'|'vertical'} [orientation='horizontal'] - Layout direction
- * @param {'small'|'normal'|'large'} [size='normal'] - Size of grouped buttons (maps to uls-v2 s-size, m-size, l-size)
+ * @param {string} [size] - Size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Default m-size.
  * @param {boolean} [fluid=false] - Equal-width buttons (grid)
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [severity] - Severity for active state styling
  * @param {boolean} [outlined=false] - Outlined variant on group
@@ -21,22 +21,16 @@ export default class UlxButtonGroup extends Component {
 	}
 
 	get groupClasses() {
+		const { orientation, size, fluid, severity, outlined, text, raised, customClass } = this.args;
 		const parts = [this.baseClass];
-
-		const orientation = this.args.orientation || "horizontal";
-		parts.push(orientation);
-
-		if (this.args.size === "small") parts.push("s-size");
-		else if (this.args.size === "large") parts.push("l-size");
-		else parts.push("m-size");
-
-		if (this.args.fluid) parts.push("fluid");
-		if (this.args.severity) parts.push(this.args.severity);
-		if (this.args.outlined) parts.push("outlined");
-		if (this.args.text) parts.push("text");
-		if (this.args.raised) parts.push("raised");
-		if (this.args.customClass) parts.push(this.args.customClass);
-
+		parts.push(orientation || "horizontal");
+		parts.push(size || "m-size");
+		if (fluid) parts.push("fluid");
+		if (severity) parts.push(severity);
+		if (outlined) parts.push("outlined");
+		if (text) parts.push("text");
+		if (raised) parts.push("raised");
+		if (customClass) parts.push(customClass);
 		return parts.filter(Boolean).join(" ");
 	}
 

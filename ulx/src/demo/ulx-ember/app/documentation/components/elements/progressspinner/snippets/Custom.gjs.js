@@ -4,7 +4,7 @@ import { UlxProgressSpinner } from 'ulx-components';
 
 export default class DemoProgressSpinnerCustom extends Component {
   get size() {
-    return this.args.size ?? 'm';
+    return this.args.size ?? 'm-size';
   }
 
   get customClass() {

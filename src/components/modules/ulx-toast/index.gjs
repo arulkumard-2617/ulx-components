@@ -61,7 +61,6 @@ export default class UlxToast extends Component {
 		return list;
 	}
 
-	/** Schedules close timers for messages that don't have one yet. Cleans up timers for removed messages. */
 	_scheduleCloseTimers(list) {
 		const life = this.args.life ?? DEFAULT_LIFE_MS;
 		const currentIds = new Set(list.map((m) => m?.id).filter(Boolean));
@@ -122,11 +121,9 @@ export default class UlxToast extends Component {
 		return message.closable !== false;
 	}
 
-	/** Starts exit animation, then calls onClose after EXIT_ANIMATION_MS. */
 	startExitThenClose(message) {
 		if (!message?.id) return;
 		if (this.exitingIds.has(message.id)) return;
-		// Cancel auto-close timer if user closed before it fired
 		if (this._closeTimeouts?.[message.id]) {
 			clearTimeout(this._closeTimeouts[message.id]);
 			delete this._closeTimeouts[message.id];
@@ -144,7 +141,7 @@ export default class UlxToast extends Component {
 	}
 
 	<template>
-		<div class={{this.containerClasses}} role="region" aria-label="Notifications" ...attributes>
+		<div class={{this.containerClasses}} role="region" aria-label="Notification" ...attributes>
 			{{#each this.messages key="id" as |message|}}
 				<div class={{this.getMessageClasses message}} role="alert" aria-live="polite">
 					<div class="{{TOAST_PREFIX}}toast-content">

@@ -8,14 +8,6 @@ import TieredmenuSubmenu from "./submenu.gjs";
 /**
  * Tiered menu element component with unlimited nesting levels.
  *
- * PrimeReact-inspired API:
- * - `@model`: array of items with `{ label, icon, url, disabled, separator, items, command, badge, shortcut }`
- * - `@popup`: when true, applies popup styling
- * - `@visible`: controls popup visibility (for popup mode)
- * - `@onHide`: callback when popup should close
- * - `@onItemSelect`: optional callback invoked when an enabled item is activated
- * - `@itemTemplate`: custom component for rendering menu items
- *
  * @class UlxTieredmenu
  * @param {object[]} args.model
  * @param {boolean} [args.popup]
@@ -26,18 +18,12 @@ import TieredmenuSubmenu from "./submenu.gjs";
  */
 export default class UlxTieredmenu extends Component {
 	get rootClass() {
-		let classes = [getComponentClass("tieredmenu")]; // e.g. "ulx-tieredmenu"
-
-		if (this.args.popup) {
+		const { popup, visible } = this.args;
+		const classes = [getComponentClass("tieredmenu")];
+		if (popup) {
 			classes.push("popup");
-
-			if (this.args.visible) {
-				classes.push("enter-done");
-			} else {
-				classes.push("exit-done");
-			}
+			classes.push(visible ? "enter-done" : "exit-done");
 		}
-
 		return classes.join(" ");
 	}
 
@@ -46,33 +32,20 @@ export default class UlxTieredmenu extends Component {
 	}
 
 	get isVisible() {
-		// For non-popup mode, always visible
-		// For popup mode, controlled by @visible arg
-		if (!this.args.popup) {
-			return true;
-		}
-		return this.args.visible ?? false;
+		const { popup, visible } = this.args;
+		if (!popup) return true;
+		return visible ?? false;
 	}
 
 	get popupStyle() {
-		// Only apply display:none in popup mode when not visible
-		if (this.args.popup && !this.isVisible) {
-			return "display: none;";
-		}
+		if (this.args.popup && !this.isVisible) return "display: none;";
 		return "";
 	}
 
 	@action handleItemClick(item, event) {
-		if (typeof this.args.onItemSelect === "function") {
-			this.args.onItemSelect(item, event);
-		}
-
-		// In popup mode, hide after item click (if item has no submenu)
-		if (this.args.popup && !item?.items?.length) {
-			if (typeof this.args.onHide === "function") {
-				this.args.onHide();
-			}
-		}
+		const { onItemSelect, onHide, popup } = this.args;
+		if (typeof onItemSelect === "function") onItemSelect(item, event);
+		if (popup && !item?.items?.length && typeof onHide === "function") onHide();
 	}
 
 	<template>

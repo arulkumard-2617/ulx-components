@@ -2,8 +2,7 @@ import Component from "@glimmer/component";
 import { getComponentClass } from "../../../utils/component-config";
 
 /**
- * Progress spinner element component (PrimeReact ProgressSpinner–style).
- * Renders an infinite circular spinner using uls-v2 progress-spinner.less classes.
+ * Progress spinner element component. Renders an infinite circular spinner using uls-v2 progress-spinner.less classes.
  * Use standalone for loading states (e.g. page or section) or inside UlxButton when @loading.
  *
  * ## Sizes (uls-v2 progress-spinner.less)
@@ -14,7 +13,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * - When decorative (e.g. inside a button that already has aria-busy), use aria-hidden="true".
  *
  * @class UlxProgressSpinner
- * @param {'xs'|'s'|'m'|'l'|'xl'} [size] - Size class (xs/s/m/l/xl-size). Omit for default.
+ * @param {string} [size] - Size class from parent (e.g. xs-size, s-size, m-size). Omit for default.
  * @param {string} [color] - Stroke color (any valid CSS color). Sets uls-v2 progressspinner CSS variables so the spinner uses this color; omit for theme default.
  * @param {string} [customClass] - Additional CSS classes
  * @param {string} [componentClass] - Override base component class (default: ulx-progressspinner)
@@ -26,10 +25,7 @@ export default class UlxProgressSpinner extends Component {
 	}
 
 	get sizeClass() {
-		const size = this.args.size;
-		if (!size) return "";
-		const map = { xs: "xs-size", s: "s-size", m: "m-size", l: "l-size", xl: "xl-size" };
-		return map[size] ?? "";
+		return this.args.size ?? "s-size";
 	}
 
 	get spinnerClasses() {
@@ -50,11 +46,16 @@ export default class UlxProgressSpinner extends Component {
 		<span
 			class={{this.spinnerClasses}}
 			role="progressbar"
-			aria-label={{@ariaLabel}}
+			aria-label="Loading"
 			style={{this.spinnerStyle}}
 			...attributes
 		>
-			<svg class="{{this.baseClass}}-svg" viewBox="0 0 100 100" focusable="false">
+			<svg
+				class="{{this.baseClass}}-svg"
+				viewBox="0 0 100 100"
+				focusable="false"
+				aria-hidden="true"
+			>
 				<circle class="{{this.baseClass}}-circle" cx="50" cy="50" r="32" />
 			</svg>
 		</span>

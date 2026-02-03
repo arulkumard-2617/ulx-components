@@ -188,7 +188,7 @@ export const DocNavItems = [
           {
             menuItem: 'Input',
             to: '/components/elements/input',
-            route: 'components.elements.input'
+            route: 'components.elements.input',
           },
           {
             menuItem: 'IconInput',
@@ -209,6 +209,11 @@ export const DocNavItems = [
             menuItem: 'Button',
             to: '/components/elements/button',
             route: 'components.elements.button',
+          },
+          {
+            menuItem: 'SplitButton',
+            to: '/components/elements/split-button',
+            route: 'components.elements.split-button',
           },
         ],
       },
@@ -265,7 +270,7 @@ export const DocNavItems = [
     children: [
       {
         category: 'Form',
-        items: []
+        items: [],
       },
       {
         category: 'Menu',
@@ -273,10 +278,10 @@ export const DocNavItems = [
           {
             menuItem: 'test-comp',
             to: '/components/collections/test-comp',
-            route: 'components.collections.test-comp'
-          }
-        ]
-      }
-    ]
-  }
+            route: 'components.collections.test-comp',
+          },
+        ],
+      },
+    ],
+  },
 ];

@@ -49,7 +49,7 @@ export default class DynamicProgressBarDemo extends Component {
 
   <template>
     <div {{did-insert this.startInterval}} {{will-destroy this.clearInterval}}>
-      <UlxProgressBar @value={{this.value}} @size="m" />
+      <UlxProgressBar @value={{this.value}} @size="m-size" />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>
   </template>

@@ -4,8 +4,7 @@ import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
 const BAR_PREFIX = `${NAMESPACE}-progressbar`;
 
 /**
- * Progress bar element (PrimeReact ProgressBar–style).
- * Uses existing classes from uls-v2 progress-bar.less. Determinate shows a fill
+ * Progress bar element. Uses existing classes from uls-v2 progress-bar.less. Determinate shows a fill
  * from 0–100%; indeterminate shows an animated sliding bar.
  *
  * ## Sizes (progress-bar.less)
@@ -23,7 +22,7 @@ const BAR_PREFIX = `${NAMESPACE}-progressbar`;
  * @param {number} [value] - Progress 0–100. Omit or null for indeterminate.
  * @param {'determinate'|'indeterminate'} [mode] - Override: 'indeterminate' forces indeterminate; otherwise inferred from value.
  * @param {boolean} [showValue=true] - Show percentage label (determinate only). Use hide-value / show-value classes.
- * @param {'xs'|'s'|'m'|'l'|'xl'} [size] - Size class (xs/s/m/l/xl-size). Omit for default.
+ * @param {string} [size] - Size class from parent (e.g. xs-size, s-size, m-size). Omit for default.
  * @param {'secondary'|'success'|'info'|'warning'|'danger'} [severity] - Bar color variant.
  * @param {string} [customClass] - Additional CSS classes
  * @param {string} [componentClass] - Override base component class (default from getComponentClass('progressbar'))
@@ -35,11 +34,10 @@ export default class UlxProgressBar extends Component {
 	}
 
 	get isIndeterminate() {
-		const mode = this.args.mode;
+		const { mode, value } = this.args;
 		if (mode === "indeterminate") return true;
 		if (mode === "determinate") return false;
-		const v = this.args.value;
-		return v == null || typeof v !== "number";
+		return value == null || typeof value !== "number";
 	}
 
 	get valuePercent() {
@@ -49,10 +47,7 @@ export default class UlxProgressBar extends Component {
 	}
 
 	get sizeClass() {
-		const size = this.args.size;
-		if (!size) return "";
-		const map = { xs: "xs-size", s: "s-size", m: "m-size", l: "l-size", xl: "xl-size" };
-		return map[size] ?? "";
+		return this.args.size || "s-size";
 	}
 
 	get showValue() {
@@ -64,12 +59,13 @@ export default class UlxProgressBar extends Component {
 	}
 
 	get rootClasses() {
+		const { severity, customClass } = this.args;
 		const parts = [this.baseClass];
 		if (this.isIndeterminate) parts.push("indeterminate");
 		parts.push(this.valueVisibilityClass);
 		if (this.sizeClass) parts.push(this.sizeClass);
-		if (this.args.severity) parts.push(this.args.severity);
-		if (this.args.customClass) parts.push(this.args.customClass);
+		if (severity) parts.push(severity);
+		if (customClass) parts.push(customClass);
 		return parts.filter(Boolean).join(" ");
 	}
 

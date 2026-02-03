@@ -42,7 +42,7 @@ export default class TemplateToastDemo extends Component {
             <UlxButton
               @label="Reply"
               @severity="success"
-              @size="small"
+              @size="s-size"
               {{on "click" (fn this.removeMessage message)}}
             />
           </div>

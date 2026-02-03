@@ -35,7 +35,9 @@ alwaysApply: true
 - **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
 - **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
 - **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.
-
+- **Avoid** Don't add any comments related to primereact
+- **Must** In the demo page, for the severity case use instead that as Variant not severity
+- Avoid writing new size classes
 ## Component Design Principles
 
 Best components are:

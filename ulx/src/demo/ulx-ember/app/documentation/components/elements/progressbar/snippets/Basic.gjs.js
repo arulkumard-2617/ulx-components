@@ -2,6 +2,6 @@ export default `
 import { UlxProgressBar } from 'ulx-components';
 
 <template>
-  <UlxProgressBar @value={{50}} @size="m" />
+  <UlxProgressBar @value={{50}} @size="m-size" />
 </template>
 `;
