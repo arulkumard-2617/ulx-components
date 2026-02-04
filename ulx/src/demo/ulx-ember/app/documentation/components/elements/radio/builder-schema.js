@@ -6,7 +6,7 @@
 
 export default {
   componentName: 'Radio',
-  importLine: "import { Radio } from 'uls-components';",
+  importLine: "import { Radio } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () => '<Radio />',

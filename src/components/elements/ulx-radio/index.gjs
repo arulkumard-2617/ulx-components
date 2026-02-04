@@ -133,9 +133,12 @@ export default class UlxRadio extends Component {
 	}
 
 	get groupClass() {
+		const { groupClass } = this.args;
+
 		const parts = [getComponentClass("radio-group")];
-		if (this.args.groupClass) parts.push(this.args.groupClass);
-		return parts.filter(Boolean).join(" ");
+		groupClass && parts.push(groupClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	@action

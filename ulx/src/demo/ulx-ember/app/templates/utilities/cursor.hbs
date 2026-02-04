@@ -1,17 +1,17 @@
 {{page-title "Cursor Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Cursor Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Cursor Utilities"
   @description="Cursor utility classes for controlling mouse cursor appearance."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactCursor}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-cursor"
         @title="Cursor Utilities"
         @subtitle="Cursor utility classes for controlling mouse cursor appearance."
@@ -21,4 +21,3 @@
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

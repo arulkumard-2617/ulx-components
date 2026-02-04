@@ -6,7 +6,7 @@ export default class ClassPropertyTableComponent extends Component {
       return value;
     }
     return value.replace(/(^|\s)\./g, '$1');
-  }
+  };
 
   get rows() {
     return this.args.rows || [];
@@ -17,18 +17,22 @@ export default class ClassPropertyTableComponent extends Component {
   }
 
   getStyleString = (color) => {
-    return `background-color: ${color}; border-color: var(--uls-default-border-color, #dee2e6);`;
-  }
+    return `background-color: ${color}; border-color: var(--ulx-default-border-color, #dee2e6);`;
+  };
 
   <template>
     {{#if this.rows.length}}
-      <div class="uls-datatable s-size" style="width: 850px;">
+      <div class="ulx-datatable s-size" style="width: 850px;">
         <div class="datatable-wrapper">
           <table class="datatable-table" style="table-layout: fixed;">
             <thead class="datatable-header">
               <tr class="datatable-header-row">
-                <th class="datatable-column-header-cell">{{this.columnLabels.[0]}}</th>
-                <th class="datatable-column-header-cell">{{this.columnLabels.[1]}}</th>
+                <th
+                  class="datatable-column-header-cell"
+                >{{this.columnLabels.[0]}}</th>
+                <th
+                  class="datatable-column-header-cell"
+                >{{this.columnLabels.[1]}}</th>
               </tr>
             </thead>
             <tbody class="datatable-tbody">
@@ -43,7 +47,9 @@ export default class ClassPropertyTableComponent extends Component {
                           aria-hidden="true"
                         ></div>
                       {{/if}}
-                      <span class="bold-font fg-primary font-size16">{{this.formatClassName row.className}}</span>
+                      <span
+                        class="bold-font fg-primary font-size16"
+                      >{{this.formatClassName row.className}}</span>
                     </div>
                   </td>
                   <td class="datatable-column-body-cell">
@@ -58,4 +64,3 @@ export default class ClassPropertyTableComponent extends Component {
     {{/if}}
   </template>
 }
-

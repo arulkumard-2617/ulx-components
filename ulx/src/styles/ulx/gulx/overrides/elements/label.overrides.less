@@ -3,16 +3,16 @@
 // // ==========================================================================
 // // Label component with size variations, color variants, and visual modifiers
 
-// .uls-label {
+// .ulx-label {
 //     display: inline-grid;
 //     border-radius: @border-radius-md;
 //     align-items: center;
 //     text-align: center;
 //     grid-auto-flow: column;
 //     font-family: @medium-font;
-//     background-color: var(--uls-label-bg-color); // Runtime CSS custom property
-//     box-shadow: 0 0 0 1px var(--uls-label-border-color) inset; // Runtime CSS custom property
-//     color: var(--uls-label-text-color); // Runtime CSS custom property
+//     background-color: var(--ulx-label-bg-color); // Runtime CSS custom property
+//     box-shadow: 0 0 0 1px var(--ulx-label-border-color) inset; // Runtime CSS custom property
+//     color: var(--ulx-label-text-color); // Runtime CSS custom property
 
 //     // Pilled variant (rounded)
 //     &.pilled {
@@ -26,7 +26,7 @@
 //         >.close-icon {
 //             transform: translate(@6px, @0px);
 //             cursor: var(--zdr-cursor-pointer, pointer);
-//             color: var(--uls-label-text-color);
+//             color: var(--ulx-label-text-color);
 //             -webkit-text-stroke: 0.5px;
 //         }
 //     }
@@ -38,7 +38,7 @@
 
 //         &:before {
 //             content: "";
-//             background: var(--uls-label-marked-color, var(--uls-label-text-color));
+//             background: var(--ulx-label-marked-color, var(--ulx-label-text-color));
 //             height: @7px;
 //             width: @7px;
 //             border-radius: 50%;
@@ -47,11 +47,11 @@
 
 //     // Outline variant (transparent background)
 //     &.outline {
-//         color: var(--uls-label-bg-color);
+//         color: var(--ulx-label-bg-color);
 //         background-color: transparent;
 
 //         &:before {
-//             background: var(--uls-label-bg-color);
+//             background: var(--ulx-label-bg-color);
 //         }
 //     }
 
@@ -80,7 +80,7 @@
 // // SIZE VARIATIONS
 // // ==========================================================================
 
-// .uls-label {
+// .ulx-label {
 //     &:not(.empty) {
 //         &.xs-size {
 //             @font-size: @font-size11; // mini is 11px
@@ -121,141 +121,141 @@
 // // DEFAULT COLOR VARIATIONS
 // // ==========================================================================
 
-// .uls-label,
-// .uls-label.empty {
+// .ulx-label,
+// .ulx-label.empty {
 //     &.primary {
-//         --uls-label-bg-color: @primary-color;
-//         --uls-label-border-color: @primary-color;
-//         --uls-label-text-color: @primary-fg-color;
+//         --ulx-label-bg-color: @primary-color;
+//         --ulx-label-border-color: @primary-color;
+//         --ulx-label-text-color: @primary-fg-color;
 //     }
 
 //     &.green {
-//         --uls-label-bg-color: @green-bg;
-//         --uls-label-border-color: @green-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @green-bg;
+//         --ulx-label-border-color: @green-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.orange {
-//         --uls-label-bg-color: @orange-bg;
-//         --uls-label-border-color: @orange-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @orange-bg;
+//         --ulx-label-border-color: @orange-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.gold {
-//         --uls-label-bg-color: @gold-bg;
-//         --uls-label-border-color: @gold-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @gold-bg;
+//         --ulx-label-border-color: @gold-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.red {
-//         --uls-label-bg-color: @red-bg;
-//         --uls-label-border-color: @red-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @red-bg;
+//         --ulx-label-border-color: @red-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.blue {
-//         --uls-label-bg-color: @blue-bg;
-//         --uls-label-border-color: @blue-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @blue-bg;
+//         --ulx-label-border-color: @blue-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.blue1 {
-//         --uls-label-bg-color: @blue1-bg;
-//         --uls-label-border-color: @blue1-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @blue1-bg;
+//         --ulx-label-border-color: @blue1-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.purple {
-//         --uls-label-bg-color: @purple-bg;
-//         --uls-label-border-color: @purple-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @purple-bg;
+//         --ulx-label-border-color: @purple-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.black {
-//         --uls-label-bg-color: @black-bg;
-//         --uls-label-border-color: @black-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @black-bg;
+//         --ulx-label-border-color: @black-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.magenta {
-//         --uls-label-bg-color: @magenta-bg;
-//         --uls-label-border-color: @magenta-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @magenta-bg;
+//         --ulx-label-border-color: @magenta-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.yellow {
-//         --uls-label-bg-color: @yellow-bg;
-//         --uls-label-border-color: @yellow-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @yellow-bg;
+//         --ulx-label-border-color: @yellow-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.violet {
-//         --uls-label-bg-color: @violet-bg;
-//         --uls-label-border-color: @violet-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @violet-bg;
+//         --ulx-label-border-color: @violet-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.teal {
-//         --uls-label-bg-color: @teal-bg;
-//         --uls-label-border-color: @teal-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @teal-bg;
+//         --ulx-label-border-color: @teal-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.pink {
-//         --uls-label-bg-color: @pink-bg;
-//         --uls-label-border-color: @pink-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @pink-bg;
+//         --ulx-label-border-color: @pink-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.brown {
-//         --uls-label-bg-color: @brown-bg;
-//         --uls-label-border-color: @brown-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @brown-bg;
+//         --ulx-label-border-color: @brown-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.olive {
-//         --uls-label-bg-color: @olive-bg;
-//         --uls-label-border-color: @olive-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @olive-bg;
+//         --ulx-label-border-color: @olive-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.darkturquoise {
-//         --uls-label-bg-color: @darkturquoise-bg;
-//         --uls-label-border-color: @darkturquoise-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @darkturquoise-bg;
+//         --ulx-label-border-color: @darkturquoise-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.nightblue {
-//         --uls-label-bg-color: @nightblue-bg;
-//         --uls-label-border-color: @nightblue-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @nightblue-bg;
+//         --ulx-label-border-color: @nightblue-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.white {
-//         --uls-label-bg-color: @default-background;
-//         --uls-label-border-color: @default-border-color;
-//         --uls-label-text-color: @text-color;
+//         --ulx-label-bg-color: @default-background;
+//         --ulx-label-border-color: @default-border-color;
+//         --ulx-label-text-color: @text-color;
 //     }
 
 //     &.default-color {
-//         --uls-label-bg-color: transparent;
-//         --uls-label-border-color: @default-border-color;
-//         --uls-label-text-color: @text-color;
+//         --ulx-label-bg-color: transparent;
+//         --ulx-label-border-color: @default-border-color;
+//         --ulx-label-text-color: @text-color;
 //     }
 
 //     &.grey {
-//         --uls-label-bg-color: @bg-layer4;
-//         --uls-label-border-color: @default-border-color;
-//         --uls-label-text-color: @text-color;
+//         --ulx-label-bg-color: @bg-layer4;
+//         --ulx-label-border-color: @default-border-color;
+//         --ulx-label-text-color: @text-color;
 //     }
-    
+
 //     &.bd-white {
 //         border: solid @1px @static-white;
 //     }
-    
+
 //     &.bg-bluelayer1 {
-//         --uls-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
-//         --uls-label-text-color: @text-color;
+//         --ulx-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
+//         --ulx-label-text-color: @text-color;
 //     }
 // }
 
@@ -263,45 +263,45 @@
 // // USER ROLE COLORS
 // // ==========================================================================
 
-// .uls-label {
+// .ulx-label {
 //     &.attendee-color {
-//         --uls-label-bg-color: #1890ff; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #1890ff; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.eo-color {
-//         --uls-label-bg-color: #d93f89; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #d93f89; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.speaker-color {
-//         --uls-label-bg-color: #2c9e75; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #2c9e75; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.sponsor-color {
-//         --uls-label-bg-color: #01aed3; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #01aed3; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.exhibitor-color {
-//         --uls-label-bg-color: #e07817; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #e07817; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.visitor-color {
-//         --uls-label-bg-color: #d63333; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #d63333; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.host-color {
-//         --uls-label-bg-color: #3f6fc6; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #3f6fc6; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.event-team-member-color {
-//         --uls-label-bg-color: #a1b71c; // Keep direct hex value
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: #a1b71c; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
 //     }
 // }
 
@@ -309,109 +309,109 @@
 // // LIGHT COLOR VARIATIONS
 // // ==========================================================================
 
-// .uls-label,
-// .uls-label.empty {
+// .ulx-label,
+// .ulx-label.empty {
 //     &.lt-green {
-//         --uls-label-bg-color: @bg-greenLayer2;
-//         --uls-label-text-color: @green-fg-dark;
+//         --ulx-label-bg-color: @bg-greenLayer2;
+//         --ulx-label-text-color: @green-fg-dark;
 //     }
 
 //     &.lt-green1 {
-//         --uls-label-bg-color: @bg-greenLayer3;
-//         --uls-label-text-color: @green-fg-dark;
+//         --ulx-label-bg-color: @bg-greenLayer3;
+//         --ulx-label-text-color: @green-fg-dark;
 //     }
 
 //     &.lt-orange {
-//         --uls-label-bg-color: @bg-orangeLayer2;
-//         --uls-label-text-color: @orange-fg-dark;
+//         --ulx-label-bg-color: @bg-orangeLayer2;
+//         --ulx-label-text-color: @orange-fg-dark;
 //     }
 
 //     &.lt-gold {
-//         --uls-label-bg-color: @bg-goldLayer2;
-//         --uls-label-text-color: @gold-fg-dark;
+//         --ulx-label-bg-color: @bg-goldLayer2;
+//         --ulx-label-text-color: @gold-fg-dark;
 //     }
 
 //     &.lt-red {
-//         --uls-label-bg-color: @bg-redLayer3;
-//         --uls-label-text-color: @red-fg;
+//         --ulx-label-bg-color: @bg-redLayer3;
+//         --ulx-label-text-color: @red-fg;
 //     }
 
 //     &.lt-red1 {
-//         --uls-label-bg-color: @bg-redLayer1;
-//         --uls-label-text-color: @red-fg;
+//         --ulx-label-bg-color: @bg-redLayer1;
+//         --ulx-label-text-color: @red-fg;
 //     }
 
 //     &.lt-blue {
-//         --uls-label-bg-color: @bg-BlueLayer2;
-//         --uls-label-text-color: @blue-fg;
+//         --ulx-label-bg-color: @bg-BlueLayer2;
+//         --ulx-label-text-color: @blue-fg;
 //     }
 
 //     &.lt-blue1 {
-//         --uls-label-bg-color: @bg-BlueLayer1;
-//         --uls-label-text-color: @blue-fg;
+//         --ulx-label-bg-color: @bg-BlueLayer1;
+//         --ulx-label-text-color: @blue-fg;
 //     }
 
 //     &.lt-purple {
-//         --uls-label-bg-color: @bg-purpleLayer2;
-//         --uls-label-text-color: @purple-fg;
+//         --ulx-label-bg-color: @bg-purpleLayer2;
+//         --ulx-label-text-color: @purple-fg;
 //     }
 
 //     &.lt-purple1 {
-//         --uls-label-bg-color: @bg-purpleLayer4;
-//         --uls-label-text-color: @purple-fg;
+//         --ulx-label-bg-color: @bg-purpleLayer4;
+//         --ulx-label-text-color: @purple-fg;
 //     }
 
 //     &.lt-neutral {
-//         --uls-label-bg-color: @grey-bg;
-//         --uls-label-text-color: @grey-fg;
+//         --ulx-label-bg-color: @grey-bg;
+//         --ulx-label-text-color: @grey-fg;
 //     }
 
 //     &.lt-neutral1 {
-//         --uls-label-bg-color: @bg-blackLayer3;
-//         --uls-label-text-color: @static-black;
+//         --ulx-label-bg-color: @bg-blackLayer3;
+//         --ulx-label-text-color: @static-black;
 //     }
 
 //     &.lt-magenta {
-//         --uls-label-bg-color: @bg-magentaLayer2;
-//         --uls-label-text-color: @magenta-fg;
+//         --ulx-label-bg-color: @bg-magentaLayer2;
+//         --ulx-label-text-color: @magenta-fg;
 //     }
 
 //     &.lt-brown {
-//         --uls-label-bg-color: @bg-brownLayer2;
-//         --uls-label-text-color: @brown-fg;
+//         --ulx-label-bg-color: @bg-brownLayer2;
+//         --ulx-label-text-color: @brown-fg;
 //     }
 
 //     // User availability status
 //     &.user-in-label {
-//         --uls-label-bg-color: @user-in-bg; // Note: Check if this variable exists
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @user-in-bg; // Note: Check if this variable exists
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.user-out-label {
-//         --uls-label-bg-color: @user-out-bg; // Note: Check if this variable exists
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @user-out-bg; // Note: Check if this variable exists
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.user-yet-in {
-//         --uls-label-bg-color: @user-yet-in-bg; // Note: Check if this variable exists
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @user-yet-in-bg; // Note: Check if this variable exists
+//         --ulx-label-text-color: @static-white;
 //     }
 
 //     &.user-attended {
-//         --uls-label-bg-color: @blue-bg;
-//         --uls-label-text-color: @static-white;
+//         --ulx-label-bg-color: @blue-bg;
+//         --ulx-label-text-color: @static-white;
 //     }
-    
+
 //     &.bg-blueLayer1 {
-//         --uls-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
-//         --uls-label-text-color: @text-color;
+//         --ulx-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
+//         --ulx-label-text-color: @text-color;
 //     }
 
 //     // User checkin status with marked variant
 //     &.lb-marked {
 //         &.user-in-label {
-//             --uls-label-bg-color: @user-in-LayerBg; // Note: Check if this variable exists
-//             --uls-label-text-color: @static-black;
+//             --ulx-label-bg-color: @user-in-LayerBg; // Note: Check if this variable exists
+//             --ulx-label-text-color: @static-black;
 
 //             &:before {
 //                 background-color: @user-in-bg; // Note: Check if this variable exists
@@ -419,8 +419,8 @@
 //         }
 
 //         &.user-out-label {
-//             --uls-label-bg-color: @user-out-LayerBg; // Note: Check if this variable exists
-//             --uls-label-text-color: @static-black;
+//             --ulx-label-bg-color: @user-out-LayerBg; // Note: Check if this variable exists
+//             --ulx-label-text-color: @static-black;
 
 //             &:before {
 //                 background-color: @user-out-bg; // Note: Check if this variable exists
@@ -428,8 +428,8 @@
 //         }
 
 //         &.user-yet-in {
-//             --uls-label-bg-color: @user-yet-in-LayerBg; // Note: Check if this variable exists
-//             --uls-label-text-color: @static-black;
+//             --ulx-label-bg-color: @user-yet-in-LayerBg; // Note: Check if this variable exists
+//             --ulx-label-text-color: @static-black;
 
 //             &:before {
 //                 background-color: @user-yet-in-bg; // Note: Check if this variable exists
@@ -443,7 +443,7 @@
 // // ==========================================================================
 // // Circular empty labels (dots/indicators)
 
-// .uls-label.empty {
+// .ulx-label.empty {
 //     border-radius: 50% !important;
 //     padding: 0;
 
@@ -484,7 +484,7 @@
 // // BUTTON LABEL COMPONENT
 // // ==========================================================================
 
-// .uls-btn-label {
+// .ulx-btn-label {
 //     background: @bg-layer4;
 //     box-shadow: 0 @2px 0 @bg-layer5;
 //     border-radius: @border-radius-sm; // 4px

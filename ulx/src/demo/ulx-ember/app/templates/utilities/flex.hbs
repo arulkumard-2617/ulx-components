@@ -1,14 +1,14 @@
 {{page-title "Flex Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Flex Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Flex Utilities"
   @description="Flexbox utility classes for layout."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge @component={{@model.ReactFlex}} />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-flex"
         @title="Flex Utilities"
         @subtitle="Flexbox utility classes for layout."
@@ -18,4 +18,3 @@
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

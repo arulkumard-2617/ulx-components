@@ -29,11 +29,14 @@ export default class UlxIcon extends Component {
 	}
 
 	get iconClasses() {
+		const { iconName, type = "svg", size, customClass } = this.args;
+
 		const parts = [this.baseClass];
-		if (this.args.iconName && this.args.type === "font") parts.push(this.args.iconName);
-		if (this.args.size) parts.push(this.args.size);
-		if (this.args.customClass) parts.push(this.args.customClass);
-		return parts.filter(Boolean).join(" ");
+		iconName && type === "font" && parts.push(iconName);
+		size && parts.push(size);
+		customClass && parts.push(customClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get useFontIcon() {

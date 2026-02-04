@@ -6,11 +6,11 @@ import Flexbox from './Flexbox';
 export { Overview, CSSGrid, Flexbox };
 
 export default function Grid() {
-  return (
-    <div className="uls-foundation-page">
-      <Overview />
-      <CSSGrid />
-      <Flexbox />
-    </div>
-  );
+	return (
+		<div className="ulx-foundation-page">
+			<Overview />
+			<CSSGrid />
+			<Flexbox />
+		</div>
+	);
 }

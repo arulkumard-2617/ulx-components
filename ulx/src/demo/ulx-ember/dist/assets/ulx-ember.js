@@ -41,6 +41,432 @@
   });
   0; //eaimeta@70e063a35619d71f0,"@glimmer/component/-private/ember-component-manager"eaimeta@70e063a35619d71f
 });
+;define("ulx-ember/components/Demo/Avatar/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="ulx-grid col-2">
+    <div class="">
+      <h6 class="bold-font mgb3">Square</h6>
+      <div class="fxb wrap gp4 fvc">
+        <UlxAvatar
+          @type="text"
+          @label="UL"
+          @shape="square"
+          @size="xl-size"
+          @variant="grey"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="V"
+          @shape="square"
+          @size="l-size"
+          @variant="blue"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="U"
+          @shape="square"
+          @size="m-size"
+          @variant="purple"
+        />
+      </div>
+    </div>
+  
+    <div class="">
+      <h6 class="bold-font mgb3">Circle</h6>
+      <div class="fxb wrap gp4 fvc">
+        <UlxAvatar
+          @type="text"
+          @label="P"
+          @shape="circle"
+          @size="xl-size"
+          @variant="grey"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="V"
+          @shape="circle"
+          @size="l-size"
+          @variant="blue"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="U"
+          @shape="circle"
+          @size="m-size"
+          @variant="purple"
+        />
+      </div>
+    </div>
+  </div>
+  */
+  {
+    "id": "BR9v3PO9",
+    "block": "[[[10,0],[14,0,\"ulx-grid col-2\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"\"],[12],[1,\"\\n    \"],[10,\"h6\"],[14,0,\"bold-font mgb3\"],[12],[1,\"Square\"],[13],[1,\"\\n    \"],[10,0],[14,0,\"fxb wrap gp4 fvc\"],[12],[1,\"\\n      \"],[8,[32,0],null,[[\"@type\",\"@label\",\"@shape\",\"@size\",\"@variant\"],[\"text\",\"UL\",\"square\",\"xl-size\",\"grey\"]],null],[1,\"\\n      \"],[8,[32,0],null,[[\"@type\",\"@label\",\"@shape\",\"@size\",\"@variant\"],[\"text\",\"V\",\"square\",\"l-size\",\"blue\"]],null],[1,\"\\n      \"],[8,[32,0],null,[[\"@type\",\"@label\",\"@shape\",\"@size\",\"@variant\"],[\"text\",\"U\",\"square\",\"m-size\",\"purple\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\\n  \"],[10,0],[14,0,\"\"],[12],[1,\"\\n    \"],[10,\"h6\"],[14,0,\"bold-font mgb3\"],[12],[1,\"Circle\"],[13],[1,\"\\n    \"],[10,0],[14,0,\"fxb wrap gp4 fvc\"],[12],[1,\"\\n      \"],[8,[32,0],null,[[\"@type\",\"@label\",\"@shape\",\"@size\",\"@variant\"],[\"text\",\"P\",\"circle\",\"xl-size\",\"grey\"]],null],[1,\"\\n      \"],[8,[32,0],null,[[\"@type\",\"@label\",\"@shape\",\"@size\",\"@variant\"],[\"text\",\"V\",\"circle\",\"l-size\",\"blue\"]],null],[1,\"\\n      \"],[8,[32,0],null,[[\"@type\",\"@label\",\"@shape\",\"@size\",\"@variant\"],[\"text\",\"U\",\"circle\",\"m-size\",\"purple\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Avatar/Basic.js",
+    "scope": () => [_ulxComponents.UlxAvatar],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Basic"));
+});
+;define("ulx-ember/components/Demo/Avatar/Group", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _GroupDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class GroupDemoComponent extends _component.default {
+    get avatarItems() {
+      return [{
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/women/90.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile'
+      }, {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/women/91.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile'
+      }, {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/men/32.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile'
+      }, {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/women/44.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile'
+      }, {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/men/75.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile'
+      }];
+    }
+  }
+  _exports.default = GroupDemoComponent;
+  _GroupDemoComponent = GroupDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <UlxAvatarGroup
+    @items={{this.avatarItems}}
+    @stacked={{true}}
+    @maxVisible={{4}}
+    @size="l-size"
+    @shape="circle"
+  />
+  */
+  {
+    "id": "+9ZbG9tB",
+    "block": "[[[8,[32,0],null,[[\"@items\",\"@stacked\",\"@maxVisible\",\"@size\",\"@shape\"],[[30,0,[\"avatarItems\"]],true,4,\"l-size\",\"circle\"]],null]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Avatar/Group.js",
+    "scope": () => [_ulxComponents.UlxAvatarGroup],
+    "isStrictMode": true
+  }), _GroupDemoComponent);
+});
+;define("ulx-ember/components/Demo/Avatar/Icon", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4 fvc">
+    <UlxAvatar
+      @type="icon"
+      @iconName="user-info-icon-01"
+      @iconType="font"
+      @iconComponentClass="bs-icons1"
+      @shape="circle"
+      @size="xl-size"
+      @variant="primary"
+    />
+    <UlxAvatar
+      @type="icon"
+      @iconName="contact-support-icon-01"
+      @iconType="font"
+      @iconComponentClass="bs-icons1"
+      @shape="circle"
+      @size="l-size"
+      @variant="secondary"
+    />
+    <UlxAvatar
+      @type="icon"
+      @iconName="reassign-member-icon"
+      @iconType="font"
+      @iconComponentClass="bs-icons1"
+      @shape="square"
+      @size="m-size"
+      @variant="info"
+    />
+  </div>
+  */
+  {
+    "id": "lr/8wdL2",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4 fvc\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@type\",\"@iconName\",\"@iconType\",\"@iconComponentClass\",\"@shape\",\"@size\",\"@variant\"],[\"icon\",\"user-info-icon-01\",\"font\",\"bs-icons1\",\"circle\",\"xl-size\",\"primary\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@type\",\"@iconName\",\"@iconType\",\"@iconComponentClass\",\"@shape\",\"@size\",\"@variant\"],[\"icon\",\"contact-support-icon-01\",\"font\",\"bs-icons1\",\"circle\",\"l-size\",\"secondary\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@type\",\"@iconName\",\"@iconType\",\"@iconComponentClass\",\"@shape\",\"@size\",\"@variant\"],[\"icon\",\"reassign-member-icon\",\"font\",\"bs-icons1\",\"square\",\"m-size\",\"info\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Avatar/Icon.js",
+    "scope": () => [_ulxComponents.UlxAvatar],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Icon"));
+});
+;define("ulx-ember/components/Demo/Avatar/Image", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4 fvc">
+    <UlxAvatar
+      @type="image"
+      @image="https://randomuser.me/api/portraits/women/90.jpg"
+      @imageAlt="User profile picture"
+      @shape="square"
+      @size="xl-size"
+      @ariaLabel="User profile"
+    />
+    <UlxAvatar
+      @type="image"
+      @image="https://randomuser.me/api/portraits/women/91.jpg"
+      @imageAlt="User profile picture"
+      @shape="circle"
+      @size="xl-size"
+      @ariaLabel="User profile"
+    />
+  </div>
+  */
+  {
+    "id": "syMr1p8u",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4 fvc\"],[12],[1,\"\\n  \"],[8,[32,0],null,[[\"@type\",\"@image\",\"@imageAlt\",\"@shape\",\"@size\",\"@ariaLabel\"],[\"image\",\"https://randomuser.me/api/portraits/women/90.jpg\",\"User profile picture\",\"square\",\"xl-size\",\"User profile\"]],null],[1,\"\\n  \"],[8,[32,0],null,[[\"@type\",\"@image\",\"@imageAlt\",\"@shape\",\"@size\",\"@ariaLabel\"],[\"image\",\"https://randomuser.me/api/portraits/women/91.jpg\",\"User profile picture\",\"circle\",\"xl-size\",\"User profile\"]],null],[1,\"\\n\"],[13]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Avatar/Image.js",
+    "scope": () => [_ulxComponents.UlxAvatar],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Image"));
+});
+;define("ulx-ember/components/Demo/Badge/Basic", ["exports", "ulx-components", "@ember/component", "@ember/template-factory", "@ember/component/template-only"], function (_exports, _ulxComponents, _component, _templateFactory, _templateOnly) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"ulx-components",0,"@ember/component",0,"@ember/template-factory",0,"@ember/component/template-only"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _component.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <UlxBadge @value="2" @size="s-size" @variant="primary" @circle={{true}} />
+  */
+  {
+    "id": "ozVYm/av",
+    "block": "[[[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@circle\"],[\"2\",\"s-size\",\"primary\",true]],null]],[],[]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Badge/Basic.js",
+    "scope": () => [_ulxComponents.UlxBadge],
+    "isStrictMode": true
+  }), (0, _templateOnly.default)(undefined, "Basic"));
+});
+;define("ulx-ember/components/Demo/Badge/Size", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _SizeDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class SizeDemoComponent extends _component.default {
+    get sizes() {
+      return [{
+        label: '1',
+        size: 'xs-size'
+      }, {
+        label: '2',
+        size: 's-size'
+      }, {
+        label: '3',
+        size: 'm-size'
+      }, {
+        label: '4',
+        size: 'l-size'
+      }, {
+        label: '5',
+        size: 'xl-size'
+      }];
+    }
+    get dotSizes() {
+      return [{
+        label: '5',
+        size: 'xl-size'
+      }, {
+        label: '4',
+        size: 'l-size'
+      }, {
+        label: '3',
+        size: 'm-size'
+      }, {
+        label: '2',
+        size: 's-size'
+      }, {
+        label: '1',
+        size: 'xs-size'
+      }];
+    }
+  }
+  _exports.default = SizeDemoComponent;
+  _SizeDemoComponent = SizeDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4 fvc mgb12">
+    {{#each this.sizes key="size" as |item|}}
+      <UlxBadge
+        @value={{item.label}}
+        @size={{item.size}}
+        @variant="primary"
+        @type="circle"
+      />
+    {{/each}}
+  </div>
+  <div class="fxb wrap gp4 fvc">
+    {{#each this.dotSizes key="size" as |item|}}
+      <UlxBadge
+        @value={{item.label}}
+        @size={{item.size}}
+        @variant="primary"
+        @type="dot"
+        @ariaLabel="Notify"
+      />
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "H8TQVYoT",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4 fvc mgb12\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"sizes\"]]],null]],null],\"size\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@type\"],[[30,1,[\"label\"]],[30,1,[\"size\"]],\"primary\",\"circle\"]],null],[1,\"\\n\"]],[1]],null],[13],[1,\"\\n\"],[10,0],[14,0,\"fxb wrap gp4 fvc\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"dotSizes\"]]],null]],null],\"size\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@type\",\"@ariaLabel\"],[[30,2,[\"label\"]],[30,2,[\"size\"]],\"primary\",\"dot\",\"Notify\"]],null],[1,\"\\n\"]],[2]],null],[13]],[\"item\",\"item\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Badge/Size.js",
+    "scope": () => [_ulxComponents.UlxBadge],
+    "isStrictMode": true
+  }), _SizeDemoComponent);
+});
+;define("ulx-ember/components/Demo/Badge/Type", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _TypeDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class TypeDemoComponent extends _component.default {
+    get types() {
+      return [{
+        label: '1',
+        type: undefined
+      }, {
+        label: '2',
+        type: 'circle'
+      }, {
+        label: '',
+        type: 'dot'
+      }];
+    }
+  }
+  _exports.default = TypeDemoComponent;
+  _TypeDemoComponent = TypeDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap fvc gp4">
+    {{#each this.types key="type" as |item|}}
+      <UlxBadge
+        @value={{item.label}}
+        @size="s-size"
+        @variant="primary"
+        @type={{item.type}}
+      />
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "bJRhnO6b",
+    "block": "[[[10,0],[14,0,\"fxb wrap fvc gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"types\"]]],null]],null],\"type\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@type\"],[[30,1,[\"label\"]],\"s-size\",\"primary\",[30,1,[\"type\"]]]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Badge/Type.js",
+    "scope": () => [_ulxComponents.UlxBadge],
+    "isStrictMode": true
+  }), _TypeDemoComponent);
+});
+;define("ulx-ember/components/Demo/Badge/Variants", ["exports", "@glimmer/component", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _ulxComponents, _component2, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _VariantsDemoComponent;
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"ulx-components",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  class VariantsDemoComponent extends _component.default {
+    get variants() {
+      return [{
+        label: '2',
+        variant: 'primary'
+      }, {
+        label: '12',
+        variant: 'secondary'
+      }, {
+        label: '32',
+        variant: 'success'
+      }, {
+        label: '455',
+        variant: 'info'
+      }, {
+        label: '32',
+        variant: 'warning'
+      }, {
+        label: '54',
+        variant: 'danger'
+      }, {
+        label: '65',
+        variant: 'contrast'
+      }, {
+        label: '56',
+        variant: 'light-grey'
+      }];
+    }
+  }
+  _exports.default = VariantsDemoComponent;
+  _VariantsDemoComponent = VariantsDemoComponent;
+  (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
+  /*
+    <div class="fxb wrap gp4">
+    {{#each this.variants key="variant" as |item|}}
+      <UlxBadge
+        @value={{item.label}}
+        @size="s-size"
+        @variant={{item.variant}}
+        @type="circle"
+      />
+    {{/each}}
+  </div>
+  */
+  {
+    "id": "F3fb1DIh",
+    "block": "[[[10,0],[14,0,\"fxb wrap gp4\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,0,[\"variants\"]]],null]],null],\"variant\",[[[1,\"    \"],[8,[32,0],null,[[\"@value\",\"@size\",\"@variant\",\"@type\"],[[30,1,[\"label\"]],\"s-size\",[30,1,[\"variant\"]],\"circle\"]],null],[1,\"\\n\"]],[1]],null],[13]],[\"item\"],[\"each\",\"-track-array\"]]",
+    "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/Demo/Badge/Variants.js",
+    "scope": () => [_ulxComponents.UlxBadge],
+    "isStrictMode": true
+  }), _VariantsDemoComponent);
+});
 ;define("ulx-ember/components/Demo/Checkbox/Basic", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ulx-components", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _ulxComponents, _component2, _templateFactory) {
   "use strict";
 
@@ -2153,7 +2579,7 @@
   });
   0; //eaimeta@70e063a35619d71f0,"ember-prism/components/code-inline"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/common/doc-layout/doc-sidebar", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/service", "@ember/modifier", "ember-modifier", "@ember/helper", "@ember/routing", "ulx-ember/constants/docs", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _service, _modifier, _emberModifier, _helper, _routing, _docs, _component2, _templateFactory) {
+;define("ulx-ember/components/common/doc-layout/doc-sidebar", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "@ember/service", "@ember/modifier", "ember-modifier", "@ember/helper", "@ember/routing", "@ember/template", "ulx-ember/constants/docs", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _service, _modifier, _emberModifier, _helper, _routing, _template, _docs, _component2, _templateFactory) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -2161,7 +2587,7 @@
   });
   _exports.default = void 0;
   var _class, _descriptor, _descriptor2, _DocSidebarComponent;
-  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/service",0,"@ember/modifier",0,"ember-modifier",0,"@ember/helper",0,"@ember/routing",0,"ulx-ember/constants/docs",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"@glimmer/component",0,"@glimmer/tracking",0,"@ember/object",0,"@ember/service",0,"@ember/modifier",0,"ember-modifier",0,"@ember/helper",0,"@ember/routing",0,"@ember/template",0,"ulx-ember/constants/docs",0,"@ember/component",0,"@ember/template-factory"eaimeta@70e063a35619d71f
   function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
   function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
   function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
@@ -2323,6 +2749,20 @@
       }
       return this.activeItem;
     }
+    getIconSvg(menuTitle) {
+      const icons = {
+        'Getting Started': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(42deg);"><defs><linearGradient id="rocketBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="1"></stop><stop offset="100%" stop-color="currentColor" stop-opacity="0.65"></stop></linearGradient><linearGradient id="flameGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="orange"></stop><stop offset="100%" stop-color="red"></stop></linearGradient><filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="black" flood-opacity="0.25"></feDropShadow></filter></defs><path d="M12 2 C9 5, 8 9, 8 13 V17 H16 V13 C16 9, 15 5, 12 2Z" fill="url(#rocketBody)" filter="url(#softShadow)"></path><circle cx="12" cy="9" r="1.5" fill="white" opacity="0.8"></circle><path d="M8 14 L5 16 L8 16 Z" fill="currentColor" opacity="0.8"></path><path d="M16 14 L19 16 L16 16 Z" fill="currentColor" opacity="0.8"></path><path d="M12 22 C10.5 20.5, 10 19, 12 18 C14 19, 13.5 20.5, 12 22Z" fill="url(#flameGrad)"></path></svg>',
+        Foundation: '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l9 5-9 5-9-5 9-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 13l9 5 9-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+        Utilities: '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="15" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="18" x2="20" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="18" r="2" stroke="currentColor" stroke-width="1.5"/></svg>',
+        Elements: '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>',
+        Collections: '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="10" width="16" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="15" width="16" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>'
+      };
+      const svg = icons[menuTitle];
+      return svg ? (0, _template.htmlSafe)(svg) : null;
+    }
+    hasCustomIcon(menuTitle) {
+      return ['Getting Started', 'Foundation', 'Utilities', 'Elements', 'Collections'].includes(menuTitle);
+    }
   }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     {{! Force evaluation of computedActiveItem to update activeItem }}
@@ -2335,37 +2775,64 @@
             {{#if item.to}}
               {{#if (this.hasChildren item)}}
                 {{! Parent with children - dropdown button only (not LinkTo) }}
-              <div class="fxb fvc gp2 w-100p">
-                <button
-                  type="button"
-                  class="s-nav-link fxb fvc gp2 text-left {{if (this.isItemActive item this.currentPath) 'fg-primary' ''}}"
-                  {{on "click" (fn this.toggleItem item.menuTitle)}}
-                >
-                  <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
-                    <i class={{item.icon}}></i>
-                  </span>
-                  <span class="s-nav-link-text">
-                    <span class="bold-font">{{item.menuTitle}}</span>
-                  </span>
-                </button>
-                <button 
-                  class="s-nav-link-icon mgl-auto pdl1"
-                  {{on "click" (fn this.handleToggle item.menuTitle)}}
-                  aria-label="Toggle {{item.menuTitle}} menu"
-                  type="button"
-                >
-                  <i class="menu-toggle-icon pi pi-angle-down transition {{if (this.isExpanded item) 'rotate-180' ''}}"></i>
-                </button>
-              </div>
+                <div class="fxb fvc gp2 w-100p">
+                  <button
+                    type="button"
+                    class="s-nav-link fxb fvc gp2 text-left
+                      {{if
+                        (this.isItemActive item this.currentPath)
+                        'fg-primary'
+                        ''
+                      }}"
+                    {{on "click" (fn this.toggleItem item.menuTitle)}}
+                  >
+                    <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
+                      {{#if (this.hasCustomIcon item.menuTitle)}}
+                        {{! template-lint-disable no-triple-curlies }}
+                        <span class="w24 h24">{{{this.getIconSvg
+                            item.menuTitle
+                          }}}</span>
+                      {{else}}
+                        <i class={{item.icon}}></i>
+                      {{/if}}
+                    </span>
+                    <span class="s-nav-link-text">
+                      <span class="bold-font">{{item.menuTitle}}</span>
+                    </span>
+                  </button>
+                  <button
+                    class="s-nav-link-icon mgl-auto pdl1"
+                    {{on "click" (fn this.handleToggle item.menuTitle)}}
+                    aria-label="Toggle {{item.menuTitle}} menu"
+                    type="button"
+                  >
+                    <i
+                      class="bs-icons1 down-arrow-icon s22 menu-toggle-icon transition
+                        {{if (this.isExpanded item) 'rotate-180' ''}}"
+                    ></i>
+                  </button>
+                </div>
               {{else}}
                 {{! Simple clickable link without children }}
-                <LinkTo 
+                <LinkTo
                   @route={{item.route}}
-                  class="s-nav-link fxb fvc fhs gp2 w-100p {{if (this.isItemActive item this.currentPath) 'fg-primary' 'fg-text'}}"
+                  class="s-nav-link fxb fvc fhs gp2 w-100p
+                    {{if
+                      (this.isItemActive item this.currentPath)
+                      'fg-primary'
+                      'fg-text'
+                    }}"
                 >
                   {{#if item.icon}}
                     <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
-                      <i class={{item.icon}}></i>
+                      {{#if (this.hasCustomIcon item.menuTitle)}}
+                        {{! template-lint-disable no-triple-curlies }}
+                        <span class="w24 h24">{{{this.getIconSvg
+                            item.menuTitle
+                          }}}</span>
+                      {{else}}
+                        <i class={{item.icon}}></i>
+                      {{/if}}
                     </span>
                   {{/if}}
                   <span class="s-nav-link-text">
@@ -2375,25 +2842,35 @@
               {{/if}}
             {{else}}
               {{! Expandable item without 'to' - dropdown button only (not LinkTo) }}
-             <button 
+              <button
                 class="s-nav-link fxb fvc gp2 w-100p"
                 type="button"
                 {{on "click" (fn this.toggleItem item.menuTitle)}}
               >
-                  <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
+                <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
+                  {{#if (this.hasCustomIcon item.menuTitle)}}
+                    {{! template-lint-disable no-triple-curlies }}
+                    <span class="w24 h24">{{{this.getIconSvg
+                        item.menuTitle
+                      }}}</span>
+                  {{else}}
                     <i class={{item.icon}}></i>
-                  </span>
-                  <span class="s-nav-link-text">
-                    <span class="bold-font">{{item.menuTitle}}</span>
-                  </span>
-                  <span class="s-nav-link-icon mgl-auto">
-                    <i class="menu-toggle-icon pi pi-angle-down transition {{if (this.isExpanded item) 'rotate-180' ''}}"></i>
-                  </span>
+                  {{/if}}
+                </span>
+                <span class="s-nav-link-text">
+                  <span class="bold-font">{{item.menuTitle}}</span>
+                </span>
+                <span class="s-nav-link-icon mgl-auto">
+                  <i
+                    class="bs-icons1 down-arrow-icon s22 menu-toggle-icon transition
+                      {{if (this.isExpanded item) 'rotate-180' ''}}"
+                  ></i>
+                </span>
               </button>
             {{/if}}
-            
+  
             {{#if (this.hasChildren item)}}
-              <div 
+              <div
                 class="accordion-content"
                 style={{this.getAccordionStyle item}}
                 {{this.setContentRef item.menuTitle}}
@@ -2402,7 +2879,9 @@
                   {{#each item.children as |childItem|}}
                     {{#if childItem.category}}
                       <li class="s-nav-item pdb2 pdt2">
-                        <div class="s-nav-category medium-font fg-text-secondary">{{childItem.category}}</div>
+                        <div
+                          class="s-nav-category medium-font fg-text-secondary"
+                        >{{childItem.category}}</div>
                         {{#if childItem.items}}
                           <ol class="s-nav-list mgt2">
                             {{#each childItem.items as |subItem|}}
@@ -2438,11 +2917,11 @@
         {{/each}}
       </ol>
     </nav>
-    </aside>
+  </aside>
   */
   {
-    "id": "AAgtDOyw",
-    "block": "[[[41,false,[[[1,[30,0,[\"computedActiveItem\"]]]],[]],null],[1,\"\\n\"],[10,\"aside\"],[14,0,\"ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10\"],[12],[1,\"\\n  \"],[10,\"nav\"],[14,0,\"sidebar-nav fxgrow\"],[12],[1,\"\\n    \"],[10,\"ol\"],[14,0,\"s-nav-list mgt2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"navItems\"]]],null]],null],null,[[[1,\"        \"],[10,\"li\"],[14,0,\"s-nav-item mgb4\"],[12],[1,\"\\n\"],[41,[30,1,[\"to\"]],[[[41,[28,[30,0,[\"hasChildren\"]],[[30,1]],null],[[[1,\"            \"],[10,0],[14,0,\"fxb fvc gp2 w-100p\"],[12],[1,\"\\n              \"],[11,\"button\"],[16,0,[29,[\"s-nav-link fxb fvc gp2 text-left \",[52,[28,[30,0,[\"isItemActive\"]],[[30,1],[30,0,[\"currentPath\"]]],null],\"fg-primary\",\"\"]]]],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"toggleItem\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n              \"],[11,\"button\"],[24,0,\"s-nav-link-icon mgl-auto pdl1\"],[16,\"aria-label\",[29,[\"Toggle \",[30,1,[\"menuTitle\"]],\" menu\"]]],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"handleToggle\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                \"],[10,\"i\"],[15,0,[29,[\"menu-toggle-icon pi pi-angle-down transition \",[52,[28,[30,0,[\"isExpanded\"]],[[30,1]],null],\"rotate-180\",\"\"]]]],[12],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],[[[1,\"              \"],[8,[32,2],[[16,0,[29,[\"s-nav-link fxb fvc fhs gp2 w-100p \",[52,[28,[30,0,[\"isItemActive\"]],[[30,1],[30,0,[\"currentPath\"]]],null],\"fg-primary\",\"fg-text\"]]]]],[[\"@route\"],[[30,1,[\"route\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,1,[\"icon\"]],[[[1,\"                  \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n                    \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n                  \"],[13],[1,\"\\n\"]],[]],null],[1,\"                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"]],[]]]]],[1,\"\\n\"]],[]]]],[]],[[[1,\"           \"],[11,\"button\"],[24,0,\"s-nav-link fxb fvc gp2 w-100p\"],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"toggleItem\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[10,1],[14,0,\"s-nav-link-icon mgl-auto\"],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[29,[\"menu-toggle-icon pi pi-angle-down transition \",[52,[28,[30,0,[\"isExpanded\"]],[[30,1]],null],\"rotate-180\",\"\"]]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]]],[1,\"          \\n\"],[41,[28,[30,0,[\"hasChildren\"]],[[30,1]],null],[[[1,\"            \"],[11,0],[24,0,\"accordion-content\"],[16,5,[28,[30,0,[\"getAccordionStyle\"]],[[30,1]],null]],[4,[30,0,[\"setContentRef\"]],[[30,1,[\"menuTitle\"]]],null],[12],[1,\"\\n              \"],[10,\"ol\"],[14,0,\"s-nav-list mgt1 pdl2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,1,[\"children\"]]],null]],null],null,[[[41,[30,2,[\"category\"]],[[[1,\"                    \"],[10,\"li\"],[14,0,\"s-nav-item pdb2 pdt2\"],[12],[1,\"\\n                      \"],[10,0],[14,0,\"s-nav-category medium-font fg-text-secondary\"],[12],[1,[30,2,[\"category\"]]],[13],[1,\"\\n\"],[41,[30,2,[\"items\"]],[[[1,\"                        \"],[10,\"ol\"],[14,0,\"s-nav-list mgt2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,2,[\"items\"]]],null]],null],null,[[[1,\"                            \"],[10,\"li\"],[14,0,\"s-nav-item\"],[12],[1,\"\\n                              \"],[8,[32,2],[[24,0,\"bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block\"]],[[\"@route\",\"@activeClass\"],[[30,3,[\"route\"]],\"bd-primary fg-primary\"]],[[\"default\"],[[[[1,\"\\n                                \"],[1,[30,3,[\"menuItem\"]]],[1,\"\\n                              \"]],[]]]]],[1,\"\\n                            \"],[13],[1,\"\\n\"]],[3]],null],[1,\"                        \"],[13],[1,\"\\n\"]],[]],null],[1,\"                    \"],[13],[1,\"\\n\"]],[]],[[[1,\"                    \"],[10,\"li\"],[14,0,\"s-nav-item\"],[12],[1,\"\\n                      \"],[8,[32,2],[[24,0,\"bd-l pdl5 pdb2 pdt2 font-size14 text-left w-100p block fg-text\"]],[[\"@route\",\"@activeClass\"],[[30,2,[\"route\"]],\"bd-primary fg-primary\"]],[[\"default\"],[[[[1,\"\\n                        \"],[1,[30,2,[\"menuItem\"]]],[1,\"\\n                      \"]],[]]]]],[1,\"\\n                    \"],[13],[1,\"\\n\"]],[]]]],[2]],null],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],null],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n  \"],[13]],[\"item\",\"childItem\",\"subItem\"],[\"if\",\"each\",\"-track-array\"]]",
+    "id": "VL4kKKPI",
+    "block": "[[[41,false,[[[1,[30,0,[\"computedActiveItem\"]]]],[]],null],[1,\"\\n\"],[10,\"aside\"],[14,0,\"ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10\"],[12],[1,\"\\n  \"],[10,\"nav\"],[14,0,\"sidebar-nav fxgrow\"],[12],[1,\"\\n    \"],[10,\"ol\"],[14,0,\"s-nav-list mgt2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"navItems\"]]],null]],null],null,[[[1,\"        \"],[10,\"li\"],[14,0,\"s-nav-item mgb4\"],[12],[1,\"\\n\"],[41,[30,1,[\"to\"]],[[[41,[28,[30,0,[\"hasChildren\"]],[[30,1]],null],[[[1,\"              \"],[10,0],[14,0,\"fxb fvc gp2 w-100p\"],[12],[1,\"\\n                \"],[11,\"button\"],[16,0,[29,[\"s-nav-link fxb fvc gp2 text-left\\n                    \",[52,[28,[30,0,[\"isItemActive\"]],[[30,1],[30,0,[\"currentPath\"]]],null],\"fg-primary\",\"\"]]]],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"toggleItem\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                  \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n\"],[41,[28,[30,0,[\"hasCustomIcon\"]],[[30,1,[\"menuTitle\"]]],null],[[[1,\"                      \"],[10,1],[14,0,\"w24 h24\"],[12],[2,[28,[30,0,[\"getIconSvg\"]],[[30,1,[\"menuTitle\"]]],null]],[13],[1,\"\\n\"]],[]],[[[1,\"                      \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n\"]],[]]],[1,\"                  \"],[13],[1,\"\\n                  \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                    \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                  \"],[13],[1,\"\\n                \"],[13],[1,\"\\n                \"],[11,\"button\"],[24,0,\"s-nav-link-icon mgl-auto pdl1\"],[16,\"aria-label\",[29,[\"Toggle \",[30,1,[\"menuTitle\"]],\" menu\"]]],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"handleToggle\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n                  \"],[10,\"i\"],[15,0,[29,[\"bs-icons1 down-arrow-icon s22 menu-toggle-icon transition\\n                      \",[52,[28,[30,0,[\"isExpanded\"]],[[30,1]],null],\"rotate-180\",\"\"]]]],[12],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n\"]],[]],[[[1,\"              \"],[8,[32,2],[[16,0,[29,[\"s-nav-link fxb fvc fhs gp2 w-100p\\n                  \",[52,[28,[30,0,[\"isItemActive\"]],[[30,1],[30,0,[\"currentPath\"]]],null],\"fg-primary\",\"fg-text\"]]]]],[[\"@route\"],[[30,1,[\"route\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,1,[\"icon\"]],[[[1,\"                  \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n\"],[41,[28,[30,0,[\"hasCustomIcon\"]],[[30,1,[\"menuTitle\"]]],null],[[[1,\"                      \"],[10,1],[14,0,\"w24 h24\"],[12],[2,[28,[30,0,[\"getIconSvg\"]],[[30,1,[\"menuTitle\"]]],null]],[13],[1,\"\\n\"]],[]],[[[1,\"                      \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n\"]],[]]],[1,\"                  \"],[13],[1,\"\\n\"]],[]],null],[1,\"                \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                  \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"]],[]]]]],[1,\"\\n\"]],[]]]],[]],[[[1,\"            \"],[11,\"button\"],[24,0,\"s-nav-link fxb fvc gp2 w-100p\"],[24,4,\"button\"],[4,[32,0],[\"click\",[28,[32,1],[[30,0,[\"toggleItem\"]],[30,1,[\"menuTitle\"]]],null]],null],[12],[1,\"\\n              \"],[10,1],[14,0,\"s-nav-link-icon w32 h32 fxb fvc fhc bd rds2\"],[12],[1,\"\\n\"],[41,[28,[30,0,[\"hasCustomIcon\"]],[[30,1,[\"menuTitle\"]]],null],[[[1,\"                  \"],[10,1],[14,0,\"w24 h24\"],[12],[2,[28,[30,0,[\"getIconSvg\"]],[[30,1,[\"menuTitle\"]]],null]],[13],[1,\"\\n\"]],[]],[[[1,\"                  \"],[10,\"i\"],[15,0,[30,1,[\"icon\"]]],[12],[13],[1,\"\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n              \"],[10,1],[14,0,\"s-nav-link-text\"],[12],[1,\"\\n                \"],[10,1],[14,0,\"bold-font\"],[12],[1,[30,1,[\"menuTitle\"]]],[13],[1,\"\\n              \"],[13],[1,\"\\n              \"],[10,1],[14,0,\"s-nav-link-icon mgl-auto\"],[12],[1,\"\\n                \"],[10,\"i\"],[15,0,[29,[\"bs-icons1 down-arrow-icon s22 menu-toggle-icon transition\\n                    \",[52,[28,[30,0,[\"isExpanded\"]],[[30,1]],null],\"rotate-180\",\"\"]]]],[12],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]]],[1,\"\\n\"],[41,[28,[30,0,[\"hasChildren\"]],[[30,1]],null],[[[1,\"            \"],[11,0],[24,0,\"accordion-content\"],[16,5,[28,[30,0,[\"getAccordionStyle\"]],[[30,1]],null]],[4,[30,0,[\"setContentRef\"]],[[30,1,[\"menuTitle\"]]],null],[12],[1,\"\\n              \"],[10,\"ol\"],[14,0,\"s-nav-list mgt1 pdl2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,1,[\"children\"]]],null]],null],null,[[[41,[30,2,[\"category\"]],[[[1,\"                    \"],[10,\"li\"],[14,0,\"s-nav-item pdb2 pdt2\"],[12],[1,\"\\n                      \"],[10,0],[14,0,\"s-nav-category medium-font fg-text-secondary\"],[12],[1,[30,2,[\"category\"]]],[13],[1,\"\\n\"],[41,[30,2,[\"items\"]],[[[1,\"                        \"],[10,\"ol\"],[14,0,\"s-nav-list mgt2\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,2,[\"items\"]]],null]],null],null,[[[1,\"                            \"],[10,\"li\"],[14,0,\"s-nav-item\"],[12],[1,\"\\n                              \"],[8,[32,2],[[24,0,\"bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block\"]],[[\"@route\",\"@activeClass\"],[[30,3,[\"route\"]],\"bd-primary fg-primary\"]],[[\"default\"],[[[[1,\"\\n                                \"],[1,[30,3,[\"menuItem\"]]],[1,\"\\n                              \"]],[]]]]],[1,\"\\n                            \"],[13],[1,\"\\n\"]],[3]],null],[1,\"                        \"],[13],[1,\"\\n\"]],[]],null],[1,\"                    \"],[13],[1,\"\\n\"]],[]],[[[1,\"                    \"],[10,\"li\"],[14,0,\"s-nav-item\"],[12],[1,\"\\n                      \"],[8,[32,2],[[24,0,\"bd-l pdl5 pdb2 pdt2 font-size14 text-left w-100p block fg-text\"]],[[\"@route\",\"@activeClass\"],[[30,2,[\"route\"]],\"bd-primary fg-primary\"]],[[\"default\"],[[[[1,\"\\n                        \"],[1,[30,2,[\"menuItem\"]]],[1,\"\\n                      \"]],[]]]]],[1,\"\\n                    \"],[13],[1,\"\\n\"]],[]]]],[2]],null],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],null],[1,\"        \"],[13],[1,\"\\n\"]],[1]],null],[1,\"    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[\"item\",\"childItem\",\"subItem\"],[\"if\",\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-layout/doc-sidebar.js",
     "scope": () => [_modifier.on, _helper.fn, _routing.LinkTo],
     "isStrictMode": true
@@ -2482,7 +2961,7 @@
         return value.replace(/(^|\s)\./g, '$1');
       });
       _defineProperty(this, "getStyleString", color => {
-        return `background-color: ${color}; border-color: var(--uls-default-border-color, #dee2e6);`;
+        return `background-color: ${color}; border-color: var(--ulx-default-border-color, #dee2e6);`;
       });
     }
     get rows() {
@@ -2497,13 +2976,17 @@
   (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
     {{#if this.rows.length}}
-    <div class="uls-datatable s-size" style="width: 850px;">
+    <div class="ulx-datatable s-size" style="width: 850px;">
       <div class="datatable-wrapper">
         <table class="datatable-table" style="table-layout: fixed;">
           <thead class="datatable-header">
             <tr class="datatable-header-row">
-              <th class="datatable-column-header-cell">{{this.columnLabels.[0]}}</th>
-              <th class="datatable-column-header-cell">{{this.columnLabels.[1]}}</th>
+              <th
+                class="datatable-column-header-cell"
+              >{{this.columnLabels.[0]}}</th>
+              <th
+                class="datatable-column-header-cell"
+              >{{this.columnLabels.[1]}}</th>
             </tr>
           </thead>
           <tbody class="datatable-tbody">
@@ -2518,7 +3001,9 @@
                         aria-hidden="true"
                       ></div>
                     {{/if}}
-                    <span class="bold-font fg-primary font-size16">{{this.formatClassName row.className}}</span>
+                    <span
+                      class="bold-font fg-primary font-size16"
+                    >{{this.formatClassName row.className}}</span>
                   </div>
                 </td>
                 <td class="datatable-column-body-cell">
@@ -2533,8 +3018,8 @@
   {{/if}}
   */
   {
-    "id": "ECpZW1Lj",
-    "block": "[[[41,[30,0,[\"rows\",\"length\"]],[[[1,\"  \"],[10,0],[14,0,\"uls-datatable s-size\"],[14,5,\"width: 850px;\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"datatable-wrapper\"],[12],[1,\"\\n      \"],[10,\"table\"],[14,0,\"datatable-table\"],[14,5,\"table-layout: fixed;\"],[12],[1,\"\\n        \"],[10,\"thead\"],[14,0,\"datatable-header\"],[12],[1,\"\\n          \"],[10,\"tr\"],[14,0,\"datatable-header-row\"],[12],[1,\"\\n            \"],[10,\"th\"],[14,0,\"datatable-column-header-cell\"],[12],[1,[30,0,[\"columnLabels\",\"0\"]]],[13],[1,\"\\n            \"],[10,\"th\"],[14,0,\"datatable-column-header-cell\"],[12],[1,[30,0,[\"columnLabels\",\"1\"]]],[13],[1,\"\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n        \"],[10,\"tbody\"],[14,0,\"datatable-tbody\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"rows\"]]],null]],null],null,[[[1,\"            \"],[10,\"tr\"],[14,0,\"datatable-body-row\"],[12],[1,\"\\n              \"],[10,\"td\"],[14,0,\"datatable-column-body-cell\"],[12],[1,\"\\n                \"],[10,0],[14,0,\"fxb fvc gp2\"],[12],[1,\"\\n\"],[41,[30,1,[\"color\"]],[[[1,\"                    \"],[10,0],[14,0,\"rds-circle bd w20 h20\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,1,[\"color\"]]],null]],[14,\"aria-hidden\",\"true\"],[12],[13],[1,\"\\n\"]],[]],null],[1,\"                  \"],[10,1],[14,0,\"bold-font fg-primary font-size16\"],[12],[1,[28,[30,0,[\"formatClassName\"]],[[30,1,[\"className\"]]],null]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n              \"],[10,\"td\"],[14,0,\"datatable-column-body-cell\"],[12],[1,\"\\n                \"],[10,1],[14,0,\"font-size16\"],[12],[1,[30,1,[\"property\"]]],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[1]],null],[1,\"        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],null]],[\"row\"],[\"if\",\"each\",\"-track-array\"]]",
+    "id": "o7zXgyFW",
+    "block": "[[[41,[30,0,[\"rows\",\"length\"]],[[[1,\"  \"],[10,0],[14,0,\"ulx-datatable s-size\"],[14,5,\"width: 850px;\"],[12],[1,\"\\n    \"],[10,0],[14,0,\"datatable-wrapper\"],[12],[1,\"\\n      \"],[10,\"table\"],[14,0,\"datatable-table\"],[14,5,\"table-layout: fixed;\"],[12],[1,\"\\n        \"],[10,\"thead\"],[14,0,\"datatable-header\"],[12],[1,\"\\n          \"],[10,\"tr\"],[14,0,\"datatable-header-row\"],[12],[1,\"\\n            \"],[10,\"th\"],[14,0,\"datatable-column-header-cell\"],[12],[1,[30,0,[\"columnLabels\",\"0\"]]],[13],[1,\"\\n            \"],[10,\"th\"],[14,0,\"datatable-column-header-cell\"],[12],[1,[30,0,[\"columnLabels\",\"1\"]]],[13],[1,\"\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n        \"],[10,\"tbody\"],[14,0,\"datatable-tbody\"],[12],[1,\"\\n\"],[42,[28,[31,2],[[28,[31,2],[[30,0,[\"rows\"]]],null]],null],null,[[[1,\"            \"],[10,\"tr\"],[14,0,\"datatable-body-row\"],[12],[1,\"\\n              \"],[10,\"td\"],[14,0,\"datatable-column-body-cell\"],[12],[1,\"\\n                \"],[10,0],[14,0,\"fxb fvc gp2\"],[12],[1,\"\\n\"],[41,[30,1,[\"color\"]],[[[1,\"                    \"],[10,0],[14,0,\"rds-circle bd w20 h20\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,1,[\"color\"]]],null]],[14,\"aria-hidden\",\"true\"],[12],[13],[1,\"\\n\"]],[]],null],[1,\"                  \"],[10,1],[14,0,\"bold-font fg-primary font-size16\"],[12],[1,[28,[30,0,[\"formatClassName\"]],[[30,1,[\"className\"]]],null]],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n              \"],[10,\"td\"],[14,0,\"datatable-column-body-cell\"],[12],[1,\"\\n                \"],[10,1],[14,0,\"font-size16\"],[12],[1,[30,1,[\"property\"]]],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[1]],null],[1,\"        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"]],[]],null]],[\"row\"],[\"if\",\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/class-property-table.js",
     "isStrictMode": true
   }), _ClassPropertyTableComponent);
@@ -2570,10 +3055,10 @@
     }
     extractTemplateOnly(source) {
       if (!source) {
-        return "";
+        return '';
       }
       const match = source.match(/<template>[\s\S]*?<\/template>/m);
-      return match ? match[0].trim() : "";
+      return match ? match[0].trim() : '';
     }
     toggleExpanded() {
       this.expanded = !this.expanded;
@@ -2593,11 +3078,11 @@
     }
     // Dedent helper: remove common indentation, preserve relative indents
     dedentBlock(text) {
-      if (!text) return "";
-      const normalized = text.replace(/\r\n?|\u2028|\u2029/g, "\n").replace(/^\uFEFF/, "");
+      if (!text) return '';
+      const normalized = text.replace(/\r\n?|\u2028|\u2029/g, '\n').replace(/^\uFEFF/, '');
       // Remove leading newline if present
-      const withoutLeadingNewline = normalized.replace(/^\n/, "");
-      const lines = withoutLeadingNewline.split("\n");
+      const withoutLeadingNewline = normalized.replace(/^\n/, '');
+      const lines = withoutLeadingNewline.split('\n');
       // Find minimum indentation (excluding empty lines)
       let minIndent = Infinity;
       for (const line of lines) {
@@ -2617,13 +3102,13 @@
       });
       // Remove leading whitespace from first line
       if (out.length > 0 && out[0]) {
-        out[0] = out[0].replace(/^\s+/, "");
+        out[0] = out[0].replace(/^\s+/, '');
       }
-      return out.join("\n").trimEnd();
+      return out.join('\n').trimEnd();
     }
     get displayCode() {
       const source = this.args.source;
-      if (!source) return "";
+      if (!source) return '';
       const code = String(source);
       // collapsed → template only
       if (!this.expanded) {
@@ -2650,151 +3135,220 @@
     }
   }, (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
-        <div class="code-preview-container" ...attributes>
-        {{#if @title}}
-          <h5 class="mgb2 font-medium">{{@title}}</h5>
-        {{/if}}
-        {{#if @description}}
-          <div class="text-small fg-text-secondary mgb4">
-            {{@description}}
+    <div class="code-preview-container" ...attributes>
+    {{#if @title}}
+      <h5 class="mgb2 font-medium">{{@title}}</h5>
+    {{/if}}
+    {{#if @description}}
+      <div class="text-small fg-text-secondary mgb4">
+        {{@description}}
+      </div>
+    {{/if}}
+    {{#if (has-block)}}
+      {{#if @hasDemo}}
+        <div class="demo-and-code">
+          <div class="demo">
+            <div class="code-preview-container">
+              <div class="demo bg-default bd pd8 mgb2 rds3">
+                {{yield}}
+              </div>
+              {{#if this.displayCode}}
+                <div class="code-block">
+                  {{#if this.expanded}}
+                    <CodeBlock
+                      @code={{this.displayCode}}
+                      @language="javascript"
+                    />
+                  {{else}}
+                    <CodeBlock
+                      @code={{this.displayCode}}
+                      @language={{this.effectiveLanguage}}
+                    />
+                  {{/if}}
+                  <div class="code-actions fxb gp4 pdy1 pdx3">
+                    <button
+                      type="button"
+                      class="expand-btn {{if this.expanded 'is-expanded'}}"
+                      {{on "click" this.toggleExpanded}}
+                      aria-label={{if
+                        this.expanded
+                        "Collapse code"
+                        "Expand code"
+                      }}
+                    >
+                      <svg
+                        class="fit-width-icon"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <!-- left bar -->
+                        <path class="bar left" d="M4 4v16" />
+  
+                        <!-- right bar -->
+                        <path class="bar right" d="M20 4v16" />
+  
+                        <!-- left arrow -->
+                        <path
+                          class="arrow left"
+                          d="M10 12H6m0 0l2-2m-2 2l2 2"
+                        />
+  
+                        <!-- right arrow -->
+                        <path
+                          class="arrow right"
+                          d="M14 12h4m0 0l-2-2m2 2l-2 2"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="copy-btn {{if this.copied 'is-copied'}}"
+                      aria-label="Copy code"
+                      {{on "click" this.copyCode}}
+                    >
+                      <svg
+                        class="copy-icon"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <!-- Copy icon -->
+                        <g class="icon-copy">
+                          <rect
+                            x="6"
+                            y="2"
+                            width="13"
+                            height="13"
+                            rx="2"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                          <rect
+                            x="1"
+                            y="8"
+                            width="13"
+                            height="13"
+                            rx="2"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="#272822"
+                          />
+  
+                        </g>
+  
+                        <!-- Check icon -->
+                        <path
+                          class="icon-check"
+                          d="M5 13l4 4L19 7"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          fill="none"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{else}}
+        {{#if this.displayCode}}
+          <div class="code-block">
+            <CodeBlock
+              @code={{this.displayCode}}
+              @language={{this.effectiveLanguage}}
+            />
+            <div class="code-actions fxb gp4 pdy1 pdx3">
+              <button
+                type="button"
+                class="copy-btn {{if this.copied 'is-copied'}}"
+                aria-label="Copy code"
+                {{on "click" this.copyCode}}
+              >
+                <svg
+                  class="copy-icon"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <!-- Copy icon -->
+                  <g class="icon-copy">
+                    <rect
+                      x="6"
+                      y="2"
+                      width="13"
+                      height="13"
+                      rx="2"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    />
+                    <rect
+                      x="1"
+                      y="8"
+                      width="13"
+                      height="13"
+                      rx="2"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      fill="#272822"
+                    />
+  
+                  </g>
+  
+                  <!-- Check icon -->
+                  <path
+                    class="icon-check"
+                    d="M5 13l4 4L19 7"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         {{/if}}
-        {{#if (has-block)}}
-          {{#if @hasDemo}}
-            <div class="demo-and-code">
-              <div class="demo">
-                <div class="code-preview-container">
-                  <div class="demo bg-default bd pd8 mgb2 rds3">
-                    {{yield}}
-                  </div>
-                  {{#if this.displayCode}}
-                    <div class="code-block asdad">
-                      {{#if this.expanded}}
-                        <CodeBlock
-                          @code={{this.displayCode}}
-                          @language="javascript"
-                        />
-                        {{else}}
-                          <CodeBlock
-                            @code={{this.displayCode}}
-                            @language={{this.effectiveLanguage}}
-                          />
-                      {{/if}}
-                      <div class="code-actions fxb gp4 pdy1 pdx3">
-                        <button type="button"
-                                class="expand-btn {{if this.expanded "is-expanded"}}"
-                                {{on "click" this.toggleExpanded}}
-                                aria-label={{if this.expanded "Collapse code" "Expand code"}}
-                        >
-                          <svg
-    class="fit-width-icon"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    aria-hidden="true"
-  >
-    <!-- left bar -->
-    <path class="bar left" d="M4 4v16" />
-  
-    <!-- right bar -->
-    <path class="bar right" d="M20 4v16" />
-  
-    <!-- left arrow -->
-    <path class="arrow left" d="M10 12H6m0 0l2-2m-2 2l2 2" />
-  
-    <!-- right arrow -->
-    <path class="arrow right" d="M14 12h4m0 0l-2-2m2 2l-2 2" />
-  </svg>
-                        </button>
-                        <button type="button" class="copy-btn {{if this.copied "is-copied"}}" aria-label="Copy code" {{on "click" this.copyCode}}>
-                          <svg class="copy-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                            <!-- Copy icon -->
-                            <g class="icon-copy">
-                              <rect x="6" y="2" width="13" height="13" rx="2"
-                                stroke="currentColor" stroke-width="2"/>
-                              <rect x="1" y="8" width="13" height="13" rx="2"
-                                stroke="currentColor" stroke-width="2" fill="#272822"/>
-                              
-                            </g>
-  
-                            <!-- Check icon -->
-                            <path
-                              class="icon-check"
-                              d="M5 13l4 4L19 7"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              fill="none"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  {{/if}}
-                </div>
-              </div>
-            </div>
-          {{else}}
-            {{#if this.displayCode}}
-              <div class="code-block">
-                <CodeBlock
-                    @code={{this.displayCode}}
-                    @language={{this.effectiveLanguage}}
-                  />
-                <div class="code-actions fxb gp4 pdy1 pdx3">
-                  <button type="button" class="copy-btn {{if this.copied "is-copied"}}" aria-label="Copy code" {{on "click" this.copyCode}}>
-                    <svg class="copy-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                      <!-- Copy icon -->
-                      <g class="icon-copy">
-                        <rect x="6" y="2" width="13" height="13" rx="2"
-                          stroke="currentColor" stroke-width="2"/>
-                        <rect x="1" y="8" width="13" height="13" rx="2"
-                          stroke="currentColor" stroke-width="2" fill="#272822"/>
-                        
-                      </g>
-  
-                      <!-- Check icon -->
-                      <path
-                        class="icon-check"
-                        d="M5 13l4 4L19 7"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            {{/if}}
-          {{/if}}
-        {{else}}
-          {{#if this.displayCode}}
-            <div class="code-block asdad">
-              <CodeBlock
-                @code={{this.displayCode}}
-                @language={{this.effectiveLanguage}}
-              />
-              <div class="code-actions fxb gp4 pdy1 pdx3">
-                <button type="button" aria-label="Copy code" {{on "click" this.copyCode}}>
-                  {{#if this.copied}}
-                    copied
-                  {{else}}
-                    copy
-                  {{/if}}
-                </button>
-              </div>
-            </div>
-          {{/if}}
-        {{/if}}
-      </div>
+      {{/if}}
+    {{else}}
+      {{#if this.displayCode}}
+        <div class="code-block">
+          <CodeBlock
+            @code={{this.displayCode}}
+            @language={{this.effectiveLanguage}}
+          />
+          <div class="code-actions fxb gp4 pdy1 pdx3">
+            <button
+              type="button"
+              aria-label="Copy code"
+              {{on "click" this.copyCode}}
+            >
+              {{#if this.copied}}
+                copied
+              {{else}}
+                copy
+              {{/if}}
+            </button>
+          </div>
+        </div>
+      {{/if}}
+    {{/if}}
+  </div>
   */
   {
-    "id": "uhYnALUB",
-    "block": "[[[1,\"    \"],[11,0],[24,0,\"code-preview-container\"],[17,1],[12],[1,\"\\n\"],[41,[30,2],[[[1,\"        \"],[10,\"h5\"],[14,0,\"mgb2 font-medium\"],[12],[1,[30,2]],[13],[1,\"\\n\"]],[]],null],[41,[30,3],[[[1,\"        \"],[10,0],[14,0,\"text-small fg-text-secondary mgb4\"],[12],[1,\"\\n          \"],[1,[30,3]],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null],[41,[48,[30,5]],[[[41,[30,4],[[[1,\"          \"],[10,0],[14,0,\"demo-and-code\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"demo\"],[12],[1,\"\\n              \"],[10,0],[14,0,\"code-preview-container\"],[12],[1,\"\\n                \"],[10,0],[14,0,\"demo bg-default bd pd8 mgb2 rds3\"],[12],[1,\"\\n                  \"],[18,5,null],[1,\"\\n                \"],[13],[1,\"\\n\"],[41,[30,0,[\"displayCode\"]],[[[1,\"                  \"],[10,0],[14,0,\"code-block asdad\"],[12],[1,\"\\n\"],[41,[30,0,[\"expanded\"]],[[[1,\"                      \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"javascript\"]],null],[1,\"\\n\"]],[]],[[[1,\"                        \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n\"]],[]]],[1,\"                    \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n                      \"],[11,\"button\"],[16,0,[29,[\"expand-btn \",[52,[30,0,[\"expanded\"]],\"is-expanded\"]]]],[16,\"aria-label\",[52,[30,0,[\"expanded\"]],\"Collapse code\",\"Expand code\"]],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"toggleExpanded\"]]],null],[12],[1,\"\\n                        \"],[10,\"svg\"],[14,0,\"fit-width-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n  \"],[3,\" left bar \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"bar left\"],[14,\"d\",\"M4 4v16\"],[12],[13],[1,\"\\n\\n  \"],[3,\" right bar \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"bar right\"],[14,\"d\",\"M20 4v16\"],[12],[13],[1,\"\\n\\n  \"],[3,\" left arrow \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"arrow left\"],[14,\"d\",\"M10 12H6m0 0l2-2m-2 2l2 2\"],[12],[13],[1,\"\\n\\n  \"],[3,\" right arrow \"],[1,\"\\n  \"],[10,\"path\"],[14,0,\"arrow right\"],[14,\"d\",\"M14 12h4m0 0l-2-2m2 2l-2 2\"],[12],[13],[1,\"\\n\"],[13],[1,\"\\n                      \"],[13],[1,\"\\n                      \"],[11,\"button\"],[16,0,[29,[\"copy-btn \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n                        \"],[10,\"svg\"],[14,0,\"copy-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                          \"],[3,\" Copy icon \"],[1,\"\\n                          \"],[10,\"g\"],[14,0,\"icon-copy\"],[12],[1,\"\\n                            \"],[10,\"rect\"],[14,\"x\",\"6\"],[14,\"y\",\"2\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[12],[13],[1,\"\\n                            \"],[10,\"rect\"],[14,\"x\",\"1\"],[14,\"y\",\"8\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"#272822\"],[12],[13],[1,\"\\n                            \\n                          \"],[13],[1,\"\\n\\n                          \"],[3,\" Check icon \"],[1,\"\\n                          \"],[10,\"path\"],[14,0,\"icon-check\"],[14,\"d\",\"M5 13l4 4L19 7\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"none\"],[14,\"stroke-linecap\",\"round\"],[14,\"stroke-linejoin\",\"round\"],[12],[13],[1,\"\\n                        \"],[13],[1,\"\\n                      \"],[13],[1,\"\\n                    \"],[13],[1,\"\\n                  \"],[13],[1,\"\\n\"]],[]],null],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"displayCode\"]],[[[1,\"            \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n              \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n              \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n                \"],[11,\"button\"],[16,0,[29,[\"copy-btn \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n                  \"],[10,\"svg\"],[14,0,\"copy-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                    \"],[3,\" Copy icon \"],[1,\"\\n                    \"],[10,\"g\"],[14,0,\"icon-copy\"],[12],[1,\"\\n                      \"],[10,\"rect\"],[14,\"x\",\"6\"],[14,\"y\",\"2\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[12],[13],[1,\"\\n                      \"],[10,\"rect\"],[14,\"x\",\"1\"],[14,\"y\",\"8\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"#272822\"],[12],[13],[1,\"\\n                      \\n                    \"],[13],[1,\"\\n\\n                    \"],[3,\" Check icon \"],[1,\"\\n                    \"],[10,\"path\"],[14,0,\"icon-check\"],[14,\"d\",\"M5 13l4 4L19 7\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"none\"],[14,\"stroke-linecap\",\"round\"],[14,\"stroke-linejoin\",\"round\"],[12],[13],[1,\"\\n                  \"],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n\"]],[]],null]],[]]]],[]],[[[41,[30,0,[\"displayCode\"]],[[[1,\"          \"],[10,0],[14,0,\"code-block asdad\"],[12],[1,\"\\n            \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n            \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n              \"],[11,\"button\"],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"                  copied\\n\"]],[]],[[[1,\"                  copy\\n\"]],[]]],[1,\"              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[]],null]],[]]],[1,\"    \"],[13]],[\"&attrs\",\"@title\",\"@description\",\"@hasDemo\",\"&default\"],[\"if\",\"has-block\",\"yield\"]]",
+    "id": "juHwZUvh",
+    "block": "[[[11,0],[24,0,\"code-preview-container\"],[17,1],[12],[1,\"\\n\"],[41,[30,2],[[[1,\"    \"],[10,\"h5\"],[14,0,\"mgb2 font-medium\"],[12],[1,[30,2]],[13],[1,\"\\n\"]],[]],null],[41,[30,3],[[[1,\"    \"],[10,0],[14,0,\"text-small fg-text-secondary mgb4\"],[12],[1,\"\\n      \"],[1,[30,3]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],null],[41,[48,[30,5]],[[[41,[30,4],[[[1,\"      \"],[10,0],[14,0,\"demo-and-code\"],[12],[1,\"\\n        \"],[10,0],[14,0,\"demo\"],[12],[1,\"\\n          \"],[10,0],[14,0,\"code-preview-container\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"demo bg-default bd pd8 mgb2 rds3\"],[12],[1,\"\\n              \"],[18,5,null],[1,\"\\n            \"],[13],[1,\"\\n\"],[41,[30,0,[\"displayCode\"]],[[[1,\"              \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n\"],[41,[30,0,[\"expanded\"]],[[[1,\"                  \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],\"javascript\"]],null],[1,\"\\n\"]],[]],[[[1,\"                  \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n\"]],[]]],[1,\"                \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n                  \"],[11,\"button\"],[16,0,[29,[\"expand-btn \",[52,[30,0,[\"expanded\"]],\"is-expanded\"]]]],[16,\"aria-label\",[52,[30,0,[\"expanded\"]],\"Collapse code\",\"Expand code\"]],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"toggleExpanded\"]]],null],[12],[1,\"\\n                    \"],[10,\"svg\"],[14,0,\"fit-width-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                      \"],[3,\" left bar \"],[1,\"\\n                      \"],[10,\"path\"],[14,0,\"bar left\"],[14,\"d\",\"M4 4v16\"],[12],[13],[1,\"\\n\\n                      \"],[3,\" right bar \"],[1,\"\\n                      \"],[10,\"path\"],[14,0,\"bar right\"],[14,\"d\",\"M20 4v16\"],[12],[13],[1,\"\\n\\n                      \"],[3,\" left arrow \"],[1,\"\\n                      \"],[10,\"path\"],[14,0,\"arrow left\"],[14,\"d\",\"M10 12H6m0 0l2-2m-2 2l2 2\"],[12],[13],[1,\"\\n\\n                      \"],[3,\" right arrow \"],[1,\"\\n                      \"],[10,\"path\"],[14,0,\"arrow right\"],[14,\"d\",\"M14 12h4m0 0l-2-2m2 2l-2 2\"],[12],[13],[1,\"\\n                    \"],[13],[1,\"\\n                  \"],[13],[1,\"\\n                  \"],[11,\"button\"],[16,0,[29,[\"copy-btn \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n                    \"],[10,\"svg\"],[14,0,\"copy-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                      \"],[3,\" Copy icon \"],[1,\"\\n                      \"],[10,\"g\"],[14,0,\"icon-copy\"],[12],[1,\"\\n                        \"],[10,\"rect\"],[14,\"x\",\"6\"],[14,\"y\",\"2\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[12],[13],[1,\"\\n                        \"],[10,\"rect\"],[14,\"x\",\"1\"],[14,\"y\",\"8\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"#272822\"],[12],[13],[1,\"\\n\\n                      \"],[13],[1,\"\\n\\n                      \"],[3,\" Check icon \"],[1,\"\\n                      \"],[10,\"path\"],[14,0,\"icon-check\"],[14,\"d\",\"M5 13l4 4L19 7\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"none\"],[14,\"stroke-linecap\",\"round\"],[14,\"stroke-linejoin\",\"round\"],[12],[13],[1,\"\\n                    \"],[13],[1,\"\\n                  \"],[13],[1,\"\\n                \"],[13],[1,\"\\n              \"],[13],[1,\"\\n\"]],[]],null],[1,\"          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"displayCode\"]],[[[1,\"        \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n          \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n          \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n            \"],[11,\"button\"],[16,0,[29,[\"copy-btn \",[52,[30,0,[\"copied\"]],\"is-copied\"]]]],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n              \"],[10,\"svg\"],[14,0,\"copy-icon\"],[14,\"width\",\"18\"],[14,\"height\",\"18\"],[14,\"viewBox\",\"0 0 24 24\"],[14,\"fill\",\"none\"],[14,\"aria-hidden\",\"true\"],[12],[1,\"\\n                \"],[3,\" Copy icon \"],[1,\"\\n                \"],[10,\"g\"],[14,0,\"icon-copy\"],[12],[1,\"\\n                  \"],[10,\"rect\"],[14,\"x\",\"6\"],[14,\"y\",\"2\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[12],[13],[1,\"\\n                  \"],[10,\"rect\"],[14,\"x\",\"1\"],[14,\"y\",\"8\"],[14,\"width\",\"13\"],[14,\"height\",\"13\"],[14,\"rx\",\"2\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"#272822\"],[12],[13],[1,\"\\n\\n                \"],[13],[1,\"\\n\\n                \"],[3,\" Check icon \"],[1,\"\\n                \"],[10,\"path\"],[14,0,\"icon-check\"],[14,\"d\",\"M5 13l4 4L19 7\"],[14,\"stroke\",\"currentColor\"],[14,\"stroke-width\",\"2\"],[14,\"fill\",\"none\"],[14,\"stroke-linecap\",\"round\"],[14,\"stroke-linejoin\",\"round\"],[12],[13],[1,\"\\n              \"],[13],[1,\"\\n            \"],[13],[1,\"\\n          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n\"]],[]],null]],[]]]],[]],[[[41,[30,0,[\"displayCode\"]],[[[1,\"      \"],[10,0],[14,0,\"code-block\"],[12],[1,\"\\n        \"],[8,[32,0],null,[[\"@code\",\"@language\"],[[30,0,[\"displayCode\"]],[30,0,[\"effectiveLanguage\"]]]],null],[1,\"\\n        \"],[10,0],[14,0,\"code-actions fxb gp4 pdy1 pdx3\"],[12],[1,\"\\n          \"],[11,\"button\"],[24,\"aria-label\",\"Copy code\"],[24,4,\"button\"],[4,[32,1],[\"click\",[30,0,[\"copyCode\"]]],null],[12],[1,\"\\n\"],[41,[30,0,[\"copied\"]],[[[1,\"              copied\\n\"]],[]],[[[1,\"              copy\\n\"]],[]]],[1,\"          \"],[13],[1,\"\\n        \"],[13],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],null]],[]]],[13]],[\"&attrs\",\"@title\",\"@description\",\"@hasDemo\",\"&default\"],[\"if\",\"has-block\",\"yield\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/code-preview.js",
     "scope": () => [_codeBlock.default, _modifier.on],
     "isStrictMode": true
@@ -2856,10 +3410,10 @@
     {{#each @paletteGroups as |group|}}
       <div class="fxcol gp2">
         <h5 class="mgt0 mgb2 bold-font fg-primary">{{group.title}}</h5>
-        <div class="uls-grid col-4 gp5">
+        <div class="ulx-grid col-4 gp5">
           {{#each group.colors as |color|}}
             <article
-              class="uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center"
+              class="ulx-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center"
             >
               <div
                 class="rds2 mgb2 bd mg-auto"
@@ -2875,8 +3429,8 @@
   </div>
   */
   {
-    "id": "GZ3/CgkA",
-    "block": "[[[10,0],[14,0,\"fxb fcol gp8 w-100p\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxcol gp2\"],[12],[1,\"\\n      \"],[10,\"h5\"],[14,0,\"mgt0 mgb2 bold-font fg-primary\"],[12],[1,[30,2,[\"title\"]]],[13],[1,\"\\n      \"],[10,0],[14,0,\"uls-grid col-4 gp5\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,2,[\"colors\"]]],null]],null],null,[[[1,\"          \"],[10,\"article\"],[14,0,\"uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"rds2 mgb2 bd mg-auto\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,3,[\"cssVar\"]]],null]],[12],[13],[1,\"\\n            \"],[10,2],[14,0,\"mgb1 fg-text-secondary\"],[12],[10,\"code\"],[12],[1,[30,3,[\"token\"]]],[13],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[3]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[2]],null],[13]],[\"@paletteGroups\",\"group\",\"color\"],[\"each\",\"-track-array\"]]",
+    "id": "WcvLtQ4S",
+    "block": "[[[10,0],[14,0,\"fxb fcol gp8 w-100p\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,1]],null]],null],null,[[[1,\"    \"],[10,0],[14,0,\"fxcol gp2\"],[12],[1,\"\\n      \"],[10,\"h5\"],[14,0,\"mgt0 mgb2 bold-font fg-primary\"],[12],[1,[30,2,[\"title\"]]],[13],[1,\"\\n      \"],[10,0],[14,0,\"ulx-grid col-4 gp5\"],[12],[1,\"\\n\"],[42,[28,[31,1],[[28,[31,1],[[30,2,[\"colors\"]]],null]],null],null,[[[1,\"          \"],[10,\"article\"],[14,0,\"ulx-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center\"],[12],[1,\"\\n            \"],[10,0],[14,0,\"rds2 mgb2 bd mg-auto\"],[15,5,[28,[30,0,[\"getStyleString\"]],[[30,3,[\"cssVar\"]]],null]],[12],[13],[1,\"\\n            \"],[10,2],[14,0,\"mgb1 fg-text-secondary\"],[12],[10,\"code\"],[12],[1,[30,3,[\"token\"]]],[13],[13],[1,\"\\n          \"],[13],[1,\"\\n\"]],[3]],null],[1,\"      \"],[13],[1,\"\\n    \"],[13],[1,\"\\n\"]],[2]],null],[13]],[\"@paletteGroups\",\"group\",\"color\"],[\"each\",\"-track-array\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/color-palette.js",
     "isStrictMode": true
   }), _ColorPaletteComponent);
@@ -3522,23 +4076,25 @@
   _FoundationSectionComponent = FoundationSectionComponent;
   (0, _component2.setComponentTemplate)((0, _templateFactory.createTemplateFactory)(
   /*
-    <section id={{@id}} class="uls-foundation-section mgb10">
+    <section id={{@id}} class="ulx-foundation-section mgb10">
     <h3 class="bold-font mgt0 mgb2">{{@title}}</h3>
     <header class="mgb2">
       {{#if @subtitle}}
-        <p class="uls-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0">
+        <p
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
           {{@subtitle}}
         </p>
       {{/if}}
     </header>
-    <div class="uls-foundation-section__content w-100p">
+    <div class="ulx-foundation-section__content w-100p">
       {{yield}}
     </div>
   </section>
   */
   {
-    "id": "43nMk5bS",
-    "block": "[[[10,\"section\"],[15,1,[30,1]],[14,0,\"uls-foundation-section mgb10\"],[12],[1,\"\\n  \"],[10,\"h3\"],[14,0,\"bold-font mgt0 mgb2\"],[12],[1,[30,2]],[13],[1,\"\\n  \"],[10,\"header\"],[14,0,\"mgb2\"],[12],[1,\"\\n\"],[41,[30,3],[[[1,\"      \"],[10,2],[14,0,\"uls-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0\"],[12],[1,\"\\n        \"],[1,[30,3]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],null],[1,\"  \"],[13],[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-section__content w-100p\"],[12],[1,\"\\n    \"],[18,4,null],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[\"@id\",\"@title\",\"@subtitle\",\"&default\"],[\"if\",\"yield\"]]",
+    "id": "8wOP6IBi",
+    "block": "[[[10,\"section\"],[15,1,[30,1]],[14,0,\"ulx-foundation-section mgb10\"],[12],[1,\"\\n  \"],[10,\"h3\"],[14,0,\"bold-font mgt0 mgb2\"],[12],[1,[30,2]],[13],[1,\"\\n  \"],[10,\"header\"],[14,0,\"mgb2\"],[12],[1,\"\\n\"],[41,[30,3],[[[1,\"      \"],[10,2],[14,0,\"ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0\"],[12],[1,\"\\n        \"],[1,[30,3]],[1,\"\\n      \"],[13],[1,\"\\n\"]],[]],null],[1,\"  \"],[13],[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-section__content w-100p\"],[12],[1,\"\\n    \"],[18,4,null],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[\"@id\",\"@title\",\"@subtitle\",\"&default\"],[\"if\",\"yield\"]]",
     "moduleName": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/demo/ulx-ember/ulx-ember/components/common/doc-main/foundation-section.js",
     "isStrictMode": true
   }), _FoundationSectionComponent);
@@ -3587,7 +4143,49 @@
     "isStrictMode": true
   }), _RichTextComponent);
 });
-;define("ulx-ember/components/elements/ulx-checkbox/checkbox-item", ["exports", "uls-components/components/elements/ulx-checkbox/checkbox-item"], function (_exports, _checkboxItem) {
+;define("ulx-ember/components/elements/ulx-avatar-group/index", ["exports", "ulx-components/components/elements/ulx-avatar-group/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-avatar-group/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/elements/ulx-avatar/index", ["exports", "ulx-components/components/elements/ulx-avatar/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-avatar/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/elements/ulx-badge/index", ["exports", "ulx-components/components/elements/ulx-badge/index"], function (_exports, _index) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _index.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-badge/index"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/elements/ulx-checkbox/checkbox-item", ["exports", "ulx-components/components/elements/ulx-checkbox/checkbox-item"], function (_exports, _checkboxItem) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3599,9 +4197,9 @@
       return _checkboxItem.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-checkbox/checkbox-item"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-checkbox/checkbox-item"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-checkbox/index", ["exports", "uls-components/components/elements/ulx-checkbox/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-checkbox/index", ["exports", "ulx-components/components/elements/ulx-checkbox/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3613,9 +4211,9 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-checkbox/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-checkbox/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-icon-input/index", ["exports", "uls-components/components/elements/ulx-icon-input/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-icon-input/index", ["exports", "ulx-components/components/elements/ulx-icon-input/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3627,9 +4225,9 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-icon-input/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-icon-input/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-icon/index", ["exports", "uls-components/components/elements/ulx-icon/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-icon/index", ["exports", "ulx-components/components/elements/ulx-icon/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3641,9 +4239,9 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-icon/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-icon/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-input/index", ["exports", "uls-components/components/elements/ulx-input/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-input/index", ["exports", "ulx-components/components/elements/ulx-input/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3655,9 +4253,9 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-input/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-input/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-radio/index", ["exports", "uls-components/components/elements/ulx-radio/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-radio/index", ["exports", "ulx-components/components/elements/ulx-radio/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3669,9 +4267,9 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-radio/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-radio/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-radio/radio-item", ["exports", "uls-components/components/elements/ulx-radio/radio-item"], function (_exports, _radioItem) {
+;define("ulx-ember/components/elements/ulx-radio/radio-item", ["exports", "ulx-components/components/elements/ulx-radio/radio-item"], function (_exports, _radioItem) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3683,9 +4281,9 @@
       return _radioItem.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-radio/radio-item"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-radio/radio-item"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-tag/index", ["exports", "uls-components/components/elements/ulx-tag/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-tag/index", ["exports", "ulx-components/components/elements/ulx-tag/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3697,9 +4295,9 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-tag/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-tag/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/elements/ulx-textarea/index", ["exports", "uls-components/components/elements/ulx-textarea/index"], function (_exports, _index) {
+;define("ulx-ember/components/elements/ulx-textarea/index", ["exports", "ulx-components/components/elements/ulx-textarea/index"], function (_exports, _index) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3711,9 +4309,51 @@
       return _index.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/elements/ulx-textarea/index"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/elements/ulx-textarea/index"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/ulx-checkbox", ["exports", "uls-components/components/ulx-checkbox"], function (_exports, _ulxCheckbox) {
+;define("ulx-ember/components/ulx-avatar-group", ["exports", "ulx-components/components/ulx-avatar-group"], function (_exports, _ulxAvatarGroup) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxAvatarGroup.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-avatar-group"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/ulx-avatar", ["exports", "ulx-components/components/ulx-avatar"], function (_exports, _ulxAvatar) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxAvatar.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-avatar"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/ulx-badge", ["exports", "ulx-components/components/ulx-badge"], function (_exports, _ulxBadge) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _ulxBadge.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-badge"eaimeta@70e063a35619d71f
+});
+;define("ulx-ember/components/ulx-checkbox", ["exports", "ulx-components/components/ulx-checkbox"], function (_exports, _ulxCheckbox) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3725,7 +4365,7 @@
       return _ulxCheckbox.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-checkbox"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-checkbox"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-docs-header", ["exports", "@glimmer/component", "@glimmer/tracking", "@ember/object", "ember-modifier", "@ember/modifier", "@ember/component", "@ember/template-factory"], function (_exports, _component, _tracking, _object, _emberModifier, _modifier, _component2, _templateFactory) {
   "use strict";
@@ -3888,7 +4528,7 @@
     }
   }), _applyDecoratedDescriptor(_class.prototype, "toggleDarkMode", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleDarkMode"), _class.prototype), _class);
 });
-;define("ulx-ember/components/ulx-icon-input", ["exports", "uls-components/components/ulx-icon-input"], function (_exports, _ulxIconInput) {
+;define("ulx-ember/components/ulx-icon-input", ["exports", "ulx-components/components/ulx-icon-input"], function (_exports, _ulxIconInput) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3900,9 +4540,9 @@
       return _ulxIconInput.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-icon-input"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-icon-input"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/ulx-icon", ["exports", "uls-components/components/ulx-icon"], function (_exports, _ulxIcon) {
+;define("ulx-ember/components/ulx-icon", ["exports", "ulx-components/components/ulx-icon"], function (_exports, _ulxIcon) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3914,9 +4554,9 @@
       return _ulxIcon.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-icon"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-icon"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/ulx-input", ["exports", "uls-components/components/ulx-input"], function (_exports, _ulxInput) {
+;define("ulx-ember/components/ulx-input", ["exports", "ulx-components/components/ulx-input"], function (_exports, _ulxInput) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3928,9 +4568,9 @@
       return _ulxInput.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-input"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-input"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/ulx-radio", ["exports", "uls-components/components/ulx-radio"], function (_exports, _ulxRadio) {
+;define("ulx-ember/components/ulx-radio", ["exports", "ulx-components/components/ulx-radio"], function (_exports, _ulxRadio) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3942,7 +4582,7 @@
       return _ulxRadio.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-radio"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-radio"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/ulx-react-bridge", ["exports", "@glimmer/component", "ember-modifier", "react-dom/client", "react", "@ember/component", "@ember/template-factory"], function (_exports, _component, _emberModifier, _client, _react, _component2, _templateFactory) {
   "use strict";
@@ -3985,7 +4625,7 @@
     "isStrictMode": true
   }), _UlxReactBridge);
 });
-;define("ulx-ember/components/ulx-tag", ["exports", "uls-components/components/ulx-tag"], function (_exports, _ulxTag) {
+;define("ulx-ember/components/ulx-tag", ["exports", "ulx-components/components/ulx-tag"], function (_exports, _ulxTag) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -3997,9 +4637,9 @@
       return _ulxTag.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-tag"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-tag"eaimeta@70e063a35619d71f
 });
-;define("ulx-ember/components/ulx-textarea", ["exports", "uls-components/components/ulx-textarea"], function (_exports, _ulxTextarea) {
+;define("ulx-ember/components/ulx-textarea", ["exports", "ulx-components/components/ulx-textarea"], function (_exports, _ulxTextarea) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -4011,7 +4651,7 @@
       return _ulxTextarea.default;
     }
   });
-  0; //eaimeta@70e063a35619d71f0,"uls-components/components/ulx-textarea"eaimeta@70e063a35619d71f
+  0; //eaimeta@70e063a35619d71f0,"ulx-components/components/ulx-textarea"eaimeta@70e063a35619d71f
 });
 ;define("ulx-ember/components/welcome-page", ["exports", "ember-welcome-page/components/welcome-page"], function (_exports, _welcomePage) {
   "use strict";
@@ -4217,6 +4857,14 @@
         menuItem: 'tag',
         to: '/components/elements/tag',
         route: 'components.elements.tag'
+      }, {
+        menuItem: 'Badge',
+        to: '/components/elements/badge',
+        route: 'components.elements.badge'
+      }, {
+        menuItem: 'Avatar',
+        to: '/components/elements/avatar',
+        route: 'components.elements.avatar'
       }]
     }]
   }, {
@@ -4324,6 +4972,120 @@
     }
     get isPassthroughTab() {
       return this.activeTab === 'passthrough';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
+;define("ulx-ember/controllers/components/elements/avatar", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsAvatarController = _exports.default = (_class = class ComponentsElementsAvatarController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
+    }
+    onTabChange(tabId) {
+      this.activeTab = tabId;
+    }
+  }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "activeTab", [_tracking.tracked], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function () {
+      return 'features';
+    }
+  }), _applyDecoratedDescriptor(_class.prototype, "onTabChange", [_object.action], Object.getOwnPropertyDescriptor(_class.prototype, "onTabChange"), _class.prototype), _class);
+});
+;define("ulx-ember/controllers/components/elements/badge", ["exports", "@ember/controller", "@glimmer/tracking", "@ember/object"], function (_exports, _controller, _tracking, _object) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  var _class, _descriptor;
+  0; //eaimeta@70e063a35619d71f0,"@ember/controller",0,"@glimmer/tracking",0,"@ember/object"eaimeta@70e063a35619d71f
+  function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+  function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+  function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+  function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+  function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+  function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+  let ComponentsElementsBadgeController = _exports.default = (_class = class ComponentsElementsBadgeController extends _controller.default {
+    constructor(...args) {
+      super(...args);
+      _initializerDefineProperty(this, "activeTab", _descriptor, this);
+      _defineProperty(this, "tabs", [{
+        id: 'features',
+        label: 'FEATURES'
+      }, {
+        id: 'theming',
+        label: 'THEMING'
+      }, {
+        id: 'builder',
+        label: 'BUILDER'
+      }, {
+        id: 'passthrough',
+        label: 'PASS THROUGH'
+      }]);
+    }
+    get isFeaturesTab() {
+      return this.activeTab === 'features';
+    }
+    get isThemingTab() {
+      return this.activeTab === 'theming';
+    }
+    get isPassthroughTab() {
+      return this.activeTab === 'passthrough';
+    }
+    get isBuilderTab() {
+      return this.activeTab === 'builder';
     }
     onTabChange(tabId) {
       this.activeTab = tabId;
@@ -4897,11 +5659,11 @@
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { TestComp } from 'uls-components'",
+    importMsg: "import { TestComp } from 'ulx-components'",
     // Accessibility information
     accessibility: {
-      description: "TestComp component description for accessibility.",
-      example: "<TestComp />"
+      description: 'TestComp component description for accessibility.',
+      example: '<TestComp />'
     }
   };
 });
@@ -4954,7 +5716,898 @@ export default class BasicTestCompDemo extends Component {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { TestComp } from 'uls-components';
+import { TestComp } from 'ulx-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/avatar/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // AVATAR BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for Avatar.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'Avatar',
+    importLine: "import { Avatar } from 'ulx-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<Avatar />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/avatar/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/avatar/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.AvatarFeatureItems = void 0;
+  _exports.default = AvatarFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/avatar/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Avatar Feature Items
+  // ==========================================================================
+  const AvatarFeatureItems = _exports.AvatarFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>Avatar</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the Avatar component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "icon",
+    sectionNav: "Icon",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Icon</code> demo shows Icon usage of the Avatar component."
+      }
+    },
+    demo: {
+      component: _imports.IconDemo,
+      props: {
+        source: _imports.IconSource,
+        snippetName: "icon",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "image",
+    sectionNav: "Image",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Image</code> demo shows Image usage of the Avatar component."
+      }
+    },
+    demo: {
+      component: _imports.ImageDemo,
+      props: {
+        source: _imports.ImageSource,
+        snippetName: "image",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "group",
+    sectionNav: "Group",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Group</code> demo shows Group usage of the Avatar component."
+      }
+    },
+    demo: {
+      component: _imports.GroupDemo,
+      props: {
+        source: _imports.GroupSource,
+        snippetName: "group",
+        language: "handlebars"
+      }
+    }
+  }];
+  function AvatarFeatures() {
+    return AvatarFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/avatar/imports", ["exports", "ulx-ember/components/Demo/Avatar/Basic", "ulx-ember/components/Demo/Avatar/Icon", "ulx-ember/components/Demo/Avatar/Image", "ulx-ember/components/Demo/Avatar/Group", "ulx-ember/documentation/components/elements/avatar/snippets/Import.gjs", "ulx-ember/documentation/components/elements/avatar/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/avatar/snippets/Icon.gjs", "ulx-ember/documentation/components/elements/avatar/snippets/Image.gjs", "ulx-ember/documentation/components/elements/avatar/snippets/Group.gjs"], function (_exports, _Basic, _Icon, _Image, _Group, _Import, _Basic2, _Icon2, _Image2, _Group2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "GroupDemo", {
+    enumerable: true,
+    get: function () {
+      return _Group.default;
+    }
+  });
+  Object.defineProperty(_exports, "GroupSource", {
+    enumerable: true,
+    get: function () {
+      return _Group2.default;
+    }
+  });
+  Object.defineProperty(_exports, "IconDemo", {
+    enumerable: true,
+    get: function () {
+      return _Icon.default;
+    }
+  });
+  Object.defineProperty(_exports, "IconSource", {
+    enumerable: true,
+    get: function () {
+      return _Icon2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImageDemo", {
+    enumerable: true,
+    get: function () {
+      return _Image.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImageSource", {
+    enumerable: true,
+    get: function () {
+      return _Image2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Avatar/Basic",0,"ulx-ember/components/Demo/Avatar/Icon",0,"ulx-ember/components/Demo/Avatar/Image",0,"ulx-ember/components/Demo/Avatar/Group",0,"ulx-ember/documentation/components/elements/avatar/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/avatar/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/avatar/snippets/Icon.gjs",0,"ulx-ember/documentation/components/elements/avatar/snippets/Image.gjs",0,"ulx-ember/documentation/components/elements/avatar/snippets/Group.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Avatar Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Avatar demo components
+  // Demo Components
+  // Import source (for import section)
+  // Avatar Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Avatar demo source files
+});
+;define("ulx-ember/documentation/components/elements/avatar/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // AVATAR COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for Avatar component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Misc',
+    menuItem: 'Avatar',
+    routeBase: '/components/elements/avatar',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'Avatar',
+    subHeader: 'Avatar is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { Avatar } from 'ulx-components'",
+    // Accessibility information
+    accessibility: {
+      description: 'Avatar component description for accessibility.',
+      example: '<Avatar />'
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/avatar/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxAvatar } from 'ulx-components';
+
+<template>
+  <div class="ulx-grid col-2">
+    <div class="">
+      <h6 class="bold-font mgb3">Square</h6>
+      <div class="fxb wrap gp4 fvc">
+        <UlxAvatar
+          @type="text"
+          @label="UL"
+          @shape="square"
+          @size="xl-size"
+          @variant="grey"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="V"
+          @shape="square"
+          @size="l-size"
+          @variant="blue"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="U"
+          @shape="square"
+          @size="m-size"
+          @variant="purple"
+        />
+      </div>
+    </div>
+
+    <div class="">
+      <h6 class="bold-font mgb3">Circle</h6>
+      <div class="fxb wrap gp4 fvc">
+        <UlxAvatar
+          @type="text"
+          @label="P"
+          @shape="circle"
+          @size="xl-size"
+          @variant="grey"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="V"
+          @shape="circle"
+          @size="l-size"
+          @variant="blue"
+        />
+        <UlxAvatar
+          @type="text"
+          @label="U"
+          @shape="circle"
+          @size="m-size"
+          @variant="purple"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/avatar/snippets/Group.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxAvatarGroup } from 'ulx-components';
+
+export default class GroupDemoComponent extends Component {
+  get avatarItems() {
+    return [
+      {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/women/90.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+      },
+      {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/women/91.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+      },
+      {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/men/32.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+      },
+      {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/women/44.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+      },
+      {
+        type: 'image',
+        image: 'https://randomuser.me/api/portraits/men/75.jpg',
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+      },
+    ];
+  }
+
+  <template>
+    <UlxAvatarGroup
+      @items={{this.avatarItems}}
+      @stacked={{true}}
+      @maxVisible={{4}}
+      @size="l-size"
+      @shape="circle"
+    />
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/avatar/snippets/Icon.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxAvatar } from 'ulx-components';
+
+<template>
+  <div class="fxb wrap gp4 fvc">
+    <UlxAvatar
+      @type="icon"
+      @iconName="user-info-icon-01"
+      @iconType="font"
+      @iconComponentClass="bs-icons1"
+      @shape="circle"
+      @size="xl-size"
+      @variant="primary"
+    />
+    <UlxAvatar
+      @type="icon"
+      @iconName="contact-support-icon-01"
+      @iconType="font"
+      @iconComponentClass="bs-icons1"
+      @shape="circle"
+      @size="l-size"
+      @variant="secondary"
+    />
+    <UlxAvatar
+      @type="icon"
+      @iconName="reassign-member-icon"
+      @iconType="font"
+      @iconComponentClass="bs-icons1"
+      @shape="square"
+      @size="m-size"
+      @variant="info"
+    />
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/avatar/snippets/Image.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxAvatar } from 'ulx-components';
+
+<template>
+  <div class="fxb wrap gp4 fvc">
+    <UlxAvatar
+      @type="image"
+      @image="https://randomuser.me/api/portraits/women/90.jpg"
+      @imageAlt="User profile picture"
+      @shape="square"
+      @size="xl-size"
+      @ariaLabel="User profile"
+    />
+    <UlxAvatar
+      @type="image"
+      @image="https://randomuser.me/api/portraits/women/91.jpg"
+      @imageAlt="User profile picture"
+      @shape="circle"
+      @size="xl-size"
+      @ariaLabel="User profile"
+    />
+  </div>
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/avatar/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { Avatar } from 'ulx-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/badge/builder-schema", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // BADGE BUILDER SCHEMA
+  // ==========================================================================
+  // Default builder schema for Badge.
+  // Customize props, stateToProps, and stateToSnippet based on the component API.
+  var _default = _exports.default = {
+    componentName: 'Badge',
+    importLine: "import { Badge } from 'ulx-components';",
+    props: [],
+    stateToProps: () => ({}),
+    stateToSnippet: () => '<Badge />'
+  };
+});
+;define("ulx-ember/documentation/components/elements/badge/features", ["exports", "ulx-ember/components/common/doc-main/rich-text", "ulx-ember/documentation/components/elements/badge/imports"], function (_exports, _richText, _imports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.BadgeFeatureItems = void 0;
+  _exports.default = BadgeFeatures;
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/common/doc-main/rich-text",0,"ulx-ember/documentation/components/elements/badge/imports"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Badge Feature Items
+  // ==========================================================================
+  const BadgeFeatureItems = _exports.BadgeFeatureItems = [{
+    id: "import",
+    sectionNav: "Import",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>import</code> property is used to import the <code>Badge</code> component."
+      }
+    },
+    demo: {
+      component: null,
+      // Import section doesn't need demo
+      props: {
+        source: _imports.ImportSource,
+        snippetName: "import",
+        language: "jsx"
+      }
+    }
+  }, {
+    id: "basic",
+    sectionNav: "Basic",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Basic</code> demo shows basic usage of the Badge component."
+      }
+    },
+    demo: {
+      component: _imports.BasicDemo,
+      props: {
+        source: _imports.BasicSource,
+        snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "variants",
+    sectionNav: "Variants",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Variants</code> demo shows Variants usage of the Badge component."
+      }
+    },
+    demo: {
+      component: _imports.VariantsDemo,
+      props: {
+        source: _imports.VariantsSource,
+        snippetName: "variants",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "type",
+    sectionNav: "Type",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Type</code> demo shows Type usage of the Badge component."
+      }
+    },
+    demo: {
+      component: _imports.TypeDemo,
+      props: {
+        source: _imports.TypeSource,
+        snippetName: "type",
+        language: "handlebars"
+      }
+    }
+  }, {
+    id: "size",
+    sectionNav: "Size",
+    sectionDesc: {
+      component: _richText.default,
+      props: {
+        as: "span",
+        content: "The <code>Size</code> demo shows Size usage of the Badge component."
+      }
+    },
+    demo: {
+      component: _imports.SizeDemo,
+      props: {
+        source: _imports.SizeSource,
+        snippetName: "size",
+        language: "handlebars"
+      }
+    }
+  }];
+  function BadgeFeatures() {
+    return BadgeFeatureItems;
+  }
+});
+;define("ulx-ember/documentation/components/elements/badge/imports", ["exports", "ulx-ember/components/Demo/Badge/Basic", "ulx-ember/components/Demo/Badge/Variants", "ulx-ember/components/Demo/Badge/Type", "ulx-ember/components/Demo/Badge/Size", "ulx-ember/documentation/components/elements/badge/snippets/Import.gjs", "ulx-ember/documentation/components/elements/badge/snippets/Basic.gjs", "ulx-ember/documentation/components/elements/badge/snippets/Variants.gjs", "ulx-ember/documentation/components/elements/badge/snippets/Type.gjs", "ulx-ember/documentation/components/elements/badge/snippets/Size.gjs"], function (_exports, _Basic, _Variants, _Type, _Size, _Import, _Basic2, _Variants2, _Type2, _Size2) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(_exports, "BasicDemo", {
+    enumerable: true,
+    get: function () {
+      return _Basic.default;
+    }
+  });
+  Object.defineProperty(_exports, "BasicSource", {
+    enumerable: true,
+    get: function () {
+      return _Basic2.default;
+    }
+  });
+  Object.defineProperty(_exports, "ImportSource", {
+    enumerable: true,
+    get: function () {
+      return _Import.default;
+    }
+  });
+  Object.defineProperty(_exports, "SizeDemo", {
+    enumerable: true,
+    get: function () {
+      return _Size.default;
+    }
+  });
+  Object.defineProperty(_exports, "SizeSource", {
+    enumerable: true,
+    get: function () {
+      return _Size2.default;
+    }
+  });
+  Object.defineProperty(_exports, "TypeDemo", {
+    enumerable: true,
+    get: function () {
+      return _Type.default;
+    }
+  });
+  Object.defineProperty(_exports, "TypeSource", {
+    enumerable: true,
+    get: function () {
+      return _Type2.default;
+    }
+  });
+  Object.defineProperty(_exports, "VariantsDemo", {
+    enumerable: true,
+    get: function () {
+      return _Variants.default;
+    }
+  });
+  Object.defineProperty(_exports, "VariantsSource", {
+    enumerable: true,
+    get: function () {
+      return _Variants2.default;
+    }
+  });
+  0; //eaimeta@70e063a35619d71f0,"ulx-ember/components/Demo/Badge/Basic",0,"ulx-ember/components/Demo/Badge/Variants",0,"ulx-ember/components/Demo/Badge/Type",0,"ulx-ember/components/Demo/Badge/Size",0,"ulx-ember/documentation/components/elements/badge/snippets/Import.gjs",0,"ulx-ember/documentation/components/elements/badge/snippets/Basic.gjs",0,"ulx-ember/documentation/components/elements/badge/snippets/Variants.gjs",0,"ulx-ember/documentation/components/elements/badge/snippets/Type.gjs",0,"ulx-ember/documentation/components/elements/badge/snippets/Size.gjs"eaimeta@70e063a35619d71f
+  // ==========================================================================
+  // Badge Demo Components Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Badge demo components
+  // Demo Components
+  // Import source (for import section)
+  // Badge Demo Sources Barrel Export
+  // ==========================================================================
+  // Centralized exports for all Badge demo source files
+});
+;define("ulx-ember/documentation/components/elements/badge/meta", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  // ==========================================================================
+  // BADGE COMPONENT METADATA
+  // ==========================================================================
+  // Single source of truth for Badge component documentation
+  var _default = _exports.default = {
+    // Navigation metadata
+    category: 'Elements',
+    subCategory: 'Misc',
+    menuItem: 'Badge',
+    routeBase: '/components/elements/badge',
+    icon: 'pi pi-compass',
+    // Page metadata
+    header: 'Badge',
+    subHeader: 'Badge is a component for user interaction.',
+    // Tab configuration
+    tabs: [{
+      name: 'Features',
+      route: '/features',
+      id: 'features'
+    }, {
+      name: 'Theming',
+      route: '/theming',
+      id: 'theming'
+    }, {
+      name: 'Builder',
+      route: '/builder',
+      id: 'builder'
+    }, {
+      name: 'Pass Through',
+      route: '/passthrough',
+      id: 'passthrough'
+    }],
+    // Import message for the component
+    importMsg: "import { Badge } from 'ulx-components'",
+    // Accessibility information
+    accessibility: {
+      description: 'Badge component description for accessibility.',
+      example: '<Badge />'
+    }
+  };
+});
+;define("ulx-ember/documentation/components/elements/badge/snippets/Basic.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { UlxBadge } from 'ulx-components';
+
+<template>
+  <UlxBadge @value="2" @size="s-size" @variant="primary" @circle={{true}} />
+</template>
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/badge/snippets/Import.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import { Badge } from 'ulx-components';
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/badge/snippets/Size.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxBadge } from 'ulx-components';
+
+export default class SizeDemoComponent extends Component {
+  get sizes() {
+    return [
+      { label: '1', size: 'xs-size' },
+      { label: '2', size: 's-size' },
+      { label: '3', size: 'm-size' },
+      { label: '4', size: 'l-size' },
+      { label: '5', size: 'xl-size' },
+    ];
+  }
+
+  get dotSizes() {
+    return [
+      { label: '5', size: 'xl-size' },
+      { label: '4', size: 'l-size' },
+      { label: '3', size: 'm-size' },
+      { label: '2', size: 's-size' },
+      { label: '1', size: 'xs-size' },
+    ];
+  }
+
+  <template>
+    <div class="fxb wrap gp4 fvc mgb12">
+      {{#each this.sizes key="size" as |item|}}
+        <UlxBadge
+          @value={{item.label}}
+          @size={{item.size}}
+          @variant="primary"
+          @type="circle"
+        />
+      {{/each}}
+    </div>
+    <div class="fxb wrap gp4 fvc">
+      {{#each this.dotSizes key="size" as |item|}}
+        <UlxBadge
+          @value={{item.label}}
+          @size={{item.size}}
+          @variant="primary"
+          @type="dot"
+          @ariaLabel="Notify"
+        />
+      {{/each}}
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/badge/snippets/Type.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxBadge } from 'ulx-components';
+
+export default class TypeDemoComponent extends Component {
+  get types() {
+    return [
+      { label: '1', type: undefined },
+      { label: '2', type: 'circle' },
+      { label: '', type: 'dot' },
+    ];
+  }
+
+  <template>
+    <div class="fxb wrap fvc gp4">
+      {{#each this.types key="type" as |item|}}
+        <UlxBadge
+          @value={{item.label}}
+          @size="s-size"
+          @variant="primary"
+          @type={{item.type}}
+        />
+      {{/each}}
+    </div>
+  </template>
+}
+
+`;
+});
+;define("ulx-ember/documentation/components/elements/badge/snippets/Variants.gjs", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
+  var _default = _exports.default = `
+import Component from '@glimmer/component';
+import { UlxBadge } from 'ulx-components';
+
+export default class VariantsDemoComponent extends Component {
+  get variants() {
+    return [
+      { label: '2', variant: 'primary' },
+      { label: '12', variant: 'secondary' },
+      { label: '32', variant: 'success' },
+      { label: '455', variant: 'info' },
+      { label: '32', variant: 'warning' },
+      { label: '54', variant: 'danger' },
+      { label: '65', variant: 'contrast' },
+      { label: '56', variant: 'light-grey' },
+    ];
+  }
+
+  <template>
+    <div class="fxb wrap gp4">
+      {{#each this.variants key="variant" as |item|}}
+        <UlxBadge
+          @value={{item.label}}
+          @size="s-size"
+          @variant={{item.variant}}
+          @type="circle"
+        />
+      {{/each}}
+    </div>
+  </template>
+}
 
 `;
 });
@@ -4973,7 +6626,7 @@ import { TestComp } from 'uls-components';
   // Customize props, stateToProps, and stateToSnippet based on the component API.
   var _default = _exports.default = {
     componentName: 'Checkbox',
-    importLine: "import { Checkbox } from 'uls-components';",
+    importLine: "import { Checkbox } from 'ulx-components';",
     props: [],
     stateToProps: () => ({}),
     stateToSnippet: () => '<Checkbox />'
@@ -5229,11 +6882,11 @@ import { TestComp } from 'uls-components';
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { Checkbox } from 'uls-components'",
+    importMsg: "import { Checkbox } from 'ulx-components'",
     // Accessibility information
     accessibility: {
-      description: "Checkbox component description for accessibility.",
-      example: "<Checkbox />"
+      description: 'Checkbox component description for accessibility.',
+      example: '<Checkbox />'
     }
   };
 });
@@ -5382,7 +7035,7 @@ export default class GroupDemoComponent extends Component {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { Checkbox } from 'uls-components';
+import { Checkbox } from 'ulx-components';
 
 `;
 });
@@ -5507,8 +7160,8 @@ export default class WithlabelDemoComponent extends Component {
   // ==========================================================================
   // Drives the ComponentBuilder for the Icon doc page. Size, layers, and spin
   // options are taken from icon-tokens.js, which is generated from
-  // @uls-builder comments in uls-v2/.../less/elements/icon.less.
-  // Run: node scripts/extract-uls-builder-tokens.js [path-to-icon.less]
+  // @ulx-builder comments in ulx-v2/.../less/elements/icon.less.
+  // Run: node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]
   const normalSizes = _iconTokens.default['normal size'] ?? [];
   const shapedSizes = _iconTokens.default['shaped icons size'] ?? [];
   const layerTokens = _iconTokens.default['layers'] ?? [];
@@ -5538,7 +7191,7 @@ export default class WithlabelDemoComponent extends Component {
   const defaultNormalSize = normalSizes.includes('s24') ? 's24' : normalSizes[0] ?? 's24';
   var _default = _exports.default = {
     componentName: 'UlxIcon',
-    importLine: "import { UlxIcon } from 'uls-components';",
+    importLine: "import { UlxIcon } from 'ulx-components';",
     props: [{
       key: 'sizeMode',
       label: 'Size mode',
@@ -5883,7 +7536,7 @@ export default class WithlabelDemoComponent extends Component {
       id: 'builder'
     }],
     // Import message for the component
-    importMsg: "import { Icon } from 'uls-components'",
+    importMsg: "import { Icon } from 'ulx-components'",
     // Accessibility information
     accessibility: {
       description: 'Icon component description for accessibility.',
@@ -6029,7 +7682,7 @@ import { UlxIcon } from 'ulx-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { Icon } from 'uls-components';
+import { Icon } from 'ulx-components';
 
 `;
 });
@@ -6365,7 +8018,7 @@ import { UlxIcon } from 'ulx-components';
   // Customize props, stateToProps, and stateToSnippet based on the component API.
   var _default = _exports.default = {
     componentName: 'InputGroup',
-    importLine: "import { InputGroup } from 'uls-components';",
+    importLine: "import { InputGroup } from 'ulx-components';",
     props: [],
     stateToProps: () => ({}),
     stateToSnippet: () => '<InputGroup />'
@@ -6531,11 +8184,11 @@ import { UlxIcon } from 'ulx-components';
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { InputGroup } from 'uls-components'",
+    importMsg: "import { InputGroup } from 'ulx-components'",
     // Accessibility information
     accessibility: {
-      description: "InputGroup component description for accessibility.",
-      example: "<InputGroup />"
+      description: 'InputGroup component description for accessibility.',
+      example: '<InputGroup />'
     }
   };
 });
@@ -6589,7 +8242,7 @@ import { UlxInput, UlxIcon } from 'ulx-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { InputGroup } from 'uls-components';
+import { InputGroup } from 'ulx-components';
 
 `;
 });
@@ -6742,7 +8395,7 @@ import { UlxInput, UlxIcon } from 'ulx-components';
   };
   var _default = _exports.default = {
     componentName: 'UlxInput',
-    importLine: "import { UlxInput } from 'uls-components';",
+    importLine: "import { UlxInput } from 'ulx-components';",
     props: [{
       key: 'label',
       label: 'Label',
@@ -7264,7 +8917,7 @@ import { UlxInput, UlxIcon } from 'ulx-components';
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { UlxInput } from 'uls-components'",
+    importMsg: "import { UlxInput } from 'ulx-components'",
     // Accessibility information
     accessibility: {
       description: 'Input component description for accessibility.',
@@ -7391,7 +9044,7 @@ import { UlxInput } from 'ulx-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { Input } from 'uls-components';
+import { Input } from 'ulx-components';
 
 `;
 });
@@ -7535,7 +9188,7 @@ const sizes = [
   // Customize props, stateToProps, and stateToSnippet based on the component API.
   var _default = _exports.default = {
     componentName: 'Radio',
-    importLine: "import { Radio } from 'uls-components';",
+    importLine: "import { Radio } from 'ulx-components';",
     props: [],
     stateToProps: () => ({}),
     stateToSnippet: () => '<Radio />'
@@ -7791,11 +9444,11 @@ const sizes = [
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { Radio } from 'uls-components'",
+    importMsg: "import { Radio } from 'ulx-components'",
     // Accessibility information
     accessibility: {
-      description: "Radio component description for accessibility.",
-      example: "<Radio />"
+      description: 'Radio component description for accessibility.',
+      example: '<Radio />'
     }
   };
 });
@@ -7993,7 +9646,7 @@ export default class HorizontalDemoComponent extends Component {
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { Radio } from 'uls-components';
+import { Radio } from 'ulx-components';
 
 `;
 });
@@ -8136,7 +9789,7 @@ export default class BasicRadioDemo extends Component {
   // Customize props, stateToProps, and stateToSnippet based on the component API.
   var _default = _exports.default = {
     componentName: 'Tag',
-    importLine: "import { Tag } from 'uls-components';",
+    importLine: "import { Tag } from 'ulx-components';",
     props: [],
     stateToProps: () => ({}),
     stateToSnippet: () => '<Tag />'
@@ -8362,11 +10015,11 @@ export default class BasicRadioDemo extends Component {
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { Tag } from 'uls-components'",
+    importMsg: "import { Tag } from 'ulx-components'",
     // Accessibility information
     accessibility: {
-      description: "Tag component description for accessibility.",
-      example: "<Tag />"
+      description: 'Tag component description for accessibility.',
+      example: '<Tag />'
     }
   };
 });
@@ -8396,7 +10049,7 @@ import { UlxTag } from 'ulx-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { Tag } from 'uls-components';
+import { Tag } from 'ulx-components';
 
 `;
 });
@@ -8627,7 +10280,7 @@ export default class VariationsDemoComponent extends Component {
   // Customize props, stateToProps, and stateToSnippet based on the component API.
   var _default = _exports.default = {
     componentName: 'UlxIconInput',
-    importLine: "import { UlxIconInput } from 'uls-components';",
+    importLine: "import { UlxIconInput } from 'ulx-components';",
     props: [],
     stateToProps: () => ({}),
     stateToSnippet: () => '<UlxIconInput />'
@@ -8793,11 +10446,11 @@ export default class VariationsDemoComponent extends Component {
       id: 'passthrough'
     }],
     // Import message for the component
-    importMsg: "import { UlxIconInput } from 'uls-components'",
+    importMsg: "import { UlxIconInput } from 'ulx-components'",
     // Accessibility information
     accessibility: {
-      description: "UlxIconInput component description for accessibility.",
-      example: "<UlxIconInput />"
+      description: 'UlxIconInput component description for accessibility.',
+      example: '<UlxIconInput />'
     }
   };
 });
@@ -8838,7 +10491,7 @@ import { UlxIconInput } from 'ulx-components';
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
   var _default = _exports.default = `
-import { UlxIconInput } from 'uls-components';
+import { UlxIconInput } from 'ulx-components';
 
 `;
 });
@@ -8918,7 +10571,7 @@ import { UlxIconInput } from 'ulx-components';
   //
   //   export default {
   //     componentName: 'UlxButton',
-  //     importLine: "import { UlxButton } from 'uls-components';",
+  //     importLine: "import { UlxButton } from 'ulx-components';",
   //     props: [
   //       {
   //         key: 'severity',
@@ -9254,6 +10907,8 @@ import { UlxIconInput } from 'ulx-components';
         this.route('checkbox');
         this.route('radio');
         this.route('tag');
+        this.route('badge');
+        this.route('avatar');
       });
     });
     this.route('utilities', function () {
@@ -9327,6 +10982,44 @@ import { UlxIconInput } from 'ulx-components';
     }
   }
   _exports.default = ComponentsCollectionsTestCompRoute;
+});
+;define("ulx-ember/routes/components/elements/avatar", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/avatar/features", "ulx-ember/documentation/components/elements/avatar/meta", "ulx-ember/documentation/components/elements/avatar/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/avatar/features",0,"ulx-ember/documentation/components/elements/avatar/meta",0,"ulx-ember/documentation/components/elements/avatar/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsAvatarRoute extends _route.default {
+    model() {
+      return {
+        features: _features.AvatarFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsAvatarRoute;
+});
+;define("ulx-ember/routes/components/elements/badge", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/badge/features", "ulx-ember/documentation/components/elements/badge/meta", "ulx-ember/documentation/components/elements/badge/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/routing/route",0,"ulx-ember/documentation/components/elements/badge/features",0,"ulx-ember/documentation/components/elements/badge/meta",0,"ulx-ember/documentation/components/elements/badge/builder-schema"eaimeta@70e063a35619d71f
+  class ComponentsElementsBadgeRoute extends _route.default {
+    model() {
+      return {
+        features: _features.BadgeFeatureItems,
+        meta: _meta.default,
+        builderSchema: _builderSchema.default
+      };
+    }
+  }
+  _exports.default = ComponentsElementsBadgeRoute;
 });
 ;define("ulx-ember/routes/components/elements/checkbox", ["exports", "@ember/routing/route", "ulx-ember/documentation/components/elements/checkbox/features", "ulx-ember/documentation/components/elements/checkbox/meta", "ulx-ember/documentation/components/elements/checkbox/builder-schema"], function (_exports, _route, _features, _meta, _builderSchema) {
   "use strict";
@@ -10230,6 +11923,130 @@ import { UlxIconInput } from 'ulx-components';
     "isStrictMode": false
   });
 });
+;define("ulx-ember/templates/components/elements/avatar", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "Avatar - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-avatar-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for Avatar component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/avatar/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-avatar-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for Avatar component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "UA03u9d2",
+    "block": "[[[1,[28,[35,0],[\"Avatar - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-avatar-theming\",\"Theming\",\"Theming documentation for Avatar component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/avatar/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-avatar-passthrough\",\"Pass Through\",\"Pass Through props documentation for Avatar component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/avatar.hbs",
+    "isStrictMode": false
+  });
+});
+;define("ulx-ember/templates/components/elements/badge", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+  0; //eaimeta@70e063a35619d71f0,"@ember/template-factory"eaimeta@70e063a35619d71f
+  var _default = _exports.default = (0, _templateFactory.createTemplateFactory)(
+  /*
+    {{page-title "Badge - ULS Ember Documentation"}}
+  
+  <Common::DocMain::ComponentLayout
+    @title={{@model.meta.header}}
+    @description={{@model.meta.subHeader}}
+    @tabs={{this.tabs}}
+    @activeTab={{this.activeTab}}
+    @onTabChange={{this.onTabChange}}
+  >
+    {{#if this.isFeaturesTab}}
+      <Common::DocMain::DocPanel @features={{@model.features}} />
+    {{else if this.isThemingTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-badge-theming"
+          @title="Theming"
+          @subtitle="Theming documentation for Badge component."
+        >
+          <p class="fg-text-secondary">Theming content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{else if this.isBuilderTab}}
+      <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+        <:preview>
+          <div class="pd6 fg-text-secondary font-size12">
+            Preview not configured yet. Update
+            <code>app/documentation/components/elements/badge/builder-schema.js</code>
+            and this template to render the component with the generated props.
+          </div>
+        </:preview>
+      </Common::DocMain::ComponentBuilder>
+    {{else if this.isPassthroughTab}}
+      <div class="doc-section">
+        <Common::DocMain::FoundationSection
+          @id="components-elements-badge-passthrough"
+          @title="Pass Through"
+          @subtitle="Pass Through props documentation for Badge component."
+        >
+          <p class="fg-text-secondary">Pass Through content goes here.</p>
+        </Common::DocMain::FoundationSection>
+      </div>
+    {{/if}}
+  </Common::DocMain::ComponentLayout>
+  
+  */
+  {
+    "id": "T22JMl+Y",
+    "block": "[[[1,[28,[35,0],[\"Badge - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\",\"@tabs\",\"@activeTab\",\"@onTabChange\"],[[30,1,[\"meta\",\"header\"]],[30,1,[\"meta\",\"subHeader\"]],[30,0,[\"tabs\"]],[30,0,[\"activeTab\"]],[30,0,[\"onTabChange\"]]]],[[\"default\"],[[[[1,\"\\n\"],[41,[30,0,[\"isFeaturesTab\"]],[[[1,\"    \"],[8,[39,3],null,[[\"@features\"],[[30,1,[\"features\"]]]],null],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isThemingTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-badge-theming\",\"Theming\",\"Theming documentation for Badge component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Theming content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isBuilderTab\"]],[[[1,\"    \"],[8,[39,7],null,[[\"@schema\"],[[30,1,[\"builderSchema\"]]]],[[\"preview\"],[[[[1,\"\\n        \"],[10,0],[14,0,\"pd6 fg-text-secondary font-size12\"],[12],[1,\"\\n          Preview not configured yet. Update\\n          \"],[10,\"code\"],[12],[1,\"app/documentation/components/elements/badge/builder-schema.js\"],[13],[1,\"\\n          and this template to render the component with the generated props.\\n        \"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]],[[[41,[30,0,[\"isPassthroughTab\"]],[[[1,\"    \"],[10,0],[14,0,\"doc-section\"],[12],[1,\"\\n      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"components-elements-badge-passthrough\",\"Pass Through\",\"Pass Through props documentation for Badge component.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"Pass Through content goes here.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n    \"],[13],[1,\"\\n  \"]],[]],null]],[]]]],[]]]],[]]]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/component-layout\",\"if\",\"common/doc-main/doc-panel\",\"div\",\"common/doc-main/foundation-section\",\"p\",\"common/doc-main/component-builder\",\":preview\",\"code\"]]",
+    "moduleName": "ulx-ember/templates/components/elements/badge.hbs",
+    "isStrictMode": false
+  });
+});
 ;define("ulx-ember/templates/components/elements/checkbox", ["exports", "@ember/template-factory"], function (_exports, _templateFactory) {
   "use strict";
 
@@ -10680,18 +12497,18 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Colors - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Colors" 
+  <Common::DocMain::FoundationLayout
+    @title="Colors"
     @description="Palette layers, semantic tokens, and theming workflow."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactColors}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="colors-overview"
           @title="Colors"
           @subtitle="Palette layers, semantic tokens, and theming workflow."
@@ -10701,12 +12518,10 @@ import { UlxIconInput } from 'ulx-components';
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "7hlDPAZo",
-    "block": "[[[1,[28,[35,0],[\"Colors - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Colors\",\"Palette layers, semantic tokens, and theming workflow.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactColors\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"colors-overview\",\"Colors\",\"Palette layers, semantic tokens, and theming workflow.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Colors component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "5s0npMjQ",
+    "block": "[[[1,[28,[35,0],[\"Colors - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Colors\",\"Palette layers, semantic tokens, and theming workflow.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactColors\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"colors-overview\",\"Colors\",\"Palette layers, semantic tokens, and theming workflow.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Colors component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/foundation/colors.hbs",
     "isStrictMode": false
   });
@@ -10723,32 +12538,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Typography - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Typography" 
+  <Common::DocMain::FoundationLayout
+    @title="Typography"
     @description="Standardized font scale, heading system, and other utilities."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactTypography}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="typography-overview"
           @title="Typography"
           @subtitle="Standardized font scale, heading system, and other utilities."
         >
-          <p class="fg-text-secondary">React Typography component could not be loaded.</p>
+          <p class="fg-text-secondary">React Typography component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
   */
   {
-    "id": "EgOHkWVI",
-    "block": "[[[1,[28,[35,0],[\"Typography - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Typography\",\"Standardized font scale, heading system, and other utilities.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTypography\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"typography-overview\",\"Typography\",\"Standardized font scale, heading system, and other utilities.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Typography component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "WbE4WihN",
+    "block": "[[[1,[28,[35,0],[\"Typography - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Typography\",\"Standardized font scale, heading system, and other utilities.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTypography\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"typography-overview\",\"Typography\",\"Standardized font scale, heading system, and other utilities.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Typography component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/foundation/typography.hbs",
     "isStrictMode": false
   });
@@ -10765,33 +12580,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Border Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Border Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Border Utilities"
     @description="Border utility classes for controlling element borders."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactBorderUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-border"
           @title="Border Utilities"
           @subtitle="Border utility classes for controlling element borders."
         >
-          <p class="fg-text-secondary">React BorderUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React BorderUtilities component could not
+            be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "kF89skbe",
-    "block": "[[[1,[28,[35,0],[\"Border Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Border Utilities\",\"Border utility classes for controlling element borders.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactBorderUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-border\",\"Border Utilities\",\"Border utility classes for controlling element borders.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React BorderUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "seWwnsIZ",
+    "block": "[[[1,[28,[35,0],[\"Border Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Border Utilities\",\"Border utility classes for controlling element borders.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactBorderUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-border\",\"Border Utilities\",\"Border utility classes for controlling element borders.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React BorderUtilities component could not\\n          be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/border.hbs",
     "isStrictMode": false
   });
@@ -10808,33 +12622,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Clear Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Clear Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Clear Utilities"
     @description="Clear utility classes for controlling element clear behavior."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactClearUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-clear"
           @title="Clear Utilities"
           @subtitle="Clear utility classes for controlling element clear behavior."
         >
-          <p class="fg-text-secondary">React ClearUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React ClearUtilities component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "m/xBYyn1",
-    "block": "[[[1,[28,[35,0],[\"Clear Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Clear Utilities\",\"Clear utility classes for controlling element clear behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactClearUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-clear\",\"Clear Utilities\",\"Clear utility classes for controlling element clear behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ClearUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "gMy+sFyV",
+    "block": "[[[1,[28,[35,0],[\"Clear Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Clear Utilities\",\"Clear utility classes for controlling element clear behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactClearUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-clear\",\"Clear Utilities\",\"Clear utility classes for controlling element clear behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ClearUtilities component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/clear.hbs",
     "isStrictMode": false
   });
@@ -10851,33 +12664,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Color Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Color Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Color Utilities"
     @description="Color utility classes for text and background colors."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactColorUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-color"
           @title="Color Utilities"
           @subtitle="Color utility classes for text and background colors."
         >
-          <p class="fg-text-secondary">React ColorUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React ColorUtilities component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "/MxkY5du",
-    "block": "[[[1,[28,[35,0],[\"Color Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Color Utilities\",\"Color utility classes for text and background colors.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactColorUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-color\",\"Color Utilities\",\"Color utility classes for text and background colors.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ColorUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "haFXtqQz",
+    "block": "[[[1,[28,[35,0],[\"Color Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Color Utilities\",\"Color utility classes for text and background colors.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactColorUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-color\",\"Color Utilities\",\"Color utility classes for text and background colors.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ColorUtilities component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/color.hbs",
     "isStrictMode": false
   });
@@ -10894,18 +12706,18 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Cursor Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Cursor Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Cursor Utilities"
     @description="Cursor utility classes for controlling mouse cursor appearance."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactCursor}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-cursor"
           @title="Cursor Utilities"
           @subtitle="Cursor utility classes for controlling mouse cursor appearance."
@@ -10915,12 +12727,10 @@ import { UlxIconInput } from 'ulx-components';
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "5FpUeHGa",
-    "block": "[[[1,[28,[35,0],[\"Cursor Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Cursor Utilities\",\"Cursor utility classes for controlling mouse cursor appearance.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactCursor\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-cursor\",\"Cursor Utilities\",\"Cursor utility classes for controlling mouse cursor appearance.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Cursor component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "/S0jr+QF",
+    "block": "[[[1,[28,[35,0],[\"Cursor Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Cursor Utilities\",\"Cursor utility classes for controlling mouse cursor appearance.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactCursor\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-cursor\",\"Cursor Utilities\",\"Cursor utility classes for controlling mouse cursor appearance.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Cursor component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/cursor.hbs",
     "isStrictMode": false
   });
@@ -10937,33 +12747,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Display Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Display Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Display Utilities"
     @description="Display utility classes for controlling element display type."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactDisplay}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-display"
           @title="Display Utilities"
           @subtitle="Display utility classes for controlling element display type."
         >
-          <p class="fg-text-secondary">React Display component could not be loaded.</p>
+          <p class="fg-text-secondary">React Display component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "zEWCOUQl",
-    "block": "[[[1,[28,[35,0],[\"Display Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Display Utilities\",\"Display utility classes for controlling element display type.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactDisplay\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-display\",\"Display Utilities\",\"Display utility classes for controlling element display type.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Display component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "0M6eJ7lN",
+    "block": "[[[1,[28,[35,0],[\"Display Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Display Utilities\",\"Display utility classes for controlling element display type.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactDisplay\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-display\",\"Display Utilities\",\"Display utility classes for controlling element display type.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Display component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/display.hbs",
     "isStrictMode": false
   });
@@ -10980,33 +12789,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Filter Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Filter Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Filter Utilities"
     @description="Filter utility classes for applying CSS filters."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactFilterUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-filter"
           @title="Filter Utilities"
           @subtitle="Filter utility classes for applying CSS filters."
         >
-          <p class="fg-text-secondary">React FilterUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React FilterUtilities component could not
+            be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "5tVs9JrO",
-    "block": "[[[1,[28,[35,0],[\"Filter Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Filter Utilities\",\"Filter utility classes for applying CSS filters.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactFilterUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-filter\",\"Filter Utilities\",\"Filter utility classes for applying CSS filters.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React FilterUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "7siFx1EI",
+    "block": "[[[1,[28,[35,0],[\"Filter Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Filter Utilities\",\"Filter utility classes for applying CSS filters.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactFilterUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-filter\",\"Filter Utilities\",\"Filter utility classes for applying CSS filters.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React FilterUtilities component could not\\n          be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/filter.hbs",
     "isStrictMode": false
   });
@@ -11023,15 +12831,15 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Flex Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Flex Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Flex Utilities"
     @description="Flexbox utility classes for layout."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge @component={{@model.ReactFlex}} />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-flex"
           @title="Flex Utilities"
           @subtitle="Flexbox utility classes for layout."
@@ -11041,12 +12849,10 @@ import { UlxIconInput } from 'ulx-components';
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "ojWunYV1",
-    "block": "[[[1,[28,[35,0],[\"Flex Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Flex Utilities\",\"Flexbox utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactFlex\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-flex\",\"Flex Utilities\",\"Flexbox utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Flex component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "M2UBsYyl",
+    "block": "[[[1,[28,[35,0],[\"Flex Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Flex Utilities\",\"Flexbox utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactFlex\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-flex\",\"Flex Utilities\",\"Flexbox utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Flex component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/flex.hbs",
     "isStrictMode": false
   });
@@ -11063,33 +12869,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Float Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Float Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Float Utilities"
     @description="Float utility classes for controlling element float behavior."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactFloatUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-float"
           @title="Float Utilities"
           @subtitle="Float utility classes for controlling element float behavior."
         >
-          <p class="fg-text-secondary">React FloatUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React FloatUtilities component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "82puuZj/",
-    "block": "[[[1,[28,[35,0],[\"Float Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Float Utilities\",\"Float utility classes for controlling element float behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactFloatUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-float\",\"Float Utilities\",\"Float utility classes for controlling element float behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React FloatUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "m9tFpzTv",
+    "block": "[[[1,[28,[35,0],[\"Float Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Float Utilities\",\"Float utility classes for controlling element float behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactFloatUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-float\",\"Float Utilities\",\"Float utility classes for controlling element float behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React FloatUtilities component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/float.hbs",
     "isStrictMode": false
   });
@@ -11106,18 +12911,18 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Gap Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Gap Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Gap Utilities"
     @description="Gap utility classes for flexbox and grid layouts."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactGap}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-gap"
           @title="Gap Utilities"
           @subtitle="Gap utility classes for flexbox and grid layouts."
@@ -11127,12 +12932,10 @@ import { UlxIconInput } from 'ulx-components';
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "zjdEu5xH",
-    "block": "[[[1,[28,[35,0],[\"Gap Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Gap Utilities\",\"Gap utility classes for flexbox and grid layouts.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactGap\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-gap\",\"Gap Utilities\",\"Gap utility classes for flexbox and grid layouts.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Gap component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "5lOEg3za",
+    "block": "[[[1,[28,[35,0],[\"Gap Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Gap Utilities\",\"Gap utility classes for flexbox and grid layouts.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactGap\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-gap\",\"Gap Utilities\",\"Gap utility classes for flexbox and grid layouts.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Gap component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/gap.hbs",
     "isStrictMode": false
   });
@@ -11149,30 +12952,29 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Grid Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Grid Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Grid Utilities"
     @description="Grid utility classes for layout."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge @component={{@model.ReactGridUtilities}} />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-grid"
           @title="Grid Utilities"
           @subtitle="Grid utility classes for layout."
         >
-          <p class="fg-text-secondary">React GridUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React GridUtilities component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "W8CJS3Ry",
-    "block": "[[[1,[28,[35,0],[\"Grid Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Grid Utilities\",\"Grid utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactGridUtilities\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-grid\",\"Grid Utilities\",\"Grid utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React GridUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "FuDQJX50",
+    "block": "[[[1,[28,[35,0],[\"Grid Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Grid Utilities\",\"Grid utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactGridUtilities\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-grid\",\"Grid Utilities\",\"Grid utility classes for layout.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React GridUtilities component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/grid.hbs",
     "isStrictMode": false
   });
@@ -11189,33 +12991,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Hover Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Hover Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Hover Utilities"
     @description="Hover state utility classes for interactive elements."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactHoverUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-hover"
           @title="Hover Utilities"
           @subtitle="Hover state utility classes for interactive elements."
         >
-          <p class="fg-text-secondary">React HoverUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React HoverUtilities component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "VL/RAFq7",
-    "block": "[[[1,[28,[35,0],[\"Hover Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Hover Utilities\",\"Hover state utility classes for interactive elements.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactHoverUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-hover\",\"Hover Utilities\",\"Hover state utility classes for interactive elements.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React HoverUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "wbqkDyB5",
+    "block": "[[[1,[28,[35,0],[\"Hover Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Hover Utilities\",\"Hover state utility classes for interactive elements.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactHoverUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-hover\",\"Hover Utilities\",\"Hover state utility classes for interactive elements.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React HoverUtilities component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/hover.hbs",
     "isStrictMode": false
   });
@@ -11232,30 +13033,29 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Utilities"
     @description="Utility classes for spacing, layout, typography, and more."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge @component={{@model.ReactUtilities}} />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-overview"
           @title="Utilities"
           @subtitle="Utility classes for common styling needs."
         >
-          <p class="fg-text-secondary">React Utilities components could not be loaded. Please ensure the ulx-foundation package is available.</p>
+          <p class="fg-text-secondary">React Utilities components could not be
+            loaded. Please ensure the ulx-foundation package is available.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "VkV4iBiz",
-    "block": "[[[1,[28,[35,0],[\"Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Utilities\",\"Utility classes for spacing, layout, typography, and more.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactUtilities\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-overview\",\"Utilities\",\"Utility classes for common styling needs.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Utilities components could not be loaded. Please ensure the ulx-foundation package is available.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "MMjrx09x",
+    "block": "[[[1,[28,[35,0],[\"Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Utilities\",\"Utility classes for spacing, layout, typography, and more.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactUtilities\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-overview\",\"Utilities\",\"Utility classes for common styling needs.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Utilities components could not be\\n          loaded. Please ensure the ulx-foundation package is available.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/index.hbs",
     "isStrictMode": false
   });
@@ -11272,33 +13072,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Line Clamp Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Line Clamp Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Line Clamp Utilities"
     @description="Line clamp utility classes for truncating text to specific line counts."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactLineClampUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-line-clamp"
           @title="Line Clamp Utilities"
           @subtitle="Line clamp utility classes for truncating text to specific line counts."
         >
-          <p class="fg-text-secondary">React LineClampUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React LineClampUtilities component could
+            not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "E3QN/zsI",
-    "block": "[[[1,[28,[35,0],[\"Line Clamp Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Line Clamp Utilities\",\"Line clamp utility classes for truncating text to specific line counts.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactLineClampUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-line-clamp\",\"Line Clamp Utilities\",\"Line clamp utility classes for truncating text to specific line counts.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React LineClampUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "kfTALGGb",
+    "block": "[[[1,[28,[35,0],[\"Line Clamp Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Line Clamp Utilities\",\"Line clamp utility classes for truncating text to specific line counts.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactLineClampUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-line-clamp\",\"Line Clamp Utilities\",\"Line clamp utility classes for truncating text to specific line counts.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React LineClampUtilities component could\\n          not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/line-clamp.hbs",
     "isStrictMode": false
   });
@@ -11315,33 +13114,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Object Fit Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Object Fit Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Object Fit Utilities"
     @description="Object fit utility classes for controlling how replaced elements are sized."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactObjectFitUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-object-fit"
           @title="Object Fit Utilities"
           @subtitle="Object fit utility classes for controlling how replaced elements are sized."
         >
-          <p class="fg-text-secondary">React ObjectFitUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React ObjectFitUtilities component could
+            not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "C3zJm/Vw",
-    "block": "[[[1,[28,[35,0],[\"Object Fit Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Object Fit Utilities\",\"Object fit utility classes for controlling how replaced elements are sized.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactObjectFitUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-object-fit\",\"Object Fit Utilities\",\"Object fit utility classes for controlling how replaced elements are sized.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ObjectFitUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "40fRWdyO",
+    "block": "[[[1,[28,[35,0],[\"Object Fit Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Object Fit Utilities\",\"Object fit utility classes for controlling how replaced elements are sized.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactObjectFitUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-object-fit\",\"Object Fit Utilities\",\"Object fit utility classes for controlling how replaced elements are sized.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ObjectFitUtilities component could\\n          not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/object-fit.hbs",
     "isStrictMode": false
   });
@@ -11358,33 +13156,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Opacity Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Opacity Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Opacity Utilities"
     @description="Opacity utility classes for controlling element transparency."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactOpacityUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-opacity"
           @title="Opacity Utilities"
           @subtitle="Opacity utility classes for controlling element transparency."
         >
-          <p class="fg-text-secondary">React OpacityUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React OpacityUtilities component could not
+            be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "2GqGK0Sr",
-    "block": "[[[1,[28,[35,0],[\"Opacity Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Opacity Utilities\",\"Opacity utility classes for controlling element transparency.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactOpacityUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-opacity\",\"Opacity Utilities\",\"Opacity utility classes for controlling element transparency.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React OpacityUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "EXPKA/pe",
+    "block": "[[[1,[28,[35,0],[\"Opacity Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Opacity Utilities\",\"Opacity utility classes for controlling element transparency.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactOpacityUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-opacity\",\"Opacity Utilities\",\"Opacity utility classes for controlling element transparency.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React OpacityUtilities component could not\\n          be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/opacity.hbs",
     "isStrictMode": false
   });
@@ -11401,33 +13198,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Overflow Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Overflow Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Overflow Utilities"
     @description="Overflow utility classes for controlling element overflow behavior."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactOverflowUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-overflow"
           @title="Overflow Utilities"
           @subtitle="Overflow utility classes for controlling element overflow behavior."
         >
-          <p class="fg-text-secondary">React OverflowUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React OverflowUtilities component could not
+            be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "6P4xOjdY",
-    "block": "[[[1,[28,[35,0],[\"Overflow Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Overflow Utilities\",\"Overflow utility classes for controlling element overflow behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactOverflowUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-overflow\",\"Overflow Utilities\",\"Overflow utility classes for controlling element overflow behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React OverflowUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "H1jAywTx",
+    "block": "[[[1,[28,[35,0],[\"Overflow Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Overflow Utilities\",\"Overflow utility classes for controlling element overflow behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactOverflowUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-overflow\",\"Overflow Utilities\",\"Overflow utility classes for controlling element overflow behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React OverflowUtilities component could not\\n          be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/overflow.hbs",
     "isStrictMode": false
   });
@@ -11444,33 +13240,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Pointer Events Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Pointer Events Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Pointer Events Utilities"
     @description="Pointer events utility classes for controlling pointer event handling."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactPointerEventsUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-pointer-events"
           @title="Pointer Events Utilities"
           @subtitle="Pointer events utility classes for controlling pointer event handling."
         >
-          <p class="fg-text-secondary">React PointerEventsUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React PointerEventsUtilities component
+            could not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "E9vO3l4E",
-    "block": "[[[1,[28,[35,0],[\"Pointer Events Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Pointer Events Utilities\",\"Pointer events utility classes for controlling pointer event handling.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactPointerEventsUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-pointer-events\",\"Pointer Events Utilities\",\"Pointer events utility classes for controlling pointer event handling.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React PointerEventsUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "IcVWsKqe",
+    "block": "[[[1,[28,[35,0],[\"Pointer Events Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Pointer Events Utilities\",\"Pointer events utility classes for controlling pointer event handling.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactPointerEventsUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-pointer-events\",\"Pointer Events Utilities\",\"Pointer events utility classes for controlling pointer event handling.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React PointerEventsUtilities component\\n          could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/pointer-events.hbs",
     "isStrictMode": false
   });
@@ -11487,33 +13282,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Position Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Position Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Position Utilities"
     @description="Position utility classes for controlling element positioning."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactPosition}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-position"
           @title="Position Utilities"
           @subtitle="Position utility classes for controlling element positioning."
         >
-          <p class="fg-text-secondary">React Position component could not be loaded.</p>
+          <p class="fg-text-secondary">React Position component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "6tZh8n9e",
-    "block": "[[[1,[28,[35,0],[\"Position Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Position Utilities\",\"Position utility classes for controlling element positioning.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactPosition\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-position\",\"Position Utilities\",\"Position utility classes for controlling element positioning.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Position component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "ihYL2B3I",
+    "block": "[[[1,[28,[35,0],[\"Position Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Position Utilities\",\"Position utility classes for controlling element positioning.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactPosition\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-position\",\"Position Utilities\",\"Position utility classes for controlling element positioning.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Position component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/position.hbs",
     "isStrictMode": false
   });
@@ -11530,33 +13324,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Shadow Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Shadow Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Shadow Utilities"
     @description="Shadow utility classes for controlling element shadows."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactShadowUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-shadow"
           @title="Shadow Utilities"
           @subtitle="Shadow utility classes for controlling element shadows."
         >
-          <p class="fg-text-secondary">React ShadowUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React ShadowUtilities component could not
+            be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "IcUkvxVG",
-    "block": "[[[1,[28,[35,0],[\"Shadow Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Shadow Utilities\",\"Shadow utility classes for controlling element shadows.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactShadowUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-shadow\",\"Shadow Utilities\",\"Shadow utility classes for controlling element shadows.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ShadowUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "y1junIcE",
+    "block": "[[[1,[28,[35,0],[\"Shadow Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Shadow Utilities\",\"Shadow utility classes for controlling element shadows.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactShadowUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-shadow\",\"Shadow Utilities\",\"Shadow utility classes for controlling element shadows.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ShadowUtilities component could not\\n          be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/shadow.hbs",
     "isStrictMode": false
   });
@@ -11573,18 +13366,18 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Size Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Size Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Size Utilities"
     @description="Size utility classes for controlling element dimensions."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactSize}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-size"
           @title="Size Utilities"
           @subtitle="Size utility classes for controlling element dimensions."
@@ -11594,12 +13387,10 @@ import { UlxIconInput } from 'ulx-components';
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "VfQ+LYtB",
-    "block": "[[[1,[28,[35,0],[\"Size Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Size Utilities\",\"Size utility classes for controlling element dimensions.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactSize\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-size\",\"Size Utilities\",\"Size utility classes for controlling element dimensions.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Size component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "lWxtakMC",
+    "block": "[[[1,[28,[35,0],[\"Size Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Size Utilities\",\"Size utility classes for controlling element dimensions.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactSize\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-size\",\"Size Utilities\",\"Size utility classes for controlling element dimensions.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Size component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/size.hbs",
     "isStrictMode": false
   });
@@ -11616,15 +13407,15 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Space Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Space Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Space Utilities"
     @description="Padding and margin utility classes."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge @component={{@model.ReactSpace}} />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-space"
           @title="Space Utilities"
           @subtitle="Padding and margin utility classes."
@@ -11634,12 +13425,10 @@ import { UlxIconInput } from 'ulx-components';
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "nMa1itAM",
-    "block": "[[[1,[28,[35,0],[\"Space Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Space Utilities\",\"Padding and margin utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactSpace\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-space\",\"Space Utilities\",\"Padding and margin utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Space component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "DrFjlu78",
+    "block": "[[[1,[28,[35,0],[\"Space Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Space Utilities\",\"Padding and margin utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\"],[[30,1,[\"ReactSpace\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-space\",\"Space Utilities\",\"Padding and margin utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React Space component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/space.hbs",
     "isStrictMode": false
   });
@@ -11656,33 +13445,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Text Align Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Text Align Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Text Align Utilities"
     @description="Text alignment utility classes."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactTextAlign}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-text-align"
           @title="Text Align Utilities"
           @subtitle="Text alignment utility classes."
         >
-          <p class="fg-text-secondary">React TextAlign component could not be loaded.</p>
+          <p class="fg-text-secondary">React TextAlign component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "WDXhZwM5",
-    "block": "[[[1,[28,[35,0],[\"Text Align Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Text Align Utilities\",\"Text alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTextAlign\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-text-align\",\"Text Align Utilities\",\"Text alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React TextAlign component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "QvzodvDo",
+    "block": "[[[1,[28,[35,0],[\"Text Align Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Text Align Utilities\",\"Text alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTextAlign\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-text-align\",\"Text Align Utilities\",\"Text alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React TextAlign component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/text-align.hbs",
     "isStrictMode": false
   });
@@ -11699,33 +13487,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Text Decoration Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Text Decoration Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Text Decoration Utilities"
     @description="Text decoration utility classes."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactTextDecoration}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-text-decoration"
           @title="Text Decoration Utilities"
           @subtitle="Text decoration utility classes."
         >
-          <p class="fg-text-secondary">React TextDecoration component could not be loaded.</p>
+          <p class="fg-text-secondary">React TextDecoration component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "t/abuf+M",
-    "block": "[[[1,[28,[35,0],[\"Text Decoration Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Text Decoration Utilities\",\"Text decoration utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTextDecoration\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-text-decoration\",\"Text Decoration Utilities\",\"Text decoration utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React TextDecoration component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "hR1luSli",
+    "block": "[[[1,[28,[35,0],[\"Text Decoration Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Text Decoration Utilities\",\"Text decoration utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTextDecoration\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-text-decoration\",\"Text Decoration Utilities\",\"Text decoration utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React TextDecoration component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/text-decoration.hbs",
     "isStrictMode": false
   });
@@ -11742,33 +13529,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Text Transform Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Text Transform Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Text Transform Utilities"
     @description="Text transformation utility classes."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactTextTransform}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-text-transform"
           @title="Text Transform Utilities"
           @subtitle="Text transformation utility classes."
         >
-          <p class="fg-text-secondary">React TextTransform component could not be loaded.</p>
+          <p class="fg-text-secondary">React TextTransform component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "VtK6CQrG",
-    "block": "[[[1,[28,[35,0],[\"Text Transform Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Text Transform Utilities\",\"Text transformation utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTextTransform\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-text-transform\",\"Text Transform Utilities\",\"Text transformation utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React TextTransform component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "n05MgFrY",
+    "block": "[[[1,[28,[35,0],[\"Text Transform Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Text Transform Utilities\",\"Text transformation utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactTextTransform\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-text-transform\",\"Text Transform Utilities\",\"Text transformation utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React TextTransform component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/text-transform.hbs",
     "isStrictMode": false
   });
@@ -11785,33 +13571,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "User Select Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="User Select Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="User Select Utilities"
     @description="User select utility classes for controlling text selection behavior."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactUserSelectUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-user-select"
           @title="User Select Utilities"
           @subtitle="User select utility classes for controlling text selection behavior."
         >
-          <p class="fg-text-secondary">React UserSelectUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React UserSelectUtilities component could
+            not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "4CopePYs",
-    "block": "[[[1,[28,[35,0],[\"User Select Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"User Select Utilities\",\"User select utility classes for controlling text selection behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactUserSelectUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-user-select\",\"User Select Utilities\",\"User select utility classes for controlling text selection behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React UserSelectUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "rKd7omT9",
+    "block": "[[[1,[28,[35,0],[\"User Select Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"User Select Utilities\",\"User select utility classes for controlling text selection behavior.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactUserSelectUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-user-select\",\"User Select Utilities\",\"User select utility classes for controlling text selection behavior.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React UserSelectUtilities component could\\n          not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/user-select.hbs",
     "isStrictMode": false
   });
@@ -11828,33 +13613,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Vertical Align Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Vertical Align Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Vertical Align Utilities"
     @description="Vertical alignment utility classes."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactVerticalAlign}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-vertical-align"
           @title="Vertical Align Utilities"
           @subtitle="Vertical alignment utility classes."
         >
-          <p class="fg-text-secondary">React VerticalAlign component could not be loaded.</p>
+          <p class="fg-text-secondary">React VerticalAlign component could not be
+            loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "4cwZvHrr",
-    "block": "[[[1,[28,[35,0],[\"Vertical Align Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Vertical Align Utilities\",\"Vertical alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactVerticalAlign\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-vertical-align\",\"Vertical Align Utilities\",\"Vertical alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React VerticalAlign component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "7l3DGmqW",
+    "block": "[[[1,[28,[35,0],[\"Vertical Align Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Vertical Align Utilities\",\"Vertical alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactVerticalAlign\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-vertical-align\",\"Vertical Align Utilities\",\"Vertical alignment utility classes.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React VerticalAlign component could not be\\n          loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/vertical-align.hbs",
     "isStrictMode": false
   });
@@ -11871,33 +13655,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Visibility Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Visibility Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Visibility Utilities"
     @description="Visibility utility classes for controlling element visibility."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactVisibilityUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-visibility"
           @title="Visibility Utilities"
           @subtitle="Visibility utility classes for controlling element visibility."
         >
-          <p class="fg-text-secondary">React VisibilityUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React VisibilityUtilities component could
+            not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "UgALH1+s",
-    "block": "[[[1,[28,[35,0],[\"Visibility Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Visibility Utilities\",\"Visibility utility classes for controlling element visibility.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactVisibilityUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-visibility\",\"Visibility Utilities\",\"Visibility utility classes for controlling element visibility.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React VisibilityUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "wpleaGpU",
+    "block": "[[[1,[28,[35,0],[\"Visibility Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Visibility Utilities\",\"Visibility utility classes for controlling element visibility.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactVisibilityUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-visibility\",\"Visibility Utilities\",\"Visibility utility classes for controlling element visibility.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React VisibilityUtilities component could\\n          not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/visibility.hbs",
     "isStrictMode": false
   });
@@ -11914,33 +13697,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "White Space Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="White Space Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="White Space Utilities"
     @description="White space utility classes for controlling how whitespace is handled."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactWhiteSpaceUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-white-space"
           @title="White Space Utilities"
           @subtitle="White space utility classes for controlling how whitespace is handled."
         >
-          <p class="fg-text-secondary">React WhiteSpaceUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React WhiteSpaceUtilities component could
+            not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "E4lviE5A",
-    "block": "[[[1,[28,[35,0],[\"White Space Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"White Space Utilities\",\"White space utility classes for controlling how whitespace is handled.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactWhiteSpaceUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-white-space\",\"White Space Utilities\",\"White space utility classes for controlling how whitespace is handled.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React WhiteSpaceUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "JKDUXMO1",
+    "block": "[[[1,[28,[35,0],[\"White Space Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"White Space Utilities\",\"White space utility classes for controlling how whitespace is handled.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactWhiteSpaceUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-white-space\",\"White Space Utilities\",\"White space utility classes for controlling how whitespace is handled.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React WhiteSpaceUtilities component could\\n          not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/white-space.hbs",
     "isStrictMode": false
   });
@@ -11957,33 +13739,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Word Break Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Word Break Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Word Break Utilities"
     @description="Word break utility classes for controlling text wrapping."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactWordBreakUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-word-break"
           @title="Word Break Utilities"
           @subtitle="Word break utility classes for controlling text wrapping."
         >
-          <p class="fg-text-secondary">React WordBreakUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React WordBreakUtilities component could
+            not be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "Z+X6ENSA",
-    "block": "[[[1,[28,[35,0],[\"Word Break Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Word Break Utilities\",\"Word break utility classes for controlling text wrapping.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactWordBreakUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-word-break\",\"Word Break Utilities\",\"Word break utility classes for controlling text wrapping.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React WordBreakUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "BbExQVa1",
+    "block": "[[[1,[28,[35,0],[\"Word Break Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Word Break Utilities\",\"Word break utility classes for controlling text wrapping.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactWordBreakUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-word-break\",\"Word Break Utilities\",\"Word break utility classes for controlling text wrapping.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React WordBreakUtilities component could\\n          not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/word-break.hbs",
     "isStrictMode": false
   });
@@ -12000,33 +13781,32 @@ import { UlxIconInput } from 'ulx-components';
   /*
     {{page-title "Z-Index Utilities - ULS Ember Documentation"}}
   
-  <Common::DocMain::FoundationLayout 
-    @title="Z-Index Utilities" 
+  <Common::DocMain::FoundationLayout
+    @title="Z-Index Utilities"
     @description="Z-index utility classes for controlling element stacking order."
   >
-    <div class="uls-foundation-page">
+    <div class="ulx-foundation-page">
       {{#if @model.useReactComponents}}
         <UlxReactBridge
           @component={{@model.ReactZIndexUtilities}}
           @props={{@model.reactProps}}
         />
       {{else}}
-        <Common::DocMain::FoundationSection 
+        <Common::DocMain::FoundationSection
           @id="utilities-z-index"
           @title="Z-Index Utilities"
           @subtitle="Z-index utility classes for controlling element stacking order."
         >
-          <p class="fg-text-secondary">React ZIndexUtilities component could not be loaded.</p>
+          <p class="fg-text-secondary">React ZIndexUtilities component could not
+            be loaded.</p>
         </Common::DocMain::FoundationSection>
       {{/if}}
     </div>
   </Common::DocMain::FoundationLayout>
-  
-  
   */
   {
-    "id": "6fyGvGi/",
-    "block": "[[[1,[28,[35,0],[\"Z-Index Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Z-Index Utilities\",\"Z-index utility classes for controlling element stacking order.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"uls-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactZIndexUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-z-index\",\"Z-Index Utilities\",\"Z-index utility classes for controlling element stacking order.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ZIndexUtilities component could not be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]],[1,\"\\n\\n\"]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
+    "id": "D/pIA4Zt",
+    "block": "[[[1,[28,[35,0],[\"Z-Index Utilities - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[8,[39,1],null,[[\"@title\",\"@description\"],[\"Z-Index Utilities\",\"Z-index utility classes for controlling element stacking order.\"]],[[\"default\"],[[[[1,\"\\n  \"],[10,0],[14,0,\"ulx-foundation-page\"],[12],[1,\"\\n\"],[41,[30,1,[\"useReactComponents\"]],[[[1,\"      \"],[8,[39,4],null,[[\"@component\",\"@props\"],[[30,1,[\"ReactZIndexUtilities\"]],[30,1,[\"reactProps\"]]]],null],[1,\"\\n\"]],[]],[[[1,\"      \"],[8,[39,5],null,[[\"@id\",\"@title\",\"@subtitle\"],[\"utilities-z-index\",\"Z-Index Utilities\",\"Z-index utility classes for controlling element stacking order.\"]],[[\"default\"],[[[[1,\"\\n        \"],[10,2],[14,0,\"fg-text-secondary\"],[12],[1,\"React ZIndexUtilities component could not\\n          be loaded.\"],[13],[1,\"\\n      \"]],[]]]]],[1,\"\\n\"]],[]]],[1,\"  \"],[13],[1,\"\\n\"]],[]]]]]],[\"@model\"],[\"page-title\",\"common/doc-main/foundation-layout\",\"div\",\"if\",\"ulx-react-bridge\",\"common/doc-main/foundation-section\",\"p\"]]",
     "moduleName": "ulx-ember/templates/utilities/z-index.hbs",
     "isStrictMode": false
   });
@@ -12059,7 +13839,7 @@ import { UlxIconInput } from 'ulx-components';
         <Common::DocMain::CodePreview
           @title="Create demo-page"
           @description="Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure."
-          @source="npm run create -- demo-page 'IconInput[IconInput]' --category elements --submodule form"
+          @source="npm run create -- demo-page 'PageName[PageName]' --category elements --submodule form"
           @language="bash"
         />
       </section>
@@ -12068,7 +13848,7 @@ import { UlxIconInput } from 'ulx-components';
         <Common::DocMain::CodePreview
           @title="Delete demo-page"
           @description="Removes an existing demo page. Use the same --category value as when the page was created."
-          @source="npm run destroy demo-page ComponentName --category collections"
+          @source="npm run destroy demo-page PageName --category collections"
           @language="bash"
         />
       </section>
@@ -12077,7 +13857,7 @@ import { UlxIconInput } from 'ulx-components';
         <Common::DocMain::CodePreview
           @title="Create variations"
           @description="Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script."
-          @source="npm run add-variation -- --component=ComponentName --variation=VariationName"
+          @source="npm run add-variation -- --component=PageName --variation=VariationName"
           @language="bash"
         />
       </section>
@@ -12094,8 +13874,8 @@ import { UlxIconInput } from 'ulx-components';
   </div>
   */
   {
-    "id": "sbOBU8pS",
-    "block": "[[[1,[28,[35,0],[\"Get started with ULS - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[10,0],[14,0,\"ulsp-doc-tabpanel fxb fsb mgb10\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"panel-main mgr5\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"mgt0 mgb4 bold-font\"],[12],[1,\"Commands\"],[13],[1,\"\\n    \"],[10,2],[14,0,\"fg-text-secondary mgb6\"],[12],[1,\"Run these commands from the\\n      \"],[10,\"code\"],[12],[1,\"uls\"],[13],[1,\"\\n      directory. Use these npm scripts to create or remove demo pages and\\n      component variations. Replace\\n      \"],[10,\"strong\"],[12],[1,\"ComponentName\"],[13],[1,\"\\n      and\\n      \"],[10,\"strong\"],[12],[1,\"VariationName\"],[13],[1,\"\\n      with your component and variation names as needed.\"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create demo-page\",\"Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure.\",\"npm run create -- demo-page 'IconInput[IconInput]' --category elements --submodule form\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete demo-page\",\"Removes an existing demo page. Use the same --category value as when the page was created.\",\"npm run destroy demo-page ComponentName --category collections\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create variations\",\"Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script.\",\"npm run add-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete variations\",\"Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:\",\"npm run destroy-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"page-title\",\"div\",\"h2\",\"p\",\"code\",\"strong\",\"section\",\"common/doc-main/code-preview\"]]",
+    "id": "9QVoD0NK",
+    "block": "[[[1,[28,[35,0],[\"Get started with ULS - ULS Ember Documentation\"],null]],[1,\"\\n\\n\"],[10,0],[14,0,\"ulsp-doc-tabpanel fxb fsb mgb10\"],[12],[1,\"\\n  \"],[10,0],[14,0,\"panel-main mgr5\"],[12],[1,\"\\n    \"],[10,\"h2\"],[14,0,\"mgt0 mgb4 bold-font\"],[12],[1,\"Commands\"],[13],[1,\"\\n    \"],[10,2],[14,0,\"fg-text-secondary mgb6\"],[12],[1,\"Run these commands from the\\n      \"],[10,\"code\"],[12],[1,\"uls\"],[13],[1,\"\\n      directory. Use these npm scripts to create or remove demo pages and\\n      component variations. Replace\\n      \"],[10,\"strong\"],[12],[1,\"ComponentName\"],[13],[1,\"\\n      and\\n      \"],[10,\"strong\"],[12],[1,\"VariationName\"],[13],[1,\"\\n      with your component and variation names as needed.\"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create demo-page\",\"Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure.\",\"npm run create -- demo-page 'PageName[PageName]' --category elements --submodule form\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete demo-page\",\"Removes an existing demo page. Use the same --category value as when the page was created.\",\"npm run destroy demo-page PageName --category collections\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Create variations\",\"Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script.\",\"npm run add-variation -- --component=PageName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n\\n    \"],[10,\"section\"],[14,0,\"mgb6\"],[12],[1,\"\\n      \"],[8,[39,7],null,[[\"@title\",\"@description\",\"@source\",\"@language\"],[\"Delete variations\",\"Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:\",\"npm run destroy-variation -- --component=ComponentName --variation=VariationName\",\"bash\"]],null],[1,\"\\n    \"],[13],[1,\"\\n  \"],[13],[1,\"\\n\"],[13]],[],[\"page-title\",\"div\",\"h2\",\"p\",\"code\",\"strong\",\"section\",\"common/doc-main/code-preview\"]]",
     "moduleName": "ulx-ember/templates/walkthrough.hbs",
     "isStrictMode": false
   });
@@ -12108,14 +13888,14 @@ import { UlxIconInput } from 'ulx-components';
   });
   _exports.default = void 0;
   0; //eaimeta@70e063a35619d71feaimeta@70e063a35619d71f
-  // Auto-generated from @uls-builder comments in uls-v2 .../less/elements/icon.less
-  // Run: node scripts/extract-uls-builder-tokens.js [path-to-icon.less]
+  // Auto-generated from @ulx-builder comments in ulx-v2 .../less/elements/icon.less
+  // Run: node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]
   var _default = _exports.default = {
-    "normal size": ["s11", "s12", "s13", "s14", "s16", "s18", "s20", "s22", "s24", "s26", "s28", "s30", "s32"],
-    "colors": ["primary", "success", "warning", "danger", "info", "muted", "inverted"],
-    "shaped icons size": ["xs", "sm", "md", "lg", "xl", "xl2", "xl3", "xl4", "xl5", "xl6", "xl7"],
-    "layers": ["primary-layer", "success-layer", "warning-layer", "danger-layer", "info-layer"],
-    "spin": ["spin-anim"]
+    'normal size': ['s11', 's12', 's13', 's14', 's16', 's18', 's20', 's22', 's24', 's26', 's28', 's30', 's32'],
+    colors: ['primary', 'success', 'warning', 'danger', 'info', 'muted', 'inverted'],
+    'shaped icons size': ['xs', 'sm', 'md', 'lg', 'xl', 'xl2', 'xl3', 'xl4', 'xl5', 'xl6', 'xl7'],
+    layers: ['primary-layer', 'success-layer', 'warning-layer', 'danger-layer', 'info-layer'],
+    spin: ['spin-anim']
   };
 });
 ;define("ulx-ember/transforms/boolean", ["exports", "@ember/debug", "@ember-data/serializer/transform"], function (_exports, _debug, _transform) {
@@ -12233,7 +14013,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+49c79a92"});
+            require("ulx-ember/app")["default"].create({"name":"ulx-ember","version":"0.0.0+a29c2f1c"});
           }
         
 //# sourceMappingURL=ulx-ember.map

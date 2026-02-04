@@ -6,7 +6,7 @@
 
 export default {
   componentName: 'Tag',
-  importLine: "import { Tag } from 'uls-components';",
+  importLine: "import { Tag } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () => '<Tag />',

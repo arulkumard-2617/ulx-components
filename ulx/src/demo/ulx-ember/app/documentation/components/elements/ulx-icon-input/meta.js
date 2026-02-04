@@ -20,31 +20,31 @@ export default {
     {
       name: 'Features',
       route: '/features',
-      id: 'features'
+      id: 'features',
     },
     {
       name: 'Theming',
       route: '/theming',
-      id: 'theming'
+      id: 'theming',
     },
     {
       name: 'Builder',
       route: '/builder',
-      id: 'builder'
+      id: 'builder',
     },
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough'
-    }
+      id: 'passthrough',
+    },
   ],
 
   // Import message for the component
-  importMsg: "import { UlxIconInput } from 'uls-components'",
+  importMsg: "import { UlxIconInput } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {
-    description: "UlxIconInput component description for accessibility.",
-    example: "<UlxIconInput />"
-  }
+    description: 'UlxIconInput component description for accessibility.',
+    example: '<UlxIconInput />',
+  },
 };

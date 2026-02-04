@@ -229,6 +229,16 @@ export const DocNavItems = [
             menuItem: 'tag',
             to: '/components/elements/tag',
             route: 'components.elements.tag'
+          },
+          {
+            menuItem: 'Badge',
+            to: '/components/elements/badge',
+            route: 'components.elements.badge'
+          },
+          {
+            menuItem: 'Avatar',
+            to: '/components/elements/avatar',
+            route: 'components.elements.avatar'
           }
         ]
       }

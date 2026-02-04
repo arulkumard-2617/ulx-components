@@ -7,12 +7,14 @@ alwaysApply: false
 # ULX Styling Guidelines
 
 ## Paths
-- **Style source**: `uls/node_modules/uls-v2`
+
+- **Style source**: `uls/node_modules/ulx-v2`
 - **Component source**: `src/components`
 
 ## ULX Styles
-- **Primary**: `uls/node_modules/uls-v2/src/styles/uls-master.less`
-- **Component styles**: `uls/node_modules/uls-v2/src/styles/uls-styles/less/`
+
+- **Primary**: `uls/node_modules/ulx-v2/src/styles/ulx-master.less`
+- **Component styles**: `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/`
   - `base/` - Variables, mixins, reset, utilities
   - `elements/` - Element components (button, input, etc.)
   - `collections/` - Collections (tabmenu, card, accordion, etc.)
@@ -20,14 +22,16 @@ alwaysApply: false
   - `themes/` - Theme files
 
 ## Rules
-- **MUST** use existing ULX classes from `uls-styles/less/` for each component.
+
+- **MUST** use existing ULX classes from `ulx-styles/less/` for each component.
 - **MUST** use the **ulx-** prefix and exact class names from those files (e.g. `.ulx-tabmenu`, `.ulx-button`, `.ulx-button-primary`, `.ulx-button-secondary`).
-- **MUST** look up classes in the matching `.less` file under `uls/node_modules/uls-v2/src/styles/uls-styles/less/` before implementing.
+- **MUST** look up classes in the matching `.less` file under `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/` before implementing.
 - **NEVER** add custom CSS classes that duplicate ULX behavior.
 - **NEVER** override ULX styles unless required; use `styles/uls/{app}/overrides/` and document why.
 - **NEVER** use inline styles or component-specific CSS files for ULX look-and-feel.
 
 ## Example
+
 ```gjs
 {{! ✅ CORRECT: ULX classes }}
 <div class="ulx-tabmenu">
@@ -44,4 +48,4 @@ alwaysApply: false
 </div>
 ```
 
-Styles come from `uls-master.less`; do not import styles in component files.
+Styles come from `ulx-master.less`; do not import styles in component files.

@@ -33,6 +33,10 @@ export default class UlxCheckboxItem extends Component {
 		return !!this.args.checked;
 	}
 
+	get baseClass() {
+		return getComponentClass("checkbox");
+	}
+
 	get resolvedSize() {
 		return this.args.size ?? "s-size";
 	}
@@ -42,28 +46,34 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	get wrapperClass() {
-		const parts = [getComponentClass("checkbox"), this.resolvedSize, this.resolvedVariant];
+		const { invalid = false, disabled = false, customClass } = this.args;
 
-		if (this.args.invalid) parts.push("invalid");
-		if (this.args.disabled) parts.push("disabled");
+		const parts = [this.baseClass];
+		parts.push(this.resolvedSize);
+		parts.push(this.resolvedVariant);
+
+		// States
+		invalid && parts.push("invalid");
+		disabled && parts.push("disabled");
 
 		// Visual state
-		if (this.isIndeterminate) {
-			parts.push("indeterminate");
-		} else if (this.isChecked) {
-			parts.push("checked");
-		}
+		this.isIndeterminate && parts.push("indeterminate");
+		!this.isIndeterminate && this.isChecked && parts.push("checked");
 
-		if (this.args.customClass) parts.push(this.args.customClass);
+		// Custom classes
+		customClass && parts.push(customClass);
 
-		return parts.filter(Boolean).join(" ");
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get checkboxIconClass() {
+		const { disabled = false } = this.args;
+
 		const parts = ["checkbox-icon"];
-		if (this.args.disabled) parts.push("disabled");
-		if (this.isIndeterminate) parts.push("indeterminate");
-		return parts.filter(Boolean).join(" ");
+		disabled && parts.push("disabled");
+		this.isIndeterminate && parts.push("indeterminate");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get checkboxIconName() {
@@ -82,9 +92,12 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	get itemLabelClass() {
+		const { disabled = false } = this.args;
+
 		const parts = ["checkbox-label"];
-		if (this.args.disabled) parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		disabled && parts.push("disabled");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	<template>

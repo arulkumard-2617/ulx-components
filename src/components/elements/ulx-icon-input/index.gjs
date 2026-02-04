@@ -21,7 +21,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
 /**
  * Icon input component (single-line input wrapped with ULS icon-field).
  *
- * Expected ULS structure (from `uls-v2/.../elements/icon-field.less`):
+ * Expected ULS structure (from `ulx-v2/.../elements/icon-field.less`):
  * `<div class="ulx-iconfield icon-left s-size outlined"> <span class="ulx-input-icon">…</span> <input/> </div>`
  *
  * @class UlxIconInput

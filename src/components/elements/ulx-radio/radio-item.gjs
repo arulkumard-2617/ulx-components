@@ -35,16 +35,26 @@ export default class UlxRadioItem extends Component {
 		return this.args.filled ? "filled" : "outlined";
 	}
 
+	get baseClass() {
+		return getComponentClass("radiobutton");
+	}
+
 	get wrapperClass() {
-		const parts = [getComponentClass("radiobutton"), this.resolvedSize, this.resolvedVariant];
+		const { invalid = false, disabled = false, customClass } = this.args;
 
-		if (this.args.invalid) parts.push("invalid");
-		if (this.args.disabled) parts.push("disabled");
-		if (this.isChecked) parts.push("checked");
+		const parts = [this.baseClass];
+		parts.push(this.resolvedSize);
+		parts.push(this.resolvedVariant);
 
-		if (this.args.customClass) parts.push(this.args.customClass);
+		// States
+		invalid && parts.push("invalid");
+		disabled && parts.push("disabled");
+		this.isChecked && parts.push("checked");
 
-		return parts.filter(Boolean).join(" ");
+		// Custom classes
+		customClass && parts.push(customClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get inputClass() {
@@ -53,18 +63,24 @@ export default class UlxRadioItem extends Component {
 	}
 
 	get boxClass() {
+		const { disabled = false } = this.args;
+
 		const parts = ["radiobutton-box"];
-		if (this.args.disabled) parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		disabled && parts.push("disabled");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get iconClass() {
 		// NOTE: `radio.less` includes styles that key off both the parent
 		// `.checked` and the icon's own `.checked` class (variant-dependent).
+		const { disabled = false } = this.args;
+
 		const parts = ["radiobutton-icon"];
-		if (this.isChecked) parts.push("checked");
-		if (this.args.disabled) parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		this.isChecked && parts.push("checked");
+		disabled && parts.push("disabled");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get hasItemLabelText() {
@@ -73,9 +89,12 @@ export default class UlxRadioItem extends Component {
 	}
 
 	get itemLabelClass() {
+		const { disabled = false } = this.args;
+
 		const parts = ["radiobutton-label"];
-		if (this.args.disabled) parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		disabled && parts.push("disabled");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	<template>

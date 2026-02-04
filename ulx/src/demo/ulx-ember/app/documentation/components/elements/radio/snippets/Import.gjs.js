@@ -1,4 +1,4 @@
 export default `
-import { Radio } from 'uls-components';
+import { Radio } from 'ulx-components';
 
 `;

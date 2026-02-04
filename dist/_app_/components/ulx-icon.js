@@ -1,1 +1,1 @@
-export { default } from "uls-components/components/ulx-icon";
+export { default } from "ulx-components/components/ulx-icon";

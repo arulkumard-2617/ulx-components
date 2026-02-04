@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 /**
- * Extracts @uls-builder token lines from a .less file and writes a JS module.
+ * Extracts @ulx-builder token lines from a .less file and writes a JS module.
  *
- * Format in .less:  // @uls-builder <label> : <class1>, <class2>, ...
+ * Format in .less:  // @ulx-builder <label> : <class1>, <class2>, ...
  * Output: app/tokens/icon-tokens.js exporting { "<label>": ["class1", "class2", ...], ... }
  *
  * Usage:
- *   node scripts/extract-uls-builder-tokens.js [path-to-icon.less]
- *   If no path is given, uses uls-v2 from node_modules (ulx-ember or parent ulx).
+ *   node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]
+ *   If no path is given, uses ulx-v2 from node_modules (ulx-ember or parent ulx).
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const RE = /^\s*\/\/\s*@uls-builder\s+(.+?)\s*:\s*(.+)$/;
+const RE = /^\s*\/\/\s*@ulx-builder\s+(.+?)\s*:\s*(.+)$/;
 
 function extractTokens(lessPath) {
   const content = fs.readFileSync(lessPath, 'utf8');
@@ -38,13 +38,13 @@ function findIconLessPath() {
 
   const fromScript = path.join(
     __dirname,
-    '../../../../node_modules/uls-v2/src/styles/uls-styles/less/elements/icon.less',
+    '../../../../node_modules/ulx-v2/src/styles/ulx-styles/less/elements/icon.less',
   );
   if (fs.existsSync(fromScript)) return fromScript;
 
   const fromUlxEmber = path.join(
     __dirname,
-    '../node_modules/uls-v2/src/styles/uls-styles/less/elements/icon.less',
+    '../node_modules/ulx-v2/src/styles/ulx-styles/less/elements/icon.less',
   );
   if (fs.existsSync(fromUlxEmber)) return fromUlxEmber;
 
@@ -55,8 +55,8 @@ function main() {
   const lessPath = findIconLessPath();
   if (!lessPath) {
     console.error(
-      'extract-uls-builder-tokens: icon.less not found. Pass path as first arg, e.g.:\n' +
-        '  node scripts/extract-uls-builder-tokens.js /path/to/uls-v2/.../elements/icon.less',
+      'extract-ulx-builder-tokens: icon.less not found. Pass path as first arg, e.g.:\n' +
+        '  node scripts/extract-ulx-builder-tokens.js /path/to/ulx-v2/.../elements/icon.less',
     );
     process.exit(1);
   }
@@ -67,8 +67,8 @@ function main() {
   const outPath = path.join(outDir, 'icon-tokens.js');
 
   const lines = [
-    '// Auto-generated from @uls-builder comments in uls-v2 .../less/elements/icon.less',
-    '// Run: node scripts/extract-uls-builder-tokens.js [path-to-icon.less]',
+    '// Auto-generated from @ulx-builder comments in ulx-v2 .../less/elements/icon.less',
+    '// Run: node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]',
     '',
     'export default ' + JSON.stringify(tokens, null, 2) + ';',
     '',

@@ -196,9 +196,9 @@ let actualComponentTagName = `Uls${componentPascal}`;
 const importSnippetPath = path.join(snippetsPath, 'Import.gjs.js');
 if (fs.existsSync(importSnippetPath)) {
 	const importSnippetContent = fs.readFileSync(importSnippetPath, 'utf8');
-	// Extract from: import { ComponentName } from 'uls-components';
+	// Extract from: import { ComponentName } from 'ulx-components';
 	const importMatch = importSnippetContent.match(
-		/import\s+(?:\{([^}]+)\}|(\w+))\s+from\s+['"]uls-components['"]/
+		/import\s+(?:\{([^}]+)\}|(\w+))\s+from\s+['"]ulx-components['"]/
 	);
 	if (importMatch) {
 		actualComponentImportName = importMatch[1] ? importMatch[1].trim() : importMatch[2];
@@ -210,7 +210,7 @@ if (fs.existsSync(importSnippetPath)) {
 	if (fs.existsSync(basicDemoPath)) {
 		const basicDemoContent = fs.readFileSync(basicDemoPath, 'utf8');
 		const importMatch = basicDemoContent.match(
-			/import\s+(?:\{([^}]+)\}|(\w+))\s+from\s+['"]uls-components['"]/
+			/import\s+(?:\{([^}]+)\}|(\w+))\s+from\s+['"]ulx-components['"]/
 		);
 		if (importMatch) {
 			actualComponentImportName = importMatch[1] ? importMatch[1].trim() : importMatch[2];
@@ -236,7 +236,7 @@ if (fs.existsSync(importSnippetPath)) {
 				const existingDemoPath = path.join(demoComponentsPath, componentPascal, existingDemoFile);
 				const existingDemoContent = fs.readFileSync(existingDemoPath, 'utf8');
 				const importMatch = existingDemoContent.match(
-					/import\s+(?:\{([^}]+)\}|(\w+))\s+from\s+['"]uls-components['"]/
+					/import\s+(?:\{([^}]+)\}|(\w+))\s+from\s+['"]ulx-components['"]/
 				);
 				if (importMatch) {
 					actualComponentImportName = importMatch[1] ? importMatch[1].trim() : importMatch[2];
@@ -257,7 +257,7 @@ if (fs.existsSync(importSnippetPath)) {
 const demoComponentContent = `import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { ${actualComponentImportName} } from 'uls-components';
+import { ${actualComponentImportName} } from 'ulx-components';
 
 export default class ${variationPascal}DemoComponent extends Component {
   @tracked activeItem = null;

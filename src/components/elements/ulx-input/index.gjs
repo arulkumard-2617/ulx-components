@@ -151,14 +151,19 @@ export default class UlxInput extends Component {
 	}
 
 	get inputGroupWrapperClass() {
+		const { inputGroupClass } = this.args;
+
 		const base = buildInputGroupClass({
 			size: this.args.size,
 			filled: this.args.filled,
 			invalid: this.isInvalid,
 			disabled: this.args.disabled
 		});
-		const extra = this.args.inputGroupClass;
-		return [base, extra].filter(Boolean).join(" ");
+
+		const parts = [base];
+		inputGroupClass && parts.push(inputGroupClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get inputType() {

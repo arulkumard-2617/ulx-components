@@ -22,7 +22,7 @@ function normalizeTypeClass(type) {
  * PrimeReact reference: https://github.com/primefaces/primereact/tree/master/components/lib/tag
  *
  * ## Notes
- * - Uses existing ULX classes from `uls-v2` (`elements/tag.less`).
+ * - Uses existing ULX classes from `ulx-v2` (`elements/tag.less`).
  * - `@invert` is an ULX extension that maps to the existing `.outlined` style.
  *
  * @class UlxTag
@@ -56,26 +56,49 @@ export default class UlxTag extends Component {
 	}
 
 	get rootClasses() {
+		const {
+			variant,
+			size,
+			iconPosition = "left",
+			rounded = false,
+			invert = false,
+			disabled = false,
+			customClass
+		} = this.args;
+
 		const parts = [this.baseClass];
 
-		if (this.args.variant) parts.push(this.args.variant);
-		if (this.args.size) parts.push(this.args.size);
-		if (this.typeClass) parts.push(this.typeClass);
+		// Variant
+		variant && parts.push(variant);
+
+		// Size
+		size && parts.push(size);
+
+		// Type
+		this.typeClass && parts.push(this.typeClass);
+
 		// ULX styles: `.icon-right` on root flips layout (row-reverse)
-		if (this.args.iconPosition === "right") parts.push("icon-right");
-		if (this.args.rounded) parts.push("rounded");
-		if (this.args.invert) parts.push("outlined");
-		if (this.args.disabled) parts.push("disabled");
-		if (this.args.customClass) parts.push(this.args.customClass);
+		iconPosition === "right" && parts.push("icon-right");
+
+		// States
+		rounded && parts.push("rounded");
+		invert && parts.push("outlined");
+		disabled && parts.push("disabled");
+
+		// Custom classes
+		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get iconWrapperClass() {
-		const position = this.args.iconPosition === "right" ? "right" : "left";
+		const { iconPosition = "left", disabled = false } = this.args;
+
+		const position = iconPosition === "right" ? "right" : "left";
 		const parts = ["tag-icon", position];
-		if (this.args.disabled) parts.push("disabled");
-		return parts.join(" ");
+		disabled && parts.push("disabled");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	<template>

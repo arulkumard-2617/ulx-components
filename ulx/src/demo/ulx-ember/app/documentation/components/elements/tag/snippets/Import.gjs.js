@@ -1,4 +1,4 @@
 export default `
-import { Tag } from 'uls-components';
+import { Tag } from 'ulx-components';
 
 `;

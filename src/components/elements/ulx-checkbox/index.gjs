@@ -122,9 +122,12 @@ export default class UlxCheckbox extends Component {
 	}
 
 	get groupClass() {
+		const { groupClass } = this.args;
+
 		const parts = [getComponentClass("checkbox-group")];
-		if (this.args.groupClass) parts.push(this.args.groupClass);
-		return parts.filter(Boolean).join(" ");
+		groupClass && parts.push(groupClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	@action

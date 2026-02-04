@@ -16,7 +16,7 @@
       <Common::DocMain::CodePreview
         @title="Create demo-page"
         @description="Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure."
-        @source="npm run create -- demo-page 'IconInput[IconInput]' --category elements --submodule form"
+        @source="npm run create -- demo-page 'PageName[PageName]' --category elements --submodule form"
         @language="bash"
       />
     </section>
@@ -25,7 +25,7 @@
       <Common::DocMain::CodePreview
         @title="Delete demo-page"
         @description="Removes an existing demo page. Use the same --category value as when the page was created."
-        @source="npm run destroy demo-page ComponentName --category collections"
+        @source="npm run destroy demo-page PageName --category collections"
         @language="bash"
       />
     </section>
@@ -34,7 +34,7 @@
       <Common::DocMain::CodePreview
         @title="Create variations"
         @description="Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script."
-        @source="npm run add-variation -- --component=ComponentName --variation=VariationName"
+        @source="npm run add-variation -- --component=PageName --variation=VariationName"
         @language="bash"
       />
     </section>

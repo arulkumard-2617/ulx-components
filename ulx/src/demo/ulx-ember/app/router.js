@@ -26,6 +26,8 @@ Router.map(function () {
       this.route('checkbox');
       this.route('radio');
       this.route('tag');
+      this.route('badge');
+      this.route('avatar');
 });
   });
 

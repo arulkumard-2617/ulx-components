@@ -6,7 +6,7 @@
 
 export default {
   componentName: 'Checkbox',
-  importLine: "import { Checkbox } from 'uls-components';",
+  importLine: "import { Checkbox } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () => '<Checkbox />',
