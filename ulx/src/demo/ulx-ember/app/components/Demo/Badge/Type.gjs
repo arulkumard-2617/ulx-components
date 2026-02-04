@@ -4,7 +4,7 @@ import { UlxBadge } from 'ulx-components';
 export default class TypeDemoComponent extends Component {
   get types() {
     return [
-      { label: '1', type: undefined },
+      { label: '1' },
       { label: '2', type: 'circle' },
       { label: '', type: 'dot' },
     ];

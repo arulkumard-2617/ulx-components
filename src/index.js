@@ -9,3 +9,4 @@ export { default as UlxTag } from './components/ulx-tag.js';
 export { default as UlxBadge } from './components/ulx-badge.js';
 export { default as UlxAvatar } from './components/ulx-avatar.js';
 export { default as UlxAvatarGroup } from './components/ulx-avatar-group.js';
+export { default as UlxTabmenu } from './components/ulx-tabmenu.js';

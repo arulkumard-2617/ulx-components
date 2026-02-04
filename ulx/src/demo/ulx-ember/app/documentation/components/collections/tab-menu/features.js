@@ -1,24 +1,24 @@
 // ==========================================================================
-// Tag Feature Items
+// TabMenu Feature Items
 // ==========================================================================
 import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
   
-  VariationsDemo,
-  TypeDemo,
-  SymbolDemo,
-  SizeDemo,// Sources
+  ControlledDemo,
+  NamedblocksDemo,
+  RouterDemo,
+  CommandDemo,// Sources
   ImportSource,
   BasicSource,
-  VariationsSource,
-  TypeSource,
-  SymbolSource,
-  SizeSource
+  ControlledSource,
+  NamedblocksSource,
+  RouterSource,
+  CommandSource
 } from './imports';
 
-export const TagFeatureItems = [
+export const TabMenuFeatureItems = [
   {
     id: "import",
     sectionNav: "Import",
@@ -26,7 +26,7 @@ export const TagFeatureItems = [
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>import</code> property is used to import the <code>Tag</code> component."
+        content: "The <code>import</code> property is used to import the <code>TabMenu</code> component."
       }
     },
     demo: {
@@ -45,7 +45,7 @@ export const TagFeatureItems = [
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Basic</code> demo shows basic usage of the Tag component."
+        content: "The <code>Basic</code> demo shows basic usage of the TabMenu component."
       }
     },
     demo: {
@@ -59,86 +59,86 @@ export const TagFeatureItems = [
   }
 ,
   {
-    id: "variations",
-    sectionNav: "Variations",
+    id: "controlled",
+    sectionNav: "Controlled",
     sectionDesc: {
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Variations</code> demo shows Variations usage of the Tag component."
+        content: "The <code>Controlled</code> demo shows Controlled usage of the TabMenu component."
       }
     },
     demo: {
-      component: VariationsDemo,
+      component: ControlledDemo,
       props: {
-        source: VariationsSource,
-        snippetName: "variations",
+        source: ControlledSource,
+        snippetName: "controlled",
         language: "handlebars"
       }
     }
   }
 ,
   {
-    id: "type",
-    sectionNav: "Type",
+    id: "named-blocks",
+    sectionNav: "Namedblocks",
     sectionDesc: {
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Type</code> demo shows Type usage of the Tag component."
+        content: "The <code>Namedblocks</code> demo shows NamedBlocks usage of the TabMenu component."
       }
     },
     demo: {
-      component: TypeDemo,
+      component: NamedblocksDemo,
       props: {
-        source: TypeSource,
-        snippetName: "type",
+        source: NamedblocksSource,
+        snippetName: "named-blocks",
         language: "handlebars"
       }
     }
   }
 ,
   {
-    id: "symbol",
-    sectionNav: "Symbol",
+    id: "router",
+    sectionNav: "Router",
     sectionDesc: {
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Symbol</code> demo shows Symbol usage of the Tag component."
+        content: "The <code>Router</code> demo shows Router usage of the TabMenu component."
       }
     },
     demo: {
-      component: SymbolDemo,
+      component: RouterDemo,
       props: {
-        source: SymbolSource,
-        snippetName: "symbol",
+        source: RouterSource,
+        snippetName: "router",
         language: "handlebars"
       }
     }
   }
 ,
   {
-    id: "size",
-    sectionNav: "Size",
+    id: "command",
+    sectionNav: "Command",
     sectionDesc: {
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Size</code> demo shows Size usage of the Tag component."
+        content: "The <code>Command</code> demo shows Command usage of the TabMenu component."
       }
     },
     demo: {
-      component: SizeDemo,
+      component: CommandDemo,
       props: {
-        source: SizeSource,
-        snippetName: "size",
+        source: CommandSource,
+        snippetName: "command",
         language: "handlebars"
       }
     }
   }
 ];
 
-export default function TagFeatures() {
-  return TagFeatureItems;
+export default function TabMenuFeatures() {
+  return TabMenuFeatureItems;
 }

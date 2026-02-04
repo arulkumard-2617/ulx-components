@@ -259,6 +259,11 @@ export const DocNavItems = [
             menuItem: 'test-comp',
             to: '/components/collections/test-comp',
             route: 'components.collections.test-comp'
+          },
+          {
+            menuItem: 'TabMenu',
+            to: '/components/collections/tab-menu',
+            route: 'components.collections.tab-menu'
           }
         ]
       }
