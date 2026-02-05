@@ -9,37 +9,38 @@ export default {
   subCategory: 'Menu',
   menuItem: 'Tieredmenu',
   routeBase: '/components/elements/tieredmenu',
-  icon: 'pi pi-bars',
-  
+  icon: 'bs-icons1 hamburger-icon',
+
   // Page metadata
   header: 'Tieredmenu',
   subHeader: 'Tieredmenu displays submenus in nested overlays.',
-  
+
   // Tab configuration
   tabs: [
     {
       name: 'Features',
       route: '/features',
-      id: 'features'
+      id: 'features',
     },
     {
       name: 'Theming',
       route: '/theming',
-      id: 'theming'
+      id: 'theming',
     },
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough'
-    }
+      id: 'passthrough',
+    },
   ],
-  
+
   // Import message for the component
   importMsg: "import { UlxTieredmenu } from 'ulx-components'",
-  
+
   // Accessibility information
   accessibility: {
-    description: "Tieredmenu component with keyboard navigation and ARIA support.",
-    example: "<UlxTieredmenu @model={{items}} />"
-  }
+    description:
+      'Tieredmenu component with keyboard navigation and ARIA support.',
+    example: '<UlxTieredmenu @model={{items}} />',
+  },
 };

@@ -7,13 +7,13 @@
 export const DocNavItems = [
   {
     menuTitle: 'Getting Started',
-    icon: 'pi pi-home',
+    icon: 'bs-icons1 home-icon-01',
     to: '/walkthrough',
     route: 'walkthrough',
   },
   {
     menuTitle: 'Foundation',
-    icon: 'pi pi-palette',
+    icon: 'bs-icons1 design-icon',
     children: [
       {
         menuItem: 'Typography',
@@ -29,7 +29,7 @@ export const DocNavItems = [
   },
   {
     menuTitle: 'Utilities',
-    icon: 'pi pi-sliders-h',
+    icon: 'bs-icons1 settings-icon-01',
     children: [
       {
         menuItem: 'Border',
@@ -180,7 +180,7 @@ export const DocNavItems = [
   },
   {
     menuTitle: 'Elements',
-    icon: 'pi pi-list',
+    icon: 'bs-icons1 list-view-icon',
     children: [
       {
         category: 'Form',
@@ -266,7 +266,7 @@ export const DocNavItems = [
   },
   {
     menuTitle: 'Collections',
-    icon: 'pi pi-list',
+    icon: 'bs-icons1 list-view-icon',
     children: [
       {
         category: 'Form',

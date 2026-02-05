@@ -36,27 +36,27 @@ export default class TemplateTieredmenuDemo extends Component {
     return [
       {
         label: 'File',
-        icon: 'pi pi-file',
+        icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
             label: 'New',
-            icon: 'pi pi-plus',
+            icon: 'bs-icons1 add-icon-01',
             items: [
               {
                 label: 'Document',
-                icon: 'pi pi-file',
+                icon: 'bs-icons1 pdf-stroke-icon',
                 shortcut: '⌘+N',
                 template: this.itemRenderer,
               },
               {
                 label: 'Image',
-                icon: 'pi pi-image',
+                icon: 'bs-icons1 image-stroke-icon',
                 shortcut: '⌘+I',
                 template: this.itemRenderer,
               },
               {
                 label: 'Video',
-                icon: 'pi pi-video',
+                icon: 'bs-icons1 video-stroke-icon',
                 shortcut: '⌘+L',
                 template: this.itemRenderer,
               },
@@ -64,13 +64,13 @@ export default class TemplateTieredmenuDemo extends Component {
           },
           {
             label: 'Open',
-            icon: 'pi pi-folder-open',
+            icon: 'bs-icons1 library-icon',
             shortcut: '⌘+O',
             template: this.itemRenderer,
           },
           {
             label: 'Print',
-            icon: 'pi pi-print',
+            icon: 'bs-icons1 print-icon',
             shortcut: '⌘+P',
             template: this.itemRenderer,
           },
@@ -78,17 +78,17 @@ export default class TemplateTieredmenuDemo extends Component {
       },
       {
         label: 'Edit',
-        icon: 'pi pi-file-edit',
+        icon: 'bs-icons1 edit-icon',
         items: [
           {
             label: 'Copy',
-            icon: 'pi pi-copy',
+            icon: 'bs-icons1 copy-icon',
             shortcut: '⌘+C',
             template: this.itemRenderer,
           },
           {
             label: 'Delete',
-            icon: 'pi pi-times',
+            icon: 'bs-icons1 close-icon-01',
             shortcut: '⌘+D',
             template: this.itemRenderer,
           },
@@ -96,7 +96,7 @@ export default class TemplateTieredmenuDemo extends Component {
       },
       {
         label: 'Search',
-        icon: 'pi pi-search',
+        icon: 'bs-icons1 search-icon',
         shortcut: '⌘+S',
         template: this.itemRenderer,
       },
@@ -105,17 +105,17 @@ export default class TemplateTieredmenuDemo extends Component {
       },
       {
         label: 'Share',
-        icon: 'pi pi-share-alt',
+        icon: 'bs-icons1 share-icon',
         items: [
           {
             label: 'Slack',
-            icon: 'pi pi-slack',
+            icon: 'bs-icons1 chat-icon',
             badge: 2,
             template: this.itemRenderer,
           },
           {
             label: 'Whatsapp',
-            icon: 'pi pi-whatsapp',
+            icon: 'bs-icons1 whatsapp-icon',
             badge: 3,
             template: this.itemRenderer,
           },

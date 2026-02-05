@@ -32,8 +32,8 @@ export default class StickyToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label="Sticky" @severity="secondary" {{on "click" this.showSticky}} />
-    <UlxButton @label="Clear" @severity="secondary" {{on "click" this.clearAll}} />
+    <UlxButton @label="Sticky" @variant="secondary" {{on "click" this.showSticky}} />
+    <UlxButton @label="Clear" @variant="secondary" {{on "click" this.clearAll}} />
     <UlxToast
       @messages={{this.messages}}
       @life={{3000}}

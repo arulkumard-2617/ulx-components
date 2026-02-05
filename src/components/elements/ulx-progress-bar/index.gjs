@@ -10,7 +10,7 @@ const BAR_PREFIX = `${NAMESPACE}-progressbar`;
  * ## Sizes (progress-bar.less)
  * - xs-size, s-size, m-size, l-size, xl-size
  *
- * ## Severity (progress-bar.less)
+ * ## Variant (progress-bar.less)
  * - secondary, success, info, warning, danger
  *
  * ## WCAG
@@ -23,7 +23,7 @@ const BAR_PREFIX = `${NAMESPACE}-progressbar`;
  * @param {'determinate'|'indeterminate'} [mode] - Override: 'indeterminate' forces indeterminate; otherwise inferred from value.
  * @param {boolean} [showValue=true] - Show percentage label (determinate only). Use hide-value / show-value classes.
  * @param {string} [size] - Size class from parent (e.g. xs-size, s-size, m-size). Omit for default.
- * @param {'secondary'|'success'|'info'|'warning'|'danger'} [severity] - Bar color variant.
+ * @param {'secondary'|'success'|'info'|'warning'|'danger'} [variant] - Bar color variant.
  * @param {string} [customClass] - Additional CSS classes
  * @param {string} [componentClass] - Override base component class (default from getComponentClass('progressbar'))
  * @block content - Optional. Yields value for custom label (e.g. "{{value}}%" or formatted text).
@@ -59,12 +59,13 @@ export default class UlxProgressBar extends Component {
 	}
 
 	get rootClasses() {
-		const { severity, customClass } = this.args;
+		const { variant, severity, customClass } = this.args;
+		const variantValue = variant || severity;
 		const parts = [this.baseClass];
 		if (this.isIndeterminate) parts.push("indeterminate");
 		parts.push(this.valueVisibilityClass);
 		if (this.sizeClass) parts.push(this.sizeClass);
-		if (severity) parts.push(severity);
+		if (variantValue) parts.push(variantValue);
 		if (customClass) parts.push(customClass);
 		return parts.filter(Boolean).join(" ");
 	}

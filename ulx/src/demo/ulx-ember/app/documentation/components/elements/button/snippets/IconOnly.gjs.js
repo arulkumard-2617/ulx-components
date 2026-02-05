@@ -26,7 +26,7 @@ export default class DemoButtonIconOnly extends Component {
             @icon={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
-            @severity={{item.severity}}
+            @variant={{item.severity}}
             aria-label={{item.ariaLabel}}
           />
         {{/each}}
@@ -40,7 +40,7 @@ export default class DemoButtonIconOnly extends Component {
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
             @rounded={{true}}
-            @severity={{item.severity}}
+            @variant={{item.severity}}
             aria-label={{item.ariaLabel}}
           />
         {{/each}}
@@ -55,7 +55,7 @@ export default class DemoButtonIconOnly extends Component {
             @iconComponentClass="bs-icons1"
             @rounded={{true}}
             @outlined={{true}}
-            @severity={{item.severity}}
+            @variant={{item.severity}}
             aria-label={{item.ariaLabel}}
           />
         {{/each}}
@@ -71,7 +71,7 @@ export default class DemoButtonIconOnly extends Component {
             @rounded={{true}}
             @text={{true}}
             @raised={{true}}
-            @severity={{item.severity}}
+            @variant={{item.severity}}
             aria-label={{item.ariaLabel}}
           />
         {{/each}}
@@ -86,7 +86,7 @@ export default class DemoButtonIconOnly extends Component {
             @iconComponentClass="bs-icons1"
             @rounded={{true}}
             @text={{true}}
-            @severity={{item.severity}}
+            @variant={{item.severity}}
             aria-label={{item.ariaLabel}}
           />
         {{/each}}

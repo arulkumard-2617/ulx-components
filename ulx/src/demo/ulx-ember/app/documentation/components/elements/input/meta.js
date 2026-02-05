@@ -9,7 +9,7 @@ export default {
   subCategory: 'Form',
   menuItem: 'Input',
   routeBase: '/components/elements/input',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'Input',

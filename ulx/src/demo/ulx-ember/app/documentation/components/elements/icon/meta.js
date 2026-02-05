@@ -9,7 +9,7 @@ export default {
   subCategory: 'Icons',
   menuItem: 'Icon',
   routeBase: '/components/elements/icon',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'Icon',

@@ -6,8 +6,8 @@ export default class DemoButtonBasic extends Component {
   <template>
     <div class="flex gap-3 align-items-center">
       <UlxButton @label="Click Me" />
-      <UlxButton @label="Submit" @severity="success" />
-      <UlxButton @label="Delete" @severity="danger" />
+      <UlxButton @label="Submit" @variant="success" />
+      <UlxButton @label="Delete" @variant="danger" />
     </div>
   </template>
 }

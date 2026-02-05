@@ -8,7 +8,7 @@ const stateToProps = (state) => {
     label: state.label || 'Button',
     icon: state.icon || undefined,
     iconPos: state.iconPos,
-    severity: state.severity,
+    variant: state.variant,
     size: state.size || undefined,
     outlined: state.outlined,
     text: state.text,
@@ -24,11 +24,12 @@ const stateToProps = (state) => {
 const stateToSnippet = (state) => {
   const p = stateToProps(state);
   const attrs = [];
-  
+
   if (p.label) attrs.push(`@label="${p.label}"`);
   if (p.icon) attrs.push(`@icon="${p.icon}"`);
   if (p.iconPos && p.iconPos !== 'left') attrs.push(`@iconPos="${p.iconPos}"`);
-  if (p.severity && p.severity !== 'primary') attrs.push(`@severity="${p.severity}"`);
+  if (p.variant && p.variant !== 'primary')
+    attrs.push(`@variant="${p.variant}"`);
   if (p.size) attrs.push(`@size="${p.size}"`);
   if (p.outlined) attrs.push('@outlined={{true}}');
   if (p.text) attrs.push('@text={{true}}');
@@ -38,8 +39,8 @@ const stateToSnippet = (state) => {
   if (p.loading) attrs.push('@loading={{true}}');
   if (p.fluid) attrs.push('@fluid={{true}}');
   if (p.badge) attrs.push(`@badge="${p.badge}"`);
-  
-  return attrs.length > 0 
+
+  return attrs.length > 0
     ? `<UlxButton\n  ${attrs.join('\n  ')}\n/>`
     : '<UlxButton />';
 };
@@ -56,8 +57,8 @@ export default {
       default: 'Button',
     },
     {
-      key: 'severity',
-      label: 'Severity',
+      key: 'variant',
+      label: 'Variant',
       type: 'select',
       default: 'primary',
       options: [

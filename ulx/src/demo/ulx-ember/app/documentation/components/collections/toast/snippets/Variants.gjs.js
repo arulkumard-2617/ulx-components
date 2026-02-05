@@ -86,10 +86,26 @@ export default class VariantsToastDemo extends Component {
   <template>
     <div class="pda4">
       <div class="fx gap8 flxw">
-        <UlxButton @label="Elevated" @severity="primary" {{on "click" this.showElevated}} />
-        <UlxButton @label="Flat" @severity="success" {{on "click" this.showFlat}} />
-        <UlxButton @label="Outlined" @severity="warning" {{on "click" this.showOutlined}} />
-        <UlxButton @label="No icon" @severity="secondary" {{on "click" this.showNoIcon}} />
+        <UlxButton
+          @label="Elevated"
+          @variant="primary"
+          {{on "click" this.showElevated}}
+        />
+        <UlxButton
+          @label="Flat"
+          @variant="success"
+          {{on "click" this.showFlat}}
+        />
+        <UlxButton
+          @label="Outlined"
+          @variant="warning"
+          {{on "click" this.showOutlined}}
+        />
+        <UlxButton
+          @label="No icon"
+          @variant="secondary"
+          {{on "click" this.showNoIcon}}
+        />
         <UlxButton @label="Sticky" {{on "click" this.showSticky}} />
       </div>
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />

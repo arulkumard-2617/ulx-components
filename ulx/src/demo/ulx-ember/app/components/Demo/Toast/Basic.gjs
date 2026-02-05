@@ -27,7 +27,11 @@ export default class BasicToastDemo extends Component {
 
   <template>
     <div class="pda4">
-      <UlxButton @label="Show toast" @severity="primary" {{on "click" this.showToast}} />
+      <UlxButton
+        @label="Show toast"
+        @variant="primary"
+        {{on "click" this.showToast}}
+      />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>
   </template>

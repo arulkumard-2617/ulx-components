@@ -30,7 +30,7 @@ export default class TemplateToastDemo extends Component {
     <div class="pda4">
       <UlxButton
         @label="Confirm"
-        @severity="primary"
+        @variant="primary"
         {{on "click" this.showTemplateToast}}
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}}>
@@ -40,7 +40,7 @@ export default class TemplateToastDemo extends Component {
             <div class="fw-medium">{{message.summary}}</div>
             <UlxButton
               @label="Reply"
-              @severity="success"
+              @variant="success"
               @size="s-size"
               {{on "click" (fn this.removeMessage message)}}
             />

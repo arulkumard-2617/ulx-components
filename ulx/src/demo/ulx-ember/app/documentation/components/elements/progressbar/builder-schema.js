@@ -7,20 +7,23 @@ const stateToProps = (state) => ({
   mode: state.mode,
   showValue: state.showValue,
   size: state.size,
-  severity: state.severity || undefined,
+  variant: state.variant || undefined,
   customClass: state.customClass || undefined,
 });
 
 const stateToSnippet = (state) => {
   const p = stateToProps(state);
   const attrs = [];
-  if (p.value != null && p.mode !== 'indeterminate') attrs.push(`@value={{${p.value}}}`);
+  if (p.value != null && p.mode !== 'indeterminate')
+    attrs.push(`@value={{${p.value}}}`);
   if (p.mode === 'indeterminate') attrs.push('@mode="indeterminate"');
   if (p.showValue === false) attrs.push('@showValue={{false}}');
   if (p.size) attrs.push(`@size="${p.size}"`);
-  if (p.severity) attrs.push(`@severity="${p.severity}"`);
+  if (p.variant) attrs.push(`@variant="${p.variant}"`);
   if (p.customClass) attrs.push(`@customClass="${p.customClass}"`);
-  return attrs.length ? `<UlxProgressBar\n  ${attrs.join('\n  ')}\n/>` : '<UlxProgressBar />';
+  return attrs.length
+    ? `<UlxProgressBar\n  ${attrs.join('\n  ')}\n/>`
+    : '<UlxProgressBar />';
 };
 
 export default {
@@ -64,8 +67,8 @@ export default {
       ],
     },
     {
-      key: 'severity',
-      label: 'Severity',
+      key: 'variant',
+      label: 'Variant',
       type: 'select',
       default: '',
       options: [

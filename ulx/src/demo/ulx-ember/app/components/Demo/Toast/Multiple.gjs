@@ -48,7 +48,7 @@ export default class MultipleToastDemo extends Component {
     <div class="pda4">
       <UlxButton
         @label="Multiple"
-        @severity="warning"
+        @variant="warning"
         {{on "click" this.showMultiple}}
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />

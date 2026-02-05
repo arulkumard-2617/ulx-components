@@ -1,8 +1,9 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-import { fn, concat } from "@ember/helper";
+import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
+import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
  * Recursive submenu component for TieredMenu.
@@ -143,10 +144,12 @@ export default class TieredmenuSubmenu extends Component {
 									{{on "click" (fn this.handleItemClick item)}}
 								>
 									{{#if item.icon}}
-										<span
-											class={{concat "tieredmenu-item-icon " item.icon}}
+										<UlxIcon
+											@iconName={{item.icon}}
+											@type="font"
+											@customClass="tieredmenu-item-icon"
 											aria-hidden="true"
-										></span>
+										/>
 									{{/if}}
 									{{#if item.label}}
 										<span class="tieredmenu-item-label">
@@ -176,10 +179,12 @@ export default class TieredmenuSubmenu extends Component {
 									{{on "click" (fn this.handleItemClick item)}}
 								>
 									{{#if item.icon}}
-										<span
-											class={{concat "tieredmenu-item-icon " item.icon}}
+										<UlxIcon
+											@iconName={{item.icon}}
+											@type="font"
+											@customClass="tieredmenu-item-icon"
 											aria-hidden="true"
-										></span>
+										/>
 									{{/if}}
 									{{#if item.label}}
 										<span class="tieredmenu-item-label">

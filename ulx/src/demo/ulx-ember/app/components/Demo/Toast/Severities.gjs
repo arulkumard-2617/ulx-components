@@ -37,12 +37,35 @@ export default class SeveritiesToastDemo extends Component {
   <template>
     <div class="pda4">
       <div class="fx gap8 flxw">
-        <UlxButton @label="Info" @severity="info" {{on "click" (fn this.addMessage "info")}} />
-        <UlxButton @label="Success" @severity="success" {{on "click" (fn this.addMessage "success")}} />
-        <UlxButton @label="Warn" @severity="warning" {{on "click" (fn this.addMessage "warn")}} />
-        <UlxButton @label="Error" @severity="danger" {{on "click" (fn this.addMessage "error")}} />
-        <UlxButton @label="Secondary" @severity="secondary" {{on "click" (fn this.addMessage "secondary")}} />
-        <UlxButton @label="Contrast" {{on "click" (fn this.addMessage "contrast")}} />
+        <UlxButton
+          @label="Info"
+          @variant="info"
+          {{on "click" (fn this.addMessage "info")}}
+        />
+        <UlxButton
+          @label="Success"
+          @variant="success"
+          {{on "click" (fn this.addMessage "success")}}
+        />
+        <UlxButton
+          @label="Warn"
+          @variant="warning"
+          {{on "click" (fn this.addMessage "warn")}}
+        />
+        <UlxButton
+          @label="Error"
+          @variant="danger"
+          {{on "click" (fn this.addMessage "error")}}
+        />
+        <UlxButton
+          @label="Secondary"
+          @variant="secondary"
+          {{on "click" (fn this.addMessage "secondary")}}
+        />
+        <UlxButton
+          @label="Contrast"
+          {{on "click" (fn this.addMessage "contrast")}}
+        />
       </div>
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>

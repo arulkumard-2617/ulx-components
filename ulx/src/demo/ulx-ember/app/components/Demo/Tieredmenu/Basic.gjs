@@ -7,71 +7,80 @@ export default class BasicTieredmenuDemo extends Component {
     return [
       {
         label: 'File',
-        icon: 'pi pi-file',
+        icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
             label: 'New',
-            icon: 'pi pi-plus',
+            icon: 'bs-icons1 add-icon-01',
             items: [
-              { label: 'Project', icon: 'pi pi-folder' },
-              { label: 'File', icon: 'pi pi-file' },
+              { label: 'Project', icon: 'bs-icons1 library-icon' },
+              { label: 'File', icon: 'bs-icons1 pdf-stroke-icon' },
               { separator: true },
               {
                 label: 'From Template',
-                icon: 'pi pi-copy',
+                icon: 'bs-icons1 copy-icon',
                 items: [
-                  { label: 'React Template', icon: 'pi pi-code' },
-                  { label: 'Ember Template', icon: 'pi pi-code' },
-                  { label: 'Vue Template', icon: 'pi pi-code' },
+                  {
+                    label: 'React Template',
+                    icon: 'bs-icons1 custom-functions-icon',
+                  },
+                  {
+                    label: 'Ember Template',
+                    icon: 'bs-icons1 custom-functions-icon',
+                  },
+                  {
+                    label: 'Vue Template',
+                    icon: 'bs-icons1 custom-functions-icon',
+                  },
                 ],
               },
             ],
           },
-          { label: 'Open', icon: 'pi pi-folder-open' },
+          { label: 'Open', icon: 'bs-icons1 library-icon' },
           { separator: true },
           {
             label: 'Export',
-            icon: 'pi pi-upload',
+            icon: 'bs-icons1 upload-icon',
             items: [
-              { label: 'PDF', icon: 'pi pi-file-pdf' },
-              { label: 'Excel', icon: 'pi pi-file-excel' },
-              { label: 'CSV', icon: 'pi pi-file' },
+              { label: 'PDF', icon: 'bs-icons1 pdf-filled-icon' },
+              { label: 'Excel', icon: 'bs-icons1 pdf-stroke-icon' },
+              { label: 'CSV', icon: 'bs-icons1 pdf-stroke-icon' },
             ],
           },
           { separator: true },
-          { label: 'Exit', icon: 'pi pi-times' },
+          { label: 'Exit', icon: 'bs-icons1 close-icon-01' },
         ],
       },
       {
         label: 'Edit',
-        icon: 'pi pi-pencil',
+        icon: 'bs-icons1 edit-icon',
         items: [
-          { label: 'Undo', icon: 'pi pi-undo' },
-          { label: 'Redo', icon: 'pi pi-refresh' },
+          { label: 'Undo', icon: 'bs-icons1 undo-icon' },
+          { label: 'Redo', icon: 'bs-icons1 update-icon' },
           { separator: true },
           {
             label: 'Find',
-            icon: 'pi pi-search',
+            icon: 'bs-icons1 search-icon',
             items: [
-              { label: 'Find...', icon: 'pi pi-search' },
-              { label: 'Find and Replace', icon: 'pi pi-sync' },
-              { label: 'Find in Files', icon: 'pi pi-folder' },
+              { label: 'Find...', icon: 'bs-icons1 search-icon' },
+              { label: 'Find and Replace', icon: 'bs-icons1 user-sync-icon' },
+              { label: 'Find in Files', icon: 'bs-icons1 library-icon' },
             ],
           },
         ],
       },
       {
         label: 'View',
-        icon: 'pi pi-eye',
+        icon: 'bs-icons1 view-icon',
         items: [
-          { label: 'Zoom In', icon: 'pi pi-search-plus' },
-          { label: 'Zoom Out', icon: 'pi pi-search-minus' },
+          { label: 'Zoom In', icon: 'bs-icons1 zoom-in-stroke-icon' },
+          { label: 'Zoom Out', icon: 'bs-icons1 zoom-out-stroke-icon' },
         ],
       },
       { separator: true },
       {
         label: 'Help',
-        icon: 'pi pi-question-circle',
+        icon: 'bs-icons1 question-icon',
       },
     ];
   }

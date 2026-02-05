@@ -34,33 +34,33 @@ export default class PopupTieredmenuDemo extends Component {
     return [
       {
         label: 'File',
-        icon: 'pi pi-file',
+        icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
             label: 'New',
-            icon: 'pi pi-plus',
+            icon: 'bs-icons1 add-icon-01',
             items: [
-              { label: 'Project', icon: 'pi pi-folder' },
-              { label: 'File', icon: 'pi pi-file' },
-              { label: 'From Template', icon: 'pi pi-copy' },
+              { label: 'Project', icon: 'bs-icons1 library-icon' },
+              { label: 'File', icon: 'bs-icons1 pdf-stroke-icon' },
+              { label: 'From Template', icon: 'bs-icons1 copy-icon' },
             ],
           },
-          { label: 'Open', icon: 'pi pi-folder-open' },
+          { label: 'Open', icon: 'bs-icons1 library-icon' },
           { separator: true },
-          { label: 'Exit', icon: 'pi pi-times' },
+          { label: 'Exit', icon: 'bs-icons1 close-icon-01' },
         ],
       },
       {
         label: 'Edit',
-        icon: 'pi pi-pencil',
+        icon: 'bs-icons1 edit-icon',
         items: [
-          { label: 'Undo', icon: 'pi pi-undo' },
-          { label: 'Redo', icon: 'pi pi-refresh' },
+          { label: 'Undo', icon: 'bs-icons1 undo-icon' },
+          { label: 'Redo', icon: 'bs-icons1 update-icon' },
         ],
       },
       {
         label: 'Help',
-        icon: 'pi pi-question-circle',
+        icon: 'bs-icons1 question-icon',
         command: () => console.log('Help clicked'),
       },
     ];
@@ -84,18 +84,18 @@ export default class PopupTieredmenuDemo extends Component {
 
   <template>
     <div
-      class="pda4 pos-rel"
+      class="pda4 relative"
       {{this.closeOnClickOutside this.isMenuVisible onClose=this.hideMenu}}
     >
       <UlxButton
         @label="Show"
-        @severity="primary"
+        @variant="primary"
         {{on "click" this.toggleMenu}}
         aria-haspopup="menu"
         aria-expanded={{this.isMenuVisible}}
       />
 
-      <div class="pos-abs t-100 l-0 z-1000 mgt4">
+      <div class="absolute tpfull lt0 z-1000 mgt2">
         <UlxTieredmenu
           @model={{this.items}}
           @popup={{true}}

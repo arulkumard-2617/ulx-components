@@ -61,7 +61,7 @@ export default class PositionsToastDemo extends Component {
         {{#each POSITIONS as |pos|}}
           <UlxButton
             @label={{pos}}
-            @severity="secondary"
+            @variant="secondary"
             {{on "click" (fn this.showToast pos)}}
           />
         {{/each}}

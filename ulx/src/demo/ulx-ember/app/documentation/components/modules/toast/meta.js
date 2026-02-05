@@ -9,7 +9,7 @@ export default {
   subCategory: 'Message',
   menuItem: 'Toast',
   routeBase: '/components/modules/toast',
-  icon: 'pi pi-bell',
+  icon: 'bs-icons1 bell-ringing-icon',
 
   // Page metadata
   header: 'Toast',
@@ -42,6 +42,7 @@ export default {
   accessibility: {
     description:
       'Toast component with role="region", role="alert" on messages, and accessible close buttons.',
-    example: '<UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />',
+    example:
+      '<UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />',
   },
 };

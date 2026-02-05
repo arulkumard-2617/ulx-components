@@ -5,13 +5,13 @@ import { UlxButton } from 'ulx-components';
 export default class DemoButtonSeverities extends Component {
   <template>
     <div class="flex gap-5 align-items-center flex-wrap">
-      <UlxButton @label="Primary" @severity="primary" />
-      <UlxButton @label="Secondary" @severity="secondary" />
-      <UlxButton @label="Success" @severity="success" />
-      <UlxButton @label="Info" @severity="info" />
-      <UlxButton @label="Warning" @severity="warning" />
-      <UlxButton @label="Help" @severity="help" />
-      <UlxButton @label="Danger" @severity="danger" />
+      <UlxButton @label="Primary" @variant="primary" />
+      <UlxButton @label="Secondary" @variant="secondary" />
+      <UlxButton @label="Success" @variant="success" />
+      <UlxButton @label="Info" @variant="info" />
+      <UlxButton @label="Warning" @variant="warning" />
+      <UlxButton @label="Help" @variant="help" />
+      <UlxButton @label="Danger" @variant="danger" />
     </div>
   </template>
 }

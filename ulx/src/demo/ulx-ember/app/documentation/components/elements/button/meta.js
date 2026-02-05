@@ -9,11 +9,12 @@ export default {
   subCategory: 'Button',
   menuItem: 'Button',
   routeBase: '/components/elements/button',
-  icon: 'pi pi-check-square',
+  icon: 'bs-icons1 checkbox-icon',
 
   // Page metadata
   header: 'Button',
-  subHeader: 'Button is a component for user interaction with support for multiple severities, variants, icons, and states.',
+  subHeader:
+    'Button is a component for user interaction with support for multiple severities, variants, icons, and states.',
 
   // Tab configuration
   tabs: [
@@ -39,7 +40,8 @@ export default {
 
   // Accessibility information
   accessibility: {
-    description: 'Button component with full keyboard support and ARIA attributes.',
+    description:
+      'Button component with full keyboard support and ARIA attributes.',
     example: '<UlxButton @label="Click me" />',
   },
 };

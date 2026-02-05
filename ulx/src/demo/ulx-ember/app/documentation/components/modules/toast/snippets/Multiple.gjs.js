@@ -25,7 +25,7 @@ export default class MultipleToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label="Multiple" @severity="warning" {{on "click" this.showMultiple}} />
+    <UlxButton @label="Multiple" @variant="warning" {{on "click" this.showMultiple}} />
     <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
   </template>
 }

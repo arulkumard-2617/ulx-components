@@ -9,37 +9,37 @@ export default class DemoButtonRaisedText extends Component {
         @label="Secondary"
         @text={{true}}
         @raised={{true}}
-        @severity="secondary"
+        @variant="secondary"
       />
       <UlxButton
         @label="Success"
         @text={{true}}
         @raised={{true}}
-        @severity="success"
+        @variant="success"
       />
       <UlxButton
         @label="Info"
         @text={{true}}
         @raised={{true}}
-        @severity="info"
+        @variant="info"
       />
       <UlxButton
         @label="Warning"
         @text={{true}}
         @raised={{true}}
-        @severity="warning"
+        @variant="warning"
       />
       <UlxButton
         @label="Help"
         @text={{true}}
         @raised={{true}}
-        @severity="help"
+        @variant="help"
       />
       <UlxButton
         @label="Danger"
         @text={{true}}
         @raised={{true}}
-        @severity="danger"
+        @variant="danger"
       />
     </div>
   </template>

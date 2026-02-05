@@ -50,17 +50,17 @@ export default class StickyToastDemo extends Component {
       <div class="fx gap8 flxw">
         <UlxButton
           @label="Sticky"
-          @severity="secondary"
+          @variant="secondary"
           {{on "click" this.showSticky}}
         />
         <UlxButton
           @label="Auto-close (3s)"
-          @severity="secondary"
+          @variant="secondary"
           {{on "click" this.showWithLife}}
         />
         <UlxButton
           @label="Clear"
-          @severity="secondary"
+          @variant="secondary"
           {{on "click" this.clearAll}}
         />
       </div>

@@ -7,10 +7,11 @@ export default {
   subCategory: 'Misc',
   menuItem: 'ProgressSpinner',
   routeBase: '/components/elements/progressspinner',
-  icon: 'pi pi-spinner',
+  icon: 'bs-icons1 progress-icon',
 
   header: 'ProgressSpinner',
-  subHeader: 'ProgressSpinner is a process status indicator that displays an infinite circular spinner.',
+  subHeader:
+    'ProgressSpinner is a process status indicator that displays an infinite circular spinner.',
 
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },
@@ -21,7 +22,8 @@ export default {
   importMsg: "import { UlxProgressSpinner } from 'ulx-components';",
 
   accessibility: {
-    description: 'Use role="progressbar" (indeterminate). Pass aria-label when the spinner is the main loading indicator.',
+    description:
+      'Use role="progressbar" (indeterminate). Pass aria-label when the spinner is the main loading indicator.',
     example: '<UlxProgressSpinner @ariaLabel="Loading" />',
   },
 };

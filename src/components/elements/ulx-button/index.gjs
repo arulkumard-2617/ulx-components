@@ -57,7 +57,7 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
  * @param {boolean} [loading=false] - Shows loading state with spinner
  * @param {boolean} [disabled=false] - Disables the button
  * @param {string} [href] - When set, renders as <a href="{{href}}">; otherwise <button>
- * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [severity='primary'] - Button severity/type
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Button variant/type
  * @param {boolean} [raised=false] - Adds shadow for elevation
  * @param {boolean} [rounded=false] - Circular border radius
  * @param {boolean} [text=false] - Text variant (transparent background)
@@ -78,6 +78,7 @@ export default class UlxButton extends Component {
 
 	get buttonClasses() {
 		const {
+			variant: variantArg,
 			severity: severityArg,
 			text,
 			href,
@@ -91,7 +92,7 @@ export default class UlxButton extends Component {
 			label
 		} = this.args;
 		const parts = [this.baseClass];
-		const severity = severityArg || "primary";
+		const severity = variantArg || severityArg || "primary";
 		parts.push(severity);
 		if (text) parts.push("text");
 		if (href && text) parts.push("link", "underline");

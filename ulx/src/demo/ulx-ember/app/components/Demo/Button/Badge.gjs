@@ -5,7 +5,7 @@ export default class DemoButtonBadge extends Component {
   <template>
     <div class="flex gap-3 align-items-center flex-wrap">
       <UlxButton @label="Messages" @badge="2" />
-      <UlxButton @label="Updates" @badge="5" @severity="success" />
+      <UlxButton @label="Updates" @badge="5" @variant="success" />
     </div>
   </template>
 }
