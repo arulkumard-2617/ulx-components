@@ -23,7 +23,14 @@ Router.map(function () {
       this.route('input');
       this.route('ulx-icon-input');
       this.route('input-group');
-});
+      this.route('button', { path: '/button' });
+      this.route('tieredmenu', { path: '/tieredmenu' });
+      this.route('progressbar', { path: '/progressbar' });
+      this.route('progressspinner', { path: '/progressspinner' });
+    });
+    this.route('modules', { path: '/modules' }, function () {
+      this.route('toast', { path: '/toast' });
+    });
   });
 
   this.route('utilities', function () {

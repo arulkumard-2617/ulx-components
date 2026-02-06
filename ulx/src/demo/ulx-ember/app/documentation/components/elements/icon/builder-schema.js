@@ -52,7 +52,7 @@ const defaultNormalSize = normalSizes.includes('s24')
 
 export default {
   componentName: 'UlxIcon',
-  importLine: "import { UlxIcon } from 'uls-components';",
+  importLine: "import { UlxIcon } from 'ulx-components';",
 
   props: [
     {

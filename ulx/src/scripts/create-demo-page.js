@@ -271,7 +271,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { ${pascalName} } from 'uls-components'",
+  importMsg: "import { ${pascalName} } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {
@@ -298,7 +298,7 @@ const builderSchemaContent = `// ===============================================
 
 export default {
   componentName: '${pascalName}',
-  importLine: "import { ${pascalName} } from 'uls-components';",
+  importLine: "import { ${pascalName} } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () => '<${pascalName} />',
@@ -342,7 +342,7 @@ if (fs.existsSync(importsFilePath)) {
 // 4d. Create snippet files
 // Create Import.gjs.js snippet
 const importSnippetContent = `export default \`
-import { ${pascalName} } from 'uls-components';
+import { ${pascalName} } from 'ulx-components';
 
 \`;
 `;

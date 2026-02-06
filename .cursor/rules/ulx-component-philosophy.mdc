@@ -35,6 +35,10 @@ alwaysApply: true
 - **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
 - **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
 - **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.
+- **Avoid** Don't add any comments related to primereact
+- **Must** In the demo page, for the severity case use instead that as Variant not severity
+- Avoid writing new size classes
+- **Must** Always use @action for the function used in the template
 
 ## Component Design Principles
 
@@ -53,6 +57,7 @@ Best components are:
 - Constructors
 - Observers
 - Mixins
+- Don't create any .md files when component is created.
 
 **If you need effects → use resources or modifiers, not components.**
 
@@ -71,6 +76,7 @@ All components **MUST** meet WCAG requirements. Apply these rules so every compo
 
 Icon components (e.g. UlxIcon) **MUST** follow:
 
+- **iconname** Must use the icon from this https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css cdn.If the icon is not present just let it empty.
 - **`aria-hidden="true"`** when the icon is decorative (default). Ensures screen readers ignore it when it doesn’t add information.
 - **`aria-label`** when the icon is meaningful. Callers pass it via `...attributes` (e.g. `<UlxIcon aria-label="Close" />`). Do not add a default `aria-label`; only use it when the caller provides one.
 - **Suggestions**:

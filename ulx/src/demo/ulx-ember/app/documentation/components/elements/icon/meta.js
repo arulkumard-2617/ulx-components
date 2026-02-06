@@ -9,7 +9,7 @@ export default {
   subCategory: 'Icons',
   menuItem: 'Icon',
   routeBase: '/components/elements/icon',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'Icon',
@@ -35,7 +35,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { Icon } from 'uls-components'",
+  importMsg: "import { Icon } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

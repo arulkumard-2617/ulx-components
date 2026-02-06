@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxIcon } from 'uls-components';
+import { UlxIcon } from 'ulx-components';
 
 const LAYER_VARIATIONS = ['primary', 'success', 'warning', 'danger', 'info'];
 const SAMPLE_ICONS = ['ls-tick-icon', 'close-icon-01', 'comment-icon'];

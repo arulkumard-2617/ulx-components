@@ -1,5 +1,5 @@
-import { UlxInput } from 'uls-components';
-import { UlxIcon } from 'uls-components';
+import { UlxInput } from 'ulx-components';
+import { UlxIcon } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">

@@ -7,10 +7,12 @@ alwaysApply: false
 # ULX Styling Guidelines
 
 ## Paths
+
 - **Style source**: `uls/node_modules/uls-v2`
 - **Component source**: `src/components`
 
 ## ULX Styles
+
 - **Primary**: `uls/node_modules/uls-v2/src/styles/uls-master.less`
 - **Component styles**: `uls/node_modules/uls-v2/src/styles/uls-styles/less/`
   - `base/` - Variables, mixins, reset, utilities
@@ -20,6 +22,7 @@ alwaysApply: false
   - `themes/` - Theme files
 
 ## Rules
+
 - **MUST** use existing ULX classes from `uls-styles/less/` for each component.
 - **MUST** use the **ulx-** prefix and exact class names from those files (e.g. `.ulx-tabmenu`, `.ulx-button`, `.ulx-button-primary`, `.ulx-button-secondary`).
 - **MUST** look up classes in the matching `.less` file under `uls/node_modules/uls-v2/src/styles/uls-styles/less/` before implementing.
@@ -28,6 +31,7 @@ alwaysApply: false
 - **NEVER** use inline styles or component-specific CSS files for ULX look-and-feel.
 
 ## Example
+
 ```gjs
 {{! ✅ CORRECT: ULX classes }}
 <div class="ulx-tabmenu">

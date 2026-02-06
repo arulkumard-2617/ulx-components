@@ -9,7 +9,7 @@ export default {
   subCategory: 'Form',
   menuItem: 'InputGroup',
   routeBase: '/components/elements/input-group',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'InputGroup',
@@ -20,31 +20,31 @@ export default {
     {
       name: 'Features',
       route: '/features',
-      id: 'features'
+      id: 'features',
     },
     {
       name: 'Theming',
       route: '/theming',
-      id: 'theming'
+      id: 'theming',
     },
     {
       name: 'Builder',
       route: '/builder',
-      id: 'builder'
+      id: 'builder',
     },
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough'
-    }
+      id: 'passthrough',
+    },
   ],
 
   // Import message for the component
-  importMsg: "import { InputGroup } from 'uls-components'",
+  importMsg: "import { InputGroup } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {
-    description: "InputGroup component description for accessibility.",
-    example: "<InputGroup />"
-  }
+    description: 'InputGroup component description for accessibility.',
+    example: '<InputGroup />',
+  },
 };

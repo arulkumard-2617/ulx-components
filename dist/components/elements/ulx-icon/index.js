@@ -9,10 +9,16 @@ class UlxIcon extends Component {
     return this.args.componentClass ?? getComponentClass("icon");
   }
   get iconClasses() {
+    const {
+      iconName,
+      type,
+      size,
+      customClass
+    } = this.args;
     const parts = [this.baseClass];
-    if (this.args.iconName && this.args.type === "font") parts.push(this.args.iconName);
-    if (this.args.size) parts.push(this.args.size);
-    if (this.args.customClass) parts.push(this.args.customClass);
+    if (iconName && type === "font") parts.push(iconName);
+    if (size) parts.push(size);
+    if (customClass) parts.push(customClass);
     return parts.filter(Boolean).join(" ");
   }
   get useFontIcon() {

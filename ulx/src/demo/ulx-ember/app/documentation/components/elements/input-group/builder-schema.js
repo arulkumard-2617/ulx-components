@@ -6,7 +6,7 @@
 
 export default {
   componentName: 'InputGroup',
-  importLine: "import { InputGroup } from 'uls-components';",
+  importLine: "import { InputGroup } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () => '<InputGroup />',
