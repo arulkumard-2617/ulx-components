@@ -9,7 +9,7 @@ export default {
   subCategory: 'Form',
   menuItem: 'InputGroup',
   routeBase: '/components/elements/input-group',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'InputGroup',

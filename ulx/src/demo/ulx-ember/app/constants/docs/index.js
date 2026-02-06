@@ -7,180 +7,180 @@
 export const DocNavItems = [
   {
     menuTitle: 'Getting Started',
-    icon: 'pi pi-home',
+    icon: 'bs-icons1 home-icon-01',
     to: '/walkthrough',
-    route: 'walkthrough'
+    route: 'walkthrough',
   },
   {
     menuTitle: 'Foundation',
-    icon: 'pi pi-palette',
+    icon: 'bs-icons1 design-icon',
     children: [
       {
         menuItem: 'Typography',
         to: '/foundation/typography',
-        route: 'foundation.typography'
+        route: 'foundation.typography',
       },
       {
         menuItem: 'Colors',
         to: '/foundation/colors',
-        route: 'foundation.colors'
-      }
-    ]
+        route: 'foundation.colors',
+      },
+    ],
   },
   {
     menuTitle: 'Utilities',
-    icon: 'pi pi-sliders-h',
+    icon: 'bs-icons1 settings-icon-01',
     children: [
       {
         menuItem: 'Border',
         to: '/utilities/border',
-        route: 'utilities.border'
+        route: 'utilities.border',
       },
       {
         menuItem: 'Clear',
         to: '/utilities/clear',
-        route: 'utilities.clear'
+        route: 'utilities.clear',
       },
       {
         menuItem: 'Color',
         to: '/utilities/color',
-        route: 'utilities.color'
+        route: 'utilities.color',
       },
       {
         menuItem: 'Cursor',
         to: '/utilities/cursor',
-        route: 'utilities.cursor'
+        route: 'utilities.cursor',
       },
       {
         menuItem: 'Display',
         to: '/utilities/display',
-        route: 'utilities.display'
+        route: 'utilities.display',
       },
       {
         menuItem: 'Filter',
         to: '/utilities/filter',
-        route: 'utilities.filter'
+        route: 'utilities.filter',
       },
       {
         menuItem: 'Flex',
         to: '/utilities/flex',
-        route: 'utilities.flex'
+        route: 'utilities.flex',
       },
       {
         menuItem: 'Float',
         to: '/utilities/float',
-        route: 'utilities.float'
+        route: 'utilities.float',
       },
       {
         menuItem: 'Gap',
         to: '/utilities/gap',
-        route: 'utilities.gap'
+        route: 'utilities.gap',
       },
       {
         menuItem: 'Grid',
         to: '/utilities/grid',
-        route: 'utilities.grid'
+        route: 'utilities.grid',
       },
       {
         menuItem: 'Hover',
         to: '/utilities/hover',
-        route: 'utilities.hover'
+        route: 'utilities.hover',
       },
       {
         menuItem: 'Line Clamp',
         to: '/utilities/line-clamp',
-        route: 'utilities.line-clamp'
+        route: 'utilities.line-clamp',
       },
       {
         menuItem: 'Object Fit',
         to: '/utilities/object-fit',
-        route: 'utilities.object-fit'
+        route: 'utilities.object-fit',
       },
       {
         menuItem: 'Opacity',
         to: '/utilities/opacity',
-        route: 'utilities.opacity'
+        route: 'utilities.opacity',
       },
       {
         menuItem: 'Overflow',
         to: '/utilities/overflow',
-        route: 'utilities.overflow'
+        route: 'utilities.overflow',
       },
       {
         menuItem: 'Pointer Events',
         to: '/utilities/pointer-events',
-        route: 'utilities.pointer-events'
+        route: 'utilities.pointer-events',
       },
       {
         menuItem: 'Position',
         to: '/utilities/position',
-        route: 'utilities.position'
+        route: 'utilities.position',
       },
       {
         menuItem: 'Shadow',
         to: '/utilities/shadow',
-        route: 'utilities.shadow'
+        route: 'utilities.shadow',
       },
       {
         menuItem: 'Size',
         to: '/utilities/size',
-        route: 'utilities.size'
+        route: 'utilities.size',
       },
       {
         menuItem: 'Space',
         to: '/utilities/space',
-        route: 'utilities.space'
+        route: 'utilities.space',
       },
       {
         menuItem: 'Text Align',
         to: '/utilities/text-align',
-        route: 'utilities.text-align'
+        route: 'utilities.text-align',
       },
       {
         menuItem: 'Text Decoration',
         to: '/utilities/text-decoration',
-        route: 'utilities.text-decoration'
+        route: 'utilities.text-decoration',
       },
       {
         menuItem: 'Text Transform',
         to: '/utilities/text-transform',
-        route: 'utilities.text-transform'
+        route: 'utilities.text-transform',
       },
       {
         menuItem: 'User Select',
         to: '/utilities/user-select',
-        route: 'utilities.user-select'
+        route: 'utilities.user-select',
       },
       {
         menuItem: 'Vertical Align',
         to: '/utilities/vertical-align',
-        route: 'utilities.vertical-align'
+        route: 'utilities.vertical-align',
       },
       {
         menuItem: 'Visibility',
         to: '/utilities/visibility',
-        route: 'utilities.visibility'
+        route: 'utilities.visibility',
       },
       {
         menuItem: 'White Space',
         to: '/utilities/white-space',
-        route: 'utilities.white-space'
+        route: 'utilities.white-space',
       },
       {
         menuItem: 'Word Break',
         to: '/utilities/word-break',
-        route: 'utilities.word-break'
+        route: 'utilities.word-break',
       },
       {
         menuItem: 'Z-Index',
         to: '/utilities/z-index',
-        route: 'utilities.z-index'
-      }
-    ]
+        route: 'utilities.z-index',
+      },
+    ],
   },
   {
     menuTitle: 'Elements',
-    icon: 'pi pi-list',
+    icon: 'bs-icons1 list-view-icon',
     children: [
       {
         category: 'Form',
@@ -188,12 +188,12 @@ export const DocNavItems = [
           {
             menuItem: 'Input',
             to: '/components/elements/input',
-            route: 'components.elements.input'
+            route: 'components.elements.input',
           },
           {
             menuItem: 'IconInput',
             to: '/components/elements/ulx-icon-input',
-            route: 'components.elements.ulx-icon-input'
+            route: 'components.elements.ulx-icon-input',
           },
           {
             menuItem: 'InputGroup',
@@ -211,6 +211,24 @@ export const DocNavItems = [
             route: 'components.elements.radio'
           }
         ]
+            route: 'components.elements.input-group',
+          },
+        ],
+      },
+      {
+        category: 'Button',
+        items: [
+          {
+            menuItem: 'Button',
+            to: '/components/elements/button',
+            route: 'components.elements.button',
+          },
+          {
+            menuItem: 'SplitButton',
+            to: '/components/elements/split-button',
+            route: 'components.elements.split-button',
+          },
+        ],
       },
       {
         category: 'Icons',
@@ -246,14 +264,24 @@ export const DocNavItems = [
   },
   {
     menuTitle: 'Collections',
-    icon: 'pi pi-list',
+    icon: 'bs-icons1 list-view-icon',
     children: [
+      {
+        category: 'Form',
+        items: [],
+      },
       {
         category: 'Menu',
         items: [
           {
             menuItem: 'test-comp',
             to: '/components/collections/test-comp',
+            route: 'components.collections.test-comp',
+          },
+        ],
+      },
+    ],
+  },
             route: 'components.collections.test-comp'
           },
           {

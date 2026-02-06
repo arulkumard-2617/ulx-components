@@ -189,8 +189,8 @@ if (!fs.existsSync(snippetsPath)) {
 }
 
 // Get the actual component import name and tag name from existing files
-let actualComponentImportName = `Uls${componentPascal}`;
-let actualComponentTagName = `Uls${componentPascal}`;
+let actualComponentImportName = `Ulx${componentPascal}`;
+let actualComponentTagName = `Ulx${componentPascal}`;
 
 // First, try to read from Import snippet file (most reliable)
 const importSnippetPath = path.join(snippetsPath, 'Import.gjs.js');

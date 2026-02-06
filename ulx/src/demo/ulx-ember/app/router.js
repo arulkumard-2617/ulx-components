@@ -19,7 +19,7 @@ Router.map(function () {
       this.route('test-comp');
       this.route('tab-menu');
       this.route('segment');
-});
+    });
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -30,7 +30,14 @@ Router.map(function () {
       this.route('tag');
       this.route('badge');
       this.route('avatar');
-});
+      this.route('button');
+      this.route('tieredmenu');
+      this.route('progressbar');
+      this.route('progressspinner');
+    });
+    this.route('modules', function () {
+      this.route('toast');
+    });
   });
 
   this.route('utilities', function () {

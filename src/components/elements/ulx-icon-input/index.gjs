@@ -71,7 +71,8 @@ export default class UlxIconInput extends Component {
 	}
 
 	get resolvedIconName() {
-		return this.args.iconName ?? this.args.icon;
+		const { iconName, icon } = this.args;
+		return iconName ?? icon;
 	}
 
 	get hasIconName() {
@@ -110,18 +111,20 @@ export default class UlxIconInput extends Component {
 	}
 
 	get isInvalid() {
-		return isInvalidState(this.args.invalid, this.args.error);
+		const { invalid, error } = this.args;
+		return isInvalidState(invalid, error);
 	}
 
 	get inputClass() {
+		const { size, filled, disabled, readonly, value } = this.args;
 		return buildInputClass({
 			isTextarea: false,
-			size: this.args.size,
-			filled: this.args.filled,
+			size,
+			filled,
 			invalid: this.isInvalid,
-			disabled: this.args.disabled,
-			readonly: this.args.readonly,
-			value: this.args.value
+			disabled,
+			readonly,
+			value
 		});
 	}
 
@@ -135,13 +138,14 @@ export default class UlxIconInput extends Component {
 	}
 
 	get iconFieldClass() {
+		const { iconPosition, size, filled, disabled, iconFieldClass } = this.args;
 		return buildIconFieldClass({
-			iconPosition: this.args.iconPosition,
-			size: this.args.size,
-			filled: this.args.filled,
+			iconPosition,
+			size,
+			filled,
 			invalid: this.isInvalid,
-			disabled: this.args.disabled,
-			iconFieldClass: this.args.iconFieldClass
+			disabled,
+			iconFieldClass
 		});
 	}
 
@@ -150,10 +154,8 @@ export default class UlxIconInput extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return buildAriaDescribedBy(this.inputId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		const { helpText, error } = this.args;
+		return buildAriaDescribedBy(this.inputId, { helpText, error });
 	}
 
 	get ariaErrorMessage() {

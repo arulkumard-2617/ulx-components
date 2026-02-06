@@ -9,7 +9,7 @@ export default {
   subCategory: 'Menu',
   menuItem: 'test-comp',
   routeBase: '/components/collections/test-comp',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'test-comp',

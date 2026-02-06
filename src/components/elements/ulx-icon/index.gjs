@@ -13,7 +13,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * - **Suggestions**: (1) For pasted SVG in <:icon>, add `focusable="false"` on the <svg>. (2) When the icon is the only content of a button/link, the control must have an accessible name (e.g. aria-label on the button).
  *
  * Font CDN (include in app as needed):
- * - https://cdn.zicons.in/21598000000025464/v2/bs-icons1.css
+ * - https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css
  *
  * @class UlxIcon
  * @param {string} [iconName] - Symbol id or font class. Not used when <:icon> block is provided.
@@ -29,8 +29,7 @@ export default class UlxIcon extends Component {
 	}
 
 	get iconClasses() {
-		const { iconName, type = "svg", size, customClass } = this.args;
-
+		const { iconName, type, size, customClass } = this.args;
 		const parts = [this.baseClass];
 		iconName && type === "font" && parts.push(iconName);
 		size && parts.push(size);

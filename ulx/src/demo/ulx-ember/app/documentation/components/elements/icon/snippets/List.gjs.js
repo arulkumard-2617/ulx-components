@@ -7,7 +7,7 @@ import { modifier } from 'ember-modifier';
 import { UlxIcon } from 'ulx-components';
 
 const BS_ICONS_CSS_URL =
-  'https://cdn.zicons.in/21598000000025464/v1/bs-icons1.css';
+  'https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css';
 const ICON_NAME_REGEX = /\\.bs-icons1\\.([a-zA-Z0-9_-]+):before/g;
 
 export default class DemoIconList extends Component {

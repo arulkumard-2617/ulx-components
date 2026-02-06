@@ -23,7 +23,7 @@ alwaysApply: false
 
 ## Rules
 
-- **MUST** use existing ULX classes from `ulx-styles/less/` for each component.
+- **MUST** use existing ULX classes from `uls-styles/less/` for each component.
 - **MUST** use the **ulx-** prefix and exact class names from those files (e.g. `.ulx-tabmenu`, `.ulx-button`, `.ulx-button-primary`, `.ulx-button-secondary`).
 - **MUST** look up classes in the matching `.less` file under `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/` before implementing.
 - **NEVER** add custom CSS classes that duplicate ULX behavior.

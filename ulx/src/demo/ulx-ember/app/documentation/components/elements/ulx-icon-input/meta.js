@@ -9,7 +9,7 @@ export default {
   subCategory: 'Form',
   menuItem: 'IconInput',
   routeBase: '/components/elements/ulx-icon-input',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'IconInput',

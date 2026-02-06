@@ -178,33 +178,6 @@ export default class DocSidebarComponent extends Component {
     return item.children && item.children.length > 0;
   };
 
-  getIconSvg(menuTitle) {
-    const icons = {
-      'Getting Started':
-        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(42deg);"><defs><linearGradient id="rocketBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="1"></stop><stop offset="100%" stop-color="currentColor" stop-opacity="0.65"></stop></linearGradient><linearGradient id="flameGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="orange"></stop><stop offset="100%" stop-color="red"></stop></linearGradient><filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="black" flood-opacity="0.25"></feDropShadow></filter></defs><path d="M12 2 C9 5, 8 9, 8 13 V17 H16 V13 C16 9, 15 5, 12 2Z" fill="url(#rocketBody)" filter="url(#softShadow)"></path><circle cx="12" cy="9" r="1.5" fill="white" opacity="0.8"></circle><path d="M8 14 L5 16 L8 16 Z" fill="currentColor" opacity="0.8"></path><path d="M16 14 L19 16 L16 16 Z" fill="currentColor" opacity="0.8"></path><path d="M12 22 C10.5 20.5, 10 19, 12 18 C14 19, 13.5 20.5, 12 22Z" fill="url(#flameGrad)"></path></svg>',
-      Foundation:
-        '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l9 5-9 5-9-5 9-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 13l9 5 9-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-      Utilities:
-        '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="15" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/><line x1="4" y1="18" x2="20" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="18" r="2" stroke="currentColor" stroke-width="1.5"/></svg>',
-      Elements:
-        '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>',
-      Collections:
-        '<svg width="20" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="10" width="16" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="15" width="16" height="4" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>',
-    };
-    const svg = icons[menuTitle];
-    return svg ? htmlSafe(svg) : null;
-  }
-
-  hasCustomIcon(menuTitle) {
-    return [
-      'Getting Started',
-      'Foundation',
-      'Utilities',
-      'Elements',
-      'Collections',
-    ].includes(menuTitle);
-  }
-
   isItemActive = (item, currentPath) => {
     if (!item || !item.to) return false;
     return this.isRouteActive(item.to, currentPath);
@@ -256,14 +229,7 @@ export default class DocSidebarComponent extends Component {
                       {{on "click" (fn this.toggleItem item.menuTitle)}}
                     >
                       <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
-                        {{#if (this.hasCustomIcon item.menuTitle)}}
-                          {{! template-lint-disable no-triple-curlies }}
-                          <span class="w24 h24">{{{this.getIconSvg
-                              item.menuTitle
-                            }}}</span>
-                        {{else}}
-                          <i class={{item.icon}}></i>
-                        {{/if}}
+                        <i class={{item.icon}}></i>
                       </span>
                       <span class="s-nav-link-text">
                         <span class="bold-font">{{item.menuTitle}}</span>
@@ -276,7 +242,7 @@ export default class DocSidebarComponent extends Component {
                       type="button"
                     >
                       <i
-                        class="bs-icons1 down-arrow-icon s22 menu-toggle-icon transition
+                        class="menu-toggle-icon pi pi-angle-down transition
                           {{if (this.isExpanded item) 'rotate-180' ''}}"
                       ></i>
                     </button>
@@ -294,14 +260,7 @@ export default class DocSidebarComponent extends Component {
                   >
                     {{#if item.icon}}
                       <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
-                        {{#if (this.hasCustomIcon item.menuTitle)}}
-                          {{! template-lint-disable no-triple-curlies }}
-                          <span class="w24 h24">{{{this.getIconSvg
-                              item.menuTitle
-                            }}}</span>
-                        {{else}}
-                          <i class={{item.icon}}></i>
-                        {{/if}}
+                        <i class={{item.icon}}></i>
                       </span>
                     {{/if}}
                     <span class="s-nav-link-text">
@@ -331,7 +290,7 @@ export default class DocSidebarComponent extends Component {
                   </span>
                   <span class="s-nav-link-icon mgl-auto">
                     <i
-                      class="bs-icons1 down-arrow-icon s22 menu-toggle-icon transition
+                      class="menu-toggle-icon pi pi-angle-down transition
                         {{if (this.isExpanded item) 'rotate-180' ''}}"
                     ></i>
                   </span>
