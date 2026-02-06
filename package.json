@@ -1,110 +1,114 @@
 {
-	"name": "ulx-components",
-	"version": "0.1.0",
-	"description": "Ember addon v2 with .gjs components",
-	"keywords": [
-		"ember-addon"
-	],
-	"repository": "",
-	"license": "MIT",
-	"author": "",
-	"exports": {
-		".": "./dist/index.js",
-		"./*": "./dist/*",
-		"./addon-main.js": "./addon-main.cjs"
-	},
-	"typesVersions": {
-		"*": {
-			"*": [
-				"dist/*"
-			]
-		}
-	},
-	"files": {},
-	"scripts": {
-		"build": "rollup --config",
-		"lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
-		"lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
-		"lint:js": "eslint . --cache",
-		"lint:js:fix": "eslint . --fix",
-		"prepack": "rollup --config",
-		"start": "rollup --config --watch",
-		"test": "echo 'A v2 addon does not have tests, run tests in test-app'"
-	},
-	"dependencies": {
-		"@embroider/addon-shim": "^1.8.7",
-		"decorator-transforms": "^2.0.0"
-	},
-	"devDependencies": {
-		"ember-cli": "~6.8.0",
-		"ember-source": "~6.8.0",
-		"@babel/core": "^7.23.7",
-		"@babel/eslint-parser": "^7.23.10",
-		"@babel/plugin-proposal-decorators": "^7.23.7",
-		"@babel/plugin-transform-class-static-block": "^7.28.6",
-		"@babel/plugin-transform-typescript": "^7.23.6",
-		"@embroider/addon-dev": "^4.1.3",
-		"@glimmer/component": "^1.1.2",
-		"@glimmer/tracking": "^1.1.2",
-		"@rollup/plugin-babel": "^6.0.4",
-		"@tsconfig/ember": "^3.0.3",
-		"babel-plugin-ember-template-compilation": "^2.2.1",
-		"concurrently": "^8.2.2",
-		"ember-eslint-parser": "^0.3.4",
-		"eslint": "^8.56.0",
-		"eslint-config-prettier": "^9.1.0",
-		"eslint-plugin-ember": "^11.12.0",
-		"eslint-plugin-n": "^16.6.2",
-		"eslint-plugin-prettier": "^5.1.2",
-		"prettier": "^3.1.1",
-		"prettier-plugin-ember-template-tag": "^2.0.0",
-		"rollup": "^4.9.4",
-		"rollup-plugin-copy": "^3.5.0",
-		"typescript": "^5.3.3",
-		"ember-modifier": "^4.1.0"
-	},
-	"peerDependencies": {
-		"@glimmer/component": "^1.1.2",
-		"@glimmer/tracking": "^1.1.2",
-		"ember-modifier": "^4.1.0",
-		"ember-cli": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
-		"ember-source": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
-	},
-	"publishConfig": {
-		"registry": "https://registry.npmjs.org"
-	},
-	"ember": {
-		"edition": "octane"
-	},
-	"ember-addon": {
-		"version": 2,
-		"type": "addon",
-		"main": "addon-main.cjs",
-		"app-js": {
-			"./components/collections/ulx-tabmenu/index.js": "./dist/_app_/components/collections/ulx-tabmenu/index.js",
-			"./components/elements/ulx-avatar-group/index.js": "./dist/_app_/components/elements/ulx-avatar-group/index.js",
-			"./components/elements/ulx-avatar/index.js": "./dist/_app_/components/elements/ulx-avatar/index.js",
-			"./components/elements/ulx-badge/index.js": "./dist/_app_/components/elements/ulx-badge/index.js",
-			"./components/elements/ulx-checkbox/checkbox-item.js": "./dist/_app_/components/elements/ulx-checkbox/checkbox-item.js",
-			"./components/elements/ulx-checkbox/index.js": "./dist/_app_/components/elements/ulx-checkbox/index.js",
-			"./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
-			"./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
-			"./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
-			"./components/elements/ulx-radio/index.js": "./dist/_app_/components/elements/ulx-radio/index.js",
-			"./components/elements/ulx-radio/radio-item.js": "./dist/_app_/components/elements/ulx-radio/radio-item.js",
-			"./components/elements/ulx-tag/index.js": "./dist/_app_/components/elements/ulx-tag/index.js",
-			"./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
-			"./components/ulx-avatar-group.js": "./dist/_app_/components/ulx-avatar-group.js",
-			"./components/ulx-avatar.js": "./dist/_app_/components/ulx-avatar.js",
-			"./components/ulx-badge.js": "./dist/_app_/components/ulx-badge.js",
-			"./components/ulx-checkbox.js": "./dist/_app_/components/ulx-checkbox.js",
-			"./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
-			"./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
-			"./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
-			"./components/ulx-radio.js": "./dist/_app_/components/ulx-radio.js",
-			"./components/ulx-tabmenu.js": "./dist/_app_/components/ulx-tabmenu.js",
-			"./components/ulx-tag.js": "./dist/_app_/components/ulx-tag.js",
-			"./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js"
-		}
-	}
+  "name": "ulx-components",
+  "version": "0.1.0",
+  "description": "Ember addon v2 with .gjs components",
+  "keywords": [
+    "ember-addon"
+  ],
+  "repository": "",
+  "license": "MIT",
+  "author": "",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*",
+    "./addon-main.js": "./addon-main.cjs"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*"
+      ]
+    }
+  },
+  "files": {},
+  "scripts": {
+    "build": "rollup --config",
+    "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
+    "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "prepack": "rollup --config",
+    "start": "rollup --config --watch",
+    "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.8.7",
+    "decorator-transforms": "^2.0.0"
+  },
+  "devDependencies": {
+    "ember-cli": "~6.8.0",
+    "ember-source": "~6.8.0",
+    "@babel/core": "^7.23.7",
+    "@babel/eslint-parser": "^7.23.10",
+    "@babel/plugin-proposal-decorators": "^7.23.7",
+    "@babel/plugin-transform-class-static-block": "^7.28.6",
+    "@babel/plugin-transform-typescript": "^7.23.6",
+    "@embroider/addon-dev": "^4.1.3",
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@tsconfig/ember": "^3.0.3",
+    "babel-plugin-ember-template-compilation": "^2.2.1",
+    "concurrently": "^8.2.2",
+    "ember-eslint-parser": "^0.3.4",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-ember": "^11.12.0",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-prettier": "^5.1.2",
+    "prettier": "^3.1.1",
+    "prettier-plugin-ember-template-tag": "^2.0.0",
+    "rollup": "^4.9.4",
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "^5.3.3",
+    "ember-modifier": "^4.1.0"
+  },
+  "peerDependencies": {
+    "@glimmer/component": "^1.1.2",
+    "@glimmer/tracking": "^1.1.2",
+    "ember-modifier": "^4.1.0",
+    "ember-cli": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
+    "ember-source": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "version": 2,
+    "type": "addon",
+    "main": "addon-main.cjs",
+    "app-js": {
+      "./components/collections/ulx-segment/index.js": "./dist/_app_/components/collections/ulx-segment/index.js",
+      "./components/collections/ulx-segments-group/index.js": "./dist/_app_/components/collections/ulx-segments-group/index.js",
+      "./components/collections/ulx-tabmenu/index.js": "./dist/_app_/components/collections/ulx-tabmenu/index.js",
+      "./components/elements/ulx-avatar-group/index.js": "./dist/_app_/components/elements/ulx-avatar-group/index.js",
+      "./components/elements/ulx-avatar/index.js": "./dist/_app_/components/elements/ulx-avatar/index.js",
+      "./components/elements/ulx-badge/index.js": "./dist/_app_/components/elements/ulx-badge/index.js",
+      "./components/elements/ulx-checkbox/checkbox-item.js": "./dist/_app_/components/elements/ulx-checkbox/checkbox-item.js",
+      "./components/elements/ulx-checkbox/index.js": "./dist/_app_/components/elements/ulx-checkbox/index.js",
+      "./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
+      "./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
+      "./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
+      "./components/elements/ulx-radio/index.js": "./dist/_app_/components/elements/ulx-radio/index.js",
+      "./components/elements/ulx-radio/radio-item.js": "./dist/_app_/components/elements/ulx-radio/radio-item.js",
+      "./components/elements/ulx-tag/index.js": "./dist/_app_/components/elements/ulx-tag/index.js",
+      "./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
+      "./components/ulx-avatar-group.js": "./dist/_app_/components/ulx-avatar-group.js",
+      "./components/ulx-avatar.js": "./dist/_app_/components/ulx-avatar.js",
+      "./components/ulx-badge.js": "./dist/_app_/components/ulx-badge.js",
+      "./components/ulx-checkbox.js": "./dist/_app_/components/ulx-checkbox.js",
+      "./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
+      "./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
+      "./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
+      "./components/ulx-radio.js": "./dist/_app_/components/ulx-radio.js",
+      "./components/ulx-segment.js": "./dist/_app_/components/ulx-segment.js",
+      "./components/ulx-segments-group.js": "./dist/_app_/components/ulx-segments-group.js",
+      "./components/ulx-tabmenu.js": "./dist/_app_/components/ulx-tabmenu.js",
+      "./components/ulx-tag.js": "./dist/_app_/components/ulx-tag.js",
+      "./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js"
+    }
+  }
 }

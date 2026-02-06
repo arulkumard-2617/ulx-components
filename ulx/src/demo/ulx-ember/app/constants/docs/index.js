@@ -249,10 +249,6 @@ export const DocNavItems = [
     icon: 'pi pi-list',
     children: [
       {
-        category: 'Form',
-        items: []
-      },
-      {
         category: 'Menu',
         items: [
           {
@@ -264,6 +260,16 @@ export const DocNavItems = [
             menuItem: 'TabMenu',
             to: '/components/collections/tab-menu',
             route: 'components.collections.tab-menu'
+          }
+        ]
+      },
+      {
+        category: 'Panel',
+        items: [
+          {
+            menuItem: 'Segment',
+            to: '/components/collections/segment',
+            route: 'components.collections.segment'
           }
         ]
       }

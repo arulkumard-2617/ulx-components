@@ -114,7 +114,6 @@ export default class UlxTabmenu extends Component {
 	}
 
 	@tracked _internalActiveIndex = 0;
-	@tracked focusedIndex = null;
 	@tracked inkbarElement = null;
 	@tracked inkbarStyle = {
 		left: "0px",
@@ -298,21 +297,10 @@ export default class UlxTabmenu extends Component {
 
 	@action
 	focusTab(index) {
-		this.focusedIndex = index;
 		const element = document.getElementById(this.getItemId(index));
 		if (element) {
 			element.focus();
 		}
-	}
-
-	@action
-	handleFocus(index, event) {
-		this.focusedIndex = index;
-	}
-
-	@action
-	handleBlur() {
-		this.focusedIndex = null;
 	}
 
 	@action
@@ -433,8 +421,6 @@ export default class UlxTabmenu extends Component {
 												tabindex={{this.getTabIndex index}}
 												{{on "click" (fn this.handleItemClick item index)}}
 												{{on "keydown" (fn this.handleKeydown item index)}}
-												{{on "focus" (fn this.handleFocus index)}}
-												{{on "blur" this.handleBlur}}
 											>
 												{{#if (has-block "item")}}
 													{{yield item to="item"}}
@@ -466,8 +452,6 @@ export default class UlxTabmenu extends Component {
 												tabindex={{this.getTabIndex index}}
 												{{on "click" (fn this.handleItemClick item index)}}
 												{{on "keydown" (fn this.handleKeydown item index)}}
-												{{on "focus" (fn this.handleFocus index)}}
-												{{on "blur" this.handleBlur}}
 											>
 												{{#if (has-block "item")}}
 													{{yield item to="item"}}
