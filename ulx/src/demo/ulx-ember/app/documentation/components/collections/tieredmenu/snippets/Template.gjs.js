@@ -1,8 +1,9 @@
+export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { UlxTieredmenu } from 'ulx-components';
 
-export default class BasicTieredmenuDemo extends Component {
+export default class TemplateTieredmenuDemo extends Component {
   get items() {
     return [
       {
@@ -85,3 +86,5 @@ export default class BasicTieredmenuDemo extends Component {
     </div>
   </template>
 }
+
+`;

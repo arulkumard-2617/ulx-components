@@ -7,13 +7,13 @@
 export const DocNavItems = [
   {
     menuTitle: 'Getting Started',
-    icon: 'bs-icons1 home-icon-01',
+    icon: 'bs-icons1 home-icon-01 s18',
     to: '/walkthrough',
     route: 'walkthrough',
   },
   {
     menuTitle: 'Foundation',
-    icon: 'bs-icons1 design-icon',
+    icon: 'bs-icons1 design-icon s18',
     children: [
       {
         menuItem: 'Typography',
@@ -29,7 +29,7 @@ export const DocNavItems = [
   },
   {
     menuTitle: 'Utilities',
-    icon: 'bs-icons1 settings-icon-01',
+    icon: 'bs-icons1 settings-icon-01 s18',
     children: [
       {
         menuItem: 'Border',
@@ -180,7 +180,7 @@ export const DocNavItems = [
   },
   {
     menuTitle: 'Elements',
-    icon: 'bs-icons1 list-view-icon',
+    icon: 'bs-icons1 list-view-icon s18',
     children: [
       {
         category: 'Form',
@@ -198,20 +198,17 @@ export const DocNavItems = [
           {
             menuItem: 'InputGroup',
             to: '/components/elements/input-group',
-            route: 'components.elements.input-group'
+            route: 'components.elements.input-group',
           },
           {
             menuItem: 'checkbox',
             to: '/components/elements/checkbox',
-            route: 'components.elements.checkbox'
+            route: 'components.elements.checkbox',
           },
           {
             menuItem: 'radio',
             to: '/components/elements/radio',
-            route: 'components.elements.radio'
-          }
-        ]
-            route: 'components.elements.input-group',
+            route: 'components.elements.radio',
           },
         ],
       },
@@ -223,11 +220,6 @@ export const DocNavItems = [
             to: '/components/elements/button',
             route: 'components.elements.button',
           },
-          {
-            menuItem: 'SplitButton',
-            to: '/components/elements/split-button',
-            route: 'components.elements.split-button',
-          },
         ],
       },
       {
@@ -236,9 +228,9 @@ export const DocNavItems = [
           {
             menuItem: 'Icon',
             to: '/components/elements/icon',
-            route: 'components.elements.icon'
-          }
-        ]
+            route: 'components.elements.icon',
+          },
+        ],
       },
       {
         category: 'Misc',
@@ -246,25 +238,45 @@ export const DocNavItems = [
           {
             menuItem: 'tag',
             to: '/components/elements/tag',
-            route: 'components.elements.tag'
+            route: 'components.elements.tag',
           },
           {
             menuItem: 'Badge',
             to: '/components/elements/badge',
-            route: 'components.elements.badge'
+            route: 'components.elements.badge',
           },
           {
             menuItem: 'Avatar',
             to: '/components/elements/avatar',
-            route: 'components.elements.avatar'
-          }
-        ]
-      }
-    ]
+            route: 'components.elements.avatar',
+          },
+          {
+            menuItem: 'Progress Bar',
+            to: '/components/elements/progressbar',
+            route: 'components.elements.progressbar',
+          },
+          {
+            menuItem: 'ProgressSpinner',
+            to: '/components/elements/progressspinner',
+            route: 'components.elements.progressspinner',
+          },
+        ],
+      },
+      {
+        category: 'Message',
+        items: [
+          {
+            menuItem: 'Toast',
+            to: '/components/modules/toast',
+            route: 'components.modules.toast',
+          },
+        ],
+      },
+    ],
   },
   {
     menuTitle: 'Collections',
-    icon: 'bs-icons1 list-view-icon',
+    icon: 'bs-icons1 list-view-icon s18',
     children: [
       {
         category: 'Form',
@@ -278,18 +290,12 @@ export const DocNavItems = [
             to: '/components/collections/test-comp',
             route: 'components.collections.test-comp',
           },
-        ],
-      },
-    ],
-  },
-            route: 'components.collections.test-comp'
-          },
           {
             menuItem: 'TabMenu',
             to: '/components/collections/tab-menu',
-            route: 'components.collections.tab-menu'
-          }
-        ]
+            route: 'components.collections.tab-menu',
+          },
+        ],
       },
       {
         category: 'Panel',
@@ -297,10 +303,26 @@ export const DocNavItems = [
           {
             menuItem: 'Segment',
             to: '/components/collections/segment',
-            route: 'components.collections.segment'
-          }
-        ]
-      }
-    ]
-  }
+            route: 'components.collections.segment',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    menuTitle: 'Modules',
+    icon: 'bs-icons1 list-view-icon s18',
+    children: [
+      {
+        category: 'Menu',
+        items: [
+          {
+            menuItem: 'TieredMenu',
+            to: '/components/modules/tieredmenu',
+            route: 'components.modules.tieredmenu',
+          },
+        ],
+      },
+    ],
+  },
 ];

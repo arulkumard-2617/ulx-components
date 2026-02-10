@@ -242,7 +242,7 @@ export default class DocSidebarComponent extends Component {
                       type="button"
                     >
                       <i
-                        class="menu-toggle-icon pi pi-angle-down transition
+                        class="menu-toggle-icon bs-icons1 down-arrow-icon s22
                           {{if (this.isExpanded item) 'rotate-180' ''}}"
                       ></i>
                     </button>
@@ -290,7 +290,7 @@ export default class DocSidebarComponent extends Component {
                   </span>
                   <span class="s-nav-link-icon mgl-auto">
                     <i
-                      class="menu-toggle-icon pi pi-angle-down transition
+                      class="menu-toggle-icon bs-icons1 down-arrow-icon s22
                         {{if (this.isExpanded item) 'rotate-180' ''}}"
                     ></i>
                   </span>

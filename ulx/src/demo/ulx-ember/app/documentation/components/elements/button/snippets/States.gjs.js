@@ -22,7 +22,7 @@ export default class DemoButtonStates extends Component {
         @label="Submit"
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
-        @iconSize="s22"
+        @iconSize="s20"
         @loading={{this.loading}}
         {{on "click" this.startLoading}}
       />

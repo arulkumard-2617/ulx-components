@@ -31,12 +31,12 @@ Router.map(function () {
       this.route('badge');
       this.route('avatar');
       this.route('button');
-      this.route('tieredmenu');
       this.route('progressbar');
       this.route('progressspinner');
     });
     this.route('modules', function () {
       this.route('toast');
+      this.route('tieredmenu');
     });
   });
 

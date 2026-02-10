@@ -5,10 +5,10 @@
 
 export default {
   // Navigation metadata
-  category: 'Elements',
+  category: 'Modules',
   subCategory: 'Menu',
   menuItem: 'Tieredmenu',
-  routeBase: '/components/elements/tieredmenu',
+  routeBase: '/components/modules/tieredmenu',
   icon: 'bs-icons1 hamburger-icon',
 
   // Page metadata

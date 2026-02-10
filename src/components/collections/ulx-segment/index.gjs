@@ -11,7 +11,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * - High contrast and reduced motion support via CSS
  *
  * @class UlxSegment
- * @param {string} [type] - Segment type: "placeholder", "raised", "stacked", "piled", "vertical", "basic", "circular", "clearing"
+ * @param {string} [type] - Segment type: "placeholder", "vertical", "basic", "circular", "clearing"
  * @param {string} [variant] - Visual variant: "red", "orange", "yellow", "olive", "green", "teal", "blue", "violet", "purple", "pink", "brown", "grey", "black", "primary", "secondary", "tertiary", or with "-invert" suffix for inverted colors (e.g., "blue-invert")
  * @param {string} [borderColor] - Border color variant: "red", "orange", "yellow", "olive", "green", "teal", "blue", "violet", "purple", "pink", "brown", "grey", "black", "primary"
  * @param {string} [borderSide] - Border side for colored border: "top", "bottom", "left", "right"
@@ -84,41 +84,31 @@ export default class UlxSegment extends Component {
 
 		const parts = [this.baseClass];
 
-		// Type variants
 		type && parts.push(type);
-
-		// Visual variants (colors, emphasis: primary, secondary, tertiary)
 		variant && parts.push(variant);
 
-		// Border color variants
 		if (borderColor && borderSide) {
 			parts.push(`border-${borderSide}-${borderColor}`);
 		}
 
-		// Attached variants
 		if (attached) {
 			parts.push("attached");
 			attached !== "attached" && parts.push(attached);
 		}
 
-		// States
 		disabled && parts.push("disabled");
 		loading && parts.push("loading");
 
-		// Placeholder inline variant
 		if (type === "placeholder" && inline) {
 			parts.push("inline");
 		}
 
-		// Custom class
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get role() {
-		// Default to "region" for semantic sections, but allow override
-		// If decorative (e.g., basic type), use "none" or let caller override
 		return this.args.role ?? (this.args.type === "basic" ? undefined : "region");
 	}
 
@@ -145,7 +135,7 @@ export default class UlxSegment extends Component {
 			aria-label={{this.ariaLabel}}
 			aria-labelledby={{this.ariaLabelledBy}}
 			aria-describedby={{this.ariaDescribedBy}}
-			aria-disabled={{if this.isDisabled "true" undefined}}
+			aria-disabled="{{this.isDisabled}}"
 			...attributes
 		>
 			{{#if (has-block "header")}}

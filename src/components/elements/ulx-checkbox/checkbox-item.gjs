@@ -87,8 +87,8 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	get hasItemLabelText() {
-		const v = this.args.itemLabel;
-		return typeof v === "string" && v.length > 0;
+		const { itemLabel } = this.args;
+		return typeof itemLabel === "string" && itemLabel.length > 0;
 	}
 
 	get itemLabelClass() {

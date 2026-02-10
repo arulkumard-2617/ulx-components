@@ -120,11 +120,13 @@ export default class UlxTabmenu extends Component {
 		width: "0px"
 	};
 
-	getItemId = (index) => {
+	@action
+	getItemId(index) {
 		return `ulx-tabmenu-item-${index}`;
-	};
+	}
 
-	getItemClasses = (index) => {
+	@action
+	getItemClasses(index) {
 		const model = this.args.model ?? [];
 		if (!Array.isArray(model)) return "";
 
@@ -136,9 +138,10 @@ export default class UlxTabmenu extends Component {
 		item.disabled && parts.push("disabled");
 
 		return parts.join(" ");
-	};
+	}
 
-	getTabIndex = (index) => {
+	@action
+	getTabIndex(index) {
 		const model = this.args.model ?? [];
 		if (!Array.isArray(model)) return "0";
 
@@ -147,9 +150,10 @@ export default class UlxTabmenu extends Component {
 			return "-1";
 		}
 		return "0";
-	};
+	}
 
-	getLinkClasses = (index) => {
+	@action
+	getLinkClasses(index) {
 		const model = this.args.model ?? [];
 		if (!Array.isArray(model)) return "";
 
@@ -160,25 +164,27 @@ export default class UlxTabmenu extends Component {
 		item.disabled && parts.push("disabled");
 
 		return parts.join(" ");
-	};
+	}
 
-	getLinkToModels = (item) => {
+	@action
+	getLinkToModels(item) {
 		// Return models only if it's a valid array, otherwise return undefined
 		// LinkTo will ignore undefined arguments
 		if (item?.models && Array.isArray(item.models)) {
 			return item.models;
 		}
 		return undefined;
-	};
+	}
 
-	getLinkToQuery = (item) => {
+	@action
+	getLinkToQuery(item) {
 		// Return query only if it's a valid object, otherwise return undefined
 		// LinkTo will ignore undefined arguments
 		if (item?.query && typeof item.query === "object" && !Array.isArray(item.query)) {
 			return item.query;
 		}
 		return undefined;
-	};
+	}
 
 	@action
 	handleItemClick(item, index, event) {
@@ -204,9 +210,11 @@ export default class UlxTabmenu extends Component {
 		}
 
 		// Update inkbar position after tab change
-		requestAnimationFrame(() => {
-			this.updateInkbarPosition();
-		});
+		requestAnimationFrame(
+			function () {
+				this.updateInkbarPosition();
+			}.bind(this)
+		);
 	}
 
 	@action
@@ -312,13 +320,17 @@ export default class UlxTabmenu extends Component {
 
 		// Find the active, enabled tab item similar to PrimeReact:
 		// prefer `.tabmenu-item.active` and fall back to the first non-disabled item.
-		const items = Array.from(navElement.children).filter((el) =>
-			el.classList?.contains("tabmenu-item")
-		);
+		const items = Array.from(navElement.children).filter(function (el) {
+			return el.classList?.contains("tabmenu-item");
+		});
 
 		let activeItemElement =
-			items.find((el) => el.classList.contains("active") && !el.classList.contains("disabled")) ??
-			items.find((el) => !el.classList.contains("disabled"));
+			items.find(function (el) {
+				return el.classList.contains("active") && !el.classList.contains("disabled");
+			}) ??
+			items.find(function (el) {
+				return !el.classList.contains("disabled");
+			});
 
 		if (!activeItemElement) {
 			this.inkbarStyle = { left: "0px", width: "0px" };
@@ -337,32 +349,35 @@ export default class UlxTabmenu extends Component {
 		};
 	}
 
-	inkbarModifier = modifier((element) => {
-		this.inkbarElement = element;
+	inkbarModifier = modifier(
+		function (element) {
+			this.inkbarElement = element;
 
-		// Update immediately
-		this.updateInkbarPosition();
-
-		// Update on next frame to ensure DOM is ready
-		requestAnimationFrame(() => {
+			// Update immediately
 			this.updateInkbarPosition();
-		});
 
-		// Update on resize
-		const resizeObserver = new ResizeObserver(() => {
-			this.updateInkbarPosition();
-		});
+			// Update on next frame to ensure DOM is ready
+			const self = this;
+			requestAnimationFrame(function () {
+				self.updateInkbarPosition();
+			});
 
-		const navElement = element.closest(".tabmenu-nav");
-		if (navElement) {
-			resizeObserver.observe(navElement);
-		}
+			// Update on resize
+			const resizeObserver = new ResizeObserver(function () {
+				self.updateInkbarPosition();
+			});
 
-		return () => {
-			resizeObserver.disconnect();
-			this.inkbarElement = null;
-		};
-	});
+			const navElement = element.closest(".tabmenu-nav");
+			if (navElement) {
+				resizeObserver.observe(navElement);
+			}
+
+			return function () {
+				resizeObserver.disconnect();
+				self.inkbarElement = null;
+			};
+		}.bind(this)
+	);
 
 	<template>
 		<div class={{this.rootClasses}}>
