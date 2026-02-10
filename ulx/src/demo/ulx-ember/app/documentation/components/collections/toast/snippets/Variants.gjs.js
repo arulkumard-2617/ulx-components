@@ -14,10 +14,10 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-elevated\`,
-        severity: 'info',
+        variant: 'info',
         summary: 'Elevated',
         detail: 'Variant: elevated',
-        variant: 'elevated',
+        appearance: 'elevated',
       },
     ];
   }
@@ -28,10 +28,10 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-flat\`,
-        severity: 'success',
+        variant: 'success',
         summary: 'Flat',
         detail: 'Variant: flat',
-        variant: 'flat',
+        appearance: 'flat',
       },
     ];
   }
@@ -42,10 +42,11 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-outlined\`,
-        severity: 'warn',
+        variant: 'warn',
         summary: 'Outlined',
         detail: 'Variant: outlined',
-        variant: 'outlined',
+        appearance: 'outlined',
+        sticky: true,
       },
     ];
   }
@@ -56,7 +57,7 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-noicon\`,
-        severity: 'info',
+        variant: 'info',
         summary: 'No icon',
         detail: 'showIcon: false',
         showIcon: false,
@@ -70,7 +71,7 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-sticky\`,
-        severity: 'info',
+        variant: 'info',
         summary: 'Sticky',
         detail: 'Does not auto-close',
         sticky: true,

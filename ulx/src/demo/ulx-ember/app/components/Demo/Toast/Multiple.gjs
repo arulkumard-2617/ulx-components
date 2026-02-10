@@ -13,25 +13,25 @@ export default class MultipleToastDemo extends Component {
     const newMessages = [
       {
         id: `msg-${now}-1`,
-        severity: 'info',
+        variant: 'info',
         summary: 'Info',
         detail: 'Info message.',
       },
       {
         id: `msg-${now}-2`,
-        severity: 'success',
+        variant: 'success',
         summary: 'Success',
         detail: 'Success message.',
       },
       {
         id: `msg-${now}-3`,
-        severity: 'warn',
+        variant: 'warn',
         summary: 'Warn',
         detail: 'Warn message.',
       },
       {
         id: `msg-${now}-4`,
-        severity: 'error',
+        variant: 'error',
         summary: 'Error',
         detail: 'Error message.',
       },

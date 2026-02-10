@@ -10,7 +10,7 @@ export default class SeveritiesToastDemo extends Component {
   @tracked messages = [];
 
   @action
-  addMessage(severity) {
+  addMessage(variant) {
     const labels = {
       info: 'Info',
       success: 'Success',
@@ -22,10 +22,10 @@ export default class SeveritiesToastDemo extends Component {
     this.messages = [
       ...this.messages,
       {
-        id: \`msg-\${Date.now()}-\${severity}\`,
-        severity,
-        summary: labels[severity] ?? severity,
-        detail: \`\${labels[severity] ?? severity} message.\`,
+        id: \`msg-\${Date.now()}-\${variant}\`,
+        variant,
+        summary: labels[variant] ?? variant,
+        detail: \`\${labels[variant] ?? variant} message.\`,
       },
     ];
   }

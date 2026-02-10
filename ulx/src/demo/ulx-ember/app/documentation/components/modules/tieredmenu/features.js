@@ -7,11 +7,15 @@ import {
   BasicDemo,
   PopupDemo,
   TemplateDemo,
-  // Sources
+  
+  CommandDemo,
+  RouterDemo,// Sources
   ImportSource,
   BasicSource,
   PopupSource,
-  TemplateSource
+  TemplateSource,
+  CommandSource,
+  RouterSource
 } from './imports';
 
 export const TieredmenuFeatureItems = [
@@ -87,6 +91,46 @@ export const TieredmenuFeatureItems = [
       props: {
         source: TemplateSource,
         snippetName: "template",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "command",
+    sectionNav: "Command",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Command</code> demo shows Command usage of the Tieredmenu component."
+      }
+    },
+    demo: {
+      component: CommandDemo,
+      props: {
+        source: CommandSource,
+        snippetName: "command",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "router",
+    sectionNav: "Router",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Router</code> demo shows Router usage of the Tieredmenu component."
+      }
+    },
+    demo: {
+      component: RouterDemo,
+      props: {
+        source: RouterSource,
+        snippetName: "router",
         language: "handlebars"
       }
     }

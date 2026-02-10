@@ -262,16 +262,6 @@ export const DocNavItems = [
           },
         ],
       },
-      {
-        category: 'Message',
-        items: [
-          {
-            menuItem: 'Toast',
-            to: '/components/modules/toast',
-            route: 'components.modules.toast',
-          },
-        ],
-      },
     ],
   },
   {
@@ -279,17 +269,8 @@ export const DocNavItems = [
     icon: 'bs-icons1 list-view-icon s18',
     children: [
       {
-        category: 'Form',
-        items: [],
-      },
-      {
         category: 'Menu',
         items: [
-          {
-            menuItem: 'test-comp',
-            to: '/components/collections/test-comp',
-            route: 'components.collections.test-comp',
-          },
           {
             menuItem: 'TabMenu',
             to: '/components/collections/tab-menu',
@@ -324,6 +305,16 @@ export const DocNavItems = [
         ],
       },
       {
+        category: 'Message',
+        items: [
+          {
+            menuItem: 'Toast',
+            to: '/components/modules/toast',
+            route: 'components.modules.toast',
+          },
+        ],
+      },
+      {
         category: 'Overlay',
         items: [
           {
@@ -335,5 +326,4 @@ export const DocNavItems = [
       }
     ],
   },
-
 ];

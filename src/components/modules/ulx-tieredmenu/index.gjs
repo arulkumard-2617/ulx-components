@@ -42,6 +42,7 @@ import UlxTieredmenuMenuItem from "./menu-item.gjs";
  * @param {function} [onShow] - Callback when menu is shown (popup mode)
  * @param {HTMLElement} [target] - Target element for popup positioning (button that triggers menu)
  * @param {string} [customClass] - Additional CSS classes
+ * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
  */
 export default class UlxTieredmenu extends Component {
 	@tracked openSubmenus = new Set();
@@ -826,6 +827,14 @@ export default class UlxTieredmenu extends Component {
 	});
 
 	/**
+	 * Modifier to register component instance with parent (for imperative hide/show/toggle)
+	 */
+	registerRefModifier = modifier(() => {
+		this.args.registerRef?.(this);
+		return () => {};
+	});
+
+	/**
 	 * Sets target element from argument or event
 	 */
 	@action
@@ -1059,6 +1068,7 @@ export default class UlxTieredmenu extends Component {
 				aria-orientation="vertical"
 				{{this.appendToBody this.isPopup this.shouldRender}}
 				{{this.setContainerRef}}
+				{{this.registerRefModifier}}
 				{{this.watchVisibility this.isVisible this.isPopup this.args.target}}
 				{{this.focusFirstItemOnVisible this.isVisible this.animationState}}
 				{{this.closeOnClickOutside}}

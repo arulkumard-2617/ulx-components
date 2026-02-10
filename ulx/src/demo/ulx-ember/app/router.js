@@ -16,7 +16,6 @@ Router.map(function () {
 
   this.route('components', function () {
     this.route('collections', function () {
-      this.route('test-comp');
       this.route('tab-menu');
       this.route('segment');
     });
