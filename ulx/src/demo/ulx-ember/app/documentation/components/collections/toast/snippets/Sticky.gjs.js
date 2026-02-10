@@ -14,7 +14,7 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-sticky\`,
-        severity: 'info',
+        variant: 'info',
         summary: 'Sticky',
         detail: 'This message stays visible until you close it.',
         sticky: true,
@@ -28,7 +28,7 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-life\`,
-        severity: 'info',
+        variant: 'info',
         summary: 'Auto-close',
         detail: 'This message disappears after 3000ms.',
       },

@@ -15,6 +15,17 @@ const DEFAULT_LIFE_MS = 2000;
 /** Exit animation duration in ms (must match toast.less toast-slide-out). */
 const EXIT_ANIMATION_MS = 300;
 
+/** Default variant-to-icon map. Keys: info, success, warn, warning, error, secondary, contrast. */
+const DEFAULT_VARIANT_ICONS = {
+	info: "info-icon",
+	success: "success-stroke-icon",
+	warn: "alert-icon-01",
+	warning: "alert-icon-01",
+	error: "sp-danger-icon",
+	secondary: "info-icon",
+	contrast: "info-icon"
+};
+
 /**
  * Toast module component for displaying overlay messages.
  * Uses existing classes from uls-v2 toast.less. Argument-driven: receives
@@ -23,10 +34,10 @@ const EXIT_ANIMATION_MS = 300;
  * ## Position
  * - top-left, top-center, top-right, center, bottom-left, bottom-center, bottom-right
  *
- * ## Severity (per message)
+ * ## Variant (per message)
  * - info (default), success, warn, error, secondary, contrast
  *
- * ## Message variants (per message)
+ * ## Appearance variant (per message)
  * - elevated, flat, outlined
  *
  * ## Stacked variant
@@ -46,16 +57,36 @@ const EXIT_ANIMATION_MS = 300;
  * - Close button has aria-label and keyboard support.
  *
  * @class UlxToast
- * @param {Array<{ id: string, severity?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, autoClose?: boolean, life?: number, showIcon?: boolean, variant?: string }>} [messages=[]] - List of message objects to display
+ * @param {Array<{ id: string, variant?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, autoClose?: boolean, life?: number, showIcon?: boolean, appearance?: string }>} [messages=[]] - List of message objects to display
  * @param {'top-left'|'top-center'|'top-right'|'center'|'bottom-left'|'bottom-center'|'bottom-right'} [position='top-right'] - Position of the toast container
  * @param {function} [onClose] - Callback when a message is closed; receives the message object
  * @param {boolean} [autoClose=true] - When false, no message auto-closes unless the message has autoClose:true or life set
  * @param {boolean} [closable=true] - When false, close buttons are hidden and ESC does not close toasts
  * @param {number} [life=20000] - Default auto-close delay in ms when auto-close is enabled; can be overridden per message via message.life
  * @param {boolean} [stacked=false] - When true, displays messages in a stacked layout
+ * @param {string} [iconSize='s18'] - Size class for toast icons (message icon and close button)
+ * @param {string} [closeIconName='close-icon-01'] - Icon name for the close button
+ * @param {Object} [variantIcons] - Override icon names per variant. Keys: info, success, warn, warning, error, secondary, contrast. Merged with defaults.
+ * @param {string} [iconComponentClass='bs-icons1'] - Component class for the message icon (UlxIcon)
  * @block content - Optional. Yields the message object; when provided, replaces default summary/detail with custom content.
  */
 export default class UlxToast extends Component {
+	get iconSize() {
+		return this.args.iconSize ?? "s24";
+	}
+
+	get closeIconName() {
+		return this.args.closeIconName ?? "close-icon-01";
+	}
+
+	get severityIconMap() {
+		const overrides = this.args.variantIcons ?? {};
+		return { ...DEFAULT_VARIANT_ICONS, ...overrides };
+	}
+
+	get iconComponentClass() {
+		return this.args.iconComponentClass ?? "bs-icons1";
+	}
 	/** Message ids currently playing the exit animation (toast-exit class). */
 	@tracked exitingIds = new Set();
 
@@ -169,13 +200,13 @@ export default class UlxToast extends Component {
 
 	@action
 	getMessageClasses(message) {
-		const parts = [TOAST_PREFIX + "toast-message"];
-		const severity = message.severity || "info";
-		parts.push(severity === "warning" ? "warn" : severity);
-		if (message.variant) parts.push(message.variant);
+		const parts = ["toast-message"];
+		const variant = message.variant || "info";
+		parts.push(variant === "warning" ? "warn" : variant);
+		if (message.appearance) parts.push(message.appearance);
 		if (this.args.closable !== false && message.closable !== false) parts.push("closable");
 		if (message.showIcon === false) parts.push("without-icon");
-		if (message.sticky) parts.push("sticky");
+		if (message.sticky) parts.push("toast-sticky");
 		if (message.exit || (message?.id && this?.exitingIds?.has(message.id)))
 			parts.push("toast-exit");
 		return parts.filter(Boolean).join(" ");
@@ -183,16 +214,8 @@ export default class UlxToast extends Component {
 
 	@action
 	getIconName(message) {
-		const severity = message.severity || "info";
-		const map = {
-			info: "info-icon",
-			success: "success-stroke-icon",
-			warn: "alert-icon-01",
-			warning: "alert-icon-01",
-			error: "sp-danger-icon",
-			secondary: "info-icon",
-			contrast: "info-icon"
-		};
+		const severity = message.variant || "info";
+		const map = this.severityIconMap;
 		return map[severity] ?? map.info;
 	}
 
@@ -247,36 +270,37 @@ export default class UlxToast extends Component {
 		<div class={{this.containerClasses}} role="region" aria-label="Notification" ...attributes>
 			{{#each this.messages key="id" as |message|}}
 				<div class={{this.getMessageClasses message}} role="alert" aria-live="polite">
-					<div class="{{TOAST_PREFIX}}toast-content">
+					<div class="toast-content">
 						{{#if (this.showMessageIcon message)}}
-							<span class="{{TOAST_PREFIX}}toast-icon" aria-hidden="true">
+							<span class="toast-icon" aria-hidden="true">
 								<UlxIcon
 									@iconName={{this.getIconName message}}
 									@type="font"
-									@size="s18"
-									@customClass="bs-icons1"
+									@size={{this.iconSize}}
+									@componentClass={{this.iconComponentClass}}
 									aria-hidden="true"
 								/>
 							</span>
 						{{/if}}
-						<div class="{{TOAST_PREFIX}}toast-text">
+						<div class="toast-text">
 							{{#if (has-block "content")}}
 								{{yield message to="content"}}
 							{{else}}
 								{{#if message.summary}}
-									<span class="{{TOAST_PREFIX}}toast-summary">{{message.summary}}</span>
+									<span class="toast-summary">{{message.summary}}</span>
 								{{/if}}
 								{{#if message.detail}}
-									<span class="{{TOAST_PREFIX}}toast-detail">{{message.detail}}</span>
+									<span class="toast-detail">{{message.detail}}</span>
 								{{/if}}
 							{{/if}}
 						</div>
 						{{#if (this.showMessageClose message)}}
 							<UlxIcon
-								@iconName="close-icon-01"
+								@iconName={{this.closeIconName}}
 								@type="font"
 								@size="s18"
-								@customClass="bs-icons1"
+								@componentClass="bs-icons1"
+								@customClass="pointer"
 								role="button"
 								tabindex="0"
 								aria-label="Close notification"
@@ -290,3 +314,64 @@ export default class UlxToast extends Component {
 		</div>
 	</template>
 }
+
+/*
+ * UlxToast – possible usages
+ * ==========================
+ *
+ * 1. Minimal (position + messages + onClose)
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} />
+ *
+ * 2. Position
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="top-left" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="top-center" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="top-right" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="center" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="bottom-left" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="bottom-center" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @position="bottom-right" />
+ *
+ * 3. Stacked layout
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @stacked={{true}} />
+ *
+ * 4. Auto-close and life
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @autoClose={{false}} />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @life={{5000}} />
+ *
+ * 5. Closable
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @closable={{false}} />
+ *
+ * 6. Icon options
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @iconSize="s16" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @closeIconName="my-close-icon" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @iconComponentClass="my-icon-font" />
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @variantIcons={{hash error="custom-error-icon" success="custom-success-icon"}} />
+ *
+ * 7. Message object shape (per message)
+ *    { id, variant?, summary?, detail?, closable?, sticky?, autoClose?, life?, showIcon?, appearance? }
+ *    variant: "info" | "success" | "warn" | "warning" | "error" | "secondary" | "contrast"
+ *    variant: "elevated" | "flat" | "outlined"
+ *
+ * 8. Custom content block (replaces default summary/detail)
+ *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}}>
+ *      <:content as |message|>
+ *        <strong>{{message.summary}}</strong>
+ *        <p>{{message.detail}}</p>
+ *      </:content>
+ *    </UlxToast>
+ *
+ * 9. Full example with multiple options
+ *    <UlxToast
+ *      @messages={{this.messages}}
+ *      @onClose={{this.handleClose}}
+ *      @position="bottom-right"
+ *      @stacked={{true}}
+ *      @autoClose={{true}}
+ *      @life={{3000}}
+ *      @closable={{true}}
+ *      @iconSize="s18"
+ *      @closeIconName="close-icon-01"
+ *      @iconComponentClass="bs-icons1"
+ *      @variantIcons={{this.customVariantIcons}}
+ *    />
+ */

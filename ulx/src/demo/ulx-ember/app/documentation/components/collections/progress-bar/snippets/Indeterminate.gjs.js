@@ -3,7 +3,12 @@ import { UlxProgressBar } from 'ulx-components';
 
 <template>
   <div class="pda4">
-    <UlxProgressBar @mode="indeterminate" @size="m-size" aria-label="Loading" />
+    <UlxProgressBar
+      @customClass="h6"
+      @mode="indeterminate"
+      @size="s-size"
+      aria-label="Loading"
+    />
   </div>
 </template>
 

@@ -8,6 +8,7 @@ import { UlxTieredmenu, UlxButton } from 'ulx-components';
 export default class PopupTieredmenuDemo extends Component {
   @tracked isMenuVisible = false;
   @tracked buttonElement = null;
+  menuRef = null;
 
   get items() {
     return [
@@ -45,21 +46,31 @@ export default class PopupTieredmenuDemo extends Component {
     ];
   }
 
-  setButtonRef = modifier((element) => {
-    this.buttonElement = element;
-    return () => {
-      // Cleanup if needed
-    };
-  });
-
   @action
-  toggleMenu(event) {
-    event.stopPropagation();
-    this.isMenuVisible = !this.isMenuVisible;
+  setMenuRef(componentInstance) {
+    this.menuRef = componentInstance;
   }
 
   @action
+  toggleMenu(event) {
+    event?.stopPropagation();
+    if (this.isMenuVisible) {
+      // Close: call handleHide first (via hide()), then visible is set in onHide
+      this.menuRef?.hide(event);
+    } else {
+      this.isMenuVisible = true;
+    }
+  }
+
+  setButtonRef = modifier((element) => {
+    this.buttonElement = element;
+    return () => {};
+  });
+
+  @action
   hideMenu() {
+    console.log('closed');
+    // Called by tiered menu when exit animation finishes → set visible false then
     this.isMenuVisible = false;
   }
 
@@ -87,6 +98,7 @@ export default class PopupTieredmenuDemo extends Component {
         @visible={{this.isMenuVisible}}
         @target={{this.buttonElement}}
         @onHide={{this.hideMenu}}
+        @registerRef={{this.setMenuRef}}
         @onItemSelect={{this.handleItemSelect}}
       />
     </div>

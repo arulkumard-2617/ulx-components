@@ -13,7 +13,7 @@ export default class BasicToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}`,
-        severity: 'info',
+        variant: 'info',
         summary: 'Info',
         detail: 'This is a basic toast message.',
       },
