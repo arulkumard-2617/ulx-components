@@ -6,10 +6,12 @@ import {
   // Demos
   BasicDemo,
   
-  PositionDemo,// Sources
+  PositionDemo,
+  HeadlessDemo,// Sources
   ImportSource,
   BasicSource,
-  PositionSource
+  PositionSource,
+  HeadlessSource
 } from './imports';
 
 export const DialogFeatureItems = [
@@ -67,6 +69,26 @@ export const DialogFeatureItems = [
       props: {
         source: PositionSource,
         snippetName: "position",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "headless",
+    sectionNav: "Headless",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Headless</code> demo shows headless usage of the Dialog component."
+      }
+    },
+    demo: {
+      component: HeadlessDemo,
+      props: {
+        source: HeadlessSource,
+        snippetName: "headless",
         language: "handlebars"
       }
     }

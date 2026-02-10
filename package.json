@@ -86,16 +86,12 @@
       "./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
       "./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
       "./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
+      "./components/index.js": "./dist/_app_/components/index.js",
       "./components/modules/ulx-modal/body.js": "./dist/_app_/components/modules/ulx-modal/body.js",
       "./components/modules/ulx-modal/example.js": "./dist/_app_/components/modules/ulx-modal/example.js",
       "./components/modules/ulx-modal/footer.js": "./dist/_app_/components/modules/ulx-modal/footer.js",
       "./components/modules/ulx-modal/header.js": "./dist/_app_/components/modules/ulx-modal/header.js",
-      "./components/modules/ulx-modal/index.js": "./dist/_app_/components/modules/ulx-modal/index.js",
-      "./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
-      "./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
-      "./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
-      "./components/ulx-modal.js": "./dist/_app_/components/ulx-modal.js",
-      "./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js"
+      "./components/modules/ulx-modal/index.js": "./dist/_app_/components/modules/ulx-modal/index.js"
     }
   }
 }
