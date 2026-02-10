@@ -124,7 +124,6 @@
 			"./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js",
 			"./components/ulx-tieredmenu.js": "./dist/_app_/components/ulx-tieredmenu.js",
 			"./components/ulx-toast.js": "./dist/_app_/components/ulx-toast.js",
-			"./components/ulx-tristate-checkbox.js": "./dist/_app_/components/ulx-tristate-checkbox.js",
 			"./helpers/t-safe.js": "./dist/_app_/helpers/t-safe.js",
 			"./helpers/t.js": "./dist/_app_/helpers/t.js"
 		}

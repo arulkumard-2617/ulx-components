@@ -3,16 +3,79 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton, t } from 'ulx-components';
+import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class VariantsToastDemo extends Component {
-  get messages() {
-    return [
-      { id: '1', type: 'info', summary: t('lbl.elevated'), detail: t('lbl.variant.elevated'), variant: 'elevated' },
-      { id: '2', type: 'success', summary: t('lbl.flat'), detail: t('lbl.variant.flat'), variant: 'flat' },
-      { id: '3', type: 'warn', summary: t('lbl.outlined'), detail: t('lbl.variant.outlined'), variant: 'outlined' },
-      { id: '4', type: 'info', summary: t('lbl.no.icon'), detail: 'showIcon: false', showIcon: false },
-      { id: '5', type: 'info', summary: t('lbl.sticky'), detail: t('msg.does.not.auto.close'), sticky: true },
+  @tracked messages = [];
+
+  @action
+  showElevated() {
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-elevated\`,
+        variant: 'info',
+        summary: 'Elevated',
+        detail: 'Variant: elevated',
+        type: 'elevated',
+      },
+    ];
+  }
+
+  @action
+  showFlat() {
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-flat\`,
+        variant: 'success',
+        summary: 'Flat',
+        detail: 'Variant: flat',
+        type: 'flat',
+      },
+    ];
+  }
+
+  @action
+  showOutlined() {
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-outlined\`,
+        variant: 'warn',
+        summary: 'Outlined',
+        detail: 'Variant: outlined',
+        type: 'outlined',
+        sticky: true,
+      },
+    ];
+  }
+
+  @action
+  showNoIcon() {
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-noicon\`,
+        variant: 'info',
+        summary: 'No icon',
+        detail: 'showIcon: false',
+        showIcon: false,
+      },
+    ];
+  }
+
+  @action
+  showSticky() {
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-sticky\`,
+        variant: 'info',
+        summary: 'Sticky',
+        detail: 'Does not auto-close',
+        sticky: true,
+      },
     ];
   }
 
@@ -27,6 +90,32 @@ export default class VariantsToastDemo extends Component {
   }
 
   <template>
+    <div class="pda4">
+      <div class="fx gap8 flxw">
+        <UlxButton
+          @label="Elevated"
+          @variant="primary"
+          {{on "click" this.showElevated}}
+        />
+        <UlxButton
+          @label="Flat"
+          @variant="success"
+          {{on "click" this.showFlat}}
+        />
+        <UlxButton
+          @label="Outlined"
+          @variant="warning"
+          {{on "click" this.showOutlined}}
+        />
+        <UlxButton
+          @label="No icon"
+          @variant="secondary"
+          {{on "click" this.showNoIcon}}
+        />
+        <UlxButton @label="Sticky" {{on "click" this.showSticky}} />
+      </div>
+      <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
+    </div>
     <div class="pda4">
       <div class="fx gap8 flxw">
         <UlxButton

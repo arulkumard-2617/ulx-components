@@ -17,10 +17,42 @@ const POSITIONS = [
 ];
 
 export default class PositionsToastDemo extends Component {
-  get messages() {
-    return [
-      { id: '1', type: 'info', summary: t('lbl.position'), detail: t('msg.bottom.right.default') },
-    ];
+  /** Messages per position: { 'top-left': [...], 'top-right': [...], ... } */
+  @tracked messagesByPosition = {};
+
+  /** Array of { position, messages } for template; use getter so @messages is tracked. */
+  get positionEntries() {
+    const byPos = this.messagesByPosition;
+    return POSITIONS.map((pos) => ({
+      position: pos,
+      messages: byPos[pos] ?? [],
+    }));
+  }
+
+  @action
+  showToast(pos) {
+    const messages = this.messagesByPosition[pos] ?? [];
+    const newMessage = {
+      id: \`msg-\${Date.now()}-\${pos}\`,
+      variant: 'info',
+      summary: 'Position',
+      detail: \`Toast at \${pos}.\`,
+    };
+    this.messagesByPosition = {
+      ...this.messagesByPosition,
+      [pos]: [...messages, newMessage],
+    };
+  }
+
+  @action
+  removeMessage(position, message) {
+    const messages = (this.messagesByPosition[position] ?? []).filter(
+      (m) => m.id !== message.id,
+    );
+    this.messagesByPosition = {
+      ...this.messagesByPosition,
+      [position]: messages,
+    };
   }
 
   <template>

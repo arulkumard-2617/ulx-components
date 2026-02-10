@@ -15,8 +15,8 @@ export default class TemplateToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-template\`,
-        type: 'success',
-        summary: t('msg.send.report'),
+        variant: 'success',
+        summary: 'Can you send me the report?',
         sticky: true,
       },
     ];
@@ -28,21 +28,27 @@ export default class TemplateToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label={{t "lbl.confirm"}} @variant="primary" {{on "click" this.showTemplateToast}} />
-    <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}}>
-      <:content as |message|>
-        <div class="fxb column gp4">
-          <span class="fw-semibold">{{t "lbl.amy.elsner"}}</span>
-          <div class="fw-medium">{{message.summary}}</div>
-          <UlxButton
-            @label={{t "lbl.reply"}}
-            @variant="success"
-            @size="s-size"
-            {{on "click" (fn this.removeMessage message)}}
-          />
-        </div>
-      </:content>
-    </UlxToast>
+    <div class="pda4">
+      <UlxButton
+        @label="Confirm"
+        @variant="primary"
+        {{on "click" this.showTemplateToast}}
+      />
+      <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}}>
+        <:content as |message|>
+          <div class="fxb column gp4">
+            <span class="fw-semibold">Amy Elsner</span>
+            <div class="fw-medium">{{message.summary}}</div>
+            <UlxButton
+              @label="Reply"
+              @variant="success"
+              @size="s-size"
+              {{on "click" (fn this.removeMessage message)}}
+            />
+          </div>
+        </:content>
+      </UlxToast>
+    </div>
   </template>
 }
 

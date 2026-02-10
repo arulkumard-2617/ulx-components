@@ -21,6 +21,75 @@ export default class CommandDemoComponent extends Component {
       { label: t('lbl.item.1'), value: 'item1' },
       { label: t('lbl.item.2'), value: 'item2' },
       { label: t('lbl.item.3'), value: 'item3' }
+      {
+        label: 'Show toast 1',
+        items: [
+          { label: 'Info toast', value: 'show1-info', toastVariant: 'info' },
+          {
+            label: 'Success toast',
+            value: 'show1-success',
+            toastVariant: 'success',
+          },
+          {
+            label: 'Danger toast',
+            value: 'show1-danger',
+            toastVariant: 'error',
+          },
+        ],
+      },
+      {
+        label: 'Show toast 2',
+        items: [
+          {
+            label: 'Info group',
+            items: [
+              {
+                label: 'Info toast A',
+                value: 'show2-info-a',
+                toastVariant: 'info',
+              },
+              {
+                label: 'Info toast B',
+                value: 'show2-info-b',
+                toastVariant: 'info',
+              },
+            ],
+          },
+          {
+            label: 'Success group',
+            items: [
+              {
+                label: 'Success toast A',
+                value: 'show2-success-a',
+                toastVariant: 'success',
+              },
+              {
+                label: 'Success toast B',
+                value: 'show2-success-b',
+                toastVariant: 'success',
+              },
+            ],
+          },
+          {
+            label: 'Danger group',
+            items: [
+              {
+                label: 'Danger toast A',
+                value: 'show2-danger-a',
+                toastVariant: 'error',
+              },
+              {
+                label: 'Danger toast B',
+                value: 'show2-danger-b',
+                toastVariant: 'error',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Without toast',
+      },
     ];
   }
 

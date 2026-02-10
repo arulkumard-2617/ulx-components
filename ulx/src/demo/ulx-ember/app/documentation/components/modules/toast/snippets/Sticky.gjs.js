@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton, t } from 'ulx-components';
+import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class StickyToastDemo extends Component {
   @tracked messages = [];
@@ -14,10 +14,23 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-sticky\`,
-        type: 'info',
-        summary: t('lbl.sticky'),
-        detail: t('msg.sticky.toast'),
+        variant: 'info',
+        summary: 'Sticky',
+        detail: 'This message stays visible until you close it.',
         sticky: true,
+      },
+    ];
+  }
+
+  @action
+  showWithLife() {
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-life\`,
+        variant: 'info',
+        summary: 'Auto-close',
+        detail: 'This message disappears after 3000ms.',
       },
     ];
   }
@@ -46,13 +59,30 @@ export default class StickyToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label={{t "lbl.sticky"}} @variant="secondary" {{on "click" this.showSticky}} />
-    <UlxButton @label={{t "lbl.clear"}} @variant="secondary" {{on "click" this.clearAll}} />
-    <UlxToast
-      @messages={{this.messages}}
-      @life={{3000}}
-      @onClose={{this.removeMessage}}
-    />
+    <div class="pda4">
+      <div class="fx gap8 flxw">
+        <UlxButton
+          @label="Sticky"
+          @variant="secondary"
+          {{on "click" this.showSticky}}
+        />
+        <UlxButton
+          @label="Auto-close (3s)"
+          @variant="secondary"
+          {{on "click" this.showWithLife}}
+        />
+        <UlxButton
+          @label="Clear"
+          @variant="secondary"
+          {{on "click" this.clearAll}}
+        />
+      </div>
+      <UlxToast
+        @messages={{this.messages}}
+        @life={{3000}}
+        @onClose={{this.removeMessage}}
+      />
+    </div>
   </template>
 }
 
