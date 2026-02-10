@@ -1,17 +1,17 @@
 {{page-title "Colors - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Colors" 
+<Common::DocMain::FoundationLayout
+  @title="Colors"
   @description="Palette layers, semantic tokens, and theming workflow."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactColors}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="colors-overview"
         @title="Colors"
         @subtitle="Palette layers, semantic tokens, and theming workflow."
@@ -21,4 +21,3 @@
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

@@ -1,24 +1,24 @@
 {{page-title "Vertical Align Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Vertical Align Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Vertical Align Utilities"
   @description="Vertical alignment utility classes."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactVerticalAlign}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-vertical-align"
         @title="Vertical Align Utilities"
         @subtitle="Vertical alignment utility classes."
       >
-        <p class="fg-text-secondary">React VerticalAlign component could not be loaded.</p>
+        <p class="fg-text-secondary">React VerticalAlign component could not be
+          loaded.</p>
       </Common::DocMain::FoundationSection>
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

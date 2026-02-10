@@ -14,17 +14,30 @@ Router.map(function () {
     this.route('colors');
   });
 
-  this.route('components', { path: '/components' }, function () {
-    this.route('collections', { path: '/collections' });
-	this.route('modules', { path: '/modules' }, function () {
-      this.route('dialog', { path: '/dialog' });
+  this.route('components', function () {
+    this.route('collections', function () {
+      this.route('test-comp');
+      this.route('tab-menu');
+      this.route('segment');
     });
     this.route('elements', function () {
-		this.route('icon');
-		this.route('input');
-		this.route('ulx-icon-input');
-		this.route('input-group');
-  });
+      this.route('icon');
+      this.route('input');
+      this.route('ulx-icon-input');
+      this.route('input-group');
+      this.route('checkbox');
+      this.route('radio');
+      this.route('tag');
+      this.route('badge');
+      this.route('avatar');
+      this.route('button');
+      this.route('progressbar');
+      this.route('progressspinner');
+    });
+    this.route('modules', function () {
+      this.route('toast');
+      this.route('tieredmenu');
+    });
   });
 
   this.route('utilities', function () {

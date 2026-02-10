@@ -12,7 +12,7 @@
 //
 //   export default {
 //     componentName: 'UlxButton',
-//     importLine: "import { UlxButton } from 'uls-components';",
+//     importLine: "import { UlxButton } from 'ulx-components';",
 //     props: [
 //       {
 //         key: 'severity',

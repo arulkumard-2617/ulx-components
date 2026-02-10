@@ -13,7 +13,7 @@ export default class UlxReactBridge extends Component {
     this.root = createRoot(element);
 
     this.root.render(
-      React.createElement(this.args.component, this.args.props ?? {})
+      React.createElement(this.args.component, this.args.props ?? {}),
     );
 
     return () => {
@@ -23,7 +23,6 @@ export default class UlxReactBridge extends Component {
   });
 
   <template>
-    <!-- IMPORTANT: React mounts into THIS div -->
     <div {{this.mount}}></div>
   </template>
 }

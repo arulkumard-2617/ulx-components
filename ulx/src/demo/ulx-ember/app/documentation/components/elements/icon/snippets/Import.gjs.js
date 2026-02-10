@@ -1,4 +1,4 @@
 export default `
-import { Icon } from 'uls-components';
+import { Icon } from 'ulx-components';
 
 `;

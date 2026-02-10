@@ -6,7 +6,7 @@
 
 export default {
   componentName: 'UlxIconInput',
-  importLine: "import { UlxIconInput } from 'uls-components';",
+  importLine: "import { UlxIconInput } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () => '<UlxIconInput />',

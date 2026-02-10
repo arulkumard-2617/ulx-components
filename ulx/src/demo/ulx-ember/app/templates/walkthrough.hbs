@@ -1,51 +1,137 @@
-{{page-title "Get started with ULS - ULS Ember Documentation"}}
+{{page-title "Get started with ULX - ULX Ember Documentation"}}
 
-<div class="ulsp-doc-tabpanel fxb fsb mgb10">
-  <div class="panel-main mgr5">
-    <h2 class="mgt0 mgb4 bold-font">Commands</h2>
-    <p class="fg-text-secondary mgb6">Run these commands from the
-      <code>uls</code>
-      directory. Use these npm scripts to create or remove demo pages and
-      component variations. Replace
-      <strong>ComponentName</strong>
-      and
-      <strong>VariationName</strong>
-      with your component and variation names as needed.</p>
+<Common::DocMain::FoundationLayout
+  @title="Getting started"
+  @description="Set up your environment and use npm scripts to add or remove demo pages and component variations."
+>
+  <div class="doc-panel-wrapper fxb fsb">
+    <div class="doc-panel fxgrow w-100p">
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-prerequisites"
+        @title="Prerequisites"
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Ensure you have <code>Node.js</code> (with npm) and <code>Git</code> installed. All create/destroy and variation commands below must be run from the <code>ulx</code> project root (the directory whose <code>package.json</code> contains the <code>create</code>, <code>destroy</code>, <code>add-variation</code>, and <code>destroy-variation</code> scripts)."
+          />
+        </div>
+      </Common::DocMain::FoundationSection>
 
-    <section class="mgb6">
-      <Common::DocMain::CodePreview
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-run-docs"
+        @title="Run the documentation"
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="From the <code>ulx-ember</code> demo app directory, run the dev server to view the docs and your new pages locally."
+          />
+        </div>
+        <Common::DocMain::CodePreview
+          @source="npm run start"
+          @language="bash"
+        />
+        <div
+          class="ulx-foundation-section__subtitle mgt4 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Then open <code>http://localhost:4200</code>. New demo pages and variations appear under the relevant sidebar section (Foundation, Utilities, or Components)."
+          />
+        </div>
+      </Common::DocMain::FoundationSection>
+
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-create-demo-page"
         @title="Create demo-page"
-        @description="Scaffolds a new demo page for a component. Use --category (e.g. collections, elements, modules) and optionally --submodule to match your docs structure."
-        @source="npm run create -- demo-page 'IconInput[IconInput]' --category elements --submodule form"
-        @language="bash"
-      />
-    </section>
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Scaffolds a new demo page for a component. Use <code>--category</code> (e.g. collections, elements, modules) and optionally <code>--submodule</code> to match your docs structure."
+          />
+        </div>
+        <Common::DocMain::CodePreview
+          @source="npm run create -- demo-page 'PageName[PageName]' --category elements --submodule form"
+          @language="bash"
+        />
+      </Common::DocMain::FoundationSection>
 
-    <section class="mgb6">
-      <Common::DocMain::CodePreview
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-delete-demo-page"
         @title="Delete demo-page"
-        @description="Removes an existing demo page. Use the same --category value as when the page was created."
-        @source="npm run destroy demo-page ComponentName --category collections"
-        @language="bash"
-      />
-    </section>
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Removes an existing demo page. Use the same <code>--category</code> value as when the page was created."
+          />
+        </div>
+        <Common::DocMain::CodePreview
+          @source="npm run destroy demo-page PageName --category collections"
+          @language="bash"
+        />
+      </Common::DocMain::FoundationSection>
 
-    <section class="mgb6">
-      <Common::DocMain::CodePreview
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-create-variations"
         @title="Create variations"
-        @description="Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass --component and --variation. The leading -- forwards args to the underlying script."
-        @source="npm run add-variation -- --component=ComponentName --variation=VariationName"
-        @language="bash"
-      />
-    </section>
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass <code>--component</code> and <code>--variation</code>. The leading <code>--</code> forwards args to the underlying script."
+          />
+        </div>
+        <Common::DocMain::CodePreview
+          @source="npm run add-variation -- --component=PageName --variation=VariationName"
+          @language="bash"
+        />
+      </Common::DocMain::FoundationSection>
 
-    <section class="mgb6">
-      <Common::DocMain::CodePreview
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-delete-variations"
         @title="Delete variations"
-        @description="Removes a specific variation from a component. Example for removing the Controlled variation from CodePreviewComponent:"
-        @source="npm run destroy-variation -- --component=ComponentName --variation=VariationName"
-        @language="bash"
-      />
-    </section>
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Removes a specific variation from a component. Example for removing the Controlled variation from <code>CodePreviewComponent</code>:"
+          />
+        </div>
+        <Common::DocMain::CodePreview
+          @source="npm run destroy-variation -- --component=ComponentName --variation=VariationName"
+          @language="bash"
+        />
+      </Common::DocMain::FoundationSection>
+
+      <Common::DocMain::FoundationSection
+        @id="walkthrough-next-steps"
+        @title="Next steps"
+      >
+        <div
+          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+        >
+          <Common::DocMain::RichText
+            @as="span"
+            @content="Use the sidebar to explore <strong>Foundation</strong> (Typography, Colors) for design tokens, <strong>Utilities</strong> for layout and styling classes, and <strong>Components</strong> (Elements, Collections) for live demos and usage."
+          />
+        </div>
+      </Common::DocMain::FoundationSection>
+    </div>
+    <Common::DocMain::DocSectionNav @features={{@model.sections}} />
   </div>
-</div>
+</Common::DocMain::FoundationLayout>

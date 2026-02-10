@@ -38,7 +38,7 @@
 // // ==========================================================================
 // // PLACEHOLDER STYLING
 // // ==========================================================================
-// // Global placeholder color (also defined in base .uls-input)
+// // Global placeholder color (also defined in base .ulx-input)
 
 // input::placeholder {
 //     color: @place-holder-color;
@@ -48,7 +48,7 @@
 // // BASE INPUT STYLES
 // // ==========================================================================
 
-// input.uls-input {
+// input.ulx-input {
 //     width: @120px; // Default width
 //     border-radius: @border-radius-md;
 //     border: none;
@@ -86,7 +86,7 @@
 //     // ==========================================================================
 //     // SIZE VARIATIONS
 //     // ==========================================================================
-    
+
 //     &.xs-size {
 //         @font-size: @font-size12; // tiny is 12px
 //         @line-height: @tiny-lineheight;
@@ -137,7 +137,7 @@
 // // TEXTAREA INPUT STYLES
 // // ==========================================================================
 
-// textarea.uls-input {
+// textarea.ulx-input {
 //     min-height: @76px; // If @76px doesn't exist, use 76px directly
 //     resize: none;
 //     outline: none;
@@ -168,12 +168,12 @@
 // // ==========================================================================
 // // Input with icon support (left or right positioning)
 
-// .uls-icon-input {
+// .ulx-icon-input {
 //     position: relative;
 //     display: flex;
 //     color: @text-color;
 
-//     >.uls-input {
+//     >.ulx-input {
 //         flex-grow: 1;
 //     }
 
@@ -189,7 +189,7 @@
 //             left: 0;
 //         }
 
-//         >.uls-input {
+//         >.ulx-input {
 //             padding-inline-start: @32px; // Use logical property for RTL
 //         }
 //     }
@@ -214,17 +214,17 @@
 //             }
 //         }
 
-//         >.uls-button-link {
+//         >.ulx-button-link {
 //             position: absolute;
 //             right: 0;
 //         }
 
-//         >.uls-input {
+//         >.ulx-input {
 //             padding-inline-end: @32px; // Use logical property for RTL
 //         }
 
 //         &.item2 {
-//             >.uls-input {
+//             >.ulx-input {
 //                 padding-inline-end: @64px; // Use logical property for RTL
 //             }
 
@@ -257,7 +257,7 @@
 // // ==========================================================================
 // // Input with animated label that moves on edit mode
 
-// .uls-label-input {
+// .ulx-label-input {
 //     padding: @8px;
 //     display: flex;
 //     align-items: center;
@@ -271,7 +271,7 @@
 //     @active-border-color: @primary-color;
 //     .input-color();
 
-//     >.uls-input {
+//     >.ulx-input {
 //         flex-grow: 1;
 //         width: auto !important;
 //     }
@@ -280,7 +280,7 @@
 //         background-color: @input-disable-bg;
 //     }
 
-//     >.uls-input {
+//     >.ulx-input {
 //         opacity: 0;
 //         visibility: hidden;
 //         transition: all @default-duration;
@@ -305,7 +305,7 @@
 //         background-color: @input-bg-color;
 //         box-shadow: 0 0 0 1px @primary-color;
 
-//         >.uls-input {
+//         >.ulx-input {
 //             visibility: visible;
 //             opacity: 1;
 //         }
@@ -326,27 +326,27 @@
 // // ==========================================================================
 
 // [dir="rtl"] {
-//     .uls-icon-input {
+//     .ulx-icon-input {
 //         &.left {
 //             >i.bs-icons1 {
 //                 left: auto;
 //                 right: 0;
 //             }
 
-//             >.uls-input {
+//             >.ulx-input {
 //                 padding-inline-start: 0;
 //                 padding-inline-end: @32px;
 //             }
 //         }
 //     }
 
-//     .uls-input-attach {
-//         &.left .uls-input {
+//     .ulx-input-attach {
+//         &.left .ulx-input {
 //             margin-inline-end: -@1px; // Use logical property
 //             border-radius: @border-radius-md 0 0 @border-radius-md !important;
 //         }
 
-//         &.right .uls-input {
+//         &.right .ulx-input {
 //             margin-inline-start: -@1px; // Use logical property
 //             border-radius: 0 @border-radius-md @border-radius-md 0 !important;
 //         }
@@ -364,7 +364,7 @@
 //         &.hide-field {
 //             >.left-item {
 //                 >.field {
-//                     .uls-dropdown {
+//                     .ulx-dropdown {
 //                         border-radius: 0 @border-radius-md @border-radius-md 0 !important;
 //                     }
 //                 }
@@ -377,7 +377,7 @@
 // // INPUT ATTACH COMPONENT (GRID)
 // // ==========================================================================
 
-// .uls-input.attach {
+// .ulx-input.attach {
 //     display: grid;
 //     grid-auto-flow: column;
 
@@ -392,7 +392,7 @@
 // // ==========================================================================
 // // Input with attached labels or buttons
 
-// .uls-input-attach {
+// .ulx-input-attach {
 //     display: flex;
 
 //     >label {
@@ -420,7 +420,7 @@
 //                     display: none;
 //                 }
 
-//                 .uls-dropdown {
+//                 .ulx-dropdown {
 //                     border-radius: @border-radius-md 0 0 @border-radius-md !important;
 //                 }
 //             }
@@ -431,7 +431,7 @@
 //         border-radius: 0 @border-radius-md @border-radius-md 0 !important;
 //     }
 
-//     >.uls-input {
+//     >.ulx-input {
 //         flex-grow: 1;
 //         width: auto !important;
 //         min-width: 0;
@@ -442,17 +442,17 @@
 //         }
 //     }
 
-//     &.left>.uls-input {
+//     &.left>.ulx-input {
 //         margin-inline-start: -@1px !important; // Use logical property
 //         border-top-left-radius: 0;
 //         border-bottom-left-radius: 0;
 //     }
 
-//     &.left>.fluid.uls-input {
+//     &.left>.fluid.ulx-input {
 //         width: 100% !important;
 //     }
 
-//     &.right>.uls-input {
+//     &.right>.ulx-input {
 //         margin-inline-end: -@1px !important; // Use logical property
 //         border-top-right-radius: 0;
 //         border-bottom-right-radius: 0;
@@ -462,7 +462,7 @@
 //         box-shadow: 0 0 0 1px @input-border-color;
 //         border-radius: @border-radius-md;
 
-//         .uls-input {
+//         .ulx-input {
 //             box-shadow: none;
 //         }
 //     }
@@ -470,7 +470,7 @@
 //     &.dashed-bdr {
 //         border: @1px dashed @input-border-color;
 
-//         .uls-input {
+//         .ulx-input {
 //             box-shadow: none;
 //         }
 //     }
@@ -497,7 +497,7 @@
 //             z-index: 1;
 //         }
 
-//         >.uls-input {
+//         >.ulx-input {
 //             box-shadow: none;
 //         }
 
@@ -524,7 +524,7 @@
 //             padding: 0;
 //             text-align: center;
 
-//             .uls-divider {
+//             .ulx-divider {
 //                 width: 100%;
 //             }
 
@@ -547,7 +547,7 @@
 //         }
 //     }
 
-//     &.btn-num>.uls-label {
+//     &.btn-num>.ulx-label {
 //         &.left {
 //             border-radius: @border-radius-md 0 0 @border-radius-md; // 6px equivalent
 //         }
@@ -558,7 +558,7 @@
 //     }
 
 //     &.wt42 {
-//         >.uls-input {
+//         >.ulx-input {
 //             min-width: @42px; // If @42px doesn't exist, use 42px directly
 //             width: @42px !important;
 //             padding: @4px !important;
@@ -591,7 +591,7 @@
 //         border-radius: @border-radius-xs; // 2px
 //         background-color: @default-background;
 
-//         >.uls-input,
+//         >.ulx-input,
 //         >.icon-drop {
 //             box-shadow: none !important;
 //         }
@@ -623,7 +623,7 @@
 //         }
 //     }
 
-//     .uls-social-icons {
+//     .ulx-social-icons {
 //         z-index: 1;
 
 //         i.bs-icons2,

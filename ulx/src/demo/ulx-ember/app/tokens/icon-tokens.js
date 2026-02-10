@@ -1,52 +1,50 @@
-// Auto-generated from @uls-builder comments in uls-v2 .../less/elements/icon.less
-// Run: node scripts/extract-uls-builder-tokens.js [path-to-icon.less]
+// Auto-generated from @ulx-builder comments in ulx-v2 .../less/elements/icon.less
+// Run: node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]
 
 export default {
-  "normal size": [
-    "s11",
-    "s12",
-    "s13",
-    "s14",
-    "s16",
-    "s18",
-    "s20",
-    "s22",
-    "s24",
-    "s26",
-    "s28",
-    "s30",
-    "s32"
+  'normal size': [
+    's11',
+    's12',
+    's13',
+    's14',
+    's16',
+    's18',
+    's20',
+    's22',
+    's24',
+    's26',
+    's28',
+    's30',
+    's32',
   ],
-  "colors": [
-    "primary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-    "muted",
-    "inverted"
+  colors: [
+    'primary',
+    'success',
+    'warning',
+    'danger',
+    'info',
+    'muted',
+    'inverted',
   ],
-  "shaped icons size": [
-    "xs",
-    "sm",
-    "md",
-    "lg",
-    "xl",
-    "xl2",
-    "xl3",
-    "xl4",
-    "xl5",
-    "xl6",
-    "xl7"
+  'shaped icons size': [
+    'xs',
+    'sm',
+    'md',
+    'lg',
+    'xl',
+    'xl2',
+    'xl3',
+    'xl4',
+    'xl5',
+    'xl6',
+    'xl7',
   ],
-  "layers": [
-    "primary-layer",
-    "success-layer",
-    "warning-layer",
-    "danger-layer",
-    "info-layer"
+  layers: [
+    'primary-layer',
+    'success-layer',
+    'warning-layer',
+    'danger-layer',
+    'info-layer',
   ],
-  "spin": [
-    "spin-anim"
-  ]
+  spin: ['spin-anim'],
 };

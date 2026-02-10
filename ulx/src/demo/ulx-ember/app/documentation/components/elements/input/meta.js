@@ -9,7 +9,7 @@ export default {
   subCategory: 'Form',
   menuItem: 'Input',
   routeBase: '/components/elements/input',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'Input',
@@ -40,7 +40,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { UlxInput } from 'uls-components'",
+  importMsg: "import { UlxInput } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

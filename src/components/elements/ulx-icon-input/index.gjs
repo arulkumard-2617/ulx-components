@@ -21,7 +21,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
 /**
  * Icon input component (single-line input wrapped with ULS icon-field).
  *
- * Expected ULS structure (from `uls-v2/.../elements/icon-field.less`):
+ * Expected ULS structure (from `ulx-v2/.../elements/icon-field.less`):
  * `<div class="ulx-iconfield icon-left s-size outlined"> <span class="ulx-input-icon">…</span> <input/> </div>`
  *
  * @class UlxIconInput
@@ -71,7 +71,8 @@ export default class UlxIconInput extends Component {
 	}
 
 	get resolvedIconName() {
-		return this.args.iconName ?? this.args.icon;
+		const { iconName, icon } = this.args;
+		return iconName ?? icon;
 	}
 
 	get hasIconName() {
@@ -110,18 +111,20 @@ export default class UlxIconInput extends Component {
 	}
 
 	get isInvalid() {
-		return isInvalidState(this.args.invalid, this.args.error);
+		const { invalid, error } = this.args;
+		return isInvalidState(invalid, error);
 	}
 
 	get inputClass() {
+		const { size, filled, disabled, readonly, value } = this.args;
 		return buildInputClass({
 			isTextarea: false,
-			size: this.args.size,
-			filled: this.args.filled,
+			size,
+			filled,
 			invalid: this.isInvalid,
-			disabled: this.args.disabled,
-			readonly: this.args.readonly,
-			value: this.args.value
+			disabled,
+			readonly,
+			value
 		});
 	}
 
@@ -135,13 +138,14 @@ export default class UlxIconInput extends Component {
 	}
 
 	get iconFieldClass() {
+		const { iconPosition, size, filled, disabled, iconFieldClass } = this.args;
 		return buildIconFieldClass({
-			iconPosition: this.args.iconPosition,
-			size: this.args.size,
-			filled: this.args.filled,
+			iconPosition,
+			size,
+			filled,
 			invalid: this.isInvalid,
-			disabled: this.args.disabled,
-			iconFieldClass: this.args.iconFieldClass
+			disabled,
+			iconFieldClass
 		});
 	}
 
@@ -150,10 +154,12 @@ export default class UlxIconInput extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return buildAriaDescribedBy(this.inputId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		const { helpText, error } = this.args;
+		return buildAriaDescribedBy(this.inputId, { helpText, error });
+	}
+
+	get ariaErrorMessage() {
+		return this.args.error ? `${this.inputId}-error` : undefined;
 	}
 
 	get keyFilterPattern() {
@@ -233,7 +239,7 @@ export default class UlxIconInput extends Component {
 					<span class="label-text">
 						{{yield to="label"}}
 						{{#if this.isRequired}}
-							<span class="fg-red">*</span>
+							<span class="fg-red" aria-hidden="true">*</span>
 						{{/if}}
 					</span>
 					{{#if this.hasLabelMeta}}
@@ -245,7 +251,7 @@ export default class UlxIconInput extends Component {
 					<span class="label-text">
 						{{@label}}
 						{{#if this.isRequired}}
-							<span class="fg-red">*</span>
+							<span class="fg-red" aria-hidden="true">*</span>
 						{{/if}}
 					</span>
 					{{#if this.hasLabelMeta}}
@@ -259,7 +265,7 @@ export default class UlxIconInput extends Component {
 				{{on "focusin" this.handleIconFieldFocusIn}}
 				{{on "focusout" this.handleIconFieldFocusOut}}
 			>
-				<span class={{this.inputIconClass}} aria-hidden="true">
+				<span class={{this.inputIconClass}} aria-hidden={{if @iconAriaLabel "false" "true"}}>
 					{{#if (has-block "icon")}}
 						{{yield to="icon"}}
 					{{else if this.hasIconName}}
@@ -289,6 +295,7 @@ export default class UlxIconInput extends Component {
 					aria-required={{this.isRequired}}
 					aria-invalid={{if this.isInvalid "true" "false"}}
 					aria-describedby={{this.ariaDescribedBy}}
+					aria-errormessage={{this.ariaErrorMessage}}
 					{{on "keydown" this.handleKeydown}}
 					{{on "input" this.handleInput}}
 					{{on "change" this.handleChange}}
@@ -303,7 +310,12 @@ export default class UlxIconInput extends Component {
 			{{/if}}
 
 			{{#if @error}}
-				<div id="{{this.inputId}}-error" class="error-message">{{@error}}</div>
+				<div
+					id="{{this.inputId}}-error"
+					class="error-message"
+					role="alert"
+					aria-atomic="true"
+				>{{@error}}</div>
 			{{/if}}
 		</div>
 	</template>

@@ -1,10 +1,10 @@
 // // checkbox overrides here
 // // ==========================================================================
-// // BACKWARD COMPATIBILITY: Old label.uls-checkbox structure
+// // BACKWARD COMPATIBILITY: Old label.ulx-checkbox structure
 // // ==========================================================================
-// // Support for old structure: <label class="uls-checkbox"><input type="checkbox" /></label>
+// // Support for old structure: <label class="ulx-checkbox"><input type="checkbox" /></label>
 
-// label.uls-checkbox {
+// label.ulx-checkbox {
 //     display: inline-flex;
 //     grid-gap: @8px;
 //     font-family: @font-family-base;
@@ -60,7 +60,7 @@
 // }
 
 // // Checkbox checked case
-// .uls-checkbox.checked input[type="checkbox"] {
+// .ulx-checkbox.checked input[type="checkbox"] {
 //     box-shadow: none;
 
 //     &::after {
@@ -80,24 +80,24 @@
 //     }
 // }
 
-// .uls-checkbox {
-//     min-width: var(--uls-checkbox-size, @16px);
-//     min-height: var(--uls-checkbox-size, @16px);
+// .ulx-checkbox {
+//     min-width: var(--ulx-checkbox-size, @16px);
+//     min-height: var(--ulx-checkbox-size, @16px);
 //     display: inline-flex;
-    
+
 //     > label {
 //         position: relative;
 //         padding-inline-start: @24px; // Use logical property instead of padding-left
 //         display: inline-flex;
 //         font-size: @font-size-default;
 //         line-height: @default-lineheight;
-        
+
 //         &:before {
 //             font-family: "bs-icons1";
 //             content: "";
 //             position: absolute;
-//             height: var(--uls-checkbox-size, @16px);
-//             width: var(--uls-checkbox-size, @16px);
+//             height: var(--ulx-checkbox-size, @16px);
+//             width: var(--ulx-checkbox-size, @16px);
 //             border-radius: @border-radius-md; // 3px equivalent (6px, closest match) or use @3px for exact
 //             box-shadow: 0 0 0 1px @black-bdr1 inset;
 //             left: 0;
@@ -133,18 +133,18 @@
 //             box-shadow: 0 0 0 1px @primary-color inset;
 //         }
 //     }
-    
+
 //     // Intermediate (indeterminate)
 //     &.intmid > label {
 //         &:after {
 //             content: "";
 //         }
 //     }
-    
+
 //     // Sizes
 //     &.s20 {
-//         --uls-checkbox-size: @20px;
-        
+//         --ulx-checkbox-size: @20px;
+
 //         > label:after {
 //             top: @10px;
 //             left: @5px;

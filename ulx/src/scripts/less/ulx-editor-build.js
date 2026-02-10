@@ -43,9 +43,9 @@ const cssVarPrefix =
 const nodeModulesPath = resolve(process.cwd(), 'node_modules');
 const stylesRoot = resolve(process.cwd(), stylesPath);
 const entryDir = dirname(entryFile);
-const ulsPackagePath = resolve(__dirname, '../../ULS_V2.0/node_modules/uls-v2');
+const ulsPackagePath = resolve(__dirname, '../../ULS_V2.0/node_modules/ulx-v2');
 const ulsStylesPath = resolve(ulsPackagePath, 'src/styles');
-const ulsOverridesPath = resolve(ulsStylesPath, 'uls-overrides/less/uls-primereact');
+const ulsOverridesPath = resolve(ulsStylesPath, 'ulx-overrides/less/ulx-primereact');
 const uiPackagePath = resolve(__dirname, '../../ULS_V2.0');
 
 async function compileCSS() {
@@ -76,8 +76,8 @@ async function compileCSS() {
 				resolve(uiPackagePath, 'node_modules')
 			],
 			modifyVars: {
-				'uls-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
-				'uls-css-var-prefix': cssVarPrefix // Inject CSS variable prefix from config
+				'ulx-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
+				'ulx-css-var-prefix': cssVarPrefix // Inject CSS variable prefix from config
 			}
 		});
 
@@ -102,8 +102,8 @@ async function compileCSS() {
 			],
 			compress: true,
 			modifyVars: {
-				'uls-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
-				'uls-css-var-prefix': cssVarPrefix // Inject CSS variable prefix from config
+				'ulx-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
+				'ulx-css-var-prefix': cssVarPrefix // Inject CSS variable prefix from config
 			}
 		});
 

@@ -1,24 +1,24 @@
 {{page-title "Hover Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Hover Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Hover Utilities"
   @description="Hover state utility classes for interactive elements."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactHoverUtilities}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-hover"
         @title="Hover Utilities"
         @subtitle="Hover state utility classes for interactive elements."
       >
-        <p class="fg-text-secondary">React HoverUtilities component could not be loaded.</p>
+        <p class="fg-text-secondary">React HoverUtilities component could not be
+          loaded.</p>
       </Common::DocMain::FoundationSection>
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

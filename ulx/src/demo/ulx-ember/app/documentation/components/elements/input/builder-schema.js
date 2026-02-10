@@ -88,7 +88,7 @@ const stateToSnippet = (state) => {
 
 export default {
   componentName: 'UlxInput',
-  importLine: "import { UlxInput } from 'uls-components';",
+  importLine: "import { UlxInput } from 'ulx-components';",
 
   props: [
     {

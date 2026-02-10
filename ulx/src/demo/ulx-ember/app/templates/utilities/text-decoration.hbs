@@ -1,24 +1,24 @@
 {{page-title "Text Decoration Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Text Decoration Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Text Decoration Utilities"
   @description="Text decoration utility classes."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactTextDecoration}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-text-decoration"
         @title="Text Decoration Utilities"
         @subtitle="Text decoration utility classes."
       >
-        <p class="fg-text-secondary">React TextDecoration component could not be loaded.</p>
+        <p class="fg-text-secondary">React TextDecoration component could not be
+          loaded.</p>
       </Common::DocMain::FoundationSection>
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

@@ -9,7 +9,7 @@ export default {
   subCategory: 'Overlay',
   menuItem: 'dialog',
   routeBase: '/components/modules/dialog',
-  icon: 'pi pi-compass',
+  icon: 'bs-icons1 sp-compass-icon',
 
   // Page metadata
   header: 'dialog',
@@ -20,22 +20,22 @@ export default {
     {
       name: 'Features',
       route: '/features',
-      id: 'features'
+      id: 'features',
     },
     {
       name: 'Theming',
       route: '/theming',
-      id: 'theming'
+      id: 'theming',
     },
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough'
-    }
+      id: 'passthrough',
+    },
   ],
 
   // Import message for the component
-  importMsg: "import { UlxModal } from 'uls-components'",
+  importMsg: "import { UlxModal } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

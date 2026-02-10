@@ -29,12 +29,93 @@ alwaysApply: true
 
 - All components live under `src/components` and are built from scratch in Ember.
 - No PrimeReact (or other React) code or imports in the codebase.
-- **Class prefix**: Use `NAMESPACE` from `src/utils/component-config.js` for the component class prefix. Prefer `getComponentClass(componentName)` from that file when building class names (e.g. `getComponentClass('button')` → `uls-button`). Do not hardcode prefix strings like `ulx-` or `uls-` in components.
+- **Class prefix**: Use `NAMESPACE` from `src/utils/component-config.js` for the component class prefix. Prefer `getComponentClass(componentName)` from that file when building class names (e.g. `getComponentClass('button')` → `ulx-button`). Do not hardcode prefix strings like `ulx-` or `ulx-` in components.
 - **Avoid Ember 6.8 deprecations**: Do not use deprecated APIs. Prefer: Glimmer Components (`@glimmer/component`) and `this.args`; `@tracked` for state; `@action` or `fn` for callbacks; `{{on}}` from `@ember/modifier` for DOM events. Avoid: `Ember.Component`, `Ember.get` / `Ember.set`, `computed()`, `observer()`, `@ember/object` get/set, `sendAction`, classic lifecycle hooks (`didInsertElement` → use modifiers or `{{did-insert}}`).
 - **Component structure**: Use class-based Glimmer components with an embedded template (`.gjs`). Put elements in `src/components/elements/`, collections in `src/components/collections/`, modules in `src/components/modules/`.
 - **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
 - **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
 - **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.
+- **Avoid** Don't add any comments related to primereact
+- **Must** In the demo page, for the severity case use instead that as Variant not severity
+- Avoid writing new size classes
+- **Must** Always use @action for the function used in the template
+
+## Code Style Patterns
+
+All components **MUST** follow these code style patterns for consistency and readability:
+
+### Argument Destructuring
+
+- **Destructure `this.args` with defaults** in getters for better readability and maintainability.
+- Use default values directly in destructuring assignments to eliminate conditional checks.
+- Destructure within getters to maintain Glimmer reactivity (do not override `this.args`).
+
+```javascript
+// ✅ CORRECT: Destructure with defaults in getter
+get rootClasses() {
+  const {
+    variant = "primary",
+    size = "s-size",
+    disabled = false,
+    customClass
+  } = this.args;
+
+  // Use destructured variables...
+}
+
+// ❌ WRONG: Accessing this.args directly throughout
+get rootClasses() {
+  if (this.args.variant) {
+    // ...
+  }
+}
+```
+
+### Conditional Logic
+
+- **Use ES6+ syntax** for conditional operations. Prefer logical AND (`&&`) for conditional pushes/assignments.
+- Use nullish coalescing (`??`) for fallback values when appropriate.
+
+```javascript
+// ✅ CORRECT: Modern ES6+ syntax
+dot && parts.push('dot');
+disabled && parts.push('disabled');
+customClass && parts.push(customClass);
+const value = this.args.value ?? defaultValue;
+
+// ❌ WRONG: Verbose if statements
+if (dot) {
+	parts.push('dot');
+}
+if (disabled) {
+	parts.push('disabled');
+}
+```
+
+### Class Building Pattern
+
+- When building class strings, destructure args with defaults first, then build the class array.
+- Use logical AND for conditional class additions.
+- Filter and join at the end for clean, readable code.
+
+```javascript
+get rootClasses() {
+  const {
+    variant = "primary",
+    size = "s-size",
+    disabled = false,
+    customClass
+  } = this.args;
+
+  const parts = [this.baseClass];
+  parts.push(variant);
+  parts.push(size);
+  disabled && parts.push("disabled");
+  customClass && parts.push(customClass);
+
+  return [...new Set(parts.filter(Boolean))].join(" ");
+}
+```
 
 ## Component Design Principles
 
@@ -53,6 +134,7 @@ Best components are:
 - Constructors
 - Observers
 - Mixins
+- Don't create any .md files when component is created.
 
 **If you need effects → use resources or modifiers, not components.**
 
@@ -71,6 +153,7 @@ All components **MUST** meet WCAG requirements. Apply these rules so every compo
 
 Icon components (e.g. UlxIcon) **MUST** follow:
 
+- **iconname** Must use the icon from this https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css cdn.If the icon is not present just let it empty.
 - **`aria-hidden="true"`** when the icon is decorative (default). Ensures screen readers ignore it when it doesn’t add information.
 - **`aria-label`** when the icon is meaningful. Callers pass it via `...attributes` (e.g. `<UlxIcon aria-label="Close" />`). Do not add a default `aria-label`; only use it when the caller provides one.
 - **Suggestions**:
