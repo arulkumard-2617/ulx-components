@@ -4,7 +4,7 @@
 // // ==========================================================================
 // // Base popup and tooltip components with positioning and arrow support
 
-// .uls-popup {
+// .ulx-popup {
 //     inset: unset;
 //     font-size: @font-size-default; // default is 14px
 //     line-height: @default-lineheight;
@@ -165,7 +165,7 @@
 // // POPUP COMPONENT SPECIFIC STYLES
 // // ==========================================================================
 
-// .uls-popup {
+// .ulx-popup {
 //     max-width: 500px; // Fixed max-width - consider making this configurable
 
 //     .content {
@@ -209,8 +209,8 @@
 // }
 
 // // Tooltip nested in popup
-// .uls-popup {
-//     .uls-tooltip {
+// .ulx-popup {
+//     .ulx-tooltip {
 //         >.content>.body-content {
 //             height: auto;
 //             padding: 0;
@@ -223,7 +223,7 @@
 // // ==========================================================================
 // // Context menu component with list items
 
-// .uls-quick-menu {
+// .ulx-quick-menu {
 //     min-width: 120px; // If @120px doesn't exist, use 120px directly
 
 //     >.content {
@@ -237,7 +237,7 @@
 //                 margin: 0;
 //                 list-style: none;
 
-//                 li:not(.uls-divider) {
+//                 li:not(.ulx-divider) {
 //                     cursor: var(--zdr-cursor-pointer, pointer);
 //                     padding: @8px @12px;
 //                     font-size: @font-size-small; // small is 13px (or use @font-size13)
@@ -298,7 +298,7 @@
 // // ==========================================================================
 // // Options list component for popups
 
-// .uls-popup .uls-popup-options {
+// .ulx-popup .ulx-popup-options {
 //     background: @default-background;
 //     border: @1px solid @default-border-color;
 //     border-radius: @border-radius-md;
@@ -343,14 +343,14 @@
 // // ==========================================================================
 // // Support for browsers that don't support :popover-open pseudo-class
 
-// .uls-popup {
+// .ulx-popup {
 //     &.\:popover-open {
 //         opacity: 1;
 //         visibility: visible;
 //     }
 // }
 
-// .uls-slide-pane,
+// .ulx-slide-pane,
 // .ui.modal {
 //     .\:popover-open {
 //         position: absolute;

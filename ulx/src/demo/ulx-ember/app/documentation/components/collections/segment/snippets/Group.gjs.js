@@ -1,0 +1,38 @@
+export default `
+import { UlxSegmentsGroup, UlxSegment } from 'ulx-components';
+
+<template>
+  <div class="group-demo">
+    <UlxSegmentsGroup @customClass="mgb12">
+      <UlxSegment @variant="green-invert">
+        <p>First segment in the group</p>
+      </UlxSegment>
+      <UlxSegment>
+        <p>It is a long established fact that a reader will be distracted by the
+          readable content of a page when looking at its layout. The point of
+          using Lorem Ipsum is that it has a more-or-less normal distribution of
+          letters, as opposed to using 'Content here, content here', making it
+          look like readable English. Many desktop publishing packages and web
+          page editors now use Lorem Ipsum as their default model text, and a
+          search for 'lorem ipsum' will uncover many web sites still in their
+          infancy. Various versions have evolved over the years, sometimes by
+          accident, sometimes on purpose (injected humour and the like).
+        </p>
+      </UlxSegment>
+    </UlxSegmentsGroup>
+
+    <UlxSegmentsGroup @horizontal={{true}}>
+      <UlxSegment>
+        <p>Left segment</p>
+      </UlxSegment>
+      <UlxSegment>
+        <p>Middle segment</p>
+      </UlxSegment>
+      <UlxSegment>
+        <p>Right segment</p>
+      </UlxSegment>
+    </UlxSegmentsGroup>
+  </div>
+</template>
+
+`;

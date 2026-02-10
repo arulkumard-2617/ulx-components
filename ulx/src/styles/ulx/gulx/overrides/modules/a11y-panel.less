@@ -18,7 +18,7 @@
 // // reading position. Useful for users with reading difficulties or dyslexia.
 // // The line includes a centered arrow indicator pointing downward.
 // // --------------------------------------------------------------------------
-// .uls-reading-line {
+// .ulx-reading-line {
 // 	position: absolute;
 // 	bottom: @200px;
 // 	left: 50%;
@@ -71,11 +71,11 @@
 // // - --ba-sepia: Sepia tone amount (default: 0%)
 // // Includes vendor prefixes for cross-browser compatibility.
 // // --------------------------------------------------------------------------
-// html.uls-acc-feature,
-// html.uls-acc-feature dialog .content,
-// html.uls-acc-feature dialog .header,
-// html.uls-acc-feature dialog footer,
-// html.uls-acc-feature .uls-hang .uls-notification {
+// html.ulx-acc-feature,
+// html.ulx-acc-feature dialog .content,
+// html.ulx-acc-feature dialog .header,
+// html.ulx-acc-feature dialog footer,
+// html.ulx-acc-feature .ulx-hang .ulx-notification {
 // 	-webkit-filter: saturate(var(--ba-saturate, 100%)) contrast(var(--ba-contrast, 100%)) grayscale(var(--ba-grayscale, 0%)) sepia(var(--ba-sepia, 0%));
 // 	-moz-filter: saturate(var(--ba-saturate, 100%)) contrast(var(--ba-contrast, 100%)) grayscale(var(--ba-grayscale, 0%)) sepia(var(--ba-sepia, 0%));
 // 	-ms-filter: saturate(var(--ba-saturate, 100%)) contrast(var(--ba-contrast, 100%)) grayscale(var(--ba-grayscale, 0%)) sepia(var(--ba-sepia, 0%));
@@ -94,7 +94,7 @@
 // // This prevents layout issues when users zoom in for better readability.
 // // --------------------------------------------------------------------------
 // [class*="screen-zooming-size1"] {
-// 	.uls-side-pane {
+// 	.ulx-side-pane {
 // 		height: 100%;
 // 	}
 // }
@@ -105,8 +105,8 @@
 // // Sets a fixed width for the accessibility panel to ensure consistent
 // // layout and adequate space for accessibility controls.
 // // --------------------------------------------------------------------------
-// .uls-side-pane.a11y-pane,
-// .uls-side-pane.a11y-pane-1 {
+// .ulx-side-pane.a11y-pane,
+// .ulx-side-pane.a11y-pane-1 {
 // 	--side-pane-width: 460px;
 // }
 
@@ -118,7 +118,7 @@
 // // element type (text inputs, buttons, links, etc.).
 // // Cursor definitions are provided via CSS custom properties (see bottom of file).
 // // --------------------------------------------------------------------------
-// .uls-big-cursor {
+// .ulx-big-cursor {
 // 	cursor: var(--zdr-cursor-default) !important;
 
 // 	label {
@@ -141,7 +141,7 @@
 // 	button,
 // 	a,
 // 	.ui.icon.input.input-group.datetimepicker .datepickerbutton.calendar-icon,
-// 	.uls-input.time-picker .input-group-addon,
+// 	.ulx-input.time-picker .input-group-addon,
 // 	.ui.dropdown.selection:not(.button) .dropdown.icon,
 // 	.ui.modal>.header .icon.cancel {
 // 		cursor: var(--zdr-cursor-pointer) !important;
@@ -154,11 +154,11 @@
 // // Increases letter spacing to improve readability for users with dyslexia
 // // or reading difficulties. Applied as utility classes.
 // // --------------------------------------------------------------------------
-// .uls-text-space-medium {
+// .ulx-text-space-medium {
 // 	letter-spacing: .5px !important;
 // }
 
-// .uls-text-space-large {
+// .ulx-text-space-large {
 // 	letter-spacing: @1px !important;
 // }
 
@@ -169,13 +169,13 @@
 // // accessibility. Also enforces minimum touch target size (44px) per WCAG
 // // guidelines for users with motor impairments.
 // // --------------------------------------------------------------------------
-// .uls-toggle-status {
+// .ulx-toggle-status {
 // 	.ui.checkbox.toggle {
 // 		.on-lbl, .off-lbl {
 // 			display: inline-block !important;
 // 		}
 // 	}
-// 	.uls-toggle {
+// 	.ulx-toggle {
 // 		.on-lbl, .off-lbl {
 // 			display: inline-block !important;
 // 		}
@@ -200,7 +200,7 @@
 // // visible, creating a "reading window" effect. Useful for users with
 // // attention disorders or reading difficulties.
 // // --------------------------------------------------------------------------
-// .uls-reading-guide {
+// .ulx-reading-guide {
 // 	display: none;
 // 	z-index: 2002;
 // 	position: absolute;
@@ -230,12 +230,12 @@
 // // Forces all links to be underlined for better visibility. Helps users
 // // with color blindness or low vision identify clickable elements more easily.
 // // --------------------------------------------------------------------------
-// .uls-link-underline {
+// .ulx-link-underline {
 
 // 	[data-a11y~="link"],
-// 	.uls-button-link,
+// 	.ulx-button-link,
 // 	.page-left-menu .menu-items .menu-item,
-// 	.uls-main-menu .menu-link,
+// 	.ulx-main-menu .menu-link,
 // 	.bs-button.link {
 // 		text-decoration: underline !important;
 // 	}
@@ -248,9 +248,9 @@
 // // Used for important alerts, warnings, or essential content that users
 // // should not miss.
 // // --------------------------------------------------------------------------
-// .uls-critical-info {
+// .ulx-critical-info {
 // 	[data-a11y~="critical"] {
-// 		//color: var(--guls-primary-text-color);
+// 		//color: var(--gulx-primary-text-color);
 // 		outline: @1px solid @red-bg;
 // 	}
 // }
@@ -262,11 +262,11 @@
 // // navigation visibility. Essential for users who navigate via keyboard
 // // or assistive technologies.
 // // --------------------------------------------------------------------------
-// .uls-emphasize-focus {
+// .ulx-emphasize-focus {
 
 // 	[data-a11y~="focus"],
-// 	.uls-button,
-// 	.uls-button-link,
+// 	.ulx-button,
+// 	.ulx-button-link,
 // 	[tabindex],
 // 	.bs-button,
 // 	[role~="button"] {
@@ -281,12 +281,12 @@
 // // Styles for the accessibility panel container and its accordion menu.
 // // Provides clean, accessible navigation for accessibility settings.
 // // --------------------------------------------------------------------------
-// .uls-side-pane.a11y-pane {
+// .ulx-side-pane.a11y-pane {
 // 	>.content {
 // 		padding: 0;
 // 	}
 
-// 	.uls-accordion {
+// 	.ulx-accordion {
 // 		.accordion-item:first-child {
 // 			border-top: 0;
 // 		}
@@ -323,7 +323,7 @@
 // // to tab through repetitive navigation elements.
 // // Position is typically controlled via JavaScript for dynamic placement.
 // // --------------------------------------------------------------------------
-// .uls-skip-link-panel {
+// .ulx-skip-link-panel {
 // 	width: @300px;
 // 	background-color: @default-background;
 // 	border: 1px solid @default-border-color;
@@ -354,7 +354,7 @@
 // 	li {
 // 		list-style: none;
 
-// 		.uls-button-link {
+// 		.ulx-button-link {
 // 			padding: @8px @16px;
 // 			font-size: @font-size-h7;
 // 			font-family: @medium-font;
@@ -386,9 +386,9 @@
 // // navigation is used (not mouse clicks), improving UX while maintaining
 // // accessibility compliance (WCAG 2.4.7).
 // // --------------------------------------------------------------------------
-// .uls-button,
-// .uls-button-link,
-// .uls-button-icon,
+// .ulx-button,
+// .ulx-button-link,
+// .ulx-button-icon,
 // [tabindex="0"] {
 // 	&:focus-visible {
 // 		outline: @2px solid @focus-default-color;
@@ -396,7 +396,7 @@
 // }
 
 // // Toggle switches also get focus indicators on their visual span element
-// .uls-toggle .toggle [tabindex="0"]:not(main):not(nav):focus-visible + span {
+// .ulx-toggle .toggle [tabindex="0"]:not(main):not(nav):focus-visible + span {
 //     outline: @2px solid @focus-default-color;
 // }
 
@@ -406,12 +406,12 @@
 // // Container for skip navigation panel. Positioned fixed in top-left corner.
 // // Removes popup arrow indicators (::before and ::after) for cleaner appearance.
 // // --------------------------------------------------------------------------
-// .uls-skip-panel {
+// .ulx-skip-panel {
 // 	position: fixed;
 // 	left: @12px;
 // 	top: @12px;
 
-// 	.uls-popup {
+// 	.ulx-popup {
 
 // 		&:before,
 // 		&:after {
@@ -427,7 +427,7 @@
 // // Provides size variations for different contexts (notifications, icons, etc.).
 // // Uses 'all: unset' to reset default SVG styling before applying custom styles.
 // // --------------------------------------------------------------------------
-// .uls-multi-clr-svg {
+// .ulx-multi-clr-svg {
 // 	svg {
 // 		all: unset;
 // 		height: 0;
@@ -452,7 +452,7 @@
 // // Global SVG size utilities
 // svg {
 // 	&.s32 {
-// 		height: @32px;			
+// 		height: @32px;
 // 		width: @32px;
 // 	}
 // 	&.s20 {
@@ -488,7 +488,7 @@
 // // Format: url('data:image/svg+xml;base64,...') [hotspot-x] [hotspot-y], [fallback]
 // // The numbers after the URL specify the cursor hotspot (click point).
 // // --------------------------------------------------------------------------
-// .uls-big-cursor {
+// .ulx-big-cursor {
 // 	--zdr-cursor-default: url('data:image/svg+xml;base64,PCEtLSA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiAtLT4KICA8c3ZnIHdpZHRoPSIzMCIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDI1IDM3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxnIGZpbHRlcj0idXJsKCNmaWx0ZXIwX2RfMjY2XzM4NDUpIj4KICA8cGF0aCBkPSJNMTAuNDk5IDIxLjEzMTZMNC44MjAzMSAyMy4wNTA5VjAuMzM2MjQzTDIwLjYxMTEgMTcuNzIxMkwxNS4wMTE4IDE5LjYwODhMMTcuNTg5NCAyNi44NDJMMTMuMTA4MyAyOC40NDRMMTAuNTA2OSAyMS4xMzE2SDEwLjQ5OVoiIGNsYXNzPSJjbHMtMSIvPgogIDxwYXRoIGQ9Ik0xOC4wMDkgMTYuOTIwNUw2LjQwNTc2IDQuMTUxNDdWMjAuODM4NUwxMS40NjU4IDE5LjEyNTRMMTQuMDU5MyAyNi40MTQxTDE1LjU1MDMgMjUuODgyN0wxMi45NjQ4IDE4LjYxNzhMMTguMDAxIDE2LjkyMDVIMTguMDA5WiIgY2xhc3M9ImNscy0yIi8+CiAgPC9nPgogIDxkZWZzPgogIDxzdHlsZT4KICAuY2xzLTEgewogICAgZmlsbDogIzAwMDsKICB9CiAgLmNscy0yIHsKICAgIGZpbGw6ICNmZmY7CiAgfQogIDwvc3R5bGU+CiAgPGZpbHRlciBpZD0iZmlsdGVyMF9kXzI2Nl8zODQ1IiB4PSIwLjgyMDMxMiIgeT0iMC4zMzYyNDMiIHdpZHRoPSIyMy43OTEiIGhlaWdodD0iMzYuMTA3OCIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM9InNSR0IiPgogIDxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+CiAgPGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiIHJlc3VsdD0iaGFyZEFscGhhIi8+CiAgPGZlT2Zmc2V0IGR5PSI0Ii8+CiAgPGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMiIvPgogIDxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPgogIDxmZUNvbG9yTWF0cml4IHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwLjI1IDAiLz4KICA8ZmVCbGVuZCBtb2RlPSJub3JtYWwiIGluMj0iQmFja2dyb3VuZEltYWdlRml4IiByZXN1bHQ9ImVmZmVjdDFfZHJvcFNoYWRvd18yNjZfMzg0NSIvPgogIDxmZUJsZW5kIG1vZGU9Im5vcm1hbCIgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93XzI2Nl8zODQ1IiByZXN1bHQ9InNoYXBlIi8+CiAgPC9maWx0ZXI+CiAgPC9kZWZzPgogIDwvc3ZnPiA=') 5 2, default;
 // 	--zdr-cursor-pointer: url('data:image/svg+xml;base64,PCEtLSA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiAtLT4KCiAgPHN2ZyB3aWR0aD0iMzYiIGhlaWdodD0iNDIiIHZpZXdCb3g9IjAgMCAzMSAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZyBmaWx0ZXI9InVybCgjZmlsdGVyMF9kXzM3M18zODk4KSI+CiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMi4wMDU4IDAuNDQ2MzJDMTAuNDYyOCAwLjQ0NjMyIDkuMjE3MjEgMS42OTE5MSA5LjIxNzIxIDMuMjM0OTZWOS44MzQ3M0M3LjA5Nzg0IDEwLjI2MjMgNS40OTkwMiAxMi4xNCA1LjQ5OTAyIDE0LjM4OTVWMTcuMjUyNUM1LjQ5OTAyIDE4LjYwOTYgNS45MjY2MSAxOS45Mjk2IDYuNzA3NDMgMjEuMDM1OEw5LjQ4Njc3IDI0LjkyMTNDMTAuMTgzOSAyNS44OTczIDExLjMwODcgMjYuNDczNiAxMi41MDc4IDI2LjQ3MzZIMTkuNjgzOUMyMS4wMjI0IDI2LjQ3MzYgMjIuMjQ5NCAyNS43NTc4IDIyLjkwOTQgMjQuNTk1OUwyNS4wOTM4IDIwLjc4NDhDMjUuNjUxNiAxOS43OTk1IDI1Ljk0OSAxOC42OTMzIDI1Ljk0OSAxNy41NTkzVjE0LjM4OTVDMjUuOTQ5IDExLjg5ODMgMjMuOTg3NyA5Ljg2MjYyIDIxLjUyNDQgOS43NTEwN0MyMS4wMTMxIDkuMTc0NzUgMjAuMjY5NSA4LjgxMjIzIDE5LjQ0MjIgOC44MTIyM0MxOC45NDk1IDguODEyMjMgMTguNDc1NSA4Ljk0MjM3IDE4LjA3NTggOS4xNzQ3NUMxNy41ODMxIDguNDAzMjMgMTYuNzA5MyA3Ljg4MjY4IDE1LjcyNCA3Ljg4MjY4QzE1LjM5ODcgNy44ODI2OCAxNS4wODI2IDcuOTM4NDYgMTQuNzk0NSA4LjA0MDcxVjMuMjM0OTZDMTQuNzk0NSAxLjY5MTkxIDEzLjU0ODkgMC40NDYzMiAxMi4wMDU4IDAuNDQ2MzJaIiBjbGFzcz0iY2xzLTEiLz4KICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTEyLjAwNTggMC40NDYzMkMxMC40NjI4IDAuNDQ2MzIgOS4yMTcyMSAxLjY5MTkxIDkuMjE3MjEgMy4yMzQ5NlY5LjgzNDczQzcuMDk3ODQgMTAuMjYyMyA1LjQ5OTAyIDEyLjE0IDUuNDk5MDIgMTQuMzg5NVYxNy4yNTI1QzUuNDk5MDIgMTguNjA5NiA1LjkyNjYxIDE5LjkyOTYgNi43MDc0MyAyMS4wMzU4TDkuNDg2NzcgMjQuOTIxM0MxMC4xODM5IDI1Ljg5NzMgMTEuMzA4NyAyNi40NzM2IDEyLjUwNzggMjYuNDczNkgxOS42ODM5QzIxLjAyMjQgMjYuNDczNiAyMi4yNDk0IDI1Ljc1NzggMjIuOTA5NCAyNC41OTU5TDI1LjA5MzggMjAuNzg0OEMyNS42NTE2IDE5Ljc5OTUgMjUuOTQ5IDE4LjY5MzMgMjUuOTQ5IDE3LjU1OTNWMTQuMzg5NUMyNS45NDkgMTEuODk4MyAyMy45ODc3IDkuODYyNjIgMjEuNTI0NCA5Ljc1MTA3QzIxLjAxMzEgOS4xNzQ3NSAyMC4yNjk1IDguODEyMjMgMTkuNDQyMiA4LjgxMjIzQzE4Ljk0OTUgOC44MTIyMyAxOC40NzU1IDguOTQyMzcgMTguMDc1OCA5LjE3NDc1QzE3LjU4MzEgOC40MDMyMyAxNi43MDkzIDcuODgyNjggMTUuNzI0IDcuODgyNjhDMTUuMzk4NyA3Ljg4MjY4IDE1LjA4MjYgNy45Mzg0NiAxNC43OTQ1IDguMDQwNzFWMy4yMzQ5NkMxNC43OTQ1IDEuNjkxOTEgMTMuNTQ4OSAwLjQ0NjMyIDEyLjAwNTggMC40NDYzMlpNMTQuNzk0NSAxMC42NzEzQzE0Ljc5NDUgMTEuMTgyNiAxNC4zNzYyIDExLjYwMDkgMTMuODY0OSAxMS42MDA5QzEzLjM1MzcgMTEuNjAwOSAxMi45MzU0IDExLjE4MjYgMTIuOTM1NCAxMC42NzEzVjMuMjM0OTZDMTIuOTM1NCAyLjcyMzcxIDEyLjUxNzEgMi4zMDU0MSAxMi4wMDU4IDIuMzA1NDFDMTEuNDk0NiAyLjMwNTQxIDExLjA3NjMgMi43MjM3MSAxMS4wNzYzIDMuMjM0OTZWMTUuMzE5QzExLjA3NjMgMTUuODMwMyAxMC42NTggMTYuMjQ4NiAxMC4xNDY4IDE2LjI0ODZDOS42MzU1IDE2LjI0ODYgOS4yMTcyMSAxNS44MzAzIDkuMjE3MjEgMTUuMzE5VjExLjc1ODlDOC4xMjk2NCAxMi4xNCA3LjM1ODExIDEzLjE3MTggNy4zNTgxMSAxNC4zODk1VjE3LjI1MjVDNy4zNTgxMSAxOC4yMTkyIDcuNjY0ODYgMTkuMTY3NCA4LjIyMjU5IDE5Ljk1NzVMMTEuMDAxOSAyMy44NDNDMTEuMzU1MiAyNC4zMzU2IDExLjkxMjkgMjQuNjIzOCAxMi41MTcxIDI0LjYyMzhIMTkuNjkzMkMyMC4zNjI1IDI0LjYyMzggMjAuOTc2IDI0LjI3MDYgMjEuMzEwNiAyMy42ODVMMjMuNDk1IDE5Ljg3MzhDMjMuODk0NyAxOS4xNjc0IDI0LjEwODUgMTguMzc3MyAyNC4xMDg1IDE3LjU2ODZWMTQuMzk4OEMyNC4xMDg1IDEzLjE4MTEgMjMuMzM3IDEyLjE0OTMgMjIuMjQ5NCAxMS43NjgyVjEyLjUzOTdDMjIuMjQ5NCAxMy4wNTEgMjEuODMxMSAxMy40NjkzIDIxLjMxOTkgMTMuNDY5M0MyMC44MDg2IDEzLjQ2OTMgMjAuMzkwMyAxMy4wNTEgMjAuMzkwMyAxMi41Mzk3VjExLjYxMDJDMjAuMzkwMyAxMS4wOTg5IDE5Ljk3MiAxMC42ODA2IDE5LjQ2MDggMTAuNjgwNkMxOC45NDk1IDEwLjY4MDYgMTguNTMxMyAxMS4wOTg5IDE4LjUzMTMgMTEuNjEwMkMxOC41MzEzIDEyLjEyMTQgMTguMTEzIDEyLjUzOTcgMTcuNjAxNyAxMi41Mzk3QzE3LjA5MDUgMTIuNTM5NyAxNi42NzIyIDEyLjEyMTQgMTYuNjcyMiAxMS42MTAyVjEwLjY4MDZDMTYuNjcyMiAxMC4xNjk0IDE2LjI1MzkgOS43NTEwNyAxNS43NDI2IDkuNzUxMDdDMTUuMjMxNCA5Ljc1MTA3IDE0LjgxMzEgMTAuMTY5NCAxNC44MTMxIDEwLjY4MDZMMTQuNzk0NSAxMC42NzEzWiIgY2xhc3M9ImNscy0yIi8+CiAgPC9nPgogIDxkZWZzPgogIDxzdHlsZT4KICAgIC5jbHMtMSB7CiAgICAgIGZpbGw6ICNmZmY7CiAgICB9CiAgICAuY2xzLTIgewogICAgICBmaWxsOiAjMDAwOwogICAgfQogICAgPC9zdHlsZT4KICA8ZmlsdGVyIGlkPSJmaWx0ZXIwX2RfMzczXzM4OTgiIHg9IjAuODEwOTE4IiB5PSIwLjQ0NjMyIiB3aWR0aD0iMjkuODI2NCIgaGVpZ2h0PSIzNS40MDM1IiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiI+CiAgPGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMCIgcmVzdWx0PSJCYWNrZ3JvdW5kSW1hZ2VGaXgiLz4KICA8ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlQWxwaGEiIHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAxMjcgMCIgcmVzdWx0PSJoYXJkQWxwaGEiLz4KICA8ZmVPZmZzZXQgZHk9IjQuNjg4MTEiLz4KICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIyLjM0NDA1Ii8+CiAgPGZlQ29tcG9zaXRlIGluMj0iaGFyZEFscGhhIiBvcGVyYXRvcj0ib3V0Ii8+CiAgPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAuMjUgMCIvPgogIDxmZUJsZW5kIG1vZGU9Im5vcm1hbCIgaW4yPSJCYWNrZ3JvdW5kSW1hZ2VGaXgiIHJlc3VsdD0iZWZmZWN0MV9kcm9wU2hhZG93XzM3M18zODk4Ii8+CiAgPGZlQmxlbmQgbW9kZT0ibm9ybWFsIiBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJlZmZlY3QxX2Ryb3BTaGFkb3dfMzczXzM4OTgiIHJlc3VsdD0ic2hhcGUiLz4KICA8L2ZpbHRlcj4KICA8L2RlZnM+CiAgPC9zdmc+') 14 2, pointer;
 // 	--zdr-cursor-not-allowed: url('data:image/svg+xml;base64,PCEtLSA8P3htbCB2ZXJzaW9uPSIxLjAiIGVuY29kaW5nPSJVVEYtOCI/PiAtLT4KIDxzdmcgd2lkdGg9IjMwIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgMjUgNDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiA8ZyBmaWx0ZXI9InVybCgjZmlsdGVyMF9kXzI2Nl8zODU5KSI+CiA8cGF0aCBkPSJNNC41MTE3MiAwLjgzOTUzOVYyMy41NTQyTDIwLjMwMjUgMTguMjI0NUw0LjUxMTcyIDAuODM5NTM5WiIgY2xhc3M9ImNscy0xIi8+CiA8cGF0aCBkPSJNMjEuMjcgMjEuMzI1N0MyMC4xOTkzIDIwLjI1NSAxOC43Nzk2IDE5LjY2ODEgMTcuMjY0OCAxOS42NjgxQzE1Ljc1IDE5LjY2ODEgMTQuMzMwMyAyMC4yNTUgMTMuMjU5NiAyMS4zMjU3QzExLjA1NDcgMjMuNTMwNiAxMS4wNTQ3IDI3LjEyMzQgMTMuMjU5NiAyOS4zMjgyQzE0LjMzMDMgMzAuMzk4OSAxNS43NSAzMC45ODU4IDE3LjI2NDggMzAuOTg1OEMxOC43Nzk2IDMwLjk4NTggMjAuMTk5MyAzMC4zOTg5IDIxLjI3IDI5LjMyODJDMjMuNDc0OCAyNy4xMjM0IDIzLjQ3NDggMjMuNTMwNiAyMS4yNyAyMS4zMTc4VjIxLjMyNTdaIiBjbGFzcz0iY2xzLTEiLz4KIDxwYXRoIGQ9Ik02LjA5NzY2IDQuNjU0NzlWMjEuMzQxOEwxNy43MDA4IDE3LjQyMzlMNi4wOTc2NiA0LjY1NDc5WiIgY2xhc3M9ImNscy0yIi8+CiA8cGF0aCBkPSJNMjAuNDI5NiAyMi4xNjY1QzE5LjU4MSAyMS4zMTc5IDE4LjQ2MjcgMjAuODU3OSAxNy4yNjUxIDIwLjg1NzlDMTYuMDY3NSAyMC44NTc5IDE0Ljk0OTMgMjEuMzI1OCAxNC4xMDA2IDIyLjE2NjVDMTIuMzU1OCAyMy45MTE0IDEyLjM1NTggMjYuNzUwNyAxNC4xMDA2IDI4LjQ5NTZDMTQuOTczIDI5LjM2OCAxNi4xMjMxIDI5LjgwNDIgMTcuMjY1MSAyOS44MDQyQzE4LjQwNzIgMjkuODA0MiAxOS41NTcyIDI5LjM2OCAyMC40Mjk2IDI4LjQ5NTZDMjIuMTc0NSAyNi43NTA3IDIyLjE3NDUgMjMuOTExNCAyMC40Mjk2IDIyLjE2NjVaTTE0Ljk0MTMgMjIuOTk5M0MxNS41NTk5IDIyLjM4MDcgMTYuMzkyNyAyMi4wMzk2IDE3LjI2NTEgMjIuMDM5NkMxNy45MzkzIDIyLjAzOTYgMTguNTg5NiAyMi4yNDU5IDE5LjEyODkgMjIuNjI2NUwxNC41NjA2IDI3LjE5NDlDMTMuNjcyMyAyNS45MSAxMy43OTkyIDI0LjE0MTQgMTQuOTQxMyAyMi45OTkzWk0xOS41ODg5IDI3LjY1NDlDMTguNDQ2OSAyOC43OTY5IDE2LjY3ODIgMjguOTE1OSAxNS4zOTM0IDI4LjAyNzZMMTkuOTYxNyAyMy40NTkzQzIwLjg0MjEgMjQuNzQ0MSAyMC43MjMxIDI2LjUxMjggMTkuNTg4OSAyNy42NTQ5WiIgY2xhc3M9ImNscy0yIi8+CiA8L2c+CiA8ZGVmcz4KIDxzdHlsZT4KIC5jbHMtMSB7CiAgIGZpbGw6ICMwMDA7CiB9CiAuY2xzLTIgewogICBmaWxsOiAjZmZmOwogfQogPC9zdHlsZT4KIDxmaWx0ZXIgaWQ9ImZpbHRlcjBfZF8yNjZfMzg1OSIgeD0iMC41MTE3MTkiIHk9IjAuODM5NTM5IiB3aWR0aD0iMjYuNDEyMSIgaGVpZ2h0PSIzOC4xNDYyIiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiI+CiA8ZmVGbG9vZCBmbG9vZC1vcGFjaXR5PSIwIiByZXN1bHQ9IkJhY2tncm91bmRJbWFnZUZpeCIvPgogPGZlQ29sb3JNYXRyaXggaW49IlNvdXJjZUFscGhhIiB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTI3IDAiIHJlc3VsdD0iaGFyZEFscGhhIi8+CiA8ZmVPZmZzZXQgZHk9IjQiLz4KIDxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjIiLz4KIDxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPgogPGZlQ29sb3JNYXRyaXggdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAuMjUgMCIvPgogPGZlQmxlbmQgbW9kZT0ibm9ybWFsIiBpbjI9IkJhY2tncm91bmRJbWFnZUZpeCIgcmVzdWx0PSJlZmZlY3QxX2Ryb3BTaGFkb3dfMjY2XzM4NTkiLz4KIDxmZUJsZW5kIG1vZGU9Im5vcm1hbCIgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZWZmZWN0MV9kcm9wU2hhZG93XzI2Nl8zODU5IiByZXN1bHQ9InNoYXBlIi8+CiA8L2ZpbHRlcj4KIDwvZGVmcz4KIDwvc3ZnPg==') 5 2, not-allowed;

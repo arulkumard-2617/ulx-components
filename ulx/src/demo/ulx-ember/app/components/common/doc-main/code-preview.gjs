@@ -20,13 +20,13 @@ export default class CodePreviewComponent extends Component {
   }
 
   extractTemplateOnly(source) {
-    if(!source) {
-      return ""
+    if (!source) {
+      return '';
     }
 
-    const match = source.match(/<template>[\s\S]*?<\/template>/m)
+    const match = source.match(/<template>[\s\S]*?<\/template>/m);
 
-    return match ? match[0].trim() : "";
+    return match ? match[0].trim() : '';
   }
 
   @action
@@ -36,7 +36,11 @@ export default class CodePreviewComponent extends Component {
 
   @action
   async copyCode() {
-    if (this.displayCode && typeof navigator !== 'undefined' && navigator.clipboard) {
+    if (
+      this.displayCode &&
+      typeof navigator !== 'undefined' &&
+      navigator.clipboard
+    ) {
       try {
         await navigator.clipboard.writeText(this.displayCode);
         this.copied = true;
@@ -49,15 +53,16 @@ export default class CodePreviewComponent extends Component {
     }
   }
 
-
   // Dedent helper: remove common indentation, preserve relative indents
   dedentBlock(text) {
-    if (!text) return "";
-    const normalized = text.replace(/\r\n?|\u2028|\u2029/g, "\n").replace(/^\uFEFF/, "");
+    if (!text) return '';
+    const normalized = text
+      .replace(/\r\n?|\u2028|\u2029/g, '\n')
+      .replace(/^\uFEFF/, '');
     // Remove leading newline if present
-    const withoutLeadingNewline = normalized.replace(/^\n/, "");
-    const lines = withoutLeadingNewline.split("\n");
-    
+    const withoutLeadingNewline = normalized.replace(/^\n/, '');
+    const lines = withoutLeadingNewline.split('\n');
+
     // Find minimum indentation (excluding empty lines)
     let minIndent = Infinity;
     for (const line of lines) {
@@ -66,32 +71,31 @@ export default class CodePreviewComponent extends Component {
       const count = m ? m[0].length : 0;
       if (count < minIndent) minIndent = count;
     }
-    
+
     // If no indentation found, return as is
     if (!isFinite(minIndent) || minIndent === 0) {
       return withoutLeadingNewline.trimEnd();
     }
-    
+
     // Remove common indentation from all lines
     let out = lines.map((l) => {
       if (l.trim().length === 0) return l; // Keep empty lines as is
       return l.slice(minIndent);
     });
-    
+
     // Remove leading whitespace from first line
     if (out.length > 0 && out[0]) {
-      out[0] = out[0].replace(/^\s+/, "");
+      out[0] = out[0].replace(/^\s+/, '');
     }
-    
-    return out.join("\n").trimEnd();
+
+    return out.join('\n').trimEnd();
   }
 
   get displayCode() {
-
     const source = this.args.source;
-    if (!source) return "";
+    if (!source) return '';
 
-    const code = String(source);    
+    const code = String(source);
 
     // collapsed → template only
     if (!this.expanded) {
@@ -107,7 +111,6 @@ export default class CodePreviewComponent extends Component {
 
     // expanded → full code
     return this.dedentBlock(code);
-  
   }
 
   get language() {
@@ -142,54 +145,92 @@ export default class CodePreviewComponent extends Component {
                   {{yield}}
                 </div>
                 {{#if this.displayCode}}
-                  <div class="code-block asdad">
+                  <div class="code-block">
                     {{#if this.expanded}}
                       <CodeBlock
                         @code={{this.displayCode}}
                         @language="javascript"
                       />
-                      {{else}}
-                        <CodeBlock
-                          @code={{this.displayCode}}
-                          @language={{this.effectiveLanguage}}
-                        />
+                    {{else}}
+                      <CodeBlock
+                        @code={{this.displayCode}}
+                        @language={{this.effectiveLanguage}}
+                      />
                     {{/if}}
                     <div class="code-actions fxb gp4 pdy1 pdx3">
-                      <button type="button"
-                              class="expand-btn {{if this.expanded "is-expanded"}}"
-                              {{on "click" this.toggleExpanded}}
-                              aria-label={{if this.expanded "Collapse code" "Expand code"}}
+                      <button
+                        type="button"
+                        class="expand-btn {{if this.expanded 'is-expanded'}}"
+                        {{on "click" this.toggleExpanded}}
+                        aria-label={{if
+                          this.expanded
+                          "Collapse code"
+                          "Expand code"
+                        }}
                       >
                         <svg
-  class="fit-width-icon"
-  width="18"
-  height="18"
-  viewBox="0 0 24 24"
-  fill="none"
-  aria-hidden="true"
->
-  <!-- left bar -->
-  <path class="bar left" d="M4 4v16" />
+                          class="fit-width-icon"
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <!-- left bar -->
+                          <path class="bar left" d="M4 4v16" />
 
-  <!-- right bar -->
-  <path class="bar right" d="M20 4v16" />
+                          <!-- right bar -->
+                          <path class="bar right" d="M20 4v16" />
 
-  <!-- left arrow -->
-  <path class="arrow left" d="M10 12H6m0 0l2-2m-2 2l2 2" />
+                          <!-- left arrow -->
+                          <path
+                            class="arrow left"
+                            d="M10 12H6m0 0l2-2m-2 2l2 2"
+                          />
 
-  <!-- right arrow -->
-  <path class="arrow right" d="M14 12h4m0 0l-2-2m2 2l-2 2" />
-</svg>
+                          <!-- right arrow -->
+                          <path
+                            class="arrow right"
+                            d="M14 12h4m0 0l-2-2m2 2l-2 2"
+                          />
+                        </svg>
                       </button>
-                      <button type="button" class="copy-btn {{if this.copied "is-copied"}}" aria-label="Copy code" {{on "click" this.copyCode}}>
-                        <svg class="copy-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
+                      <button
+                        type="button"
+                        class="copy-btn {{if this.copied 'is-copied'}}"
+                        aria-label="Copy code"
+                        {{on "click" this.copyCode}}
+                      >
+                        <svg
+                          class="copy-icon"
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                        >
                           <!-- Copy icon -->
                           <g class="icon-copy">
-                            <rect x="6" y="2" width="13" height="13" rx="2"
-                              stroke="currentColor" stroke-width="2"/>
-                            <rect x="1" y="8" width="13" height="13" rx="2"
-                              stroke="currentColor" stroke-width="2" fill="#272822"/>
-                            
+                            <rect
+                              x="6"
+                              y="2"
+                              width="13"
+                              height="13"
+                              rx="2"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            />
+                            <rect
+                              x="1"
+                              y="8"
+                              width="13"
+                              height="13"
+                              rx="2"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              fill="#272822"
+                            />
+
                           </g>
 
                           <!-- Check icon -->
@@ -214,19 +255,46 @@ export default class CodePreviewComponent extends Component {
           {{#if this.displayCode}}
             <div class="code-block">
               <CodeBlock
-                  @code={{this.displayCode}}
-                  @language={{this.effectiveLanguage}}
-                />
+                @code={{this.displayCode}}
+                @language={{this.effectiveLanguage}}
+              />
               <div class="code-actions fxb gp4 pdy1 pdx3">
-                <button type="button" class="copy-btn {{if this.copied "is-copied"}}" aria-label="Copy code" {{on "click" this.copyCode}}>
-                  <svg class="copy-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
+                <button
+                  type="button"
+                  class="copy-btn {{if this.copied 'is-copied'}}"
+                  aria-label="Copy code"
+                  {{on "click" this.copyCode}}
+                >
+                  <svg
+                    class="copy-icon"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
                     <!-- Copy icon -->
                     <g class="icon-copy">
-                      <rect x="6" y="2" width="13" height="13" rx="2"
-                        stroke="currentColor" stroke-width="2"/>
-                      <rect x="1" y="8" width="13" height="13" rx="2"
-                        stroke="currentColor" stroke-width="2" fill="#272822"/>
-                      
+                      <rect
+                        x="6"
+                        y="2"
+                        width="13"
+                        height="13"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <rect
+                        x="1"
+                        y="8"
+                        width="13"
+                        height="13"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        fill="#272822"
+                      />
+
                     </g>
 
                     <!-- Check icon -->
@@ -247,13 +315,17 @@ export default class CodePreviewComponent extends Component {
         {{/if}}
       {{else}}
         {{#if this.displayCode}}
-          <div class="code-block asdad">
+          <div class="code-block">
             <CodeBlock
               @code={{this.displayCode}}
               @language={{this.effectiveLanguage}}
             />
             <div class="code-actions fxb gp4 pdy1 pdx3">
-              <button type="button" aria-label="Copy code" {{on "click" this.copyCode}}>
+              <button
+                type="button"
+                aria-label="Copy code"
+                {{on "click" this.copyCode}}
+              >
                 {{#if this.copied}}
                   copied
                 {{else}}
@@ -267,4 +339,3 @@ export default class CodePreviewComponent extends Component {
     </div>
   </template>
 }
-

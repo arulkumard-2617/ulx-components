@@ -9,27 +9,27 @@ import TextAlignment from './TextAlignment';
 import TextTransforms from './TextTransforms';
 
 export {
-  Overview,
-  FontSizes,
-  FontWeights,
-  Headings,
-  LineHeights,
-  FontFamilies,
-  TextAlignment,
-  TextTransforms
+	Overview,
+	FontSizes,
+	FontWeights,
+	Headings,
+	LineHeights,
+	FontFamilies,
+	TextAlignment,
+	TextTransforms
 };
 
 export default function Typography() {
-  return (
-    <div className="uls-foundation-page">
-      <FontSizes />
-      <FontWeights />
-      <LineHeights />
-      <FontFamilies />
-      <TextAlignment />
-      <TextTransforms />
-      <Headings />
-      <Overview />
-    </div>
-  );
+	return (
+		<div className="ulx-foundation-page">
+			<FontSizes />
+			<FontWeights />
+			<LineHeights />
+			<FontFamilies />
+			<TextAlignment />
+			<TextTransforms />
+			<Headings />
+			<Overview />
+		</div>
+	);
 }

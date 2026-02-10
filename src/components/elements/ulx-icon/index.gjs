@@ -31,10 +31,11 @@ export default class UlxIcon extends Component {
 	get iconClasses() {
 		const { iconName, type, size, customClass } = this.args;
 		const parts = [this.baseClass];
-		if (iconName && type === "font") parts.push(iconName);
-		if (size) parts.push(size);
-		if (customClass) parts.push(customClass);
-		return parts.filter(Boolean).join(" ");
+		iconName && type === "font" && parts.push(iconName);
+		size && parts.push(size);
+		customClass && parts.push(customClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get useFontIcon() {

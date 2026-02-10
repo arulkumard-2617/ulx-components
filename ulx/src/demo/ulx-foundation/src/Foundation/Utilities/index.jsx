@@ -33,51 +33,75 @@ import PointerEventsUtilities from './PointerEvents';
 import WhiteSpaceUtilities from './WhiteSpace';
 
 export {
-  Overview, Display, Position, Size, NavLinks, UtilitiesNav, 
-  Space, Gap, GridUtilities, Flex, Cursor, TextAlign, TextTransform, 
-  TextDecoration, VerticalAlign, FloatUtilities, ClearUtilities, 
-  WordBreakUtilities, VisibilityUtilities, OverflowUtilities, 
-  ColorUtilities, HoverUtilities, LineClampUtilities, BorderUtilities, 
-  ShadowUtilities, ZIndexUtilities, OpacityUtilities, 
-  FilterUtilities, ObjectFitUtilities, UserSelectUtilities, 
-  PointerEventsUtilities, WhiteSpaceUtilities
+	Overview,
+	Display,
+	Position,
+	Size,
+	NavLinks,
+	UtilitiesNav,
+	Space,
+	Gap,
+	GridUtilities,
+	Flex,
+	Cursor,
+	TextAlign,
+	TextTransform,
+	TextDecoration,
+	VerticalAlign,
+	FloatUtilities,
+	ClearUtilities,
+	WordBreakUtilities,
+	VisibilityUtilities,
+	OverflowUtilities,
+	ColorUtilities,
+	HoverUtilities,
+	LineClampUtilities,
+	BorderUtilities,
+	ShadowUtilities,
+	ZIndexUtilities,
+	OpacityUtilities,
+	FilterUtilities,
+	ObjectFitUtilities,
+	UserSelectUtilities,
+	PointerEventsUtilities,
+	WhiteSpaceUtilities
 };
 
 export default function Utilities() {
-  return (
-    <div className="uls-foundation-page">
-      <UtilitiesNav />
-      <Space />
-      <Gap />
-      <GridUtilities />
-      <Flex />
-      <Cursor />
-      <Display />
-      <TextAlign />
-      <TextTransform />
-      <TextDecoration />
-      <VerticalAlign />
-      <Position />
-      <FloatUtilities />
-      <ClearUtilities />
-      <WordBreakUtilities />
-      <VisibilityUtilities />
-      <OverflowUtilities />
-      <ColorUtilities />
-      <HoverUtilities />
-      <LineClampUtilities />
-      <BorderUtilities />
-      <ShadowUtilities />
-      <ZIndexUtilities />
-      <OpacityUtilities />
-      <FilterUtilities />
-      <ObjectFitUtilities />
-      <UserSelectUtilities />
-      <PointerEventsUtilities />
-      <WhiteSpaceUtilities />
-      <Size />
-      <NavLinks />
-      <Overview />
-    </div>
-  );
+	return (
+		<div className="ulx-foundation-page">
+			<UtilitiesNav />
+			<Space />
+			<Gap />
+			<GridUtilities />
+			<Flex />
+			<Cursor />
+			<Display />
+			<TextAlign />
+			<TextTransform />
+			<TextDecoration />
+			<VerticalAlign />
+			<Position />
+			<FloatUtilities />
+			<ClearUtilities />
+			<WordBreakUtilities />
+			<VisibilityUtilities />
+			<OverflowUtilities />
+			<ColorUtilities />
+			<HoverUtilities />
+			<LineClampUtilities />
+			<BorderUtilities />
+			<ShadowUtilities />
+			<ZIndexUtilities />
+			<OpacityUtilities />
+			<FilterUtilities />
+			<ObjectFitUtilities />
+			<UserSelectUtilities />
+			<PointerEventsUtilities />
+			<WhiteSpaceUtilities />
+			<Size />
+			<NavLinks />
+			<Overview />
+		</div>
+	);
 }

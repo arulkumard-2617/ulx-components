@@ -1,24 +1,24 @@
 {{page-title "Line Clamp Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Line Clamp Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Line Clamp Utilities"
   @description="Line clamp utility classes for truncating text to specific line counts."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactLineClampUtilities}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-line-clamp"
         @title="Line Clamp Utilities"
         @subtitle="Line clamp utility classes for truncating text to specific line counts."
       >
-        <p class="fg-text-secondary">React LineClampUtilities component could not be loaded.</p>
+        <p class="fg-text-secondary">React LineClampUtilities component could
+          not be loaded.</p>
       </Common::DocMain::FoundationSection>
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

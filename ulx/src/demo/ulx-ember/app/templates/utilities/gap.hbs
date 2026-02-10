@@ -1,17 +1,17 @@
 {{page-title "Gap Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Gap Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Gap Utilities"
   @description="Gap utility classes for flexbox and grid layouts."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactGap}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-gap"
         @title="Gap Utilities"
         @subtitle="Gap utility classes for flexbox and grid layouts."
@@ -21,4 +21,3 @@
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

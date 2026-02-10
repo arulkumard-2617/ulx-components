@@ -4,7 +4,7 @@
 // // ==========================================================================
 // // Notification component with severity variants and positioning options
 
-// .uls-notification {
+// .ulx-notification {
 //     padding: @8px @12px;
 //     display: flex;
 //     gap: @8px;
@@ -16,7 +16,7 @@
 //     // Fixed positioning variant
 //     &.fixed {
 //         position: fixed;
-//         top: var(--uls-notify-top-position); // Keep CSS custom property for runtime positioning
+//         top: var(--ulx-notify-top-position); // Keep CSS custom property for runtime positioning
 //         z-index: @z-index; // Use ULS z-index variable
 //         margin: 0 auto;
 //         left: 0;
@@ -101,7 +101,7 @@
 //         border-color: @info-border-color;
 //         color: @text-color;
 
-//         .n-footer .uls-button-link,
+//         .n-footer .ulx-button-link,
 //         .n-icon,
 //         .n-link {
 //             color: @info-fg-color;
@@ -114,7 +114,7 @@
 //         border-color: @success-border-color;
 //         color: @text-color;
 
-//         .n-footer .uls-button-link,
+//         .n-footer .ulx-button-link,
 //         .n-icon,
 //         .n-link {
 //             color: @success-fg-color;
@@ -127,7 +127,7 @@
 //         border-color: @danger-border-color;
 //         color: @text-color;
 
-//         .n-footer .uls-button-link,
+//         .n-footer .ulx-button-link,
 //         .n-icon,
 //         .n-link {
 //             color: @danger-fg-color;
@@ -140,7 +140,7 @@
 //         border-color: @warning-color; // Use warning-color as border (warning-border-color may not exist)
 //         color: @text-color;
 
-//         .n-footer .uls-button-link,
+//         .n-footer .ulx-button-link,
 //         .n-icon,
 //         .n-link {
 //             color: @warning-fg-color;
@@ -153,9 +153,9 @@
 // // ==========================================================================
 // // Fixed-position notification container with animations
 
-// .uls-hang {
+// .ulx-hang {
 //     position: fixed;
-//     top: var(--uls-notify-top-position); // Keep CSS custom property for runtime positioning
+//     top: var(--ulx-notify-top-position); // Keep CSS custom property for runtime positioning
 //     z-index: @z-index; // Use ULS z-index variable
 //     margin: 0 auto;
 //     left: 0;
@@ -165,12 +165,12 @@
 //     padding: 0;
 //     border: none;
 
-//     .uls-notification {
+//     .ulx-notification {
 //         text-align: center;
 
 //         &.success {
 //             .n-text {
-//                 color: @green-fg; // Use green-fg instead of var(--guls-green-fg-color)
+//                 color: @green-fg; // Use green-fg instead of var(--gulx-green-fg-color)
 //             }
 //         }
 //     }
@@ -207,7 +207,7 @@
 // // ==========================================================================
 
 // [dir="rtl"] {
-//     .uls-notification {
+//     .ulx-notification {
 //         &.closable {
 //             .n-content {
 //                 padding-inline-end: 0; // Reset logical property
@@ -227,13 +227,13 @@
 // // ==========================================================================
 // // Notification badge for table filter buttons
 
-// .uls-table-filter-notify {
+// .ulx-table-filter-notify {
 //     position: relative;
 //     box-shadow: 0 0 0 @1px @primary-color inset !important;
 //     z-index: 5;
 //     background: @bg-primaryLayer2 !important;
 
-//     &.uls-button .filter-icon {
+//     &.ulx-button .filter-icon {
 //         color: @primary-text-color !important;
 //     }
 

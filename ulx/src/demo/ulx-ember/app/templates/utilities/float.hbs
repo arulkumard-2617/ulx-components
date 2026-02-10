@@ -1,24 +1,24 @@
 {{page-title "Float Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Float Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Float Utilities"
   @description="Float utility classes for controlling element float behavior."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactFloatUtilities}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-float"
         @title="Float Utilities"
         @subtitle="Float utility classes for controlling element float behavior."
       >
-        <p class="fg-text-secondary">React FloatUtilities component could not be loaded.</p>
+        <p class="fg-text-secondary">React FloatUtilities component could not be
+          loaded.</p>
       </Common::DocMain::FoundationSection>
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

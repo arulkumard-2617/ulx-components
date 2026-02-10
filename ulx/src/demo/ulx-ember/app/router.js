@@ -17,19 +17,26 @@ Router.map(function () {
   this.route('components', function () {
     this.route('collections', function () {
       this.route('test-comp');
+      this.route('tab-menu');
+      this.route('segment');
     });
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
       this.route('ulx-icon-input');
       this.route('input-group');
-      this.route('button', { path: '/button' });
-      this.route('tieredmenu', { path: '/tieredmenu' });
-      this.route('progressbar', { path: '/progressbar' });
-      this.route('progressspinner', { path: '/progressspinner' });
+      this.route('checkbox');
+      this.route('radio');
+      this.route('tag');
+      this.route('badge');
+      this.route('avatar');
+      this.route('button');
+      this.route('progressbar');
+      this.route('progressspinner');
     });
-    this.route('modules', { path: '/modules' }, function () {
-      this.route('toast', { path: '/toast' });
+    this.route('modules', function () {
+      this.route('toast');
+      this.route('tieredmenu');
     });
   });
 

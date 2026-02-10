@@ -19,20 +19,6 @@ export default class BasicTieredmenuDemo extends Component {
               {
                 label: 'From Template',
                 icon: 'bs-icons1 copy-icon',
-                items: [
-                  {
-                    label: 'React Template',
-                    icon: 'bs-icons1 custom-functions-icon',
-                  },
-                  {
-                    label: 'Ember Template',
-                    icon: 'bs-icons1 custom-functions-icon',
-                  },
-                  {
-                    label: 'Vue Template',
-                    icon: 'bs-icons1 custom-functions-icon',
-                  },
-                ],
               },
             ],
           },

@@ -6,6 +6,7 @@ import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
+import { htmlSafe } from '@ember/template';
 import { DocNavItems } from '../../../constants/docs';
 
 export default class DocSidebarComponent extends Component {
@@ -241,7 +242,7 @@ export default class DocSidebarComponent extends Component {
                       type="button"
                     >
                       <i
-                        class="menu-toggle-icon bs-icons1 down-arrow-icon transition
+                        class="menu-toggle-icon bs-icons1 down-arrow-icon s22
                           {{if (this.isExpanded item) 'rotate-180' ''}}"
                       ></i>
                     </button>
@@ -275,14 +276,21 @@ export default class DocSidebarComponent extends Component {
                   {{on "click" (fn this.toggleItem item.menuTitle)}}
                 >
                   <span class="s-nav-link-icon w32 h32 fxb fvc fhc bd rds2">
-                    <i class={{item.icon}}></i>
+                    {{#if (this.hasCustomIcon item.menuTitle)}}
+                      {{! template-lint-disable no-triple-curlies }}
+                      <span class="w24 h24">{{{this.getIconSvg
+                          item.menuTitle
+                        }}}</span>
+                    {{else}}
+                      <i class={{item.icon}}></i>
+                    {{/if}}
                   </span>
                   <span class="s-nav-link-text">
                     <span class="bold-font">{{item.menuTitle}}</span>
                   </span>
                   <span class="s-nav-link-icon mgl-auto">
                     <i
-                      class="menu-toggle-icon bs-icons1 down-arrow-icon transition
+                      class="menu-toggle-icon bs-icons1 down-arrow-icon s22
                         {{if (this.isExpanded item) 'rotate-180' ''}}"
                     ></i>
                   </span>

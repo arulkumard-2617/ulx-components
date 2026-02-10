@@ -6,11 +6,11 @@ import Palette from './Palette';
 export { Overview, Theming, Palette };
 
 export default function Colors() {
-  return (
-    <div className="uls-foundation-page">
-      <Palette />
-      <Overview />
-      <Theming />
-    </div>
-  );
+	return (
+		<div className="ulx-foundation-page">
+			<Palette />
+			<Overview />
+			<Theming />
+		</div>
+	);
 }

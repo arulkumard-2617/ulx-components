@@ -6,33 +6,36 @@ import { UlxIcon } from 'ulx-components';
     <UlxInput
       @inputGroup={{true}}
       @size="s-size"
+      placeholder="Price"
+      aria-label="Price"
       @fieldClass="col-12"
-      placeholder="Website"
-      aria-label="Website"
+    >
+      <:start>
+        <span class="ulx-inputgroup-addon">$</span>
+      </:start>
+      <:end>
+        <span class="ulx-inputgroup-addon">.00</span>
+      </:end>
+    </UlxInput>
+
+    <UlxInput
+      @inputGroup={{true}}
+      @size="s-size"
+      placeholder="Search"
+      aria-label="Search"
+      @fieldClass="col-12"
     >
       <:start>
         <span class="ulx-inputgroup-addon">
           <UlxIcon
             @componentClass="bs-icons1"
             @type="font"
-            @iconName="user-info-icon-01"
+            @iconName="ls-tick-icon"
             @size="s18"
-            @ariaLabel="tick icon"
-          />
-        </span>
-        <span class="ulx-inputgroup-addon">
-          <UlxIcon
-            @componentClass="bs-icons1"
-            @type="font"
-            @iconName="user-info-icon"
-            @size="s18"
-            @ariaLabel="tick icon"
+            @ariaLabel="search icon"
           />
         </span>
       </:start>
-      <:end>
-        <span class="ulx-inputgroup-addon">.com</span>
-      </:end>
     </UlxInput>
   </div>
 </template>

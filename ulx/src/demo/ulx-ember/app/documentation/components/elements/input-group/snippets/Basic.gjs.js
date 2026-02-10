@@ -27,7 +27,6 @@ import { UlxIcon } from 'ulx-components';
         <span class="ulx-inputgroup-addon">.com</span>
       </:end>
     </UlxInput>
-
   </div>
 </template>
 

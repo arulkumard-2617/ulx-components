@@ -10,10 +10,10 @@ export default class ColorPaletteComponent extends Component {
       {{#each @paletteGroups as |group|}}
         <div class="fxcol gp2">
           <h5 class="mgt0 mgb2 bold-font fg-primary">{{group.title}}</h5>
-          <div class="uls-grid col-4 gp5">
+          <div class="ulx-grid col-4 gp5">
             {{#each group.colors as |color|}}
               <article
-                class="uls-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center"
+                class="ulx-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center"
               >
                 <div
                   class="rds2 mgb2 bd mg-auto"

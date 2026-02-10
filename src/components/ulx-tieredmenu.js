@@ -1,1 +1,1 @@
-export { default } from './elements/ulx-tieredmenu/index.gjs';
+export { default } from './modules/ulx-tieredmenu/index.gjs';

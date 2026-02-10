@@ -1,17 +1,17 @@
 {{page-title "Size Utilities - ULS Ember Documentation"}}
 
-<Common::DocMain::FoundationLayout 
-  @title="Size Utilities" 
+<Common::DocMain::FoundationLayout
+  @title="Size Utilities"
   @description="Size utility classes for controlling element dimensions."
 >
-  <div class="uls-foundation-page">
+  <div class="ulx-foundation-page">
     {{#if @model.useReactComponents}}
       <UlxReactBridge
         @component={{@model.ReactSize}}
         @props={{@model.reactProps}}
       />
     {{else}}
-      <Common::DocMain::FoundationSection 
+      <Common::DocMain::FoundationSection
         @id="utilities-size"
         @title="Size Utilities"
         @subtitle="Size utility classes for controlling element dimensions."
@@ -21,4 +21,3 @@
     {{/if}}
   </div>
 </Common::DocMain::FoundationLayout>
-

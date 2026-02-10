@@ -155,14 +155,19 @@ export default class UlxInput extends Component {
 	}
 
 	get inputGroupWrapperClass() {
-		const { size, filled, disabled, inputGroupClass } = this.args;
+		const { inputGroupClass, size, filled, disabled, invalid } = this.args;
+
 		const base = buildInputGroupClass({
 			size,
 			filled,
 			invalid: this.isInvalid,
 			disabled
 		});
-		return [base, inputGroupClass].filter(Boolean).join(" ");
+
+		const parts = [base];
+		inputGroupClass && parts.push(inputGroupClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get inputType() {
@@ -172,8 +177,14 @@ export default class UlxInput extends Component {
 	}
 
 	get ariaDescribedBy() {
-		const { helpText, error } = this.args;
-		return buildAriaDescribedBy(this.inputId, { helpText, error });
+		return buildAriaDescribedBy(this.inputId, {
+			helpText: this.args.helpText,
+			error: this.args.error
+		});
+	}
+
+	get ariaErrorMessage() {
+		return this.args.error ? `${this.inputId}-error` : undefined;
 	}
 
 	get keyFilterPattern() {
@@ -257,6 +268,7 @@ export default class UlxInput extends Component {
 						aria-required={{this.isRequired}}
 						aria-invalid={{if this.isInvalid "true" "false"}}
 						aria-describedby={{this.ariaDescribedBy}}
+						aria-errormessage={{this.ariaErrorMessage}}
 						{{on "keydown" this.handleKeydown}}
 						{{on "input" this.handleInput}}
 						{{on "change" this.handleChange}}
@@ -268,7 +280,7 @@ export default class UlxInput extends Component {
 					<label for={{this.inputId}} class={{this.floatLabelLabelClass}}>
 						{{this.floatLabelText}}
 						{{#if this.isRequired}}
-							<span class="fg-red">*</span>
+							<span class="fg-red" aria-hidden="true">*</span>
 						{{/if}}
 					</label>
 				</span>
@@ -278,7 +290,7 @@ export default class UlxInput extends Component {
 						<span class="label-text">
 							{{yield to="label"}}
 							{{#if this.isRequired}}
-								<span class="fg-red">*</span>
+								<span class="fg-red" aria-hidden="true">*</span>
 							{{/if}}
 						</span>
 						{{#if this.hasLabelMeta}}
@@ -290,7 +302,7 @@ export default class UlxInput extends Component {
 						<span class="label-text">
 							{{@label}}
 							{{#if this.isRequired}}
-								<span class="fg-red">*</span>
+								<span class="fg-red" aria-hidden="true">*</span>
 							{{/if}}
 						</span>
 						{{#if this.hasLabelMeta}}
@@ -320,6 +332,7 @@ export default class UlxInput extends Component {
 							aria-required={{this.isRequired}}
 							aria-invalid={{if this.isInvalid "true" "false"}}
 							aria-describedby={{this.ariaDescribedBy}}
+							aria-errormessage={{this.ariaErrorMessage}}
 							{{on "keydown" this.handleKeydown}}
 							{{on "input" this.handleInput}}
 							{{on "change" this.handleChange}}
@@ -349,6 +362,7 @@ export default class UlxInput extends Component {
 						aria-required={{this.isRequired}}
 						aria-invalid={{if this.isInvalid "true" "false"}}
 						aria-describedby={{this.ariaDescribedBy}}
+						aria-errormessage={{this.ariaErrorMessage}}
 						{{on "keydown" this.handleKeydown}}
 						{{on "input" this.handleInput}}
 						{{on "change" this.handleChange}}
@@ -364,7 +378,12 @@ export default class UlxInput extends Component {
 			{{/if}}
 
 			{{#if @error}}
-				<div id="{{this.inputId}}-error" class="error-message">{{@error}}</div>
+				<div
+					id="{{this.inputId}}-error"
+					class="error-message"
+					role="alert"
+					aria-atomic="true"
+				>{{@error}}</div>
 			{{/if}}
 		</div>
 	</template>

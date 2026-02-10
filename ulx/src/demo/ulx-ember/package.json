@@ -11,7 +11,7 @@
     "test": "tests"
   },
   "scripts": {
-    "extract-tokens": "node scripts/extract-uls-builder-tokens.js ../../../../node_modules/uls-v2/src/styles/uls-styles/less/elements/icon.less",
+    "extract-tokens": "node scripts/extract-ulx-builder-tokens.js ../../../../node_modules/ulx-v2/src/styles/ulx-styles/less/elements/icon.less",
     "build": "ember build --environment=production",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",

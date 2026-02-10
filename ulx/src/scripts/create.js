@@ -60,7 +60,7 @@ if (command === 'demo-page') {
 	// Fall back to original create script
 	const originalScript = path.join(
 		__dirname,
-		'../node_modules/uls-v2/src/scripts/create-uls-app.js'
+		'../node_modules/ulx-v2/src/scripts/create-ulx-app.js'
 	);
 	const child = spawn('node', [originalScript, ...args], {
 		stdio: 'inherit',
