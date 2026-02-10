@@ -1,8 +1,6 @@
 import Component from "@glimmer/component";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
 
-const BAR_PREFIX = `${NAMESPACE}-progressbar`;
-
 /**
  * Progress bar element. Uses existing classes from uls-v2 progress-bar.less. Determinate shows a fill
  * from 0–100%; indeterminate shows an animated sliding bar.
@@ -93,9 +91,9 @@ export default class UlxProgressBar extends Component {
 			aria-valuemax={{if this.isIndeterminate undefined 100}}
 			...attributes
 		>
-			<div class="{{BAR_PREFIX}}-value" style={{this.valueStyle}} aria-hidden="true">
+			<div class="progressbar-value" style={{this.valueStyle}} aria-hidden="true">
 				{{#unless this.isIndeterminate}}
-					<div class="{{BAR_PREFIX}}-label" aria-hidden="true">
+					<div class="progressbar-label" aria-hidden="true">
 						{{#if (has-block "content")}}
 							{{yield this.valuePercent to="content"}}
 						{{else}}

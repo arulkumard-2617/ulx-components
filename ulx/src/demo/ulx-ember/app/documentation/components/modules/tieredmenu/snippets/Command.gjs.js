@@ -2,8 +2,9 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { UlxTieredmenu } from 'ulx-components';
 
-export default class BasicTestCompDemo extends Component {
+export default class CommandDemoComponent extends Component {
   @tracked activeItem = null;
 
   constructor() {
@@ -26,6 +27,13 @@ export default class BasicTestCompDemo extends Component {
   handleItemClick(item) {
     this.activeItem = item;
   }
-}
 
+  <template>
+    <UlxTieredmenu
+      @items={{this.items}}
+      @activeItem={{this.activeItem}}
+      @onItemClick={{this.handleItemClick}}
+    />
+  </template>
+}
 `;

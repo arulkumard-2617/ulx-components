@@ -33,7 +33,7 @@ export default class PositionsToastDemo extends Component {
     const messages = this.messagesByPosition[pos] ?? [];
     const newMessage = {
       id: `msg-${Date.now()}-${pos}`,
-      severity: 'info',
+      variant: 'info',
       summary: 'Position',
       detail: `Toast at ${pos}.`,
     };
