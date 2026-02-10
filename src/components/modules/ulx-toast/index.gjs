@@ -37,7 +37,7 @@ const DEFAULT_VARIANT_ICONS = {
  * ## Variant (per message)
  * - info (default), success, warn, error, secondary, contrast
  *
- * ## Appearance variant (per message)
+ * ## Type (per message)
  * - elevated, flat, outlined
  *
  * ## Stacked variant
@@ -57,7 +57,7 @@ const DEFAULT_VARIANT_ICONS = {
  * - Close button has aria-label and keyboard support.
  *
  * @class UlxToast
- * @param {Array<{ id: string, variant?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, autoClose?: boolean, life?: number, showIcon?: boolean, appearance?: string }>} [messages=[]] - List of message objects to display
+ * @param {Array<{ id: string, variant?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, autoClose?: boolean, life?: number, showIcon?: boolean, type?: string }>} [messages=[]] - List of message objects to display
  * @param {'top-left'|'top-center'|'top-right'|'center'|'bottom-left'|'bottom-center'|'bottom-right'} [position='top-right'] - Position of the toast container
  * @param {function} [onClose] - Callback when a message is closed; receives the message object
  * @param {boolean} [autoClose=true] - When false, no message auto-closes unless the message has autoClose:true or life set
@@ -203,7 +203,7 @@ export default class UlxToast extends Component {
 		const parts = ["toast-message"];
 		const variant = message.variant || "info";
 		parts.push(variant === "warning" ? "warn" : variant);
-		if (message.appearance) parts.push(message.appearance);
+		if (message.type) parts.push(message.type);
 		if (this.args.closable !== false && message.closable !== false) parts.push("closable");
 		if (message.showIcon === false) parts.push("without-icon");
 		if (message.sticky) parts.push("toast-sticky");
@@ -348,9 +348,9 @@ export default class UlxToast extends Component {
  *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}} @variantIcons={{hash error="custom-error-icon" success="custom-success-icon"}} />
  *
  * 7. Message object shape (per message)
- *    { id, variant?, summary?, detail?, closable?, sticky?, autoClose?, life?, showIcon?, appearance? }
+ *    { id, variant?, summary?, detail?, closable?, sticky?, autoClose?, life?, showIcon?, type? }
  *    variant: "info" | "success" | "warn" | "warning" | "error" | "secondary" | "contrast"
- *    variant: "elevated" | "flat" | "outlined"
+ *    type: "elevated" | "flat" | "outlined"
  *
  * 8. Custom content block (replaces default summary/detail)
  *    <UlxToast @messages={{this.messages}} @onClose={{this.handleClose}}>

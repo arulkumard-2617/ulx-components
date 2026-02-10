@@ -18,7 +18,8 @@ Router.map(function () {
     this.route('collections', function () {
       this.route('tab-menu');
       this.route('segment');
-    });
+      this.route('option-segment');
+});
     this.route('elements', function () {
       this.route('icon');
       this.route('input');

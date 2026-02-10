@@ -286,13 +286,18 @@ export const DocNavItems = [
             to: '/components/collections/segment',
             route: 'components.collections.segment',
           },
+          {
+            menuItem: 'OptionSegment',
+            to: '/components/collections/option-segment',
+            route: 'components.collections.option-segment',
+          },
         ],
       },
     ],
   },
   {
     menuTitle: 'Modules',
-    icon: 'bs-icons1 list-view-icon s18',
+    icon: 'bs-icons1 bulk-code-icon s18',
     children: [
       {
         category: 'Menu',

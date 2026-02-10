@@ -2,6 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class MultipleToastDemo extends Component {
@@ -10,13 +11,33 @@ export default class MultipleToastDemo extends Component {
   @action
   showMultiple() {
     const now = Date.now();
-    this.messages = [
-      ...this.messages,
-      { id: \`msg-\${now}-1\`, severity: 'info', summary: 'Info', detail: 'Info message.' },
-      { id: \`msg-\${now}-2\`, severity: 'success', summary: 'Success', detail: 'Success message.' },
-      { id: \`msg-\${now}-3\`, severity: 'warn', summary: 'Warn', detail: 'Warn message.' },
-      { id: \`msg-\${now}-4\`, severity: 'error', summary: 'Error', detail: 'Error message.' },
+    const newMessages = [
+      {
+        id: \`msg-\${now}-1\`,
+        variant: 'info',
+        summary: 'Info',
+        detail: 'Info message.',
+      },
+      {
+        id: \`msg-\${now}-2\`,
+        variant: 'success',
+        summary: 'Success',
+        detail: 'Success message.',
+      },
+      {
+        id: \`msg-\${now}-3\`,
+        variant: 'warn',
+        summary: 'Warn',
+        detail: 'Warn message.',
+      },
+      {
+        id: \`msg-\${now}-4\`,
+        variant: 'error',
+        summary: 'Error',
+        detail: 'Error message.',
+      },
     ];
+    this.messages = [...this.messages, ...newMessages];
   }
 
   @action
@@ -25,8 +46,14 @@ export default class MultipleToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label="Multiple" @variant="warning" {{on "click" this.showMultiple}} />
-    <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
+    <div class="pda4">
+      <UlxButton
+        @label="Multiple"
+        @variant="warning"
+        {{on "click" this.showMultiple}}
+      />
+      <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
+    </div>
   </template>
 }
 

@@ -82,6 +82,8 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./components/collections/ulx-button-group/index.js": "./dist/_app_/components/collections/ulx-button-group/index.js",
+      "./components/collections/ulx-option-segment/index.js": "./dist/_app_/components/collections/ulx-option-segment/index.js",
+      "./components/collections/ulx-option-segment/item.js": "./dist/_app_/components/collections/ulx-option-segment/item.js",
       "./components/collections/ulx-segment/index.js": "./dist/_app_/components/collections/ulx-segment/index.js",
       "./components/collections/ulx-segments-group/index.js": "./dist/_app_/components/collections/ulx-segments-group/index.js",
       "./components/collections/ulx-tabmenu/index.js": "./dist/_app_/components/collections/ulx-tabmenu/index.js",
@@ -112,6 +114,7 @@
       "./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
       "./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
       "./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
+      "./components/ulx-option-segment.js": "./dist/_app_/components/ulx-option-segment.js",
       "./components/ulx-progressbar.js": "./dist/_app_/components/ulx-progressbar.js",
       "./components/ulx-progressspinner.js": "./dist/_app_/components/ulx-progressspinner.js",
       "./components/ulx-radio.js": "./dist/_app_/components/ulx-radio.js",

@@ -1,14 +1,20 @@
 export default `
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxToast } from 'ulx-components';
+import { on } from '@ember/modifier';
+import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class BasicToastDemo extends Component {
-  get messages() {
-    return [
+  @tracked messages = [];
+
+  @action
+  showToast() {
+    this.messages = [
+      ...this.messages,
       {
-        id: '1',
-        severity: 'info',
+        id: \`msg-\${Date.now()}\`,
+        variant: 'info',
         summary: 'Info',
         detail: 'This is a basic toast message.',
       },
@@ -17,14 +23,18 @@ export default class BasicToastDemo extends Component {
 
   @action
   removeMessage(message) {
-    // Parent removes message from state (e.g. filter by id)
+    this.messages = this.messages.filter((m) => m.id !== message.id);
   }
 
   <template>
-    <UlxToast
-      @messages={{this.messages}}
-      @onClose={{this.removeMessage}}
-    />
+    <div class="pda4">
+      <UlxButton
+        @label="Show toast"
+        @variant="primary"
+        {{on "click" this.showToast}}
+      />
+      <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
+    </div>
   </template>
 }
 

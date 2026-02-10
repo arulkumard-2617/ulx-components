@@ -8,28 +8,8 @@ import { UlxTieredmenu, UlxButton } from 'ulx-components';
 
 export default class PopupTieredmenuDemo extends Component {
   @tracked isMenuVisible = false;
-
-  /** Close menu when click is outside the wrapper (PrimeReact-style). */
-  closeOnClickOutside = modifier((element, [when], { onClose }) => {
-    let listener = null;
-    if (when && typeof onClose === 'function') {
-      const handler = (e) => {
-        if (!element.contains(e.target)) {
-          onClose();
-        }
-      };
-      const add = () => {
-        listener = handler;
-        document.addEventListener('click', listener, true);
-      };
-      setTimeout(add, 0);
-    }
-    return () => {
-      if (listener) {
-        document.removeEventListener('click', listener, true);
-      }
-    };
-  });
+  @tracked buttonElement = null;
+  menuRef = null;
 
   get items() {
     return [
@@ -68,13 +48,30 @@ export default class PopupTieredmenuDemo extends Component {
   }
 
   @action
-  toggleMenu(event) {
-    event.stopPropagation();
-    this.isMenuVisible = !this.isMenuVisible;
+  setMenuRef(componentInstance) {
+    this.menuRef = componentInstance;
   }
 
   @action
+  toggleMenu(event) {
+    event?.stopPropagation();
+    if (this.isMenuVisible) {
+      // Close: call handleHide first (via hide()), then visible is set in onHide
+      this.menuRef?.hide(event);
+    } else {
+      this.isMenuVisible = true;
+    }
+  }
+
+  setButtonRef = modifier((element) => {
+    this.buttonElement = element;
+    return () => {};
+  });
+
+  @action
   hideMenu() {
+    console.log('closed');
+    // Called by tiered menu when exit animation finishes → set visible false then
     this.isMenuVisible = false;
   }
 
@@ -84,27 +81,27 @@ export default class PopupTieredmenuDemo extends Component {
   }
 
   <template>
-    <div
-      class="pda4 relative"
-      {{this.closeOnClickOutside this.isMenuVisible onClose=this.hideMenu}}
-    >
+    <div class="pda4">
       <UlxButton
-        @label="Show"
+        @label="Show Menu"
         @variant="primary"
         {{on "click" this.toggleMenu}}
+        {{this.setButtonRef}}
         aria-haspopup="menu"
         aria-expanded={{this.isMenuVisible}}
+        aria-controls="tieredmenu-popup"
       />
 
-      <div class="absolute tpfull lt0 z-1000 mgt2">
-        <UlxTieredmenu
-          @model={{this.items}}
-          @popup={{true}}
-          @visible={{this.isMenuVisible}}
-          @onHide={{this.hideMenu}}
-          @onItemSelect={{this.handleItemSelect}}
-        />
-      </div>
+      <UlxTieredmenu
+        id="tieredmenu-popup"
+        @model={{this.items}}
+        @popup={{true}}
+        @visible={{this.isMenuVisible}}
+        @target={{this.buttonElement}}
+        @onHide={{this.hideMenu}}
+        @registerRef={{this.setMenuRef}}
+        @onItemSelect={{this.handleItemSelect}}
+      />
     </div>
   </template>
 }

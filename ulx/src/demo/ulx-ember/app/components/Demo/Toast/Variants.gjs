@@ -16,7 +16,7 @@ export default class VariantsToastDemo extends Component {
         variant: 'info',
         summary: 'Elevated',
         detail: 'Variant: elevated',
-        appearance: 'elevated',
+        type: 'elevated',
       },
     ];
   }
@@ -30,7 +30,7 @@ export default class VariantsToastDemo extends Component {
         variant: 'success',
         summary: 'Flat',
         detail: 'Variant: flat',
-        appearance: 'flat',
+        type: 'flat',
       },
     ];
   }
@@ -44,7 +44,7 @@ export default class VariantsToastDemo extends Component {
         variant: 'warn',
         summary: 'Outlined',
         detail: 'Variant: outlined',
-        appearance: 'outlined',
+        type: 'outlined',
         sticky: true,
       },
     ];
