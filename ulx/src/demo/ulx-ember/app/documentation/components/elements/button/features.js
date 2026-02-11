@@ -5,7 +5,7 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  SeveritiesDemo,
+  TypesDemo,
   OutlinedDemo,
   IconOnlyDemo,
   TextDemo,
@@ -24,7 +24,7 @@ import {
   // Sources
   ImportSource,
   BasicSource,
-  SeveritiesSource,
+  TypesSource,
   OutlinedSource,
   IconOnlySource,
   TextSource,
@@ -70,7 +70,7 @@ export const ButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows basic usage of the Button component with different severities.',
+          'The <code>Basic</code> demo shows basic usage of the Button component with different types.',
       },
     },
     demo: {
@@ -163,21 +163,21 @@ export const ButtonFeatureItems = [
     },
   },
   {
-    id: 'severities',
-    sectionNav: 'Severity',
+    id: 'types',
+    sectionNav: 'Types',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'The <code>Severities</code> demo shows all available button severities: primary, secondary, success, info, warning, help, and danger.',
+          'The <code>Types</code> demo shows all available button types: primary, secondary, success, info, warning, help, and danger.',
       },
     },
     demo: {
-      component: SeveritiesDemo,
+      component: TypesDemo,
       props: {
-        source: SeveritiesSource,
-        snippetName: 'severities',
+        source: TypesSource,
+        snippetName: 'types',
         language: 'handlebars',
       },
     },

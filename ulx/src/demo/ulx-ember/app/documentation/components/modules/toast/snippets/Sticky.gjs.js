@@ -13,7 +13,7 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-sticky\`,
-        severity: 'info',
+        type: 'info',
         summary: 'Sticky',
         detail: 'This message stays visible until you close it.',
         sticky: true,

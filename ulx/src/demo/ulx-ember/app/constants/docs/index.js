@@ -288,6 +288,16 @@ export const DocNavItems = [
           },
         ],
       },
+      {
+        category: 'Button',
+        items: [
+          {
+            menuItem: 'SplitButton',
+            to: '/components/collections/split-button',
+            route: 'components.collections.split-button',
+          },
+        ],
+      },
     ],
   },
   {

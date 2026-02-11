@@ -1,8 +1,7 @@
-export default `
 import Component from '@glimmer/component';
 import { UlxButton } from 'ulx-components';
 
-export default class DemoButtonSeverities extends Component {
+export default class DemoButtonTypes extends Component {
   <template>
     <div class="flex gap-5 align-items-center flex-wrap">
       <UlxButton @label="Primary" @variant="primary" />
@@ -15,5 +14,3 @@ export default class DemoButtonSeverities extends Component {
     </div>
   </template>
 }
-
-`;

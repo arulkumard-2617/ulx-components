@@ -8,7 +8,7 @@ export default class BasicToastDemo extends Component {
     return [
       {
         id: '1',
-        severity: 'info',
+        type: 'info',
         summary: 'Info',
         detail: 'This is a basic toast message.',
       },
