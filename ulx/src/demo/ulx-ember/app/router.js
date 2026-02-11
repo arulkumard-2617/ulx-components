@@ -38,7 +38,8 @@ Router.map(function () {
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');
-    });
+      this.route('popup');
+});
   });
 
   this.route('utilities', function () {

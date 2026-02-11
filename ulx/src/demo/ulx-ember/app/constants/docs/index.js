@@ -323,6 +323,16 @@ export const DocNavItems = [
             route: 'components.modules.toast'
           }
         ]
+      },
+      {
+        category: 'Overlay',
+        items: [
+          {
+            menuItem: 'Popup',
+            to: '/components/modules/popup',
+            route: 'components.modules.popup'
+          }
+        ]
       }
     ]
   }

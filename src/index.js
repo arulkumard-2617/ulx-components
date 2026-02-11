@@ -20,3 +20,4 @@ export { default as UlxTabmenu } from './components/ulx-tabmenu.js';
 export { default as UlxSegment } from './components/ulx-segment.js';
 export { default as UlxSegmentsGroup } from './components/ulx-segments-group.js';
 export { default as UlxOptionSegment } from './components/ulx-option-segment.js';
+export { default as UlxPopup } from './components/ulx-popup.js';
