@@ -33,7 +33,8 @@ Router.map(function () {
       this.route('button');
       this.route('progressbar');
       this.route('progressspinner');
-    });
+      this.route('tristate-checkbox');
+});
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');

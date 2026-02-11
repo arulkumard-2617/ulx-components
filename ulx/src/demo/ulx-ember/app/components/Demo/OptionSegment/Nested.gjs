@@ -58,10 +58,30 @@ export default class NestedDemoComponent extends Component {
   @action
   handleSegmentSelect(_selected, value) {
     this.activeValue = value;
+
+    if (value === 'hide-when') {
+      this.conditions = this.conditions.map((condition, index) => ({
+        ...condition,
+        checked: index === 0 ? true : condition.checked,
+      }));
+    } else {
+      this.conditions = this.conditions.map((condition) => ({
+        ...condition,
+        checked: false,
+      }));
+    }
   }
 
   @action
   handleConditionChange(item, checked) {
+    const checkedCount = this.conditions.filter(
+      (condition) => condition.checked,
+    ).length;
+
+    if (!checked && checkedCount === 1 && item.checked) {
+      return;
+    }
+
     this.conditions = this.conditions.map((condition) =>
       condition === item ? { ...condition, checked } : condition,
     );
@@ -76,12 +96,10 @@ export default class NestedDemoComponent extends Component {
     >
       <:nested as |item|>
         {{#if item.hasNested}}
-          {{#if item.selected}}
-            <UlxCheckbox
-              @items={{this.conditions}}
-              @onItemChange={{this.handleConditionChange}}
-            />
-          {{/if}}
+          <UlxCheckbox
+            @items={{this.conditions}}
+            @onItemChange={{this.handleConditionChange}}
+          />
         {{/if}}
       </:nested>
     </UlxOptionSegment>

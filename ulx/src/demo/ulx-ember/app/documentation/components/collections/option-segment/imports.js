@@ -10,6 +10,7 @@ export { default as CheckboxgroupDemo } from '../../../../components/Demo/Option
 export { default as HorizontalDemo } from '../../../../components/Demo/OptionSegment/Horizontal';
 export { default as NamedblocksDemo } from '../../../../components/Demo/OptionSegment/Namedblocks';
 export { default as NestedDemo } from '../../../../components/Demo/OptionSegment/Nested';
+export { default as TristateDemo } from '../../../../components/Demo/OptionSegment/Tristate';
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
 
@@ -22,3 +23,4 @@ export { default as CheckboxgroupSource } from './snippets/Checkboxgroup.gjs';
 export { default as HorizontalSource } from './snippets/Horizontal.gjs';
 export { default as NamedblocksSource } from './snippets/Namedblocks.gjs';
 export { default as NestedSource } from './snippets/Nested.gjs';
+export { default as TristateSource } from './snippets/Tristate.gjs';

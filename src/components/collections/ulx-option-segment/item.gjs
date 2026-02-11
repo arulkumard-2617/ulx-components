@@ -3,6 +3,7 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxRadio from "../../elements/ulx-radio/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
+import UlxTristateCheckbox from "../../elements/ulx-tristate-checkbox/index.gjs";
 
 /**
  * Internal building block for `UlxOptionSegment`.
@@ -11,7 +12,7 @@ import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
  * `.ulx-option-segments` group container.
  *
  * @class UlxOptionSegmentItem
- * @param {"radio"|"checkbox"|"basic"} [type="radio"] - Type of the option.
+ * @param {"radio"|"checkbox"|"tristate"|"basic"} [type="radio"] - Type of the option.
  * @param {object} item - Option data object:
  *   - {string} value
  *   - {boolean} [selected]
@@ -37,6 +38,10 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get isCheckboxType() {
 		return this.type === "checkbox";
+	}
+
+	get isTristateType() {
+		return this.type === "tristate";
 	}
 
 	get item() {
@@ -80,7 +85,7 @@ export default class UlxOptionSegmentItem extends Component {
 	}
 
 	get itemRole() {
-		if (this.isCheckboxType) {
+		if (this.isCheckboxType || this.isTristateType) {
 			return "checkbox";
 		}
 
@@ -107,6 +112,13 @@ export default class UlxOptionSegmentItem extends Component {
 	get ariaChecked() {
 		if (!this.isToggleRole) {
 			return undefined;
+		}
+
+		// Tristate uses its own value for aria-checked
+		if (this.isTristateType) {
+			const v = this.tristateValue;
+			if (v === null) return "mixed";
+			return v ? "true" : "false";
 		}
 
 		return this.isSelected ? "true" : "false";
@@ -163,7 +175,11 @@ export default class UlxOptionSegmentItem extends Component {
 	}
 
 	get hasControlSection() {
-		return this.hasControlBlock || this.isRadioType || this.isCheckboxType;
+		return this.hasControlBlock || this.isRadioType || this.isCheckboxType || this.isTristateType;
+	}
+
+	get tristateValue() {
+		return this.item.tristateValue;
 	}
 
 	@action
@@ -174,6 +190,18 @@ export default class UlxOptionSegmentItem extends Component {
 
 		if (typeof this.args.onSelect === "function") {
 			this.args.onSelect(checked, this.value, event, this.item);
+		}
+	}
+
+	@action
+	handleTristateValueChange(nextValue, event) {
+		if (this.isDisabled) {
+			return;
+		}
+
+		const callback = this.item?.onTristateChange;
+		if (typeof callback === "function") {
+			callback(nextValue, event, this.item);
 		}
 	}
 
@@ -251,6 +279,16 @@ export default class UlxOptionSegmentItem extends Component {
 							@itemLabel=""
 							@customClass="os-control-checkbox"
 							@onCheckedChange={{this.handleControlCheckedChange}}
+						/>
+					{{else if this.isTristateType}}
+						<UlxTristateCheckbox
+							@value={{this.tristateValue}}
+							@disabled={{this.isDisabled}}
+							@itemLabel=""
+							@hideLabel={{true}}
+							@customClass="os-control-checkbox"
+							@onValueChange={{this.handleTristateValueChange}}
+							{{on "click" this.stopNestedClickPropagation}}
 						/>
 					{{/if}}
 				</div>

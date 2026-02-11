@@ -10,14 +10,16 @@ import {
   CheckboxgroupDemo,
   HorizontalDemo,
   NamedblocksDemo,
-  NestedDemo,// Sources
+  NestedDemo,
+  TristateDemo,// Sources
   ImportSource,
   BasicSource,
   RadiogroupSource,
   CheckboxgroupSource,
   HorizontalSource,
   NamedblocksSource,
-  NestedSource} from './imports';
+  NestedSource,
+  TristateSource} from './imports';
 
 export const OptionSegmentFeatureItems = [
   {
@@ -154,6 +156,26 @@ export const OptionSegmentFeatureItems = [
       props: {
         source: NestedSource,
         snippetName: "nested",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "tri-state",
+    sectionNav: "Tristate",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Tristate</code> demo shows TriState usage of the OptionSegment component."
+      }
+    },
+    demo: {
+      component: TristateDemo,
+      props: {
+        source: TristateSource,
+        snippetName: "tri-state",
         language: "handlebars"
       }
     }
