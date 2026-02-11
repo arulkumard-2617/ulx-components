@@ -6,76 +6,13 @@ import { on } from '@ember/modifier';
 import { UlxToast, UlxButton } from 'ulx-components';
 
 export default class VariantsToastDemo extends Component {
-  @tracked messages = [];
-
-  @action
-  showElevated() {
-    this.messages = [
-      ...this.messages,
-      {
-        id: \`msg-\${Date.now()}-elevated\`,
-        variant: 'info',
-        summary: 'Elevated',
-        detail: 'Variant: elevated',
-        type: 'elevated',
-      },
-    ];
-  }
-
-  @action
-  showFlat() {
-    this.messages = [
-      ...this.messages,
-      {
-        id: \`msg-\${Date.now()}-flat\`,
-        variant: 'success',
-        summary: 'Flat',
-        detail: 'Variant: flat',
-        type: 'flat',
-      },
-    ];
-  }
-
-  @action
-  showOutlined() {
-    this.messages = [
-      ...this.messages,
-      {
-        id: \`msg-\${Date.now()}-outlined\`,
-        variant: 'warn',
-        summary: 'Outlined',
-        detail: 'Variant: outlined',
-        type: 'outlined',
-        sticky: true,
-      },
-    ];
-  }
-
-  @action
-  showNoIcon() {
-    this.messages = [
-      ...this.messages,
-      {
-        id: \`msg-\${Date.now()}-noicon\`,
-        variant: 'info',
-        summary: 'No icon',
-        detail: 'showIcon: false',
-        showIcon: false,
-      },
-    ];
-  }
-
-  @action
-  showSticky() {
-    this.messages = [
-      ...this.messages,
-      {
-        id: \`msg-\${Date.now()}-sticky\`,
-        variant: 'info',
-        summary: 'Sticky',
-        detail: 'Does not auto-close',
-        sticky: true,
-      },
+  get messages() {
+    return [
+      { id: '1', type: 'info', summary: 'Elevated', detail: 'Variant: elevated', variant: 'elevated' },
+      { id: '2', type: 'success', summary: 'Flat', detail: 'Variant: flat', variant: 'flat' },
+      { id: '3', type: 'warn', summary: 'Outlined', detail: 'Variant: outlined', variant: 'outlined' },
+      { id: '4', type: 'info', summary: 'No icon', detail: 'showIcon: false', showIcon: false },
+      { id: '5', type: 'info', summary: 'Sticky', detail: 'Does not auto-close', sticky: true },
     ];
   }
 

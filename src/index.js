@@ -2,6 +2,7 @@
 export { default as UlxIcon } from './components/ulx-icon.js';
 export { default as UlxButton } from './components/ulx-button.js';
 export { default as UlxButtonGroup } from './components/ulx-button-group.js';
+export { default as UlxSplitButton } from './components/ulx-split-button.js';
 export { default as UlxProgressSpinner } from './components/ulx-progressspinner.js';
 export { default as UlxProgressBar } from './components/ulx-progressbar.js';
 export { default as UlxTieredmenu } from './components/ulx-tieredmenu.js';

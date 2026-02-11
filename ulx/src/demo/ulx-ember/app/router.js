@@ -19,7 +19,8 @@ Router.map(function () {
       this.route('tab-menu');
       this.route('segment');
       this.route('option-segment');
-});
+      this.route('split-button');
+    });
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -34,12 +35,12 @@ Router.map(function () {
       this.route('progressbar');
       this.route('progressspinner');
       this.route('tristate-checkbox');
-});
+    });
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');
       this.route('popup');
-});
+    });
   });
 
   this.route('utilities', function () {

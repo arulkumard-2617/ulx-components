@@ -11,12 +11,31 @@ export default class MultipleToastDemo extends Component {
   @action
   showMultiple() {
     const now = Date.now();
-    this.messages = [
-      ...this.messages,
-      { id: \`msg-\${now}-1\`, type: 'info', summary: 'Info', detail: 'Info message.' },
-      { id: \`msg-\${now}-2\`, type: 'success', summary: 'Success', detail: 'Success message.' },
-      { id: \`msg-\${now}-3\`, type: 'warn', summary: 'Warn', detail: 'Warn message.' },
-      { id: \`msg-\${now}-4\`, type: 'error', summary: 'Error', detail: 'Error message.' },
+    const newMessages = [
+      {
+        id: \`msg-\${now}-1\`,
+        variant: 'info',
+        summary: 'Info',
+        detail: 'Info message.',
+      },
+      {
+        id: \`msg-\${now}-2\`,
+        variant: 'success',
+        summary: 'Success',
+        detail: 'Success message.',
+      },
+      {
+        id: \`msg-\${now}-3\`,
+        variant: 'warn',
+        summary: 'Warn',
+        detail: 'Warn message.',
+      },
+      {
+        id: \`msg-\${now}-4\`,
+        variant: 'error',
+        summary: 'Error',
+        detail: 'Error message.',
+      },
     ];
     this.messages = [...this.messages, ...newMessages];
   }

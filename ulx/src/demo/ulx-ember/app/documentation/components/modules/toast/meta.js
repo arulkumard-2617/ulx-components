@@ -14,7 +14,7 @@ export default {
   // Page metadata
   header: 'Toast',
   subHeader:
-    'Toast displays overlay notifications with different severities and positions.',
+    'Toast displays overlay notifications with different types and positions.',
 
   // Tab configuration
   tabs: [

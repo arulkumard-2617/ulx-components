@@ -15,7 +15,7 @@ export default class TemplateToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-template\`,
-        type: 'success',
+        variant: 'success',
         summary: 'Can you send me the report?',
         sticky: true,
       },

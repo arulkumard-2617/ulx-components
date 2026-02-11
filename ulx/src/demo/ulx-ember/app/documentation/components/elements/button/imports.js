@@ -5,7 +5,7 @@
 
 // Demo Components
 export { default as BasicDemo } from '../../../../components/Demo/Button/Basic';
-export { default as SeveritiesDemo } from '../../../../components/Demo/Button/Severities';
+export { default as TypesDemo } from '../../../../components/Demo/Button/Types';
 export { default as OutlinedDemo } from '../../../../components/Demo/Button/Outlined';
 export { default as IconOnlyDemo } from '../../../../components/Demo/Button/IconOnly';
 export { default as TextDemo } from '../../../../components/Demo/Button/Text';
@@ -28,7 +28,7 @@ export { default as ImportSource } from './snippets/Import.gjs';
 // ==========================================================================
 // Centralized exports for all Button demo source files
 export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SeveritiesSource } from './snippets/Severities.gjs';
+export { default as TypesSource } from './snippets/Types.gjs';
 export { default as OutlinedSource } from './snippets/Outlined.gjs';
 export { default as IconOnlySource } from './snippets/IconOnly.gjs';
 export { default as TextSource } from './snippets/Text.gjs';

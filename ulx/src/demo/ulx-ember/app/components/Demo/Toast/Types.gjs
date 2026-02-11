@@ -1,4 +1,3 @@
-export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -6,11 +5,11 @@ import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { UlxToast, UlxButton } from 'ulx-components';
 
-export default class SeveritiesToastDemo extends Component {
+export default class TypesToastDemo extends Component {
   @tracked messages = [];
 
   @action
-  addMessage(variant) {
+  addMessage(type) {
     const labels = {
       info: 'Info',
       success: 'Success',
@@ -22,10 +21,10 @@ export default class SeveritiesToastDemo extends Component {
     this.messages = [
       ...this.messages,
       {
-        id: \`msg-\${Date.now()}-\${variant}\`,
-        variant,
-        summary: labels[variant] ?? variant,
-        detail: \`\${labels[variant] ?? variant} message.\`,
+        id: `msg-${Date.now()}-${type}`,
+        type,
+        summary: labels[type] ?? type,
+        detail: `${labels[type] ?? type} message.`,
       },
     ];
   }
@@ -72,5 +71,3 @@ export default class SeveritiesToastDemo extends Component {
     </div>
   </template>
 }
-
-`;
