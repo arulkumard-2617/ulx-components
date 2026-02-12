@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { getComponentClass } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
@@ -106,7 +107,7 @@ export default class UlxAvatar extends Component {
 	}
 
 	get imageAlt() {
-		return this.args.imageAlt ?? this.args.ariaLabel ?? this.args.label ?? "Image";
+		return this.args.imageAlt ?? this.args.ariaLabel ?? this.args.label ?? t("lbl.image");
 	}
 
 	<template>

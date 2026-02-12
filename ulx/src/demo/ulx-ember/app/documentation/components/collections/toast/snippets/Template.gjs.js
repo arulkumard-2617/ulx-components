@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class TemplateToastDemo extends Component {
   @tracked messages = [];
@@ -16,7 +16,7 @@ export default class TemplateToastDemo extends Component {
       {
         id: \`msg-\${Date.now()}-template\`,
         variant: 'success',
-        summary: 'Can you send me the report?',
+        summary: t('msg.send.report'),
         sticky: true,
       },
     ];
@@ -30,17 +30,17 @@ export default class TemplateToastDemo extends Component {
   <template>
     <div class="pda4">
       <UlxButton
-        @label="Confirm"
+        @label={{t "lbl.confirm"}}
         @variant="primary"
         {{on "click" this.showTemplateToast}}
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}}>
         <:content as |message|>
           <div class="fxb column gp4">
-            <span class="fw-semibold">Amy Elsner</span>
+            <span class="fw-semibold">{{t "lbl.amy.elsner"}}</span>
             <div class="fw-medium">{{message.summary}}</div>
             <UlxButton
-              @label="Reply"
+              @label={{t "lbl.reply"}}
               @variant="success"
               @size="s-size"
               {{on "click" (fn this.removeMessage message)}}

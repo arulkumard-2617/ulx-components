@@ -1,11 +1,11 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxToast } from 'ulx-components';
+import { UlxToast, t } from 'ulx-components';
 
 export default class PositionsToastDemo extends Component {
   get messages() {
     return [
-      { id: '1', type: 'info', summary: 'Position', detail: 'Bottom-right (default).' },
+      { id: '1', type: 'info', summary: t('lbl.position'), detail: t('msg.bottom.right.default') },
     ];
   }
 

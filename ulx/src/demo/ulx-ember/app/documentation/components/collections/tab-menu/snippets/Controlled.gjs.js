@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import { UlxTabmenu } from 'ulx-components';
+import { UlxTabmenu, t } from 'ulx-components';
 
 export default class ControlledTabMenuDemo extends Component {
   @tracked activeIndex = 1;
@@ -12,28 +12,28 @@ export default class ControlledTabMenuDemo extends Component {
   get items() {
     return [
       {
-        label: 'Dashboard',
+        label: t('lbl.dashboard'),
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's18',
       },
       {
-        label: 'Transactions',
+        label: t('lbl.transactions'),
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's18',
       },
       {
-        label: 'Products',
+        label: t('lbl.products'),
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's18',
       },
       {
-        label: 'Messages',
+        label: t('lbl.messages'),
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
@@ -68,7 +68,7 @@ export default class ControlledTabMenuDemo extends Component {
   <template>
     <div class="fxb fvc fsb mgb4">
       <div class="fxb fvc gp2">
-        <span class="fg-text-secondary">Activate:</span>
+        <span class="fg-text-secondary">{{t "lbl.activate"}}:</span>
         {{#each this.buttons as |btn|}}
           <button
             type="button"
@@ -79,7 +79,7 @@ export default class ControlledTabMenuDemo extends Component {
                 'bd-primary fg-primary bg-transparent'
               }}"
             {{on "click" (fn this.setActiveIndex btn.index)}}
-            aria-label="Activate tab {{btn.label}}"
+            aria-label={{t "msg.activate.tab" label=btn.label}}
           >
             {{btn.label}}
           </button>

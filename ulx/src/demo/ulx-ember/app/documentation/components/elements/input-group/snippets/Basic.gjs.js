@@ -1,14 +1,13 @@
 export default `
-import { UlxInput } from 'ulx-components';
-import { UlxIcon } from 'ulx-components';
+import { UlxInput, UlxIcon, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
       @inputGroup={{true}}
       @size="s-size"
-      placeholder="Website"
-      aria-label="Website"
+      placeholder={{t "lbl.website"}}
+      aria-label={{t "lbl.website"}}
       @fieldClass="col-12"
     >
       <:start>

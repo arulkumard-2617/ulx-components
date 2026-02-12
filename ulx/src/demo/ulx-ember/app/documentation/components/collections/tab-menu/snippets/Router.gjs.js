@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { UlxTabmenu } from 'ulx-components';
+import { UlxTabmenu, t } from 'ulx-components';
 
 export default class RouterDemoComponent extends Component {
   @service router;
@@ -12,19 +12,19 @@ export default class RouterDemoComponent extends Component {
   get items() {
     return [
       {
-        label: 'Tab Menu',
+        label: t('lbl.tab.menu'),
         route: 'components.collections.tab-menu',
       },
       {
-        label: 'Walkthrough',
+        label: t('lbl.walkthrough'),
         route: 'walkthrough',
       },
       {
-        label: 'Typography',
+        label: t('lbl.typography'),
         route: 'foundation.typography',
       },
       {
-        label: 'Colors',
+        label: t('lbl.colors'),
         route: 'foundation.colors',
       },
     ];

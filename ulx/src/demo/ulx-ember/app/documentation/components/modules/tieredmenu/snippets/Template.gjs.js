@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxTieredmenu } from 'ulx-components';
+import { UlxTieredmenu, t } from 'ulx-components';
 
 // Custom item renderer using tieredmenu-item-link for proper styling
 const ItemRenderer = <template>
@@ -36,27 +36,27 @@ export default class TemplateTieredmenuDemo extends Component {
   get items() {
     return [
       {
-        label: 'File',
+        label: t('lbl.file'),
         icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
-            label: 'New',
+            label: t('lbl.new'),
             icon: 'bs-icons1 add-icon-01',
             items: [
               {
-                label: 'Document',
+                label: t('lbl.document'),
                 icon: 'bs-icons1 pdf-stroke-icon',
                 shortcut: '⌘+N',
                 template: this.itemRenderer,
               },
               {
-                label: 'Image',
+                label: t('lbl.image'),
                 icon: 'bs-icons1 image-stroke-icon',
                 shortcut: '⌘+I',
                 template: this.itemRenderer,
               },
               {
-                label: 'Video',
+                label: t('lbl.video'),
                 icon: 'bs-icons1 video-stroke-icon',
                 shortcut: '⌘+L',
                 template: this.itemRenderer,
@@ -64,13 +64,13 @@ export default class TemplateTieredmenuDemo extends Component {
             ],
           },
           {
-            label: 'Open',
+            label: t('lbl.open'),
             icon: 'bs-icons1 library-icon',
             shortcut: '⌘+O',
             template: this.itemRenderer,
           },
           {
-            label: 'Print',
+            label: t('lbl.print'),
             icon: 'bs-icons1 print-icon',
             shortcut: '⌘+P',
             template: this.itemRenderer,
@@ -78,17 +78,17 @@ export default class TemplateTieredmenuDemo extends Component {
         ],
       },
       {
-        label: 'Edit',
+        label: t('lbl.edit'),
         icon: 'bs-icons1 edit-icon',
         items: [
           {
-            label: 'Copy',
+            label: t('lbl.copy'),
             icon: 'bs-icons1 copy-icon',
             shortcut: '⌘+C',
             template: this.itemRenderer,
           },
           {
-            label: 'Delete',
+            label: t('lbl.delete'),
             icon: 'bs-icons1 close-icon-01',
             shortcut: '⌘+D',
             template: this.itemRenderer,
@@ -96,7 +96,7 @@ export default class TemplateTieredmenuDemo extends Component {
         ],
       },
       {
-        label: 'Search',
+        label: t('lbl.search'),
         icon: 'bs-icons1 search-icon',
         shortcut: '⌘+S',
         template: this.itemRenderer,
@@ -105,17 +105,17 @@ export default class TemplateTieredmenuDemo extends Component {
         separator: true,
       },
       {
-        label: 'Share',
+        label: t('lbl.share'),
         icon: 'bs-icons1 share-icon',
         items: [
           {
-            label: 'Slack',
+            label: t('lbl.slack'),
             icon: 'bs-icons1 chat-icon',
             badge: 2,
             template: this.itemRenderer,
           },
           {
-            label: 'Whatsapp',
+            label: t('lbl.whatsapp'),
             icon: 'bs-icons1 whatsapp-icon',
             badge: 3,
             template: this.itemRenderer,

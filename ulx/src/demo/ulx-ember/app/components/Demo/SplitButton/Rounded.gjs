@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSplitButton, UlxToast } from 'ulx-components';
+import { UlxSplitButton, UlxToast, t } from 'ulx-components';
 
 export default class DemoSplitButtonRounded extends Component {
   @tracked messages = [];
@@ -11,12 +11,12 @@ export default class DemoSplitButtonRounded extends Component {
       {
         label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
-        command: () => this.addMessage('Updated'),
+        command: () => this.addMessage(t('lbl.updated')),
       },
       {
         label: 'Delete',
         icon: 'bs-icons1 close-icon-01',
-        command: () => this.addMessage('Deleted'),
+        command: () => this.addMessage(t('lbl.deleted')),
       },
     ];
   }
@@ -36,8 +36,8 @@ export default class DemoSplitButtonRounded extends Component {
       {
         id: `msg-${Date.now()}`,
         severity: 'success',
-        summary: 'Success',
-        detail: 'Data Saved',
+        summary: t('lbl.success'),
+        detail: t('lbl.data.saved'),
       },
     ];
   }
@@ -52,7 +52,7 @@ export default class DemoSplitButtonRounded extends Component {
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
       <div class="fxb fvc gp5 fhc wrap">
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -62,7 +62,7 @@ export default class DemoSplitButtonRounded extends Component {
           @rounded={{true}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -73,7 +73,7 @@ export default class DemoSplitButtonRounded extends Component {
           @rounded={{true}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -84,7 +84,7 @@ export default class DemoSplitButtonRounded extends Component {
           @rounded={{true}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -95,7 +95,7 @@ export default class DemoSplitButtonRounded extends Component {
           @rounded={{true}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -106,7 +106,7 @@ export default class DemoSplitButtonRounded extends Component {
           @rounded={{true}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -117,7 +117,7 @@ export default class DemoSplitButtonRounded extends Component {
           @rounded={{true}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"

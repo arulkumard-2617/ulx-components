@@ -1,4 +1,4 @@
-import { UlxIconInput } from 'ulx-components';
+import { UlxIconInput, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gp12 mgb14">
@@ -7,10 +7,10 @@ import { UlxIconInput } from 'ulx-components';
       @iconPosition="left"
       @iconSize="s18"
       @fieldClass="col-4"
-      placeholder="Search"
-      aria-label="Search"
+      placeholder={{t "lbl.search"}}
+      aria-label={{t "lbl.search"}}
     >
-      <:label><span class="bold-font">Calendar</span></:label>
+      <:label><span class="bold-font">{{t "lbl.calendar"}}</span></:label>
       <:icon>
         <svg
           width="16"

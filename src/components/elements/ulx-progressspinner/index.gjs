@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { getComponentClass } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
@@ -55,7 +56,7 @@ export default class UlxProgressSpinner extends Component {
 		<span
 			class={{this.spinnerClasses}}
 			role="progressbar"
-			aria-label="Loading"
+			aria-label={{t "lbl.loading"}}
 			style={{this.spinnerStyle}}
 			...attributes
 		>

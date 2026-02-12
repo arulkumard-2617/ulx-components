@@ -1,6 +1,6 @@
 export default `
-import { UlxProgressSpinner } from 'ulx-components';
+import { UlxProgressSpinner, t } from 'ulx-components';
 
-<template><UlxProgressSpinner @size="xl-size" @ariaLabel="Loading" /></template>
+<template><UlxProgressSpinner @size="xl-size" @ariaLabel={{t "lbl.loading"}} /></template>
 
 `;

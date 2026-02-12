@@ -1,27 +1,27 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxSegment } from 'ulx-components';
+import { UlxSegment, t } from 'ulx-components';
 
 export default class BorderedDemoComponent extends Component {
   get borderedExamples() {
     return [
-      { side: 'top', color: 'red', label: 'Red' },
-      { side: 'top', color: 'blue', label: 'Blue' },
-      { side: 'top', color: 'green', label: 'Green' },
-      { side: 'top', color: 'primary', label: 'Primary' },
-      { side: 'bottom', color: 'orange', label: 'Orange' },
-      { side: 'bottom', color: 'purple', label: 'Purple' },
-      { side: 'bottom', color: 'grey', label: 'Grey' },
-      { side: 'left', color: 'blue', label: 'Blue' },
-      { side: 'left', color: 'green', label: 'Green' },
-      { side: 'right', color: 'red', label: 'Red' },
-      { side: 'right', color: 'primary', label: 'Primary' },
+      { side: 'top', color: 'red', label: t('lbl.red') },
+      { side: 'top', color: 'blue', label: t('lbl.blue') },
+      { side: 'top', color: 'green', label: t('lbl.green') },
+      { side: 'top', color: 'primary', label: t('lbl.primary') },
+      { side: 'bottom', color: 'orange', label: t('lbl.orange') },
+      { side: 'bottom', color: 'purple', label: t('lbl.purple') },
+      { side: 'bottom', color: 'grey', label: t('lbl.grey') },
+      { side: 'left', color: 'blue', label: t('lbl.blue') },
+      { side: 'left', color: 'green', label: t('lbl.green') },
+      { side: 'right', color: 'red', label: t('lbl.red') },
+      { side: 'right', color: 'primary', label: t('lbl.primary') },
     ];
   }
 
   <template>
     <div class="bordered-demo">
-      <h3 class="mgb1">Colored Border Segments</h3>
+      <h3 class="mgb1">{{t "msg.colored.border.segments"}}</h3>
       <p class="mgb5">Segments with colored borders on specific sides (3px
         width)</p>
       <div class="fxb fcol gp5">

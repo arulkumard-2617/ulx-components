@@ -2,13 +2,13 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'ulx-components';
+import { UlxRadio, t } from 'ulx-components';
 
 export default class BasicRadioDemo extends Component {
   @tracked items = [
-    { label: 'Item 1', value: 'item1', checked: false },
-    { label: 'Item 2', value: 'item2', checked: false },
-    { label: 'Item 3', value: 'item3', checked: false },
+    { label: t('lbl.item.1'), value: 'item1', checked: false },
+    { label: t('lbl.item.2'), value: 'item2', checked: false },
+    { label: t('lbl.item.3'), value: 'item3', checked: false },
   ];
 
   get requiredRules() {
@@ -30,16 +30,16 @@ export default class BasicRadioDemo extends Component {
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
       <UlxRadio
         @rules={{this.requiredRules}}
-        @label="With Label"
+        @label={{t "lbl.with.label"}}
         @size="s-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}
-        @helpText="Help text"
+        @helpText={{t "lbl.help.text"}}
       />
 
       <div class="col-12">
-        Selected:
+        {{t "lbl.selected"}}:
         <strong>{{this.selectedValue}}</strong>
       </div>
     </div>

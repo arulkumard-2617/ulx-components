@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 const POSITIONS = [
   'top-left',
@@ -34,8 +34,8 @@ export default class PositionsToastDemo extends Component {
     const newMessage = {
       id: `msg-${Date.now()}-${pos}`,
       variant: 'info',
-      summary: 'Position',
-      detail: `Toast at ${pos}.`,
+      summary: t('lbl.position'),
+      detail: t('msg.toast.at.position', { position: pos }),
     };
     this.messagesByPosition = {
       ...this.messagesByPosition,

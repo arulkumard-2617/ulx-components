@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'ulx-components';
+import { UlxCheckbox, t } from 'ulx-components';
 
 export default class WithlabelDemoComponent extends Component {
   @tracked items = [
@@ -17,7 +17,7 @@ export default class WithlabelDemoComponent extends Component {
     // `UlxCheckbox` expects a *field-level* string error message (not per-item).
     // Example validation: require at least one item to be checked.
     const hasAtLeastOneChecked = this.items.some((i) => i.checked);
-    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    return hasAtLeastOneChecked ? undefined : t('msg.select.at.least.one');
   }
 
   @action
@@ -28,13 +28,13 @@ export default class WithlabelDemoComponent extends Component {
   <template>
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
       <UlxCheckbox
-        @label="With Label"
+        @label={{t "lbl.with.label"}}
         @rules={{this.requiredRules}}
         @size="s-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}
-        @helpText="Help text"
+        @helpText={{t "lbl.help.text"}}
         @error={{this.error}}
       />
     </div>

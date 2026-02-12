@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 // Toast class prefix: must match the prefix used when uls-v2 toast.less is compiled (e.g. ulx- in ulx demo app)
@@ -87,6 +88,7 @@ export default class UlxToast extends Component {
 	get iconComponentClass() {
 		return this.args.iconComponentClass ?? "bs-icons1";
 	}
+
 	/** Message ids currently playing the exit animation (toast-exit class). */
 	@tracked exitingIds = new Set();
 
@@ -267,7 +269,7 @@ export default class UlxToast extends Component {
 	}
 
 	<template>
-		<div class={{this.containerClasses}} role="region" aria-label="Notification" ...attributes>
+		<div class={{this.containerClasses}} role="region" aria-label={{t "lbl.notification"}} ...attributes>
 			{{#each this.messages key="id" as |message|}}
 				<div class={{this.getMessageClasses message}} role="alert" aria-live="polite">
 					<div class="toast-content">
@@ -303,7 +305,7 @@ export default class UlxToast extends Component {
 								@customClass="pointer"
 								role="button"
 								tabindex="0"
-								aria-label="Close notification"
+								aria-label={{t "lbl.close.notification"}}
 								{{on "click" (fn this.closeMessage message)}}
 								{{on "keydown" (fn this.handleCloseKeyDown message)}}
 							/>

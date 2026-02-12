@@ -1,7 +1,7 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { UlxToast } from 'ulx-components';
+import { UlxToast, t } from 'ulx-components';
 
 export default class BasicToastDemo extends Component {
   get messages() {
@@ -9,8 +9,8 @@ export default class BasicToastDemo extends Component {
       {
         id: '1',
         type: 'info',
-        summary: 'Info',
-        detail: 'This is a basic toast message.',
+        summary: t('lbl.info'),
+        detail: t('msg.basic.toast'),
       },
     ];
   }
