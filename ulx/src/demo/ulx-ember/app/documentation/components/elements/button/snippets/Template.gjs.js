@@ -1,12 +1,12 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButton } from 'ulx-components';
+import { UlxButton, t } from 'ulx-components';
 
 export default class DemoButtonTemplate extends Component {
   <template>
     <div class="fxb fvc wrap gap-md">
       <UlxButton
-        aria-label="ULX"
+        aria-label={{t "lbl.ulx"}}
         @customClass="bg-primary fg-primary bd-blue pd4"
       >
         <img

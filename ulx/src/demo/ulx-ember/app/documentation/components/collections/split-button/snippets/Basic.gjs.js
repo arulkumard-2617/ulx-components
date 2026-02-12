@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSplitButton, UlxToast } from 'ulx-components';
+import { UlxSplitButton, UlxToast, t } from 'ulx-components';
 
 export default class DemoSplitButtonBasic extends Component {
   @tracked messages = [];
@@ -18,8 +18,8 @@ export default class DemoSplitButtonBasic extends Component {
             {
               id: \`msg-\${Date.now()}-up\`,
               severity: 'success',
-              summary: 'Updated',
-              detail: 'Data Updated',
+              summary: t('lbl.updated'),
+              detail: t('lbl.data.updated'),
             },
           ];
         },
@@ -33,8 +33,8 @@ export default class DemoSplitButtonBasic extends Component {
             {
               id: \`msg-\${Date.now()}-del\`,
               severity: 'warn',
-              summary: 'Delete',
-              detail: 'Data Deleted',
+              summary: t('lbl.deleted'),
+              detail: t('lbl.data.deleted'),
             },
           ];
         },
@@ -61,8 +61,8 @@ export default class DemoSplitButtonBasic extends Component {
       {
         id: \`msg-\${Date.now()}\`,
         severity: 'success',
-        summary: 'Success',
-        detail: 'Data Saved',
+        summary: t('lbl.success'),
+        detail: t('lbl.data.saved'),
       },
     ];
   }
@@ -75,7 +75,7 @@ export default class DemoSplitButtonBasic extends Component {
   <template>
     <div class="pda4">
       <UlxSplitButton
-        @label="Save"
+        @label={{t "lbl.save"}}
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"

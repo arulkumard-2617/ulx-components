@@ -1,7 +1,7 @@
 export default `
-import { UlxProgressBar } from 'ulx-components';
+import { UlxProgressBar, t } from 'ulx-components';
 
 <template>
-  <UlxProgressBar @mode="indeterminate" @size="m-size" aria-label="Loading" />
+  <UlxProgressBar @mode="indeterminate" @size="m-size" aria-label={{t "lbl.loading"}} />
 </template>
 `;

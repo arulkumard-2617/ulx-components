@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import didInsert from '@ember/render-modifiers/modifiers/did-insert';
 import willDestroy from '@ember/render-modifiers/modifiers/will-destroy';
-import { UlxProgressBar, UlxToast } from 'ulx-components';
+import { UlxProgressBar, UlxToast, t } from 'ulx-components';
 
 const INTERVAL_MS = 2000;
 
@@ -39,8 +39,8 @@ export default class DynamicProgressBarDemo extends Component {
         {
           id: \`msg-\${Date.now()}\`,
           severity: 'info',
-          summary: 'Success',
-          detail: 'Process Completed',
+          summary: t('lbl.success'),
+          detail: t('lbl.process.completed'),
         },
       ];
       this.clearInterval();

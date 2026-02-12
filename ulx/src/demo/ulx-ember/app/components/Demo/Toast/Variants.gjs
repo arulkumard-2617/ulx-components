@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class VariantsToastDemo extends Component {
   @tracked messages = [];
@@ -14,8 +14,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-elevated`,
         variant: 'info',
-        summary: 'Elevated',
-        detail: 'Variant: elevated',
+        summary: t('lbl.elevated'),
+        detail: t('lbl.variant.elevated'),
         type: 'elevated',
       },
     ];
@@ -28,8 +28,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-flat`,
         variant: 'success',
-        summary: 'Flat',
-        detail: 'Variant: flat',
+        summary: t('lbl.flat'),
+        detail: t('lbl.variant.flat'),
         type: 'flat',
       },
     ];
@@ -42,8 +42,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-outlined`,
         variant: 'warn',
-        summary: 'Outlined',
-        detail: 'Variant: outlined',
+        summary: t('lbl.outlined'),
+        detail: t('lbl.variant.outlined'),
         type: 'outlined',
         sticky: true,
       },
@@ -57,7 +57,7 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-noicon`,
         variant: 'info',
-        summary: 'No icon',
+        summary: t('lbl.no.icon'),
         detail: 'showIcon: false',
         showIcon: false,
       },
@@ -71,8 +71,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-sticky`,
         variant: 'info',
-        summary: 'Sticky',
-        detail: 'Does not auto-close',
+        summary: t('lbl.sticky'),
+        detail: t('msg.does.not.auto.close'),
         sticky: true,
       },
     ];
@@ -87,26 +87,26 @@ export default class VariantsToastDemo extends Component {
     <div class="pda4">
       <div class="fx gap8 flxw">
         <UlxButton
-          @label="Elevated"
+          @label={{t "lbl.elevated"}}
           @variant="primary"
           {{on "click" this.showElevated}}
         />
         <UlxButton
-          @label="Flat"
+          @label={{t "lbl.flat"}}
           @variant="success"
           {{on "click" this.showFlat}}
         />
         <UlxButton
-          @label="Outlined"
+          @label={{t "lbl.outlined"}}
           @variant="warning"
           {{on "click" this.showOutlined}}
         />
         <UlxButton
-          @label="No icon"
+          @label={{t "lbl.no.icon"}}
           @variant="secondary"
           {{on "click" this.showNoIcon}}
         />
-        <UlxButton @label="Sticky" {{on "click" this.showSticky}} />
+        <UlxButton @label={{t "lbl.sticky"}} {{on "click" this.showSticky}} />
       </div>
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>

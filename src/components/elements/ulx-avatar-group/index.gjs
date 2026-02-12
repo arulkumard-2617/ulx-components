@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { getComponentClass } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 import UlxAvatar from "../ulx-avatar/index.gjs";
 
 /**
@@ -75,10 +76,6 @@ export default class UlxAvatarGroup extends Component {
 		return `+${this.overflowCount}`;
 	}
 
-	get overflowAriaLabel() {
-		return `${this.overflowCount} more members`;
-	}
-
 	<template>
 		<div class={{this.rootClasses}} ...attributes>
 			{{#if (has-block)}}
@@ -111,7 +108,7 @@ export default class UlxAvatarGroup extends Component {
 						@size={{@size}}
 						@shape={{@shape}}
 						@variant="grey"
-						@ariaLabel={{this.overflowAriaLabel}}
+						@ariaLabel={{t "msg.more.members" count=this.overflowCount}}
 					/>
 				{{/if}}
 			{{/if}}

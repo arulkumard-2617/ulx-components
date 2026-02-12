@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'ulx-components';
+import { UlxRadio, t } from 'ulx-components';
 
 export default class HorizontalDemoComponent extends Component {
   @tracked items = [
@@ -23,7 +23,7 @@ export default class HorizontalDemoComponent extends Component {
     // \`UlxCheckbox\` expects a *field-level* string error message (not per-item).
     // Example validation: require at least one item to be checked.
     const hasAtLeastOneChecked = this.items.some((i) => i.checked);
-    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    return hasAtLeastOneChecked ? undefined : t('msg.select.at.least.one');
   }
 
   @action
@@ -37,18 +37,18 @@ export default class HorizontalDemoComponent extends Component {
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
       <UlxRadio
         @rules={{this.requiredRules}}
-        @label="With Label"
+        @label={{t "lbl.with.label"}}
         @size="s-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}
-        @helpText="Help text"
+        @helpText={{t "lbl.help.text"}}
         @groupClass="horizontal"
         @error={{this.error}}
       />
 
       <div class="col-12">
-        Selected:
+        {{t "lbl.selected"}}:
         <strong>{{this.selectedValue}}</strong>
       </div>
     </div>

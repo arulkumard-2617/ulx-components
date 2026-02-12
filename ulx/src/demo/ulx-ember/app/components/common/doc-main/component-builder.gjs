@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import CodeBlock from 'ember-prism/components/code-block';
+import { t } from 'ulx-components';
 
 /**
  * Reusable doc builder: renders schema-driven controls, live preview, and generated code.
@@ -144,26 +145,26 @@ export default class ComponentBuilderComponent extends Component {
         <div class="fxgrow fxb column gp6 col-7">
           {{#if (has-block "preview")}}
             <div class="demo bg-default bd pd8 rds3">
-              <p class="font-size12 fg-text-secondary mgt0 mgb4">Preview</p>
+              <p class="font-size12 fg-text-secondary mgt0 mgb4">{{t "lbl.preview"}}</p>
               {{yield this.resolvedProps to="preview"}}
             </div>
           {{/if}}
           {{#if this.displayCode}}
             <div class="code-block-wrapper">
               <div class="fxb fvc fsb">
-                <p class="font-size12 fg-text-secondary mgt0">Generated code</p>
+                <p class="font-size12 fg-text-secondary mgt0">{{t "lbl.generated.code"}}</p>
                 <div class="code-actions fxb gp4 pdy1 pdx3">
                   <button
                     type="button"
                     class="ulx-button link xs-size
                       {{if this.copied 'is-copied'}}"
-                    aria-label="Copy code"
+                    aria-label={{t "lbl.copy.code"}}
                     {{on "click" this.copyCode}}
                   >
                     {{#if this.copied}}
-                      Copied
+                      {{t "lbl.copied"}}
                     {{else}}
-                      Copy
+                      {{t "lbl.copy"}}
                     {{/if}}
                   </button>
                 </div>
@@ -180,7 +181,7 @@ export default class ComponentBuilderComponent extends Component {
         <div
           class="col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col"
         >
-          <h4 class="mgt0 mgb4 bold-font font-size14">Properties</h4>
+          <h4 class="mgt0 mgb4 bold-font font-size14">{{t "lbl.properties"}}</h4>
           {{#each this.propsWithOptions as |prop|}}
             <div class="mgb4">
               <label

@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxButton } from 'ulx-components';
+import { UlxButton, t } from 'ulx-components';
 
 export default class DemoButtonStates extends Component {
   @tracked loading = false;
@@ -19,7 +19,7 @@ export default class DemoButtonStates extends Component {
   <template>
     <div class="fxb fvc wrap gap-md">
       <UlxButton
-        @label="Submit"
+        @label={{t "lbl.submit"}}
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s20"

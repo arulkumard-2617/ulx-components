@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxSegment } from 'ulx-components';
+import { UlxSegment, t } from 'ulx-components';
 
 export default class BorderedDemoComponent extends Component {
   get borderedExamples() {
@@ -21,7 +21,7 @@ export default class BorderedDemoComponent extends Component {
 
   <template>
     <div class="bordered-demo">
-      <h3 class="mgb1">Colored Border Segments</h3>
+      <h3 class="mgb1">{{t "msg.colored.border.segments"}}</h3>
       <p class="mgb5">Segments with colored borders on specific sides (3px
         width)</p>
       <div class="fxb fcol gp5">

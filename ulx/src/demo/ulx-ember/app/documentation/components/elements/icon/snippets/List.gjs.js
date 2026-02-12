@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
-import { UlxIcon } from 'ulx-components';
+import { UlxIcon, t } from 'ulx-components';
 
 const BS_ICONS_CSS_URL =
   'https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css';
@@ -97,14 +97,14 @@ export default class DemoIconList extends Component {
       <div class="fxb fvc gp3 mgb8">
         <input
           type="text"
-          placeholder="Search icons..."
+          placeholder={{t "msg.search.icons.placeholder"}}
           class="ulx-input"
-          aria-label="Search icons"
+          aria-label={{t "lbl.search.icons"}}
           value={{this.query}}
           {{this.on "input" this.updateQuery}}
         />
         <span class="text-sm ulx-badge">{{this.filteredIcons.length}}
-          icons</span>
+          {{t "lbl.icons"}}</span>
       </div>
 
       {{#if this.filteredIcons.length}}
@@ -123,7 +123,7 @@ export default class DemoIconList extends Component {
           {{/each}}
         </div>
       {{else}}
-        <div class="text-center fg-text-muted pdy6 bd-t">No icons found</div>
+        <div class="text-center fg-text-muted pdy6 bd-t">{{t "msg.no.icons.found"}}</div>
       {{/if}}
     </div>
   </template>

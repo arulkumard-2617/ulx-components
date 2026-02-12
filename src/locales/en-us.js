@@ -1,0 +1,167 @@
+/**
+ * English (US) translations — flat key-value map.
+ *
+ * Key convention (by word count of the value):
+ *   lbl.*  — 1–2 word values (labels, short text)
+ *   msg.*  — 3+ word values (messages, sentences)
+ *
+ * Interpolation: {param} syntax.
+ *   e.g. "msg.more.members": "{count} more members"
+ *        → t("msg.more.members", { count: 3 }) → "3 more members"
+ */
+const enUs = {
+	// ── Addon component strings ──────────────────────────────
+	"lbl.notification": "Notification",
+	"lbl.close.notification": "Close notification",
+	"lbl.more.options": "More options",
+	"lbl.loading": "Loading",
+	"lbl.image": "Image",
+	"msg.more.members": "{count} more members",
+
+	// ── Doc common strings ───────────────────────────────────
+	"lbl.collapse.code": "Collapse code",
+	"lbl.expand.code": "Expand code",
+	"lbl.copy.code": "Copy code",
+	"lbl.copied": "Copied",
+	"lbl.copy": "Copy",
+	"lbl.preview": "Preview",
+	"lbl.generated.code": "Generated code",
+	"lbl.properties": "Properties",
+	"msg.toggle.menu": "Toggle {menuTitle} menu",
+
+	// ── Button / action labels ───────────────────────────────
+	"lbl.primary": "Primary",
+	"lbl.secondary": "Secondary",
+	"lbl.success": "Success",
+	"lbl.info": "Info",
+	"lbl.warning": "Warning",
+	"lbl.help": "Help",
+	"lbl.danger": "Danger",
+	"lbl.error": "Error",
+	"lbl.contrast": "Contrast",
+	"lbl.save": "Save",
+	"lbl.delete": "Delete",
+	"lbl.update": "Update",
+	"lbl.submit": "Submit",
+	"lbl.clear": "Clear",
+	"lbl.reply": "Reply",
+	"lbl.confirm": "Confirm",
+	"lbl.multiple": "Multiple",
+	"lbl.messages": "Messages",
+	"lbl.updates": "Updates",
+	"lbl.link": "Link",
+	"lbl.navigate": "Navigate",
+
+	// ── Toast labels ─────────────────────────────────────────
+	"lbl.elevated": "Elevated",
+	"lbl.flat": "Flat",
+	"lbl.outlined": "Outlined",
+	"lbl.sticky": "Sticky",
+	"lbl.no.icon": "No icon",
+	"lbl.show.toast": "Show toast",
+	"lbl.warn": "Warn",
+	"lbl.auto.close": "Auto-close",
+	"lbl.auto.close.3s": "Auto-close (3s)",
+	"lbl.position": "Position",
+	"lbl.updated": "Updated",
+	"lbl.deleted": "Deleted",
+	"lbl.data.saved": "Data Saved",
+	"lbl.data.updated": "Data Updated",
+	"lbl.data.deleted": "Data Deleted",
+	"lbl.process.completed": "Process Completed",
+	"lbl.variant.elevated": "Variant: elevated",
+	"lbl.variant.flat": "Variant: flat",
+	"lbl.variant.outlined": "Variant: outlined",
+	"lbl.info.message": "Info message.",
+	"lbl.success.message": "Success message.",
+	"lbl.warn.message": "Warn message.",
+	"lbl.error.message": "Error message.",
+	"msg.toast.at.position": "Toast at {position}.",
+	"msg.type.message": "{type} message.",
+	"msg.variant.label": "Variant: {variant}",
+
+	// ── Toast messages ───────────────────────────────────────
+	"msg.basic.toast": "This is a basic toast message.",
+	"msg.sticky.toast": "This message stays visible until you close it.",
+	"msg.auto.close.toast": "This message disappears after 3000ms.",
+	"msg.send.report": "Can you send me the report?",
+	"msg.does.not.auto.close": "Does not auto-close",
+
+	// ── Form / input labels ──────────────────────────────────
+	"lbl.input": "Input",
+	"lbl.label": "label",
+	"lbl.username": "Username",
+	"lbl.enter.username": "Enter username",
+	"lbl.website": "Website",
+	"lbl.search": "Search",
+	"lbl.price": "Price",
+	"lbl.calendar": "Calendar",
+	"lbl.with.label": "With Label",
+	"lbl.group": "Group",
+	"lbl.help.text": "Help text",
+	"lbl.selected": "Selected:",
+	"lbl.activate": "Activate:",
+	"lbl.search.icons": "Search icons",
+	"msg.search.icons.placeholder": "Search icons...",
+	"msg.no.icons.found": "No icons found",
+	"msg.select.at.least.one": "Select at least one option.",
+	"msg.input.help": "Use 3–20 characters. Letters and numbers only.",
+	"msg.error.message.here": "Error message here",
+	"msg.activate.tab": "Activate tab {label}",
+
+	// ── Avatar labels ────────────────────────────────────────
+	"lbl.square": "Square",
+	"lbl.circle": "Circle",
+	"lbl.amy.elsner": "Amy Elsner",
+
+	// ── Tab labels ───────────────────────────────────────────
+	"lbl.dashboard": "Dashboard",
+	"lbl.transactions": "Transactions",
+	"lbl.products": "Products",
+
+	// ── Segment labels ───────────────────────────────────────
+	"lbl.loading.state": "Loading State",
+	"lbl.disabled.state": "Disabled State",
+	"msg.first.segment": "First segment in the group",
+	"msg.colored.border.segments": "Colored Border Segments",
+	"msg.disabled.in.segments.group": "Disabled in Segments Group",
+
+	// ── Tieredmenu labels ────────────────────────────────────
+	"lbl.show.menu": "Show Menu",
+	"lbl.show.toast.1": "Show toast 1",
+	"lbl.show.toast.2": "Show toast 2",
+	"lbl.info.toast": "Info toast",
+	"lbl.success.toast": "Success toast",
+	"lbl.danger.toast": "Danger toast",
+	"lbl.info.group": "Info group",
+	"lbl.success.group": "Success group",
+	"lbl.danger.group": "Danger group",
+	"msg.info.toast.a": "Info toast A",
+	"msg.info.toast.b": "Info toast B",
+	"msg.success.toast.a": "Success toast A",
+	"msg.success.toast.b": "Success toast B",
+	"msg.danger.toast.a": "Danger toast A",
+	"msg.danger.toast.b": "Danger toast B",
+	"lbl.without.toast": "Without toast",
+
+	// ── Progress labels ──────────────────────────────────────
+	"lbl.icons": "icons",
+
+	// ── HBS / doc section titles ─────────────────────────────
+	"lbl.theming": "Theming",
+	"lbl.pass.through": "Pass Through",
+	"msg.getting.started": "Getting started",
+	"lbl.prerequisites": "Prerequisites",
+	"msg.run.the.documentation": "Run the documentation",
+	"lbl.create.demo.page": "Create demo-page",
+	"lbl.delete.demo.page": "Delete demo-page",
+	"lbl.create.variations": "Create variations",
+	"lbl.delete.variations": "Delete variations",
+	"lbl.next.steps": "Next steps",
+	"msg.theming.content.goes.here": "Theming content goes here.",
+	"msg.pass.through.content.goes.here": "Pass Through content goes here.",
+	"msg.theming.subtitle": "Theming documentation for {component} component.",
+	"msg.pass.through.subtitle": "Pass Through props documentation for {component} component."
+};
+
+export default enUs;

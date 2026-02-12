@@ -8,6 +8,7 @@ import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { htmlSafe } from '@ember/template';
 import { DocNavItems } from '../../../constants/docs';
+import { t } from 'ulx-components';
 
 export default class DocSidebarComponent extends Component {
   @service router;
@@ -238,7 +239,7 @@ export default class DocSidebarComponent extends Component {
                     <button
                       class="s-nav-link-icon mgl-auto pdl1"
                       {{on "click" (fn this.handleToggle item.menuTitle)}}
-                      aria-label="Toggle {{item.menuTitle}} menu"
+                      aria-label={{t "msg.toggle.menu" menuTitle=item.menuTitle}}
                       type="button"
                     >
                       <i
