@@ -45,7 +45,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [ariaLabel] - Accessible label for the popup; maps to `aria-label` on root.
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
  * @param {function} [onHide] - Callback invoked after exit animation completes and popup is fully hidden.
- * @param {function} [registerRef] - Callback invoked with the component instance (for calling show/hide/toggle).
+ * @param {function} [registerRef] - Callback invoked with the component instance when the popup is mounted (for calling show/hide/toggle), and with null on teardown.
  * @block default - Popup content. Rendered inside `.popup-content`.
  */
 export default class UlxPopup extends Component {
@@ -473,21 +473,19 @@ export default class UlxPopup extends Component {
 		};
 	});
 
-	setContainerRef = modifier((element) => {
+	registerPopup = modifier((element) => {
 		this.containerElement = element;
 
 		if (this.args.target && !this.targetElement) {
 			this.targetElement = this.args.target;
 		}
 
+		this.args.registerRef?.(this);
+
 		return () => {
 			this.containerElement = null;
+			this.args.registerRef?.(null);
 		};
-	});
-
-	registerRefModifier = modifier(() => {
-		this.args.registerRef?.(this);
-		return () => {};
 	});
 
 	watchVisibility = modifier((element, [isVisible, targetElement]) => {
@@ -645,8 +643,7 @@ export default class UlxPopup extends Component {
 				aria-label={{if this.ariaLabel this.ariaLabel}}
 				tabindex="-1"
 				{{this.appendToBody this.shouldRender}}
-				{{this.setContainerRef}}
-				{{this.registerRefModifier}}
+				{{this.registerPopup}}
 				{{this.watchVisibility this.isVisible this.args.target}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}
 				{{this.closeOnClickOutside this.isVisible}}

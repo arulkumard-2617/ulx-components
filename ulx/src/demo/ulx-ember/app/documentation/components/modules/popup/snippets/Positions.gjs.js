@@ -2,100 +2,110 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { fn, concat } from '@ember/helper';
 import { on } from '@ember/modifier';
+import { fn } from '@ember/helper';
 import { UlxPopup, UlxButton } from 'ulx-components';
 
 const POSITIONS = [
-  { id: 'position-bottom', label: 'Bottom' },
-  { id: 'position-top', label: 'Top' },
-  { id: 'position-left', label: 'Left' },
-  { id: 'position-right', label: 'Right' },
-  { id: 'position-bottom-left', label: 'Bottom left' },
-  { id: 'position-bottom-right', label: 'Bottom right' },
-  { id: 'position-top-left', label: 'Top left' },
-  { id: 'position-top-right', label: 'Top right' },
-  { id: 'position-top-center', label: 'Top center' },
-  { id: 'position-bottom-center', label: 'Bottom center' },
+  'position-bottom',
+  'position-bottom-left',
+  'position-bottom-right',
+  'position-bottom-center',
+  'position-top',
+  'position-top-left',
+  'position-top-right',
+  'position-top-center',
+  'position-left',
+  'position-right',
 ];
 
 export default class PositionsPopupDemo extends Component {
-  @tracked visibleByPosition = {};
-  @tracked targetByPosition = {};
+  @tracked isPopupVisible = false;
+  @tracked triggerElement = null;
+  @tracked activePosition = 'position-bottom';
+  popupRef = null;
+
+  get positions() {
+    return POSITIONS;
+  }
 
   @action
-  openPopup(positionId, event) {
-    const currentlyVisible = this.visibleByPosition[positionId] === true;
+  setPopupRef(ref) {
+    this.popupRef = ref;
+  }
 
-    // Toggle behavior: clicking the same trigger again hides its popup.
-    this.visibleByPosition = {
-      ...this.visibleByPosition,
-      [positionId]: !currentlyVisible,
-    };
-
-    const target = event?.currentTarget;
-    if (!currentlyVisible && target) {
-      this.targetByPosition = {
-        ...this.targetByPosition,
-        [positionId]: target,
-      };
+  @action
+  openPopup(position, event) {
+    const target = event?.currentTarget ?? this.triggerElement;
+    if (this.isPopupVisible && target === this.triggerElement) {
+      this.popupRef?.hide(event);
+      return;
     }
+    this.triggerElement = target;
+    this.activePosition = position;
+    this.isPopupVisible = true;
   }
 
   @action
-  handlePopupHide(positionId) {
-    this.visibleByPosition = {
-      ...this.visibleByPosition,
-      [positionId]: false,
-    };
+  togglePopup(event) {
+    if (this.isPopupVisible) {
+      this.popupRef?.hide(event);
+      return;
+    }
+    this.triggerElement = event?.currentTarget ?? this.triggerElement;
+    this.activePosition = 'position-bottom';
+    this.isPopupVisible = true;
   }
 
   @action
-  isVisibleFor(positionId) {
-    return this.visibleByPosition[positionId] === true;
+  handlePopupHide() {
+    this.isPopupVisible = false;
   }
 
   @action
-  targetFor(positionId) {
-    return this.targetByPosition[positionId];
+  handleTriggerKeyDown(position, event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.openPopup(position, event);
+    }
   }
 
   <template>
     <div class="pda4">
-      <div class="fx gap8 flxw">
-        {{#each POSITIONS as |pos|}}
+      <p class="mgb4">Click a button to open the popup at that position.</p>
+      <div class="gp8 fxb wrap">
+        {{#each this.positions as |position|}}
           <UlxButton
-            @label={{pos.label}}
-            @customClass="mg5"
+            @label={{position}}
             @variant="secondary"
-            {{on "click" (fn this.openPopup pos.id)}}
+            @size="s-size"
+            aria-haspopup="dialog"
+            aria-expanded="{{this.isPopupVisible}}"
+            {{on "click" (fn this.openPopup position)}}
+            {{on "keydown" (fn this.handleTriggerKeyDown position)}}
           />
         {{/each}}
       </div>
 
-      {{#each POSITIONS as |pos|}}
-        <UlxPopup
-          @visible={{this.isVisibleFor pos.id}}
-          @target={{this.targetFor pos.id}}
-          @position={{pos.id}}
-          @size="m-size"
-          @variant="elevated"
-          @dismissable={{true}}
-          @closable={{false}}
-          @closeOnEscape={{true}}
-          @ariaLabel={{concat "Popup at " pos.label}}
-          @onHide={{fn this.handlePopupHide pos.id}}
-        >
-          <:default>
-            <div class="pda2">
-              <p>
-                This popup is positioned at
-                <strong>{{pos.label}}</strong>.
-              </p>
-            </div>
-          </:default>
-        </UlxPopup>
-      {{/each}}
+      <UlxPopup
+        @visible={{this.isPopupVisible}}
+        @target={{this.triggerElement}}
+        @position={{this.activePosition}}
+        @size="m-size"
+        @variant="elevated"
+        @dismissable={{true}}
+        @closeOnEscape={{true}}
+        @ariaLabel="Position demo"
+        @onHide={{this.handlePopupHide}}
+        @registerRef={{this.setPopupRef}}
+      >
+        <:default>
+          <div>
+            <p>Popup at
+              <strong>{{this.activePosition}}</strong></p>
+          </div>
+        </:default>
+      </UlxPopup>
     </div>
   </template>
 }

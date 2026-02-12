@@ -10,6 +10,13 @@ export default class BasicPopupDemo extends Component {
   @tracked activeItem = null;
   @tracked isPopupVisible = false;
   @tracked triggerElement = null;
+  popupRef = null;
+
+  @action
+  setPopupRef(ref) {
+    // UlxPopup calls this with the component instance on mount and null on teardown.
+    this.popupRef = ref;
+  }
 
   get items() {
     return [
@@ -26,7 +33,14 @@ export default class BasicPopupDemo extends Component {
   }
 
   @action
-  openPopup(event) {
+  togglePopup(event) {
+    if (this.isPopupVisible) {
+      // Close via popup’s internal animation, then @onHide will sync state
+      this.popupRef?.hide(event);
+      return;
+    }
+
+    // Opening: capture target and set visible
     this.triggerElement = event?.currentTarget ?? this.triggerElement;
     this.isPopupVisible = true;
   }
@@ -40,7 +54,7 @@ export default class BasicPopupDemo extends Component {
   handleTriggerKeyDown(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      this.openPopup(event);
+      this.togglePopup(event);
     }
   }
 
@@ -55,8 +69,8 @@ export default class BasicPopupDemo extends Component {
         @label="Show popup"
         @variant="primary"
         aria-haspopup="dialog"
-        aria-expanded={{if this.isPopupVisible "true" "false"}}
-        {{on "click" this.openPopup}}
+        aria-expanded="{{this.isPopupVisible}}"
+        {{on "click" this.togglePopup}}
         {{on "keydown" this.handleTriggerKeyDown}}
       />
 
@@ -71,6 +85,7 @@ export default class BasicPopupDemo extends Component {
         @closeOnEscape={{true}}
         @ariaLabel="Select an item"
         @onHide={{this.handlePopupHide}}
+        @registerRef={{this.setPopupRef}}
       >
         <:default>
           <div class="pd2">

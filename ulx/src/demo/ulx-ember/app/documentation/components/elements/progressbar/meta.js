@@ -11,7 +11,7 @@ export default {
 
   header: 'Progress Bar',
   subHeader:
-    'Progress Bar indicates progress (0–100%) or an indeterminate loading state. Uses uls-v2 progress-bar.less.',
+    'Progress Bar indicates progress (0–100%) or an indeterminate loading state. Uses ULS_V2.0 progress-bar.less.',
 
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },
