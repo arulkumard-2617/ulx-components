@@ -4,7 +4,7 @@
 
 // Demo Components
 export { default as BasicDemo } from '../../../../components/Demo/Toast/Basic';
-export { default as SeveritiesDemo } from '../../../../components/Demo/Toast/Severities';
+export { default as TypesDemo } from '../../../../components/Demo/Toast/Types';
 export { default as PositionsDemo } from '../../../../components/Demo/Toast/Positions';
 export { default as VariantsDemo } from '../../../../components/Demo/Toast/Variants';
 export { default as MultipleDemo } from '../../../../components/Demo/Toast/Multiple';
@@ -16,7 +16,7 @@ export { default as ImportSource } from './snippets/Import.gjs';
 
 // Toast Demo Sources
 export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SeveritiesSource } from './snippets/Severities.gjs';
+export { default as TypesSource } from './snippets/Types.gjs';
 export { default as PositionsSource } from './snippets/Positions.gjs';
 export { default as VariantsSource } from './snippets/Variants.gjs';
 export { default as MultipleSource } from './snippets/Multiple.gjs';
