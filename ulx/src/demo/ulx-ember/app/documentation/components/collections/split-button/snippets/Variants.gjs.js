@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSplitButton, UlxToast } from 'ulx-components';
+import { UlxSplitButton, UlxToast, t } from 'ulx-components';
 
 export default class DemoSplitButtonVariants extends Component {
   @tracked messages = [];
@@ -10,14 +10,14 @@ export default class DemoSplitButtonVariants extends Component {
   get items() {
     return [
       {
-        label: 'Update',
+        label: t('lbl.update'),
         icon: 'bs-icons1 session-settings-icon',
-        command: () => this.addMessage('Updated'),
+        command: () => this.addMessage(t('lbl.updated')),
       },
       {
-        label: 'Delete',
+        label: t('lbl.delete'),
         icon: 'bs-icons1 close-icon-01',
-        command: () => this.addMessage('Deleted'),
+        command: () => this.addMessage(t('lbl.deleted')),
       },
     ];
   }
@@ -37,8 +37,8 @@ export default class DemoSplitButtonVariants extends Component {
       {
         id: \`msg-\${Date.now()}\`,
         severity: 'success',
-        summary: 'Success',
-        detail: 'Data Saved',
+        summary: t('lbl.success'),
+        detail: t('lbl.data.saved'),
       },
     ];
   }
@@ -53,7 +53,7 @@ export default class DemoSplitButtonVariants extends Component {
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
       <div class="fxb fvc gp5 fhc wrap">
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -62,7 +62,7 @@ export default class DemoSplitButtonVariants extends Component {
           @onClick={{this.save}}
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -72,7 +72,7 @@ export default class DemoSplitButtonVariants extends Component {
           @variant="secondary"
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -82,7 +82,7 @@ export default class DemoSplitButtonVariants extends Component {
           @variant="success"
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -92,7 +92,7 @@ export default class DemoSplitButtonVariants extends Component {
           @variant="info"
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -102,7 +102,7 @@ export default class DemoSplitButtonVariants extends Component {
           @variant="warning"
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
@@ -112,7 +112,7 @@ export default class DemoSplitButtonVariants extends Component {
           @variant="help"
         />
         <UlxSplitButton
-          @label="Save"
+          @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"

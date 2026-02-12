@@ -1,16 +1,16 @@
 import Component from '@glimmer/component';
-import { UlxButton } from 'ulx-components';
+import { UlxButton, t } from 'ulx-components';
 
 export default class DemoButtonTypes extends Component {
   <template>
     <div class="flex gap-5 align-items-center flex-wrap">
-      <UlxButton @label="Primary" @variant="primary" />
-      <UlxButton @label="Secondary" @variant="secondary" />
-      <UlxButton @label="Success" @variant="success" />
-      <UlxButton @label="Info" @variant="info" />
-      <UlxButton @label="Warning" @variant="warning" />
-      <UlxButton @label="Help" @variant="help" />
-      <UlxButton @label="Danger" @variant="danger" />
+      <UlxButton @label={{t "lbl.primary"}} @variant="primary" />
+      <UlxButton @label={{t "lbl.secondary"}} @variant="secondary" />
+      <UlxButton @label={{t "lbl.success"}} @variant="success" />
+      <UlxButton @label={{t "lbl.info"}} @variant="info" />
+      <UlxButton @label={{t "lbl.warning"}} @variant="warning" />
+      <UlxButton @label={{t "lbl.help"}} @variant="help" />
+      <UlxButton @label={{t "lbl.danger"}} @variant="danger" />
     </div>
   </template>
 }

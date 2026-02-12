@@ -1,41 +1,41 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxSegment } from 'ulx-components';
+import { UlxSegment, t } from 'ulx-components';
 
 export default class VariantsDemoComponent extends Component {
   get coloredVariants() {
     return [
-      { variant: 'red', label: 'Red' },
-      { variant: 'orange', label: 'Orange' },
-      { variant: 'yellow', label: 'Yellow' },
-      { variant: 'green', label: 'Green' },
-      { variant: 'blue', label: 'Blue' },
-      { variant: 'purple', label: 'Purple' },
-      { variant: 'pink', label: 'Pink' },
-      { variant: 'brown', label: 'Brown' },
-      { variant: 'grey', label: 'Grey' },
-      { variant: 'black', label: 'Black' },
+      { variant: 'red', label: t('lbl.red') },
+      { variant: 'orange', label: t('lbl.orange') },
+      { variant: 'yellow', label: t('lbl.yellow') },
+      { variant: 'green', label: t('lbl.green') },
+      { variant: 'blue', label: t('lbl.blue') },
+      { variant: 'purple', label: t('lbl.purple') },
+      { variant: 'pink', label: t('lbl.pink') },
+      { variant: 'brown', label: t('lbl.brown') },
+      { variant: 'grey', label: t('lbl.grey') },
+      { variant: 'black', label: t('lbl.black') },
     ];
   }
 
   get invertedVariants() {
     return [
-      { variant: 'red-invert', label: 'Red' },
-      { variant: 'orange-invert', label: 'Orange' },
-      { variant: 'yellow-invert', label: 'Yellow' },
-      { variant: 'green-invert', label: 'Green' },
-      { variant: 'blue-invert', label: 'Blue' },
-      { variant: 'purple-invert', label: 'Purple' },
-      { variant: 'pink-invert', label: 'Pink' },
-      { variant: 'brown-invert', label: 'Brown' },
-      { variant: 'grey-invert', label: 'Grey' },
-      { variant: 'black-invert', label: 'Black' },
+      { variant: 'red-invert', label: t('lbl.red') },
+      { variant: 'orange-invert', label: t('lbl.orange') },
+      { variant: 'yellow-invert', label: t('lbl.yellow') },
+      { variant: 'green-invert', label: t('lbl.green') },
+      { variant: 'blue-invert', label: t('lbl.blue') },
+      { variant: 'purple-invert', label: t('lbl.purple') },
+      { variant: 'pink-invert', label: t('lbl.pink') },
+      { variant: 'brown-invert', label: t('lbl.brown') },
+      { variant: 'grey-invert', label: t('lbl.grey') },
+      { variant: 'black-invert', label: t('lbl.black') },
     ];
   }
 
   <template>
     <div class="variants-demo">
-      <h3 class="mgb4">Colored Segments (Light Background - Black Text)</h3>
+      <h3 class="mgb4">{{t "msg.colored.segments.light"}}</h3>
       <div class="fxb fcol gp5 mgb12">
         {{#each this.coloredVariants as |item|}}
           <UlxSegment @variant={{item.variant}}>
@@ -44,7 +44,7 @@ export default class VariantsDemoComponent extends Component {
         {{/each}}
       </div>
 
-      <h3 class="mgb4">Inverted Colored Segments (Dark Background - White Text)</h3>
+      <h3 class="mgb4">{{t "msg.inverted.colored.segments"}}</h3>
       <div class="fxb fcol gp5">
         {{#each this.invertedVariants as |item|}}
           <UlxSegment @variant={{item.variant}}>

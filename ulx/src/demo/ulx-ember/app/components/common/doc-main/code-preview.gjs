@@ -3,6 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import CodeBlock from 'ember-prism/components/code-block';
+import { t } from 'ulx-components';
 
 export default class CodePreviewComponent extends Component {
   @tracked isCodeTab = false;
@@ -164,8 +165,8 @@ export default class CodePreviewComponent extends Component {
                         {{on "click" this.toggleExpanded}}
                         aria-label={{if
                           this.expanded
-                          "Collapse code"
-                          "Expand code"
+                          (t "lbl.collapse.code")
+                          (t "lbl.expand.code")
                         }}
                       >
                         <svg
@@ -198,7 +199,7 @@ export default class CodePreviewComponent extends Component {
                       <button
                         type="button"
                         class="copy-btn {{if this.copied 'is-copied'}}"
-                        aria-label="Copy code"
+                        aria-label={{t "lbl.copy.code"}}
                         {{on "click" this.copyCode}}
                       >
                         <svg
@@ -262,7 +263,7 @@ export default class CodePreviewComponent extends Component {
                 <button
                   type="button"
                   class="copy-btn {{if this.copied 'is-copied'}}"
-                  aria-label="Copy code"
+                  aria-label={{t "lbl.copy.code"}}
                   {{on "click" this.copyCode}}
                 >
                   <svg
@@ -323,13 +324,13 @@ export default class CodePreviewComponent extends Component {
             <div class="code-actions fxb gp4 pdy1 pdx3">
               <button
                 type="button"
-                aria-label="Copy code"
+                aria-label={{t "lbl.copy.code"}}
                 {{on "click" this.copyCode}}
               >
                 {{#if this.copied}}
-                  copied
+                  {{t "lbl.copied"}}
                 {{else}}
-                  copy
+                  {{t "lbl.copy"}}
                 {{/if}}
               </button>
             </div>

@@ -1,4 +1,4 @@
-import { UlxProgressBar } from 'ulx-components';
+import { UlxProgressBar, t } from 'ulx-components';
 
 <template>
   <div class="pda4">
@@ -6,7 +6,7 @@ import { UlxProgressBar } from 'ulx-components';
       @customClass="h6"
       @mode="indeterminate"
       @size="s-size"
-      aria-label="Loading"
+      aria-label={{t "lbl.loading"}}
     />
   </div>
 </template>

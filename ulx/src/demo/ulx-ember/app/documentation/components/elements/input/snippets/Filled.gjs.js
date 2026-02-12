@@ -1,14 +1,14 @@
 export default `
-import { UlxInput } from 'ulx-components';
+import { UlxInput, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
-      @floatLabel="label"
-      @label="label"
+      @floatLabel={{t "lbl.label"}}
+      @label={{t "lbl.label"}}
       @size="l-size"
       @fieldClass="col-12"
-      aria-label="label"
+      aria-label={{t "lbl.label"}}
       @filled={{true}}
     />
   </div>

@@ -1,13 +1,13 @@
-import { UlxButton } from 'ulx-components';
+import { UlxButton, t } from 'ulx-components';
 
 <template>
   <div class="flex gap-3 align-items-center flex-wrap">
     <UlxButton
-      @label="Link"
+      @label={{t "lbl.link"}}
       @href="#"
       @text={{true}}
       @customClass="underline"
     />
-    <UlxButton @label="Navigate" @variant="link" />
+    <UlxButton @label={{t "lbl.navigate"}} @variant="link" />
   </div>
 </template>

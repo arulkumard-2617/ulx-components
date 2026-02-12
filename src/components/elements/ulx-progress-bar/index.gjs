@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 
 /**
  * Progress bar element. Uses existing classes from uls-v2 progress-bar.less. Determinate shows a fill
@@ -73,10 +74,6 @@ export default class UlxProgressBar extends Component {
 		return `width: ${this.valuePercent}%`;
 	}
 
-	get ariaValueText() {
-		return this.isIndeterminate ? "Loading" : undefined;
-	}
-
 	get ariaValueNow() {
 		return this.isIndeterminate ? undefined : this.valuePercent;
 	}
@@ -85,7 +82,7 @@ export default class UlxProgressBar extends Component {
 		<div
 			class={{this.rootClasses}}
 			role="progressbar"
-			aria-valuetext={{this.ariaValueText}}
+			aria-valuetext={{if this.isIndeterminate (t "lbl.loading")}}
 			aria-valuenow={{this.ariaValueNow}}
 			aria-valuemin={{if this.isIndeterminate undefined 0}}
 			aria-valuemax={{if this.isIndeterminate undefined 100}}

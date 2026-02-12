@@ -1,4 +1,6 @@
 // Addon entry point
+
+// ── Components ──────────────────────────────────────────────
 export { default as UlxIcon } from './components/ulx-icon.js';
 export { default as UlxButton } from './components/ulx-button.js';
 export { default as UlxButtonGroup } from './components/ulx-button-group.js';
@@ -19,3 +21,10 @@ export { default as UlxAvatarGroup } from './components/ulx-avatar-group.js';
 export { default as UlxTabmenu } from './components/ulx-tabmenu.js';
 export { default as UlxSegment } from './components/ulx-segment.js';
 export { default as UlxSegmentsGroup } from './components/ulx-segments-group.js';
+
+// ── i18n utilities ──────────────────────────────────────────
+export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
+
+// ── i18n template helpers ───────────────────────────────────
+export { default as tHelper } from './helpers/t.js';
+export { default as tSafeHelper } from './helpers/t-safe.js';

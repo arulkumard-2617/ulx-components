@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxTieredmenu } from 'ulx-components';
+import { UlxTieredmenu, t } from 'ulx-components';
 
 export default class RouterDemoComponent extends Component {
   @tracked activeItem = null;
@@ -17,9 +17,9 @@ export default class RouterDemoComponent extends Component {
 
   get items() {
     return [
-      { label: 'Item 1', value: 'item1' },
-      { label: 'Item 2', value: 'item2' },
-      { label: 'Item 3', value: 'item3' }
+      { label: t('lbl.item.1'), value: 'item1' },
+      { label: t('lbl.item.2'), value: 'item2' },
+      { label: t('lbl.item.3'), value: 'item3' }
     ];
   }
 

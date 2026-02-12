@@ -1,9 +1,9 @@
 export default `
-import { UlxSegment, UlxSegmentsGroup } from 'ulx-components';
+import { UlxSegment, UlxSegmentsGroup, t } from 'ulx-components';
 
 <template>
   <div class="loading-demo">
-    <h3>Loading State</h3>
+    <h3>{{t "lbl.loading.state"}}</h3>
     <p>Segments in loading state show a semi-transparent overlay and reduce
       content opacity</p>
 

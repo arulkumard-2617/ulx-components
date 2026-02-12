@@ -1,16 +1,16 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButton } from 'ulx-components';
+import { UlxButton, t } from 'ulx-components';
 
 export default class DemoButtonOutlined extends Component {
   <template>
     <div class="flex gap-3 align-items-center flex-wrap">
-      <UlxButton @label="Primary" @outlined={{true}} />
-      <UlxButton @label="Secondary" @outlined={{true}} @variant="secondary" />
-      <UlxButton @label="Success" @outlined={{true}} @variant="success" />
-      <UlxButton @label="Info" @outlined={{true}} @variant="info" />
-      <UlxButton @label="Warning" @outlined={{true}} @variant="warning" />
-      <UlxButton @label="Danger" @outlined={{true}} @variant="danger" />
+      <UlxButton @label={{t "lbl.primary"}} @outlined={{true}} />
+      <UlxButton @label={{t "lbl.secondary"}} @outlined={{true}} @variant="secondary" />
+      <UlxButton @label={{t "lbl.success"}} @outlined={{true}} @variant="success" />
+      <UlxButton @label={{t "lbl.info"}} @outlined={{true}} @variant="info" />
+      <UlxButton @label={{t "lbl.warning"}} @outlined={{true}} @variant="warning" />
+      <UlxButton @label={{t "lbl.danger"}} @outlined={{true}} @variant="danger" />
     </div>
   </template>
 }

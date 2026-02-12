@@ -1,4 +1,4 @@
-import { UlxInput } from 'ulx-components';
+import { UlxInput, t } from 'ulx-components';
 
 const rules = {
   required: true,
@@ -9,14 +9,14 @@ const rules = {
 <template>
   <div class="ulx-form m-size ulx-grid gp12 mgb14">
     <UlxInput
-      @label="Input"
+      @label={{t "lbl.input"}}
       @rules={{rules}}
-      @helpText="Use 3–20 characters. Letters and numbers only."
+      @helpText={{t "msg.input.help"}}
       @size="m-size"
-      @error="Error message here"
+      @error={{t "msg.error.message.here"}}
       @fieldClass="col-12"
-      placeholder="Enter username"
-      aria-label="Username"
+      placeholder={{t "lbl.enter.username"}}
+      aria-label={{t "lbl.username"}}
     />
   </div>
 </template>

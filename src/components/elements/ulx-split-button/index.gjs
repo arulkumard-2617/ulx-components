@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxTieredmenu from "../../ulx-tieredmenu.gjs";
 
@@ -264,7 +265,7 @@ export default class UlxSplitButton extends Component {
 				@size={{this.buttonSize}}
 				@dropdownTargetRef={{this.dropdownTargetRef}}
 				@onClick={{this.handleDropdownClick}}
-				aria-label="More options"
+				aria-label={{t "lbl.more.options"}}
 				aria-haspopup="menu"
 				aria-expanded={{this.menuVisible}}
 				aria-controls={{this.menuId}}
