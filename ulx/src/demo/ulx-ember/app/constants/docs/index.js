@@ -284,11 +284,21 @@ export const DocNavItems = [
           {
             menuItem: 'Segment',
             to: '/components/collections/segment',
-            route: 'components.collections.segment'
-          }
-        ]
-      }
-    ]
+            route: 'components.collections.segment',
+          },
+        ],
+      },
+      {
+        category: 'Button',
+        items: [
+          {
+            menuItem: 'SplitButton',
+            to: '/components/collections/split-button',
+            route: 'components.collections.split-button',
+          },
+        ],
+      },
+    ],
   },
   {
     menuTitle: 'Modules',

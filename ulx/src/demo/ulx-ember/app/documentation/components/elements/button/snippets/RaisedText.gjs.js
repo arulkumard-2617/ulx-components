@@ -1,43 +1,43 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButton } from 'ulx-components';
+import { UlxButton, t } from 'ulx-components';
 
 export default class DemoButtonRaisedText extends Component {
   <template>
     <div class="fxb fvc wrap gap-md">
-      <UlxButton @label="Primary" @text={{true}} @raised={{true}} />
+      <UlxButton @label={{t "lbl.primary"}} @text={{true}} @raised={{true}} />
       <UlxButton
-        @label="Secondary"
+        @label={{t "lbl.secondary"}}
         @text={{true}}
         @raised={{true}}
         @variant="secondary"
       />
       <UlxButton
-        @label="Success"
+        @label={{t "lbl.success"}}
         @text={{true}}
         @raised={{true}}
         @variant="success"
       />
       <UlxButton
-        @label="Info"
+        @label={{t "lbl.info"}}
         @text={{true}}
         @raised={{true}}
         @variant="info"
       />
       <UlxButton
-        @label="Warning"
+        @label={{t "lbl.warning"}}
         @text={{true}}
         @raised={{true}}
         @variant="warning"
       />
       <UlxButton
-        @label="Help"
+        @label={{t "lbl.help"}}
         @text={{true}}
         @raised={{true}}
         @variant="help"
       />
       <UlxButton
-        @label="Danger"
+        @label={{t "lbl.danger"}}
         @text={{true}}
         @raised={{true}}
         @variant="danger"

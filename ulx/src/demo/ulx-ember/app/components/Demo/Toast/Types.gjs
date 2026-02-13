@@ -1,31 +1,30 @@
-export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
-export default class SeveritiesToastDemo extends Component {
+export default class TypesToastDemo extends Component {
   @tracked messages = [];
 
   @action
-  addMessage(variant) {
+  addMessage(type) {
     const labels = {
-      info: 'Info',
-      success: 'Success',
-      warn: 'Warning',
-      error: 'Error',
-      secondary: 'Secondary',
-      contrast: 'Contrast',
+      info: t('lbl.info'),
+      success: t('lbl.success'),
+      warn: t('lbl.warning'),
+      error: t('lbl.error'),
+      secondary: t('lbl.secondary'),
+      contrast: t('lbl.contrast'),
     };
     this.messages = [
       ...this.messages,
       {
-        id: \`msg-\${Date.now()}-\${variant}\`,
-        variant,
-        summary: labels[variant] ?? variant,
-        detail: \`\${labels[variant] ?? variant} message.\`,
+        id: `msg-${Date.now()}-${type}`,
+        type,
+        summary: labels[type] ?? type,
+        detail: t('msg.type.message', { type: labels[type] ?? type }),
       },
     ];
   }
@@ -39,32 +38,32 @@ export default class SeveritiesToastDemo extends Component {
     <div class="pda4">
       <div class="fx gap8 flxw">
         <UlxButton
-          @label="Info"
+          @label={{t "lbl.info"}}
           @variant="info"
           {{on "click" (fn this.addMessage "info")}}
         />
         <UlxButton
-          @label="Success"
+          @label={{t "lbl.success"}}
           @variant="success"
           {{on "click" (fn this.addMessage "success")}}
         />
         <UlxButton
-          @label="Warn"
+          @label={{t "lbl.warn"}}
           @variant="warning"
           {{on "click" (fn this.addMessage "warn")}}
         />
         <UlxButton
-          @label="Error"
+          @label={{t "lbl.error"}}
           @variant="danger"
           {{on "click" (fn this.addMessage "error")}}
         />
         <UlxButton
-          @label="Secondary"
+          @label={{t "lbl.secondary"}}
           @variant="secondary"
           {{on "click" (fn this.addMessage "secondary")}}
         />
         <UlxButton
-          @label="Contrast"
+          @label={{t "lbl.contrast"}}
           {{on "click" (fn this.addMessage "contrast")}}
         />
       </div>
@@ -72,5 +71,3 @@ export default class SeveritiesToastDemo extends Component {
     </div>
   </template>
 }
-
-`;

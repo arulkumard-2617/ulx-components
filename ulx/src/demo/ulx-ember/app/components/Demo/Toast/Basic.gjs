@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class BasicToastDemo extends Component {
   @tracked messages = [];
@@ -14,8 +14,8 @@ export default class BasicToastDemo extends Component {
       {
         id: `msg-${Date.now()}`,
         variant: 'info',
-        summary: 'Info',
-        detail: 'This is a basic toast message.',
+        summary: t('lbl.info'),
+        detail: t('msg.basic.toast'),
       },
     ];
   }
@@ -28,7 +28,7 @@ export default class BasicToastDemo extends Component {
   <template>
     <div class="pda4">
       <UlxButton
-        @label="Show toast"
+        @label={{t "lbl.show.toast"}}
         @variant="primary"
         {{on "click" this.showToast}}
       />

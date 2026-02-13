@@ -1,15 +1,15 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxTag } from 'ulx-components';
+import { UlxTag, t } from 'ulx-components';
 
 export default class SizeDemoComponent extends Component {
   get sizes() {
     return [
-      { label: 'Extra Small', size: 'xs-size' },
-      { label: 'Small', size: 's-size' },
-      { label: 'Medium', size: 'm-size' },
-      { label: 'Large', size: 'l-size' },
-      { label: 'Extra Large', size: 'xl-size' },
+      { label: t('lbl.extra.small'), size: 'xs-size' },
+      { label: t('lbl.small'), size: 's-size' },
+      { label: t('lbl.medium'), size: 'm-size' },
+      { label: t('lbl.large'), size: 'l-size' },
+      { label: t('lbl.extra.large'), size: 'xl-size' },
     ];
   }
 

@@ -1,16 +1,16 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { UlxToast } from 'ulx-components';
+import { UlxToast, t } from 'ulx-components';
 
 export default class BasicToastDemo extends Component {
   get messages() {
     return [
       {
         id: '1',
-        severity: 'info',
-        summary: 'Info',
-        detail: 'This is a basic toast message.',
+        type: 'info',
+        summary: t('lbl.info'),
+        detail: t('msg.basic.toast'),
       },
     ];
   }

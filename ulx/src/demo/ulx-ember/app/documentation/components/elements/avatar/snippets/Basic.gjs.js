@@ -1,10 +1,10 @@
 export default `
-import { UlxAvatar } from 'ulx-components';
+import { UlxAvatar, t } from 'ulx-components';
 
 <template>
   <div class="ulx-grid col-2">
     <div class="">
-      <h6 class="bold-font mgb3">Square</h6>
+      <h6 class="bold-font mgb3">{{t "lbl.square"}}</h6>
       <div class="fxb wrap gp4 fvc">
         <UlxAvatar
           @type="text"
@@ -31,7 +31,7 @@ import { UlxAvatar } from 'ulx-components';
     </div>
 
     <div class="">
-      <h6 class="bold-font mgb3">Circle</h6>
+      <h6 class="bold-font mgb3">{{t "lbl.circle"}}</h6>
       <div class="fxb wrap gp4 fvc">
         <UlxAvatar
           @type="text"

@@ -2,17 +2,17 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxTabmenu } from 'ulx-components';
+import { UlxTabmenu, t } from 'ulx-components';
 
 export default class BasicTabMenuDemo extends Component {
   @tracked activeIndex = 0;
 
   get items() {
     return [
-      { label: 'Dashboard' },
-      { label: 'Transactions' },
-      { label: 'Products' },
-      { label: 'Messages' },
+      { label: t('lbl.dashboard') },
+      { label: t('lbl.transactions') },
+      { label: t('lbl.products') },
+      { label: t('lbl.messages') },
     ];
   }
 

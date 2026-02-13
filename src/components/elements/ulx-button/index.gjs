@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
+import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
@@ -75,8 +76,15 @@ import UlxBadge from "../ulx-badge/index.gjs";
  * @param {string} [customClass] - Additional CSS classes
  * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute
  * @param {function} [onClick] - Click handler
+ * @param {Modifier} [elementRef] - Optional modifier (or element-ref callback) applied to the root element for parent ref capture (e.g. dropdown target)
  */
 export default class UlxButton extends Component {
+	noOpElementRef = modifier(() => () => {});
+
+	get elementRefModifier() {
+		return this.args.elementRef ?? this.args.dropdownTargetRef ?? this.noOpElementRef;
+	}
+
 	get baseClass() {
 		return getComponentClass("button");
 	}
@@ -194,6 +202,7 @@ export default class UlxButton extends Component {
 				aria-disabled={{if this.isDisabled "true"}}
 				tabindex={{if this.isDisabled "-1" "0"}}
 				aria-busy={{if @loading "true"}}
+				{{this.elementRefModifier}}
 				{{on "click" this.handleClick}}
 				...attributes
 			>
@@ -264,6 +273,7 @@ export default class UlxButton extends Component {
 				type={{this.buttonType}}
 				disabled={{this.isDisabled}}
 				aria-busy={{if @loading "true"}}
+				{{this.elementRefModifier}}
 				{{on "click" this.handleClick}}
 				...attributes
 			>

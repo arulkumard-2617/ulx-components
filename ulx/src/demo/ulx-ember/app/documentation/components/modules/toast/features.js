@@ -4,7 +4,7 @@
 import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   BasicDemo,
-  SeveritiesDemo,
+  TypesDemo,
   PositionsDemo,
   VariantsDemo,
   MultipleDemo,
@@ -12,7 +12,7 @@ import {
   TemplateDemo,
   ImportSource,
   BasicSource,
-  SeveritiesSource,
+  TypesSource,
   PositionsSource,
   VariantsSource,
   MultipleSource,
@@ -62,21 +62,21 @@ export const ToastFeatureItems = [
     },
   },
   {
-    id: 'severities',
-    sectionNav: 'Severities',
+    id: 'types',
+    sectionNav: 'Types',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Toast supports <code>info</code>, <code>success</code>, <code>warn</code>, <code>error</code>, <code>secondary</code>, and <code>contrast</code> severities per message.',
+          'Toast supports <code>info</code>, <code>success</code>, <code>warn</code>, <code>error</code>, <code>secondary</code>, and <code>contrast</code> types per message.',
       },
     },
     demo: {
-      component: SeveritiesDemo,
+      component: TypesDemo,
       props: {
-        source: SeveritiesSource,
-        snippetName: 'severities',
+        source: TypesSource,
+        snippetName: 'types',
         language: 'handlebars',
       },
     },

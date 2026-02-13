@@ -2,10 +2,10 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio } from 'ulx-components';
+import { UlxRadio, t } from 'ulx-components';
 
 export default class BasicRadioDemo extends Component {
-  @tracked items = [{ label: 'Item 1', value: 'item1', checked: false }];
+  @tracked items = [{ label: t('lbl.item.1'), value: 'item1', checked: false }];
 
   get requiredRules() {
     return { required: true };
@@ -33,7 +33,7 @@ export default class BasicRadioDemo extends Component {
       />
 
       <div class="col-12">
-        Selected:
+        {{t "lbl.selected"}}:
         <strong>{{this.selectedValue}}</strong>
       </div>
     </div>

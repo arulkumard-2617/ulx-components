@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { UlxTieredmenu } from 'ulx-components';
+import { UlxTieredmenu, t } from 'ulx-components';
 
 export default class RouterDemoComponent extends Component {
   @service router;
@@ -10,15 +10,15 @@ export default class RouterDemoComponent extends Component {
   get items() {
     const routes = [
       {
-        label: 'TieredMenu docs',
+        label: t('lbl.tieredmenu.docs'),
         route: 'components.modules.tieredmenu',
       },
       {
-        label: 'Toast docs',
+        label: t('lbl.toast.docs'),
         route: 'components.modules.toast',
       },
       {
-        label: 'Tab Menu docs',
+        label: t('lbl.tab.menu.docs'),
         route: 'components.collections.tab-menu',
       },
     ];

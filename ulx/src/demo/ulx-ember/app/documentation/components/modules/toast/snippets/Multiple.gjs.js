@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class MultipleToastDemo extends Component {
   @tracked messages = [];
@@ -12,10 +12,10 @@ export default class MultipleToastDemo extends Component {
     const now = Date.now();
     this.messages = [
       ...this.messages,
-      { id: \`msg-\${now}-1\`, severity: 'info', summary: 'Info', detail: 'Info message.' },
-      { id: \`msg-\${now}-2\`, severity: 'success', summary: 'Success', detail: 'Success message.' },
-      { id: \`msg-\${now}-3\`, severity: 'warn', summary: 'Warn', detail: 'Warn message.' },
-      { id: \`msg-\${now}-4\`, severity: 'error', summary: 'Error', detail: 'Error message.' },
+      { id: \`msg-\${now}-1\`, type: 'info', summary: t('lbl.info'), detail: t('lbl.info.message') },
+      { id: \`msg-\${now}-2\`, type: 'success', summary: t('lbl.success'), detail: t('lbl.success.message') },
+      { id: \`msg-\${now}-3\`, type: 'warn', summary: t('lbl.warn'), detail: t('lbl.warn.message') },
+      { id: \`msg-\${now}-4\`, type: 'error', summary: t('lbl.error'), detail: t('lbl.error.message') },
     ];
   }
 
@@ -25,7 +25,7 @@ export default class MultipleToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label="Multiple" @variant="warning" {{on "click" this.showMultiple}} />
+    <UlxButton @label={{t "lbl.multiple"}} @variant="warning" {{on "click" this.showMultiple}} />
     <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
   </template>
 }

@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
-import { UlxTieredmenu, UlxButton } from 'ulx-components';
+import { UlxTieredmenu, UlxButton, t } from 'ulx-components';
 
 export default class PopupTieredmenuDemo extends Component {
   @tracked isMenuVisible = false;
@@ -14,33 +14,33 @@ export default class PopupTieredmenuDemo extends Component {
   get items() {
     return [
       {
-        label: 'File',
+        label: t('lbl.file'),
         icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
-            label: 'New',
+            label: t('lbl.new'),
             icon: 'bs-icons1 add-icon-01',
             items: [
-              { label: 'Project', icon: 'bs-icons1 library-icon' },
-              { label: 'File', icon: 'bs-icons1 pdf-stroke-icon' },
-              { label: 'From Template', icon: 'bs-icons1 copy-icon' },
+              { label: t('lbl.project'), icon: 'bs-icons1 library-icon' },
+              { label: t('lbl.file'), icon: 'bs-icons1 pdf-stroke-icon' },
+              { label: t('lbl.from.template'), icon: 'bs-icons1 copy-icon' },
             ],
           },
-          { label: 'Open', icon: 'bs-icons1 library-icon' },
+          { label: t('lbl.open'), icon: 'bs-icons1 library-icon' },
           { separator: true },
-          { label: 'Exit', icon: 'bs-icons1 close-icon-01' },
+          { label: t('lbl.exit'), icon: 'bs-icons1 close-icon-01' },
         ],
       },
       {
-        label: 'Edit',
+        label: t('lbl.edit'),
         icon: 'bs-icons1 edit-icon',
         items: [
-          { label: 'Undo', icon: 'bs-icons1 undo-icon' },
-          { label: 'Redo', icon: 'bs-icons1 update-icon' },
+          { label: t('lbl.undo'), icon: 'bs-icons1 undo-icon' },
+          { label: t('lbl.redo'), icon: 'bs-icons1 update-icon' },
         ],
       },
       {
-        label: 'Help',
+        label: t('lbl.help'),
         icon: 'bs-icons1 question-icon',
         command: () => console.log('Help clicked'),
       },
@@ -83,7 +83,7 @@ export default class PopupTieredmenuDemo extends Component {
   <template>
     <div class="pda4">
       <UlxButton
-        @label="Show Menu"
+        @label={{t "lbl.show.menu"}}
         @variant="primary"
         {{on "click" this.toggleMenu}}
         {{this.setButtonRef}}

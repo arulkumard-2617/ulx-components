@@ -18,6 +18,7 @@ Router.map(function () {
     this.route('collections', function () {
       this.route('tab-menu');
       this.route('segment');
+      this.route('split-button', { path: '/split-button' });
     });
     this.route('elements', function () {
       this.route('icon');

@@ -14,7 +14,7 @@ export default {
   // Page metadata
   header: 'Button',
   subHeader:
-    'Button is a component for user interaction with support for multiple severities, variants, icons, and states.',
+    'Button is a component for user interaction with support for multiple types, variants, icons, and states.',
 
   // Tab configuration
   tabs: [

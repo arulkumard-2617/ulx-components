@@ -2,19 +2,19 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'ulx-components';
+import { UlxCheckbox, t } from 'ulx-components';
 
 export default class GroupDemoComponent extends Component {
   @tracked items = [
-    { label: 'Item 1', checked: true },
-    { label: 'Item 2', checked: false },
-    { label: 'Item 3 (disabled)', checked: false, disabled: true },
+    { label: t('lbl.item.1'), checked: true },
+    { label: t('lbl.item.2'), checked: false },
+    { label: t('lbl.item.3.disabled'), checked: false, disabled: true },
   ];
 
   get error() {
     // Example validation: require at least one item to be checked.
     const hasAtLeastOneChecked = this.items.some((i) => i.checked);
-    return hasAtLeastOneChecked ? undefined : 'Select at least one option.';
+    return hasAtLeastOneChecked ? undefined : t('msg.select.at.least.one');
   }
 
   @action
@@ -25,10 +25,10 @@ export default class GroupDemoComponent extends Component {
   <template>
     <div class="ulx-form s-size ulx-grid gp8 mgb14">
       <UlxCheckbox
-        @label="Group"
+        @label={{t "lbl.group"}}
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}
-        @helpText="Help text"
+        @helpText={{t "lbl.help.text"}}
         @fieldClass="col-12"
         @groupClass="horizontal"
         @error={{this.error}}

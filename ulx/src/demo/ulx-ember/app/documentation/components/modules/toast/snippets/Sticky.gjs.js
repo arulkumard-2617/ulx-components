@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class StickyToastDemo extends Component {
   @tracked messages = [];
@@ -13,9 +13,9 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-sticky\`,
-        severity: 'info',
-        summary: 'Sticky',
-        detail: 'This message stays visible until you close it.',
+        type: 'info',
+        summary: t('lbl.sticky'),
+        detail: t('msg.sticky.toast'),
         sticky: true,
       },
     ];
@@ -32,8 +32,8 @@ export default class StickyToastDemo extends Component {
   }
 
   <template>
-    <UlxButton @label="Sticky" @variant="secondary" {{on "click" this.showSticky}} />
-    <UlxButton @label="Clear" @variant="secondary" {{on "click" this.clearAll}} />
+    <UlxButton @label={{t "lbl.sticky"}} @variant="secondary" {{on "click" this.showSticky}} />
+    <UlxButton @label={{t "lbl.clear"}} @variant="secondary" {{on "click" this.clearAll}} />
     <UlxToast
       @messages={{this.messages}}
       @life={{3000}}

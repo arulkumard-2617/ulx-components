@@ -1,8 +1,8 @@
-import { UlxSegment, UlxSegmentsGroup } from 'ulx-components';
+import { UlxSegment, UlxSegmentsGroup, t } from 'ulx-components';
 
 <template>
   <div class="disabled-demo">
-    <h3>Disabled State</h3>
+    <h3>{{t "lbl.disabled.state"}}</h3>
     <p>Disabled segments have reduced opacity, disabled pointer events, and a
       not-allowed cursor</p>
 
@@ -10,7 +10,7 @@ import { UlxSegment, UlxSegmentsGroup } from 'ulx-components';
       <p>This segment is disabled. It cannot be interacted with.</p>
     </UlxSegment>
 
-    <h3>Disabled in Segments Group</h3>
+    <h3>{{t "msg.disabled.in.segments.group"}}</h3>
     <UlxSegmentsGroup>
       <UlxSegment @disabled={{true}}>
         <p>First segment - disabled</p>
