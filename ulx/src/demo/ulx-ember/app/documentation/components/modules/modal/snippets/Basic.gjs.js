@@ -1,0 +1,50 @@
+export default `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
+import { UlxModal, UlxButton } from 'ulx-components';
+
+export default class BasicModalDemo extends Component {
+  @tracked isVisible = false;
+
+  @action
+  openModal() {
+    this.isVisible = true;
+  }
+
+  @action
+  closeModal() {
+    this.isVisible = false;
+  }
+
+  @action
+  handleConfirm() {
+    this.isVisible = false;
+  }
+
+  <template>
+    <div class="fxb fvc gp4">
+      <UlxButton
+        @label="Open Modal"
+        @variant="primary"
+        {{on "click" this.openModal}}
+      />
+
+      <UlxModal
+        @visible={{this.isVisible}}
+        @title="Basic Modal"
+        @onHide={{this.closeModal}}
+        @showDefaultFooter={{true}}
+        @cancelButtonLabel="Cancel"
+        @doneButtonLabel="Confirm"
+        @onDone={{this.handleConfirm}}
+        @onCancel={{this.closeModal}}
+      >
+        <p>This is the default body content. You can pass any content as the default block.</p>
+      </UlxModal>
+    </div>
+  </template>
+}
+
+`;
