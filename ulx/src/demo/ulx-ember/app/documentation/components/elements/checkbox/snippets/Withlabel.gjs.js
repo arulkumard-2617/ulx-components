@@ -6,8 +6,8 @@ import { UlxCheckbox, t } from 'ulx-components';
 
 export default class WithlabelDemoComponent extends Component {
   @tracked items = [
-    { label: t('lbl.all.event.days'), checked: true },
-    { label: t('lbl.single.event.days'), checked: true },
+    { label: 'All Event Days', checked: true },
+    { label: 'Single Event Days', checked: true },
   ];
 
   get requiredRules() {

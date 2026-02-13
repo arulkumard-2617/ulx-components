@@ -1,11 +1,11 @@
 export default `
-import { UlxInput, t } from 'ulx-components';
+import { UlxInput } from 'ulx-components';
 
 <template>
   <div class="ulx-form s-size ulx-grid gp8 mgb14">
     <UlxInput
       @id="username"
-      @label={{t "lbl.username"}}
+      @label="Username"
       @floatLabel={{true}}
       @size="l-size"
       @fieldClass="col-12"

@@ -6,11 +6,11 @@ export default class DemoSplitButtonDisabled extends Component {
   get items() {
     return [
       {
-        label: t('lbl.update'),
+        label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
         command: () => {},
       },
-      { label: t('lbl.delete'), icon: 'bs-icons1 close-icon-01', command: () => {} },
+      { label: 'Delete', icon: 'bs-icons1 close-icon-01', command: () => {} },
     ];
   }
 

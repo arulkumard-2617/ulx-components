@@ -1,21 +1,75 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxToast, t } from 'ulx-components';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { fn } from '@ember/helper';
+import { on } from '@ember/modifier';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class TypesToastDemo extends Component {
-  get messages() {
-    return [
-      { id: '1', type: 'info', summary: t('lbl.info'), detail: t('lbl.info.message') },
-      { id: '2', type: 'success', summary: t('lbl.success'), detail: t('lbl.success.message') },
-      { id: '3', type: 'warn', summary: t('lbl.warn'), detail: t('lbl.warn.message') },
-      { id: '4', type: 'error', summary: t('lbl.error'), detail: t('lbl.error.message') },
-      { id: '5', type: 'secondary', summary: t('lbl.secondary'), detail: t('lbl.secondary.message') },
-      { id: '6', type: 'contrast', summary: t('lbl.contrast'), detail: t('lbl.contrast.message') },
+  @tracked messages = [];
+
+  @action
+  addMessage(type) {
+    const labels = {
+      info: t('lbl.info'),
+      success: t('lbl.success'),
+      warn: t('lbl.warning'),
+      error: t('lbl.error'),
+      secondary: t('lbl.secondary'),
+      contrast: t('lbl.contrast'),
+    };
+    this.messages = [
+      ...this.messages,
+      {
+        id: \`msg-\${Date.now()}-\${type}\`,
+        type,
+        summary: labels[type] ?? type,
+        detail: t('msg.type.message', { type: labels[type] ?? type }),
+      },
     ];
   }
 
+  @action
+  removeMessage(message) {
+    this.messages = this.messages.filter((m) => m.id !== message.id);
+  }
+
   <template>
-    <UlxToast @messages={{this.messages}} />
+    <div class="pda4">
+      <div class="fx gap8 flxw">
+        <UlxButton
+          @label={{t "lbl.info"}}
+          @variant="info"
+          {{on "click" (fn this.addMessage "info")}}
+        />
+        <UlxButton
+          @label={{t "lbl.success"}}
+          @variant="success"
+          {{on "click" (fn this.addMessage "success")}}
+        />
+        <UlxButton
+          @label={{t "lbl.warn"}}
+          @variant="warning"
+          {{on "click" (fn this.addMessage "warn")}}
+        />
+        <UlxButton
+          @label={{t "lbl.error"}}
+          @variant="danger"
+          {{on "click" (fn this.addMessage "error")}}
+        />
+        <UlxButton
+          @label={{t "lbl.secondary"}}
+          @variant="secondary"
+          {{on "click" (fn this.addMessage "secondary")}}
+        />
+        <UlxButton
+          @label={{t "lbl.contrast"}}
+          {{on "click" (fn this.addMessage "contrast")}}
+        />
+      </div>
+      <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
+    </div>
   </template>
 }
 

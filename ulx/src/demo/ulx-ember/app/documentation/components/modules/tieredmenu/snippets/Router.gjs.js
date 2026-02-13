@@ -1,39 +1,53 @@
 export default `
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxTieredmenu, t } from 'ulx-components';
+import { service } from '@ember/service';
+import { UlxTieredmenu } from 'ulx-components';
 
 export default class RouterDemoComponent extends Component {
-  @tracked activeItem = null;
-
-  constructor() {
-    super(...arguments);
-    // Initialize with first item active
-    if (this.items && this.items.length > 0) {
-      this.activeItem = this.items[0];
-    }
-  }
+  @service router;
 
   get items() {
-    return [
-      { label: t('lbl.item.1'), value: 'item1' },
-      { label: t('lbl.item.2'), value: 'item2' },
-      { label: t('lbl.item.3'), value: 'item3' }
+    const routes = [
+      {
+        label: 'TieredMenu docs',
+        route: 'components.modules.tieredmenu',
+      },
+      {
+        label: 'Toast docs',
+        route: 'components.modules.toast',
+      },
+      {
+        label: 'Tab Menu docs',
+        route: 'components.collections.tab-menu',
+      },
     ];
+
+    return routes.map((item) => ({
+      ...item,
+      // Use command to integrate with Ember Router
+      command: ({ item: selected }) => {
+        if (selected.route) {
+          this.router.transitionTo(selected.route);
+        }
+      },
+    }));
   }
 
   @action
-  handleItemClick(item) {
-    this.activeItem = item;
+  handleItemSelect(/* item */) {
+    // Selection is handled by command via router.transitionTo;
+    // keep this hook for additional side effects if needed.
   }
 
   <template>
-    <UlxTieredmenu
-      @items={{this.items}}
-      @activeItem={{this.activeItem}}
-      @onItemClick={{this.handleItemClick}}
-    />
+    <div class="pda4">
+      <UlxTieredmenu
+        @model={{this.items}}
+        @onItemSelect={{this.handleItemSelect}}
+      />
+    </div>
   </template>
 }
+
 `;

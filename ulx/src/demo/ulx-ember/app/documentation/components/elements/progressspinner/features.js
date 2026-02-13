@@ -39,7 +39,7 @@ export const ProgressSpinnerFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows a single ProgressSpinner with <code>@size="xl-size"</code> (largest size from uls-v2). Use <code>@ariaLabel</code> when it is the main loading indicator.',
+          'The <code>Basic</code> demo shows a single ProgressSpinner with <code>@size="xl-size"</code> (largest size from ULS_V2.0). Use <code>@ariaLabel</code> when it is the main loading indicator.',
       },
     },
     demo: {
@@ -59,7 +59,7 @@ export const ProgressSpinnerFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Custom</code> demo shows custom usage: pass <code>@size</code> and <code>@customClass</code> from the parent. Styling uses only existing uls-v2 <code>progress-spinner.less</code> (xs/s/m/l/xl-size).',
+          'The <code>Custom</code> demo shows custom usage: pass <code>@size</code> and <code>@customClass</code> from the parent. Styling uses only existing ULS_V2.0 <code>progress-spinner.less</code> (xs/s/m/l/xl-size).',
       },
     },
     demo: {

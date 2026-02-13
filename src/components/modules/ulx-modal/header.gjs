@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
-import UlxButton from "../../ulx-button";
+import UlxButton from "../../elements/ulx-button/index.gjs";
 
 /**
  * Modal header subcomponent.
@@ -37,7 +37,6 @@ import UlxButton from "../../ulx-button";
  * @param {boolean} [maximizeButtonText=true] - UlxButton text style for maximize button
  */
 export default class UlxModalHeader extends Component {
-
 	get showCloseButton() {
 		return this.args.showCloseButton ?? true;
 	}

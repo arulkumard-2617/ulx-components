@@ -1,27 +1,34 @@
 // Addon entry point
 
-// ── Components ──────────────────────────────────────────────
-export { default as UlxIcon } from './components/ulx-icon.js';
-export { default as UlxButton } from './components/ulx-button.js';
-export { default as UlxButtonGroup } from './components/ulx-button-group.js';
-export { default as UlxSplitButton } from './components/ulx-split-button.js';
-export { default as UlxProgressSpinner } from './components/ulx-progressspinner.js';
-export { default as UlxProgressBar } from './components/ulx-progressbar.js';
-export { default as UlxTieredmenu } from './components/ulx-tieredmenu.js';
-export { default as UlxToast } from './components/ulx-toast.js';
-export { default as UlxInput } from './components/ulx-input.js';
-export { default as UlxTextarea } from './components/ulx-textarea.js';
-export { default as UlxIconInput } from './components/ulx-icon-input.js';
-export { default as UlxCheckbox } from './components/ulx-checkbox.js';
-export { default as UlxRadio } from './components/ulx-radio.js';
-export { default as UlxTag } from './components/ulx-tag.js';
-export { default as UlxBadge } from './components/ulx-badge.js';
-export { default as UlxAvatar } from './components/ulx-avatar.js';
-export { default as UlxAvatarGroup } from './components/ulx-avatar-group.js';
-export { default as UlxTabmenu } from './components/ulx-tabmenu.js';
-export { default as UlxSegment } from './components/ulx-segment.js';
-export { default as UlxSegmentsGroup } from './components/ulx-segments-group.js';
-export { default as UlxModal } from './components/ulx-modal.js';
+// ── Components ──
+// Elements
+export { default as UlxIcon } from './components/elements/ulx-icon/index.gjs';
+export { default as UlxButton } from './components/elements/ulx-button/index.gjs';
+export { default as UlxInput } from './components/elements/ulx-input/index.gjs';
+export { default as UlxTextarea } from './components/elements/ulx-textarea/index.gjs';
+export { default as UlxIconInput } from './components/elements/ulx-icon-input/index.gjs';
+export { default as UlxCheckbox } from './components/elements/ulx-checkbox/index.gjs';
+export { default as UlxRadio } from './components/elements/ulx-radio/index.gjs';
+export { default as UlxTag } from './components/elements/ulx-tag/index.gjs';
+export { default as UlxBadge } from './components/elements/ulx-badge/index.gjs';
+export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs';
+export { default as UlxAvatarGroup } from './components/elements/ulx-avatar-group/index.gjs';
+export { default as UlxProgressSpinner } from './components/elements/ulx-progressspinner/index.gjs';
+export { default as UlxProgressBar } from './components/elements/ulx-progress-bar/index.gjs';
+export { default as UlxSplitButton } from './components/elements/ulx-split-button/index.gjs';
+export { default as UlxTristateCheckbox } from './components/elements/ulx-tristate-checkbox/index.gjs';
+// Collections
+export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
+export { default as UlxTabmenu } from './components/collections/ulx-tabmenu/index.gjs';
+export { default as UlxSegment } from './components/collections/ulx-segment/index.gjs';
+export { default as UlxSegmentsGroup } from './components/collections/ulx-segments-group/index.gjs';
+export { default as UlxOptionSegment } from './components/collections/ulx-option-segment/index.gjs';
+// Modules
+export { default as UlxModal } from './components/modules/ulx-modal/index.gjs';
+export { default as UlxPopup } from './components/modules/ulx-popup/index.gjs';
+export { default as UlxTooltip } from './components/modules/ulx-tooltip/index.gjs';
+export { default as UlxTieredmenu } from './components/modules/ulx-tieredmenu/index.gjs';
+export { default as UlxToast } from './components/modules/ulx-toast/index.gjs';
 
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';

@@ -6,9 +6,9 @@ import { UlxCheckbox, t } from 'ulx-components';
 
 export default class GroupDemoComponent extends Component {
   @tracked items = [
-    { label: t('lbl.item.1'), checked: true },
-    { label: t('lbl.item.2'), checked: false },
-    { label: t('lbl.item.3.disabled'), checked: false, disabled: true },
+    { label: 'Item 1', checked: true },
+    { label: 'Item 2', checked: false },
+    { label: 'Item 3 (disabled)', checked: false, disabled: true },
   ];
 
   get error() {

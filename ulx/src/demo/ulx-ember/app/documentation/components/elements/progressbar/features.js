@@ -43,7 +43,7 @@ export const ProgressBarFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows a determinate progress bar with <code>@value={{50}}</code> (0–100). Uses uls-v2 progress-bar.less classes.',
+          'The <code>Basic</code> demo shows a determinate progress bar with <code>@value={{50}}</code> (0–100). Uses ULS_V2.0 progress-bar.less classes.',
       },
     },
     demo: {

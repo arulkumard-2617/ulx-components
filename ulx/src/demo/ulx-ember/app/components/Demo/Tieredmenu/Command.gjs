@@ -7,20 +7,16 @@ export default class CommandDemoComponent extends Component {
   @tracked activeItem = null;
   @tracked messages = [];
 
-  constructor() {
-    super(...arguments);
-    // Initialize with first item active
-    if (this.items && this.items.length > 0) {
-      this.activeItem = this.items[0];
-    }
-  }
-
   get items() {
     return [
       {
         label: t('lbl.show.toast.1'),
         items: [
-          { label: t('lbl.info.toast'), value: 'show1-info', toastVariant: 'info' },
+          {
+            label: t('lbl.info.toast'),
+            value: 'show1-info',
+            toastVariant: 'info',
+          },
           {
             label: t('lbl.success.toast'),
             value: 'show1-success',

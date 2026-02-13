@@ -312,6 +312,16 @@ export default class UlxTabmenu extends Component {
 	}
 
 	@action
+	handleFocus() {
+		requestAnimationFrame(() => this.updateInkbarPosition());
+	}
+
+	@action
+	handleBlur() {
+		requestAnimationFrame(() => this.updateInkbarPosition());
+	}
+
+	@action
 	updateInkbarPosition() {
 		if (!this.inkbarElement) return;
 

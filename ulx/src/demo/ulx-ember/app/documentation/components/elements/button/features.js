@@ -370,7 +370,7 @@ export const ButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'A button can be rendered with custom content when content is passed as the default block. Use <code>@customClass</code> with uls-v2 classes for styling and pass any markup (e.g. an image logo) inside the button.',
+          'A button can be rendered with custom content when content is passed as the default block. Use <code>@customClass</code> with ULS_V2.0 classes for styling and pass any markup (e.g. an image logo) inside the button.',
       },
     },
     demo: {

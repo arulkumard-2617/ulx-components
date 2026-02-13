@@ -55,10 +55,10 @@ export default class PopupTieredmenuDemo extends Component {
   toggleMenu(event) {
     event?.stopPropagation();
     if (this.isMenuVisible) {
-      // Close: call handleHide first (via hide()), then visible is set in onHide
       this.menuRef?.hide(event);
     } else {
       this.isMenuVisible = true;
+      this.menuRef?.show?.(event);
     }
   }
 

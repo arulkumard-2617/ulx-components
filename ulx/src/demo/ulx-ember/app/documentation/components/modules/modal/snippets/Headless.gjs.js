@@ -34,24 +34,39 @@ export default class HeadlessModalDemo extends Component {
       @headless={{true}}
       as |hide|
     >
-      <div class="fxb column gp4 pd8">
-        <div class="fxb fvc fsb w-100p">
-          <span></span>
-          <UlxButton @icon="close-icon-01" @iconComponentClass="bs-icons1" @variant="text" aria-label="Close" {{on "click" hide}} />
-        </div>
-        <div class="fxb column gp2 w-100p">
-          <UlxInput id="headless-username" @label="Username" @placeholder="Username" />
-        </div>
+        <div class="fxb column gp4 pd8">
+  
+          <div class="fxb column gp2 w-100p">
+            <UlxInput
+              id="headless-username"
+              @label="Username"
+              @placeholder="Username"
+            />
+          </div>
 
-        <div class="fxb column gp2 w-100p">
-          <UlxInput id="headless-password" @label="Username" @placeholder="Password" @type="password" />
-        </div>
+          <div class="fxb column gp2 w-100p">
+            <UlxInput
+              id="headless-password"
+              @label="Username"
+              @placeholder="Password"
+              @type="password"
+            />
+          </div>
 
-        <div class="fxb column gp2 w-100p">
-          <UlxButton @label="Sign-In" @variant="primary" {{on "click" hide}} />
-          <UlxButton @label="Cancel" @variant="secondary" @outlined={{true}} {{on "click" hide}} />
+          <div class="fxb column gp2 w-100p">
+            <UlxButton
+              @label="Sign-In"
+              @variant="primary"
+              {{on "click" hide}}
+            />
+            <UlxButton
+              @label="Cancel"
+              @variant="secondary"
+              @outlined={{true}}
+              {{on "click" hide}}
+            />
+          </div>
         </div>
-      </div>
     </UlxModal>
   </template>
 }

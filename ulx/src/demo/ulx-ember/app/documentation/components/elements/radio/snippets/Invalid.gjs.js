@@ -6,9 +6,9 @@ import { UlxRadio, t } from 'ulx-components';
 
 export default class InvalidRadioDemo extends Component {
   @tracked items = [
-    { label: t('lbl.item.1'), value: 'item1', checked: false },
-    { label: t('lbl.item.2'), value: 'item2', checked: false },
-    { label: t('lbl.item.3'), value: 'item3', checked: false },
+    { label: 'Item 1', value: 'item1', checked: false },
+    { label: 'Item 2', value: 'item2', checked: false },
+    { label: 'Item 3', value: 'item3', checked: false },
   ];
 
   get requiredRules() {

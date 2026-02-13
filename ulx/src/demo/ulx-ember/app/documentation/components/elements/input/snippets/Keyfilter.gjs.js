@@ -1,41 +1,41 @@
 export default `
-import { UlxInput, t } from 'ulx-components';
+import { UlxInput } from 'ulx-components';
 
 const keyfilters = [
-  { label: t('lbl.integers'), keyfilter: 'int', placeholder: t('ph.integers') },
-  { label: t('lbl.floats'), keyfilter: 'float', placeholder: t('ph.floats') },
+  { label: 'Integers', keyfilter: 'int', placeholder: 'e.g. -123' },
+  { label: 'Floats', keyfilter: 'float', placeholder: 'e.g. -12.34' },
   {
-    label: t('lbl.email.loose'),
+    label: 'Email (loose)',
     keyfilter: 'email',
-    placeholder: t('ph.email'),
+    placeholder: 'e.g. name@site.com',
   },
   {
-    label: t('lbl.url.loose'),
+    label: 'URL (loose)',
     keyfilter: 'url',
-    placeholder: t('ph.url'),
+    placeholder: 'e.g. https://example.com',
   },
-  { label: t('lbl.phone'), keyfilter: 'phone', placeholder: t('ph.phone') },
-  { label: t('lbl.cpf'), keyfilter: 'cpf', placeholder: t('ph.cpf') },
-  { label: t('lbl.cnpj'), keyfilter: 'cnpj', placeholder: t('ph.cnpj') },
-  { label: t('lbl.hex'), keyfilter: 'hex', placeholder: t('ph.hex') },
-  { label: t('lbl.alpha'), keyfilter: 'alpha', placeholder: t('ph.alpha') },
+  { label: 'Phone', keyfilter: 'phone', placeholder: 'e.g. +1 (555) 123-4567' },
+  { label: 'CPF', keyfilter: 'cpf', placeholder: '11 digits' },
+  { label: 'CNPJ', keyfilter: 'cnpj', placeholder: '14 digits' },
+  { label: 'Hex', keyfilter: 'hex', placeholder: 'e.g. 1A2b3C' },
+  { label: 'Alpha', keyfilter: 'alpha', placeholder: 'letters only' },
   {
-    label: t('lbl.alphanum'),
+    label: 'Alphanum',
     keyfilter: 'alphanum',
-    placeholder: t('ph.alphanum'),
+    placeholder: 'letters + numbers',
   },
-  { label: t('lbl.uuid.loose'), keyfilter: 'uuid', placeholder: t('ph.uuid') },
-  { label: t('lbl.date'), keyfilter: 'date', placeholder: 'YYYY-MM-DD' },
-  { label: t('lbl.time'), keyfilter: 'time', placeholder: 'HH:MM' },
-  { label: t('lbl.datetime'), keyfilter: 'datetime', placeholder: 'YYYY-MM-DD HH:MM' },
+  { label: 'UUID (loose)', keyfilter: 'uuid', placeholder: 'hex + hyphen' },
+  { label: 'Date', keyfilter: 'date', placeholder: 'YYYY-MM-DD' },
+  { label: 'Time', keyfilter: 'time', placeholder: 'HH:MM' },
+  { label: 'Datetime', keyfilter: 'datetime', placeholder: 'YYYY-MM-DD HH:MM' },
   {
-    label: t('lbl.datetime.local'),
+    label: 'Datetime Local',
     keyfilter: 'datetime-local',
     placeholder: 'YYYY-MM-DDTHH:MM',
   },
-  { label: t('lbl.month'), keyfilter: 'month', placeholder: 'YYYY-MM' },
-  { label: t('lbl.week'), keyfilter: 'week', placeholder: 'YYYY-Www' },
-  { label: t('lbl.custom.regexp'), keyfilter: '/^[A-Z]*$/', placeholder: t('ph.custom.regexp') },
+  { label: 'Month', keyfilter: 'month', placeholder: 'YYYY-MM' },
+  { label: 'Week', keyfilter: 'week', placeholder: 'YYYY-Www' },
+  { label: 'Custom RegExp', keyfilter: '/^[A-Z]*$/', placeholder: 'A–Z only' },
 ];
 
 <template>

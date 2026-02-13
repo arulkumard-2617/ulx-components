@@ -5,17 +5,17 @@ import { UlxSegment, t } from 'ulx-components';
 export default class BorderedDemoComponent extends Component {
   get borderedExamples() {
     return [
-      { side: 'top', color: 'red', label: t('lbl.red') },
-      { side: 'top', color: 'blue', label: t('lbl.blue') },
-      { side: 'top', color: 'green', label: t('lbl.green') },
-      { side: 'top', color: 'primary', label: t('lbl.primary') },
-      { side: 'bottom', color: 'orange', label: t('lbl.orange') },
-      { side: 'bottom', color: 'purple', label: t('lbl.purple') },
-      { side: 'bottom', color: 'grey', label: t('lbl.grey') },
-      { side: 'left', color: 'blue', label: t('lbl.blue') },
-      { side: 'left', color: 'green', label: t('lbl.green') },
-      { side: 'right', color: 'red', label: t('lbl.red') },
-      { side: 'right', color: 'primary', label: t('lbl.primary') },
+      { side: 'top', color: 'red', label: 'Red' },
+      { side: 'top', color: 'blue', label: 'Blue' },
+      { side: 'top', color: 'green', label: 'Green' },
+      { side: 'top', color: 'primary', label: 'Primary' },
+      { side: 'bottom', color: 'orange', label: 'Orange' },
+      { side: 'bottom', color: 'purple', label: 'Purple' },
+      { side: 'bottom', color: 'grey', label: 'Grey' },
+      { side: 'left', color: 'blue', label: 'Blue' },
+      { side: 'left', color: 'green', label: 'Green' },
+      { side: 'right', color: 'red', label: 'Red' },
+      { side: 'right', color: 'primary', label: 'Primary' },
     ];
   }
 

@@ -15,6 +15,9 @@ addon/dist
 ulx/src/demo/ulx-ember/dist
 ulx/src/demo/ulx-ember/dist/**
 
+# demo app lockfile (not committed)
+package-lock.json
+
 # misc
 .pnpm-debug.log
 .DS_Store

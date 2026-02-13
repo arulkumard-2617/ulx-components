@@ -6,7 +6,7 @@ import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
 import UlxButton from "../ulx-button/index.gjs";
-import UlxTieredmenu from "../../ulx-tieredmenu.gjs";
+import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
 
 /**
  * Split button: default action button plus dropdown for additional options.

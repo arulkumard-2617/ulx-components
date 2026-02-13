@@ -1,15 +1,15 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButton, t } from 'ulx-components';
+import { UlxButton } from 'ulx-components';
 
 const ICON_ONLY_ROW = [
-  { icon: 'ls-tick-icon', type: 'primary', ariaLabel: t('lbl.filter') },
-  { icon: 'comment-icon', type: 'secondary', ariaLabel: t('lbl.bookmark') },
-  { icon: 'search-icon', type: 'success', ariaLabel: t('lbl.search') },
-  { icon: 'close-icon-01', type: 'info', ariaLabel: t('lbl.user') },
-  { icon: 'delete-icon', type: 'warning', ariaLabel: t('lbl.notification') },
-  { icon: 'ls-tick-icon', type: 'help', ariaLabel: t('lbl.favorite') },
-  { icon: 'close-icon-01', type: 'danger', ariaLabel: t('lbl.cancel') },
+  { icon: 'ls-tick-icon', type: 'primary', ariaLabel: 'Filter' },
+  { icon: 'comment-icon', type: 'secondary', ariaLabel: 'Bookmark' },
+  { icon: 'search-icon', type: 'success', ariaLabel: 'Search' },
+  { icon: 'close-icon-01', type: 'info', ariaLabel: 'User' },
+  { icon: 'delete-icon', type: 'warning', ariaLabel: 'Notification' },
+  { icon: 'ls-tick-icon', type: 'help', ariaLabel: 'Favorite' },
+  { icon: 'close-icon-01', type: 'danger', ariaLabel: 'Cancel' },
 ];
 
 export default class DemoButtonIconOnly extends Component {

@@ -15,20 +15,11 @@ import { UlxSegmentsGroup, UlxSegment, t } from 'ulx-components';
           page editors now use Lorem Ipsum as their default model text, and a
           search for 'lorem ipsum' will uncover many web sites still in their
           infancy. Various versions have evolved over the years, sometimes by
-          accident, sometimes on purpose (injected humour and the like).
+          accident, sometimes on purpose injected humour and the like.
         </p>
       </UlxSegment>
-    </UlxSegmentsGroup>
-
-    <UlxSegmentsGroup @horizontal={{true}}>
       <UlxSegment>
-        <p>Left segment</p>
-      </UlxSegment>
-      <UlxSegment>
-        <p>Middle segment</p>
-      </UlxSegment>
-      <UlxSegment>
-        <p>Right segment</p>
+        <p>Footer</p>
       </UlxSegment>
     </UlxSegmentsGroup>
   </div>

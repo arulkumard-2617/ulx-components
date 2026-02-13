@@ -1,0 +1,43 @@
+{{page-title "OptionSegment - ULS Ember Documentation"}}
+
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <Common::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-collections-option-segment-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for OptionSegment component."
+      >
+        <p class="fg-text-secondary">Theming content goes here.</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview>
+        <div class="pd6 fg-text-secondary font-size12">
+          Preview not configured yet. Update
+          <code>app/documentation/components/collections/option-segment/builder-schema.js</code>
+          and this template to render the component with the generated props.
+        </div>
+      </:preview>
+    </Common::DocMain::ComponentBuilder>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-collections-option-segment-passthrough"
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for OptionSegment component."
+      >
+        <p class="fg-text-secondary">Pass Through content goes here.</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</Common::DocMain::ComponentLayout>

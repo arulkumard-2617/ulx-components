@@ -18,7 +18,8 @@ Router.map(function () {
     this.route('collections', function () {
       this.route('tab-menu');
       this.route('segment');
-      this.route('split-button', { path: '/split-button' });
+      this.route('split-button');
+      this.route('option-segment');
     });
     this.route('elements', function () {
       this.route('icon');
@@ -33,12 +34,14 @@ Router.map(function () {
       this.route('button');
       this.route('progressbar');
       this.route('progressspinner');
+      this.route('tristate-checkbox');
     });
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');
+      this.route('popup');
       this.route('modal');
-});
+    });
   });
 
   this.route('utilities', function () {
