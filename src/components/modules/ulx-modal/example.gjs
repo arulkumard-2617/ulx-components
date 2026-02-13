@@ -3,8 +3,8 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxModal from "./index.gjs";
-import UlxButton from "../../ulx-button";
-import UlxToast from "../../ulx-toast";
+import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxToast from "../../modules/ulx-toast/index.gjs";
 
 /**
  * Example component demonstrating various UlxModal usage patterns.
@@ -139,23 +139,11 @@ export default class UlxModalExample extends Component {
 			<h1>UlxModal Component Examples</h1>
 
 			<div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
-				<UlxButton
-					@label="Basic Modal"
-					@variant="primary"
-					{{on "click" this.openBasicModal}}
-				/>
+				<UlxButton @label="Basic Modal" @variant="primary" {{on "click" this.openBasicModal}} />
 
-				<UlxButton
-					@label="Custom Modal"
-					@variant="primary"
-					{{on "click" this.openCustomModal}}
-				/>
+				<UlxButton @label="Custom Modal" @variant="primary" {{on "click" this.openCustomModal}} />
 
-				<UlxButton
-					@label="Confirm Modal"
-					@variant="primary"
-					{{on "click" this.openConfirmModal}}
-				/>
+				<UlxButton @label="Confirm Modal" @variant="primary" {{on "click" this.openConfirmModal}} />
 
 				<UlxButton
 					@label="Maximizable Modal"
@@ -219,16 +207,8 @@ export default class UlxModalExample extends Component {
 				</:body>
 
 				<:footer>
-					<UlxButton
-						@label="Cancel"
-						@variant="secondary"
-						{{on "click" this.closeCustomModal}}
-					/>
-					<UlxButton
-						@label="Save Changes"
-						@variant="primary"
-						{{on "click" this.saveCustom}}
-					/>
+					<UlxButton @label="Cancel" @variant="secondary" {{on "click" this.closeCustomModal}} />
+					<UlxButton @label="Save Changes" @variant="primary" {{on "click" this.saveCustom}} />
 				</:footer>
 			</UlxModal>
 
@@ -270,7 +250,7 @@ export default class UlxModalExample extends Component {
 					<h3>Large Content Area</h3>
 					<p>This modal can be maximized to full screen.</p>
 					<p>Click the maximize button in the header to expand it.</p>
-					
+
 					<h4>Features:</h4>
 					<ul>
 						<li>Maximize/Minimize button in header</li>
@@ -280,9 +260,12 @@ export default class UlxModalExample extends Component {
 					</ul>
 
 					<h4>Sample Content:</h4>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua.</p>
+					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+						ea commodo consequat.</p>
+					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+						nulla pariatur.</p>
 				</div>
 			</UlxModal>
 
@@ -305,11 +288,7 @@ export default class UlxModalExample extends Component {
 				</:body>
 
 				<:footer>
-					<UlxButton
-						@label="Close"
-						@variant="secondary"
-						{{on "click" this.closeStackedModal1}}
-					/>
+					<UlxButton @label="Close" @variant="secondary" {{on "click" this.closeStackedModal1}} />
 				</:footer>
 			</UlxModal>
 
@@ -335,10 +314,7 @@ export default class UlxModalExample extends Component {
 				</:footer>
 			</UlxModal>
 
-			<UlxToast
-				@messages={{this.toastMessages}}
-				@onClose={{this.removeToastMessage}}
-			/>
+			<UlxToast @messages={{this.toastMessages}} @onClose={{this.removeToastMessage}} />
 		</div>
 	</template>
 }

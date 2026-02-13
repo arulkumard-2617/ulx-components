@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
-import UlxButton from "../../ulx-button";
+import UlxButton from "../../elements/ulx-button/index.gjs";
 
 /**
  * Modal footer subcomponent.
@@ -36,7 +36,6 @@ import UlxButton from "../../ulx-button";
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  */
 export default class UlxModalFooter extends Component {
-
 	get cancelLabel() {
 		return this.args.cancelLabel || "Cancel";
 	}
@@ -113,11 +112,7 @@ export default class UlxModalFooter extends Component {
 	}
 
 	<template>
-		<div
-			class={{this.footerClasses}}
-			style={{this.footerStyle}}
-			...attributes
-		>
+		<div class={{this.footerClasses}} style={{this.footerStyle}} ...attributes>
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
