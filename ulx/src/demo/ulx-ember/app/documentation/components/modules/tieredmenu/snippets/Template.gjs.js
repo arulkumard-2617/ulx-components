@@ -7,11 +7,11 @@ export default class TemplateTieredmenuDemo extends Component {
   get items() {
     return [
       {
-        label: 'File',
+        label: t('lbl.file'),
         icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
-            label: 'New',
+            label: t('lbl.new'),
             icon: 'bs-icons1 add-icon-01',
             items: [
               { label: 'Project', icon: 'bs-icons1 library-icon' },
@@ -39,7 +39,7 @@ export default class TemplateTieredmenuDemo extends Component {
         ],
       },
       {
-        label: 'Edit',
+        label: t('lbl.edit'),
         icon: 'bs-icons1 edit-icon',
         items: [
           { label: 'Undo', icon: 'bs-icons1 undo-icon' },

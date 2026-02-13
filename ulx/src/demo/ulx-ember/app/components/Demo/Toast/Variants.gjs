@@ -16,7 +16,7 @@ export default class VariantsToastDemo extends Component {
         variant: 'info',
         summary: t('lbl.elevated'),
         detail: t('lbl.variant.elevated'),
-        type: 'elevated',
+        appearance: 'elevated',
       },
     ];
   }
@@ -30,7 +30,7 @@ export default class VariantsToastDemo extends Component {
         variant: 'success',
         summary: t('lbl.flat'),
         detail: t('lbl.variant.flat'),
-        type: 'flat',
+        appearance: 'flat',
       },
     ];
   }
@@ -44,7 +44,7 @@ export default class VariantsToastDemo extends Component {
         variant: 'warn',
         summary: t('lbl.outlined'),
         detail: t('lbl.variant.outlined'),
-        type: 'outlined',
+        appearance: 'outlined',
         sticky: true,
       },
     ];

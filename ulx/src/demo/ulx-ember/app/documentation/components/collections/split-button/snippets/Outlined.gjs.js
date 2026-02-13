@@ -10,12 +10,12 @@ export default class DemoSplitButtonOutlined extends Component {
   get items() {
     return [
       {
-        label: 'Update',
+        label: t('lbl.update'),
         icon: 'bs-icons1 session-settings-icon',
         command: () => this.addMessage(t('lbl.updated')),
       },
       {
-        label: 'Delete',
+        label: t('lbl.delete'),
         icon: 'bs-icons1 close-icon-01',
         command: () => this.addMessage(t('lbl.deleted')),
       },

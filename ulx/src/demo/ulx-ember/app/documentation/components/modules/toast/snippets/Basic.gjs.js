@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { UlxToast, t, UlxButton } from 'ulx-components';
+import { UlxToast, t } from 'ulx-components';
 
 export default class BasicToastDemo extends Component {
   @tracked messages = [];
@@ -13,7 +14,7 @@ export default class BasicToastDemo extends Component {
     this.messages = [
       ...this.messages,
       {
-        id: \`msg-\${Date.now()}\`,
+        id: '1',
         type: 'info',
         summary: t('lbl.info'),
         detail: t('msg.basic.toast'),

@@ -1,72 +1,72 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { UlxTieredmenu } from 'ulx-components';
+import { UlxTieredmenu, t } from 'ulx-components';
 
 export default class BasicTieredmenuDemo extends Component {
   get items() {
     return [
       {
-        label: 'File',
+        label: t('lbl.file'),
         icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
-            label: 'New',
+            label: t('lbl.new'),
             icon: 'bs-icons1 add-icon-01',
             items: [
-              { label: 'Project', icon: 'bs-icons1 library-icon' },
-              { label: 'File', icon: 'bs-icons1 pdf-stroke-icon' },
+              { label: t('lbl.project'), icon: 'bs-icons1 library-icon' },
+              { label: t('lbl.file'), icon: 'bs-icons1 pdf-stroke-icon' },
               { separator: true },
               {
-                label: 'From Template',
+                label: t('lbl.from.template'),
                 icon: 'bs-icons1 copy-icon',
               },
             ],
           },
-          { label: 'Open', icon: 'bs-icons1 library-icon' },
+          { label: t('lbl.open'), icon: 'bs-icons1 library-icon' },
           { separator: true },
           {
-            label: 'Export',
+            label: t('lbl.export'),
             icon: 'bs-icons1 upload-icon',
             items: [
-              { label: 'PDF', icon: 'bs-icons1 pdf-filled-icon' },
-              { label: 'Excel', icon: 'bs-icons1 pdf-stroke-icon' },
-              { label: 'CSV', icon: 'bs-icons1 pdf-stroke-icon' },
+              { label: t('lbl.pdf'), icon: 'bs-icons1 pdf-filled-icon' },
+              { label: t('lbl.excel'), icon: 'bs-icons1 pdf-stroke-icon' },
+              { label: t('lbl.csv'), icon: 'bs-icons1 pdf-stroke-icon' },
             ],
           },
           { separator: true },
-          { label: 'Exit', icon: 'bs-icons1 close-icon-01' },
+          { label: t('lbl.exit'), icon: 'bs-icons1 close-icon-01' },
         ],
       },
       {
-        label: 'Edit',
+        label: t('lbl.edit'),
         icon: 'bs-icons1 edit-icon',
         items: [
-          { label: 'Undo', icon: 'bs-icons1 undo-icon' },
-          { label: 'Redo', icon: 'bs-icons1 update-icon' },
+          { label: t('lbl.undo'), icon: 'bs-icons1 undo-icon' },
+          { label: t('lbl.redo'), icon: 'bs-icons1 update-icon' },
           { separator: true },
           {
-            label: 'Find',
+            label: t('lbl.find'),
             icon: 'bs-icons1 search-icon',
             items: [
-              { label: 'Find...', icon: 'bs-icons1 search-icon' },
-              { label: 'Find and Replace', icon: 'bs-icons1 user-sync-icon' },
-              { label: 'Find in Files', icon: 'bs-icons1 library-icon' },
+              { label: t('lbl.find.ellipsis'), icon: 'bs-icons1 search-icon' },
+              { label: t('lbl.find.and.replace'), icon: 'bs-icons1 user-sync-icon' },
+              { label: t('lbl.find.in.files'), icon: 'bs-icons1 library-icon' },
             ],
           },
         ],
       },
       {
-        label: 'View',
+        label: t('lbl.view'),
         icon: 'bs-icons1 view-icon',
         items: [
-          { label: 'Zoom In', icon: 'bs-icons1 zoom-in-stroke-icon' },
-          { label: 'Zoom Out', icon: 'bs-icons1 zoom-out-stroke-icon' },
+          { label: t('lbl.zoom.in'), icon: 'bs-icons1 zoom-in-stroke-icon' },
+          { label: t('lbl.zoom.out'), icon: 'bs-icons1 zoom-out-stroke-icon' },
         ],
       },
       { separator: true },
       {
-        label: 'Help',
+        label: t('lbl.help'),
         icon: 'bs-icons1 question-icon',
       },
     ];
