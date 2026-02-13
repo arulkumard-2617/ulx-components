@@ -3,6 +3,8 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxModal from "./index.gjs";
+import UlxButton from "../../ulx-button";
+import UlxToast from "../../ulx-toast";
 
 /**
  * Example component demonstrating various UlxModal usage patterns.
@@ -15,6 +17,7 @@ export default class UlxModalExample extends Component {
 	@tracked showMaximizableModal = false;
 	@tracked showStackedModal1 = false;
 	@tracked showStackedModal2 = false;
+	@tracked toastMessages = [];
 
 	// Basic Modal
 	@action
@@ -31,6 +34,7 @@ export default class UlxModalExample extends Component {
 	handleBasicDone() {
 		console.log("Basic modal done action");
 		this.closeBasicModal();
+		this.showToastMessage("Basic modal confirmed", "You confirmed the basic modal.");
 	}
 
 	// Custom Modal
@@ -71,6 +75,7 @@ export default class UlxModalExample extends Component {
 	handleDelete() {
 		console.log("Item deleted");
 		// Modal will auto-close after this
+		this.showToastMessage("Item deleted", "The item was deleted successfully.");
 	}
 
 	// Maximizable Modal
@@ -110,30 +115,59 @@ export default class UlxModalExample extends Component {
 		this.showStackedModal2 = false;
 	}
 
+	@action
+	showToastMessage(summary, detail, variant = "success") {
+		const id = `modal-msg-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+		this.toastMessages = [
+			...this.toastMessages,
+			{
+				id,
+				variant,
+				summary,
+				detail
+			}
+		];
+	}
+
+	@action
+	removeToastMessage(message) {
+		this.toastMessages = this.toastMessages.filter((m) => m.id !== message.id);
+	}
+
 	<template>
 		<div class="modal-examples" style="padding: 20px;">
 			<h1>UlxModal Component Examples</h1>
 
 			<div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
-				<button class="uls-button uls-button-primary" {{on "click" this.openBasicModal}}>
-					Basic Modal
-				</button>
+				<UlxButton
+					@label="Basic Modal"
+					@variant="primary"
+					{{on "click" this.openBasicModal}}
+				/>
 
-				<button class="uls-button uls-button-primary" {{on "click" this.openCustomModal}}>
-					Custom Modal
-				</button>
+				<UlxButton
+					@label="Custom Modal"
+					@variant="primary"
+					{{on "click" this.openCustomModal}}
+				/>
 
-				<button class="uls-button uls-button-primary" {{on "click" this.openConfirmModal}}>
-					Confirm Modal
-				</button>
+				<UlxButton
+					@label="Confirm Modal"
+					@variant="primary"
+					{{on "click" this.openConfirmModal}}
+				/>
 
-				<button class="uls-button uls-button-primary" {{on "click" this.openMaximizableModal}}>
-					Maximizable Modal
-				</button>
+				<UlxButton
+					@label="Maximizable Modal"
+					@variant="primary"
+					{{on "click" this.openMaximizableModal}}
+				/>
 
-				<button class="uls-button uls-button-primary" {{on "click" this.openStackedModal1}}>
-					Stacked Modals
-				</button>
+				<UlxButton
+					@label="Stacked Modals"
+					@variant="primary"
+					{{on "click" this.openStackedModal1}}
+				/>
 			</div>
 
 			{{! Basic Modal with default footer }}
@@ -185,12 +219,16 @@ export default class UlxModalExample extends Component {
 				</:body>
 
 				<:footer>
-					<button class="uls-button uls-button-secondary" {{on "click" this.closeCustomModal}}>
-						Cancel
-					</button>
-					<button class="uls-button uls-button-primary" {{on "click" this.saveCustom}}>
-						Save Changes
-					</button>
+					<UlxButton
+						@label="Cancel"
+						@variant="secondary"
+						{{on "click" this.closeCustomModal}}
+					/>
+					<UlxButton
+						@label="Save Changes"
+						@variant="primary"
+						{{on "click" this.saveCustom}}
+					/>
 				</:footer>
 			</UlxModal>
 
@@ -259,15 +297,19 @@ export default class UlxModalExample extends Component {
 				<:body>
 					<p>This is the first modal.</p>
 					<p>Click the button below to open a second modal on top of this one.</p>
-					<button class="uls-button uls-button-primary" {{on "click" this.openStackedModal2}}>
-						Open Second Modal
-					</button>
+					<UlxButton
+						@label="Open Second Modal"
+						@variant="primary"
+						{{on "click" this.openStackedModal2}}
+					/>
 				</:body>
 
 				<:footer>
-					<button class="uls-button uls-button-secondary" {{on "click" this.closeStackedModal1}}>
-						Close
-					</button>
+					<UlxButton
+						@label="Close"
+						@variant="secondary"
+						{{on "click" this.closeStackedModal1}}
+					/>
 				</:footer>
 			</UlxModal>
 
@@ -285,11 +327,18 @@ export default class UlxModalExample extends Component {
 				</:body>
 
 				<:footer>
-					<button class="uls-button uls-button-primary" {{on "click" this.closeStackedModal2}}>
-						Close This Modal
-					</button>
+					<UlxButton
+						@label="Close This Modal"
+						@variant="primary"
+						{{on "click" this.closeStackedModal2}}
+					/>
 				</:footer>
 			</UlxModal>
+
+			<UlxToast
+				@messages={{this.toastMessages}}
+				@onClose={{this.removeToastMessage}}
+			/>
 		</div>
 	</template>
 }

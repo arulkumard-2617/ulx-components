@@ -34,3 +34,4 @@ yarn-error.log*
 ulx/src/demo/ulx-ember/dist/
 
 package-lock.json
+ulx/package-lock.json

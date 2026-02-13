@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
+import UlxButton from "../../ulx-button";
 
 /**
  * Modal footer subcomponent.
@@ -24,11 +25,14 @@ import { on } from "@ember/modifier";
  * @class UlxModalFooter
  * @param {string} [cancelLabel="Cancel"] - Label for cancel button
  * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
+ * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneLabel)
  * @param {Function} [onCancel] - Callback when cancel button is clicked
  * @param {Function} [onDone] - Callback when done button is clicked
  * @param {boolean} [showCancelButton=true] - Show cancel button
  * @param {boolean} [showDoneButton=true] - Show done button
+ * @param {boolean} [submitting=false] - Disable both buttons during async operation
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
+ * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  */
 export default class UlxModalFooter extends Component {
@@ -38,7 +42,11 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get doneLabel() {
-		return this.args.doneLabel || "Confirm";
+		const { submitting, submittingLabel, doneLabel } = this.args;
+		if (submitting && submittingLabel) {
+			return submittingLabel;
+		}
+		return doneLabel || "Confirm";
 	}
 
 	get showCancelButton() {
@@ -49,8 +57,16 @@ export default class UlxModalFooter extends Component {
 		return this.args.showDoneButton ?? true;
 	}
 
+	get submitting() {
+		return this.args.submitting ?? false;
+	}
+
 	get doneButtonDisabled() {
-		return this.args.doneButtonDisabled ?? false;
+		return this.submitting || (this.args.doneButtonDisabled ?? false);
+	}
+
+	get cancelButtonDisabled() {
+		return this.submitting || (this.args.cancelButtonDisabled ?? false);
 	}
 
 	get footerClasses() {
@@ -106,26 +122,23 @@ export default class UlxModalFooter extends Component {
 				{{yield}}
 			{{else}}
 				{{#if this.showCancelButton}}
-					<button
-						type="button"
-						class="uls-button uls-button-secondary"
-						{{this.on "click" this.handleCancel}}
-						{{this.on "keydown" (this.handleKeyDown this.handleCancel)}}
-					>
-						{{this.cancelLabel}}
-					</button>
+					<UlxButton
+						@label={{this.cancelLabel}}
+						@variant="secondary"
+						@disabled={{this.cancelButtonDisabled}}
+						{{on "click" this.handleCancel}}
+						{{on "keydown" (this.handleKeyDown this.handleCancel)}}
+					/>
 				{{/if}}
 
 				{{#if this.showDoneButton}}
-					<button
-						type="button"
-						class="uls-button uls-button-primary"
-						disabled={{this.doneButtonDisabled}}
+					<UlxButton
+						@label={{this.doneLabel}}
+						@variant="primary"
+						@disabled={{this.doneButtonDisabled}}
 						{{on "click" this.handleDone}}
 						{{on "keydown" (this.handleKeyDown this.handleDone)}}
-					>
-						{{this.doneLabel}}
-					</button>
+					/>
 				{{/if}}
 			{{/if}}
 		</div>

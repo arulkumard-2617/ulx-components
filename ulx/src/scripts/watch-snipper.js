@@ -21,7 +21,7 @@ const path = require('path');
 
 		// Find the category folder that contains this component
 		let category = null;
-		const categories = ['collections', 'elements']; // Add more categories as needed
+		const categories = ['collections', 'elements', 'modules']; // Add more categories as needed
 
 		for (const cat of categories) {
 			const possiblePath = path.join(DOCS_ROOT, cat, kebabName);
