@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxProgressSpinner, t } from 'ulx-components';
+import { UlxProgressSpinner } from 'ulx-components';
 
 export default class DemoProgressSpinnerCustom extends Component {
   get size() {
@@ -15,7 +15,7 @@ export default class DemoProgressSpinnerCustom extends Component {
     <UlxProgressSpinner
       @size={{this.size}}
       @customClass={{this.customClass}}
-      @ariaLabel={{t "lbl.loading"}}
+      @ariaLabel="Loading"
     />
   </template>
 }

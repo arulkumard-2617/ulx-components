@@ -10,12 +10,12 @@ export default class DemoSplitButtonRaised extends Component {
   get items() {
     return [
       {
-        label: t('lbl.update'),
+        label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
         command: () => this.addMessage(t('lbl.updated')),
       },
       {
-        label: t('lbl.delete'),
+        label: 'Delete',
         icon: 'bs-icons1 close-icon-01',
         command: () => this.addMessage(t('lbl.deleted')),
       },

@@ -2,10 +2,10 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox, t } from 'ulx-components';
+import { UlxCheckbox } from 'ulx-components';
 
 export default class BasicCheckboxDemo extends Component {
-  @tracked items = [{ label: t('lbl.all.event.days'), checked: true }];
+  @tracked items = [{ label: 'All Event Days', checked: true }];
 
   get requiredRules() {
     return { required: true };

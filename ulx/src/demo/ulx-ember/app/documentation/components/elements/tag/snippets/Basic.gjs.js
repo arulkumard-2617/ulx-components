@@ -1,8 +1,8 @@
 export default `
-import { UlxTag, t } from 'ulx-components';
+import { UlxTag } from 'ulx-components';
 
 <template>
-  <UlxTag @value={{t "lbl.tag.label"}} @size="s-size" @variant="primary" />
+  <UlxTag @value="Tag/Label" @size="s-size" @variant="primary" />
 </template>
 
 `;

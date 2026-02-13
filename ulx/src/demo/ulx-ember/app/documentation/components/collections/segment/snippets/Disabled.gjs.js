@@ -24,7 +24,7 @@ import { UlxSegment, UlxSegmentsGroup, t } from 'ulx-components';
       </UlxSegment>
     </UlxSegmentsGroup>
 
-    <h3>{{t "msg.comparison.normal.vs.disabled"}}</h3>
+    <h3>Comparison: Normal vs Disabled</h3>
     <UlxSegmentsGroup>
       <UlxSegment>
         <p>Normal segment - fully interactive</p>

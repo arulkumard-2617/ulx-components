@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxTieredmenu, UlxToast, t } from 'ulx-components';
-import { UlxTieredmenu, UlxToast, t } from 'ulx-components';
 
 export default class CommandDemoComponent extends Component {
   @tracked activeItem = null;
@@ -13,7 +12,11 @@ export default class CommandDemoComponent extends Component {
       {
         label: t('lbl.show.toast.1'),
         items: [
-          { label: t('lbl.info.toast'), value: 'show1-info', toastVariant: 'info' },
+          {
+            label: t('lbl.info.toast'),
+            value: 'show1-info',
+            toastVariant: 'info',
+          },
           {
             label: t('lbl.success.toast'),
             value: 'show1-success',

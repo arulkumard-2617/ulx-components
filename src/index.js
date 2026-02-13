@@ -31,5 +31,3 @@ export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from 
 // ── i18n template helpers ───────────────────────────────────
 export { default as tHelper } from './helpers/t.js';
 export { default as tSafeHelper } from './helpers/t-safe.js';
-export { default as UlxOptionSegment } from './components/ulx-option-segment.js';
-export { default as UlxPopup } from './components/ulx-popup.js';
