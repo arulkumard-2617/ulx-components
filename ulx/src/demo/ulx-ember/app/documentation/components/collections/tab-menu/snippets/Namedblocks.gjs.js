@@ -1,29 +1,29 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxTabmenu, UlxTag, UlxBadge, UlxAvatar, t } from 'ulx-components';
+import { UlxTabmenu, UlxTag, UlxBadge, UlxAvatar } from 'ulx-components';
 
 export default class NamedblocksDemoComponent extends Component {
   get items() {
     return [
       {
-        label: t('lbl.overview'),
+        label: 'Overview',
         avatarLabel: 'OV',
         imageUrl:
           'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
       },
       {
-        label: t('lbl.activity'),
+        label: 'Activity',
         tagLabel: 'NEW',
         tagVariant: 'primary',
       },
       {
-        label: t('lbl.team'),
+        label: 'Team',
         avatarLabel: 'TM',
         badgeValue: 5,
         badgeVariant: 'success',
       },
       {
-        label: t('lbl.settings'),
+        label: 'Settings',
         avatarLabel: 'ST',
         badgeValue: null,
         badgeVariant: 'secondary',

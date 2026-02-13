@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxToast, UlxButton } from 'ulx-components';
+import { UlxToast, UlxButton, t } from 'ulx-components';
 
 export default class MultipleToastDemo extends Component {
   @tracked messages = [];
@@ -15,26 +15,26 @@ export default class MultipleToastDemo extends Component {
       {
         id: \`msg-\${now}-1\`,
         variant: 'info',
-        summary: 'Info',
-        detail: 'Info message.',
+        summary: t('lbl.info'),
+        detail: t('lbl.info.message'),
       },
       {
         id: \`msg-\${now}-2\`,
         variant: 'success',
-        summary: 'Success',
-        detail: 'Success message.',
+        summary: t('lbl.success'),
+        detail: t('lbl.success.message'),
       },
       {
         id: \`msg-\${now}-3\`,
         variant: 'warn',
-        summary: 'Warn',
-        detail: 'Warn message.',
+        summary: t('lbl.warn'),
+        detail: t('lbl.warn.message'),
       },
       {
         id: \`msg-\${now}-4\`,
         variant: 'error',
-        summary: 'Error',
-        detail: 'Error message.',
+        summary: t('lbl.error'),
+        detail: t('lbl.error.message'),
       },
     ];
     this.messages = [...this.messages, ...newMessages];
@@ -49,7 +49,7 @@ export default class MultipleToastDemo extends Component {
   <template>
     <div class="pda4">
       <UlxButton
-        @label="Multiple"
+        @label={{t "lbl.multiple"}}
         @variant="warning"
         {{on "click" this.showMultiple}}
       />

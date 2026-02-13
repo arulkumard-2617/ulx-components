@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import UlxTieredmenuMenuItem from "./menu-item.gjs";
@@ -314,29 +315,40 @@ export default class UlxTieredmenu extends Component {
 			case "ArrowRight":
 				if (hasSubmenu) {
 					event.preventDefault();
+					const triggerButton = event.currentTarget;
 					if (!this.isSubmenuOpen(itemId)) {
 						this.toggleSubmenu(itemId, parentId, event);
+						schedule("afterRender", () => this.focusFirstItemInSubmenu(triggerButton));
+					} else {
+						this.focusFirstItemInSubmenu(triggerButton);
 					}
 				}
 				break;
 
 			case "ArrowLeft":
 				event.preventDefault();
-				if (hasSubmenu && this.isSubmenuOpen(itemId)) {
+				if (parentId) {
+					this.closeSubmenu(parentId);
+					this._getParentItemButton(event.currentTarget)?.focus({
+						preventScroll: true
+					});
+				} else if (hasSubmenu && this.isSubmenuOpen(itemId)) {
 					this.closeSubmenu(itemId);
 				}
 				break;
 
 			case "Escape":
 				event.preventDefault();
-				if (this.isSubmenuOpen(itemId)) {
+				if (parentId) {
+					this.closeSubmenu(parentId);
+					this._getParentItemButton(event.currentTarget)?.focus({
+						preventScroll: true
+					});
+				} else if (this.isSubmenuOpen(itemId)) {
 					this.closeSubmenu(itemId);
 				} else if (this.isPopup) {
 					this.handleHide();
-					// Return focus to target
-					if (this.targetElement) {
-						setTimeout(() => this.targetElement.focus(), 0);
-					}
+					this.targetElement?.focus({ preventScroll: true });
 				}
 				break;
 
@@ -363,14 +375,39 @@ export default class UlxTieredmenu extends Component {
 	}
 
 	/**
+	 * Returns the parent menu item button that owns the submenu containing the given button.
+	 * Uses DOM structure (submenu div's previousElementSibling) so the correct instance
+	 * is found when multiple tieredmenus exist on the page.
+	 * @param {HTMLElement} submenuItemButton - The focused button inside a submenu (e.g. "New")
+	 * @returns {HTMLElement|null} The parent item's button (e.g. "File") or null
+	 */
+	_getParentItemButton(submenuItemButton) {
+		const submenuDiv = submenuItemButton?.closest(".tieredmenu-submenu");
+		const parentButton = submenuDiv?.previousElementSibling;
+		return parentButton?.classList?.contains("tieredmenu-item-link") ? parentButton : null;
+	}
+
+	/**
+	 * Returns focusable item links that are direct children of the given list
+	 * (one per list item). Excludes nested submenu items so arrow keys move
+	 * only within the current level (File -> Edit -> View -> Help).
+	 */
+	_getFocusableLinksInList(listElement) {
+		if (!listElement) return [];
+		return Array.from(
+			listElement.querySelectorAll(
+				":scope > li > .tieredmenu-item-link:not([aria-disabled='true'])"
+			) ?? []
+		);
+	}
+
+	/**
 	 * Focuses the first item in a menu list
 	 */
 	@action
 	focusFirstItem(listElement) {
-		const firstLink = listElement?.querySelector(
-			".tieredmenu-item-link:not([aria-disabled='true'])"
-		);
-		firstLink?.focus();
+		const links = this._getFocusableLinksInList(listElement);
+		links[0]?.focus({ preventScroll: true });
 	}
 
 	/**
@@ -378,10 +415,8 @@ export default class UlxTieredmenu extends Component {
 	 */
 	@action
 	focusLastItem(listElement) {
-		const links = listElement?.querySelectorAll(
-			".tieredmenu-item-link:not([aria-disabled='true'])"
-		);
-		links?.[links.length - 1]?.focus();
+		const links = this._getFocusableLinksInList(listElement);
+		links[links.length - 1]?.focus({ preventScroll: true });
 	}
 
 	/**
@@ -390,12 +425,10 @@ export default class UlxTieredmenu extends Component {
 	@action
 	focusNextItem(currentElement) {
 		const list = currentElement.closest(".tieredmenu-list");
-		const links = Array.from(
-			list?.querySelectorAll(".tieredmenu-item-link:not([aria-disabled='true'])") ?? []
-		);
+		const links = this._getFocusableLinksInList(list);
 		const currentIndex = links.indexOf(currentElement);
 		if (currentIndex < links.length - 1) {
-			links[currentIndex + 1].focus();
+			links[currentIndex + 1].focus({ preventScroll: true });
 		}
 	}
 
@@ -405,13 +438,33 @@ export default class UlxTieredmenu extends Component {
 	@action
 	focusPreviousItem(currentElement) {
 		const list = currentElement.closest(".tieredmenu-list");
-		const links = Array.from(
-			list?.querySelectorAll(".tieredmenu-item-link:not([aria-disabled='true'])") ?? []
-		);
+		const links = this._getFocusableLinksInList(list);
 		const currentIndex = links.indexOf(currentElement);
 		if (currentIndex > 0) {
-			links[currentIndex - 1].focus();
+			links[currentIndex - 1].focus({ preventScroll: true });
 		}
+	}
+
+	/**
+	 * Focuses the first item in the submenu that belongs to the trigger button.
+	 * Uses the trigger element (not global id) so the correct submenu is focused
+	 * when multiple tieredmenus exist on the page (e.g. Basic and Template demos).
+	 * @param {HTMLElement} triggerButton - The menu item button that opened the submenu (e.g. "File")
+	 */
+	@action
+	focusFirstItemInSubmenu(triggerButton) {
+		const run = () => {
+			const submenuDiv = triggerButton?.nextElementSibling?.classList?.contains(
+				"tieredmenu-submenu"
+			)
+				? triggerButton.nextElementSibling
+				: triggerButton?.closest("li")?.querySelector(".tieredmenu-submenu");
+			const firstLink = submenuDiv?.querySelector(
+				".tieredmenu-list > li > .tieredmenu-item-link:not([aria-disabled='true'])"
+			);
+			firstLink?.focus({ preventScroll: true });
+		};
+		schedule("afterRender", run);
 	}
 
 	/**
@@ -499,10 +552,9 @@ export default class UlxTieredmenu extends Component {
 	 * Renders a menu item with its submenu (recursive)
 	 */
 	@action
-	renderMenuItem(itemData, isFirst = false) {
+	renderMenuItem(itemData) {
 		return {
 			...itemData,
-			isFirst,
 			hasSubmenu: this.hasSubmenu(itemData.item),
 			isDisabled: this.isDisabled(itemData.item),
 			isSeparator: this.isSeparator(itemData.item),
@@ -510,16 +562,8 @@ export default class UlxTieredmenu extends Component {
 			itemClasses: this.getItemClasses(itemData.item, itemData.itemId),
 			submenuClasses: this.getSubmenuClasses(itemData.itemId),
 			submenuId: this.getSubmenuId(itemData.itemId),
-			tabindex: isFirst ? "0" : "-1"
+			tabindex: "0"
 		};
-	}
-
-	/**
-	 * Checks if item is first in list (for tabindex)
-	 */
-	@action
-	isFirstItem(index) {
-		return index === 0;
 	}
 
 	/**
@@ -737,14 +781,17 @@ export default class UlxTieredmenu extends Component {
 			top = 10;
 		}
 
-		// Apply position (fixed positioning for viewport-relative)
-		// Ensure element is positioned relative to viewport when appended to body
-		container.style.position = "fixed";
-		container.style.top = `${top}px`;
-		container.style.left = `${left}px`;
+		// Convert viewport coordinates to document coordinates (align with ulx-popup)
+		// so the menu moves with the target when the page scrolls.
+		const scrollX = window.pageXOffset ?? window.scrollX ?? 0;
+		const scrollY = window.pageYOffset ?? window.scrollY ?? 0;
+
+		container.style.position = "absolute";
+		container.style.top = `${top + scrollY}px`;
+		container.style.left = `${left + scrollX}px`;
 		container.style.right = "auto";
 		container.style.bottom = "auto";
-		container.style.margin = "0"; // Reset any margins
+		container.style.margin = "0";
 	}
 
 	/**
@@ -996,7 +1043,7 @@ export default class UlxTieredmenu extends Component {
 		if (isVisible && this.isPopup && animationState === "enter-done") {
 			const firstLink = element?.querySelector(".tieredmenu-item-link:not([aria-disabled='true'])");
 			if (firstLink) {
-				setTimeout(() => firstLink.focus(), 0);
+				setTimeout(() => firstLink.focus({ preventScroll: true }), 0);
 			}
 		}
 	});
@@ -1090,7 +1137,7 @@ export default class UlxTieredmenu extends Component {
 								@isSubmenuOpen={{this.isSubmenuOpen itemData.itemId}}
 								@submenuClasses={{this.getSubmenuClasses itemData.itemId}}
 								@submenuId={{this.getSubmenuId itemData.itemId}}
-								@tabindex={{if (this.isFirstItem itemData.index) "0" "-1"}}
+								@tabindex="0"
 								@onMouseEnter={{this.handleItemMouseEnter}}
 								@onMouseLeave={{this.handleItemMouseLeave}}
 								@onClick={{this.handleItemClick}}
@@ -1114,7 +1161,7 @@ export default class UlxTieredmenu extends Component {
 												@isSubmenuOpen={{this.isSubmenuOpen subItemData.itemId}}
 												@submenuClasses={{this.getSubmenuClasses subItemData.itemId}}
 												@submenuId={{this.getSubmenuId subItemData.itemId}}
-												@tabindex="-1"
+												@tabindex="0"
 												@onMouseEnter={{this.handleItemMouseEnter}}
 												@onMouseLeave={{this.handleItemMouseLeave}}
 												@onClick={{this.handleItemClick}}
@@ -1143,7 +1190,7 @@ export default class UlxTieredmenu extends Component {
 																@isSubmenuOpen={{this.isSubmenuOpen nestedItemData.itemId}}
 																@submenuClasses={{this.getSubmenuClasses nestedItemData.itemId}}
 																@submenuId={{this.getSubmenuId nestedItemData.itemId}}
-																@tabindex="-1"
+																@tabindex="0"
 																@onMouseEnter={{this.handleItemMouseEnter}}
 																@onMouseLeave={{this.handleItemMouseLeave}}
 																@onClick={{this.handleItemClick}}

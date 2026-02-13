@@ -1,13 +1,13 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxTag, t } from 'ulx-components';
+import { UlxTag } from 'ulx-components';
 
 export default class TypeDemoComponent extends Component {
   get types() {
     return [
-      { label: t('lbl.filled.default'), type: undefined },
-      { label: t('lbl.outline'), type: 'outline' },
-      { label: t('lbl.pill'), type: 'pill' },
+      { label: 'Filled (default)', type: undefined },
+      { label: 'Outline', type: 'outline' },
+      { label: 'Pill', type: 'pill' },
     ];
   }
 

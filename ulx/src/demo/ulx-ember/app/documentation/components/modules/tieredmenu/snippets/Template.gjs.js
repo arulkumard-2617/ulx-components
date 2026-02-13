@@ -1,17 +1,17 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { UlxTieredmenu, t } from 'ulx-components';
+import { UlxTieredmenu } from 'ulx-components';
 
 export default class TemplateTieredmenuDemo extends Component {
   get items() {
     return [
       {
-        label: t('lbl.file'),
+        label: 'File',
         icon: 'bs-icons1 pdf-stroke-icon',
         items: [
           {
-            label: t('lbl.new'),
+            label: 'New',
             icon: 'bs-icons1 add-icon-01',
             items: [
               { label: 'Project', icon: 'bs-icons1 library-icon' },
@@ -39,7 +39,7 @@ export default class TemplateTieredmenuDemo extends Component {
         ],
       },
       {
-        label: t('lbl.edit'),
+        label: 'Edit',
         icon: 'bs-icons1 edit-icon',
         items: [
           { label: 'Undo', icon: 'bs-icons1 undo-icon' },

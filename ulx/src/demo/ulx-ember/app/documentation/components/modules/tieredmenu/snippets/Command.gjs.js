@@ -8,78 +8,71 @@ export default class CommandDemoComponent extends Component {
   @tracked activeItem = null;
   @tracked messages = [];
 
-  constructor() {
-    super(...arguments);
-    // Initialize with first item active
-    if (this.items && this.items.length > 0) {
-      this.activeItem = this.items[0];
-    }
-  }
-
   get items() {
     return [
-      { label: t('lbl.item.1'), value: 'item1' },
-      { label: t('lbl.item.2'), value: 'item2' },
-      { label: t('lbl.item.3'), value: 'item3' }
       {
-        label: 'Show toast 1',
+        label: t('lbl.show.toast.1'),
         items: [
-          { label: 'Info toast', value: 'show1-info', toastVariant: 'info' },
           {
-            label: 'Success toast',
+            label: t('lbl.info.toast'),
+            value: 'show1-info',
+            toastVariant: 'info',
+          },
+          {
+            label: t('lbl.success.toast'),
             value: 'show1-success',
             toastVariant: 'success',
           },
           {
-            label: 'Danger toast',
+            label: t('lbl.danger.toast'),
             value: 'show1-danger',
             toastVariant: 'error',
           },
         ],
       },
       {
-        label: 'Show toast 2',
+        label: t('lbl.show.toast.2'),
         items: [
           {
-            label: 'Info group',
+            label: t('lbl.info.group'),
             items: [
               {
-                label: 'Info toast A',
+                label: t('msg.info.toast.a'),
                 value: 'show2-info-a',
                 toastVariant: 'info',
               },
               {
-                label: 'Info toast B',
+                label: t('msg.info.toast.b'),
                 value: 'show2-info-b',
                 toastVariant: 'info',
               },
             ],
           },
           {
-            label: 'Success group',
+            label: t('lbl.success.group'),
             items: [
               {
-                label: 'Success toast A',
+                label: t('msg.success.toast.a'),
                 value: 'show2-success-a',
                 toastVariant: 'success',
               },
               {
-                label: 'Success toast B',
+                label: t('msg.success.toast.b'),
                 value: 'show2-success-b',
                 toastVariant: 'success',
               },
             ],
           },
           {
-            label: 'Danger group',
+            label: t('lbl.danger.group'),
             items: [
               {
-                label: 'Danger toast A',
+                label: t('msg.danger.toast.a'),
                 value: 'show2-danger-a',
                 toastVariant: 'error',
               },
               {
-                label: 'Danger toast B',
+                label: t('msg.danger.toast.b'),
                 value: 'show2-danger-b',
                 toastVariant: 'error',
               },
@@ -88,7 +81,7 @@ export default class CommandDemoComponent extends Component {
         ],
       },
       {
-        label: 'Without toast',
+        label: t('lbl.without.toast'),
       },
     ];
   }
@@ -110,7 +103,7 @@ export default class CommandDemoComponent extends Component {
         id: \`tieredmenu-msg-\${Date.now()}-\${item.value}\`,
         variant,
         summary: item.label,
-        detail: \`Variant: \${variant}\`,
+        detail: t('msg.variant.label', { variant }),
       },
     ];
   }
