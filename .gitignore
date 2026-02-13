@@ -1,5 +1,6 @@
 # dependencies
 node_modules
+node_modules/.package-lock.json
 
 # compiled output
 dist
@@ -29,3 +30,8 @@ yarn-error.log*
 
 # IDE
 .idea
+# Ember demo build output
+ulx/src/demo/ulx-ember/dist/
+
+package-lock.json
+ulx/package-lock.json

@@ -50,6 +50,7 @@
     "@tsconfig/ember": "^3.0.3",
     "babel-plugin-ember-template-compilation": "^2.2.1",
     "concurrently": "^8.2.2",
+    "ember-modifier": "^4.1.0",
     "ember-eslint-parser": "^0.3.4",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
@@ -60,8 +61,7 @@
     "prettier-plugin-ember-template-tag": "^2.0.0",
     "rollup": "^4.9.4",
     "rollup-plugin-copy": "^3.5.0",
-    "typescript": "^5.3.3",
-    "ember-modifier": "^4.1.0"
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "@glimmer/component": "^1.1.2",
@@ -101,6 +101,12 @@
       "./components/elements/ulx-split-button/index.js": "./dist/_app_/components/elements/ulx-split-button/index.js",
       "./components/elements/ulx-tag/index.js": "./dist/_app_/components/elements/ulx-tag/index.js",
       "./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
+      "./components/index.js": "./dist/_app_/components/index.js",
+      "./components/modules/ulx-modal/body.js": "./dist/_app_/components/modules/ulx-modal/body.js",
+      "./components/modules/ulx-modal/example.js": "./dist/_app_/components/modules/ulx-modal/example.js",
+      "./components/modules/ulx-modal/footer.js": "./dist/_app_/components/modules/ulx-modal/footer.js",
+      "./components/modules/ulx-modal/header.js": "./dist/_app_/components/modules/ulx-modal/header.js",
+      "./components/modules/ulx-modal/index.js": "./dist/_app_/components/modules/ulx-modal/index.js",
       "./components/modules/ulx-tieredmenu/index.js": "./dist/_app_/components/modules/ulx-tieredmenu/index.js",
       "./components/modules/ulx-tieredmenu/menu-item.js": "./dist/_app_/components/modules/ulx-tieredmenu/menu-item.js",
       "./components/modules/ulx-toast/index.js": "./dist/_app_/components/modules/ulx-toast/index.js",
@@ -110,9 +116,9 @@
       "./components/ulx-button-group.js": "./dist/_app_/components/ulx-button-group.js",
       "./components/ulx-button.js": "./dist/_app_/components/ulx-button.js",
       "./components/ulx-checkbox.js": "./dist/_app_/components/ulx-checkbox.js",
-      "./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
-      "./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
-      "./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
+			"./components/ulx-icon-input.js": "./dist/_app_/components/ulx-icon-input.js",
+			"./components/ulx-icon.js": "./dist/_app_/components/ulx-icon.js",
+			"./components/ulx-input.js": "./dist/_app_/components/ulx-input.js",
       "./components/ulx-progressbar.js": "./dist/_app_/components/ulx-progressbar.js",
       "./components/ulx-progressspinner.js": "./dist/_app_/components/ulx-progressspinner.js",
       "./components/ulx-radio.js": "./dist/_app_/components/ulx-radio.js",
@@ -121,11 +127,12 @@
       "./components/ulx-split-button.js": "./dist/_app_/components/ulx-split-button.js",
       "./components/ulx-tabmenu.js": "./dist/_app_/components/ulx-tabmenu.js",
       "./components/ulx-tag.js": "./dist/_app_/components/ulx-tag.js",
-      "./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js",
+			"./components/ulx-textarea.js": "./dist/_app_/components/ulx-textarea.js",
       "./components/ulx-tieredmenu.js": "./dist/_app_/components/ulx-tieredmenu.js",
       "./components/ulx-toast.js": "./dist/_app_/components/ulx-toast.js",
       "./helpers/t-safe.js": "./dist/_app_/helpers/t-safe.js",
-      "./helpers/t.js": "./dist/_app_/helpers/t.js"
+      "./helpers/t.js": "./dist/_app_/helpers/t.js",
+      "./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
     }
   }
 }

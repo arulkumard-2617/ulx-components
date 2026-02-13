@@ -21,6 +21,7 @@ export { default as UlxAvatarGroup } from './components/ulx-avatar-group.js';
 export { default as UlxTabmenu } from './components/ulx-tabmenu.js';
 export { default as UlxSegment } from './components/ulx-segment.js';
 export { default as UlxSegmentsGroup } from './components/ulx-segments-group.js';
+export { default as UlxModal } from './components/ulx-modal.js';
 
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
@@ -28,3 +29,6 @@ export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from 
 // ── i18n template helpers ───────────────────────────────────
 export { default as tHelper } from './helpers/t.js';
 export { default as tSafeHelper } from './helpers/t-safe.js';
+
+// Export services
+export { default as ModalStackService } from './services/modal-stack.js';
