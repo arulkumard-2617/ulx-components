@@ -338,6 +338,11 @@ export const DocNavItems = [
         category: 'Overlay',
         items: [
           {
+            menuItem: 'Modal',
+            to: '/components/modules/modal',
+            route: 'components.modules.modal',
+          },
+          {
             menuItem: 'Popup',
             to: '/components/modules/popup',
             route: 'components.modules.popup',

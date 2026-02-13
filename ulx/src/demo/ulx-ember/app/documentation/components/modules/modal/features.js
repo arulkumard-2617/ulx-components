@@ -1,0 +1,186 @@
+// ==========================================================================
+// Modal Feature Items
+// ==========================================================================
+import RichText from '../../../../components/common/doc-main/rich-text';
+import {
+  BasicDemo,
+  PositionDemo,
+  HeadlessDemo,
+  MaximizableDemo,
+  LongcontentDemo,
+  ResponsiveDemo,
+  WithoutoverlayDemo,
+  ImportSource,
+  BasicSource,
+  PositionSource,
+  HeadlessSource,
+  MaximizableSource,
+  LongcontentSource,
+  ResponsiveSource,
+  WithoutoverlaySource
+} from './imports';
+
+export const ModalFeatureItems = [
+  {
+    id: 'import',
+    sectionNav: 'Import',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>import</code> property is used to import the <code>UlxModal</code> component.',
+      },
+    },
+    demo: {
+      component: null,
+      props: {
+        source: ImportSource,
+        snippetName: 'import',
+        language: 'jsx',
+      },
+    },
+  },
+  {
+    id: 'basic',
+    sectionNav: 'Basic',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Basic</code> demo shows basic usage of the UlxModal component.',
+      },
+    },
+    demo: {
+      component: BasicDemo,
+      props: {
+        source: BasicSource,
+        snippetName: 'basic',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'position',
+    sectionNav: 'Position',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Position</code> demo shows position usage of the Modal component.',
+      },
+    },
+    demo: {
+      component: PositionDemo,
+      props: {
+        source: PositionSource,
+        snippetName: 'position',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'headless',
+    sectionNav: 'Headless',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Headless</code> demo shows headless usage with fully custom content. Use <code>@headless={{true}}</code> and the default block with <code>as |hide|</code> to receive the close callback.',
+      },
+    },
+    demo: {
+      component: HeadlessDemo,
+      props: {
+        source: HeadlessSource,
+        snippetName: 'headless',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: "maximizable",
+    sectionNav: "Maximizable",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Maximizable</code> demo shows maximizable usage of the Modal component."
+      }
+    },
+    demo: {
+      component: MaximizableDemo,
+      props: {
+        source: MaximizableSource,
+        snippetName: "maximizable",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "longcontent",
+    sectionNav: "Longcontent",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Longcontent</code> demo shows longcontent usage of the Modal component."
+      }
+    },
+    demo: {
+      component: LongcontentDemo,
+      props: {
+        source: LongcontentSource,
+        snippetName: "longcontent",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "responsive",
+    sectionNav: "Responsive",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Responsive</code> demo shows responsive usage of the Modal component."
+      }
+    },
+    demo: {
+      component: ResponsiveDemo,
+      props: {
+        source: ResponsiveSource,
+        snippetName: "responsive",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "without-overlay",
+    sectionNav: "Withoutoverlay",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Withoutoverlay</code> demo shows withoutOverlay usage of the Modal component."
+      }
+    },
+    demo: {
+      component: WithoutoverlayDemo,
+      props: {
+        source: WithoutoverlaySource,
+        snippetName: "without-overlay",
+        language: "handlebars"
+      }
+    }
+  }
+];
+
+export default function ModalFeatures() {
+  return ModalFeatureItems;
+}

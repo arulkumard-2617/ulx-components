@@ -43,6 +43,8 @@ Make use of the many generators for code, try `ember help generate` for more det
 - `npm exec ember build` (development)
 - `npm run build` (production)
 
+By default, `npm run build` writes to the system temp directory (`$TMPDIR/ulx-ember-dist`). To build into `dist/` instead, run `npm run build:dist`. You can also pass the path explicitly: `ember build --output-path=/path/to/output`.
+
 ### Deploying
 
 Specify what it takes to deploy your app.

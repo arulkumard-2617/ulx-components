@@ -40,6 +40,7 @@ Router.map(function () {
       this.route('toast');
       this.route('tieredmenu');
       this.route('popup');
+      this.route('modal');
     });
   });
 
