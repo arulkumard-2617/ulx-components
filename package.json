@@ -116,6 +116,7 @@
       "./components/modules/ulx-tooltip/index.js": "./dist/_app_/components/modules/ulx-tooltip/index.js",
       "./helpers/t-safe.js": "./dist/_app_/helpers/t-safe.js",
       "./helpers/t.js": "./dist/_app_/helpers/t.js",
+      "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
       "./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
     }
   }

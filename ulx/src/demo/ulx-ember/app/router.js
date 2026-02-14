@@ -41,7 +41,8 @@ Router.map(function () {
       this.route('tieredmenu');
       this.route('popup');
       this.route('modal');
-    });
+      this.route('tooltip');
+});
   });
 
   this.route('utilities', function () {

@@ -39,3 +39,6 @@ export { default as tSafeHelper } from './helpers/t-safe.js';
 
 // Export services
 export { default as ModalStackService } from './services/modal-stack.js';
+
+// Modifiers
+export { default as tooltip } from './modifiers/tooltip.js';
