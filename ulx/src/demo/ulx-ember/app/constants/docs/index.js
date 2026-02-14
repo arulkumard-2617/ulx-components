@@ -307,6 +307,16 @@ export const DocNavItems = [
             route: 'components.collections.split-button'
           }
         ]
+      },
+      {
+        category: 'Form',
+        items: [
+          {
+            menuItem: 'Form',
+            to: '/components/collections/form',
+            route: 'components.collections.form'
+          }
+        ]
       }
     ]
   },

@@ -1,4 +1,4 @@
-import { UlxTooltip, UlxButton } from 'ulx-components';
+import { UlxTooltip, UlxButton, UlxIcon } from 'ulx-components';
 
 <template>
   <div class="flex gap-3 align-items-center flex-wrap">
@@ -21,11 +21,37 @@ import { UlxTooltip, UlxButton } from 'ulx-components';
     </UlxTooltip>
     <UlxTooltip>
       <:trigger as |attach|>
-        <UlxButton {{attach}} @label="With link" />
+        <UlxButton {{attach}} @label="Template" />
       </:trigger>
       <:content>
-        Learn more at
-        <a href="#" class="ulx-link">documentation</a>.
+        <div class="ulx-column column gp1">
+          <span>
+            <UlxIcon
+              @componentClass="bs-icons1"
+              @type="font"
+              @iconName="user-info-icon"
+              @size="s18"
+            />Item 1
+          </span>
+          <span>
+            <UlxIcon
+              @componentClass="bs-icons1"
+              @type="font"
+              @iconName="user-info-icon"
+              @size="s18"
+            />Item 2
+          </span>
+          <span>
+            <UlxIcon
+              @componentClass="bs-icons1"
+              @type="font"
+              @iconName="user-info-icon"
+              @size="s18"
+              @customClass="fg-green"
+            /><span class="fg-green">Item 3</span>
+          </span>
+        </div>
+
       </:content>
     </UlxTooltip>
   </div>

@@ -19,6 +19,7 @@ export { default as UlxSplitButton } from './components/elements/ulx-split-butto
 export { default as UlxTristateCheckbox } from './components/elements/ulx-tristate-checkbox/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
+export { default as UlxForm } from './components/collections/ulx-form/index.gjs';
 export { default as UlxTabmenu } from './components/collections/ulx-tabmenu/index.gjs';
 export { default as UlxSegment } from './components/collections/ulx-segment/index.gjs';
 export { default as UlxSegmentsGroup } from './components/collections/ulx-segments-group/index.gjs';
