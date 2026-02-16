@@ -1,12 +1,10 @@
 import Route from '@ember/routing/route';
-import { Colors } from '@ulx/foundation';
+import { service } from '@ember/service';
 
 export default class FoundationColorsRoute extends Route {
+  @service ulsDocs;
+
   model() {
-    return {
-      useReactComponents: true,
-      ReactColors: Colors,
-      reactProps: {}
-    };
+    return this.ulsDocs.getUtility('colors');
   }
 }

@@ -322,13 +322,24 @@ export default class DocSidebarComponent extends Component {
                             <ol class="s-nav-list mgt2">
                               {{#each childItem.items as |subItem|}}
                                 <li class="s-nav-item">
-                                  <LinkTo
-                                    @route={{subItem.route}}
-                                    @activeClass="bd-primary fg-primary"
-                                    class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
-                                  >
-                                    {{subItem.menuItem}}
-                                  </LinkTo>
+                                  {{#if subItem.slug}}
+                                    <LinkTo
+                                      @route={{subItem.route}}
+                                      @model={{subItem.slug}}
+                                      @activeClass="bd-primary fg-primary"
+                                      class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
+                                    >
+                                      {{subItem.menuItem}}
+                                    </LinkTo>
+                                  {{else}}
+                                    <LinkTo
+                                      @route={{subItem.route}}
+                                      @activeClass="bd-primary fg-primary"
+                                      class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
+                                    >
+                                      {{subItem.menuItem}}
+                                    </LinkTo>
+                                  {{/if}}
                                 </li>
                               {{/each}}
                             </ol>

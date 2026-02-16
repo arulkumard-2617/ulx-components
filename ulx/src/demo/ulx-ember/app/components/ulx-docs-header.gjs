@@ -66,7 +66,7 @@ export default class UlxDocsHeaderComponent extends Component {
 
   <template>
     <div
-      class="ulsp-topbar h64 pd1 ulx-grid col-1 w-100p
+      class="ulsp-topbar bg-default bd-b h64 pd1 ulx-grid col-1 w-100p
         {{if this.isSticky 'sticky' ''}}"
       {{this.setupScrollObserver}}
     >

@@ -1,12 +1,10 @@
 import Route from '@ember/routing/route';
-import { Typography } from '@ulx/foundation';
+import { service } from '@ember/service';
 
 export default class FoundationTypographyRoute extends Route {
+  @service ulsDocs;
+
   model() {
-    return {
-      useReactComponents: true,
-      ReactTypography: Typography,
-      reactProps: {}
-    };
+    return this.ulsDocs.getUtility('typography');
   }
 }

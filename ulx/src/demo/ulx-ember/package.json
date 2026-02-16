@@ -11,6 +11,8 @@
     "test": "tests"
   },
   "scripts": {
+    "generate-docs": "node scripts/parse-uls-utilities.js && node scripts/build-utility-nav-from-schema.js",
+    "sync-uls-schema": "node scripts/build-utility-nav-from-schema.js",
     "extract-tokens": "node scripts/extract-ulx-builder-tokens.js ../../../../node_modules/ulx-v2/src/styles/ulx-styles/less/elements/icon.less",
     "build": "ember build --environment=production --output-path=$(node -p \"require('path').join(require('os').tmpdir(), 'ulx-ember-dist')\")",
     "build:dist": "ember build --environment=production",
@@ -94,9 +96,6 @@
     "edition": "octane"
   },
   "dependencies": {
-    "@ulx/foundation": "file:../ulx-foundation",
-    "ulx-components": "file:../../../../",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "ulx-components": "file:../../../../"
   }
 }

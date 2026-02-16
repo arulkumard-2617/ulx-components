@@ -323,154 +323,18 @@ body {
   overflow-x: auto;
 }
 
-.sticky {
+.ulsp-topbar {
+  transition: top 0.6s linear;
+  position: inherit;
+  top: 0;
+}
+
+.ulsp-topbar.sticky {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
-
-  // Layered Liquid Glass Effect with Minimal Turbulence
-  background: transparent;
-  border-radius: 0 0 24px 24px;
-  overflow: hidden;
-
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.08),
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-  // Glass filter layer with minimal turbulence
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    backdrop-filter: blur(2px) saturate(105%) brightness(100.5%)
-      contrast(100.5%);
-    -webkit-backdrop-filter: blur(2px) saturate(105%) brightness(100.5%)
-      contrast(100.5%);
-    filter: url(#lg-minimal);
-    isolation: isolate;
-    pointer-events: none;
-  }
-
-  // Glass overlay layer
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: transparent;
-    border-radius: inherit;
-    box-shadow:
-      inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-      inset 0 0 8px rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.04);
-    pointer-events: none;
-  }
-
-  // Ensure content is above glass layers
-  > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  // Smooth transitions for glass effect
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-
-  // Liquid glass interaction with minimal turbulence
-  &:hover,
-  &:focus-within {
-    &::before {
-      backdrop-filter: blur(3px) saturate(110%) brightness(102%) contrast(102%);
-      -webkit-backdrop-filter: blur(3px) saturate(110%) brightness(102%)
-        contrast(102%);
-    }
-
-    &::after {
-      background: transparent;
-      box-shadow:
-        inset 1px 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 0 10px rgba(255, 255, 255, 0.2),
-        inset 0 0 20px rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.03);
-    }
-
-    box-shadow:
-      // Subtle outer glow on hover
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 4px 20px rgba(0, 0, 0, 0.12),
-      0 8px 32px rgba(0, 0, 0, 0.08),
-      // Subtle inner shine on hover
-      inset 0 1px 0 rgba(255, 255, 255, 0.25),
-      inset 0 2px 4px rgba(255, 255, 255, 0.15),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-      inset 0 -2px 8px rgba(0, 0, 0, 0.05);
-  }
-
-  // Enhanced liquid glass for header elements with advanced effects
-  &.ulsp-topbar {
-    // Header-specific squishy bounce
-    @keyframes header-squish {
-      0% {
-        transform: scaleY(1) scaleX(1);
-      }
-
-      30% {
-        transform: scaleY(0.97) scaleX(1.01);
-      }
-
-      60% {
-        transform: scaleY(1.02) scaleX(0.99);
-      }
-
-      100% {
-        transform: scaleY(1) scaleX(1);
-      }
-    }
-
-    &::before {
-      backdrop-filter: blur(2px) saturate(105%) brightness(101%) contrast(101%);
-      -webkit-backdrop-filter: blur(2px) saturate(105%) brightness(101%)
-        contrast(101%);
-      filter: url(#lg-minimal);
-    }
-
-    &::after {
-      background: transparent;
-      box-shadow:
-        inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 0 6px rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-    }
-
-    &:hover,
-    &:focus-within {
-      &::before {
-        backdrop-filter: blur(3px) saturate(110%) brightness(102%)
-          contrast(102%);
-        -webkit-backdrop-filter: blur(3px) saturate(110%) brightness(102%)
-          contrast(102%);
-      }
-
-      &::after {
-        background: transparent;
-        box-shadow:
-          inset 1px 1px 0 rgba(255, 255, 255, 0.25),
-          inset 0 0 10px rgba(255, 255, 255, 0.15),
-          inset 0 0 20px rgba(255, 255, 255, 0.1),
-          inset 0 -1px 0 rgba(0, 0, 0, 0.05),
-          inset 0 -2px 4px rgba(0, 0, 0, 0.03);
-      }
-    }
-
-    // Ensure header content is above glass layers
-    > * {
-      position: relative;
-      z-index: 3;
-    }
-  }
+  transition: all 0.6s linear;
 }
 
 .ulsp-app-routes-container {
@@ -584,5 +448,18 @@ pre.code-block-dark {
         color: #858585;
       }
     }
+  }
+}
+
+// Utility builder: box-type preview (padding/margin) – striped outer to show spacing
+.utility-builder-preview {
+  .utility-builder-box-stripe {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(0, 0, 0, 0.03) 6px,
+      rgba(0, 0, 0, 0.03) 12px
+    );
   }
 }
