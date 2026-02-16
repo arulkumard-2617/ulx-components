@@ -163,6 +163,14 @@ export default class UlxTooltip extends Component {
 	hide(event) {
 		if (event?.type && !this._shouldHideForEvent(event.type)) return;
 
+		if (
+			this.args.autoHide === false &&
+			event?.type === "mouseleave" &&
+			event?.currentTarget === this.triggerElement
+		) {
+			return;
+		}
+
 		this._clearTimeouts();
 
 		const onBeforeHide = this.args.onBeforeHide;

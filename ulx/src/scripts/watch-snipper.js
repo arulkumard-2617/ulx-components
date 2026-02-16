@@ -47,7 +47,7 @@ const path = require('path');
 		return content.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
 	}
 
-	function syncFile(srcFile) {
+	function syncFile(srcFile, isInitial = false) {
 		if (!srcFile.endsWith('.gjs')) return;
 
 		const destFile = getDestinationPath(srcFile);
@@ -58,6 +58,7 @@ const path = require('path');
 		const wrapped = `export default \`\n${escaped}\n\`;\n`;
 
 		fs.writeFileSync(destFile, wrapped, 'utf8');
+		if (isInitial) return;
 		console.log(`✓ synced ${path.relative(ROOT, srcFile)}`);
 	}
 
@@ -73,12 +74,27 @@ const path = require('path');
 
 	console.log('👀 Watching demo .gjs files...');
 
+	const gjsFiles = [];
+	function collectGjs(dir) {
+		if (!fs.existsSync(dir)) return;
+		const entries = fs.readdirSync(dir, { withFileTypes: true });
+		for (const e of entries) {
+			const full = path.join(dir, e.name);
+			if (e.isDirectory()) collectGjs(full);
+			else if (e.name.endsWith('.gjs')) gjsFiles.push(full);
+		}
+	}
+	collectGjs(SRC_ROOT);
+
+	for (const f of gjsFiles) syncFile(f, true);
+	console.log('✓ synced all files to documentation');
+
 	chokidar
 		.watch(SRC_ROOT, {
-			ignoreInitial: false,
+			ignoreInitial: true,
 			awaitWriteFinish: true
 		})
-		.on('add', syncFile)
-		.on('change', syncFile)
+		.on('add', (p) => syncFile(p, false))
+		.on('change', (p) => syncFile(p, false))
 		.on('unlink', removeFile);
 })();

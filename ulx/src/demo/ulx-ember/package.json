@@ -14,6 +14,9 @@
     "extract-tokens": "node scripts/extract-ulx-builder-tokens.js ../../../../node_modules/ulx-v2/src/styles/ulx-styles/less/elements/icon.less",
     "build": "ember build --environment=production --output-path=$(node -p \"require('path').join(require('os').tmpdir(), 'ulx-ember-dist')\")",
     "build:dist": "ember build --environment=production",
+    "copy-dist-to-appsail": "node scripts/watch-dist.js --once",
+    "watch:dist": "node scripts/watch-dist.js",
+    "build:dist:appsail": "npm run build:dist && npm run copy-dist-to-appsail",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:css": "stylelint \"**/*.css\"",
@@ -24,7 +27,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
-    "start": "concurrently --names \"ember,snippets\" \"ember serve\" \"npm run sync-snippets --prefix ../../..\"",
+    "start": "node scripts/watch-dist.js --once && node -e \"console.log('\\n  Ember docs: http://localhost:4200/\\n  AppSail: http://localhost:3001\\n')\" && concurrently --names \"watch-dist,catalyst,ember\" \"node scripts/watch-dist.js\" \"cd appsail && catalyst serve\" \"ember serve\"",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\" --prefixColors auto",
     "test:ember": "ember test"
   },
