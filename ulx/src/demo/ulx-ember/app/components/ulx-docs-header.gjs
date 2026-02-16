@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
-import { on } from '@ember/modifier';
+import { UlxButton } from 'ulx-components';
 
 export default class UlxDocsHeaderComponent extends Component {
   @tracked isSticky = false;
@@ -85,7 +85,7 @@ export default class UlxDocsHeaderComponent extends Component {
           {{! Search Button }}
           <button
             type="button"
-            class="ulx-button secondary outlined m-size fxb fvc gp1"
+            class="hidden ulx-button secondary outlined m-size fxb fvc gp1"
             aria-haspopup="dialog"
             aria-expanded="false"
           >
@@ -96,7 +96,7 @@ export default class UlxDocsHeaderComponent extends Component {
           {{! Download Button }}
           <button
             type="button"
-            class="ulx-button primary fxb fvc gp1 m-size"
+            class="hidden ulx-button primary fxb fvc gp1 m-size"
             aria-haspopup="menu"
             aria-controls="doc-download-menu"
           >
@@ -104,36 +104,18 @@ export default class UlxDocsHeaderComponent extends Component {
           </button>
 
           {{! Theme Toggle Button }}
-
-          <button
-            type="button"
+          <UlxButton
+            @icon={{if this.isDarkMode "light-mode-icon" "dark-mode-icon"}}
+            @iconComponentClass="bs-icons1"
+            @iconSize="s18"
+            @variant="basic"
             aria-label={{if
               this.isDarkMode
               "Switch to light theme"
               "Switch to dark theme"
             }}
-            class="pd2 --ulxbutton secondary outlined icon-only s-size"
-            data-pc-name="button"
-            data-pc-section="root"
-            {{on "click" this.toggleDarkMode}}
-          >
-            <i class="--ulxicons s18" aria-hidden="true">{{if
-                this.isDarkMode
-                "☀️"
-                "🌙"
-              }}</i>
-            <span
-              class="--ulxbutton-label"
-              data-pc-section="label"
-            >&nbsp;</span>
-            <span
-              role="presentation"
-              aria-hidden="true"
-              class="--ulxbutton-ink"
-              data-pc-name="ripple"
-              data-pc-section="root"
-            ></span>
-          </button>
+            @onClick={{this.toggleDarkMode}}
+          />
         </div>
       </header>
     </div>

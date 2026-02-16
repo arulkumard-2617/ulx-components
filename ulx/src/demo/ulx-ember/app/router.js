@@ -20,6 +20,7 @@ Router.map(function () {
       this.route('segment');
       this.route('split-button');
       this.route('option-segment');
+      this.route('form');
     });
     this.route('elements', function () {
       this.route('icon');
@@ -41,11 +42,12 @@ Router.map(function () {
       this.route('tieredmenu');
       this.route('popup');
       this.route('modal');
+      this.route('tooltip');
     });
   });
 
   this.route('utilities', function () {
-    this.route('index', { path: '/' });
+    this.route('index');
     this.route('space');
     this.route('gap');
     this.route('grid');

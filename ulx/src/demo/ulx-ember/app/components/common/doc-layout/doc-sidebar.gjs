@@ -6,7 +6,6 @@ import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
-import { htmlSafe } from '@ember/template';
 import { DocNavItems } from '../../../constants/docs';
 import { t } from 'ulx-components';
 
@@ -16,10 +15,12 @@ export default class DocSidebarComponent extends Component {
   @tracked activeItem = null;
   contentRefs = {};
 
-  constructor() {
-    super(...arguments);
-    this.setInitialActiveItem();
-  }
+  syncActiveItemFromRoute = modifier(() => {
+    const rafId = requestAnimationFrame(() => {
+      this.setInitialActiveItem();
+    });
+    return () => cancelAnimationFrame(rafId);
+  });
 
   get currentPath() {
     try {
@@ -210,7 +211,10 @@ export default class DocSidebarComponent extends Component {
   <template>
     {{! Force evaluation of computedActiveItem to update activeItem }}
     {{#if false}}{{this.computedActiveItem}}{{/if}}
-    <aside class="ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10">
+    <aside
+      class="ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10"
+      {{this.syncActiveItemFromRoute}}
+    >
       <nav class="sidebar-nav fxgrow">
         <ol class="s-nav-list mgt2">
           {{#each this.navItems as |item|}}
@@ -239,7 +243,10 @@ export default class DocSidebarComponent extends Component {
                     <button
                       class="s-nav-link-icon mgl-auto pdl1"
                       {{on "click" (fn this.handleToggle item.menuTitle)}}
-                      aria-label={{t "msg.toggle.menu" menuTitle=item.menuTitle}}
+                      aria-label={{t
+                        "msg.toggle.menu"
+                        menuTitle=item.menuTitle
+                      }}
                       type="button"
                     >
                       <i

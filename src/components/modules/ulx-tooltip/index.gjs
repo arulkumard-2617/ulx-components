@@ -1,13 +1,32 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-import { fn } from "@ember/helper";
 import { guidFor } from "@ember/object/internals";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 
 const GAP = 8;
+
+const NATIVELY_FOCUSABLE = /^(BUTTON|INPUT|SELECT|TEXTAREA|A|SUMMARY)$/;
+
+function isFocusable(el) {
+	if (!el || typeof el.tabIndex !== "number") return false;
+	if (el.tabIndex >= 0) return true;
+	const tag = el.tagName;
+	if (NATIVELY_FOCUSABLE.test(tag)) {
+		if (tag === "A") return el.hasAttribute("href");
+		return !el.disabled;
+	}
+	return false;
+}
+
+function ensureFocusableForTooltip(element) {
+	if (element.hasAttribute("tabindex")) return false;
+	if (isFocusable(element)) return false;
+	element.setAttribute("tabindex", "0");
+	return true;
+}
 
 /**
  * Tooltip module component. Wraps a trigger element and shows a tooltip on hover or focus.
@@ -17,12 +36,12 @@ const GAP = 8;
  * - Trigger receives aria-describedby when tooltip is visible, pointing to the tooltip id.
  * - Tooltip has role="tooltip" and a stable id.
  * - Escape closes the tooltip when @closeOnEscape is true.
- * - For event "focus" or "both", ensure the trigger is focusable (e.g. button, link, or tabindex="0").
+ * - For event "focus" or "both", non-focusable triggers (e.g. div, icon) get tabindex="0" automatically for WCAG.
  *
  * @class UlxTooltip
  * @param {string} [content] - Tooltip text. Ignored when using <:content> block.
  * @param {string} [position='right'] - Position: 'top' | 'right' | 'bottom' | 'left'
- * @param {string} [event='hover'] - When to show: 'hover' | 'focus' | 'both'
+ * @param {string} [event='both'] - When to show: 'hover' | 'focus' | 'both'. Default 'both' for WCAG (tooltip on keyboard focus).
  * @param {number} [showDelay=0] - Delay in ms before showing
  * @param {number} [hideDelay=0] - Delay in ms before hiding
  * @param {boolean} [closeOnEscape=false] - When true, Escape key closes the tooltip
@@ -35,7 +54,8 @@ const GAP = 8;
  * @param {Function} [onHide] - Callback when tooltip is hidden
  * @param {Function} [onBeforeShow] - Callback before show; return false to prevent show
  * @param {Function} [onBeforeHide] - Callback before hide; return false to prevent hide
- * @block default - Trigger element(s). Receives mouse/focus events.
+ * @block default - Trigger element. Apply the yielded modifier to your element (e.g. as |attach| then <button {{attach}}>). Tooltip is rendered in appendTo (body by default), not wrapping the trigger.
+ * @block trigger - Optional. Use with <:content>; apply the yielded modifier to the trigger element (e.g. as |attach| then {{attach}}).
  * @block content - Optional rich tooltip content. When present, @content is ignored.
  */
 export default class UlxTooltip extends Component {
@@ -74,15 +94,27 @@ export default class UlxTooltip extends Component {
 		return to ?? document.body;
 	}
 
+	get tooltipPosition() {
+		return this.args.position ?? "right";
+	}
+
+	get shouldCloseOnEscape() {
+		return this.visible && this.args.closeOnEscape;
+	}
+
+	get shouldRenderTooltip() {
+		return this.visible && this.appendTarget;
+	}
+
 	_shouldShowForEvent(eventType) {
-		const event = this.args.event ?? "hover";
+		const event = this.args.event ?? "both";
 		if (event === "hover") return eventType === "mouseenter";
 		if (event === "focus") return eventType === "focus" || eventType === "focusin";
 		return eventType === "mouseenter" || eventType === "focus" || eventType === "focusin";
 	}
 
 	_shouldHideForEvent(eventType) {
-		const event = this.args.event ?? "hover";
+		const event = this.args.event ?? "both";
 		if (event === "hover") return eventType === "mouseleave";
 		if (event === "focus") return eventType === "blur" || eventType === "focusout";
 		return eventType === "mouseleave" || eventType === "blur" || eventType === "focusout";
@@ -130,6 +162,14 @@ export default class UlxTooltip extends Component {
 	@action
 	hide(event) {
 		if (event?.type && !this._shouldHideForEvent(event.type)) return;
+
+		if (
+			this.args.autoHide === false &&
+			event?.type === "mouseleave" &&
+			event?.currentTarget === this.triggerElement
+		) {
+			return;
+		}
 
 		this._clearTimeouts();
 
@@ -210,9 +250,23 @@ export default class UlxTooltip extends Component {
 		}
 	}
 
-	triggerRef = modifier((element) => {
+	attach = modifier((element) => {
 		this.triggerElement = element;
+		const event = this.args.event ?? "both";
+		const addedTabindex =
+			event === "both" || event === "focus" ? ensureFocusableForTooltip(element) : false;
+		const show = (e) => this.show(e);
+		const hide = (e) => this.hide(e);
+		element.addEventListener("mouseenter", show);
+		element.addEventListener("mouseleave", hide);
+		element.addEventListener("focusin", show);
+		element.addEventListener("focusout", hide);
 		return () => {
+			element.removeEventListener("mouseenter", show);
+			element.removeEventListener("mouseleave", hide);
+			element.removeEventListener("focusin", show);
+			element.removeEventListener("focusout", hide);
+			if (addedTabindex) element.removeAttribute("tabindex");
 			if (this.triggerElement === element) {
 				this._clearTimeouts();
 				this._setTriggerAriaDescribedBy(null);
@@ -285,27 +339,21 @@ export default class UlxTooltip extends Component {
 	});
 
 	<template>
-		<span
-			class="ulx-tooltip-trigger"
-			{{this.triggerRef}}
-			{{on "mouseenter" (fn this.show)}}
-			{{on "mouseleave" (fn this.hide)}}
-			{{on "focusin" (fn this.show)}}
-			{{on "focusout" (fn this.hide)}}
-			...attributes
-		>
-			{{yield}}
-		</span>
+		{{#if (has-block "trigger")}}
+			{{yield this.attach to="trigger"}}
+		{{else}}
+			{{yield this.attach}}
+		{{/if}}
 
-		{{#if (and this.visible this.appendTarget)}}
+		{{#if this.shouldRenderTooltip}}
 			{{#in-element this.appendTarget insertBefore=null}}
 				<div
 					id={{this.tooltipId}}
 					role="tooltip"
 					class={{this.rootClasses}}
 					aria-hidden="false"
-					{{this.positionTooltip this.visible this.triggerElement (or @position "right")}}
-					{{this.closeOnEscape (and this.visible @closeOnEscape)}}
+					{{this.positionTooltip this.visible this.triggerElement this.tooltipPosition}}
+					{{this.closeOnEscape this.shouldCloseOnEscape}}
 					{{on "mouseenter" this.tooltipMouseEnter}}
 					{{on "mouseleave" this.tooltipMouseLeave}}
 				>

@@ -82,6 +82,7 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./components/collections/ulx-button-group/index.js": "./dist/_app_/components/collections/ulx-button-group/index.js",
+      "./components/collections/ulx-form/index.js": "./dist/_app_/components/collections/ulx-form/index.js",
       "./components/collections/ulx-option-segment/index.js": "./dist/_app_/components/collections/ulx-option-segment/index.js",
       "./components/collections/ulx-option-segment/item.js": "./dist/_app_/components/collections/ulx-option-segment/item.js",
       "./components/collections/ulx-segment/index.js": "./dist/_app_/components/collections/ulx-segment/index.js",
@@ -116,6 +117,7 @@
       "./components/modules/ulx-tooltip/index.js": "./dist/_app_/components/modules/ulx-tooltip/index.js",
       "./helpers/t-safe.js": "./dist/_app_/helpers/t-safe.js",
       "./helpers/t.js": "./dist/_app_/helpers/t.js",
+      "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
       "./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
     }
   }
