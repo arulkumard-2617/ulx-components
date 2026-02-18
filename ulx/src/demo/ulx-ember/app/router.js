@@ -43,8 +43,10 @@ Router.map(function () {
       this.route('popup');
       this.route('modal');
       this.route('tooltip');
+	  this.route('steps');
     });
-  });
+    
+});
 
   this.route('utilities', function () {
     this.route('index');

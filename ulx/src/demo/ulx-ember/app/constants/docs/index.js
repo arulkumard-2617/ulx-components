@@ -331,6 +331,11 @@ export const DocNavItems = [
             menuItem: 'TieredMenu',
             to: '/components/modules/tieredmenu',
             route: 'components.modules.tieredmenu'
+          },
+          {
+            menuItem: 'Steps',
+            to: '/components/modules/steps',
+            route: 'components.modules.steps'
           }
         ]
       },

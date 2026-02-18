@@ -111,6 +111,7 @@
       "./components/modules/ulx-modal/header.js": "./dist/_app_/components/modules/ulx-modal/header.js",
       "./components/modules/ulx-modal/index.js": "./dist/_app_/components/modules/ulx-modal/index.js",
       "./components/modules/ulx-popup/index.js": "./dist/_app_/components/modules/ulx-popup/index.js",
+      "./components/modules/ulx-steps/index.js": "./dist/_app_/components/modules/ulx-steps/index.js",
       "./components/modules/ulx-tieredmenu/index.js": "./dist/_app_/components/modules/ulx-tieredmenu/index.js",
       "./components/modules/ulx-tieredmenu/menu-item.js": "./dist/_app_/components/modules/ulx-tieredmenu/menu-item.js",
       "./components/modules/ulx-toast/index.js": "./dist/_app_/components/modules/ulx-toast/index.js",
