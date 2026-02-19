@@ -58,16 +58,11 @@ import UlxModalFooter from "./footer.gjs";
  * @param {boolean} [closeOnEscape=true] - Close modal when Escape key is pressed
  * @param {boolean} [showCloseButton=true] - Show close button in header
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
- * @param {string} [closeIconComponentClass="bs-icons1"] - Icon component class for close button
- * @param {string} [closeButtonVariant="text"] - UlxButton variant for close button
- * @param {string} [closeIconSize="s18"] - Icon size for close button
- * @param {boolean} [closeButtonText=true] - UlxButton text style for close button
+ * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
+ * @param {string} [iconVariant="text"] - UlxButton variant for header icon buttons
+ * @param {string} [iconSize="s18"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon name for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for minimize/restore button (when maximized)
- * @param {string} [maximizeIconComponentClass="bs-icons1"] - Icon component class for maximize button
- * @param {string} [maximizeButtonVariant="text"] - UlxButton variant for maximize button
- * @param {string} [maximizeIconSize] - Icon size for maximize button
- * @param {boolean} [maximizeButtonText=true] - UlxButton text style for maximize button
  * @param {string} [animationType="fade"] - Animation type: "fade", "zoom", "slide"
  * @param {string} [variant] - Visual variant: "elevated", "flat"
  * @param {boolean} [draggable=false] - Enable dragging dialog by header
@@ -508,16 +503,11 @@ export default class UlxModal extends Component {
 									@onClose={{this.handleClose}}
 									@onMaximize={{this.handleMaximize}}
 									@closeIconName={{@closeIconName}}
-									@closeIconComponentClass={{@closeIconComponentClass}}
-									@closeButtonVariant={{@closeButtonVariant}}
-									@closeIconSize={{@closeIconSize}}
-									@closeButtonText={{@closeButtonText}}
+									@iconComponentClass={{@iconComponentClass}}
+									@iconVariant={{@iconVariant}}
+									@iconSize={{@iconSize}}
 									@maximizeIconName={{@maximizeIconName}}
 									@minimizeIconName={{@minimizeIconName}}
-									@maximizeIconComponentClass={{@maximizeIconComponentClass}}
-									@maximizeButtonVariant={{@maximizeButtonVariant}}
-									@maximizeIconSize={{@maximizeIconSize}}
-									@maximizeButtonText={{@maximizeButtonText}}
 									@headerClassName={{@headerClassName}}
 								/>
 							{{/if}}

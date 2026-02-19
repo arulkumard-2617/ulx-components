@@ -23,16 +23,11 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * @param {Function} [onClose] - Callback when close button is clicked
  * @param {Function} [onMaximize] - Callback when maximize button is clicked
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
- * @param {string} [closeIconComponentClass="bs-icons1"] - Icon component class for close button
- * @param {string} [closeButtonVariant="text"] - UlxButton variant for close button
- * @param {string} [closeIconSize="s18"] - Icon size for close button
- * @param {boolean} [closeButtonText=true] - UlxButton text style for close button
+ * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
+ * @param {string} [iconVariant="text"] - UlxButton variant for header icon buttons
+ * @param {string} [iconSize="s18"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon name for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for restore button (when maximized)
- * @param {string} [maximizeIconComponentClass="bs-icons1"] - Icon component class for maximize button
- * @param {string} [maximizeButtonVariant="text"] - UlxButton variant for maximize button
- * @param {string} [maximizeIconSize="s18"] - Icon size for maximize button
- * @param {boolean} [maximizeButtonText=true] - UlxButton text style for maximize button
  * @param {string} [headerClassName] - Extra class for the header root (applied next to slidepane-header)
  */
 export default class UlxSlidePaneHeader extends Component {
@@ -78,20 +73,16 @@ export default class UlxSlidePaneHeader extends Component {
 		return this.args.closeIconName || "close-icon-01";
 	}
 
-	get closeIconComponentClass() {
-		return this.args.closeIconComponentClass ?? "bs-icons1";
+	get iconComponentClass() {
+		return this.args.iconComponentClass ?? "bs-icons1";
 	}
 
-	get closeButtonVariant() {
-		return this.args.closeButtonVariant ?? "text";
+	get iconVariant() {
+		return this.args.iconVariant ?? "text";
 	}
 
-	get closeIconSize() {
-		return this.args.closeIconSize ?? "s18";
-	}
-
-	get closeButtonText() {
-		return this.args.closeButtonText ?? true;
+	get iconSize() {
+		return this.args.iconSize ?? "s18";
 	}
 
 	get maximizeIconName() {
@@ -108,22 +99,6 @@ export default class UlxSlidePaneHeader extends Component {
 
 	get maximizeButtonAriaLabel() {
 		return this.args.isMaximized ? "Restore" : "Maximize";
-	}
-
-	get maximizeIconComponentClass() {
-		return this.args.maximizeIconComponentClass ?? "bs-icons1";
-	}
-
-	get maximizeButtonVariant() {
-		return this.args.maximizeButtonVariant ?? "text";
-	}
-
-	get maximizeIconSize() {
-		return this.args.maximizeIconSize ?? "s18";
-	}
-
-	get maximizeButtonText() {
-		return this.args.maximizeButtonText ?? true;
 	}
 
 	@action
@@ -196,10 +171,9 @@ export default class UlxSlidePaneHeader extends Component {
 				{{#if this.showMaximizeButton}}
 					<UlxButton
 						@icon={{this.currentMaximizeIconName}}
-						@iconComponentClass={{this.maximizeIconComponentClass}}
-						@variant={{this.maximizeButtonVariant}}
-						@iconSize={{this.maximizeIconSize}}
-						@text={{this.maximizeButtonText}}
+						@iconComponentClass={{this.iconComponentClass}}
+						@variant={{this.iconVariant}}
+						@iconSize={{this.iconSize}}
 						@customClass="slidepane-maximizable-button"
 						aria-label={{this.maximizeButtonAriaLabel}}
 						{{on "click" this.handleMaximize}}
@@ -208,10 +182,9 @@ export default class UlxSlidePaneHeader extends Component {
 				{{#if this.showCloseButton}}
 					<UlxButton
 						@icon={{this.closeIconName}}
-						@iconComponentClass={{this.closeIconComponentClass}}
-						@variant={{this.closeButtonVariant}}
-						@iconSize={{this.closeIconSize}}
-						@text={{this.closeButtonText}}
+						@iconComponentClass={{this.iconComponentClass}}
+						@variant={{this.iconVariant}}
+						@iconSize={{this.iconSize}}
 						@customClass="slidepane-close-button"
 						aria-label="Close"
 						{{on "click" this.handleClose}}

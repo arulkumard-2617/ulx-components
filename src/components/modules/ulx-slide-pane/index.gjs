@@ -75,12 +75,12 @@ import UlxSlidePaneFooter from "./footer.gjs";
  * @param {boolean} [maximizable=false] - Show maximize/restore button in header
  * @param {boolean} [maximized=false] - Display pane in maximized state (full width)
  * @param {Function} [onMaximize] - Callback when maximize state changes; receives { maximized }
+ * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
+ * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
+ * @param {string} [iconVariant="text"] - UlxButton variant for header icon buttons
+ * @param {string} [iconSize="s18"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon for restore button (when maximized)
- * @param {string} [maximizeIconComponentClass="bs-icons1"] - Icon component class for maximize button
- * @param {string} [maximizeButtonVariant="text"] - UlxButton variant for maximize button
- * @param {string} [maximizeIconSize="s18"] - Icon size for maximize button
- * @param {boolean} [maximizeButtonText=true] - UlxButton text style for maximize button
  */
 export default class UlxSlidePane extends Component {
 	@service modalStack;
@@ -402,16 +402,11 @@ export default class UlxSlidePane extends Component {
 									@onClose={{this.handleClose}}
 									@onMaximize={{this.handleMaximize}}
 									@closeIconName={{@closeIconName}}
-									@closeIconComponentClass={{@closeIconComponentClass}}
-									@closeButtonVariant={{@closeButtonVariant}}
-									@closeIconSize={{@closeIconSize}}
-									@closeButtonText={{@closeButtonText}}
+									@iconComponentClass={{@iconComponentClass}}
+									@iconVariant={{@iconVariant}}
+									@iconSize={{@iconSize}}
 									@maximizeIconName={{@maximizeIconName}}
 									@minimizeIconName={{@minimizeIconName}}
-									@maximizeIconComponentClass={{@maximizeIconComponentClass}}
-									@maximizeButtonVariant={{@maximizeButtonVariant}}
-									@maximizeIconSize={{@maximizeIconSize}}
-									@maximizeButtonText={{@maximizeButtonText}}
 									@headerClassName={{@headerClassName}}
 								/>
 							{{/if}}
