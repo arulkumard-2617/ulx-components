@@ -89,7 +89,7 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Headless</code> demo shows headless usage with fully custom content. Use <code>@headless={{true}}</code> and the default block with <code>as |hide|</code> to receive the close callback.',
+          'The <code>Headless</code> demo shows fully custom content with no default header or footer. Use <code>@hideHeader={{true}}</code> and <code>@hideFooter={{true}}</code> with a <code>:body</code> block; close via <code>@onHide</code> or your own action.',
       },
     },
     demo: {

@@ -78,7 +78,6 @@ export default class AsyncExampleDemoComponent extends Component {
       @submittingLabel="Saving..."
       @size="m-size"
       @position="center"
-      @showDefaultFooter={{true}}
       @cancelButtonLabel="Cancel"
       @doneButtonLabel="Save"
     >

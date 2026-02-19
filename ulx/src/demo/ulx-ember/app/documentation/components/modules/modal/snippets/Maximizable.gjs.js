@@ -38,7 +38,6 @@ export default class MaximizableDemoComponent extends Component {
         @maximizable={{true}}
         @size="l-size"
         @scrollable={{true}}
-        @showDefaultFooter={{true}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Close"
         @onDone={{this.handleConfirm}}

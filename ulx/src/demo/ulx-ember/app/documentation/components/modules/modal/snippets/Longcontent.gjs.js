@@ -38,7 +38,6 @@ export default class LongcontentDemoComponent extends Component {
         @scrollable={{true}}
         @width="500px"
         @size="m-size"
-        @showDefaultFooter={{true}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Close"
         @onDone={{this.handleConfirm}}
