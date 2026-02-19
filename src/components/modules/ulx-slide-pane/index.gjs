@@ -143,10 +143,9 @@ export default class UlxSlidePane extends Component {
 	get maskClasses() {
 		const parts = ["slidepane-mask"];
 
-		// slidepane-mask-non-modal (non-blocking overlay when @overlay={{false}}) will implement later
-		// if (!this.overlay) {
-		// 	parts.push("slidepane-mask-non-modal");
-		// }
+		if (this.overlay) {
+			parts.push("overlay");
+		}
 
 		if (this.args.visible) {
 			parts.push("visible");
@@ -387,61 +386,60 @@ export default class UlxSlidePane extends Component {
 									{{yield to="head"}}
 								</div>
 							{{else unless @hideHeader}}
-								<UlxSlidePaneHeader
-									@title={{@title}}
-									@showCloseButton={{this.showCloseButton}}
-									@showBackButton={{this.showBackInHeader}}
-									@onBack={{this.handleBack}}
-									@backButtonLabel={{@backButtonLabel}}
-									@backIconName={{@backIconName}}
-									@backButtonVariant={{@backButtonVariant}}
-									@backIconSize={{@backIconSize}}
-									@backIconComponentClass={{@backIconComponentClass}}
-									@showMaximizeButton={{this.maximizable}}
-									@isMaximized={{this.isMaximized}}
-									@onClose={{this.handleClose}}
-									@onMaximize={{this.handleMaximize}}
-									@closeIconName={{@closeIconName}}
-									@iconComponentClass={{@iconComponentClass}}
-									@iconVariant={{@iconVariant}}
-									@iconSize={{@iconSize}}
-									@maximizeIconName={{@maximizeIconName}}
-									@minimizeIconName={{@minimizeIconName}}
-									@headerClassName={{@headerClassName}}
-								/>
+									<UlxSlidePaneHeader
+										@title={{@title}}
+										@showCloseButton={{this.showCloseButton}}
+										@showBackButton={{this.showBackInHeader}}
+										@onBack={{this.handleBack}}
+										@backButtonLabel={{@backButtonLabel}}
+										@backIconName={{@backIconName}}
+										@backButtonVariant={{@backButtonVariant}}
+										@backIconSize={{@backIconSize}}
+										@backIconComponentClass={{@backIconComponentClass}}
+										@showMaximizeButton={{this.maximizable}}
+										@isMaximized={{this.isMaximized}}
+										@onClose={{this.handleClose}}
+										@onMaximize={{this.handleMaximize}}
+										@closeIconName={{@closeIconName}}
+										@iconComponentClass={{@iconComponentClass}}
+										@iconVariant={{@iconVariant}}
+										@iconSize={{@iconSize}}
+										@maximizeIconName={{@maximizeIconName}}
+										@minimizeIconName={{@minimizeIconName}}
+										@headerClassName={{@headerClassName}}
+									/>
 							{{/if}}
 
 							{{#if (has-block "body")}}
-									<div class={{this.bodyContentClasses}} style={{this.bodyContentStyle}}>
-										{{yield to="body"}}
-									</div>
-								{{else}}
-									<UlxSlidePaneBody
-										@scrollable={{this.scrollable}}
-										@contentClassName={{@contentClassName}}
-									>
-										{{yield}}
-									</UlxSlidePaneBody>
-								{{/if}}
+								<div class={{this.bodyContentClasses}} style={{this.bodyContentStyle}}>
+									{{yield to="body"}}
+								</div>
+							{{else}}
+								<UlxSlidePaneBody
+									@scrollable={{this.scrollable}}
+									@contentClassName={{@contentClassName}}
+								>
+									{{yield}}
+								</UlxSlidePaneBody>
+							{{/if}}
 
-							
 							{{#if (has-block "footer")}}
 								<div class={{this.footerWrapperClasses}} style="justify-content: flex-end;">
 									{{yield to="footer"}}
 								</div>
 							{{else unless @hideFooter}}
-								<UlxSlidePaneFooter
-									@hideFooter={{@hideFooter}}
-									@hideCancelButton={{@hideCancelButton}}
-									@hideDoneButton={{@hideDoneButton}}
-									@cancelLabel={{@cancelButtonLabel}}
-									@doneLabel={{@doneButtonLabel}}
-									@submittingLabel={{@submittingLabel}}
-									@submitting={{this.isSubmitting}}
-									@onCancel={{this.handleCancel}}
-									@onDone={{this.handleDone}}
-									@footerClassName={{@footerClassName}}
-								/>
+									<UlxSlidePaneFooter
+										@hideFooter={{@hideFooter}}
+										@hideCancelButton={{@hideCancelButton}}
+										@hideDoneButton={{@hideDoneButton}}
+										@cancelLabel={{@cancelButtonLabel}}
+										@doneLabel={{@doneButtonLabel}}
+										@submittingLabel={{@submittingLabel}}
+										@submitting={{this.isSubmitting}}
+										@onCancel={{this.handleCancel}}
+										@onDone={{this.handleDone}}
+										@footerClassName={{@footerClassName}}
+									/>
 							{{/if}}
 						</div>
 					</div>

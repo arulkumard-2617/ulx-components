@@ -184,7 +184,7 @@ export default class UlxModal extends Component {
 
 	get maskClasses() {
 		const parts = ["dialog-mask"];
-		this.overlay && parts.push("modal");
+		this.overlay && parts.push("modal overlay");
 
 		if (this.args.visible) {
 			parts.push("visible");
@@ -268,7 +268,6 @@ export default class UlxModal extends Component {
 	get keepInViewport() {
 		return this.args.keepInViewport ?? true;
 	}
-
 
 	@action
 	handleBackdropClick(event) {
@@ -494,23 +493,23 @@ export default class UlxModal extends Component {
 								<div class={{this.headerWrapperClasses}}>
 									{{yield to="head"}}
 								</div>
-							{{else unless @hideHeader}}
-								<UlxModalHeader
-									@title={{@title}}
-									@showCloseButton={{this.showCloseButton}}
-									@showMaximizeButton={{this.maximizable}}
-									@isMaximized={{this.isMaximized}}
-									@onClose={{this.handleClose}}
-									@onMaximize={{this.handleMaximize}}
-									@closeIconName={{@closeIconName}}
-									@iconComponentClass={{@iconComponentClass}}
-									@iconVariant={{@iconVariant}}
-									@iconSize={{@iconSize}}
-									@maximizeIconName={{@maximizeIconName}}
-									@minimizeIconName={{@minimizeIconName}}
-									@headerClassName={{@headerClassName}}
-								/>
-							{{/if}}
+							{{else}}{{#unless @hideHeader}}
+									<UlxModalHeader
+										@title={{@title}}
+										@showCloseButton={{this.showCloseButton}}
+										@showMaximizeButton={{this.maximizable}}
+										@isMaximized={{this.isMaximized}}
+										@onClose={{this.handleClose}}
+										@onMaximize={{this.handleMaximize}}
+										@closeIconName={{@closeIconName}}
+										@iconComponentClass={{@iconComponentClass}}
+										@iconVariant={{@iconVariant}}
+										@iconSize={{@iconSize}}
+										@maximizeIconName={{@maximizeIconName}}
+										@minimizeIconName={{@minimizeIconName}}
+										@headerClassName={{@headerClassName}}
+									/>
+								{{/unless}}{{/if}}
 
 							{{#if (has-block "body")}}
 								<div class={{this.bodyContentClasses}} style={{this.bodyContentStyle}}>
@@ -529,20 +528,20 @@ export default class UlxModal extends Component {
 								<div class={{this.footerWrapperClasses}} style="justify-content: flex-end;">
 									{{yield to="footer"}}
 								</div>
-							{{else unless @hideFooter}}
-								<UlxModalFooter
-									@hideFooter={{@hideFooter}}
-									@hideCancelButton={{@hideCancelButton}}
-									@hideDoneButton={{@hideDoneButton}}
-									@cancelLabel={{@cancelButtonLabel}}
-									@doneLabel={{@doneButtonLabel}}
-									@submittingLabel={{@submittingLabel}}
-									@submitting={{this.isSubmitting}}
-									@onCancel={{this.handleCancel}}
-									@onDone={{this.handleDone}}
-									@footerClassName={{@footerClassName}}
-								/>
-							{{/if}}
+							{{else}}{{#unless @hideFooter}}
+									<UlxModalFooter
+										@hideFooter={{@hideFooter}}
+										@hideCancelButton={{@hideCancelButton}}
+										@hideDoneButton={{@hideDoneButton}}
+										@cancelLabel={{@cancelButtonLabel}}
+										@doneLabel={{@doneButtonLabel}}
+										@submittingLabel={{@submittingLabel}}
+										@submitting={{this.isSubmitting}}
+										@onCancel={{this.handleCancel}}
+										@onDone={{this.handleDone}}
+										@footerClassName={{@footerClassName}}
+									/>
+								{{/unless}}{{/if}}
 						</div>
 					</div>
 				{{/if}}
