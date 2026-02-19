@@ -37,7 +37,6 @@ export default class ResponsiveDemoComponent extends Component {
         @onHide={{this.closeModal}}
         @size="xl-size"
         @scrollable={{true}}
-        @showDefaultFooter={{true}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Close"
         @onDone={{this.handleConfirm}}

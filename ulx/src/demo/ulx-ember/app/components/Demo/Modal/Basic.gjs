@@ -34,7 +34,6 @@ export default class BasicModalDemo extends Component {
         @visible={{this.isVisible}}
         @title="Basic Modal"
         @onHide={{this.closeModal}}
-        @showDefaultFooter={{true}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Confirm"
         @onDone={{this.handleConfirm}}

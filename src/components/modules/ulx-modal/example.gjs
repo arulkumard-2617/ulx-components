@@ -163,7 +163,6 @@ export default class UlxModalExample extends Component {
 				@visible={{this.showBasicModal}}
 				@title="Basic Modal"
 				@onHide={{this.closeBasicModal}}
-				@showDefaultFooter={{true}}
 				@cancelButtonLabel="Cancel"
 				@doneButtonLabel="OK"
 				@onDone={{this.handleBasicDone}}
@@ -218,7 +217,6 @@ export default class UlxModalExample extends Component {
 				@title="Delete Item"
 				@onHide={{this.closeConfirmModal}}
 				@onCancel={{this.handleCancelDelete}}
-				@showDefaultFooter={{true}}
 				@cancelButtonLabel="Cancel"
 				@doneButtonLabel="Delete"
 				@onDone={{this.handleDelete}}
@@ -243,7 +241,6 @@ export default class UlxModalExample extends Component {
 				@onMaximize={{this.handleMaximize}}
 				@size="l-size"
 				@scrollable={{true}}
-				@showDefaultFooter={{true}}
 				@doneButtonLabel="Close"
 			>
 				<div style="padding: 20px;">

@@ -361,6 +361,11 @@ export const DocNavItems = [
             menuItem: 'Tooltip',
             to: '/components/modules/tooltip',
             route: 'components.modules.tooltip'
+          },
+          {
+            menuItem: 'slidepane',
+            to: '/components/modules/slidepane',
+            route: 'components.modules.slidepane'
           }
         ]
       }

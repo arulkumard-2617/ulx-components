@@ -4,25 +4,23 @@ import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 
 /**
- * Modal header subcomponent.
- * Displays title and optional close button.
- * Can be customized using the :head named block on UlxModal.
+ * Slide pane header subcomponent.
+ * Displays title and optional close/maximize buttons.
+ * Can be customized using the :head named block on UlxSlidePane.
  *
- * ## Usage
- * ```gjs
- * <UlxModalHeader
- *   @title="Confirm Action"
- *   @showCloseButton={{true}}
- *   @onClose={{this.handleClose}}
- * />
- * ```
- *
- * @class UlxModalHeader
+ * @class UlxSlidePaneHeader
  * @param {string} [title] - Header title text
  * @param {boolean} [showCloseButton=true] - Show close button
- * @param {Function} [onClose] - Callback when close button is clicked
+ * @param {boolean} [showBackButton=false] - Show Back button (e.g. for nested panes)
+ * @param {Function} [onBack] - Callback when Back button is clicked
+ * @param {string} [backButtonLabel="Back"] - Accessible label for Back button (aria-label)
+ * @param {string} [backIconName="left-arrow-icon"] - Icon name for Back button
+ * @param {string} [backIconComponentClass="bs-icons1"] - Icon component class for Back button
+ * @param {string} [backButtonVariant="text"] - UlxButton variant for Back button
+ * @param {string} [backIconSize="s18"] - Icon size for Back button
  * @param {boolean} [showMaximizeButton=false] - Show maximize/restore button
- * @param {boolean} [isMaximized=false] - Whether modal is in maximized state (affects icon and aria-label)
+ * @param {boolean} [isMaximized=false] - Whether pane is maximized (affects icon and aria-label)
+ * @param {Function} [onClose] - Callback when close button is clicked
  * @param {Function} [onMaximize] - Callback when maximize button is clicked
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
  * @param {string} [closeIconComponentClass="bs-icons1"] - Icon component class for close button
@@ -30,22 +28,46 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * @param {string} [closeIconSize="s18"] - Icon size for close button
  * @param {boolean} [closeButtonText=true] - UlxButton text style for close button
  * @param {string} [maximizeIconName="expand-icon"] - Icon name for maximize button (when not maximized)
- * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for minimize/restore button (when maximized)
+ * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for restore button (when maximized)
  * @param {string} [maximizeIconComponentClass="bs-icons1"] - Icon component class for maximize button
  * @param {string} [maximizeButtonVariant="text"] - UlxButton variant for maximize button
  * @param {string} [maximizeIconSize="s18"] - Icon size for maximize button
  * @param {boolean} [maximizeButtonText=true] - UlxButton text style for maximize button
- * @param {string} [headerClassName] - Extra class for the header root (applied next to dialog-header)
+ * @param {string} [headerClassName] - Extra class for the header root (applied next to slidepane-header)
  */
-export default class UlxModalHeader extends Component {
+export default class UlxSlidePaneHeader extends Component {
 	get headerRootClasses() {
-		const parts = ["dialog-header"];
+		const parts = ["slidepane-header"];
 		this.args.headerClassName && parts.push(this.args.headerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get showCloseButton() {
 		return this.args.showCloseButton ?? true;
+	}
+
+	get showBackButton() {
+		return this.args.showBackButton === true && this.args.onBack != null;
+	}
+
+	get backButtonLabel() {
+		return this.args.backButtonLabel ?? "Back";
+	}
+
+	get backIconName() {
+		return this.args.backIconName ?? "left-arrow-icon";
+	}
+
+	get backIconComponentClass() {
+		return this.args.backIconComponentClass ?? "bs-icons1";
+	}
+
+	get backButtonVariant() {
+		return this.args.backButtonVariant ?? "text";
+	}
+
+	get backIconSize() {
+		return this.args.backIconSize ?? "s18";
 	}
 
 	get showMaximizeButton() {
@@ -124,10 +146,26 @@ export default class UlxModalHeader extends Component {
 
 	@action
 	handleKeyDown(event) {
-		// Enter or Space triggers the close action
 		if (event.key === "Enter" || event.key === " ") {
 			event.preventDefault();
 			this.handleClose(event);
+		}
+	}
+
+	@action
+	handleBack(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (this.args.onBack) {
+			this.args.onBack();
+		}
+	}
+
+	@action
+	handleBackKeyDown(event) {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			this.handleBack(event);
 		}
 	}
 
@@ -136,12 +174,25 @@ export default class UlxModalHeader extends Component {
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
-				<h2 class="dialog-title" id="modal-title">
+				{{#if this.showBackButton}}
+					<UlxButton
+						@icon={{this.backIconName}}
+						@iconComponentClass={{this.backIconComponentClass}}
+						@variant={{this.backButtonVariant}}
+						@iconSize={{this.backIconSize}}
+						@text={{true}}
+						@customClass="slidepane-back-button"
+						aria-label={{this.backButtonLabel}}
+						{{on "click" this.handleBack}}
+						{{on "keydown" this.handleBackKeyDown}}
+					/>
+				{{/if}}
+				<h2 class="slidepane-title" id="slidepane-title">
 					{{@title}}
 				</h2>
 			{{/if}}
 
-			<div class="dialog-header-icons">
+			<div class="slidepane-header-icons">
 				{{#if this.showMaximizeButton}}
 					<UlxButton
 						@icon={{this.currentMaximizeIconName}}
@@ -149,12 +200,11 @@ export default class UlxModalHeader extends Component {
 						@variant={{this.maximizeButtonVariant}}
 						@iconSize={{this.maximizeIconSize}}
 						@text={{this.maximizeButtonText}}
-						@customClass="dialog-maximizable-button"
+						@customClass="slidepane-maximizable-button"
 						aria-label={{this.maximizeButtonAriaLabel}}
 						{{on "click" this.handleMaximize}}
 					/>
 				{{/if}}
-
 				{{#if this.showCloseButton}}
 					<UlxButton
 						@icon={{this.closeIconName}}
@@ -162,6 +212,7 @@ export default class UlxModalHeader extends Component {
 						@variant={{this.closeButtonVariant}}
 						@iconSize={{this.closeIconSize}}
 						@text={{this.closeButtonText}}
+						@customClass="slidepane-close-button"
 						aria-label="Close"
 						{{on "click" this.handleClose}}
 						{{on "keydown" this.handleKeyDown}}
