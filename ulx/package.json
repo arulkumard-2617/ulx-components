@@ -31,7 +31,9 @@
 		"ulxEditor:watch": "node src/scripts/less/ulx-editor-build.js --watch",
 		"sync-snippets": "node src/scripts/watch-snipper.js",
 		"ulsBuild:onair": "ULS_APP=onair npm run ulsBuild",
-		"ulsDev:onair": "ULS_APP=onair npm run ulsDev:watch"
+		"ulsDev:onair": "ULS_APP=onair npm run ulsDev:watch",
+		"generate:utill-schema": "node node_modules/ULS_V2.0/src/scripts/schema/generate-util-schema.mjs src/demo/ulx-ember/app/data/util-schema.js",
+		"generate:utill-nav-schema": "node node_modules/ULS_V2.0/src/scripts/schema/generate-util-nav.mjs src/demo/ulx-ember/app/data/util-nav-schema.js"
 	},
 	"keywords": [],
 	"author": "",

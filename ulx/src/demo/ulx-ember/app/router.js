@@ -10,7 +10,13 @@ Router.map(function () {
   this.route('walkthrough');
 
   this.route('foundation', function () {
-    this.route('typography');
+    this.route('typography', function () {
+      this.route('headings');
+      this.route('font-weight');
+      this.route('line-height');
+      this.route('font-size');
+      this.route('transform');
+    });
     this.route('colors');
   });
 

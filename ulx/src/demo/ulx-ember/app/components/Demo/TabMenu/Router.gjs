@@ -20,7 +20,7 @@ export default class RouterDemoComponent extends Component {
       },
       {
         label: 'Typography',
-        route: 'foundation.typography',
+        route: 'foundation.typography.headings',
       },
       {
         label: 'Colors',
@@ -33,7 +33,15 @@ export default class RouterDemoComponent extends Component {
     const currentRoute = this.router.currentRouteName;
     if (!currentRoute) return 0;
 
-    const index = this.items.findIndex((item) => item.route === currentRoute);
+    const index = this.items.findIndex((item) => {
+      if (item.route === currentRoute) return true;
+      if (
+        item.route === 'foundation.typography.headings' &&
+        currentRoute?.startsWith('foundation.typography.')
+      )
+        return true;
+      return false;
+    });
     return index >= 0 ? index : 0;
   }
 

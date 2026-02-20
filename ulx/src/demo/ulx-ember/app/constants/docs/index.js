@@ -2,10 +2,8 @@
 // DOCUMENTATION NAVIGATION ITEMS
 // ==========================================================================
 // Simplified navigation structure for Ember docs.
-// Utilities children are built from ULS utill.schema.json; run
-// node scripts/build-utility-nav-from-schema.js to refresh.
 
-import utilityNavFromSchema from 'ulx-ember/data/utility-nav-from-schema';
+import utilNavSchema from 'ulx-ember/data/util-nav-schema';
 
 export const DocNavItems = [
   {
@@ -14,27 +12,8 @@ export const DocNavItems = [
     to: '/walkthrough',
     route: 'walkthrough',
   },
-  {
-    menuTitle: 'Foundation',
-    icon: 'bs-icons1 design-icon s18',
-    children: [
-      {
-        menuItem: 'Typography',
-        to: '/foundation/typography',
-        route: 'foundation.typography',
-      },
-      {
-        menuItem: 'Colors',
-        to: '/foundation/colors',
-        route: 'foundation.colors',
-      },
-    ],
-  },
-  {
-    menuTitle: 'Utilities',
-    icon: 'bs-icons1 settings-icon-01 s18',
-    children: utilityNavFromSchema,
-  },
+  // 🔥 Spread instead of nesting
+  ...utilNavSchema,
   {
     menuTitle: 'Elements',
     icon: 'bs-icons1 image-left-right-icon s18',

@@ -212,11 +212,11 @@ export default class DocSidebarComponent extends Component {
     {{! Force evaluation of computedActiveItem to update activeItem }}
     {{#if false}}{{this.computedActiveItem}}{{/if}}
     <aside
-      class="ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10"
+      class="ulsp-sidebar overflow-x-hidden overflow-y-auto bd-r"
       {{this.syncActiveItemFromRoute}}
     >
       <nav class="sidebar-nav fxgrow">
-        <ol class="s-nav-list mgt2">
+        <ol class="s-nav-list">
           {{#each this.navItems as |item|}}
             <li class="s-nav-item mgb4">
               {{#if item.to}}
@@ -316,10 +316,10 @@ export default class DocSidebarComponent extends Component {
                       {{#if childItem.category}}
                         <li class="s-nav-item pdb2 pdt2">
                           <div
-                            class="s-nav-category medium-font fg-text-secondary"
+                            class="s-nav-category medium-font fg-text-secondary text-uppercase fs-13"
                           >{{childItem.category}}</div>
                           {{#if childItem.items}}
-                            <ol class="s-nav-list mgt2">
+                            <ol class="s-nav-list">
                               {{#each childItem.items as |subItem|}}
                                 <li class="s-nav-item">
                                   {{#if subItem.slug}}

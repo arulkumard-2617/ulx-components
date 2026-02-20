@@ -3,7 +3,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import CommonDocMainUtilityBuilder from './utility-builder';
 
 const TABLE_SHOW_MORE_THRESHOLD = 10;
 
@@ -13,11 +12,12 @@ const TABLE_SHOW_MORE_THRESHOLD = 10;
  * @param {Object} model - { title, description, sections: [{ title, rows: [{ class, styles }] }] }
  */
 export default class CommonDocMainUtilityDocPageComponent extends Component {
-  CommonDocMainUtilityBuilder = CommonDocMainUtilityBuilder;
   @tracked expandedSectionIndices = {};
 
   get sections() {
     const model = this.args.model;
+    console.log('model', model);
+
     return Array.isArray(model?.sections) ? model.sections : [];
   }
 
@@ -71,11 +71,9 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
               <table class="w-100p rds2" role="grid">
                 <thead class="bg-default bd-b">
                   <tr>
+                    <th class="text-left pdx4 pdy3 bold-font fg-text">Class</th>
                     <th
-                      class="text-start pdx4 pdy3 bold-font fg-text"
-                    >Class</th>
-                    <th
-                      class="text-start pdx4 pdy3 bold-font fg-text"
+                      class="text-left pdx4 pdy3 bold-font fg-text"
                     >Styles</th>
                   </tr>
                 </thead>
@@ -86,7 +84,9 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
                         <div class="fg-primary">{{this.rowClass row}}</div>
                       </td>
                       <td class="pdx4 pdy3 fg-text-secondary font-regular">
-                        <div class="fg-blue">{{this.rowStyles row}}</div>
+                        <div
+                          class="fg-blue whitespace-pre-line"
+                        >{{this.rowStyles row}}</div>
                       </td>
                     </tr>
                   {{/each}}
@@ -97,7 +97,7 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
               <div>
                 <button
                   type="button"
-                  class="ulx-button basic raised m-size"
+                  class="ulx-button primary pilled raised m-size"
                   {{on "click" (fn this.toggleSection sectionIndex)}}
                 >
                   {{#if (this.isSectionExpanded sectionIndex)}}
@@ -110,14 +110,13 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
             {{/if}}
           </div>
         {{/each}}
-        <this.CommonDocMainUtilityBuilder @model={{@model}} />
       {{else}}
-        <p class="fg-text-secondary">This utility is in the ULS schema. Class
-          reference will appear here when
-          <code>scripts/parse-uls-utilities.js</code>
-          supports it. Run
-          <code>npm run generate-docs</code>
-          after updating the parser.</p>
+        <p class="fg-text-secondary">
+          No utilities available for this category. If you recently updated
+          <code>utill.less</code>, run
+          <code>npm run generate:uls-schema</code>
+          to regenerate the schema.
+        </p>
       {{/if}}
     </div>
   </template>
