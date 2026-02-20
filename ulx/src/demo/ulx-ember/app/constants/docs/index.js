@@ -251,6 +251,11 @@ export const DocNavItems = [
             route: 'components.elements.badge'
           },
           {
+            menuItem: 'Divider',
+            to: '/components/elements/divider',
+            route: 'components.elements.divider'
+          },
+          {
             menuItem: 'Avatar',
             to: '/components/elements/avatar',
             route: 'components.elements.avatar'

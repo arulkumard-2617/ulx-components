@@ -11,6 +11,7 @@ export { default as UlxCheckbox } from './components/elements/ulx-checkbox/index
 export { default as UlxRadio } from './components/elements/ulx-radio/index.gjs';
 export { default as UlxTag } from './components/elements/ulx-tag/index.gjs';
 export { default as UlxBadge } from './components/elements/ulx-badge/index.gjs';
+export { default as UlxDivider } from './components/elements/ulx-divider/index.gjs';
 export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs';
 export { default as UlxAvatarGroup } from './components/elements/ulx-avatar-group/index.gjs';
 export { default as UlxProgressSpinner } from './components/elements/ulx-progressspinner/index.gjs';
