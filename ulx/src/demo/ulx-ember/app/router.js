@@ -9,17 +9,6 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('walkthrough');
 
-  this.route('foundation', function () {
-    this.route('typography', function () {
-      this.route('headings');
-      this.route('font-weight');
-      this.route('line-height');
-      this.route('font-size');
-      this.route('transform');
-    });
-    this.route('colors');
-  });
-
   this.route('components', function () {
     this.route('collections', function () {
       this.route('tab-menu');
@@ -28,7 +17,7 @@ Router.map(function () {
       this.route('option-segment');
       this.route('form');
       this.route('accordion');
-});
+    });
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -53,10 +42,9 @@ Router.map(function () {
       this.route('modal');
       this.route('tooltip');
       this.route('slidepane');
-	  this.route('steps');
-});
-    
-});
+      this.route('steps');
+    });
+  });
 
   this.route('utilities', function () {
     this.route('index');

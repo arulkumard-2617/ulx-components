@@ -64,7 +64,7 @@ export default class DocSidebarComponent extends Component {
       .replace(/\/$/, '');
 
     // Exact match only - prevents sibling routes from matching each other
-    // e.g., /foundation/typography should NOT match /foundation/colors
+    // e.g., /utilities/color should NOT match /utilities/display
     return normalizedPath === normalizedRoute;
   };
 

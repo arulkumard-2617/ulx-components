@@ -20,12 +20,8 @@ export default class RouterDemoComponent extends Component {
         route: 'walkthrough',
       },
       {
-        label: 'Typography',
-        route: 'foundation.typography.headings',
-      },
-      {
-        label: 'Colors',
-        route: 'foundation.colors',
+        label: 'Utilities',
+        route: 'utilities.index',
       },
     ];
   }
@@ -36,7 +32,7 @@ export default class RouterDemoComponent extends Component {
 
     const index = this.items.findIndex((item) => {
       if (item.route === currentRoute) return true;
-      if (item.route === 'foundation.typography.headings' && currentRoute?.startsWith('foundation.typography.')) return true;
+      if (item.route === 'utilities.index' && (currentRoute === 'utilities.index' || currentRoute?.startsWith('utilities.utility'))) return true;
       return false;
     });
     return index >= 0 ? index : 0;
