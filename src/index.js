@@ -24,6 +24,7 @@ export { default as UlxTabmenu } from './components/collections/ulx-tabmenu/inde
 export { default as UlxSegment } from './components/collections/ulx-segment/index.gjs';
 export { default as UlxSegmentsGroup } from './components/collections/ulx-segments-group/index.gjs';
 export { default as UlxOptionSegment } from './components/collections/ulx-option-segment/index.gjs';
+export { default as UlxAccordion } from './components/collections/ulx-accordion/index.gjs';
 // Modules
 export { default as UlxModal } from './components/modules/ulx-modal/index.gjs';
 export { default as UlxPopup } from './components/modules/ulx-popup/index.gjs';

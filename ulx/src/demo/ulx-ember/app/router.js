@@ -21,7 +21,8 @@ Router.map(function () {
       this.route('split-button');
       this.route('option-segment');
       this.route('form');
-    });
+      this.route('accordion');
+});
     this.route('elements', function () {
       this.route('icon');
       this.route('input');

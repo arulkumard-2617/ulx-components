@@ -295,6 +295,11 @@ export const DocNavItems = [
             menuItem: 'OptionSegment',
             to: '/components/collections/option-segment',
             route: 'components.collections.option-segment'
+          },
+          {
+            menuItem: 'Accordion',
+            to: '/components/collections/accordion',
+            route: 'components.collections.accordion'
           }
         ]
       },

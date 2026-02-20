@@ -81,6 +81,7 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./components/collections/ulx-accordion/index.js": "./dist/_app_/components/collections/ulx-accordion/index.js",
       "./components/collections/ulx-button-group/index.js": "./dist/_app_/components/collections/ulx-button-group/index.js",
       "./components/collections/ulx-form/index.js": "./dist/_app_/components/collections/ulx-form/index.js",
       "./components/collections/ulx-option-segment/index.js": "./dist/_app_/components/collections/ulx-option-segment/index.js",
