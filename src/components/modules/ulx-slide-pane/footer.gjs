@@ -4,25 +4,11 @@ import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 
 /**
- * Modal footer subcomponent.
+ * Slide pane footer subcomponent.
  * Displays action buttons (typically Cancel and Confirm/Done).
- * Can be customized using the :footer named block on UlxModal.
+ * Can be customized using the :footer named block on UlxSlidePane.
  *
- * ## Usage
- * ```gjs
- * <UlxModalFooter
- *   @cancelLabel="Cancel"
- *   @doneLabel="Confirm"
- *   @onCancel={{this.handleCancel}}
- *   @onDone={{this.handleDone}}
- * />
- * ```
- *
- * ## Keyboard Support
- * - Enter/Space on buttons triggers the respective action
- * - Actions automatically close the modal
- *
- * @class UlxModalFooter
+ * @class UlxSlidePaneFooter
  * @param {boolean} [hideFooter=false] - Hide the footer entirely
  * @param {boolean} [hideCancelButton=false] - Hide the cancel button
  * @param {boolean} [hideDoneButton=false] - Hide the done/confirm button
@@ -35,9 +21,9 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
- * @param {string} [footerClassName] - Extra class for the footer root (applied next to dialog-footer)
+ * @param {string} [footerClassName] - Extra class for the footer root (applied next to slidepane-footer)
  */
-export default class UlxModalFooter extends Component {
+export default class UlxSlidePaneFooter extends Component {
 	get cancelLabel() {
 		return this.args.cancelLabel || "Cancel";
 	}
@@ -71,7 +57,7 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get footerClasses() {
-		const parts = ["dialog-footer"];
+		const parts = ["slidepane-footer"];
 		this.args.footerClassName && parts.push(this.args.footerClassName);
 		return parts.filter(Boolean).join(" ");
 	}

@@ -63,29 +63,27 @@ export default class WithoutoverlayDemoComponent extends Component {
       @visible={{this.showModal1}}
       @title="First Dialog (No Overlay)"
       @onHide={{this.closeModal1}}
-      @modal={{false}}
+      @overlay={{false}}
       @blockScroll={{false}}
       @draggable={{true}}
       @size="s-size"
       @position="center"
-      @showDefaultFooter={{true}}
       @doneButtonLabel="Close"
       @onDone={{this.closeModal1}}
       @onCancel={{this.closeModal1}}
     >
-      <p>This dialog has <code>@modal={{false}}</code> and <code>@draggable={{true}}</code>. No overlay—drag the header to move. Multiple dialogs stack in the center.</p>
+      <p>This dialog has <code>@overlay={{false}}</code> and <code>@draggable={{true}}</code>. No overlay—drag the header to move. Multiple dialogs stack in the center.</p>
     </UlxModal>
 
     <UlxModal
       @visible={{this.showModal2}}
       @title="Second Dialog (No Overlay)"
       @onHide={{this.closeModal2}}
-      @modal={{false}}
+      @overlay={{false}}
       @blockScroll={{false}}
       @draggable={{true}}
       @size="s-size"
       @position="center"
-      @showDefaultFooter={{true}}
       @doneButtonLabel="Close"
       @onDone={{this.closeModal2}}
       @onCancel={{this.closeModal2}}
@@ -97,12 +95,11 @@ export default class WithoutoverlayDemoComponent extends Component {
       @visible={{this.showModal3}}
       @title="Third Dialog (No Overlay)"
       @onHide={{this.closeModal3}}
-      @modal={{false}}
+      @overlay={{false}}
       @blockScroll={{false}}
       @draggable={{true}}
       @size="s-size"
       @position="center"
-      @showDefaultFooter={{true}}
       @doneButtonLabel="Close"
       @onDone={{this.closeModal3}}
       @onCancel={{this.closeModal3}}

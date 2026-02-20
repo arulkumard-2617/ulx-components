@@ -31,11 +31,11 @@ export default class HeadlessModalDemo extends Component {
       @visible={{this.isVisible}}
       @onHide={{this.closeModal}}
       @width="400px"
-      @headless={{true}}
-      as |hide|
+      @hideHeader={{true}}
+      @hideFooter={{true}}
     >
+      <:body>
         <div class="fxb column gp4 pd8">
-  
           <div class="fxb column gp2 w-100p">
             <UlxInput
               id="headless-username"
@@ -47,7 +47,7 @@ export default class HeadlessModalDemo extends Component {
           <div class="fxb column gp2 w-100p">
             <UlxInput
               id="headless-password"
-              @label="Username"
+              @label="Password"
               @placeholder="Password"
               @type="password"
             />
@@ -57,16 +57,17 @@ export default class HeadlessModalDemo extends Component {
             <UlxButton
               @label="Sign-In"
               @variant="primary"
-              {{on "click" hide}}
+              {{on "click" this.closeModal}}
             />
             <UlxButton
               @label="Cancel"
               @variant="secondary"
               @outlined={{true}}
-              {{on "click" hide}}
+              {{on "click" this.closeModal}}
             />
           </div>
         </div>
+      </:body>
     </UlxModal>
   </template>
 }
