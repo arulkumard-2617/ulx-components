@@ -38,6 +38,7 @@ Router.map(function () {
       this.route('progressbar');
       this.route('progressspinner');
       this.route('tristate-checkbox');
+      this.route('dropdown');
     });
     this.route('modules', function () {
       this.route('toast');
