@@ -1,0 +1,405 @@
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
+import { on } from "@ember/modifier";
+import { fn } from "@ember/helper";
+import { modifier } from "ember-modifier";
+import { guidFor } from "@ember/object/internals";
+import { getComponentClass } from "../../../utils/component-config";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
+
+const ENTER_TIMEOUT_MS = 1000;
+const EXIT_TIMEOUT_MS = 450;
+
+/**
+ * Accordion collection component. Groups content in expandable tabs.
+ * Matches ULS markup/classes from accordion.less and PrimeReact structure.
+ *
+ * @class UlxAccordion
+ * @param {Array<Object>} [model=[]] - Tabs. Each item: { header (string), disabled? (boolean), content? (string) }
+ * @param {number|number[]|null} [activeIndex=null] - Controlled open index (single) or array (multiple)
+ * @param {boolean} [multiple=false] - Allow multiple tabs open
+ * @param {Function} [onTabOpen] - Called when a tab opens: ({ originalEvent, index }) => void
+ * @param {Function} [onTabClose] - Called when a tab closes: ({ originalEvent, index }) => void
+ * @param {Function} [onTabChange] - Called when open state changes: ({ originalEvent, index }) => void; index is number or number[]
+ * @param {string} [size='s-size'] - Size: xs-size, s-size, m-size, l-size, xl-size
+ * @param {string} [variant] - Visual: filled, elevated, flat
+ * @param {string} [spacing] - compact, spacious
+ * @param {string} [rounded] - rounded, square
+ * @param {string} [customClass] - Extra CSS classes
+ * @param {string} [expandIconName='down-arrow-icon'] - Font icon when tab is collapsed
+ * @param {string} [collapseIconName='up-arrow-icon'] - Font icon when tab is expanded
+ * @param {string} [ariaLabel] - Accessible label for accordion
+ *
+ * @block content - Optional. Yields (item, index, meta) for tab body; meta: { active, disabled }
+ */
+export default class UlxAccordion extends Component {
+	get baseClass() {
+		return getComponentClass("accordion");
+	}
+
+	get model() {
+		return this.args.model ?? [];
+	}
+
+	get multiple() {
+		return Boolean(this.args.multiple);
+	}
+
+	get rootId() {
+		return this.args.id ?? `ulx-accordion-${guidFor(this)}`;
+	}
+
+	@tracked _activeIndex = null;
+	@tracked _contentTransition = {}; // index -> 'enter'|'enter-active'|'enter-done'|'exit'|'exit-active'|'exit-done'|null
+	_prevSelectedMap = null;
+
+	get activeIndexState() {
+		const raw = this.args.activeIndex ?? this._activeIndex;
+		if (raw === undefined || raw === null) return this.multiple ? [] : null;
+		if (this.multiple && !Array.isArray(raw)) return [Number(raw)];
+		return raw;
+	}
+
+	get isControlled() {
+		return this.args.activeIndex !== undefined && this.args.activeIndex !== null;
+	}
+
+	get expandIconName() {
+		return this.args.expandIconName ?? "down-arrow-icon";
+	}
+
+	get collapseIconName() {
+		return this.args.collapseIconName ?? "up-arrow-icon";
+	}
+
+	get rootClasses() {
+		const {
+			size = "s-size",
+			variant,
+			spacing,
+			rounded,
+			customClass
+		} = this.args;
+		const parts = [this.baseClass];
+		parts.push(size);
+		this.multiple && parts.push("multiple");
+		!this.multiple && parts.push("single");
+		variant && parts.push(variant);
+		spacing && parts.push(spacing);
+		rounded && parts.push(rounded);
+		customClass && parts.push(customClass);
+		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	@action
+	isTabSelected(index) {
+		const state = this.activeIndexState;
+		if (this.multiple && Array.isArray(state)) return state.includes(Number(index));
+		return state === Number(index);
+	}
+
+	@action
+	getHeaderId(index) {
+		return `${this.rootId}_header_${index}`;
+	}
+
+	@action
+	getContentId(index) {
+		return `${this.rootId}_content_${index}`;
+	}
+
+	@action
+	getTabClasses(item, index) {
+		const parts = [`${this.baseClass}-tab`];
+		index === 0 && parts.push("first");
+		index === this.model.length - 1 && parts.push("last");
+		item?.disabled && parts.push("disabled");
+		return parts.filter(Boolean).join(" ");
+	}
+
+	@action
+	getHeaderClasses(item, index) {
+		const parts = [`${this.baseClass}-header`];
+		this.isTabSelected(index) && parts.push("active");
+		item?.disabled && parts.push("disabled");
+		return parts.filter(Boolean).join(" ");
+	}
+
+	getContentTransitionState(index) {
+		return this._contentTransition[index] ?? null;
+	}
+
+	getPrevSelected(index) {
+		return this._prevSelectedMap?.get(index);
+	}
+
+	isExiting(index) {
+		const phase = this.getContentTransitionState(index);
+		return phase === "exit" || phase === "exit-active" || phase === "exit-done";
+	}
+
+	@action
+	shouldRenderToggleableContent(index) {
+		const selected = this.isTabSelected(index);
+		const phase = this.getContentTransitionState(index);
+		const prev = this.getPrevSelected(index);
+
+		// Match PrimeReact unmountOnExit behavior:
+		// keep content in DOM if selected OR currently exiting OR just transitioned from selected->collapsed.
+		return (
+			selected ||
+			phase === "exit" ||
+			phase === "exit-active" ||
+			phase === "exit-done" ||
+			(prev === true && !selected)
+		);
+	}
+
+	@action
+	getToggleableContentClasses(index) {
+		const selected = this.isTabSelected(index);
+		const phase = this.getContentTransitionState(index);
+		const prev = this.getPrevSelected(index);
+		const parts = [`${this.baseClass}-toggleable-content`];
+		const isInitiallyExpanded = prev === undefined && selected && !phase;
+		isInitiallyExpanded && parts.push("initially-expanded");
+
+		// Ensure the *first* render after a state change matches CSSTransition:
+		// - opening mounts with "enter"
+		// - closing keeps mounted with "exit"
+		const effectivePhase =
+			phase ??
+			(selected && prev === false ? "enter" : null) ??
+			(!selected && prev === true ? "exit" : null);
+
+		// Match react-transition-group CSSTransition semantics:
+		// - enter-active includes both "enter" and "enter-active"
+		// - exit-active includes both "exit" and "exit-active"
+		if (effectivePhase === "enter") parts.push("enter");
+		if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
+		if (effectivePhase === "enter-done") parts.push("enter-done");
+		if (effectivePhase === "exit") parts.push("exit");
+		if (effectivePhase === "exit-active") parts.push("exit", "exit-active");
+		if (effectivePhase === "exit-done") parts.push("exit-done");
+
+		// Legacy fallback for non-transition cases (kept minimal).
+		!effectivePhase && selected && parts.push("expanded");
+		return parts.filter(Boolean).join(" ");
+	}
+
+	accordionContentTransition = modifier((element, [index, selected]) => {
+		const map = this._prevSelectedMap ?? (this._prevSelectedMap = new Map());
+		const prev = map.get(index);
+		let enterActiveTimer = null;
+		let exitActiveTimer = null;
+		let doneTimer = null;
+		let rafId = null;
+
+		// PrimeReact: initial render does not animate (appear=false).
+		if (prev === undefined) {
+			map.set(index, selected);
+			return () => {};
+		}
+
+		if (selected && prev !== true) {
+			map.set(index, selected);
+			rafId = requestAnimationFrame(() => {
+				rafId = null;
+				this._contentTransition = { ...this._contentTransition, [index]: "enter-active" };
+				enterActiveTimer = setTimeout(() => {
+					this._contentTransition = { ...this._contentTransition, [index]: "enter-done" };
+				}, ENTER_TIMEOUT_MS);
+			});
+			return () => {
+				rafId && cancelAnimationFrame(rafId);
+				enterActiveTimer && clearTimeout(enterActiveTimer);
+			};
+		}
+		if (!selected && prev === true) {
+			map.set(index, selected);
+			rafId = requestAnimationFrame(() => {
+				rafId = null;
+				this._contentTransition = { ...this._contentTransition, [index]: "exit-active" };
+				exitActiveTimer = setTimeout(() => {
+					// Exit done is momentary in PrimeReact before unmounting.
+					this._contentTransition = { ...this._contentTransition, [index]: "exit-done" };
+					doneTimer = setTimeout(() => {
+						// Clear phase so content can unmount when !selected
+						this._contentTransition = { ...this._contentTransition, [index]: null };
+					}, 0);
+				}, EXIT_TIMEOUT_MS);
+			});
+			return () => {
+				rafId && cancelAnimationFrame(rafId);
+				exitActiveTimer && clearTimeout(exitActiveTimer);
+				doneTimer && clearTimeout(doneTimer);
+			};
+		}
+
+		map.set(index, selected);
+		return () => {};
+	});
+
+	rootElement = null;
+	setRootRef = modifier((element) => {
+		this.rootElement = element;
+		return () => {
+			this.rootElement = null;
+		};
+	});
+
+	@action
+changeActiveIndex(item, index, originalEvent) {
+		if (item?.disabled) {
+			originalEvent?.preventDefault?.();
+			return;
+		}
+		const selected = this.isTabSelected(index);
+		if (selected) {
+			this.args.onTabClose?.({ originalEvent, index });
+		} else {
+			this.args.onTabOpen?.({ originalEvent, index });
+		}
+		let newIndex;
+		if (this.multiple) {
+			const current = Array.isArray(this.activeIndexState) ? [...this.activeIndexState] : [];
+			newIndex = selected ? current.filter((i) => i !== Number(index)) : [...current, Number(index)].sort((a, b) => a - b);
+		} else {
+			newIndex = selected ? null : Number(index);
+		}
+		this.args.onTabChange?.({ originalEvent, index: newIndex });
+		if (!this.isControlled) {
+			this._activeIndex = newIndex;
+		}
+		originalEvent?.preventDefault?.();
+		originalEvent?.stopPropagation?.();
+	}
+
+	@action
+	onHeaderKeyDown(item, index, originalEvent) {
+		switch (originalEvent.code) {
+			case "ArrowDown": {
+				const next = this.findNextHeader(index);
+				next != null && this.focusHeader(next);
+				originalEvent.preventDefault();
+				break;
+			}
+			case "ArrowUp": {
+				const prev = this.findPrevHeader(index);
+				prev != null && this.focusHeader(prev);
+				originalEvent.preventDefault();
+				break;
+			}
+			case "Home": {
+				this.focusHeader(0);
+				originalEvent.preventDefault();
+				break;
+			}
+			case "End": {
+				this.focusHeader(this.model.length - 1);
+				originalEvent.preventDefault();
+				break;
+			}
+			case "Enter":
+			case "NumpadEnter":
+			case "Space":
+				this.changeActiveIndex(item, index, originalEvent);
+				originalEvent.preventDefault();
+				break;
+			default:
+				break;
+		}
+	}
+
+	findNextHeader(fromIndex) {
+		for (let i = fromIndex + 1; i < this.model.length; i++) {
+			if (!this.model[i]?.disabled) return i;
+		}
+		return null;
+	}
+
+	findPrevHeader(fromIndex) {
+		for (let i = fromIndex - 1; i >= 0; i--) {
+			if (!this.model[i]?.disabled) return i;
+		}
+		return null;
+	}
+
+	@action
+	focusHeader(index) {
+		const id = this.getHeaderId(index);
+		const el = this.rootElement?.querySelector?.(`#${id}`);
+		el?.focus?.();
+	}
+
+	@action
+	getContentMeta(item, index) {
+		return {
+			active: this.isTabSelected(index),
+			disabled: Boolean(item?.disabled)
+		};
+	}
+
+	<template>
+		<div
+			id={{this.rootId}}
+			class={{this.rootClasses}}
+			role="region"
+			aria-label={{@ariaLabel}}
+			{{this.setRootRef}}
+			...attributes
+		>
+			{{#each this.model as |item index|}}
+				<div class={{this.getTabClasses item index}}>
+					<div
+						class={{this.getHeaderClasses item index}}
+						{{on "click" (fn this.changeActiveIndex item index)}}
+					>
+						<a
+							id={{this.getHeaderId index}}
+							href="#{{this.getContentId index}}"
+							class="{{this.baseClass}}-header-action"
+							role="button"
+							tabindex={{if item.disabled "-1" "0"}}
+							aria-expanded={{this.isTabSelected index}}
+							aria-controls={{this.getContentId index}}
+							aria-disabled={{if item.disabled "true" "false"}}
+							{{on "click" (fn this.changeActiveIndex item index)}}
+							{{on "keydown" (fn this.onHeaderKeyDown item index)}}
+						>
+							<span
+								class="{{this.baseClass}}-header-icon {{if (this.isTabSelected index) "expanded" "collapsed"}}"
+								aria-hidden="true"
+							>
+								<UlxIcon
+									@type="font"
+									@iconName={{if (this.isTabSelected index) this.collapseIconName this.expandIconName}}
+									@componentClass="bs-icons1"
+								/>
+							</span>
+							<span class="{{this.baseClass}}-header-title">{{item.header}}</span>
+						</a>
+					</div>
+					{{#if (this.shouldRenderToggleableContent index)}}
+						<div
+							id={{this.getContentId index}}
+							class={{this.getToggleableContentClasses index}}
+							role="region"
+							aria-labelledby={{this.getHeaderId index}}
+							{{this.accordionContentTransition index (this.isTabSelected index)}}
+						>
+							<div class="{{this.baseClass}}-content">
+								{{#if (has-block "content")}}
+									{{yield item index (this.getContentMeta item index) to="content"}}
+								{{else}}
+									{{item.content}}
+								{{/if}}
+							</div>
+						</div>
+					{{/if}}
+				</div>
+			{{/each}}
+		</div>
+	</template>
+}

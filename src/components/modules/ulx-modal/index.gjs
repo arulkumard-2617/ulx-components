@@ -6,11 +6,11 @@ import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
+import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
 import UlxModalHeader from "./header.gjs";
 import UlxModalBody from "./body.gjs";
 import UlxModalFooter from "./footer.gjs";
-
-const TRANSITION_DURATION = 150; // Match CSS transition duration (150ms)
 
 /**
  * Modal component for displaying content in an overlay dialog.
@@ -37,7 +37,6 @@ const TRANSITION_DURATION = 150; // Match CSS transition duration (150ms)
  *   <:head>Custom header content</:head>
  *   <:body>Custom body content</:body>
  *   <:footer>Custom footer buttons</:footer>
- *   With @headless={{true}}: <UlxModal @headless={{true}} as |hide|>Custom content</UlxModal>
  * </UlxModal>
  * ```
  *
@@ -59,29 +58,25 @@ const TRANSITION_DURATION = 150; // Match CSS transition duration (150ms)
  * @param {boolean} [closeOnEscape=true] - Close modal when Escape key is pressed
  * @param {boolean} [showCloseButton=true] - Show close button in header
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
- * @param {string} [closeIconComponentClass="bs-icons1"] - Icon component class for close button
- * @param {string} [closeButtonVariant="text"] - UlxButton variant for close button
- * @param {string} [closeIconSize="s18"] - Icon size for close button
- * @param {boolean} [closeButtonText=true] - UlxButton text style for close button
+ * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
+ * @param {string} [iconVariant="text"] - UlxButton variant for header icon buttons
+ * @param {string} [iconSize="s18"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon name for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for minimize/restore button (when maximized)
- * @param {string} [maximizeIconComponentClass="bs-icons1"] - Icon component class for maximize button
- * @param {string} [maximizeButtonVariant="text"] - UlxButton variant for maximize button
- * @param {string} [maximizeIconSize] - Icon size for maximize button
- * @param {boolean} [maximizeButtonText=true] - UlxButton text style for maximize button
  * @param {string} [animationType="fade"] - Animation type: "fade", "zoom", "slide"
  * @param {string} [variant] - Visual variant: "elevated", "flat"
  * @param {boolean} [draggable=false] - Enable dragging dialog by header
  * @param {boolean} [resizable=false] - Enable resizing dialog
- * @param {boolean} [modal=true] - When false, no overlay/backdrop; dialog is non-blocking (uses dialog-mask:not(.modal) from uls-v2)
+ * @param {boolean} [overlay=true] - When false, no overlay/backdrop; dialog is non-blocking (uses dialog-mask:not(.modal) from uls-v2)
  * @param {boolean} [blockScroll=true] - Block body scroll when modal is visible
  * @param {boolean} [keepInViewport=true] - Keep dialog within viewport bounds
  * @param {boolean} [maximizable=false] - Show maximize/minimize button
  * @param {boolean} [maximized=false] - Display dialog in maximized state
  * @param {Object} [breakpoints] - Responsive width breakpoints, e.g. {"960px": "75vw", "640px": "90vw"}
  * @param {string} [maskClassName] - Additional CSS class for mask/backdrop
- * @param {string} [contentClassName] - Additional CSS class for content area
- * @param {string} [headerClassName] - Additional CSS class for header
+ * @param {string} [contentClassName] - Extra class for content area (dialog-content)
+ * @param {string} [headerClassName] - Extra class for header (dialog-header)
+ * @param {string} [footerClassName] - Extra class for footer (dialog-footer)
  * @param {Function} [onHide] - Callback when modal is hidden/closed (close button, escape key, backdrop click)
  * @param {Function} [onCancel] - Callback when cancel button is clicked
  * @param {Function} [onDone] - Callback when done/confirm button is clicked. If returns a Promise, modal waits for completion before auto-closing
@@ -94,8 +89,8 @@ const TRANSITION_DURATION = 150; // Match CSS transition duration (150ms)
  * @param {string} [cancelButtonLabel="Cancel"] - Label for default cancel button
  * @param {string} [doneButtonLabel="Confirm"] - Label for default done button
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
- * @param {boolean} [showDefaultFooter=false] - Show default footer buttons when no :footer block provided
- * @param {boolean} [headless=false] - When true, render only the default block (fully custom content). Yield hide callback as block param. Use: <UlxModal @headless={{true}} as |hide|>...</UlxModal>
+ * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
+ * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {number} [zIndexBase=1000] - Base z-index for modal stacking
  */
 export default class UlxModal extends Component {
@@ -108,6 +103,7 @@ export default class UlxModal extends Component {
 	@tracked transitionState = ""; // "", "enter", "enter-active", "enter-done", "exit-active", "exit-done"
 	@tracked shouldRender = false; // Controls whether modal is in DOM (for exit animations)
 	previousVisible = false; // Track previous visibility state
+	previousActiveElement = null;
 
 	constructor(owner, args) {
 		super(owner, args);
@@ -161,17 +157,34 @@ export default class UlxModal extends Component {
 			parts.push(this.transitionState);
 		}
 
-		// Custom class
-		if (this.args.contentClassName) {
-			parts.push(this.args.contentClassName);
-		}
+		return parts.filter(Boolean).join(" ");
+	}
 
+	get headerWrapperClasses() {
+		const parts = ["dialog-header"];
+		this.args.headerClassName && parts.push(this.args.headerClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
+	get bodyContentClasses() {
+		const parts = ["dialog-content"];
+		this.args.contentClassName && parts.push(this.args.contentClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
+	get bodyContentStyle() {
+		return this.scrollable ? "overflow-y: auto" : "overflow-y: hidden";
+	}
+
+	get footerWrapperClasses() {
+		const parts = ["dialog-footer"];
+		this.args.footerClassName && parts.push(this.args.footerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get maskClasses() {
 		const parts = ["dialog-mask"];
-		this.modal && parts.push("modal");
+		this.overlay && parts.push("modal overlay");
 
 		if (this.args.visible) {
 			parts.push("visible");
@@ -232,8 +245,8 @@ export default class UlxModal extends Component {
 		return this.args.showCloseButton ?? true;
 	}
 
-	get modal() {
-		return this.args.modal ?? true;
+	get overlay() {
+		return this.args.overlay ?? true;
 	}
 
 	get blockScroll() {
@@ -255,7 +268,6 @@ export default class UlxModal extends Component {
 	get keepInViewport() {
 		return this.args.keepInViewport ?? true;
 	}
-
 
 	@action
 	handleBackdropClick(event) {
@@ -279,60 +291,34 @@ export default class UlxModal extends Component {
 
 	@action
 	handleCancel() {
-		if (this.args.onCancel) {
-			const result = this.args.onCancel();
-
-			// If callback returns a promise, handle async behavior
-			if (result && typeof result.then === "function") {
-				this.isSubmitting = true;
-				result
-					.then(() => {
-						// Auto-close on cancel if explicitly enabled
-						const autoCloseOnCancel = this.args.autoCloseOnCancel ?? false;
-						if (autoCloseOnCancel) {
-							this.handleClose();
-						}
-					})
-					.catch((error) => {
-						// Stay open on error
-						if (this.args.onError) {
-							this.args.onError(error);
-						}
-					})
-					.finally(() => {
-						this.isSubmitting = false;
-					});
+		handleAsyncAction(this.args.onCancel, {
+			setSubmitting: (value) => {
+				this.isSubmitting = value;
+			},
+			onSuccess: () => {
+				const autoCloseOnCancel = this.args.autoCloseOnCancel ?? false;
+				autoCloseOnCancel && this.handleClose();
+			},
+			onError: (error) => {
+				this.args.onError && this.args.onError(error);
 			}
-		}
+		});
 	}
 
 	@action
 	handleDone() {
-		if (this.args.onDone) {
-			const result = this.args.onDone();
-
-			// If callback returns a promise, handle async behavior
-			if (result && typeof result.then === "function") {
-				this.isSubmitting = true;
-				result
-					.then(() => {
-						// Auto-close on success (default behavior)
-						const autoCloseOnDone = this.args.autoCloseOnDone ?? true;
-						if (autoCloseOnDone) {
-							this.handleClose();
-						}
-					})
-					.catch((error) => {
-						// Stay open on error - allows parent to show error message
-						if (this.args.onError) {
-							this.args.onError(error);
-						}
-					})
-					.finally(() => {
-						this.isSubmitting = false;
-					});
+		handleAsyncAction(this.args.onDone, {
+			setSubmitting: (value) => {
+				this.isSubmitting = value;
+			},
+			onSuccess: () => {
+				const autoCloseOnDone = this.args.autoCloseOnDone ?? true;
+				autoCloseOnDone && this.handleClose();
+			},
+			onError: (error) => {
+				this.args.onError && this.args.onError(error);
 			}
-		}
+		});
 	}
 
 	@action
@@ -343,122 +329,36 @@ export default class UlxModal extends Component {
 		}
 	}
 
-	// Main modal lifecycle modifier - handles visibility transitions, keyboard, and focus
-	modalLifecycle = modifier((maskElement) => {
-		let enterTimer = null;
-		let enterActiveTimer = null;
-		let exitTimer = null;
-		let unmountTimer = null;
-		let previousActiveElement = null;
-
-		// Get the dialog element (child of mask)
-		const dialogElement = maskElement.querySelector('[role="dialog"]');
-
-		// Detect visibility change for transitions
-		const currentVisible = this.args.visible;
-		const wasVisible = this.previousVisible;
-
-		if (currentVisible && !wasVisible) {
-			// Opening: visible changed from false to true
-			this.shouldRender = true;
-			this.transitionState = "enter";
-			
-			enterTimer = setTimeout(() => {
-				this.transitionState = "enter-active";
-				
-				enterActiveTimer = setTimeout(() => {
-					this.transitionState = "enter-done";
-				}, TRANSITION_DURATION);
-			}, 0);
-
-			// Focus management on open
-			previousActiveElement = document.activeElement;
-			
-			// Block body scroll if enabled
-			if (this.blockScroll && typeof document !== "undefined") {
-				document.body.style.overflow = "hidden";
-			}
-			
-			// Focus the modal
-			setTimeout(() => {
-				if (dialogElement) {
-					const firstFocusable = dialogElement.querySelector(
-						'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-					);
-					if (firstFocusable) {
-						firstFocusable.focus();
-					} else {
-						dialogElement.focus();
-					}
-				}
-			}, 100);
-
-			// Call onShow callback
-			if (this.args.onShow) {
-				this.args.onShow();
-			}
-		} else if (!currentVisible && wasVisible) {
-			// Closing: visible changed from true to false
-			this.transitionState = "exit-active";
-			
-			exitTimer = setTimeout(() => {
-				this.transitionState = "exit-done";
-			}, TRANSITION_DURATION);
-
-			unmountTimer = setTimeout(() => {
-				this.shouldRender = false;
-				this.transitionState = "";
-			}, TRANSITION_DURATION + 50);
-		} else if (currentVisible) {
-			// Ensure modal is rendered if visible
-			this.shouldRender = true;
-		}
-
-		// Update previous state
-		this.previousVisible = currentVisible;
-
-		// Keyboard event handler
-		const handleKeyDown = (event) => {
-			if (!this.args.visible) return;
-
-			switch (event.key) {
-				case "Escape":
-					if (this.closeOnEscape) {
-						event.preventDefault();
-						this.handleClose();
-					}
-					break;
-				case "Tab":
-					if (dialogElement) {
-						this.handleTabKey(event, dialogElement);
-					}
-					break;
+	get overlayLifecycleOptions() {
+		return {
+			onShow: () => {
+				this.args.onShow && this.args.onShow();
+			},
+			onHide: this.handleClose,
+			onEscape: this.handleClose,
+			closeOnEscape: this.closeOnEscape,
+			blockScroll: this.blockScroll,
+			role: '[tabindex="-1"]',
+			handleTabKey: this.handleTabKey,
+			getTransitionState: () => this.transitionState,
+			setTransitionState: (value) => {
+				this.transitionState = value;
+			},
+			getShouldRender: () => this.shouldRender,
+			setShouldRender: (value) => {
+				this.shouldRender = value;
+			},
+			getPreviousVisible: () => this.previousVisible,
+			setPreviousVisible: (value) => {
+				this.previousVisible = value;
+			},
+			getVisible: () => this.args.visible,
+			getPreviousActiveElement: () => this.previousActiveElement,
+			setPreviousActiveElement: (value) => {
+				this.previousActiveElement = value;
 			}
 		};
-
-		document.addEventListener("keydown", handleKeyDown);
-
-		return () => {
-			// Cleanup timers
-			if (enterTimer) clearTimeout(enterTimer);
-			if (enterActiveTimer) clearTimeout(enterActiveTimer);
-			if (exitTimer) clearTimeout(exitTimer);
-			if (unmountTimer) clearTimeout(unmountTimer);
-
-			// Remove keyboard listener
-			document.removeEventListener("keydown", handleKeyDown);
-
-			// Restore body scroll
-			if (this.blockScroll && typeof document !== "undefined") {
-				document.body.style.overflow = "";
-			}
-			
-			// Restore focus when modal closes
-			if (previousActiveElement && !this.args.visible) {
-				previousActiveElement.focus();
-			}
-		};
-	});
+	}
 
 	// Drag modifier: position fixed + left/top during drag; exclude header icons; optionally keep in viewport
 	dragModifier = modifier((element) => {
@@ -535,26 +435,7 @@ export default class UlxModal extends Component {
 	// Focus trap implementation
 	@action
 	handleTabKey(event, dialogElement) {
-		const focusableElements = dialogElement.querySelectorAll(
-			'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-		);
-		const focusableArray = Array.from(focusableElements);
-		const firstFocusable = focusableArray[0];
-		const lastFocusable = focusableArray[focusableArray.length - 1];
-
-		if (event.shiftKey) {
-			// Shift + Tab
-			if (document.activeElement === firstFocusable) {
-				event.preventDefault();
-				lastFocusable?.focus();
-			}
-		} else {
-			// Tab
-			if (document.activeElement === lastFocusable) {
-				event.preventDefault();
-				firstFocusable?.focus();
-			}
-		}
+		handleTabKey(event, dialogElement);
 	}
 
 	// Check if modal should be rendered - handles initial render when @visible is true
@@ -593,32 +474,26 @@ export default class UlxModal extends Component {
 				{{#if this.shouldRenderModal}}
 					<div
 						class={{this.maskClasses}}
-						{{this.modalLifecycle}}
+						{{overlayLifecycle this this.overlayLifecycleOptions}}
 						{{on "click" this.handleBackdropClick}}
 						role="presentation"
 					>
 						<div
-							class="{{this.modalClasses}}{{if @headless " headless" ""}}"
+							class={{this.modalClasses}}
 							style={{this.modalStyle}}
 							role="dialog"
-							aria-modal={{this.modal}}
-							aria-labelledby={{unless @headless "modal-title"}}
+							aria-modal={{this.overlay}}
+							aria-labelledby={{unless @hideHeader "modal-title"}}
 							tabindex="-1"
 							{{this.modalStackManagement}}
 							{{this.dragModifier}}
 							...attributes
 						>
-							{{#if @headless}}
-								<UlxModalBody
-									@scrollable={{this.scrollable}}
-									class={{@contentClassName}}
-								>
-									{{yield this.handleClose}}
-								</UlxModalBody>
-							{{else}}
-								{{#if (has-block "head")}}
+							{{#if (has-block "head")}}
+								<div class={{this.headerWrapperClasses}}>
 									{{yield to="head"}}
-								{{else}}
+								</div>
+							{{else}}{{#unless @hideHeader}}
 									<UlxModalHeader
 										@title={{@title}}
 										@showCloseButton={{this.showCloseButton}}
@@ -627,44 +502,46 @@ export default class UlxModal extends Component {
 										@onClose={{this.handleClose}}
 										@onMaximize={{this.handleMaximize}}
 										@closeIconName={{@closeIconName}}
-										@closeIconComponentClass={{@closeIconComponentClass}}
-										@closeButtonVariant={{@closeButtonVariant}}
-										@closeIconSize={{@closeIconSize}}
-										@closeButtonText={{@closeButtonText}}
+										@iconComponentClass={{@iconComponentClass}}
+										@iconVariant={{@iconVariant}}
+										@iconSize={{@iconSize}}
 										@maximizeIconName={{@maximizeIconName}}
 										@minimizeIconName={{@minimizeIconName}}
-										@maximizeIconComponentClass={{@maximizeIconComponentClass}}
-										@maximizeButtonVariant={{@maximizeButtonVariant}}
-										@maximizeIconSize={{@maximizeIconSize}}
-										@maximizeButtonText={{@maximizeButtonText}}
-										class={{@headerClassName}}
+										@headerClassName={{@headerClassName}}
 									/>
-								{{/if}}
+								{{/unless}}{{/if}}
 
-								{{#if (has-block "body")}}
+							{{#if (has-block "body")}}
+								<div class={{this.bodyContentClasses}} style={{this.bodyContentStyle}}>
 									{{yield to="body"}}
-								{{else}}
-									<UlxModalBody
-										@scrollable={{this.scrollable}}
-										class={{@contentClassName}}
-									>
-										{{yield}}
-									</UlxModalBody>
-								{{/if}}
+								</div>
+							{{else}}
+								<UlxModalBody
+									@scrollable={{this.scrollable}}
+									@contentClassName={{@contentClassName}}
+								>
+									{{yield}}
+								</UlxModalBody>
+							{{/if}}
 
 							{{#if (has-block "footer")}}
-								{{yield to="footer"}}
-							{{else if @showDefaultFooter}}
-								<UlxModalFooter
-									@cancelLabel={{@cancelButtonLabel}}
-									@doneLabel={{@doneButtonLabel}}
-									@submittingLabel={{@submittingLabel}}
-									@submitting={{this.isSubmitting}}
-									@onCancel={{this.handleCancel}}
-									@onDone={{this.handleDone}}
-								/>
-							{{/if}}
-							{{/if}}
+								<div class={{this.footerWrapperClasses}} style="justify-content: flex-end;">
+									{{yield to="footer"}}
+								</div>
+							{{else}}{{#unless @hideFooter}}
+									<UlxModalFooter
+										@hideFooter={{@hideFooter}}
+										@hideCancelButton={{@hideCancelButton}}
+										@hideDoneButton={{@hideDoneButton}}
+										@cancelLabel={{@cancelButtonLabel}}
+										@doneLabel={{@doneButtonLabel}}
+										@submittingLabel={{@submittingLabel}}
+										@submitting={{this.isSubmitting}}
+										@onCancel={{this.handleCancel}}
+										@onDone={{this.handleDone}}
+										@footerClassName={{@footerClassName}}
+									/>
+								{{/unless}}{{/if}}
 						</div>
 					</div>
 				{{/if}}

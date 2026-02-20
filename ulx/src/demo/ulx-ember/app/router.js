@@ -27,7 +27,8 @@ Router.map(function () {
       this.route('split-button');
       this.route('option-segment');
       this.route('form');
-    });
+      this.route('accordion');
+});
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -37,11 +38,13 @@ Router.map(function () {
       this.route('radio');
       this.route('tag');
       this.route('badge');
+      this.route('divider');
       this.route('avatar');
       this.route('button');
       this.route('progressbar');
       this.route('progressspinner');
       this.route('tristate-checkbox');
+      this.route('dropdown');
     });
     this.route('modules', function () {
       this.route('toast');
@@ -49,8 +52,11 @@ Router.map(function () {
       this.route('popup');
       this.route('modal');
       this.route('tooltip');
-    });
-  });
+      this.route('slidepane');
+	  this.route('steps');
+});
+    
+});
 
   this.route('utilities', function () {
     this.route('index');

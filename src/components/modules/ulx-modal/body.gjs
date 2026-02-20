@@ -14,24 +14,16 @@ import Component from "@glimmer/component";
  *
  * @class UlxModalBody
  * @param {boolean} [scrollable=true] - Enable vertical scrolling when content overflows
- * @param {boolean} [noPadding=false] - Remove default padding from content area
+ * @param {string} [contentClassName] - Extra class for the content root (applied next to dialog-content)
  */
 export default class UlxModalBody extends Component {
 	get scrollable() {
 		return this.args.scrollable ?? true;
 	}
 
-	get noPadding() {
-		return this.args.noPadding ?? false;
-	}
-
 	get contentClasses() {
 		const parts = ["dialog-content"];
-		
-		if (this.noPadding) {
-			parts.push("no-padding");
-		}
-		
+		this.args.contentClassName && parts.push(this.args.contentClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 

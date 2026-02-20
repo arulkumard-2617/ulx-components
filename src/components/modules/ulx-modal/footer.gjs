@@ -23,17 +23,19 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * - Actions automatically close the modal
  *
  * @class UlxModalFooter
+ * @param {boolean} [hideFooter=false] - Hide the footer entirely
+ * @param {boolean} [hideCancelButton=false] - Hide the cancel button
+ * @param {boolean} [hideDoneButton=false] - Hide the done/confirm button
  * @param {string} [cancelLabel="Cancel"] - Label for cancel button
  * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneLabel)
  * @param {Function} [onCancel] - Callback when cancel button is clicked
  * @param {Function} [onDone] - Callback when done button is clicked
- * @param {boolean} [showCancelButton=true] - Show cancel button
- * @param {boolean} [showDoneButton=true] - Show done button
  * @param {boolean} [submitting=false] - Disable both buttons during async operation
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
+ * @param {string} [footerClassName] - Extra class for the footer root (applied next to dialog-footer)
  */
 export default class UlxModalFooter extends Component {
 	get cancelLabel() {
@@ -48,12 +50,12 @@ export default class UlxModalFooter extends Component {
 		return doneLabel || "Confirm";
 	}
 
-	get showCancelButton() {
-		return this.args.showCancelButton ?? true;
+	get hideCancelButton() {
+		return this.args.hideCancelButton ?? false;
 	}
 
-	get showDoneButton() {
-		return this.args.showDoneButton ?? true;
+	get hideDoneButton() {
+		return this.args.hideDoneButton ?? false;
 	}
 
 	get submitting() {
@@ -70,7 +72,8 @@ export default class UlxModalFooter extends Component {
 
 	get footerClasses() {
 		const parts = ["dialog-footer"];
-		return parts.join(" ");
+		this.args.footerClassName && parts.push(this.args.footerClassName);
+		return parts.filter(Boolean).join(" ");
 	}
 
 	get footerStyle() {
@@ -103,7 +106,6 @@ export default class UlxModalFooter extends Component {
 	@action
 	handleKeyDown(callback) {
 		return (event) => {
-			// Enter or Space triggers the action
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
 				callback(event);
@@ -112,30 +114,32 @@ export default class UlxModalFooter extends Component {
 	}
 
 	<template>
-		<div class={{this.footerClasses}} style={{this.footerStyle}} ...attributes>
-			{{#if (has-block)}}
-				{{yield}}
-			{{else}}
-				{{#if this.showCancelButton}}
-					<UlxButton
-						@label={{this.cancelLabel}}
-						@variant="secondary"
-						@disabled={{this.cancelButtonDisabled}}
-						{{on "click" this.handleCancel}}
-						{{on "keydown" (this.handleKeyDown this.handleCancel)}}
-					/>
-				{{/if}}
+		{{#unless @hideFooter}}
+			<div class={{this.footerClasses}} style={{this.footerStyle}} ...attributes>
+				{{#if (has-block)}}
+					{{yield}}
+				{{else}}
+					{{#unless this.hideCancelButton}}
+						<UlxButton
+							@label={{this.cancelLabel}}
+							@variant="secondary"
+							@disabled={{this.cancelButtonDisabled}}
+							{{on "click" this.handleCancel}}
+							{{on "keydown" (this.handleKeyDown this.handleCancel)}}
+						/>
+					{{/unless}}
 
-				{{#if this.showDoneButton}}
-					<UlxButton
-						@label={{this.doneLabel}}
-						@variant="primary"
-						@disabled={{this.doneButtonDisabled}}
-						{{on "click" this.handleDone}}
-						{{on "keydown" (this.handleKeyDown this.handleDone)}}
-					/>
+					{{#unless this.hideDoneButton}}
+						<UlxButton
+							@label={{this.doneLabel}}
+							@variant="primary"
+							@disabled={{this.doneButtonDisabled}}
+							{{on "click" this.handleDone}}
+							{{on "keydown" (this.handleKeyDown this.handleDone)}}
+						/>
+					{{/unless}}
 				{{/if}}
-			{{/if}}
-		</div>
+			</div>
+		{{/unless}}
 	</template>
 }
