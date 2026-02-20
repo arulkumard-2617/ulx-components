@@ -7,12 +7,13 @@ import { modifier } from 'ember-modifier';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { DocNavItems } from '../../../constants/docs';
-import { t } from 'ulx-components';
+import { t, UlxIconInput } from 'ulx-components';
 
 export default class DocSidebarComponent extends Component {
   @service router;
 
   @tracked activeItem = null;
+  @tracked searchQuery = '';
   contentRefs = {};
 
   syncActiveItemFromRoute = modifier(() => {
@@ -208,6 +209,49 @@ export default class DocSidebarComponent extends Component {
     return null;
   };
 
+  childMatches(child, match) {
+    if (child.category) {
+      if (match(child.category)) return true;
+      return child.items?.some((sub) => match(sub.menuItem));
+    }
+    return match(child.menuItem);
+  }
+
+  get filteredNavItems() {
+    const q = (this.searchQuery ?? '').trim().toLowerCase();
+    if (!q) return this.navItems;
+    const match = (text) => text && String(text).toLowerCase().includes(q);
+    return this.navItems
+      .filter((item) => {
+        if (match(item.menuTitle)) return true;
+        if (!item.children?.length) return false;
+        return item.children.some((child) => this.childMatches(child, match));
+      })
+      .map((item) => {
+        if (!item.children?.length) return item;
+        const filteredChildren = item.children
+          .filter((child) => this.childMatches(child, match))
+          .map((child) => {
+            if (child.category && child.items) {
+              const filteredItems = child.items.filter((sub) =>
+                match(sub.menuItem),
+              );
+              return {
+                ...child,
+                items: filteredItems.length ? filteredItems : child.items,
+              };
+            }
+            return child;
+          });
+        return { ...item, children: filteredChildren };
+      });
+  }
+
+  @action
+  handleSearchInput(event) {
+    this.searchQuery = event.target?.value ?? '';
+  }
+
   <template>
     {{! Force evaluation of computedActiveItem to update activeItem }}
     {{#if false}}{{this.computedActiveItem}}{{/if}}
@@ -215,9 +259,24 @@ export default class DocSidebarComponent extends Component {
       class="ulsp-sidebar overflow-x-hidden overflow-y-auto bd-r"
       {{this.syncActiveItemFromRoute}}
     >
+      <div class="mgb6">
+        <UlxIconInput
+          @value={{this.searchQuery}}
+          @onInput={{this.handleSearchInput}}
+          @placeholder={{t "lbl.search"}}
+          @iconName="search-icon"
+          @iconType="font"
+          @iconClass="bs-icons1"
+          @iconPosition="left"
+          @iconSize="s18"
+          @size="m-size"
+          @fieldClass="w-100p"
+          aria-label={{t "lbl.search"}}
+        />
+      </div>
       <nav class="sidebar-nav fxgrow">
         <ol class="s-nav-list">
-          {{#each this.navItems as |item|}}
+          {{#each this.filteredNavItems as |item|}}
             <li class="s-nav-item mgb4">
               {{#if item.to}}
                 {{#if (this.hasChildren item)}}
