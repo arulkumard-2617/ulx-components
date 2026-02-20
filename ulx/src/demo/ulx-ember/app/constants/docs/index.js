@@ -256,6 +256,11 @@ export const DocNavItems = [
             route: 'components.elements.badge',
           },
           {
+            menuItem: 'Chip',
+            to: '/components/elements/chip',
+            route: 'components.elements.chip',
+          },
+          {
             menuItem: 'Divider',
             to: '/components/elements/divider',
             route: 'components.elements.divider'

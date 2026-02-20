@@ -32,6 +32,7 @@ Router.map(function () {
       this.route('radio');
       this.route('tag');
       this.route('badge');
+      this.route('chip');
       this.route('divider');
       this.route('avatar');
       this.route('button');

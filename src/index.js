@@ -10,6 +10,7 @@ export { default as UlxIconInput } from './components/elements/ulx-icon-input/in
 export { default as UlxCheckbox } from './components/elements/ulx-checkbox/index.gjs';
 export { default as UlxRadio } from './components/elements/ulx-radio/index.gjs';
 export { default as UlxTag } from './components/elements/ulx-tag/index.gjs';
+export { default as UlxChip } from './components/elements/ulx-chip/index.gjs';
 export { default as UlxBadge } from './components/elements/ulx-badge/index.gjs';
 export { default as UlxDivider } from './components/elements/ulx-divider/index.gjs';
 export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs';
