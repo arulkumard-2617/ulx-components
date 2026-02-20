@@ -1,0 +1,53 @@
+{{page-title (t "lbl.doc.dropdown.title")}}
+
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <Common::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-elements-dropdown-theming"
+        @title={{t "lbl.theming"}}
+        @subtitle={{t "msg.theming.subtitle" component="Dropdown"}}
+      >
+        <p class="fg-text-secondary">{{t "msg.theming.content.goes.here"}}</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview as |props|>
+        <div class="ulx-form s-size ulx-grid gp12">
+          <UlxDropdown
+            @label={{props.label}}
+            @options={{props.options}}
+            @placeholder={{props.placeholder}}
+            @fieldClass={{props.fieldClass}}
+            @showClear={{props.showClear}}
+            @filter={{props.filter}}
+            @disabled={{props.disabled}}
+            @invalid={{props.invalid}}
+            @filled={{props.filled}}
+            @helpText={{props.helpText}}
+            @error={{props.error}}
+          />
+        </div>
+      </:preview>
+    </Common::DocMain::ComponentBuilder>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-elements-dropdown-passthrough"
+        @title={{t "lbl.pass.through"}}
+        @subtitle={{t "msg.pass.through.subtitle" component="Dropdown"}}
+      >
+        <p class="fg-text-secondary">{{t "msg.pass.through.content.goes.here"}}</p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</Common::DocMain::ComponentLayout>

@@ -31,6 +31,7 @@ alwaysApply: true
 - No PrimeReact (or other React) code or imports in the codebase.
 - **Class prefix**: Use `NAMESPACE` from `src/utils/component-config.js` for the component class prefix. Prefer `getComponentClass(componentName)` from that file when building class names (e.g. `getComponentClass('button')` → `ulx-button`). Do not hardcode prefix strings like `ulx-` or `ulx-` in components.
 - **Avoid Ember 6.8 deprecations**: Do not use deprecated APIs. Prefer: Glimmer Components (`@glimmer/component`) and `this.args`; `@tracked` for state; `@action` or `fn` for callbacks; `{{on}}` from `@ember/modifier` for DOM events. Avoid: `Ember.Component`, `Ember.get` / `Ember.set`, `computed()`, `observer()`, `@ember/object` get/set, `sendAction`, classic lifecycle hooks (`didInsertElement` → use modifiers or `{{did-insert}}`).
+- Always use _@action_ for methods and functions
 - **Component structure**: Use class-based Glimmer components with an embedded template (`.gjs`). Put elements in `src/components/elements/`, collections in `src/components/collections/`, modules in `src/components/modules/`.
 - **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
 - **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
@@ -39,6 +40,9 @@ alwaysApply: true
 - **Must** In the demo page, for the severity case use instead that as Variant not severity
 - Avoid writing new size classes
 - **Must** Always use @action for the function used in the template
+- Use ember-truth-helpers if needed and dont forget to import that
+- **Must** Use 'i18n t helper' for all the strings used in the component.Import the t helper in the component also
+- **Must** Also must use the components like input ,button etc... if needed use the existing components we have.
 
 ## Code Style Patterns
 
@@ -49,6 +53,7 @@ All components **MUST** follow these code style patterns for consistency and rea
 - **Destructure `this.args` with defaults** in getters for better readability and maintainability.
 - Use default values directly in destructuring assignments to eliminate conditional checks.
 - Destructure within getters to maintain Glimmer reactivity (do not override `this.args`).
+- **MUST** Variables should be more specific and meaningful.
 
 ```javascript
 // ✅ CORRECT: Destructure with defaults in getter
