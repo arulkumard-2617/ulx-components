@@ -53,6 +53,7 @@ All components **MUST** follow these code style patterns for consistency and rea
 - **Destructure `this.args` with defaults** in getters for better readability and maintainability.
 - Use default values directly in destructuring assignments to eliminate conditional checks.
 - Destructure within getters to maintain Glimmer reactivity (do not override `this.args`).
+- **MUST** Variables should be more specific and meaningful.
 
 ```javascript
 // ✅ CORRECT: Destructure with defaults in getter

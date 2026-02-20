@@ -74,14 +74,14 @@ import { hash, concat } from "@ember/helper";
 export default class UlxDropdown extends Component {
 	@action
 	handleFocus(event) {
-		const cb = this.args.onFocus;
-		if (typeof cb === "function") cb(event);
+		const onFocusCallback = this.args.onFocus;
+		if (typeof onFocusCallback === "function") onFocusCallback(event);
 	}
 
 	@action
 	handleBlur(event) {
-		const cb = this.args.onBlur;
-		if (typeof cb === "function") cb(event);
+		const onBlurCallback = this.args.onBlur;
+		if (typeof onBlurCallback === "function") onBlurCallback(event);
 	}
 
 	@tracked overlayVisible = false;
@@ -152,8 +152,8 @@ export default class UlxDropdown extends Component {
 	}
 
 	get floatLabelRootClasses() {
-		const base = this.rootClasses;
-		const parts = base ? [base] : [];
+		const rootClassesBase = this.rootClasses;
+		const parts = rootClassesBase ? [rootClassesBase] : [];
 		parts.push(getComponentClass("inputtext"));
 		this.overlayVisible && parts.push("focus");
 		this.selectedOption != null && parts.push("input-filled");
@@ -192,13 +192,13 @@ export default class UlxDropdown extends Component {
 	@action
 	getResolved(option, key) {
 		if (option == null) return undefined;
-		const k = key ?? this.optionLabelKey;
-		const segs = k.split(".");
-		let v = option;
-		for (const seg of segs) {
-			v = v?.[seg];
+		const propertyPath = key ?? this.optionLabelKey;
+		const pathSegments = propertyPath.split(".");
+		let currentValue = option;
+		for (const segment of pathSegments) {
+			currentValue = currentValue?.[segment];
 		}
-		return v;
+		return currentValue;
 	}
 
 	@action
@@ -222,8 +222,8 @@ export default class UlxDropdown extends Component {
 
 	@action
 	getOptionImageUrl(option) {
-		const key = this.optionImageUrlKey;
-		return key && option != null ? this.getResolved(option, key) : undefined;
+		const imageUrlKey = this.optionImageUrlKey;
+		return imageUrlKey && option != null ? this.getResolved(option, imageUrlKey) : undefined;
 	}
 
 	@action
@@ -241,55 +241,67 @@ export default class UlxDropdown extends Component {
 	}
 
 	get flatOptions() {
-		const opts = this.args.options ?? [];
-		if (!this.hasGroups) return opts;
-		const out = [];
-		const labelKey = this.groupLabelKey;
+		const options = this.args.options ?? [];
+		if (!this.hasGroups) return options;
+		const flatOptionsWithGroup = [];
+		const groupLabelKey = this.groupLabelKey;
 		const childrenKey = this.optionGroupChildrenKey;
-		for (const group of opts) {
-			const children = group?.[childrenKey] ?? [];
-			for (const item of children) {
-				out.push({
+		for (const group of options) {
+			const groupChildren = group?.[childrenKey] ?? [];
+			for (const item of groupChildren) {
+				flatOptionsWithGroup.push({
 					item,
-					groupLabel: this.getResolved(group, labelKey),
+					groupLabel: this.getResolved(group, groupLabelKey),
 					group
 				});
 			}
 		}
-		return out;
+		return flatOptionsWithGroup;
 	}
 
 	get allOptionsFlat() {
-		const opts = this.args.options ?? [];
-		if (!this.hasGroups) return opts;
-		const out = [];
+		const options = this.args.options ?? [];
+		if (!this.hasGroups) return options;
+		const flattenedOptions = [];
 		const childrenKey = this.optionGroupChildrenKey;
-		for (const group of opts) {
-			const children = group?.[childrenKey] ?? [];
-			out.push(...children);
+		for (const group of options) {
+			const groupChildren = group?.[childrenKey] ?? [];
+			flattenedOptions.push(...groupChildren);
 		}
-		return out;
+		return flattenedOptions;
 	}
 
 	get visibleOptions() {
-		const list = this.hasGroups ? this.flatOptions : (this.args.options ?? []);
-		const fv = (this.filterValue ?? "").trim().toLowerCase();
-		if (!fv) return list;
+		const sourceOptionsList = this.hasGroups ? this.flatOptions : (this.args.options ?? []);
+		const normalizedFilterValue = (this.filterValue ?? "").trim().toLowerCase();
+		if (!normalizedFilterValue) return sourceOptionsList;
 
 		if (this.hasGroups) {
-			return list.filter(({ item }) => this.getOptionLabel(item).toLowerCase().includes(fv));
+			return sourceOptionsList.filter(({ item }) =>
+				this.getOptionLabel(item).toLowerCase().includes(normalizedFilterValue)
+			);
 		}
-		return list.filter((opt) => this.getOptionLabel(opt).toLowerCase().includes(fv));
+		return sourceOptionsList.filter((option) =>
+			this.getOptionLabel(option).toLowerCase().includes(normalizedFilterValue)
+		);
 	}
 
 	get selectedOption() {
-		const value = this.args.value;
-		const opts = this.args.options ?? [];
+		const selectedValue = this.args.value;
+		const options = this.args.options ?? [];
 		if (this.hasGroups) {
-			const flat = this.allOptionsFlat;
-			return flat.find((opt) => this.valueEquals(this.getOptionValue(opt), value)) ?? null;
+			const flattenedOptions = this.allOptionsFlat;
+			return (
+				flattenedOptions.find((option) =>
+					this.valueEquals(this.getOptionValue(option), selectedValue)
+				) ?? null
+			);
 		}
-		return opts.find((opt) => this.valueEquals(this.getOptionValue(opt), value)) ?? null;
+		return (
+			options.find((option) =>
+				this.valueEquals(this.getOptionValue(option), selectedValue)
+			) ?? null
+		);
 	}
 
 	@action
@@ -308,14 +320,16 @@ export default class UlxDropdown extends Component {
 	}
 
 	get selectedLabel() {
-		const opt = this.selectedOption;
-		return opt != null ? this.getOptionLabel(opt) : null;
+		const selectedOptionItem = this.selectedOption;
+		return selectedOptionItem != null ? this.getOptionLabel(selectedOptionItem) : null;
 	}
 
 	get selectedOptionImageUrl() {
-		const key = this.optionImageUrlKey;
-		const opt = this.selectedOption;
-		return key && opt != null ? this.getResolved(opt, key) : undefined;
+		const imageUrlKey = this.optionImageUrlKey;
+		const selectedOptionItem = this.selectedOption;
+		return imageUrlKey && selectedOptionItem != null
+			? this.getResolved(selectedOptionItem, imageUrlKey)
+			: undefined;
 	}
 
 	get placeholderLabel() {
@@ -399,34 +413,35 @@ export default class UlxDropdown extends Component {
 	positionPanel = modifier((element, [when, triggerEl]) => {
 		if (!when || !element) return;
 
-		const align = () => {
+		const alignPanelToTrigger = () => {
 			const trigger = this.triggerElement ?? triggerEl;
 			if (!trigger) return;
 
-			const rect = trigger.getBoundingClientRect();
+			const triggerRect = trigger.getBoundingClientRect();
 			const scrollX = window.pageXOffset ?? document.documentElement.scrollLeft ?? 0;
 			const scrollY = window.pageYOffset ?? document.documentElement.scrollTop ?? 0;
 
 			element.style.position = "absolute";
-			element.style.top = `${rect.bottom + scrollY + 2}px`;
-			element.style.left = `${rect.left + scrollX}px`;
-			element.style.width = `${rect.width}px`;
-			element.style.minWidth = `${rect.width}px`;
-			element.style.maxWidth = `${rect.width}px`;
+			element.style.top = `${triggerRect.bottom + scrollY + 2}px`;
+			element.style.left = `${triggerRect.left + scrollX}px`;
+			element.style.width = `${triggerRect.width}px`;
+			element.style.minWidth = `${triggerRect.width}px`;
+			element.style.maxWidth = `${triggerRect.width}px`;
 			element.style.zIndex = "1100";
 			element.style.margin = "0";
 			element.style.padding = "0";
 		};
 
 		schedule("afterRender", () => {
-			align();
+			alignPanelToTrigger();
 			if (element.parentNode === document.body) {
-				requestAnimationFrame(align);
+				requestAnimationFrame(alignPanelToTrigger);
 			}
 		});
 
 		const onScroll = () => {
-			if (this.overlayVisible && element.parentNode === document.body) align();
+			if (this.overlayVisible && element.parentNode === document.body)
+				alignPanelToTrigger();
 		};
 		window.addEventListener("scroll", onScroll, true);
 
@@ -465,16 +480,19 @@ export default class UlxDropdown extends Component {
 	}
 
 	get selectedOptionIndex() {
-		const vis = this.visibleOptions;
-		const val = this.args.value;
+		const visibleOptionsList = this.visibleOptions;
+		const selectedValue = this.args.value;
 		if (this.hasGroups) {
-			for (let i = 0; i < vis.length; i++) {
-				const o = vis[i].item ?? vis[i];
-				if (this.valueEquals(this.getOptionValue(o), val)) return i;
+			for (let i = 0; i < visibleOptionsList.length; i++) {
+				const optionItem = visibleOptionsList[i].item ?? visibleOptionsList[i];
+				if (this.valueEquals(this.getOptionValue(optionItem), selectedValue)) return i;
 			}
 		} else {
-			for (let i = 0; i < vis.length; i++) {
-				if (this.valueEquals(this.getOptionValue(vis[i]), val)) return i;
+			for (let i = 0; i < visibleOptionsList.length; i++) {
+				if (
+					this.valueEquals(this.getOptionValue(visibleOptionsList[i]), selectedValue)
+				)
+					return i;
 			}
 		}
 		return -1;
@@ -482,9 +500,9 @@ export default class UlxDropdown extends Component {
 
 	@action
 	selectOption(entry) {
-		const o = entry?.item != null ? entry.item : entry;
-		if (this.isOptionDisabled(o)) return;
-		const value = this.getOptionValue(o);
+		const optionItem = entry?.item != null ? entry.item : entry;
+		if (this.isOptionDisabled(optionItem)) return;
+		const value = this.getOptionValue(optionItem);
 		this.overlayVisible = false;
 		this.args.onChange?.(value);
 		this.args.onHide?.();
@@ -504,8 +522,13 @@ export default class UlxDropdown extends Component {
 
 	@action
 	onClearIconKeydown(event) {
-		const code = event.code || event.key;
-		if (code === "Enter" || code === "NumpadEnter" || code === " " || code === "Space") {
+		const keyPressed = event.code || event.key;
+		if (
+			keyPressed === "Enter" ||
+			keyPressed === "NumpadEnter" ||
+			keyPressed === " " ||
+			keyPressed === "Space"
+		) {
 			event.preventDefault();
 			this.clearSelection(event);
 		}
@@ -513,32 +536,34 @@ export default class UlxDropdown extends Component {
 
 	@action
 	onFilterInput(event) {
-		const v = event.target?.value ?? "";
-		this.filterValue = v;
+		const filterInputValue = event.target?.value ?? "";
+		this.filterValue = filterInputValue;
 		this.focusedOptionIndex = 0;
-		this.args.onFilter?.(v);
+		this.args.onFilter?.(filterInputValue);
 	}
 
 	@action
 	onFilterKeydown(event) {
-		const code = event.code || event.key;
-		if (code === "ArrowDown") {
+		const keyPressed = event.code || event.key;
+		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			this.moveFocus(1);
 			this.focusFocusedItem();
-		} else if (code === "ArrowUp") {
+		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
 			this.moveFocus(-1);
 			this.focusFocusedItem();
-		} else if (code === "Enter" || code === "NumpadEnter") {
+		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.focusedOptionIndex >= 0) {
-				const vis = this.visibleOptions;
-				const item = vis[this.focusedOptionIndex];
-				const o = this.hasGroups && item?.item != null ? item.item : item;
-				if (o && !this.isOptionDisabled(o)) this.selectOption(item);
+				const visibleOptionsList = this.visibleOptions;
+				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const optionItem =
+					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
+				if (optionItem && !this.isOptionDisabled(optionItem))
+					this.selectOption(focusedEntry);
 			}
-		} else if (code === "Escape") {
+		} else if (keyPressed === "Escape") {
 			event.preventDefault();
 			this.toggleOverlay();
 		}
@@ -547,37 +572,41 @@ export default class UlxDropdown extends Component {
 	@action
 	focusFocusedItem() {
 		if (this.focusedOptionIndex < 0) return;
-		const el = document.getElementById(`${this.triggerId}-item-${this.focusedOptionIndex}`);
-		el?.focus?.();
+		const focusedOptionElement = document.getElementById(
+			`${this.triggerId}-item-${this.focusedOptionIndex}`
+		);
+		focusedOptionElement?.focus?.();
 	}
 
 	@action
 	onTriggerKeydown(event) {
 		if (this.args.disabled) return;
-		const code = event.code || event.key;
-		if (code === "ArrowDown") {
+		const keyPressed = event.code || event.key;
+		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			if (!this.overlayVisible) this.toggleOverlay();
 			else this.moveFocus(1);
 			return;
 		}
-		if (code === "ArrowUp") {
+		if (keyPressed === "ArrowUp") {
 			event.preventDefault();
 			if (this.overlayVisible) this.moveFocus(-1);
 			else this.toggleOverlay();
 			return;
 		}
-		if (code === "Enter" || code === "NumpadEnter") {
+		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
-				const vis = this.visibleOptions;
-				const item = vis[this.focusedOptionIndex];
-				const o = this.hasGroups && item?.item != null ? item.item : item;
-				if (o && !this.isOptionDisabled(o)) this.selectOption(item);
+				const visibleOptionsList = this.visibleOptions;
+				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const optionItem =
+					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
+				if (optionItem && !this.isOptionDisabled(optionItem))
+					this.selectOption(focusedEntry);
 			} else if (!this.overlayVisible) this.toggleOverlay();
 			return;
 		}
-		if (code === "Escape") {
+		if (keyPressed === "Escape") {
 			event.preventDefault();
 			if (this.overlayVisible) this.toggleOverlay();
 			return;
@@ -586,11 +615,11 @@ export default class UlxDropdown extends Component {
 
 	@action
 	onEditableInput(event) {
-		const v = event.target?.value ?? "";
-		this.filterValue = v;
+		const filterInputValue = event.target?.value ?? "";
+		this.filterValue = filterInputValue;
 		if (!this.overlayVisible) this.overlayVisible = true;
 		this.focusedOptionIndex = 0;
-		this.args.onFilter?.(v);
+		this.args.onFilter?.(filterInputValue);
 	}
 
 	@action
@@ -629,8 +658,8 @@ export default class UlxDropdown extends Component {
 	@action
 	onEditableTriggerKeydown(event) {
 		if (this.args.disabled) return;
-		const code = event.code || event.key;
-		if (code === "ArrowDown") {
+		const keyPressed = event.code || event.key;
+		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			if (!this.overlayVisible) {
 				this.filterValue = this.selectedLabel ?? "";
@@ -642,7 +671,7 @@ export default class UlxDropdown extends Component {
 			} else this.moveFocus(1);
 			return;
 		}
-		if (code === "ArrowUp") {
+		if (keyPressed === "ArrowUp") {
 			event.preventDefault();
 			if (this.overlayVisible) this.moveFocus(-1);
 			else {
@@ -654,13 +683,15 @@ export default class UlxDropdown extends Component {
 			}
 			return;
 		}
-		if (code === "Enter" || code === "NumpadEnter") {
+		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
-				const vis = this.visibleOptions;
-				const item = vis[this.focusedOptionIndex];
-				const o = this.hasGroups && item?.item != null ? item.item : item;
-				if (o && !this.isOptionDisabled(o)) this.selectOption(item);
+				const visibleOptionsList = this.visibleOptions;
+				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const optionItem =
+					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
+				if (optionItem && !this.isOptionDisabled(optionItem))
+					this.selectOption(focusedEntry);
 			} else if (!this.overlayVisible) {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
@@ -671,12 +702,12 @@ export default class UlxDropdown extends Component {
 			}
 			return;
 		}
-		if (code === "Escape") {
+		if (keyPressed === "Escape") {
 			event.preventDefault();
 			if (this.overlayVisible) this.toggleOverlay();
 			return;
 		}
-		if (code === " " || code === "Space") {
+		if (keyPressed === " " || keyPressed === "Space") {
 			event.preventDefault();
 			if (!this.overlayVisible) {
 				this.filterValue = this.selectedLabel ?? "";
@@ -686,10 +717,12 @@ export default class UlxDropdown extends Component {
 					this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			} else if (this.focusedOptionIndex >= 0) {
-				const vis = this.visibleOptions;
-				const item = vis[this.focusedOptionIndex];
-				const o = this.hasGroups && item?.item != null ? item.item : item;
-				if (o && !this.isOptionDisabled(o)) this.selectOption(item);
+				const visibleOptionsList = this.visibleOptions;
+				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const optionItem =
+					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
+				if (optionItem && !this.isOptionDisabled(optionItem))
+					this.selectOption(focusedEntry);
 			}
 			return;
 		}
@@ -697,50 +730,53 @@ export default class UlxDropdown extends Component {
 
 	@action
 	moveFocus(delta) {
-		const vis = this.visibleOptions;
-		if (!vis.length) return;
-		let next = this.focusedOptionIndex + delta;
-		if (next < 0) next = 0;
-		if (next >= vis.length) next = vis.length - 1;
-		this.focusedOptionIndex = next;
+		const visibleOptionsList = this.visibleOptions;
+		if (!visibleOptionsList.length) return;
+		let nextFocusedIndex = this.focusedOptionIndex + delta;
+		if (nextFocusedIndex < 0) nextFocusedIndex = 0;
+		if (nextFocusedIndex >= visibleOptionsList.length)
+			nextFocusedIndex = visibleOptionsList.length - 1;
+		this.focusedOptionIndex = nextFocusedIndex;
 	}
 
 	@action
 	onPanelKeydown(event) {
-		const code = event.code || event.key;
-		if (code === "ArrowDown") {
+		const keyPressed = event.code || event.key;
+		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			this.moveFocus(1);
-		} else if (code === "ArrowUp") {
+		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
 			this.moveFocus(-1);
-		} else if (code === "Enter" || code === "NumpadEnter") {
+		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.focusedOptionIndex >= 0) {
-				const vis = this.visibleOptions;
-				const item = vis[this.focusedOptionIndex];
-				const o = this.hasGroups && item?.item != null ? item.item : item;
-				if (o && !this.isOptionDisabled(o)) this.selectOption(item);
+				const visibleOptionsList = this.visibleOptions;
+				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const optionItem =
+					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
+				if (optionItem && !this.isOptionDisabled(optionItem))
+					this.selectOption(focusedEntry);
 			}
 		}
 	}
 
 	get optionList() {
 		if (this.hasGroups) return this.visibleOptions;
-		return this.visibleOptions.map((opt) => ({ item: opt }));
+		return this.visibleOptions.map((option) => ({ item: option }));
 	}
 
 	get optionListWithGroups() {
 		if (!this.hasGroups) return [];
-		const vis = this.visibleOptions;
+		const visibleOptionsList = this.visibleOptions;
 		const rows = [];
-		let lastLabel = null;
-		for (let flatIndex = 0; flatIndex < vis.length; flatIndex++) {
-			const entry = vis[flatIndex];
-			const label = entry?.groupLabel ?? "";
-			if (label !== lastLabel) {
-				rows.push({ type: "group", label, group: entry?.group ?? null });
-				lastLabel = label;
+		let lastGroupLabel = null;
+		for (let flatIndex = 0; flatIndex < visibleOptionsList.length; flatIndex++) {
+			const entry = visibleOptionsList[flatIndex];
+			const groupLabel = entry?.groupLabel ?? "";
+			if (groupLabel !== lastGroupLabel) {
+				rows.push({ type: "group", label: groupLabel, group: entry?.group ?? null });
+				lastGroupLabel = groupLabel;
 			}
 			rows.push({ type: "option", entry, flatIndex });
 		}
