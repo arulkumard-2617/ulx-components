@@ -1,0 +1,173 @@
+import { modifier } from "ember-modifier";
+
+const TRANSITION_DURATION = 150;
+
+/**
+ * Shared overlay lifecycle modifier for modal and slide-pane components.
+ * Handles visibility transitions, focus management, keyboard events, and body scroll blocking.
+ * 
+ * @param {HTMLElement} maskElement - The mask/backdrop element
+ * @param {Array} [params] - Array with [componentInstance, options]
+ * @param {Object} options - Configuration options
+ * @param {Function} options.onShow - Callback when overlay opens
+ * @param {Function} options.onHide - Callback when overlay closes
+ * @param {Function} options.onEscape - Callback when Escape is pressed
+ * @param {boolean} options.closeOnEscape - Whether Escape closes overlay
+ * @param {boolean} options.blockScroll - Whether to block body scroll
+ * @param {string} options.role - Selector for the focusable overlay element (e.g., '[tabindex="-1"]')
+ * @param {string} [options.initialFocusSelector] - Optional selector for a container (within overlay) whose first focusable receives initial focus (WCAG: focus main content first)
+ * @param {Function} options.handleTabKey - Function to handle Tab key trapping
+ * @param {Function} options.getTransitionState - Getter for transition state
+ * @param {Function} options.setTransitionState - Setter for transition state
+ * @param {Function} options.getShouldRender - Getter for shouldRender
+ * @param {Function} options.setShouldRender - Setter for shouldRender
+ * @param {Function} options.getPreviousVisible - Getter for previous visible state
+ * @param {Function} options.setPreviousVisible - Setter for previous visible state
+ * @param {Function} options.getVisible - Getter for current visible state
+ * @param {Function} options.getPreviousActiveElement - Getter for element to restore focus to on close
+ * @param {Function} options.setPreviousActiveElement - Setter for element to restore focus to on close
+ * @returns {Function} Cleanup function
+ */
+export default modifier((maskElement, [componentInstance, options]) => {
+	const FOCUSABLE_SELECTOR =
+		'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+	const {
+		onShow,
+		onHide,
+		onEscape,
+		closeOnEscape = true,
+		blockScroll = true,
+		role = '[tabindex="-1"]',
+		initialFocusSelector,
+		handleTabKey,
+		getTransitionState,
+		setTransitionState,
+		getShouldRender,
+		setShouldRender,
+		getPreviousVisible,
+		setPreviousVisible,
+		getVisible,
+		getPreviousActiveElement,
+		setPreviousActiveElement
+	} = options || {};
+
+	let enterTimer = null;
+	let enterActiveTimer = null;
+	let exitTimer = null;
+	let unmountTimer = null;
+
+	const currentVisible = getVisible ? getVisible() : componentInstance.args.visible;
+	const wasVisible = getPreviousVisible ? getPreviousVisible() : false;
+
+	if (currentVisible && !wasVisible) {
+		setShouldRender && setShouldRender(true);
+		setTransitionState && setTransitionState("enter");
+
+		enterTimer = setTimeout(() => {
+			setTransitionState && setTransitionState("enter-active");
+
+			enterActiveTimer = setTimeout(() => {
+				setTransitionState && setTransitionState("enter-done");
+			}, TRANSITION_DURATION);
+		}, 0);
+
+		setPreviousActiveElement && setPreviousActiveElement(document.activeElement);
+
+		if (blockScroll && typeof document !== "undefined") {
+			document.body.style.overflow = "hidden";
+		}
+
+		setTimeout(() => {
+			const overlayElement = maskElement.querySelector(role);
+			if (overlayElement) {
+				let firstFocusable = null;
+				if (initialFocusSelector) {
+					const focusContainer = overlayElement.querySelector(initialFocusSelector);
+					if (focusContainer) {
+						firstFocusable = focusContainer.querySelector(FOCUSABLE_SELECTOR);
+					}
+				}
+				if (!firstFocusable) {
+					firstFocusable = overlayElement.querySelector(FOCUSABLE_SELECTOR);
+				}
+				if (firstFocusable) {
+					firstFocusable.focus();
+				} else {
+					overlayElement.focus();
+				}
+			}
+		}, 100);
+
+		if (onShow) {
+			onShow();
+		}
+	} else if (!currentVisible && wasVisible) {
+		setTransitionState && setTransitionState("exit-active");
+
+		exitTimer = setTimeout(() => {
+			setTransitionState && setTransitionState("exit-done");
+		}, TRANSITION_DURATION);
+
+		unmountTimer = setTimeout(() => {
+			setShouldRender && setShouldRender(false);
+			setTransitionState && setTransitionState("");
+		}, TRANSITION_DURATION + 50);
+
+		// Restore body scroll when overlay closes
+		if (blockScroll && typeof document !== "undefined") {
+			document.body.style.overflow = "";
+		}
+
+		// Restore focus when overlay closes (after animation completes)
+		const previousActiveElement = getPreviousActiveElement && getPreviousActiveElement();
+		if (previousActiveElement && typeof previousActiveElement.focus === "function") {
+			setTimeout(() => {
+				try {
+					previousActiveElement.focus();
+				} finally {
+					setPreviousActiveElement && setPreviousActiveElement(null);
+				}
+			}, TRANSITION_DURATION + 50);
+		}
+	} else if (currentVisible) {
+		setShouldRender && setShouldRender(true);
+	}
+
+	setPreviousVisible && setPreviousVisible(currentVisible);
+
+	const handleKeyDown = (event) => {
+		const visible = getVisible ? getVisible() : componentInstance.args.visible;
+		if (!visible) return;
+
+		switch (event.key) {
+			case "Escape":
+				if (closeOnEscape) {
+					event.preventDefault();
+					if (onEscape) {
+						onEscape();
+					} else if (onHide) {
+						onHide();
+					}
+				}
+				break;
+			case "Tab":
+				if (handleTabKey) {
+					const overlayElement = maskElement.querySelector(role);
+					overlayElement && handleTabKey(event, overlayElement);
+				}
+				break;
+		}
+	};
+
+	document.addEventListener("keydown", handleKeyDown);
+
+	return () => {
+		if (enterTimer) clearTimeout(enterTimer);
+		if (enterActiveTimer) clearTimeout(enterActiveTimer);
+		if (exitTimer) clearTimeout(exitTimer);
+		if (unmountTimer) clearTimeout(unmountTimer);
+
+		document.removeEventListener("keydown", handleKeyDown);
+	};
+});

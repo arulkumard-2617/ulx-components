@@ -51,7 +51,6 @@ export default class PositionModalDemo extends Component {
       @position={{this.currentPosition}}
       @title="Position: {{this.currentPosition}}"
       @onHide={{this.closeModal}}
-      @showDefaultFooter={{true}}
       @cancelButtonLabel="Close"
       @onCancel={{this.closeModal}}
     >

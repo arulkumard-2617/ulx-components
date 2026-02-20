@@ -27,6 +27,7 @@ export { default as UlxOptionSegment } from './components/collections/ulx-option
 export { default as UlxAccordion } from './components/collections/ulx-accordion/index.gjs';
 // Modules
 export { default as UlxModal } from './components/modules/ulx-modal/index.gjs';
+export { default as UlxSlidePane } from './components/modules/ulx-slide-pane/index.gjs';
 export { default as UlxPopup } from './components/modules/ulx-popup/index.gjs';
 export { default as UlxTooltip } from './components/modules/ulx-tooltip/index.gjs';
 export { default as UlxTieredmenu } from './components/modules/ulx-tieredmenu/index.gjs';

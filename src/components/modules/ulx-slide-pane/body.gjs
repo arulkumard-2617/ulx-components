@@ -1,28 +1,27 @@
 import Component from "@glimmer/component";
 
 /**
- * Modal body subcomponent.
+ * Slide pane body subcomponent.
  * Contains the main content area with optional scrolling.
- * Can be customized using the :body named block on UlxModal.
+ * Can be customized using the :body named block on UlxSlidePane.
  *
- * ## Usage
- * ```gjs
- * <UlxModalBody @scrollable={{true}}>
- *   <p>Modal content goes here</p>
- * </UlxModalBody>
- * ```
- *
- * @class UlxModalBody
+ * @class UlxSlidePaneBody
  * @param {boolean} [scrollable=true] - Enable vertical scrolling when content overflows
- * @param {string} [contentClassName] - Extra class for the content root (applied next to dialog-content)
+ * @param {boolean} [noPadding=false] - Remove default padding from content area
+ * @param {string} [contentClassName] - Extra class for the content root (applied next to slidepane-content)
  */
-export default class UlxModalBody extends Component {
+export default class UlxSlidePaneBody extends Component {
 	get scrollable() {
 		return this.args.scrollable ?? true;
 	}
 
+	get noPadding() {
+		return this.args.noPadding ?? false;
+	}
+
 	get contentClasses() {
-		const parts = ["dialog-content"];
+		const parts = ["slidepane-content"];
+		this.noPadding && parts.push("no-padding");
 		this.args.contentClassName && parts.push(this.args.contentClassName);
 		return parts.filter(Boolean).join(" ");
 	}

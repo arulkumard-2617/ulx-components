@@ -112,6 +112,10 @@
       "./components/modules/ulx-modal/header.js": "./dist/_app_/components/modules/ulx-modal/header.js",
       "./components/modules/ulx-modal/index.js": "./dist/_app_/components/modules/ulx-modal/index.js",
       "./components/modules/ulx-popup/index.js": "./dist/_app_/components/modules/ulx-popup/index.js",
+      "./components/modules/ulx-slide-pane/body.js": "./dist/_app_/components/modules/ulx-slide-pane/body.js",
+      "./components/modules/ulx-slide-pane/footer.js": "./dist/_app_/components/modules/ulx-slide-pane/footer.js",
+      "./components/modules/ulx-slide-pane/header.js": "./dist/_app_/components/modules/ulx-slide-pane/header.js",
+      "./components/modules/ulx-slide-pane/index.js": "./dist/_app_/components/modules/ulx-slide-pane/index.js",
       "./components/modules/ulx-steps/index.js": "./dist/_app_/components/modules/ulx-steps/index.js",
       "./components/modules/ulx-tieredmenu/index.js": "./dist/_app_/components/modules/ulx-tieredmenu/index.js",
       "./components/modules/ulx-tieredmenu/menu-item.js": "./dist/_app_/components/modules/ulx-tieredmenu/menu-item.js",
@@ -119,6 +123,7 @@
       "./components/modules/ulx-tooltip/index.js": "./dist/_app_/components/modules/ulx-tooltip/index.js",
       "./helpers/t-safe.js": "./dist/_app_/helpers/t-safe.js",
       "./helpers/t.js": "./dist/_app_/helpers/t.js",
+      "./modifiers/overlay-lifecycle.js": "./dist/_app_/modifiers/overlay-lifecycle.js",
       "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
       "./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
     }

@@ -44,8 +44,9 @@ Router.map(function () {
       this.route('popup');
       this.route('modal');
       this.route('tooltip');
+      this.route('slidepane');
 	  this.route('steps');
-    });
+});
     
 });
 
