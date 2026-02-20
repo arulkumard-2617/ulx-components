@@ -81,6 +81,7 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./components/collections/ulx-accordion/index.js": "./dist/_app_/components/collections/ulx-accordion/index.js",
       "./components/collections/ulx-button-group/index.js": "./dist/_app_/components/collections/ulx-button-group/index.js",
       "./components/collections/ulx-form/index.js": "./dist/_app_/components/collections/ulx-form/index.js",
       "./components/collections/ulx-option-segment/index.js": "./dist/_app_/components/collections/ulx-option-segment/index.js",
@@ -94,6 +95,7 @@
       "./components/elements/ulx-button/index.js": "./dist/_app_/components/elements/ulx-button/index.js",
       "./components/elements/ulx-checkbox/checkbox-item.js": "./dist/_app_/components/elements/ulx-checkbox/checkbox-item.js",
       "./components/elements/ulx-checkbox/index.js": "./dist/_app_/components/elements/ulx-checkbox/index.js",
+      "./components/elements/ulx-divider/index.js": "./dist/_app_/components/elements/ulx-divider/index.js",
       "./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
       "./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
       "./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
@@ -115,6 +117,7 @@
       "./components/modules/ulx-slide-pane/footer.js": "./dist/_app_/components/modules/ulx-slide-pane/footer.js",
       "./components/modules/ulx-slide-pane/header.js": "./dist/_app_/components/modules/ulx-slide-pane/header.js",
       "./components/modules/ulx-slide-pane/index.js": "./dist/_app_/components/modules/ulx-slide-pane/index.js",
+      "./components/modules/ulx-steps/index.js": "./dist/_app_/components/modules/ulx-steps/index.js",
       "./components/modules/ulx-tieredmenu/index.js": "./dist/_app_/components/modules/ulx-tieredmenu/index.js",
       "./components/modules/ulx-tieredmenu/menu-item.js": "./dist/_app_/components/modules/ulx-tieredmenu/menu-item.js",
       "./components/modules/ulx-toast/index.js": "./dist/_app_/components/modules/ulx-toast/index.js",

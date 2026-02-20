@@ -251,6 +251,11 @@ export const DocNavItems = [
             route: 'components.elements.badge'
           },
           {
+            menuItem: 'Divider',
+            to: '/components/elements/divider',
+            route: 'components.elements.divider'
+          },
+          {
             menuItem: 'Avatar',
             to: '/components/elements/avatar',
             route: 'components.elements.avatar'
@@ -295,6 +300,11 @@ export const DocNavItems = [
             menuItem: 'OptionSegment',
             to: '/components/collections/option-segment',
             route: 'components.collections.option-segment'
+          },
+          {
+            menuItem: 'Accordion',
+            to: '/components/collections/accordion',
+            route: 'components.collections.accordion'
           }
         ]
       },
@@ -331,6 +341,11 @@ export const DocNavItems = [
             menuItem: 'TieredMenu',
             to: '/components/modules/tieredmenu',
             route: 'components.modules.tieredmenu'
+          },
+          {
+            menuItem: 'Steps',
+            to: '/components/modules/steps',
+            route: 'components.modules.steps'
           }
         ]
       },
