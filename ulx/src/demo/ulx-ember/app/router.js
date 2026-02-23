@@ -43,13 +43,13 @@ Router.map(function () {
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');
+      this.route('panel-menu');
       this.route('popup');
       this.route('modal');
       this.route('tooltip');
       this.route('slidepane');
 	  this.route('steps');
 });
-    
 });
 
   this.route('utilities', function () {

@@ -351,6 +351,11 @@ export const DocNavItems = [
             menuItem: 'Steps',
             to: '/components/modules/steps',
             route: 'components.modules.steps'
+          },
+          {
+            menuItem: 'PanelMenu',
+            to: '/components/modules/panel-menu',
+            route: 'components.modules.panel-menu'
           }
         ],
       },
