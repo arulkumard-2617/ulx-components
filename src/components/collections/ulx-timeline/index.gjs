@@ -1,0 +1,122 @@
+import Component from "@glimmer/component";
+import { getComponentClass } from "../../../utils/component-config";
+
+/**
+ * Timeline visualizes a series of chained events.
+ * Markup/classes match `ULS_V2.0/src/styles/uls-styles/less/collections/timeline.less`.
+ *
+ * @class UlxTimeline
+ * @param {Array<any>} [model=[]] - Events array (preferred ULX arg). If not provided, falls back to `value`.
+ * @param {Array<any>} [value=[]] - Events array (PrimeReact parity).
+ * @param {"vertical"|"horizontal"} [layout="vertical"] - Timeline orientation.
+ * @param {"left"|"right"|"top"|"bottom"|"alternate"} [align] - Alignment (default depends on layout).
+ * @param {string} [dataKey] - Field name (supports dot paths) that uniquely identifies an item for stable rendering.
+ * @param {string} [customClass] - Extra CSS classes appended to the root element.
+ *
+ * @block opposite - Optional. Yields (item, index, meta) where meta: { first, last, layout, align }.
+ * @block marker - Optional. Yields (item, index, meta) where meta: { first, last, layout, align }.
+ * @block content - Optional. Yields (item, index, meta) where meta: { first, last, layout, align }.
+ */
+export default class UlxTimeline extends Component {
+	get baseClass() {
+		return getComponentClass("timeline");
+	}
+
+	get model() {
+		const { model, value } = this.args;
+		return model ?? value ?? [];
+	}
+
+	get layout() {
+		const { layout = "vertical" } = this.args;
+		return layout === "horizontal" ? "horizontal" : "vertical";
+	}
+
+	get align() {
+		const { align } = this.args;
+		if (align) return align;
+		return this.layout === "horizontal" ? "top" : "left";
+	}
+
+	get rootClasses() {
+		const { customClass } = this.args;
+
+		const parts = [this.baseClass];
+		parts.push(this.layout === "horizontal" ? "layout-horizontal" : "layout-vertical");
+
+		if (this.layout === "vertical") {
+			this.align === "right" && parts.push("align-right");
+			this.align === "alternate" && parts.push("align-alternate");
+		} else {
+			this.align === "top" && parts.push("align-top");
+			this.align === "bottom" && parts.push("align-bottom");
+			this.align === "alternate" && parts.push("align-alternate");
+		}
+
+		customClass && parts.push(customClass);
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	resolveFieldData(item, path) {
+		if (!item || !path) return undefined;
+		if (!path.includes(".")) return item?.[path];
+
+		return path.split(".").reduce((acc, key) => (acc == null ? acc : acc[key]), item);
+	}
+
+	get keyedModel() {
+		const { dataKey } = this.args;
+		const model = Array.isArray(this.model) ? this.model : [];
+		const lastIndex = model.length - 1;
+
+		return model.map((item, index) => {
+			const key = dataKey ? this.resolveFieldData(item, dataKey) : undefined;
+			const meta = {
+				first: index === 0,
+				last: index === lastIndex,
+				layout: this.layout,
+				align: this.align
+			};
+
+			return { key: key ?? index, item, index, meta };
+		});
+	}
+
+	<template>
+		<ol class={{this.rootClasses}} ...attributes>
+			{{#each this.keyedModel key="key" as |row|}}
+				<li class="timeline-event" data-index={{row.index}}>
+					<div class="timeline-opposite">
+						{{#if (has-block "opposite")}}
+							{{yield row.item row.index row.meta to="opposite"}}
+						{{else}}
+							{{row.item.opposite}}
+						{{/if}}
+					</div>
+
+					<div class="timeline-separator">
+						<div class="timeline-marker" aria-hidden="true">
+							{{#if (has-block "marker")}}
+								{{yield row.item row.index row.meta to="marker"}}
+							{{/if}}
+						</div>
+
+						{{#unless row.meta.last}}
+							<div class="timeline-connector" aria-hidden="true"></div>
+						{{/unless}}
+					</div>
+
+					<div class="timeline-content">
+						{{#if (has-block "content")}}
+							{{yield row.item row.index row.meta to="content"}}
+						{{else}}
+							{{row.item.content}}
+						{{/if}}
+					</div>
+				</li>
+			{{/each}}
+		</ol>
+	</template>
+}
+
