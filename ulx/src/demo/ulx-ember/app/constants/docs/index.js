@@ -310,6 +310,11 @@ export const DocNavItems = [
             menuItem: 'Accordion',
             to: '/components/collections/accordion',
             route: 'components.collections.accordion'
+          },
+          {
+            menuItem: 'Timeline',
+            to: '/components/collections/timeline',
+            route: 'components.collections.timeline'
           }
         ],
       },
