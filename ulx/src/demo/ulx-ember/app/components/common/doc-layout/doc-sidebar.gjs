@@ -7,12 +7,13 @@ import { modifier } from 'ember-modifier';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { DocNavItems } from '../../../constants/docs';
-import { t } from 'ulx-components';
+import { t, UlxIconInput } from 'ulx-components';
 
 export default class DocSidebarComponent extends Component {
   @service router;
 
   @tracked activeItem = null;
+  @tracked searchQuery = '';
   contentRefs = {};
 
   syncActiveItemFromRoute = modifier(() => {
@@ -64,7 +65,7 @@ export default class DocSidebarComponent extends Component {
       .replace(/\/$/, '');
 
     // Exact match only - prevents sibling routes from matching each other
-    // e.g., /foundation/typography should NOT match /foundation/colors
+    // e.g., /utilities/color should NOT match /utilities/display
     return normalizedPath === normalizedRoute;
   };
 
@@ -208,16 +209,74 @@ export default class DocSidebarComponent extends Component {
     return null;
   };
 
+  childMatches(child, match) {
+    if (child.category) {
+      if (match(child.category)) return true;
+      return child.items?.some((sub) => match(sub.menuItem));
+    }
+    return match(child.menuItem);
+  }
+
+  get filteredNavItems() {
+    const q = (this.searchQuery ?? '').trim().toLowerCase();
+    if (!q) return this.navItems;
+    const match = (text) => text && String(text).toLowerCase().includes(q);
+    return this.navItems
+      .filter((item) => {
+        if (match(item.menuTitle)) return true;
+        if (!item.children?.length) return false;
+        return item.children.some((child) => this.childMatches(child, match));
+      })
+      .map((item) => {
+        if (!item.children?.length) return item;
+        const filteredChildren = item.children
+          .filter((child) => this.childMatches(child, match))
+          .map((child) => {
+            if (child.category && child.items) {
+              const filteredItems = child.items.filter((sub) =>
+                match(sub.menuItem),
+              );
+              return {
+                ...child,
+                items: filteredItems.length ? filteredItems : child.items,
+              };
+            }
+            return child;
+          });
+        return { ...item, children: filteredChildren };
+      });
+  }
+
+  @action
+  handleSearchInput(event) {
+    this.searchQuery = event.target?.value ?? '';
+  }
+
   <template>
     {{! Force evaluation of computedActiveItem to update activeItem }}
     {{#if false}}{{this.computedActiveItem}}{{/if}}
     <aside
-      class="ulsp-sidebar overflow-x-hidden overflow-y-auto mgb8 mgr10"
+      class="ulsp-sidebar overflow-x-hidden overflow-y-auto bd-r"
       {{this.syncActiveItemFromRoute}}
     >
+      <div class="mgb6">
+        <UlxIconInput
+          @value={{this.searchQuery}}
+          @onInput={{this.handleSearchInput}}
+          @placeholder={{t "lbl.search"}}
+          @iconName="search-icon"
+          @iconType="font"
+          @iconClass="bs-icons1"
+          @iconPosition="left"
+          @iconSize="s18"
+          @size="m-size"
+          @fieldClass="w-100p"
+          aria-label={{t "lbl.search"}}
+        />
+      </div>
       <nav class="sidebar-nav fxgrow">
-        <ol class="s-nav-list mgt2">
-          {{#each this.navItems as |item|}}
+        <ol class="s-nav-list">
+          {{#each this.filteredNavItems as |item|}}
             <li class="s-nav-item mgb4">
               {{#if item.to}}
                 {{#if (this.hasChildren item)}}
@@ -316,19 +375,30 @@ export default class DocSidebarComponent extends Component {
                       {{#if childItem.category}}
                         <li class="s-nav-item pdb2 pdt2">
                           <div
-                            class="s-nav-category medium-font fg-text-secondary"
+                            class="s-nav-category medium-font fg-text-secondary text-uppercase fs-13"
                           >{{childItem.category}}</div>
                           {{#if childItem.items}}
-                            <ol class="s-nav-list mgt2">
+                            <ol class="s-nav-list">
                               {{#each childItem.items as |subItem|}}
                                 <li class="s-nav-item">
-                                  <LinkTo
-                                    @route={{subItem.route}}
-                                    @activeClass="bd-primary fg-primary"
-                                    class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
-                                  >
-                                    {{subItem.menuItem}}
-                                  </LinkTo>
+                                  {{#if subItem.slug}}
+                                    <LinkTo
+                                      @route={{subItem.route}}
+                                      @model={{subItem.slug}}
+                                      @activeClass="bd-primary fg-primary"
+                                      class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
+                                    >
+                                      {{subItem.menuItem}}
+                                    </LinkTo>
+                                  {{else}}
+                                    <LinkTo
+                                      @route={{subItem.route}}
+                                      @activeClass="bd-primary fg-primary"
+                                      class="bd-l pdl5 pdt2 pdb2 font-size14 text-left w-100p fg-text block"
+                                    >
+                                      {{subItem.menuItem}}
+                                    </LinkTo>
+                                  {{/if}}
                                 </li>
                               {{/each}}
                             </ol>

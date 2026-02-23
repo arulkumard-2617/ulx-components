@@ -120,6 +120,7 @@ export default class UlxDropdown extends Component {
 		invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		filled && parts.push("filled");
+		this.overlayVisible && parts.push("open");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
@@ -298,9 +299,7 @@ export default class UlxDropdown extends Component {
 			);
 		}
 		return (
-			options.find((option) =>
-				this.valueEquals(this.getOptionValue(option), selectedValue)
-			) ?? null
+			options.find((option) => this.valueEquals(this.getOptionValue(option), selectedValue)) ?? null
 		);
 	}
 
@@ -440,8 +439,7 @@ export default class UlxDropdown extends Component {
 		});
 
 		const onScroll = () => {
-			if (this.overlayVisible && element.parentNode === document.body)
-				alignPanelToTrigger();
+			if (this.overlayVisible && element.parentNode === document.body) alignPanelToTrigger();
 		};
 		window.addEventListener("scroll", onScroll, true);
 
@@ -489,10 +487,7 @@ export default class UlxDropdown extends Component {
 			}
 		} else {
 			for (let i = 0; i < visibleOptionsList.length; i++) {
-				if (
-					this.valueEquals(this.getOptionValue(visibleOptionsList[i]), selectedValue)
-				)
-					return i;
+				if (this.valueEquals(this.getOptionValue(visibleOptionsList[i]), selectedValue)) return i;
 			}
 		}
 		return -1;
@@ -560,8 +555,7 @@ export default class UlxDropdown extends Component {
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem))
-					this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
 			}
 		} else if (keyPressed === "Escape") {
 			event.preventDefault();
@@ -601,8 +595,7 @@ export default class UlxDropdown extends Component {
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem))
-					this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
 			} else if (!this.overlayVisible) this.toggleOverlay();
 			return;
 		}
@@ -690,8 +683,7 @@ export default class UlxDropdown extends Component {
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem))
-					this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
 			} else if (!this.overlayVisible) {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
@@ -721,8 +713,7 @@ export default class UlxDropdown extends Component {
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem))
-					this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
 			}
 			return;
 		}
@@ -755,8 +746,7 @@ export default class UlxDropdown extends Component {
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem))
-					this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
 			}
 		}
 	}
@@ -874,9 +864,8 @@ export default class UlxDropdown extends Component {
 								{{#if (and @showClear this.selectedOption (not @disabled))}}
 									<UlxIcon
 										@type="font"
-										@iconName="close-icon-01"
+										@iconName="dropdown-clear-icon close-stroke-icon-new"
 										@componentClass="bs-icons1"
-										@size="s24"
 										aria-hidden="true"
 										role="button"
 										tabindex="0"
@@ -894,9 +883,8 @@ export default class UlxDropdown extends Component {
 										{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 									{{else}}
 										<UlxIcon
-											@iconName="down-arrow-icon"
+											@iconName="down-stroke-icon-new dropdown-trigger-icon"
 											@type="font"
-											@size="s22"
 											@componentClass="bs-icons1"
 											aria-hidden="true"
 										/>
@@ -940,9 +928,8 @@ export default class UlxDropdown extends Component {
 								{{#if (and @showClear this.selectedOption (not @disabled))}}
 									<UlxIcon
 										@type="font"
-										@iconName="close-icon-01"
+										@iconName="close-stroke-icon-new dropdown-clear-icon"
 										@componentClass="bs-icons1"
-										@size="s24"
 										aria-hidden="true"
 										role="button"
 										tabindex="0"
@@ -960,9 +947,8 @@ export default class UlxDropdown extends Component {
 										{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 									{{else}}
 										<UlxIcon
-											@iconName="down-arrow-icon"
+											@iconName="down-stroke-icon-new dropdown-trigger-icon"
 											@type="font"
-											@size="s22"
 											@componentClass="bs-icons1"
 											aria-hidden="true"
 										/>
@@ -1021,9 +1007,8 @@ export default class UlxDropdown extends Component {
 							{{#if (and @showClear this.selectedOption (not @disabled))}}
 								<UlxIcon
 									@type="font"
-									@iconName="close-icon-01"
+									@iconName="close-stroke-icon-new dropdown-clear-icon"
 									@componentClass="bs-icons1"
-									@size="s24"
 									aria-hidden="true"
 									role="button"
 									tabindex="0"
@@ -1041,7 +1026,7 @@ export default class UlxDropdown extends Component {
 									{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 								{{else}}
 									<UlxIcon
-										@iconName="down-arrow-icon"
+										@iconName="down-stroke-icon-new dropdown-trigger-icon"
 										@type="font"
 										@componentClass="bs-icons1"
 										aria-hidden="true"
@@ -1086,9 +1071,8 @@ export default class UlxDropdown extends Component {
 							{{#if (and @showClear this.selectedOption (not @disabled))}}
 								<UlxIcon
 									@type="font"
-									@iconName="close-icon-01"
+									@iconName="close-stroke-icon-new dropdown-clear-icon"
 									@componentClass="bs-icons1"
-									@size="s24"
 									aria-hidden="true"
 									role="button"
 									tabindex="0"
@@ -1106,7 +1090,7 @@ export default class UlxDropdown extends Component {
 									{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 								{{else}}
 									<UlxIcon
-										@iconName="down-arrow-icon"
+										@iconName="down-stroke-icon-new dropdown-trigger-icon"
 										@type="font"
 										@componentClass="bs-icons1"
 										aria-hidden="true"
@@ -1133,6 +1117,13 @@ export default class UlxDropdown extends Component {
 				>
 					{{#if (and @filter)}}
 						<div class="dropdown-filter-container">
+							<UlxIcon
+								@type="font"
+								@iconName="search-icon dropdown-filter-icon"
+								@componentClass="bs-icons1"
+								@size="s18"
+								aria-hidden="true"
+							/>
 							<input
 								type="text"
 								class="dropdown-filter-input"
@@ -1221,16 +1212,13 @@ export default class UlxDropdown extends Component {
 													</span>
 												{{else}}
 													{{#if (and @checkmark (this.isOptionSelected option))}}
-														<span class="dropdown-check-icon selected" aria-hidden="true">
-															<UlxIcon
-																@size="s24"
-																@componentClass="bs-icons1"
-																@type="font"
-																@iconName="ls-tick-icon"
-																@componentClass="bs-icons1"
-																aria-hidden="true"
-															/>
-														</span>
+														<UlxIcon
+															@componentClass="bs-icons1"
+															@type="font"
+															@iconName="tick-icon-01 dropdown-checkmark"
+															@componentClass="bs-icons1"
+															aria-hidden="true"
+														/>
 													{{/if}}
 													<span
 														class="dropdown-item-label
@@ -1276,16 +1264,13 @@ export default class UlxDropdown extends Component {
 												</span>
 											{{else}}
 												{{#if (and @checkmark (this.isOptionSelected option))}}
-													<span class="dropdown-check-icon selected" aria-hidden="true">
-														<UlxIcon
-															@size="s24"
-															@componentClass="bs-icons1"
-															@type="font"
-															@iconName="ls-tick-icon"
-															@componentClass="bs-icons1"
-															aria-hidden="true"
-														/>
-													</span>
+													<UlxIcon
+														@componentClass="bs-icons1"
+														@type="font"
+														@iconName="tick-icon-01 dropdown-checkmark"
+														@componentClass="bs-icons1"
+														aria-hidden="true"
+													/>
 												{{/if}}
 												<span
 													class="dropdown-item-label

@@ -1,4 +1,4 @@
-import { UlxInput } from 'ulx-components';
+import { UlxInput, t } from 'ulx-components';
 
 const sizes = [
   { label: 's-size', size: 's-size' },
@@ -14,6 +14,7 @@ const sizes = [
         @label={{item.label}}
         @size={{item.size}}
         @fieldClass="col-12"
+        @helpText={{t "msg.input.help"}}
         @keyfilter={{item.keyfilter}}
         placeholder={{item.placeholder}}
         aria-label={{item.label}}

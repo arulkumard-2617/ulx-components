@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 
 export default class FoundationLayoutComponent extends Component {
   <template>
-    <div class="doc-foundation-page pdx10">
+    <div class="doc-foundation-page pd10">
       <header class="doc-foundation-page__header mgb8">
         <h3 class="mgt0 mgb2 bold-font">{{@title}}</h3>
         {{#if @description}}
@@ -15,4 +15,3 @@ export default class FoundationLayoutComponent extends Component {
     </div>
   </template>
 }
-

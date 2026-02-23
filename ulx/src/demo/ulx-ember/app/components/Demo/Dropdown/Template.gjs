@@ -52,7 +52,7 @@ export default class DemoDropdownTemplate extends Component {
                 src={{ctx.imageUrl}}
                 alt={{ctx.selectedLabel}}
                 class={{concat
-                  "mr-2 flag "
+                  "mgr2 flag "
                   (this.getFlagClass ctx.selectedOption.code)
                 }}
                 style="width: 18px;"
@@ -69,7 +69,7 @@ export default class DemoDropdownTemplate extends Component {
             <img
               src={{ctx.imageUrl}}
               alt={{ctx.label}}
-              class={{concat "mr-2 flag " (this.getFlagClass ctx.option.code)}}
+              class={{concat "mgr2 flag " (this.getFlagClass ctx.option.code)}}
               style="width: 18px;"
               aria-hidden="true"
             />
@@ -93,6 +93,7 @@ export default class DemoDropdownTemplate extends Component {
               @type="font"
               @componentClass="bs-icons1"
               aria-hidden="true"
+              @size="s22"
             />
           {{else}}
             <UlxIcon
@@ -100,6 +101,7 @@ export default class DemoDropdownTemplate extends Component {
               @type="font"
               @componentClass="bs-icons1"
               aria-hidden="true"
+              @size="s20"
             />
           {{/if}}
         </:icon>

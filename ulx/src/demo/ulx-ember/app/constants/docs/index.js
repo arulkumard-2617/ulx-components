@@ -1,8 +1,9 @@
 // ==========================================================================
 // DOCUMENTATION NAVIGATION ITEMS
 // ==========================================================================
-// Simplified navigation structure for Ember docs
-// TODO: Can be enhanced to auto-generate from component registry
+// Simplified navigation structure for Ember docs.
+
+import utilNavSchema from 'ulx-ember/data/util-nav-schema';
 
 export const DocNavItems = [
   {
@@ -11,173 +12,7 @@ export const DocNavItems = [
     to: '/walkthrough',
     route: 'walkthrough',
   },
-  {
-    menuTitle: 'Foundation',
-    icon: 'bs-icons1 design-icon s18',
-    children: [
-      {
-        menuItem: 'Typography',
-        to: '/foundation/typography',
-        route: 'foundation.typography',
-      },
-      {
-        menuItem: 'Colors',
-        to: '/foundation/colors',
-        route: 'foundation.colors',
-      },
-    ],
-  },
-  {
-    menuTitle: 'Utilities',
-    icon: 'bs-icons1 settings-icon-01 s18',
-    children: [
-      {
-        menuItem: 'Border',
-        to: '/utilities/border',
-        route: 'utilities.border',
-      },
-      {
-        menuItem: 'Clear',
-        to: '/utilities/clear',
-        route: 'utilities.clear',
-      },
-      {
-        menuItem: 'Color',
-        to: '/utilities/color',
-        route: 'utilities.color',
-      },
-      {
-        menuItem: 'Cursor',
-        to: '/utilities/cursor',
-        route: 'utilities.cursor',
-      },
-      {
-        menuItem: 'Display',
-        to: '/utilities/display',
-        route: 'utilities.display',
-      },
-      {
-        menuItem: 'Filter',
-        to: '/utilities/filter',
-        route: 'utilities.filter',
-      },
-      {
-        menuItem: 'Flex',
-        to: '/utilities/flex',
-        route: 'utilities.flex',
-      },
-      {
-        menuItem: 'Float',
-        to: '/utilities/float',
-        route: 'utilities.float',
-      },
-      {
-        menuItem: 'Gap',
-        to: '/utilities/gap',
-        route: 'utilities.gap',
-      },
-      {
-        menuItem: 'Grid',
-        to: '/utilities/grid',
-        route: 'utilities.grid',
-      },
-      {
-        menuItem: 'Hover',
-        to: '/utilities/hover',
-        route: 'utilities.hover',
-      },
-      {
-        menuItem: 'Line Clamp',
-        to: '/utilities/line-clamp',
-        route: 'utilities.line-clamp',
-      },
-      {
-        menuItem: 'Object Fit',
-        to: '/utilities/object-fit',
-        route: 'utilities.object-fit',
-      },
-      {
-        menuItem: 'Opacity',
-        to: '/utilities/opacity',
-        route: 'utilities.opacity',
-      },
-      {
-        menuItem: 'Overflow',
-        to: '/utilities/overflow',
-        route: 'utilities.overflow',
-      },
-      {
-        menuItem: 'Pointer Events',
-        to: '/utilities/pointer-events',
-        route: 'utilities.pointer-events',
-      },
-      {
-        menuItem: 'Position',
-        to: '/utilities/position',
-        route: 'utilities.position',
-      },
-      {
-        menuItem: 'Shadow',
-        to: '/utilities/shadow',
-        route: 'utilities.shadow',
-      },
-      {
-        menuItem: 'Size',
-        to: '/utilities/size',
-        route: 'utilities.size',
-      },
-      {
-        menuItem: 'Space',
-        to: '/utilities/space',
-        route: 'utilities.space',
-      },
-      {
-        menuItem: 'Text Align',
-        to: '/utilities/text-align',
-        route: 'utilities.text-align',
-      },
-      {
-        menuItem: 'Text Decoration',
-        to: '/utilities/text-decoration',
-        route: 'utilities.text-decoration',
-      },
-      {
-        menuItem: 'Text Transform',
-        to: '/utilities/text-transform',
-        route: 'utilities.text-transform',
-      },
-      {
-        menuItem: 'User Select',
-        to: '/utilities/user-select',
-        route: 'utilities.user-select',
-      },
-      {
-        menuItem: 'Vertical Align',
-        to: '/utilities/vertical-align',
-        route: 'utilities.vertical-align',
-      },
-      {
-        menuItem: 'Visibility',
-        to: '/utilities/visibility',
-        route: 'utilities.visibility',
-      },
-      {
-        menuItem: 'White Space',
-        to: '/utilities/white-space',
-        route: 'utilities.white-space',
-      },
-      {
-        menuItem: 'Word Break',
-        to: '/utilities/word-break',
-        route: 'utilities.word-break',
-      },
-      {
-        menuItem: 'Z-Index',
-        to: '/utilities/z-index',
-        route: 'utilities.z-index',
-      },
-    ],
-  },
+  ...utilNavSchema,
   {
     menuTitle: 'Elements',
     icon: 'bs-icons1 image-left-right-icon s18',
@@ -246,7 +81,12 @@ export const DocNavItems = [
         category: 'Misc',
         items: [
           {
-            menuItem: 'tag',
+            menuItem: 'Divider',
+            to: '/components/elements/divider',
+            route: 'components.elements.divider',
+          },
+          {
+            menuItem: 'Tag',
             to: '/components/elements/tag',
             route: 'components.elements.tag',
           },
@@ -254,11 +94,6 @@ export const DocNavItems = [
             menuItem: 'Badge',
             to: '/components/elements/badge',
             route: 'components.elements.badge',
-          },
-          {
-            menuItem: 'Divider',
-            to: '/components/elements/divider',
-            route: 'components.elements.divider'
           },
           {
             menuItem: 'Avatar',
@@ -309,13 +144,8 @@ export const DocNavItems = [
           {
             menuItem: 'Accordion',
             to: '/components/collections/accordion',
-            route: 'components.collections.accordion'
+            route: 'components.collections.accordion',
           },
-          {
-            menuItem: 'Timeline',
-            to: '/components/collections/timeline',
-            route: 'components.collections.timeline'
-          }
         ],
       },
       {
@@ -355,13 +185,8 @@ export const DocNavItems = [
           {
             menuItem: 'Steps',
             to: '/components/modules/steps',
-            route: 'components.modules.steps'
+            route: 'components.modules.steps',
           },
-          {
-            menuItem: 'PanelMenu',
-            to: '/components/modules/panel-menu',
-            route: 'components.modules.panel-menu'
-          }
         ],
       },
       {
@@ -390,15 +215,15 @@ export const DocNavItems = [
           {
             menuItem: 'Tooltip',
             to: '/components/modules/tooltip',
-            route: 'components.modules.tooltip'
+            route: 'components.modules.tooltip',
           },
           {
-            menuItem: 'slidepane',
+            menuItem: 'Slidepane',
             to: '/components/modules/slidepane',
-            route: 'components.modules.slidepane'
-          }
-        ]
-      }
-    ]
-  }
+            route: 'components.modules.slidepane',
+          },
+        ],
+      },
+    ],
+  },
 ];

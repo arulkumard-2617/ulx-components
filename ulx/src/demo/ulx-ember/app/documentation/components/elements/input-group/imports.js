@@ -6,6 +6,7 @@
 // Demo Components
 export { default as BasicDemo } from '../../../../components/Demo/InputGroup/Basic';
 export { default as MultipleDemo } from '../../../../components/Demo/InputGroup/Multiple';
+export { default as InputButtonDemo } from '../../../../components/Demo/InputGroup/InputButton';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -15,3 +16,4 @@ export { default as ImportSource } from './snippets/Import.gjs';
 // Centralized exports for all InputGroup demo source files
 export { default as BasicSource } from './snippets/Basic.gjs';
 export { default as MultipleSource } from './snippets/Multiple.gjs';
+export { default as InputButtonSource } from './snippets/InputButton.gjs';

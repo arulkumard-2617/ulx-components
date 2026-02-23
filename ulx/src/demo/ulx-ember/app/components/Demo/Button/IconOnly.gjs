@@ -7,7 +7,7 @@ const ICON_ONLY_ROW = [
   { icon: 'search-icon', type: 'success', ariaLabel: 'Search' },
   { icon: 'close-icon-01', type: 'info', ariaLabel: 'User' },
   { icon: 'delete-icon', type: 'warning', ariaLabel: 'Notification' },
-  { icon: 'ls-tick-icon', type: 'help', ariaLabel: 'Favorite' },
+  { icon: 'ls-tick-icon', type: 'help-button', ariaLabel: 'Favorite' },
   { icon: 'close-icon-01', type: 'danger', ariaLabel: 'Cancel' },
 ];
 
@@ -17,7 +17,7 @@ export default class DemoButtonIconOnly extends Component {
   }
 
   <template>
-    <div class="fxb column gp6">
+    <div class="fxb fcol fwrap gp6">
       {{! Row 1: Square filled icon-only }}
       <div class="fxb fvc gp6">
         {{#each this.iconOnlyRow as |item|}}
