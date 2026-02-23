@@ -17,6 +17,7 @@ Router.map(function () {
       this.route('option-segment');
       this.route('form');
       this.route('accordion');
+      this.route('timeline');
     });
     this.route('elements', function () {
       this.route('icon');
@@ -38,6 +39,7 @@ Router.map(function () {
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');
+      this.route('panel-menu');
       this.route('popup');
       this.route('modal');
       this.route('tooltip');

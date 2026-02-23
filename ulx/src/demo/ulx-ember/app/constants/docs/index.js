@@ -182,6 +182,11 @@ export const DocNavItems = [
             to: '/components/modules/tieredmenu',
             route: 'components.modules.tieredmenu',
           },
+          {
+            menuItem: 'Steps',
+            to: '/components/modules/steps',
+            route: 'components.modules.steps',
+          },
         ],
       },
       {
@@ -216,11 +221,6 @@ export const DocNavItems = [
             menuItem: 'Slidepane',
             to: '/components/modules/slidepane',
             route: 'components.modules.slidepane',
-          },
-          {
-            menuItem: 'Steps',
-            to: '/components/modules/steps',
-            route: 'components.modules.steps',
           },
         ],
       },
