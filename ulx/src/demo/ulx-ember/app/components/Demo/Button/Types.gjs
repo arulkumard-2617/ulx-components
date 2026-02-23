@@ -9,7 +9,7 @@ export default class DemoButtonTypes extends Component {
       <UlxButton @label={{t "lbl.success"}} @variant="success" />
       <UlxButton @label={{t "lbl.info"}} @variant="info" />
       <UlxButton @label={{t "lbl.warning"}} @variant="warning" />
-      <UlxButton @label={{t "lbl.help"}} @variant="help" />
+      <UlxButton @label={{t "lbl.help"}} @variant="help-button" />
       <UlxButton @label={{t "lbl.danger"}} @variant="danger" />
     </div>
   </template>

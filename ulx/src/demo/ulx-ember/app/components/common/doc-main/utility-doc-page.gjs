@@ -137,7 +137,7 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
                 </table>
               </div>
               {{#if (this.hasMoreRows section)}}
-                <div>
+                <div class="mgt4">
                   <button
                     type="button"
                     class="ulx-button primary pilled raised m-size"

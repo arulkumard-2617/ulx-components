@@ -71,7 +71,7 @@ export default class SymbolDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap gp4">
+    <div class="fxb fwrap gp4">
       {{#each this.examples key="label" as |item|}}
         <UlxTag
           @value={{item.label}}

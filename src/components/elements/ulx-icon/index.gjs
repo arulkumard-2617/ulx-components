@@ -20,7 +20,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [ariaLabel] - Accessible name for meaningful icons. When set, aria-hidden becomes "false" and role="img" is applied so screen readers announce it (e.g. close icon in modal).
  * @param {string} [size] - Size class (e.g. "s18", "m-size").
  * @param {string} [customClass] - Extra CSS classes.
- * @param {string} [componentClass] - Override base component class.
+ * @param {string} [componentClass="bs-icons1"] - Override base component class.
  * @param {'svg'|'font'} [type='svg'] - "svg" = symbol reference; "font" = font icon.
  */
 export default class UlxIcon extends Component {
