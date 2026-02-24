@@ -6,6 +6,7 @@ import { UlxMultiSelect, t } from 'ulx-components';
   @value={{this.selected}}
   @onChange={{this.setSelected}}
   @selectAll={{true}}
+  @selectAllLabel=""
   @filter={{true}}
   @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
   @placeholder={{t "msg.multiselect.placeholder.city"}}

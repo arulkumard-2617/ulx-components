@@ -10,7 +10,7 @@ const CITIES = [
 ];
 
 export default class DemoMultiselectDisabled extends Component {
-  @tracked selected = ['NY'];
+  @tracked selected = [''];
 
   get items() {
     return CITIES;
