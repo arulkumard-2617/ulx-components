@@ -181,6 +181,16 @@ const enUs = {
 	"msg.danger.toast.b": "Danger toast B",
 	"lbl.without.toast": "Without toast",
 
+	// ── Paginator ────────────────────────────────────────────
+	"aria.paginator.firstPage": "First page",
+	"aria.paginator.prevPage": "Previous page",
+	"aria.paginator.nextPage": "Next page",
+	"aria.paginator.lastPage": "Last page",
+	"aria.paginator.pageLabel": "Page {page}",
+	"aria.paginator.rowsPerPage": "Rows per page",
+	"aria.paginator.jumpToPage": "Jump to page",
+	"lbl.paginator.choose": "Choose",
+
 	// ── Progress labels ──────────────────────────────────────
 	"lbl.icons": "icons",
 
