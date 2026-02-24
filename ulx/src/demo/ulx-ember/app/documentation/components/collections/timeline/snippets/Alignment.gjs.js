@@ -8,14 +8,14 @@ export default class AlignmentTimelineDemo extends Component {
       { status: 'Ordered' },
       { status: 'Processing' },
       { status: 'Shipped' },
-      { status: 'Delivered' }
+      { status: 'Delivered' },
     ];
   }
 
   <template>
     <div class="pda4">
-      <div class="fxb wrap gp6">
-        <div class="w-100p md-w-256px">
+      <div class="flex wrap gap-6">
+        <div class="w-full md-w-256px">
           <UlxTimeline @model={{this.events}}>
             <:content as |item|>
               {{item.status}}
@@ -23,7 +23,7 @@ export default class AlignmentTimelineDemo extends Component {
           </UlxTimeline>
         </div>
 
-        <div class="w-100p md-w-256px">
+        <div class="w-full md-w-256px">
           <UlxTimeline @model={{this.events}} @align="right">
             <:content as |item|>
               {{item.status}}
@@ -31,7 +31,7 @@ export default class AlignmentTimelineDemo extends Component {
           </UlxTimeline>
         </div>
 
-        <div class="w-100p md-w-256px">
+        <div class="w-full md-w-256px">
           <UlxTimeline @model={{this.events}} @align="alternate">
             <:content as |item|>
               {{item.status}}
@@ -42,5 +42,5 @@ export default class AlignmentTimelineDemo extends Component {
     </div>
   </template>
 }
-`;
 
+`;

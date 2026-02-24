@@ -16,23 +16,24 @@ export default class DemoPanelmenuRouter extends Component {
             key: 'divider',
             label: 'Divider',
             icon: 'bs-icons1 divider-icon s20',
-            command: () => this.router.transitionTo('components.elements.divider')
+            command: () =>
+              this.router.transitionTo('components.elements.divider'),
           },
           {
             key: 'accordion',
             label: 'Accordion',
             icon: 'bs-icons1 list-view-icon s20',
-            command: () => this.router.transitionTo('components.collections.accordion')
-          }
-        ]
-      }
+            command: () =>
+              this.router.transitionTo('components.collections.accordion'),
+          },
+        ],
+      },
     ];
   }
 
   <template>
-    <div class="w-100p md-max-w-640">
+    <div class="w-full md-max-w-640">
       <UlxPanelmenu @model={{this.items}} />
     </div>
   </template>
 }
-

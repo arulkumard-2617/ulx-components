@@ -87,18 +87,18 @@ export default class BasicPopupDemo extends Component {
         @registerRef={{this.setPopupRef}}
       >
         <:default>
-          <div class="pd2">
-            <p class="mgb2">
+          <div class="p-2">
+            <p class="mb-2">
               Choose an item from the list below.
             </p>
             <ul>
               {{#each this.items as |item|}}
-                <li class="fxb fcol gp5">
+                <li class="flex flex-col gap-5">
                   <UlxButton
                     @label={{item.label}}
                     @variant={{if (this.isActive item) "primary" "secondary"}}
                     @size="s-size"
-                    @customClass="mgb3"
+                    @customClass="mb-3"
                     aria-pressed={{if (this.isActive item) "true" "false"}}
                     {{on "click" (fn this.handleItemClick item)}}
                   />

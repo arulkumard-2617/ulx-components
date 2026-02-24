@@ -36,21 +36,23 @@ export default class DemoPanelmenuCommand extends Component {
             key: 'new',
             label: 'New',
             icon: 'bs-icons1 add-icon-01 s20',
-            command: () => this.showToast('success', 'Success', 'File created')
+            command: () => this.showToast('success', 'Success', 'File created'),
           },
           {
             key: 'search',
             label: 'Search',
             icon: 'bs-icons1 search-icon s20',
-            command: () => this.showToast('warn', 'Search Results', 'No results found')
+            command: () =>
+              this.showToast('warn', 'Search Results', 'No results found'),
           },
           {
             key: 'print',
             label: 'Print',
             icon: 'bs-icons1 print-icon s20',
-            command: () => this.showToast('error', 'Error', 'No printer connected')
+            command: () =>
+              this.showToast('error', 'Error', 'No printer connected'),
           },
-        ]
+        ],
       },
       {
         key: 'sync',
@@ -61,30 +63,31 @@ export default class DemoPanelmenuCommand extends Component {
             key: 'import',
             label: 'Import',
             icon: 'bs-icons1 download-icon s20',
-            command: () => this.showToast('info', 'Downloads', 'Downloaded from cloud')
+            command: () =>
+              this.showToast('info', 'Downloads', 'Downloaded from cloud'),
           },
           {
             key: 'export',
             label: 'Export',
             icon: 'bs-icons1 upload-icon s20',
-            command: () => this.showToast('info', 'Shared', 'Exported to cloud')
-          }
-        ]
+            command: () =>
+              this.showToast('info', 'Shared', 'Exported to cloud'),
+          },
+        ],
       },
       {
         key: 'signout',
         label: 'Sign Out',
         icon: 'bs-icons1 sign-out-icon s20',
-        command: () => this.showToast('info', 'Signed out', 'User logged out')
-      }
+        command: () => this.showToast('info', 'Signed out', 'User logged out'),
+      },
     ];
   }
 
   <template>
-    <div class="w-100p md-max-w-640">
+    <div class="w-full md-max-w-640">
       <UlxPanelmenu @model={{this.items}} />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>
   </template>
 }
-

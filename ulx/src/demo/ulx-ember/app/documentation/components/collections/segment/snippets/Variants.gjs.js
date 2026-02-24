@@ -35,8 +35,8 @@ export default class VariantsDemoComponent extends Component {
 
   <template>
     <div class="variants-demo">
-      <h3 class="mgb4">Colored Segments (Light Background - Black Text)</h3>
-      <div class="fxb fcol gp5 mgb12">
+      <h3 class="mb-4">Colored Segments (Light Background - Black Text)</h3>
+      <div class="flex flex-col gap-5 mb-12">
         {{#each this.coloredVariants as |item|}}
           <UlxSegment @variant={{item.variant}}>
             <p>{{item.label}} segment with light background and black text</p>
@@ -44,8 +44,8 @@ export default class VariantsDemoComponent extends Component {
         {{/each}}
       </div>
 
-      <h3 class="mgb4">Inverted Colored Segments (Dark Background - White Text)</h3>
-      <div class="fxb fcol gp5">
+      <h3 class="mb-4">Inverted Colored Segments (Dark Background - White Text)</h3>
+      <div class="flex flex-col gap-5">
         {{#each this.invertedVariants as |item|}}
           <UlxSegment @variant={{item.variant}}>
             <p>{{item.label}}

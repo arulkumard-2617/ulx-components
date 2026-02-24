@@ -65,17 +65,17 @@ export default class ControlledTabMenuDemo extends Component {
   };
 
   <template>
-    <div class="fxb fvc fsb mgb4">
-      <div class="fxb fvc gp2">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
         <span class="fg-text-secondary">{{t "lbl.activate"}}:</span>
         {{#each this.buttons as |btn|}}
           <button
             type="button"
-            class="w32 h32 bd rds-circle fxb fvc fhc
+            class="w-32 h-32 border rounded-full flex items-center fhc
               {{if
                 (this.isActiveButton btn.index)
                 'bg-primary fg-white'
-                'bd-primary fg-primary bg-transparent'
+                'border-primary fg-primary bg-transparent'
               }}"
             {{on "click" (fn this.setActiveIndex btn.index)}}
             aria-label={{t "msg.activate.tab" label=btn.label}}

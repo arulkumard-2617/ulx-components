@@ -21,10 +21,10 @@ export default class BorderedDemoComponent extends Component {
 
   <template>
     <div class="bordered-demo">
-      <h3 class="mgb1">{{t "msg.colored.border.segments"}}</h3>
-      <p class="mgb5">Segments with colored borders on specific sides (3px
+      <h3 class="mb-1">{{t "msg.colored.border.segments"}}</h3>
+      <p class="mb-5">Segments with colored borders on specific sides (3px
         width)</p>
-      <div class="fxb fcol gp5">
+      <div class="flex flex-col gap-5">
         {{#each this.borderedExamples as |example|}}
           <UlxSegment
             @borderSide={{example.side}}

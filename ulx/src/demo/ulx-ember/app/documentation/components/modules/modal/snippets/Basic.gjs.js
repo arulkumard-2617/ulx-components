@@ -24,7 +24,7 @@ export default class BasicModalDemo extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Open Modal"
         @variant="primary"
@@ -40,7 +40,8 @@ export default class BasicModalDemo extends Component {
         @onDone={{this.handleConfirm}}
         @onCancel={{this.closeModal}}
       >
-        <p>This is the default body content. You can pass any content as the default block.</p>
+        <p>This is the default body content. You can pass any content as the
+          default block.</p>
       </UlxModal>
     </div>
   </template>

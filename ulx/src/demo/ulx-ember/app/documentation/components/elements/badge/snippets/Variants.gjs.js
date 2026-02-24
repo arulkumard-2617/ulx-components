@@ -17,7 +17,7 @@ export default class VariantsDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap gp4">
+    <div class="flex wrap gap-4">
       {{#each this.variants key="variant" as |item|}}
         <UlxBadge
           @value={{item.label}}

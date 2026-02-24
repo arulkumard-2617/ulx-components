@@ -41,7 +41,7 @@ export default class WithoutoverlayDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4 fw-wrap">
+    <div class="flex items-center gap-4 flex-wrap">
       <UlxButton
         @label="Show First"
         @variant="primary"
@@ -74,7 +74,12 @@ export default class WithoutoverlayDemoComponent extends Component {
       @autoCloseOnCancel={{true}}
     >
       <:body>
-        <p>This pane has <code>@overlay={{false}}</code>, <code>@blockScroll={{false}}</code> and <code>@closeOnBackdrop={{false}}</code>. Clicks pass through the dimmed area to the buttons behind; close via the pane button.</p>
+        <p>This pane has
+          <code>@overlay={{false}}</code>,
+          <code>@blockScroll={{false}}</code>
+          and
+          <code>@closeOnBackdrop={{false}}</code>. Clicks pass through the
+          dimmed area to the buttons behind; close via the pane button.</p>
       </:body>
     </UlxSlidePane>
 
@@ -93,7 +98,8 @@ export default class WithoutoverlayDemoComponent extends Component {
       @autoCloseOnCancel={{true}}
     >
       <:body>
-        <p>Multiple non-blocking slide panes stack. You can open several and close each from its footer or header close button.</p>
+        <p>Multiple non-blocking slide panes stack. You can open several and
+          close each from its footer or header close button.</p>
       </:body>
     </UlxSlidePane>
 
@@ -112,7 +118,10 @@ export default class WithoutoverlayDemoComponent extends Component {
       @autoCloseOnCancel={{true}}
     >
       <:body>
-        <p>Uses <code>@overlay={{false}}</code> so the mask does not block clicks; the page stays scrollable and you can interact with content behind the pane.</p>
+        <p>Uses
+          <code>@overlay={{false}}</code>
+          so the mask does not block clicks; the page stays scrollable and you
+          can interact with content behind the pane.</p>
       </:body>
     </UlxSlidePane>
   </template>

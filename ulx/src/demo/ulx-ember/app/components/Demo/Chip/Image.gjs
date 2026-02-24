@@ -3,7 +3,8 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxChip, t } from 'ulx-components';
 
-const AVATAR_IMAGE = 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png';
+const AVATAR_IMAGE =
+  'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png';
 
 export default class DemoChipImage extends Component {
   @tracked showImageWithClose = true;
@@ -14,7 +15,7 @@ export default class DemoChipImage extends Component {
   }
 
   <template>
-    <div class="fxb fxwrap gp4">
+    <div class="flex flex-wrap gap-4">
       <UlxChip
         @label={{t "msg.chip.with.image"}}
         @image={{AVATAR_IMAGE}}

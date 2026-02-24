@@ -130,10 +130,10 @@ export default class CodePreviewComponent extends Component {
   <template>
     <div class="code-preview-container" ...attributes>
       {{#if @title}}
-        <h5 class="mgb2 font-medium">{{@title}}</h5>
+        <h5 class="mb-2 font-medium">{{@title}}</h5>
       {{/if}}
       {{#if @description}}
-        <div class="text-small fg-text-secondary mgb4">
+        <div class="text-sm fg-text-secondary mb-4">
           {{@description}}
         </div>
       {{/if}}
@@ -142,7 +142,7 @@ export default class CodePreviewComponent extends Component {
           <div class="demo-and-code">
             <div class="demo">
               <div class="code-preview-container">
-                <div class="demo bg-default bd pd8 mgb2 rds3">
+                <div class="demo bg-default border p-8 mb-2 rounded-md">
                   {{yield}}
                 </div>
                 {{#if this.displayCode}}
@@ -158,7 +158,7 @@ export default class CodePreviewComponent extends Component {
                         @language={{this.effectiveLanguage}}
                       />
                     {{/if}}
-                    <div class="code-actions fxb gp4 pdy1 pdx3">
+                    <div class="code-actions flex gap-4 py-1 px-3">
                       <button
                         type="button"
                         class="expand-btn {{if this.expanded 'is-expanded'}}"
@@ -259,7 +259,7 @@ export default class CodePreviewComponent extends Component {
                 @code={{this.displayCode}}
                 @language={{this.effectiveLanguage}}
               />
-              <div class="code-actions fxb gp4 pdy1 pdx3">
+              <div class="code-actions flex gap-4 py-1 px-3">
                 <button
                   type="button"
                   class="copy-btn {{if this.copied 'is-copied'}}"
@@ -321,7 +321,7 @@ export default class CodePreviewComponent extends Component {
               @code={{this.displayCode}}
               @language={{this.effectiveLanguage}}
             />
-            <div class="code-actions fxb gp4 pdy1 pdx3">
+            <div class="code-actions flex gap-4 py-1 px-3">
               <button
                 type="button"
                 aria-label={{t "lbl.copy.code"}}

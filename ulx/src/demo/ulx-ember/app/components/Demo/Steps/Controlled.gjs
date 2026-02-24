@@ -12,7 +12,7 @@ export default class ControlledStepsDemo extends Component {
     return [
       { label: 'Personal Info' },
       { label: 'Reservation' },
-      { label: 'Review' }
+      { label: 'Review' },
     ];
   }
 
@@ -33,7 +33,11 @@ export default class ControlledStepsDemo extends Component {
 
   <template>
     <div class="pda4">
-      <div class="fxb fvc fje gp2 mgb4" role="group" aria-label="Demo step control">
+      <div
+        class="flex items-center fje gap-2 mb-4"
+        role="group"
+        aria-label="Demo step control"
+      >
         {{#each this.items as |_ index|}}
           <UlxButton
             @label={{this.navStepNumber index}}

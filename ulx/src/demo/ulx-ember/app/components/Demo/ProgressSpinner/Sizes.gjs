@@ -1,7 +1,7 @@
 import { UlxProgressSpinner } from 'ulx-components';
 
 <template>
-  <div class="fxb fvc gp4">
+  <div class="flex items-center gap-4">
     <UlxProgressSpinner @size="xs-size" aria-hidden="true" />
     <UlxProgressSpinner @size="s-size" aria-hidden="true" />
     <UlxProgressSpinner @size="m-size" @ariaLabel="Loading" />

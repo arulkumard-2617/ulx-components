@@ -139,21 +139,25 @@ export default class ComponentBuilderComponent extends Component {
 
   <template>
     <div class="doc-section component-builder">
-      <div class="ulx-grid gp12">
+      <div class="ulx-grid gap-12">
 
-        {{! Preview + code column }}
-        <div class="fxgrow fxb column gp6 col-7">
+        {{! Preview + code flex-col }}
+        <div class="flex grow flex-col gap-6 col-7">
           {{#if (has-block "preview")}}
-            <div class="demo bg-default bd pd8 rds3">
-              <p class="font-size12 fg-text-secondary mgt0 mgb4">{{t "lbl.preview"}}</p>
+            <div class="demo bg-default border p-8 rounded-md">
+              <p class="text-12 fg-text-secondary mt-0 mb-4">{{t
+                  "lbl.preview"
+                }}</p>
               {{yield this.resolvedProps to="preview"}}
             </div>
           {{/if}}
           {{#if this.displayCode}}
             <div class="code-block-wrapper">
-              <div class="fxb fvc fsb">
-                <p class="font-size12 fg-text-secondary mgt0">{{t "lbl.generated.code"}}</p>
-                <div class="code-actions fxb gp4 pdy1 pdx3">
+              <div class="flex items-center justify-between">
+                <p class="text-12 fg-text-secondary mt-0">{{t
+                    "lbl.generated.code"
+                  }}</p>
+                <div class="code-actions flex gap-4 py-1 px-3">
                   <button
                     type="button"
                     class="ulx-button link xs-size
@@ -177,39 +181,39 @@ export default class ComponentBuilderComponent extends Component {
           {{/if}}
         </div>
 
-        {{! Controls column }}
+        {{! Controls flex-col }}
         <div
-          class="col-5 component-builder-controls bd rds3 pd6 bg-default component-builder-controls-col"
+          class="col-5 component-builder-controls border rounded-md p-6 bg-default component-builder-controls-col"
         >
-          <h4 class="mgt0 mgb4 bold-font font-size14">{{t "lbl.properties"}}</h4>
+          <h4 class="mt-0 mb-4 bold-font text-14">{{t "lbl.properties"}}</h4>
           {{#each this.propsWithOptions as |prop|}}
-            <div class="mgb4">
+            <div class="mb-4">
               <label
-                class="block font-size12 font-medium mgb1 fg-text-secondary"
+                class="block text-12 font-medium mb-1 fg-text-secondary"
               >{{prop.label}}</label>
               {{#if prop.isRadio}}
                 <div
-                  class="fxb wrap gp4"
+                  class="flex flex-wrap gap-4"
                   role="group"
                   aria-label={{prop.label}}
                 >
                   {{#each prop.resolvedOptions as |opt|}}
-                    <label class="fxb fvc cursor-pointer">
+                    <label class="flex items-center cursor-pointer">
                       <input
                         type="radio"
                         name={{prop.inputName}}
                         value={{opt.value}}
                         checked={{opt.selected}}
                         {{on "change" (fn this.updateProp prop.key opt.value)}}
-                        class="mgr1"
+                        class="me-1"
                       />
-                      <span class="font-size12">{{opt.label}}</span>
+                      <span class="text-12">{{opt.label}}</span>
                     </label>
                   {{/each}}
                 </div>
               {{else if prop.isSelect}}
                 <select
-                  class="block w-100p pd2 rds2 bd font-size12"
+                  class="block w-full p-2 rounded border text-12"
                   value={{prop.currentValue}}
                   {{on "change" (fn this.selectChange prop.key)}}
                   aria-label={{prop.label}}
@@ -222,14 +226,14 @@ export default class ComponentBuilderComponent extends Component {
                   {{/each}}
                 </select>
               {{else if prop.isCheckbox}}
-                <label class="fxb fvc gp2 cursor-pointer">
+                <label class="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={{prop.currentValue}}
                     {{on "change" (fn this.checkboxChange prop.key)}}
-                    class="mgr1"
+                    class="me-1"
                   />
-                  <span class="font-size12">{{prop.label}}</span>
+                  <span class="text-12">{{prop.label}}</span>
                 </label>
               {{/if}}
             </div>

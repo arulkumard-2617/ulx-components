@@ -62,7 +62,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * // You can safely use item.label in your block without duplicates.
  * <UlxTabmenu @model={{this.items}}>
  *   <:item as |item|>
- *     <div class="fxb fvc gp2">
+ *     <div class="flex items-center gap-2">
  *       <UlxAvatar @image={{item.imageUrl}} />
  *       <span class="tabmenu-label">{{item.label}}</span>
  *       <UlxBadge @value={{item.badgeValue}} />

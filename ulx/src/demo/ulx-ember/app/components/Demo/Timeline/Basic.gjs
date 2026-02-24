@@ -7,13 +7,13 @@ export default class BasicTimelineDemo extends Component {
       { status: 'Ordered' },
       { status: 'Processing' },
       { status: 'Shipped' },
-      { status: 'Delivered' }
+      { status: 'Delivered' },
     ];
   }
 
   <template>
     <div class="pda4">
-      <div class="w-100p md-w-256px">
+      <div class="w-full md-w-256px">
         <UlxTimeline @model={{this.events}}>
           <:content as |item|>
             {{item.status}}

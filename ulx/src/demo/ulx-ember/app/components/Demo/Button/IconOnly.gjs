@@ -17,9 +17,9 @@ export default class DemoButtonIconOnly extends Component {
   }
 
   <template>
-    <div class="fxb fcol fwrap gp6">
+    <div class="flex flex-col flex-wrap gap-6">
       {{! Row 1: Square filled icon-only }}
-      <div class="fxb fvc gp6">
+      <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxButton
             @icon={{item.icon}}
@@ -32,7 +32,7 @@ export default class DemoButtonIconOnly extends Component {
       </div>
 
       {{! Row 2: Rounded filled icon-only }}
-      <div class="fxb fvc gp6">
+      <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxButton
             @icon={{item.icon}}
@@ -46,7 +46,7 @@ export default class DemoButtonIconOnly extends Component {
       </div>
 
       {{! Row 3: Rounded outlined icon-only }}
-      <div class="fxb fvc gp6">
+      <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxButton
             @icon={{item.icon}}
@@ -61,7 +61,7 @@ export default class DemoButtonIconOnly extends Component {
       </div>
 
       {{! Row 4: Rounded text raised icon-only }}
-      <div class="fxb fvc gp6">
+      <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxButton
             @icon={{item.icon}}
@@ -77,7 +77,7 @@ export default class DemoButtonIconOnly extends Component {
       </div>
 
       {{! Row 5: Rounded text icon-only }}
-      <div class="fxb fvc gp6">
+      <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxButton
             @icon={{item.icon}}

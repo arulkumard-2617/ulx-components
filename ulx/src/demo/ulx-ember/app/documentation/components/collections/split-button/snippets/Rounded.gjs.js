@@ -51,7 +51,7 @@ export default class DemoSplitButtonRounded extends Component {
   <template>
     <div class="pda4">
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
-      <div class="fxb fvc gp5 fhc wrap">
+      <div class="flex items-center gap-5 fhc wrap">
         <UlxSplitButton
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"

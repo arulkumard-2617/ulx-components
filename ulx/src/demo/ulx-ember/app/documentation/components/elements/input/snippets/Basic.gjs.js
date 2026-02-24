@@ -8,7 +8,7 @@ const rules = {
 };
 
 <template>
-  <div class="ulx-form m-size ulx-grid gp12 mgb14">
+  <div class="ulx-form m-size ulx-grid gap-12 mb-14">
     <UlxInput
       @label={{t "lbl.input"}}
       @rules={{rules}}

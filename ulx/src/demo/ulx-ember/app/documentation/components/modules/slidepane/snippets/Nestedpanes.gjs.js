@@ -62,7 +62,7 @@ export default class NestedpanesDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Open Slide Pane 1"
         @variant="primary"
@@ -105,8 +105,9 @@ export default class NestedpanesDemoComponent extends Component {
       @doneButtonLabel="Done"
     >
       <:body>
-        <p>From here you can open Pane 3 or a modal. Use the Back button in the header to return to Pane 1.</p>
-        <div class="fxb fvc gp4 fw-wrap">
+        <p>From here you can open Pane 3 or a modal. Use the Back button in the
+          header to return to Pane 1.</p>
+        <div class="flex items-center gap-4 flex-wrap">
           <UlxButton
             @label="Open Pane 3"
             @variant="primary"
@@ -135,7 +136,8 @@ export default class NestedpanesDemoComponent extends Component {
       @doneButtonLabel="Done"
     >
       <:body>
-        <p>This is the third pane. Use the Back button in the header to return to Pane 2.</p>
+        <p>This is the third pane. Use the Back button in the header to return
+          to Pane 2.</p>
       </:body>
     </UlxSlidePane>
 

@@ -14,7 +14,8 @@ export default class TemplatePaginatorDemo extends Component {
   rowsPerPageOptions1 = [10, 20, 30, 40];
   rowsPerPageOptions2 = [5, 10, 20, 120];
 
-  template1 = 'PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport';
+  template1 =
+    'PrevPageLink PageLinks NextPageLink RowsPerPageDropdown CurrentPageReport';
   template2 = 'RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink';
 
   @action
@@ -30,8 +31,8 @@ export default class TemplatePaginatorDemo extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4 fxd-column gpy6">
-      <div class="fxb fvc gp4 fxd-column gp4">
+    <div class="flex items-center gap-4 fxd-flex-col gpy6">
+      <div class="flex items-center gap-4 fxd-flex-col gap-4">
         <UlxPaginator
           @totalRecords={{this.totalRecords}}
           @rows={{this.rows1}}
@@ -86,7 +87,7 @@ export default class TemplatePaginatorDemo extends Component {
 
       <UlxDivider />
 
-      <div class="fxb fvc gp4 fxd-column gp4">
+      <div class="flex items-center gap-4 fxd-flex-col gap-4">
         <UlxPaginator
           @totalRecords={{this.totalRecords}}
           @rows={{this.rows2}}
@@ -96,8 +97,15 @@ export default class TemplatePaginatorDemo extends Component {
           @onPageChange={{this.onPageChange2}}
         >
           <:currentPageReport as |opt|>
-            <span class="paginator-current-report fg-text-secondary" style="width: 120px; text-align: center;">
-              {{opt.first}} - {{opt.last}} of {{opt.totalRecords}}
+            <span
+              class="paginator-current-report fg-text-secondary"
+              style="width: 120px; text-align: center;"
+            >
+              {{opt.first}}
+              -
+              {{opt.last}}
+              of
+              {{opt.totalRecords}}
             </span>
           </:currentPageReport>
         </UlxPaginator>

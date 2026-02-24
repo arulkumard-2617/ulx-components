@@ -1,7 +1,7 @@
 import { UlxIconInput, t } from 'ulx-components';
 
 <template>
-  <div class="ulx-form m-size ulx-grid gp12 mgb14">
+  <div class="ulx-form m-size ulx-grid gap-12 mb-14">
     <UlxIconInput
       @iconType="font"
       @iconPosition="left"

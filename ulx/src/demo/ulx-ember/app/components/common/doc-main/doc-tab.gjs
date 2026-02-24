@@ -21,7 +21,7 @@ export default class DocTabComponent extends Component {
   <template>
     <div class="ulsp-tabpanel">
       <ul
-        class="ulsp-tabpanel-header fxb fvc gp0 mgb6 pdx10 bd-b bg-default"
+        class="ulsp-tabpanel-header flex items-center gap-0 mb-6 px-10 border-b bg-default"
         role="tablist"
       >
         {{#each @tabs as |tab|}}
@@ -30,7 +30,7 @@ export default class DocTabComponent extends Component {
               href="#"
               role="tab"
               aria-selected={{this.isActive tab.id}}
-              class="pd4 fg-text-secondary text-decoration-none font-size16
+              class="p-4 fg-text-secondary text-decoration-none text-16
                 {{if (this.isActive tab.id) 'active' ''}}"
               {{on "click" (fn this.handleTabClick tab.id)}}
             >
@@ -39,7 +39,7 @@ export default class DocTabComponent extends Component {
           </li>
         {{/each}}
       </ul>
-      <div class="ulsp-tabpanel-content pdx10">
+      <div class="ulsp-tabpanel-content px-10">
         {{yield @activeTab}}
       </div>
     </div>

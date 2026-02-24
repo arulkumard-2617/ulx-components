@@ -3,15 +3,20 @@ import { UlxDivider, UlxInput, UlxButton } from 'ulx-components';
 
 <template>
   <div class="card">
-    <div class="fxb wrap gp6">
-      <div class="w-100p md-w-1-3 fxb column center-all gp3 pdy10">
-        <div class="fxb wrap center-all gp2 w-100p">
+    <div class="flex wrap">
+      <div class="w-full md-w-1-3 flex flex-col center-all gap-3 py-10">
+        <div class="flex wrap center-all gap-2">
           <div class="w200">
-            <UlxInput @label="Username" @size="m-size" placeholder="Username" aria-label="Username" />
+            <UlxInput
+              @label="Username"
+              @size="m-size"
+              placeholder="Username"
+              aria-label="Username"
+            />
           </div>
         </div>
 
-        <div class="fxb wrap center-all gp2 w-100p">
+        <div class="flex wrap center-all gap-2">
           <div class="w200">
             <UlxInput
               @label="Password"
@@ -26,13 +31,13 @@ import { UlxDivider, UlxInput, UlxButton } from 'ulx-components';
         <UlxButton @label="Login" @variant="primary" />
       </div>
 
-      <div class="w-100p md-w-1-3 fxb center-all pdy10">
+      <div class="w-full md-w-1-3 flex center-all py-10">
         <UlxDivider @layout="vertical">
-          <b>OR</b>
+          <div class="bold-font">OR</div>
         </UlxDivider>
       </div>
 
-      <div class="w-100p md-w-1-3 fxb center-all pdy10">
+      <div class="w-full md-w-1-3 flex center-all py-10">
         <UlxButton @label="Sign Up" @variant="success" />
       </div>
     </div>
@@ -40,4 +45,3 @@ import { UlxDivider, UlxInput, UlxButton } from 'ulx-components';
 </template>
 
 `;
-

@@ -93,8 +93,8 @@ export default class DemoIconList extends Component {
     this.query = e.target.value ?? '';
   }
   <template>
-    <div class="fxc gp4" {{this.runOnInsert}}>
-      <div class="fxb fvc gp3 mgb8">
+    <div class="fxc gap-4" {{this.runOnInsert}}>
+      <div class="flex items-center gap-3 mb-8">
         <input
           type="text"
           placeholder={{t "msg.search.icons.placeholder"}}
@@ -103,14 +103,14 @@ export default class DemoIconList extends Component {
           value={{this.query}}
           {{this.on "input" this.updateQuery}}
         />
-        <span class="text-sm ulx-badge">{{this.filteredIcons.length}}
+        <span class="text-sm ulx-tag">{{this.filteredIcons.length}}
           {{t "lbl.icons"}}</span>
       </div>
 
       {{#if this.filteredIcons.length}}
-        <div class="ulx-grid gp5 col-5 pdt5 text-center bd-t">
+        <div class="ulx-grid gap-5 col-5 pt-5 text-center border-t">
           {{#each this.filteredIcons as |iconName|}}
-            <div class="pd3 fxb column fvc gp3">
+            <div class="p-3 flex flex-col fhc items-center gap-3">
               <UlxIcon
                 @componentClass="bs-icons1"
                 @type="font"
@@ -123,7 +123,9 @@ export default class DemoIconList extends Component {
           {{/each}}
         </div>
       {{else}}
-        <div class="text-center fg-text-muted pdy6 bd-t">{{t "msg.no.icons.found"}}</div>
+        <div class="text-center fg-text-muted py-6 border-t">{{t
+            "msg.no.icons.found"
+          }}</div>
       {{/if}}
     </div>
   </template>

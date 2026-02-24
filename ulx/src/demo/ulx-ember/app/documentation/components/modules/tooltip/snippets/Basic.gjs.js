@@ -3,7 +3,7 @@ import { tooltip, UlxButton, UlxIcon } from 'ulx-components';
 
 <template>
   <div class="flex gap-3 align-items-center flex-wrap">
-    <div class="fxb fhs mgb10">
+    <div class="flex fhs mb-10">
       <UlxIcon
         {{tooltip "Icon Tooltip" position="top"}}
         @componentClass="bs-icons1"

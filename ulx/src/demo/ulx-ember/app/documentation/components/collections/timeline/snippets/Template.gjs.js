@@ -11,7 +11,7 @@ export default class TemplateTimelineDemo extends Component {
       { status: 'Ordered', date: '15/10/2020 10:30', icon: 'box-icon' },
       { status: 'Processing', date: '15/10/2020 14:00', icon: 'gear-icon' },
       { status: 'Shipped', date: '15/10/2020 16:15', icon: 'truck-icon' },
-      { status: 'Delivered', date: '16/10/2020 10:00', icon: 'check-icon' }
+      { status: 'Delivered', date: '16/10/2020 10:00', icon: 'check-icon' },
     ];
   }
 
@@ -30,8 +30,8 @@ export default class TemplateTimelineDemo extends Component {
 
         <:content as |item|>
           <div class="card pda4">
-            <div class="bold-font mgb2">{{item.status}}</div>
-            <p class="m-0 mgb4">{{LOREM}}</p>
+            <div class="bold-font mb-2">{{item.status}}</div>
+            <p class="m-0 mb-4">{{LOREM}}</p>
             <UlxButton @label="Read more" @variant="primary" />
           </div>
         </:content>
@@ -39,5 +39,5 @@ export default class TemplateTimelineDemo extends Component {
     </div>
   </template>
 }
-`;
 
+`;

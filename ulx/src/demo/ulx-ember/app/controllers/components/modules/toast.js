@@ -7,20 +7,20 @@ export default class ComponentsModulesToastController extends Controller {
 
   tabs = [
     { id: 'features', label: 'FEATURES' },
-    { id: 'theming', label: 'THEMING' },
-    { id: 'passthrough', label: 'PASS THROUGH' },
+    { id: 'params', label: 'PARAMS' },
+    { id: 'architecture', label: 'ARCHITECTURE' },
   ];
 
   get isFeaturesTab() {
     return this.activeTab === 'features';
   }
 
-  get isThemingTab() {
-    return this.activeTab === 'theming';
+  get isParamsTab() {
+    return this.activeTab === 'params';
   }
 
-  get isPassthroughTab() {
-    return this.activeTab === 'passthrough';
+  get isArchitectureTab() {
+    return this.activeTab === 'architecture';
   }
 
   @action

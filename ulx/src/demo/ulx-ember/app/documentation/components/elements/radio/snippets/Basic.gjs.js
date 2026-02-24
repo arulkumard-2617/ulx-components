@@ -23,7 +23,7 @@ export default class BasicRadioDemo extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
       <UlxRadio
         @rules={{this.requiredRules}}
         @size="s-size"

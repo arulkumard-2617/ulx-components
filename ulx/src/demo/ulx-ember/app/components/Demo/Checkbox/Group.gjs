@@ -22,7 +22,7 @@ export default class GroupDemoComponent extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
       <UlxCheckbox
         @label={{t "lbl.group"}}
         @items={{this.items}}

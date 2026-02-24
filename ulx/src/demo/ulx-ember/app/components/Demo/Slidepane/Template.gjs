@@ -28,7 +28,7 @@ export default class TemplateDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Open Slide Pane"
         @variant="primary"
@@ -71,7 +71,8 @@ export default class TemplateDemoComponent extends Component {
         </:head>
 
         <:body>
-          <p>Use the header search icon to filter, or edit this body content. This pane uses custom header, body, and footer blocks.</p>
+          <p>Use the header search icon to filter, or edit this body content.
+            This pane uses custom header, body, and footer blocks.</p>
           <ul class="ulx-list">
             <li>Item one</li>
             <li>Item two</li>

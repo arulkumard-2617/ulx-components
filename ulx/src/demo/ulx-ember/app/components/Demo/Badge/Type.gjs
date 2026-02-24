@@ -11,7 +11,7 @@ export default class TypeDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap fvc gp4">
+    <div class="flex wrap items-center gap-4">
       {{#each this.types key="type" as |item|}}
         <UlxBadge
           @value={{item.label}}

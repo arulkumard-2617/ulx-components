@@ -4,7 +4,7 @@ import { UlxButton, UlxButtonGroup } from 'ulx-components';
 
 export default class DemoButtonGroup extends Component {
   <template>
-    <div class="fxb fvc wrap gap-md">
+    <div class="flex items-center wrap gap-md">
       <UlxButtonGroup @orientation="horizontal" @size="m-size">
         <UlxButton
           @label="Save"

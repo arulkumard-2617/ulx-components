@@ -87,9 +87,9 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
   }
 
   <template>
-    <div class="doc-foundation-page__content w-100p">
+    <div class="doc-foundation-page__content w-full">
       {{#if this.sections.length}}
-        <div class="mgb6">
+        <div class="mb-6">
           <UlxIconInput
             @value={{this.searchQuery}}
             @onInput={{this.handleSearchInput}}
@@ -100,33 +100,33 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
             @iconPosition="left"
             @iconSize="s18"
             @size="l-size"
-            @fieldClass="w300"
+            @fieldClass="w-300"
             aria-label={{t "lbl.search"}}
           />
         </div>
         {{#if this.filteredSections.length}}
           {{#each this.filteredSections as |section sectionIndex|}}
-            <div class="ulx-foundation-section mgb10 relative" role="region">
+            <div class="ulx-foundation-section mb-10 relative" role="region">
 
               <div class="overflow-auto">
-                <table class="w-100p rds2" role="grid">
-                  <thead class="bg-default bd-b">
+                <table class="w-full rounded" role="grid">
+                  <thead class="bg-default border-b">
                     <tr>
                       <th
-                        class="text-left pdx4 pdy3 bold-font fg-text"
+                        class="text-start px-4 py-3 bold-font fg-text"
                       >Class</th>
                       <th
-                        class="text-left pdx4 pdy3 bold-font fg-text"
+                        class="text-start px-4 py-3 bold-font fg-text"
                       >Styles</th>
                     </tr>
                   </thead>
                   <tbody class="bg-body">
                     {{#each (this.visibleRows section sectionIndex) as |row|}}
-                      <tr class="bd-b bd-default">
-                        <td class="pdx4 pdy3 fg-link font-regular">
+                      <tr class="border-b border-default">
+                        <td class="px-4 py-3 fg-link font-regular">
                           <div class="fg-primary">{{this.rowClass row}}</div>
                         </td>
-                        <td class="pdx4 pdy3 fg-text-secondary font-regular">
+                        <td class="px-4 py-3 fg-text-secondary font-regular">
                           <div
                             class="fg-blue whitespace-pre-line"
                           >{{this.rowStyles row}}</div>

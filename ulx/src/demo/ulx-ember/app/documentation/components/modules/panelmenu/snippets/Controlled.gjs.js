@@ -12,27 +12,29 @@ export default class DemoPanelmenuControlled extends Component {
       {
         key: 'files',
         label: 'Files',
-        icon: 'bs-icons1 folder-icon',
+        icon: 'bs-icons1 event-library-icon s20',
         items: [
-          { key: 'new', label: 'New', icon: 'bs-icons1 add-icon-01 s20' },
-          { key: 'open', label: 'Open', icon: 'bs-icons1 move-right-icon s20' },
-        ]
+          { key: 'copy', label: 'Copy', icon: 'bs-icons1 copy-icon s20' },
+          { key: 'paste', label: 'Paste', icon: 'bs-icons1 copy-icon s20' },
+        ],
       },
       {
         key: 'edit',
         label: 'Edit',
-        icon: 'bs-icons1 edit-icon',
+        icon: 'bs-icons1 edit-icon s20',
         items: [
           { key: 'copy', label: 'Copy', icon: 'bs-icons1 copy-icon s20' },
-          { key: 'paste', label: 'Paste', icon: 'bs-icons1 copy-icon s20' }
-        ]
-      }
+          { key: 'paste', label: 'Paste', icon: 'bs-icons1 copy-icon s20' },
+        ],
+      },
     ];
   }
 
   get areAllExpanded() {
     const expandedKeys = this.expandedKeys ?? {};
-    return this.items.every((item) => Boolean(item?.key && expandedKeys[item.key]));
+    return this.items.every((item) =>
+      Boolean(item?.key && expandedKeys[item.key]),
+    );
   }
 
   @action
@@ -55,16 +57,21 @@ export default class DemoPanelmenuControlled extends Component {
   }
 
   <template>
-    <div class="w-100p md-max-w-640 fxb column center-all gp3">
-      <UlxButton @label="Toggle All" @text={{true}} @onClick={{this.toggleAll}} />
+    <div class="w-full md-max-w-640 flex flex-col center-all gap-3">
+      <UlxButton
+        @label="Toggle All"
+        @text={{true}}
+        @onClick={{this.toggleAll}}
+      />
       <UlxPanelmenu
         @model={{this.items}}
         @expandedKeys={{this.expandedKeys}}
         @onExpandedKeysChange={{this.onExpandedKeysChange}}
         @multiple={{true}}
+        @customClass="w-300"
       />
     </div>
   </template>
 }
-`;
 
+`;

@@ -22,9 +22,10 @@
   {{else if this.isBuilderTab}}
     <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
       <:preview>
-        <div class="pd6 fg-text-secondary font-size12">
+        <div class="pd6 fg-text-secondary text-12">
           Preview not configured yet. Update
-          <code>app/documentation/components/elements/avatar/builder-schema.js</code>
+          <code
+          >app/documentation/components/elements/avatar/builder-schema.js</code>
           and this template to render the component with the generated props.
         </div>
       </:preview>
@@ -36,7 +37,9 @@
         @title={{t "lbl.pass.through"}}
         @subtitle={{t "msg.pass.through.subtitle" component="Avatar"}}
       >
-        <p class="fg-text-secondary">{{t "msg.pass.through.content.goes.here"}}</p>
+        <p class="fg-text-secondary">{{t
+            "msg.pass.through.content.goes.here"
+          }}</p>
       </Common::DocMain::FoundationSection>
     </div>
   {{/if}}

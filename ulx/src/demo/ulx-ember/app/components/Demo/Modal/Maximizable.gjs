@@ -23,7 +23,7 @@ export default class MaximizableDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Show Maximizable Modal"
         @variant="primary"
