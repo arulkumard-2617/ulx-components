@@ -102,14 +102,14 @@ export default class DemoIconList extends Component {
           value={{this.query}}
           {{this.on "input" this.updateQuery}}
         />
-        <span class="text-sm ulx-badge">{{this.filteredIcons.length}}
+        <span class="text-sm ulx-tag">{{this.filteredIcons.length}}
           {{t "lbl.icons"}}</span>
       </div>
 
       {{#if this.filteredIcons.length}}
         <div class="ulx-grid gp5 col-5 pdt5 text-center bd-t">
           {{#each this.filteredIcons as |iconName|}}
-            <div class="pd3 fxb column fvc gp3">
+            <div class="pd3 fxb fcol fhc fvc gp3">
               <UlxIcon
                 @componentClass="bs-icons1"
                 @type="font"
@@ -122,7 +122,9 @@ export default class DemoIconList extends Component {
           {{/each}}
         </div>
       {{else}}
-        <div class="text-center fg-text-muted pdy6 bd-t">{{t "msg.no.icons.found"}}</div>
+        <div class="text-center fg-text-muted pdy6 bd-t">{{t
+            "msg.no.icons.found"
+          }}</div>
       {{/if}}
     </div>
   </template>
