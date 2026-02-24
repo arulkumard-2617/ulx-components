@@ -269,7 +269,6 @@ export default class DocSidebarComponent extends Component {
           @iconClass="bs-icons1"
           @iconPosition="left"
           @iconSize="s18"
-          @size="m-size"
           @fieldClass="w-100p"
           aria-label={{t "lbl.search"}}
         />

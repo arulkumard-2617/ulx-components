@@ -162,11 +162,7 @@ export const utilSchema = {
             "styles": "text-transform: capitalize;"
           },
           {
-            "class": "text-defaultcase",
-            "styles": "text-transform: lowercase;"
-          },
-          {
-            "class": "text-default",
+            "class": "normal-case",
             "styles": "text-transform: none;"
           },
           {
@@ -201,31 +197,31 @@ export const utilSchema = {
         "title": "Text Decoration Utilities",
         "rows": [
           {
-            "class": "td-none",
+            "class": "decoration-none",
             "styles": "text-decoration: none;"
           },
           {
-            "class": "td-underline",
+            "class": "decoration-underline",
             "styles": "text-decoration: underline;"
           },
           {
-            "class": "td-overline",
+            "class": "decoration-overline",
             "styles": "text-decoration: overline;"
           },
           {
-            "class": "td-line-through",
+            "class": "decoration-line-through",
             "styles": "text-decoration: line-through;"
           },
           {
-            "class": "td-initial",
+            "class": "decoration-initial",
             "styles": "text-decoration: initial;"
           },
           {
-            "class": "td-inherit",
+            "class": "decoration-inherit",
             "styles": "text-decoration: inherit;"
           },
           {
-            "class": "td-unset",
+            "class": "decoration-unset",
             "styles": "text-decoration: unset;"
           }
         ]
@@ -240,35 +236,35 @@ export const utilSchema = {
         "title": "Vertical Align Utilities",
         "rows": [
           {
-            "class": "va-baseline",
+            "class": "align-baseline",
             "styles": "vertical-align: baseline;"
           },
           {
-            "class": "va-top",
+            "class": "align-top",
             "styles": "vertical-align: top;"
           },
           {
-            "class": "va-middle",
+            "class": "align-middle",
             "styles": "vertical-align: middle;"
           },
           {
-            "class": "va-bottom",
+            "class": "align-bottom",
             "styles": "vertical-align: bottom;"
           },
           {
-            "class": "va-text-top",
+            "class": "align-text-top",
             "styles": "vertical-align: text-top;"
           },
           {
-            "class": "va-text-bottom",
+            "class": "align-text-bottom",
             "styles": "vertical-align: text-bottom;"
           },
           {
-            "class": "va-sub",
+            "class": "align-sub",
             "styles": "vertical-align: sub;"
           },
           {
-            "class": "va-super",
+            "class": "align-super",
             "styles": "vertical-align: super;"
           }
         ]
@@ -400,31 +396,31 @@ export const utilSchema = {
         "title": "Word Break Utilities",
         "rows": [
           {
-            "class": "wb-normal",
+            "class": "break-normal",
             "styles": "word-break: normal;"
           },
           {
-            "class": "wb-break-all",
+            "class": "break-all",
             "styles": "word-break: break-all;"
           },
           {
-            "class": "wb-keep-all",
+            "class": "break-keep",
             "styles": "word-break: keep-all;"
           },
           {
-            "class": "wb-break-word",
+            "class": "break-words",
             "styles": "word-break: break-word;"
           },
           {
-            "class": "wb-initial",
+            "class": "break-initial",
             "styles": "word-break: initial;"
           },
           {
-            "class": "wb-inherit",
+            "class": "break-inherit",
             "styles": "word-break: inherit;"
           },
           {
-            "class": "wb-unset",
+            "class": "break-unset",
             "styles": "word-break: unset;"
           }
         ]
@@ -733,12 +729,80 @@ export const utilSchema = {
             "styles": "top: 0;"
           },
           {
-            "class": "top-50p",
-            "styles": "top: 50%;"
+            "class": "top-1",
+            "styles": "top: 0.125rem;"
           },
           {
-            "class": "top-100p",
+            "class": "top-2",
+            "styles": "top: 0.25rem;"
+          },
+          {
+            "class": "top-3",
+            "styles": "top: 0.375rem;"
+          },
+          {
+            "class": "top-4",
+            "styles": "top: 0.5rem;"
+          },
+          {
+            "class": "top-5",
+            "styles": "top: 0.625rem;"
+          },
+          {
+            "class": "top-6",
+            "styles": "top: 0.75rem;"
+          },
+          {
+            "class": "top-8",
+            "styles": "top: 1rem;"
+          },
+          {
+            "class": "top-10",
+            "styles": "top: 1.25rem;"
+          },
+          {
+            "class": "top-12",
+            "styles": "top: 1.5rem;"
+          },
+          {
+            "class": "top-16",
+            "styles": "top: 2rem;"
+          },
+          {
+            "class": "top-20",
+            "styles": "top: 2.5rem;"
+          },
+          {
+            "class": "top-24",
+            "styles": "top: 3rem;"
+          },
+          {
+            "class": "top-32",
+            "styles": "top: 4rem;"
+          },
+          {
+            "class": "top-40",
+            "styles": "top: 5rem;"
+          },
+          {
+            "class": "top-48",
+            "styles": "top: 6rem;"
+          },
+          {
+            "class": "top-56",
+            "styles": "top: 7rem;"
+          },
+          {
+            "class": "top-64",
+            "styles": "top: 8rem;"
+          },
+          {
+            "class": "top-full",
             "styles": "top: 100%;"
+          },
+          {
+            "class": "top-half",
+            "styles": "top: 50%;"
           }
         ]
       }
@@ -760,12 +824,80 @@ export const utilSchema = {
             "styles": "right: 0;"
           },
           {
-            "class": "right-50p",
-            "styles": "right: 50%;"
+            "class": "right-1",
+            "styles": "right: 0.125rem;"
           },
           {
-            "class": "right-100p",
+            "class": "right-2",
+            "styles": "right: 0.25rem;"
+          },
+          {
+            "class": "right-3",
+            "styles": "right: 0.375rem;"
+          },
+          {
+            "class": "right-4",
+            "styles": "right: 0.5rem;"
+          },
+          {
+            "class": "right-5",
+            "styles": "right: 0.625rem;"
+          },
+          {
+            "class": "right-6",
+            "styles": "right: 0.75rem;"
+          },
+          {
+            "class": "right-8",
+            "styles": "right: 1rem;"
+          },
+          {
+            "class": "right-10",
+            "styles": "right: 1.25rem;"
+          },
+          {
+            "class": "right-12",
+            "styles": "right: 1.5rem;"
+          },
+          {
+            "class": "right-16",
+            "styles": "right: 2rem;"
+          },
+          {
+            "class": "right-20",
+            "styles": "right: 2.5rem;"
+          },
+          {
+            "class": "right-24",
+            "styles": "right: 3rem;"
+          },
+          {
+            "class": "right-32",
+            "styles": "right: 4rem;"
+          },
+          {
+            "class": "right-40",
+            "styles": "right: 5rem;"
+          },
+          {
+            "class": "right-48",
+            "styles": "right: 6rem;"
+          },
+          {
+            "class": "right-56",
+            "styles": "right: 7rem;"
+          },
+          {
+            "class": "right-64",
+            "styles": "right: 8rem;"
+          },
+          {
+            "class": "right-full",
             "styles": "right: 100%;"
+          },
+          {
+            "class": "right-half",
+            "styles": "right: 50%;"
           }
         ]
       }
@@ -787,12 +919,80 @@ export const utilSchema = {
             "styles": "bottom: 0;"
           },
           {
-            "class": "bottom-50p",
-            "styles": "bottom: 50%;"
+            "class": "bottom-1",
+            "styles": "bottom: 0.125rem;"
           },
           {
-            "class": "bottom-100p",
+            "class": "bottom-2",
+            "styles": "bottom: 0.25rem;"
+          },
+          {
+            "class": "bottom-3",
+            "styles": "bottom: 0.375rem;"
+          },
+          {
+            "class": "bottom-4",
+            "styles": "bottom: 0.5rem;"
+          },
+          {
+            "class": "bottom-5",
+            "styles": "bottom: 0.625rem;"
+          },
+          {
+            "class": "bottom-6",
+            "styles": "bottom: 0.75rem;"
+          },
+          {
+            "class": "bottom-8",
+            "styles": "bottom: 1rem;"
+          },
+          {
+            "class": "bottom-10",
+            "styles": "bottom: 1.25rem;"
+          },
+          {
+            "class": "bottom-12",
+            "styles": "bottom: 1.5rem;"
+          },
+          {
+            "class": "bottom-16",
+            "styles": "bottom: 2rem;"
+          },
+          {
+            "class": "bottom-20",
+            "styles": "bottom: 2.5rem;"
+          },
+          {
+            "class": "bottom-24",
+            "styles": "bottom: 3rem;"
+          },
+          {
+            "class": "bottom-32",
+            "styles": "bottom: 4rem;"
+          },
+          {
+            "class": "bottom-40",
+            "styles": "bottom: 5rem;"
+          },
+          {
+            "class": "bottom-48",
+            "styles": "bottom: 6rem;"
+          },
+          {
+            "class": "bottom-56",
+            "styles": "bottom: 7rem;"
+          },
+          {
+            "class": "bottom-64",
+            "styles": "bottom: 8rem;"
+          },
+          {
+            "class": "bottom-full",
             "styles": "bottom: 100%;"
+          },
+          {
+            "class": "bottom-half",
+            "styles": "bottom: 50%;"
           }
         ]
       }
@@ -814,12 +1014,80 @@ export const utilSchema = {
             "styles": "left: 0;"
           },
           {
-            "class": "left-50p",
-            "styles": "left: 50%;"
+            "class": "left-1",
+            "styles": "left: 0.125rem;"
           },
           {
-            "class": "left-100p",
+            "class": "left-2",
+            "styles": "left: 0.25rem;"
+          },
+          {
+            "class": "left-3",
+            "styles": "left: 0.375rem;"
+          },
+          {
+            "class": "left-4",
+            "styles": "left: 0.5rem;"
+          },
+          {
+            "class": "left-5",
+            "styles": "left: 0.625rem;"
+          },
+          {
+            "class": "left-6",
+            "styles": "left: 0.75rem;"
+          },
+          {
+            "class": "left-8",
+            "styles": "left: 1rem;"
+          },
+          {
+            "class": "left-10",
+            "styles": "left: 1.25rem;"
+          },
+          {
+            "class": "left-12",
+            "styles": "left: 1.5rem;"
+          },
+          {
+            "class": "left-16",
+            "styles": "left: 2rem;"
+          },
+          {
+            "class": "left-20",
+            "styles": "left: 2.5rem;"
+          },
+          {
+            "class": "left-24",
+            "styles": "left: 3rem;"
+          },
+          {
+            "class": "left-32",
+            "styles": "left: 4rem;"
+          },
+          {
+            "class": "left-40",
+            "styles": "left: 5rem;"
+          },
+          {
+            "class": "left-48",
+            "styles": "left: 6rem;"
+          },
+          {
+            "class": "left-56",
+            "styles": "left: 7rem;"
+          },
+          {
+            "class": "left-64",
+            "styles": "left: 8rem;"
+          },
+          {
+            "class": "left-full",
             "styles": "left: 100%;"
+          },
+          {
+            "class": "left-half",
+            "styles": "left: 50%;"
           }
         ]
       }
@@ -833,11 +1101,11 @@ export const utilSchema = {
         "title": "Font Family Utilities",
         "rows": [
           {
-            "class": "font-base",
+            "class": "base-font",
             "styles": "font-family: @font-family-base;"
           },
           {
-            "class": "font-heading",
+            "class": "heading-font",
             "styles": "font-family: @font-family-heading;"
           },
           {
@@ -872,7 +1140,7 @@ export const utilSchema = {
         "title": "Text Align Utilities",
         "rows": [
           {
-            "class": "text-left",
+            "class": "text-start",
             "styles": "text-align: start;"
           },
           {
@@ -880,7 +1148,7 @@ export const utilSchema = {
             "styles": "text-align: center;"
           },
           {
-            "class": "text-right",
+            "class": "text-end",
             "styles": "text-align: end;"
           },
           {
@@ -1205,7 +1473,7 @@ export const utilSchema = {
             "styles": "display: contents;"
           },
           {
-            "class": "none",
+            "class": "hidden",
             "styles": "display: none;"
           },
           {
@@ -1339,172 +1607,160 @@ export const utilSchema = {
         "title": "Font Size Utilities",
         "rows": [
           {
-            "class": "fs-default",
+            "class": "text-base",
             "styles": "font-size: @font-size-default;"
           },
           {
-            "class": "fs-small",
+            "class": "text-sm",
             "styles": "font-size: @font-size-small;"
           },
           {
-            "class": "fs-tiny",
-            "styles": "font-size: @font-size-tiny;"
-          },
-          {
-            "class": "fs-mini",
-            "styles": "font-size: @font-size-mini;"
-          },
-          {
-            "class": "fs-xs",
+            "class": "text-xs",
             "styles": "font-size: @font-size-xs;"
-          },
-          {
-            "class": "fs-h1",
-            "styles": "font-size: @font-size-h1;"
-          },
-          {
-            "class": "fs-h2",
-            "styles": "font-size: @font-size-h2;"
-          },
-          {
-            "class": "fs-h3",
-            "styles": "font-size: @font-size-h3;"
-          },
-          {
-            "class": "fs-h4",
-            "styles": "font-size: @font-size-h4;"
-          },
-          {
-            "class": "fs-h5",
-            "styles": "font-size: @font-size-h5;"
-          },
-          {
-            "class": "fs-h6",
-            "styles": "font-size: @font-size-h6;"
-          },
-          {
-            "class": "fs-h7",
-            "styles": "font-size: @font-size-h7;"
-          },
-          {
-            "class": "fs-10",
-            "styles": "font-size: @font-size10;"
-          },
-          {
-            "class": "fs-11",
-            "styles": "font-size: @font-size11;"
-          },
-          {
-            "class": "fs-12",
-            "styles": "font-size: @font-size12;"
-          },
-          {
-            "class": "fs-13",
-            "styles": "font-size: @font-size13;"
-          },
-          {
-            "class": "fs-14",
-            "styles": "font-size: @font-size14;"
-          },
-          {
-            "class": "fs-15",
-            "styles": "font-size: @font-size15;"
-          },
-          {
-            "class": "fs-16",
-            "styles": "font-size: @font-size16;"
-          },
-          {
-            "class": "fs-17",
-            "styles": "font-size: @font-size17;"
-          },
-          {
-            "class": "fs-18",
-            "styles": "font-size: @font-size18;"
-          },
-          {
-            "class": "fs-19",
-            "styles": "font-size: @font-size19;"
-          },
-          {
-            "class": "fs-20",
-            "styles": "font-size: @font-size20;"
-          },
-          {
-            "class": "fs-21",
-            "styles": "font-size: @font-size21;"
-          },
-          {
-            "class": "fs-22",
-            "styles": "font-size: @font-size22;"
-          },
-          {
-            "class": "fs-23",
-            "styles": "font-size: @font-size23;"
-          },
-          {
-            "class": "fs-24",
-            "styles": "font-size: @font-size24;"
-          },
-          {
-            "class": "fs-25",
-            "styles": "font-size: @font-size25;"
-          },
-          {
-            "class": "fs-26",
-            "styles": "font-size: @font-size26;"
-          },
-          {
-            "class": "fs-27",
-            "styles": "font-size: @font-size27;"
-          },
-          {
-            "class": "fs-28",
-            "styles": "font-size: @font-size28;"
-          },
-          {
-            "class": "fs-29",
-            "styles": "font-size: @font-size29;"
-          },
-          {
-            "class": "fs-30",
-            "styles": "font-size: @font-size30;"
-          },
-          {
-            "class": "fs-31",
-            "styles": "font-size: @font-size31;"
-          },
-          {
-            "class": "fs-32",
-            "styles": "font-size: @font-size32;"
-          },
-          {
-            "class": "fs-34",
-            "styles": "font-size: @font-size34;"
-          },
-          {
-            "class": "fs-36",
-            "styles": "font-size: @font-size36;"
-          },
-          {
-            "class": "fs-40",
-            "styles": "font-size: @font-size40;"
-          },
-          {
-            "class": "fs-44",
-            "styles": "font-size: @font-size44;"
-          },
-          {
-            "class": "text-small",
-            "styles": "font-size: @font-size-small;"
           },
           {
             "class": "text-tiny",
             "styles": "font-size: @font-size-tiny;"
           },
           {
-            "class": "text-xs",
-            "styles": "font-size: @font-size-xs;"
+            "class": "text-mini",
+            "styles": "font-size: @font-size-mini;"
+          },
+          {
+            "class": "text-h1",
+            "styles": "font-size: @font-size-h1;"
+          },
+          {
+            "class": "text-h2",
+            "styles": "font-size: @font-size-h2;"
+          },
+          {
+            "class": "text-h3",
+            "styles": "font-size: @font-size-h3;"
+          },
+          {
+            "class": "text-h4",
+            "styles": "font-size: @font-size-h4;"
+          },
+          {
+            "class": "text-h5",
+            "styles": "font-size: @font-size-h5;"
+          },
+          {
+            "class": "text-h6",
+            "styles": "font-size: @font-size-h6;"
+          },
+          {
+            "class": "text-h7",
+            "styles": "font-size: @font-size-h7;"
+          },
+          {
+            "class": "text-10",
+            "styles": "font-size: @font-size10;"
+          },
+          {
+            "class": "text-11",
+            "styles": "font-size: @font-size11;"
+          },
+          {
+            "class": "text-12",
+            "styles": "font-size: @font-size12;"
+          },
+          {
+            "class": "text-13",
+            "styles": "font-size: @font-size13;"
+          },
+          {
+            "class": "text-14",
+            "styles": "font-size: @font-size14;"
+          },
+          {
+            "class": "text-15",
+            "styles": "font-size: @font-size15;"
+          },
+          {
+            "class": "text-16",
+            "styles": "font-size: @font-size16;"
+          },
+          {
+            "class": "text-17",
+            "styles": "font-size: @font-size17;"
+          },
+          {
+            "class": "text-18",
+            "styles": "font-size: @font-size18;"
+          },
+          {
+            "class": "text-19",
+            "styles": "font-size: @font-size19;"
+          },
+          {
+            "class": "text-20",
+            "styles": "font-size: @font-size20;"
+          },
+          {
+            "class": "text-21",
+            "styles": "font-size: @font-size21;"
+          },
+          {
+            "class": "text-22",
+            "styles": "font-size: @font-size22;"
+          },
+          {
+            "class": "text-23",
+            "styles": "font-size: @font-size23;"
+          },
+          {
+            "class": "text-24",
+            "styles": "font-size: @font-size24;"
+          },
+          {
+            "class": "text-25",
+            "styles": "font-size: @font-size25;"
+          },
+          {
+            "class": "text-26",
+            "styles": "font-size: @font-size26;"
+          },
+          {
+            "class": "text-27",
+            "styles": "font-size: @font-size27;"
+          },
+          {
+            "class": "text-28",
+            "styles": "font-size: @font-size28;"
+          },
+          {
+            "class": "text-29",
+            "styles": "font-size: @font-size29;"
+          },
+          {
+            "class": "text-30",
+            "styles": "font-size: @font-size30;"
+          },
+          {
+            "class": "text-31",
+            "styles": "font-size: @font-size31;"
+          },
+          {
+            "class": "text-32",
+            "styles": "font-size: @font-size32;"
+          },
+          {
+            "class": "text-34",
+            "styles": "font-size: @font-size34;"
+          },
+          {
+            "class": "text-36",
+            "styles": "font-size: @font-size36;"
+          },
+          {
+            "class": "text-40",
+            "styles": "font-size: @font-size40;"
+          },
+          {
+            "class": "text-44",
+            "styles": "font-size: @font-size44;"
           }
         ]
       }
@@ -1518,51 +1774,51 @@ export const utilSchema = {
         "title": "Line Height Utilities",
         "rows": [
           {
-            "class": "lh-none",
+            "class": "leading-none",
             "styles": "line-height: @line-height-default;"
           },
           {
-            "class": "lh-tight",
+            "class": "leading-tight",
             "styles": "line-height: @line-height-tight;"
           },
           {
-            "class": "lh-normal",
+            "class": "leading-normal",
             "styles": "line-height: @line-height-normal;"
           },
           {
-            "class": "lh-relaxed",
+            "class": "leading-relaxed",
             "styles": "line-height: @line-height-relaxed;"
           },
           {
-            "class": "lh-loose",
+            "class": "leading-loose",
             "styles": "line-height: @line-height-loose;"
           },
           {
-            "class": "lh-h1",
+            "class": "leading-h1",
             "styles": "line-height: @line-height-h1;"
           },
           {
-            "class": "lh-h2",
+            "class": "leading-h2",
             "styles": "line-height: @line-height-h2;"
           },
           {
-            "class": "lh-h3",
+            "class": "leading-h3",
             "styles": "line-height: @line-height-h3;"
           },
           {
-            "class": "lh-h4",
+            "class": "leading-h4",
             "styles": "line-height: @line-height-h4;"
           },
           {
-            "class": "lh-h5",
+            "class": "leading-h5",
             "styles": "line-height: @line-height-h5;"
           },
           {
-            "class": "lh-h6",
+            "class": "leading-h6",
             "styles": "line-height: @line-height-h6;"
           },
           {
-            "class": "lh-h7",
+            "class": "leading-h7",
             "styles": "line-height: @line-height-h7;"
           }
         ]
@@ -1673,12 +1929,48 @@ export const utilSchema = {
         "title": "Translate Utilities",
         "rows": [
           {
-            "class": "translate-x-50p",
-            "styles": "translate: translateX(50%);"
+            "class": "translate-none",
+            "styles": "translate: none;"
           },
           {
-            "class": "translate-y-50p",
-            "styles": "translate: translateY(50%);"
+            "class": "translate-x-half",
+            "styles": "translate: 50% 0;"
+          },
+          {
+            "class": "translate-y-half",
+            "styles": "translate: 0 50%;"
+          },
+          {
+            "class": "-translate-x-half",
+            "styles": "translate: -50% 0;"
+          },
+          {
+            "class": "-translate-y-half",
+            "styles": "translate: 0 -50%;"
+          },
+          {
+            "class": "translate-x-full",
+            "styles": "translate: 100% 0;"
+          },
+          {
+            "class": "translate-y-full",
+            "styles": "translate: 0 100%;"
+          },
+          {
+            "class": "-translate-x-full",
+            "styles": "translate: -100% 0;"
+          },
+          {
+            "class": "-translate-y-full",
+            "styles": "translate: 0 -100%;"
+          },
+          {
+            "class": "translate-full",
+            "styles": "translate: 100% 100%;"
+          },
+          {
+            "class": "-translate-full",
+            "styles": "translate: -100% -100%;"
           }
         ]
       }
@@ -1692,64 +1984,206 @@ export const utilSchema = {
         "title": "Gap Utilities",
         "rows": [
           {
-            "class": "gp1",
+            "class": "gap-1",
             "styles": "gap: @4px;"
           },
           {
-            "class": "gp2",
+            "class": "gap-2",
             "styles": "gap: @8px;"
           },
           {
-            "class": "gp3",
+            "class": "gap-3",
             "styles": "gap: @12px;"
           },
           {
-            "class": "gp4",
+            "class": "gap-4",
             "styles": "gap: @16px;"
           },
           {
-            "class": "gp5",
+            "class": "gap-5",
             "styles": "gap: @20px;"
           },
           {
-            "class": "gp6",
+            "class": "gap-6",
             "styles": "gap: @24px;"
           },
           {
-            "class": "gp7",
+            "class": "gap-7",
             "styles": "gap: @28px;"
           },
           {
-            "class": "gp8",
+            "class": "gap-8",
             "styles": "gap: @32px;"
           },
           {
-            "class": "gp9",
+            "class": "gap-9",
             "styles": "gap: @36px;"
           },
           {
-            "class": "gp10",
+            "class": "gap-10",
             "styles": "gap: @40px;"
           },
           {
-            "class": "gp11",
+            "class": "gap-11",
             "styles": "gap: @44px;"
           },
           {
-            "class": "gp12",
+            "class": "gap-12",
             "styles": "gap: @48px;"
           },
           {
-            "class": "gp13",
+            "class": "gap-13",
             "styles": "gap: @52px;"
           },
           {
-            "class": "gp14",
+            "class": "gap-14",
             "styles": "gap: @56px;"
           },
           {
-            "class": "gp15",
+            "class": "gap-15",
             "styles": "gap: @60px;"
+          }
+        ]
+      }
+    ]
+  },
+  "columnGap": {
+    "title": "Column Gap",
+    "description": "Utilities for controlling column gap.",
+    "sections": [
+      {
+        "title": "Column Gap Utilities",
+        "rows": [
+          {
+            "class": "gap-x-1",
+            "styles": "column-gap: @4px;"
+          },
+          {
+            "class": "gap-x-2",
+            "styles": "column-gap: @8px;"
+          },
+          {
+            "class": "gap-x-3",
+            "styles": "column-gap: @12px;"
+          },
+          {
+            "class": "gap-x-4",
+            "styles": "column-gap: @16px;"
+          },
+          {
+            "class": "gap-x-5",
+            "styles": "column-gap: @20px;"
+          },
+          {
+            "class": "gap-x-6",
+            "styles": "column-gap: @24px;"
+          },
+          {
+            "class": "gap-x-7",
+            "styles": "column-gap: @28px;"
+          },
+          {
+            "class": "gap-x-8",
+            "styles": "column-gap: @32px;"
+          },
+          {
+            "class": "gap-x-9",
+            "styles": "column-gap: @36px;"
+          },
+          {
+            "class": "gap-x-10",
+            "styles": "column-gap: @40px;"
+          },
+          {
+            "class": "gap-x-11",
+            "styles": "column-gap: @44px;"
+          },
+          {
+            "class": "gap-x-12",
+            "styles": "column-gap: @48px;"
+          },
+          {
+            "class": "gap-x-13",
+            "styles": "column-gap: @52px;"
+          },
+          {
+            "class": "gap-x-14",
+            "styles": "column-gap: @56px;"
+          },
+          {
+            "class": "gap-x-15",
+            "styles": "column-gap: @60px;"
+          }
+        ]
+      }
+    ]
+  },
+  "rowGap": {
+    "title": "Row Gap",
+    "description": "Utilities for controlling row gap.",
+    "sections": [
+      {
+        "title": "Row Gap Utilities",
+        "rows": [
+          {
+            "class": "gap-y-1",
+            "styles": "row-gap: @4px;"
+          },
+          {
+            "class": "gap-y-2",
+            "styles": "row-gap: @8px;"
+          },
+          {
+            "class": "gap-y-3",
+            "styles": "row-gap: @12px;"
+          },
+          {
+            "class": "gap-y-4",
+            "styles": "row-gap: @16px;"
+          },
+          {
+            "class": "gap-y-5",
+            "styles": "row-gap: @20px;"
+          },
+          {
+            "class": "gap-y-6",
+            "styles": "row-gap: @24px;"
+          },
+          {
+            "class": "gap-y-7",
+            "styles": "row-gap: @28px;"
+          },
+          {
+            "class": "gap-y-8",
+            "styles": "row-gap: @32px;"
+          },
+          {
+            "class": "gap-y-9",
+            "styles": "row-gap: @36px;"
+          },
+          {
+            "class": "gap-y-10",
+            "styles": "row-gap: @40px;"
+          },
+          {
+            "class": "gap-y-11",
+            "styles": "row-gap: @44px;"
+          },
+          {
+            "class": "gap-y-12",
+            "styles": "row-gap: @48px;"
+          },
+          {
+            "class": "gap-y-13",
+            "styles": "row-gap: @52px;"
+          },
+          {
+            "class": "gap-y-14",
+            "styles": "row-gap: @56px;"
+          },
+          {
+            "class": "gap-y-15",
+            "styles": "row-gap: @60px;"
           }
         ]
       }
@@ -1763,7 +2197,7 @@ export const utilSchema = {
         "title": "Width Utilities",
         "rows": [
           {
-            "class": "w-100p",
+            "class": "w-full",
             "styles": "width: 100%;"
           },
           {
@@ -1779,271 +2213,271 @@ export const utilSchema = {
             "styles": "width: 66.6667%;"
           },
           {
-            "class": "w4",
+            "class": "w-4",
             "styles": "width: @4px;"
           },
           {
-            "class": "w8",
+            "class": "w-8",
             "styles": "width: @8px;"
           },
           {
-            "class": "w12",
+            "class": "w-12",
             "styles": "width: @12px;"
           },
           {
-            "class": "w16",
+            "class": "w-16",
             "styles": "width: @16px;"
           },
           {
-            "class": "w20",
+            "class": "w-20",
             "styles": "width: @20px;"
           },
           {
-            "class": "w24",
+            "class": "w-24",
             "styles": "width: @24px;"
           },
           {
-            "class": "w28",
+            "class": "w-28",
             "styles": "width: @28px;"
           },
           {
-            "class": "w32",
+            "class": "w-32",
             "styles": "width: @32px;"
           },
           {
-            "class": "w36",
+            "class": "w-36",
             "styles": "width: @36px;"
           },
           {
-            "class": "w40",
+            "class": "w-40",
             "styles": "width: @40px;"
           },
           {
-            "class": "w44",
+            "class": "w-44",
             "styles": "width: @44px;"
           },
           {
-            "class": "w48",
+            "class": "w-48",
             "styles": "width: @48px;"
           },
           {
-            "class": "w52",
+            "class": "w-52",
             "styles": "width: @52px;"
           },
           {
-            "class": "w56",
+            "class": "w-56",
             "styles": "width: @56px;"
           },
           {
-            "class": "w60",
+            "class": "w-60",
             "styles": "width: @60px;"
           },
           {
-            "class": "w64",
+            "class": "w-64",
             "styles": "width: @64px;"
           },
           {
-            "class": "w68",
+            "class": "w-68",
             "styles": "width: @68px;"
           },
           {
-            "class": "w72",
+            "class": "w-72",
             "styles": "width: @72px;"
           },
           {
-            "class": "w76",
+            "class": "w-76",
             "styles": "width: @76px;"
           },
           {
-            "class": "w80",
+            "class": "w-80",
             "styles": "width: @80px;"
           },
           {
-            "class": "w84",
+            "class": "w-84",
             "styles": "width: @84px;"
           },
           {
-            "class": "w88",
+            "class": "w-88",
             "styles": "width: @88px;"
           },
           {
-            "class": "w92",
+            "class": "w-92",
             "styles": "width: @92px;"
           },
           {
-            "class": "w96",
+            "class": "w-96",
             "styles": "width: @96px;"
           },
           {
-            "class": "w100",
+            "class": "w-100",
             "styles": "width: @100px;"
           },
           {
-            "class": "w104",
+            "class": "w-104",
             "styles": "width: @104px;"
           },
           {
-            "class": "w108",
+            "class": "w-108",
             "styles": "width: @108px;"
           },
           {
-            "class": "w112",
+            "class": "w-112",
             "styles": "width: @112px;"
           },
           {
-            "class": "w116",
+            "class": "w-116",
             "styles": "width: @116px;"
           },
           {
-            "class": "w120",
+            "class": "w-120",
             "styles": "width: @120px;"
           },
           {
-            "class": "w124",
+            "class": "w-124",
             "styles": "width: @124px;"
           },
           {
-            "class": "w128",
+            "class": "w-128",
             "styles": "width: @128px;"
           },
           {
-            "class": "w132",
+            "class": "w-132",
             "styles": "width: @132px;"
           },
           {
-            "class": "w136",
+            "class": "w-136",
             "styles": "width: @136px;"
           },
           {
-            "class": "w140",
+            "class": "w-140",
             "styles": "width: @140px;"
           },
           {
-            "class": "w144",
+            "class": "w-144",
             "styles": "width: @144px;"
           },
           {
-            "class": "w148",
+            "class": "w-148",
             "styles": "width: @148px;"
           },
           {
-            "class": "w155",
+            "class": "w-155",
             "styles": "width: @155px;"
           },
           {
-            "class": "w160",
+            "class": "w-160",
             "styles": "width: @160px;"
           },
           {
-            "class": "w165",
+            "class": "w-165",
             "styles": "width: @165px;"
           },
           {
-            "class": "w170",
+            "class": "w-170",
             "styles": "width: @170px;"
           },
           {
-            "class": "w175",
+            "class": "w-175",
             "styles": "width: @175px;"
           },
           {
-            "class": "w180",
+            "class": "w-180",
             "styles": "width: @180px;"
           },
           {
-            "class": "w185",
+            "class": "w-185",
             "styles": "width: @185px;"
           },
           {
-            "class": "w190",
+            "class": "w-190",
             "styles": "width: @190px;"
           },
           {
-            "class": "w195",
+            "class": "w-195",
             "styles": "width: @195px;"
           },
           {
-            "class": "w200",
+            "class": "w-200",
             "styles": "width: @200px;"
           },
           {
-            "class": "w205",
+            "class": "w-205",
             "styles": "width: @205px;"
           },
           {
-            "class": "w210",
+            "class": "w-210",
             "styles": "width: @210px;"
           },
           {
-            "class": "w215",
+            "class": "w-215",
             "styles": "width: @215px;"
           },
           {
-            "class": "w220",
+            "class": "w-220",
             "styles": "width: @220px;"
           },
           {
-            "class": "w225",
+            "class": "w-225",
             "styles": "width: @225px;"
           },
           {
-            "class": "w230",
+            "class": "w-230",
             "styles": "width: @230px;"
           },
           {
-            "class": "w235",
+            "class": "w-235",
             "styles": "width: @235px;"
           },
           {
-            "class": "w240",
+            "class": "w-240",
             "styles": "width: @240px;"
           },
           {
-            "class": "w245",
+            "class": "w-245",
             "styles": "width: @245px;"
           },
           {
-            "class": "w250",
+            "class": "w-250",
             "styles": "width: @250px;"
           },
           {
-            "class": "w255",
+            "class": "w-255",
             "styles": "width: @255px;"
           },
           {
-            "class": "w260",
+            "class": "w-260",
             "styles": "width: @260px;"
           },
           {
-            "class": "w265",
+            "class": "w-265",
             "styles": "width: @265px;"
           },
           {
-            "class": "w270",
+            "class": "w-270",
             "styles": "width: @270px;"
           },
           {
-            "class": "w275",
+            "class": "w-275",
             "styles": "width: @275px;"
           },
           {
-            "class": "w280",
+            "class": "w-280",
             "styles": "width: @280px;"
           },
           {
-            "class": "w285",
+            "class": "w-285",
             "styles": "width: @285px;"
           },
           {
-            "class": "w290",
+            "class": "w-290",
             "styles": "width: @290px;"
           },
           {
-            "class": "w295",
+            "class": "w-295",
             "styles": "width: @295px;"
           },
           {
-            "class": "w300",
+            "class": "w-300",
             "styles": "width: @300px;"
           }
         ]
@@ -2058,155 +2492,155 @@ export const utilSchema = {
         "title": "Min Width Utilities",
         "rows": [
           {
-            "class": "min-w-100p",
+            "class": "min-w-full",
             "styles": "min-width: 100%;"
           },
           {
-            "class": "min-w4",
+            "class": "min-w-4",
             "styles": "min-width: @4px;"
           },
           {
-            "class": "min-w8",
+            "class": "min-w-8",
             "styles": "min-width: @8px;"
           },
           {
-            "class": "min-w12",
+            "class": "min-w-12",
             "styles": "min-width: @12px;"
           },
           {
-            "class": "min-w16",
+            "class": "min-w-16",
             "styles": "min-width: @16px;"
           },
           {
-            "class": "min-w20",
+            "class": "min-w-20",
             "styles": "min-width: @20px;"
           },
           {
-            "class": "min-w24",
+            "class": "min-w-24",
             "styles": "min-width: @24px;"
           },
           {
-            "class": "min-w28",
+            "class": "min-w-28",
             "styles": "min-width: @28px;"
           },
           {
-            "class": "min-w32",
+            "class": "min-w-32",
             "styles": "min-width: @32px;"
           },
           {
-            "class": "min-w36",
+            "class": "min-w-36",
             "styles": "min-width: @36px;"
           },
           {
-            "class": "min-w40",
+            "class": "min-w-40",
             "styles": "min-width: @40px;"
           },
           {
-            "class": "min-w44",
+            "class": "min-w-44",
             "styles": "min-width: @44px;"
           },
           {
-            "class": "min-w48",
+            "class": "min-w-48",
             "styles": "min-width: @48px;"
           },
           {
-            "class": "min-w52",
+            "class": "min-w-52",
             "styles": "min-width: @52px;"
           },
           {
-            "class": "min-w56",
+            "class": "min-w-56",
             "styles": "min-width: @56px;"
           },
           {
-            "class": "min-w60",
+            "class": "min-w-60",
             "styles": "min-width: @60px;"
           },
           {
-            "class": "min-w64",
+            "class": "min-w-64",
             "styles": "min-width: @64px;"
           },
           {
-            "class": "min-w68",
+            "class": "min-w-68",
             "styles": "min-width: @68px;"
           },
           {
-            "class": "min-w72",
+            "class": "min-w-72",
             "styles": "min-width: @72px;"
           },
           {
-            "class": "min-w76",
+            "class": "min-w-76",
             "styles": "min-width: @76px;"
           },
           {
-            "class": "min-w80",
+            "class": "min-w-80",
             "styles": "min-width: @80px;"
           },
           {
-            "class": "min-w84",
+            "class": "min-w-84",
             "styles": "min-width: @84px;"
           },
           {
-            "class": "min-w88",
+            "class": "min-w-88",
             "styles": "min-width: @88px;"
           },
           {
-            "class": "min-w92",
+            "class": "min-w-92",
             "styles": "min-width: @92px;"
           },
           {
-            "class": "min-w96",
+            "class": "min-w-96",
             "styles": "min-width: @96px;"
           },
           {
-            "class": "min-w100",
+            "class": "min-w-100",
             "styles": "min-width: @100px;"
           },
           {
-            "class": "min-w104",
+            "class": "min-w-104",
             "styles": "min-width: @104px;"
           },
           {
-            "class": "min-w108",
+            "class": "min-w-108",
             "styles": "min-width: @108px;"
           },
           {
-            "class": "min-w112",
+            "class": "min-w-112",
             "styles": "min-width: @112px;"
           },
           {
-            "class": "min-w116",
+            "class": "min-w-116",
             "styles": "min-width: @116px;"
           },
           {
-            "class": "min-w120",
+            "class": "min-w-120",
             "styles": "min-width: @120px;"
           },
           {
-            "class": "min-w124",
+            "class": "min-w-124",
             "styles": "min-width: @124px;"
           },
           {
-            "class": "min-w128",
+            "class": "min-w-128",
             "styles": "min-width: @128px;"
           },
           {
-            "class": "min-w132",
+            "class": "min-w-132",
             "styles": "min-width: @132px;"
           },
           {
-            "class": "min-w136",
+            "class": "min-w-136",
             "styles": "min-width: @136px;"
           },
           {
-            "class": "min-w140",
+            "class": "min-w-140",
             "styles": "min-width: @140px;"
           },
           {
-            "class": "min-w144",
+            "class": "min-w-144",
             "styles": "min-width: @144px;"
           },
           {
-            "class": "min-w148",
+            "class": "min-w-148",
             "styles": "min-width: @148px;"
           }
         ]
@@ -2221,275 +2655,275 @@ export const utilSchema = {
         "title": "Height Utilities",
         "rows": [
           {
-            "class": "h-100p",
+            "class": "h-full",
             "styles": "height: 100%;"
           },
           {
-            "class": "h4",
+            "class": "h-4",
             "styles": "height: @4px;"
           },
           {
-            "class": "h8",
+            "class": "h-8",
             "styles": "height: @8px;"
           },
           {
-            "class": "h12",
+            "class": "h-12",
             "styles": "height: @12px;"
           },
           {
-            "class": "h16",
+            "class": "h-16",
             "styles": "height: @16px;"
           },
           {
-            "class": "h20",
+            "class": "h-20",
             "styles": "height: @20px;"
           },
           {
-            "class": "h24",
+            "class": "h-24",
             "styles": "height: @24px;"
           },
           {
-            "class": "h28",
+            "class": "h-28",
             "styles": "height: @28px;"
           },
           {
-            "class": "h32",
+            "class": "h-32",
             "styles": "height: @32px;"
           },
           {
-            "class": "h36",
+            "class": "h-36",
             "styles": "height: @36px;"
           },
           {
-            "class": "h40",
+            "class": "h-40",
             "styles": "height: @40px;"
           },
           {
-            "class": "h44",
+            "class": "h-44",
             "styles": "height: @44px;"
           },
           {
-            "class": "h48",
+            "class": "h-48",
             "styles": "height: @48px;"
           },
           {
-            "class": "h52",
+            "class": "h-52",
             "styles": "height: @52px;"
           },
           {
-            "class": "h56",
+            "class": "h-56",
             "styles": "height: @56px;"
           },
           {
-            "class": "h60",
+            "class": "h-60",
             "styles": "height: @60px;"
           },
           {
-            "class": "h64",
+            "class": "h-64",
             "styles": "height: @64px;"
           },
           {
-            "class": "h68",
+            "class": "h-68",
             "styles": "height: @68px;"
           },
           {
-            "class": "h72",
+            "class": "h-72",
             "styles": "height: @72px;"
           },
           {
-            "class": "h76",
+            "class": "h-76",
             "styles": "height: @76px;"
           },
           {
-            "class": "h80",
+            "class": "h-80",
             "styles": "height: @80px;"
           },
           {
-            "class": "h84",
+            "class": "h-84",
             "styles": "height: @84px;"
           },
           {
-            "class": "h88",
+            "class": "h-88",
             "styles": "height: @88px;"
           },
           {
-            "class": "h92",
+            "class": "h-92",
             "styles": "height: @92px;"
           },
           {
-            "class": "h96",
+            "class": "h-96",
             "styles": "height: @96px;"
           },
           {
-            "class": "h100",
+            "class": "h-100",
             "styles": "height: @100px;"
           },
           {
-            "class": "h104",
+            "class": "h-104",
             "styles": "height: @104px;"
           },
           {
-            "class": "h108",
+            "class": "h-108",
             "styles": "height: @108px;"
           },
           {
-            "class": "h112",
+            "class": "h-112",
             "styles": "height: @112px;"
           },
           {
-            "class": "h116",
+            "class": "h-116",
             "styles": "height: @116px;"
           },
           {
-            "class": "h120",
+            "class": "h-120",
             "styles": "height: @120px;"
           },
           {
-            "class": "h124",
+            "class": "h-124",
             "styles": "height: @124px;"
           },
           {
-            "class": "h128",
+            "class": "h-128",
             "styles": "height: @128px;"
           },
           {
-            "class": "h132",
+            "class": "h-132",
             "styles": "height: @132px;"
           },
           {
-            "class": "h136",
+            "class": "h-136",
             "styles": "height: @136px;"
           },
           {
-            "class": "h140",
+            "class": "h-140",
             "styles": "height: @140px;"
           },
           {
-            "class": "h144",
+            "class": "h-144",
             "styles": "height: @144px;"
           },
           {
-            "class": "h148",
+            "class": "h-148",
             "styles": "height: @148px;"
           },
           {
-            "class": "h155",
+            "class": "h-155",
             "styles": "height: @155px;"
           },
           {
-            "class": "h160",
+            "class": "h-160",
             "styles": "height: @160px;"
           },
           {
-            "class": "h165",
+            "class": "h-165",
             "styles": "height: @165px;"
           },
           {
-            "class": "h170",
+            "class": "h-170",
             "styles": "height: @170px;"
           },
           {
-            "class": "h175",
+            "class": "h-175",
             "styles": "height: @175px;"
           },
           {
-            "class": "h180",
+            "class": "h-180",
             "styles": "height: @180px;"
           },
           {
-            "class": "h185",
+            "class": "h-185",
             "styles": "height: @185px;"
           },
           {
-            "class": "h190",
+            "class": "h-190",
             "styles": "height: @190px;"
           },
           {
-            "class": "h195",
+            "class": "h-195",
             "styles": "height: @195px;"
           },
           {
-            "class": "h200",
+            "class": "h-200",
             "styles": "height: @200px;"
           },
           {
-            "class": "h205",
+            "class": "h-205",
             "styles": "height: @205px;"
           },
           {
-            "class": "h210",
+            "class": "h-210",
             "styles": "height: @210px;"
           },
           {
-            "class": "h215",
+            "class": "h-215",
             "styles": "height: @215px;"
           },
           {
-            "class": "h220",
+            "class": "h-220",
             "styles": "height: @220px;"
           },
           {
-            "class": "h225",
+            "class": "h-225",
             "styles": "height: @225px;"
           },
           {
-            "class": "h230",
+            "class": "h-230",
             "styles": "height: @230px;"
           },
           {
-            "class": "h235",
+            "class": "h-235",
             "styles": "height: @235px;"
           },
           {
-            "class": "h240",
+            "class": "h-240",
             "styles": "height: @240px;"
           },
           {
-            "class": "h245",
+            "class": "h-245",
             "styles": "height: @245px;"
           },
           {
-            "class": "h250",
+            "class": "h-250",
             "styles": "height: @250px;"
           },
           {
-            "class": "h255",
+            "class": "h-255",
             "styles": "height: @255px;"
           },
           {
-            "class": "h260",
+            "class": "h-260",
             "styles": "height: @260px;"
           },
           {
-            "class": "h265",
+            "class": "h-265",
             "styles": "height: @265px;"
           },
           {
-            "class": "h270",
+            "class": "h-270",
             "styles": "height: @270px;"
           },
           {
-            "class": "h275",
+            "class": "h-275",
             "styles": "height: @275px;"
           },
           {
-            "class": "h280",
+            "class": "h-280",
             "styles": "height: @280px;"
           },
           {
-            "class": "h285",
+            "class": "h-285",
             "styles": "height: @285px;"
           },
           {
-            "class": "h290",
+            "class": "h-290",
             "styles": "height: @290px;"
           },
           {
-            "class": "h295",
+            "class": "h-295",
             "styles": "height: @295px;"
           },
           {
-            "class": "h300",
+            "class": "h-300",
             "styles": "height: @300px;"
           }
         ]
@@ -2504,275 +2938,275 @@ export const utilSchema = {
         "title": "Min Height Utilities",
         "rows": [
           {
-            "class": "min-h-100p",
+            "class": "min-h-full",
             "styles": "min-height: 100%;"
           },
           {
-            "class": "min-h4",
+            "class": "min-h-4",
             "styles": "min-height: @4px;"
           },
           {
-            "class": "min-h8",
+            "class": "min-h-8",
             "styles": "min-height: @8px;"
           },
           {
-            "class": "min-h12",
+            "class": "min-h-12",
             "styles": "min-height: @12px;"
           },
           {
-            "class": "min-h16",
+            "class": "min-h-16",
             "styles": "min-height: @16px;"
           },
           {
-            "class": "min-h20",
+            "class": "min-h-20",
             "styles": "min-height: @20px;"
           },
           {
-            "class": "min-h24",
+            "class": "min-h-24",
             "styles": "min-height: @24px;"
           },
           {
-            "class": "min-h28",
+            "class": "min-h-28",
             "styles": "min-height: @28px;"
           },
           {
-            "class": "min-h32",
+            "class": "min-h-32",
             "styles": "min-height: @32px;"
           },
           {
-            "class": "min-h36",
+            "class": "min-h-36",
             "styles": "min-height: @36px;"
           },
           {
-            "class": "min-h40",
+            "class": "min-h-40",
             "styles": "min-height: @40px;"
           },
           {
-            "class": "min-h44",
+            "class": "min-h-44",
             "styles": "min-height: @44px;"
           },
           {
-            "class": "min-h48",
+            "class": "min-h-48",
             "styles": "min-height: @48px;"
           },
           {
-            "class": "min-h52",
+            "class": "min-h-52",
             "styles": "min-height: @52px;"
           },
           {
-            "class": "min-h56",
+            "class": "min-h-56",
             "styles": "min-height: @56px;"
           },
           {
-            "class": "min-h60",
+            "class": "min-h-60",
             "styles": "min-height: @60px;"
           },
           {
-            "class": "min-h64",
+            "class": "min-h-64",
             "styles": "min-height: @64px;"
           },
           {
-            "class": "min-h68",
+            "class": "min-h-68",
             "styles": "min-height: @68px;"
           },
           {
-            "class": "min-h72",
+            "class": "min-h-72",
             "styles": "min-height: @72px;"
           },
           {
-            "class": "min-h76",
+            "class": "min-h-76",
             "styles": "min-height: @76px;"
           },
           {
-            "class": "min-h80",
+            "class": "min-h-80",
             "styles": "min-height: @80px;"
           },
           {
-            "class": "min-h84",
+            "class": "min-h-84",
             "styles": "min-height: @84px;"
           },
           {
-            "class": "min-h88",
+            "class": "min-h-88",
             "styles": "min-height: @88px;"
           },
           {
-            "class": "min-h92",
+            "class": "min-h-92",
             "styles": "min-height: @92px;"
           },
           {
-            "class": "min-h96",
+            "class": "min-h-96",
             "styles": "min-height: @96px;"
           },
           {
-            "class": "min-h100",
+            "class": "min-h-100",
             "styles": "min-height: @100px;"
           },
           {
-            "class": "min-h104",
+            "class": "min-h-104",
             "styles": "min-height: @104px;"
           },
           {
-            "class": "min-h108",
+            "class": "min-h-108",
             "styles": "min-height: @108px;"
           },
           {
-            "class": "min-h112",
+            "class": "min-h-112",
             "styles": "min-height: @112px;"
           },
           {
-            "class": "min-h116",
+            "class": "min-h-116",
             "styles": "min-height: @116px;"
           },
           {
-            "class": "min-h120",
+            "class": "min-h-120",
             "styles": "min-height: @120px;"
           },
           {
-            "class": "min-h124",
+            "class": "min-h-124",
             "styles": "min-height: @124px;"
           },
           {
-            "class": "min-h128",
+            "class": "min-h-128",
             "styles": "min-height: @128px;"
           },
           {
-            "class": "min-h132",
+            "class": "min-h-132",
             "styles": "min-height: @132px;"
           },
           {
-            "class": "min-h136",
+            "class": "min-h-136",
             "styles": "min-height: @136px;"
           },
           {
-            "class": "min-h140",
+            "class": "min-h-140",
             "styles": "min-height: @140px;"
           },
           {
-            "class": "min-h144",
+            "class": "min-h-144",
             "styles": "min-height: @144px;"
           },
           {
-            "class": "min-h148",
+            "class": "min-h-148",
             "styles": "min-height: @148px;"
           },
           {
-            "class": "min-h155",
+            "class": "min-h-155",
             "styles": "min-height: @155px;"
           },
           {
-            "class": "min-h160",
+            "class": "min-h-160",
             "styles": "min-height: @160px;"
           },
           {
-            "class": "min-h165",
+            "class": "min-h-165",
             "styles": "min-height: @165px;"
           },
           {
-            "class": "min-h170",
+            "class": "min-h-170",
             "styles": "min-height: @170px;"
           },
           {
-            "class": "min-h175",
+            "class": "min-h-175",
             "styles": "min-height: @175px;"
           },
           {
-            "class": "min-h180",
+            "class": "min-h-180",
             "styles": "min-height: @180px;"
           },
           {
-            "class": "min-h185",
+            "class": "min-h-185",
             "styles": "min-height: @185px;"
           },
           {
-            "class": "min-h190",
+            "class": "min-h-190",
             "styles": "min-height: @190px;"
           },
           {
-            "class": "min-h195",
+            "class": "min-h-195",
             "styles": "min-height: @195px;"
           },
           {
-            "class": "min-h200",
+            "class": "min-h-200",
             "styles": "min-height: @200px;"
           },
           {
-            "class": "min-h205",
+            "class": "min-h-205",
             "styles": "min-height: @205px;"
           },
           {
-            "class": "min-h210",
+            "class": "min-h-210",
             "styles": "min-height: @210px;"
           },
           {
-            "class": "min-h215",
+            "class": "min-h-215",
             "styles": "min-height: @215px;"
           },
           {
-            "class": "min-h220",
+            "class": "min-h-220",
             "styles": "min-height: @220px;"
           },
           {
-            "class": "min-h225",
+            "class": "min-h-225",
             "styles": "min-height: @225px;"
           },
           {
-            "class": "min-h230",
+            "class": "min-h-230",
             "styles": "min-height: @230px;"
           },
           {
-            "class": "min-h235",
+            "class": "min-h-235",
             "styles": "min-height: @235px;"
           },
           {
-            "class": "min-h240",
+            "class": "min-h-240",
             "styles": "min-height: @240px;"
           },
           {
-            "class": "min-h245",
+            "class": "min-h-245",
             "styles": "min-height: @245px;"
           },
           {
-            "class": "min-h250",
+            "class": "min-h-250",
             "styles": "min-height: @250px;"
           },
           {
-            "class": "min-h255",
+            "class": "min-h-255",
             "styles": "min-height: @255px;"
           },
           {
-            "class": "min-h260",
+            "class": "min-h-260",
             "styles": "min-height: @260px;"
           },
           {
-            "class": "min-h265",
+            "class": "min-h-265",
             "styles": "min-height: @265px;"
           },
           {
-            "class": "min-h270",
+            "class": "min-h-270",
             "styles": "min-height: @270px;"
           },
           {
-            "class": "min-h275",
+            "class": "min-h-275",
             "styles": "min-height: @275px;"
           },
           {
-            "class": "min-h280",
+            "class": "min-h-280",
             "styles": "min-height: @280px;"
           },
           {
-            "class": "min-h285",
+            "class": "min-h-285",
             "styles": "min-height: @285px;"
           },
           {
-            "class": "min-h290",
+            "class": "min-h-290",
             "styles": "min-height: @290px;"
           },
           {
-            "class": "min-h295",
+            "class": "min-h-295",
             "styles": "min-height: @295px;"
           },
           {
-            "class": "min-h300",
+            "class": "min-h-300",
             "styles": "min-height: @300px;"
           }
         ]
@@ -2787,275 +3221,275 @@ export const utilSchema = {
         "title": "Max Width Utilities",
         "rows": [
           {
-            "class": "max-w-100p",
+            "class": "max-w-full",
             "styles": "max-width: 100%;"
           },
           {
-            "class": "max-w4",
+            "class": "max-w-4",
             "styles": "max-width: @4px;"
           },
           {
-            "class": "max-w8",
+            "class": "max-w-8",
             "styles": "max-width: @8px;"
           },
           {
-            "class": "max-w12",
+            "class": "max-w-12",
             "styles": "max-width: @12px;"
           },
           {
-            "class": "max-w16",
+            "class": "max-w-16",
             "styles": "max-width: @16px;"
           },
           {
-            "class": "max-w20",
+            "class": "max-w-20",
             "styles": "max-width: @20px;"
           },
           {
-            "class": "max-w24",
+            "class": "max-w-24",
             "styles": "max-width: @24px;"
           },
           {
-            "class": "max-w28",
+            "class": "max-w-28",
             "styles": "max-width: @28px;"
           },
           {
-            "class": "max-w32",
+            "class": "max-w-32",
             "styles": "max-width: @32px;"
           },
           {
-            "class": "max-w36",
+            "class": "max-w-36",
             "styles": "max-width: @36px;"
           },
           {
-            "class": "max-w40",
+            "class": "max-w-40",
             "styles": "max-width: @40px;"
           },
           {
-            "class": "max-w44",
+            "class": "max-w-44",
             "styles": "max-width: @44px;"
           },
           {
-            "class": "max-w48",
+            "class": "max-w-48",
             "styles": "max-width: @48px;"
           },
           {
-            "class": "max-w52",
+            "class": "max-w-52",
             "styles": "max-width: @52px;"
           },
           {
-            "class": "max-w56",
+            "class": "max-w-56",
             "styles": "max-width: @56px;"
           },
           {
-            "class": "max-w60",
+            "class": "max-w-60",
             "styles": "max-width: @60px;"
           },
           {
-            "class": "max-w64",
+            "class": "max-w-64",
             "styles": "max-width: @64px;"
           },
           {
-            "class": "max-w68",
+            "class": "max-w-68",
             "styles": "max-width: @68px;"
           },
           {
-            "class": "max-w72",
+            "class": "max-w-72",
             "styles": "max-width: @72px;"
           },
           {
-            "class": "max-w76",
+            "class": "max-w-76",
             "styles": "max-width: @76px;"
           },
           {
-            "class": "max-w80",
+            "class": "max-w-80",
             "styles": "max-width: @80px;"
           },
           {
-            "class": "max-w84",
+            "class": "max-w-84",
             "styles": "max-width: @84px;"
           },
           {
-            "class": "max-w88",
+            "class": "max-w-88",
             "styles": "max-width: @88px;"
           },
           {
-            "class": "max-w92",
+            "class": "max-w-92",
             "styles": "max-width: @92px;"
           },
           {
-            "class": "max-w96",
+            "class": "max-w-96",
             "styles": "max-width: @96px;"
           },
           {
-            "class": "max-w100",
+            "class": "max-w-100",
             "styles": "max-width: @100px;"
           },
           {
-            "class": "max-w104",
+            "class": "max-w-104",
             "styles": "max-width: @104px;"
           },
           {
-            "class": "max-w108",
+            "class": "max-w-108",
             "styles": "max-width: @108px;"
           },
           {
-            "class": "max-w112",
+            "class": "max-w-112",
             "styles": "max-width: @112px;"
           },
           {
-            "class": "max-w116",
+            "class": "max-w-116",
             "styles": "max-width: @116px;"
           },
           {
-            "class": "max-w120",
+            "class": "max-w-120",
             "styles": "max-width: @120px;"
           },
           {
-            "class": "max-w124",
+            "class": "max-w-124",
             "styles": "max-width: @124px;"
           },
           {
-            "class": "max-w128",
+            "class": "max-w-128",
             "styles": "max-width: @128px;"
           },
           {
-            "class": "max-w132",
+            "class": "max-w-132",
             "styles": "max-width: @132px;"
           },
           {
-            "class": "max-w136",
+            "class": "max-w-136",
             "styles": "max-width: @136px;"
           },
           {
-            "class": "max-w140",
+            "class": "max-w-140",
             "styles": "max-width: @140px;"
           },
           {
-            "class": "max-w144",
+            "class": "max-w-144",
             "styles": "max-width: @144px;"
           },
           {
-            "class": "max-w148",
+            "class": "max-w-148",
             "styles": "max-width: @148px;"
           },
           {
-            "class": "max-w155",
+            "class": "max-w-155",
             "styles": "max-width: @155px;"
           },
           {
-            "class": "max-w160",
+            "class": "max-w-160",
             "styles": "max-width: @160px;"
           },
           {
-            "class": "max-w165",
+            "class": "max-w-165",
             "styles": "max-width: @165px;"
           },
           {
-            "class": "max-w170",
+            "class": "max-w-170",
             "styles": "max-width: @170px;"
           },
           {
-            "class": "max-w175",
+            "class": "max-w-175",
             "styles": "max-width: @175px;"
           },
           {
-            "class": "max-w180",
+            "class": "max-w-180",
             "styles": "max-width: @180px;"
           },
           {
-            "class": "max-w185",
+            "class": "max-w-185",
             "styles": "max-width: @185px;"
           },
           {
-            "class": "max-w190",
+            "class": "max-w-190",
             "styles": "max-width: @190px;"
           },
           {
-            "class": "max-w195",
+            "class": "max-w-195",
             "styles": "max-width: @195px;"
           },
           {
-            "class": "max-w200",
+            "class": "max-w-200",
             "styles": "max-width: @200px;"
           },
           {
-            "class": "max-w205",
+            "class": "max-w-205",
             "styles": "max-width: @205px;"
           },
           {
-            "class": "max-w210",
+            "class": "max-w-210",
             "styles": "max-width: @210px;"
           },
           {
-            "class": "max-w215",
+            "class": "max-w-215",
             "styles": "max-width: @215px;"
           },
           {
-            "class": "max-w220",
+            "class": "max-w-220",
             "styles": "max-width: @220px;"
           },
           {
-            "class": "max-w225",
+            "class": "max-w-225",
             "styles": "max-width: @225px;"
           },
           {
-            "class": "max-w230",
+            "class": "max-w-230",
             "styles": "max-width: @230px;"
           },
           {
-            "class": "max-w235",
+            "class": "max-w-235",
             "styles": "max-width: @235px;"
           },
           {
-            "class": "max-w240",
+            "class": "max-w-240",
             "styles": "max-width: @240px;"
           },
           {
-            "class": "max-w245",
+            "class": "max-w-245",
             "styles": "max-width: @245px;"
           },
           {
-            "class": "max-w250",
+            "class": "max-w-250",
             "styles": "max-width: @250px;"
           },
           {
-            "class": "max-w255",
+            "class": "max-w-255",
             "styles": "max-width: @255px;"
           },
           {
-            "class": "max-w260",
+            "class": "max-w-260",
             "styles": "max-width: @260px;"
           },
           {
-            "class": "max-w265",
+            "class": "max-w-265",
             "styles": "max-width: @265px;"
           },
           {
-            "class": "max-w270",
+            "class": "max-w-270",
             "styles": "max-width: @270px;"
           },
           {
-            "class": "max-w275",
+            "class": "max-w-275",
             "styles": "max-width: @275px;"
           },
           {
-            "class": "max-w280",
+            "class": "max-w-280",
             "styles": "max-width: @280px;"
           },
           {
-            "class": "max-w285",
+            "class": "max-w-285",
             "styles": "max-width: @285px;"
           },
           {
-            "class": "max-w290",
+            "class": "max-w-290",
             "styles": "max-width: @290px;"
           },
           {
-            "class": "max-w295",
+            "class": "max-w-295",
             "styles": "max-width: @295px;"
           },
           {
-            "class": "max-w300",
+            "class": "max-w-300",
             "styles": "max-width: @300px;"
           }
         ]
@@ -3070,275 +3504,275 @@ export const utilSchema = {
         "title": "Max Height Utilities",
         "rows": [
           {
-            "class": "max-h-100p",
+            "class": "max-h-full",
             "styles": "max-height: 100%;"
           },
           {
-            "class": "max-h4",
+            "class": "max-h-4",
             "styles": "max-height: @4px;"
           },
           {
-            "class": "max-h8",
+            "class": "max-h-8",
             "styles": "max-height: @8px;"
           },
           {
-            "class": "max-h12",
+            "class": "max-h-12",
             "styles": "max-height: @12px;"
           },
           {
-            "class": "max-h16",
+            "class": "max-h-16",
             "styles": "max-height: @16px;"
           },
           {
-            "class": "max-h20",
+            "class": "max-h-20",
             "styles": "max-height: @20px;"
           },
           {
-            "class": "max-h24",
+            "class": "max-h-24",
             "styles": "max-height: @24px;"
           },
           {
-            "class": "max-h28",
+            "class": "max-h-28",
             "styles": "max-height: @28px;"
           },
           {
-            "class": "max-h32",
+            "class": "max-h-32",
             "styles": "max-height: @32px;"
           },
           {
-            "class": "max-h36",
+            "class": "max-h-36",
             "styles": "max-height: @36px;"
           },
           {
-            "class": "max-h40",
+            "class": "max-h-40",
             "styles": "max-height: @40px;"
           },
           {
-            "class": "max-h44",
+            "class": "max-h-44",
             "styles": "max-height: @44px;"
           },
           {
-            "class": "max-h48",
+            "class": "max-h-48",
             "styles": "max-height: @48px;"
           },
           {
-            "class": "max-h52",
+            "class": "max-h-52",
             "styles": "max-height: @52px;"
           },
           {
-            "class": "max-h56",
+            "class": "max-h-56",
             "styles": "max-height: @56px;"
           },
           {
-            "class": "max-h60",
+            "class": "max-h-60",
             "styles": "max-height: @60px;"
           },
           {
-            "class": "max-h64",
+            "class": "max-h-64",
             "styles": "max-height: @64px;"
           },
           {
-            "class": "max-h68",
+            "class": "max-h-68",
             "styles": "max-height: @68px;"
           },
           {
-            "class": "max-h72",
+            "class": "max-h-72",
             "styles": "max-height: @72px;"
           },
           {
-            "class": "max-h76",
+            "class": "max-h-76",
             "styles": "max-height: @76px;"
           },
           {
-            "class": "max-h80",
+            "class": "max-h-80",
             "styles": "max-height: @80px;"
           },
           {
-            "class": "max-h84",
+            "class": "max-h-84",
             "styles": "max-height: @84px;"
           },
           {
-            "class": "max-h88",
+            "class": "max-h-88",
             "styles": "max-height: @88px;"
           },
           {
-            "class": "max-h92",
+            "class": "max-h-92",
             "styles": "max-height: @92px;"
           },
           {
-            "class": "max-h96",
+            "class": "max-h-96",
             "styles": "max-height: @96px;"
           },
           {
-            "class": "max-h100",
+            "class": "max-h-100",
             "styles": "max-height: @100px;"
           },
           {
-            "class": "max-h104",
+            "class": "max-h-104",
             "styles": "max-height: @104px;"
           },
           {
-            "class": "max-h108",
+            "class": "max-h-108",
             "styles": "max-height: @108px;"
           },
           {
-            "class": "max-h112",
+            "class": "max-h-112",
             "styles": "max-height: @112px;"
           },
           {
-            "class": "max-h116",
+            "class": "max-h-116",
             "styles": "max-height: @116px;"
           },
           {
-            "class": "max-h120",
+            "class": "max-h-120",
             "styles": "max-height: @120px;"
           },
           {
-            "class": "max-h124",
+            "class": "max-h-124",
             "styles": "max-height: @124px;"
           },
           {
-            "class": "max-h128",
+            "class": "max-h-128",
             "styles": "max-height: @128px;"
           },
           {
-            "class": "max-h132",
+            "class": "max-h-132",
             "styles": "max-height: @132px;"
           },
           {
-            "class": "max-h136",
+            "class": "max-h-136",
             "styles": "max-height: @136px;"
           },
           {
-            "class": "max-h140",
+            "class": "max-h-140",
             "styles": "max-height: @140px;"
           },
           {
-            "class": "max-h144",
+            "class": "max-h-144",
             "styles": "max-height: @144px;"
           },
           {
-            "class": "max-h148",
+            "class": "max-h-148",
             "styles": "max-height: @148px;"
           },
           {
-            "class": "max-h155",
+            "class": "max-h-155",
             "styles": "max-height: @155px;"
           },
           {
-            "class": "max-h160",
+            "class": "max-h-160",
             "styles": "max-height: @160px;"
           },
           {
-            "class": "max-h165",
+            "class": "max-h-165",
             "styles": "max-height: @165px;"
           },
           {
-            "class": "max-h170",
+            "class": "max-h-170",
             "styles": "max-height: @170px;"
           },
           {
-            "class": "max-h175",
+            "class": "max-h-175",
             "styles": "max-height: @175px;"
           },
           {
-            "class": "max-h180",
+            "class": "max-h-180",
             "styles": "max-height: @180px;"
           },
           {
-            "class": "max-h185",
+            "class": "max-h-185",
             "styles": "max-height: @185px;"
           },
           {
-            "class": "max-h190",
+            "class": "max-h-190",
             "styles": "max-height: @190px;"
           },
           {
-            "class": "max-h195",
+            "class": "max-h-195",
             "styles": "max-height: @195px;"
           },
           {
-            "class": "max-h200",
+            "class": "max-h-200",
             "styles": "max-height: @200px;"
           },
           {
-            "class": "max-h205",
+            "class": "max-h-205",
             "styles": "max-height: @205px;"
           },
           {
-            "class": "max-h210",
+            "class": "max-h-210",
             "styles": "max-height: @210px;"
           },
           {
-            "class": "max-h215",
+            "class": "max-h-215",
             "styles": "max-height: @215px;"
           },
           {
-            "class": "max-h220",
+            "class": "max-h-220",
             "styles": "max-height: @220px;"
           },
           {
-            "class": "max-h225",
+            "class": "max-h-225",
             "styles": "max-height: @225px;"
           },
           {
-            "class": "max-h230",
+            "class": "max-h-230",
             "styles": "max-height: @230px;"
           },
           {
-            "class": "max-h235",
+            "class": "max-h-235",
             "styles": "max-height: @235px;"
           },
           {
-            "class": "max-h240",
+            "class": "max-h-240",
             "styles": "max-height: @240px;"
           },
           {
-            "class": "max-h245",
+            "class": "max-h-245",
             "styles": "max-height: @245px;"
           },
           {
-            "class": "max-h250",
+            "class": "max-h-250",
             "styles": "max-height: @250px;"
           },
           {
-            "class": "max-h255",
+            "class": "max-h-255",
             "styles": "max-height: @255px;"
           },
           {
-            "class": "max-h260",
+            "class": "max-h-260",
             "styles": "max-height: @260px;"
           },
           {
-            "class": "max-h265",
+            "class": "max-h-265",
             "styles": "max-height: @265px;"
           },
           {
-            "class": "max-h270",
+            "class": "max-h-270",
             "styles": "max-height: @270px;"
           },
           {
-            "class": "max-h275",
+            "class": "max-h-275",
             "styles": "max-height: @275px;"
           },
           {
-            "class": "max-h280",
+            "class": "max-h-280",
             "styles": "max-height: @280px;"
           },
           {
-            "class": "max-h285",
+            "class": "max-h-285",
             "styles": "max-height: @285px;"
           },
           {
-            "class": "max-h290",
+            "class": "max-h-290",
             "styles": "max-height: @290px;"
           },
           {
-            "class": "max-h295",
+            "class": "max-h-295",
             "styles": "max-height: @295px;"
           },
           {
-            "class": "max-h300",
+            "class": "max-h-300",
             "styles": "max-height: @300px;"
           }
         ]
@@ -3646,12 +4080,12 @@ export const utilSchema = {
       }
     ]
   },
-  "color": {
-    "title": "Color",
-    "description": "Utilities for controlling color.",
+  "textColor": {
+    "title": "Text Color",
+    "description": "Utilities for controlling text color.",
     "sections": [
       {
-        "title": "Color Utilities",
+        "title": "Text Color Utilities",
         "rows": [
           {
             "class": "fg-primary",
@@ -3780,23 +4214,23 @@ export const utilSchema = {
         "title": "Border Width Utilities",
         "rows": [
           {
-            "class": "bd-1",
+            "class": "border",
             "styles": "border-width: 1px;"
           },
           {
-            "class": "bd-2",
+            "class": "border-2",
             "styles": "border-width: 2px;"
           },
           {
-            "class": "bd-3",
+            "class": "border-3",
             "styles": "border-width: 3px;"
           },
           {
-            "class": "bd-4",
+            "class": "border-4",
             "styles": "border-width: 4px;"
           },
           {
-            "class": "bd-5",
+            "class": "border-5",
             "styles": "border-width: 5px;"
           }
         ]
@@ -3811,19 +4245,19 @@ export const utilSchema = {
         "title": "Border Style Utilities",
         "rows": [
           {
-            "class": "bd-solid",
+            "class": "border-solid",
             "styles": "border-style: solid;"
           },
           {
-            "class": "bd-dashed",
+            "class": "border-dashed",
             "styles": "border-style: dashed;"
           },
           {
-            "class": "bd-dotted",
+            "class": "border-dotted",
             "styles": "border-style: dotted;"
           },
           {
-            "class": "bd-double",
+            "class": "border-double",
             "styles": "border-style: double;"
           }
         ]
@@ -3838,23 +4272,23 @@ export const utilSchema = {
         "title": "Border Color Utilities",
         "rows": [
           {
-            "class": "bd-default",
+            "class": "border-default",
             "styles": "border-color: @default-border-color;"
           },
           {
-            "class": "bd-dark",
+            "class": "border-dark",
             "styles": "border-color: @dark-border-color;"
           },
           {
-            "class": "bd-light",
+            "class": "border-light",
             "styles": "border-color: @light-border-color;"
           },
           {
-            "class": "bd-primary",
+            "class": "border-primary",
             "styles": "border-color: @primary-bdr;"
           },
           {
-            "class": "bd-error",
+            "class": "border-error",
             "styles": "border-color: @error-border-color;"
           }
         ]
@@ -3869,35 +4303,27 @@ export const utilSchema = {
         "title": "Border Utilities",
         "rows": [
           {
-            "class": "bd",
+            "class": "border-t",
             "styles": "border: 1px;"
           },
           {
-            "class": "bd-none",
-            "styles": "border: none;"
-          },
-          {
-            "class": "bd-t",
+            "class": "border-b",
             "styles": "border: 1px;"
           },
           {
-            "class": "bd-b",
+            "class": "border-s",
             "styles": "border: 1px;"
           },
           {
-            "class": "bd-l",
+            "class": "border-e",
             "styles": "border: 1px;"
           },
           {
-            "class": "bd-r",
+            "class": "border-x",
             "styles": "border: 1px;"
           },
           {
-            "class": "bd-x",
-            "styles": "border: 1px;"
-          },
-          {
-            "class": "bd-y",
+            "class": "border-y",
             "styles": "border: 1px;"
           }
         ]
@@ -3912,35 +4338,35 @@ export const utilSchema = {
         "title": "Border Radius Utilities",
         "rows": [
           {
-            "class": "rds0",
+            "class": "rounded-none",
             "styles": "border-radius: @0px;"
           },
           {
-            "class": "rds1",
+            "class": "rounded-sm",
             "styles": "border-radius: @4px;"
           },
           {
-            "class": "rds2",
+            "class": "rounded",
             "styles": "border-radius: @8px;"
           },
           {
-            "class": "rds3",
+            "class": "rounded-md",
             "styles": "border-radius: @12px;"
           },
           {
-            "class": "rds4",
+            "class": "rounded-lg",
             "styles": "border-radius: @16px;"
           },
           {
-            "class": "rds5",
+            "class": "rounded-xl",
             "styles": "border-radius: @20px;"
           },
           {
-            "class": "rds-circle",
+            "class": "rounded-full",
             "styles": "border-radius: 50%;"
           },
           {
-            "class": "rds-pill",
+            "class": "rounded-pill",
             "styles": "border-radius: 9999px;"
           }
         ]
@@ -4045,27 +4471,27 @@ export const utilSchema = {
         "title": "White Space Utilities",
         "rows": [
           {
-            "class": "ws-normal",
+            "class": "whitespace-normal",
             "styles": "white-space: normal;"
           },
           {
-            "class": "ws-nowrap",
+            "class": "whitespace-nowrap",
             "styles": "white-space: nowrap;"
           },
           {
-            "class": "ws-pre",
+            "class": "whitespace-pre",
             "styles": "white-space: pre;"
           },
           {
-            "class": "ws-pre-line",
+            "class": "whitespace-pre-line",
             "styles": "white-space: pre-line;"
           },
           {
-            "class": "ws-pre-wrap",
+            "class": "whitespace-pre-wrap",
             "styles": "white-space: pre-wrap;"
           },
           {
-            "class": "ws-break-spaces",
+            "class": "whitespace-break-spaces",
             "styles": "white-space: break-spaces;"
           }
         ]
@@ -4263,27 +4689,27 @@ export const utilSchema = {
         "title": "Line Clamp Utilities",
         "rows": [
           {
-            "class": "l-clamp-1",
+            "class": "line-clamp-1",
             "styles": "line-clamp: 1;"
           },
           {
-            "class": "l-clamp-2",
+            "class": "line-clamp-2",
             "styles": "line-clamp: 2;"
           },
           {
-            "class": "l-clamp-3",
+            "class": "line-clamp-3",
             "styles": "line-clamp: 3;"
           },
           {
-            "class": "l-clamp-4",
+            "class": "line-clamp-4",
             "styles": "line-clamp: 4;"
           },
           {
-            "class": "l-clamp-5",
+            "class": "line-clamp-5",
             "styles": "line-clamp: 5;"
           },
           {
-            "class": "l-clamp-6",
+            "class": "line-clamp-6",
             "styles": "line-clamp: 6;"
           }
         ]
@@ -4837,15 +5263,15 @@ export const utilSchema = {
         "title": "Cgap Utilities",
         "rows": [
           {
-            "class": "cgap1",
+            "class": "container-gap-1",
             "styles": "cgap: 4px;"
           },
           {
-            "class": "cgap-3",
+            "class": "container-gap-3",
             "styles": "cgap: 12px;"
           },
           {
-            "class": "cgap-4",
+            "class": "container-gap-4",
             "styles": "cgap: 16px;"
           }
         ]
@@ -4859,18 +5285,6 @@ export const utilSchema = {
       {
         "title": "Align Items Utilities",
         "rows": [
-          {
-            "class": "fvs",
-            "styles": "align-items: flex-start;"
-          },
-          {
-            "class": "fve",
-            "styles": "align-items: flex-end;"
-          },
-          {
-            "class": "fvc",
-            "styles": "align-items: center;"
-          },
           {
             "class": "items-start",
             "styles": "align-items: flex-start;"
@@ -4898,30 +5312,6 @@ export const utilSchema = {
       {
         "title": "Justify Content Utilities",
         "rows": [
-          {
-            "class": "fhs",
-            "styles": "justify-content: flex-start;"
-          },
-          {
-            "class": "fhe",
-            "styles": "justify-content: flex-end;"
-          },
-          {
-            "class": "fhc",
-            "styles": "justify-content: center;"
-          },
-          {
-            "class": "fsb",
-            "styles": "justify-content: space-between;"
-          },
-          {
-            "class": "fja",
-            "styles": "justify-content: space-around;"
-          },
-          {
-            "class": "fje",
-            "styles": "justify-content: space-evenly;"
-          },
           {
             "class": "justify-start",
             "styles": "justify-content: flex-start;"
@@ -5226,14 +5616,6 @@ export const utilSchema = {
         "title": "Flex Grow Utilities",
         "rows": [
           {
-            "class": "fxgrow-0",
-            "styles": "flex-grow: 0;"
-          },
-          {
-            "class": "fxgrow",
-            "styles": "flex-grow: 1;"
-          },
-          {
             "class": "grow-0",
             "styles": "flex-grow: 0;"
           },
@@ -5252,14 +5634,6 @@ export const utilSchema = {
       {
         "title": "Flex Shrink Utilities",
         "rows": [
-          {
-            "class": "no-shrink",
-            "styles": "flex-shrink: 0;"
-          },
-          {
-            "class": "fshrink-1",
-            "styles": "flex-shrink: 1;"
-          },
           {
             "class": "shrink-0",
             "styles": "flex-shrink: 0;"
@@ -5342,7 +5716,7 @@ export const utilSchema = {
         "title": "Grid Auto Columns Utilities",
         "rows": [
           {
-            "class": "auto-c-min",
+            "class": "auto-cols-min",
             "styles": "grid-auto-columns: minmax(0, 1fr);"
           },
           {
@@ -5365,7 +5739,7 @@ export const utilSchema = {
         "title": "Grid Auto Rows Utilities",
         "rows": [
           {
-            "class": "auto-r-min",
+            "class": "auto-rows-min",
             "styles": "grid-auto-rows: minmax(0, auto);"
           },
           {
@@ -5388,23 +5762,23 @@ export const utilSchema = {
         "title": "Flex Basis Utilities",
         "rows": [
           {
-            "class": "fb-auto",
+            "class": "basis-auto",
             "styles": "flex-basis: auto;"
           },
           {
-            "class": "fb-0",
+            "class": "basis-0",
             "styles": "flex-basis: 0;"
           },
           {
-            "class": "fb-full",
+            "class": "basis-full",
             "styles": "flex-basis: 100%;"
           },
           {
-            "class": "fb-min",
+            "class": "basis-min",
             "styles": "flex-basis: min-content;"
           },
           {
-            "class": "fb-max",
+            "class": "basis-max",
             "styles": "flex-basis: max-content;"
           }
         ]
@@ -5418,22 +5792,6 @@ export const utilSchema = {
       {
         "title": "Flex Direction Utilities",
         "rows": [
-          {
-            "class": "frow",
-            "styles": "flex-direction: row;"
-          },
-          {
-            "class": "frow-rev",
-            "styles": "flex-direction: row-reverse;"
-          },
-          {
-            "class": "fcol",
-            "styles": "flex-direction: column;"
-          },
-          {
-            "class": "fcol-rev",
-            "styles": "flex-direction: column-reverse;"
-          },
           {
             "class": "flex-row",
             "styles": "flex-direction: row;"
@@ -5462,18 +5820,6 @@ export const utilSchema = {
         "title": "Flex Wrap Utilities",
         "rows": [
           {
-            "class": "fwrap",
-            "styles": "flex-wrap: wrap;"
-          },
-          {
-            "class": "fnw",
-            "styles": "flex-wrap: nowrap;"
-          },
-          {
-            "class": "fwr",
-            "styles": "flex-wrap: wrap-reverse;"
-          },
-          {
             "class": "flex-wrap",
             "styles": "flex-wrap: wrap;"
           },
@@ -5497,19 +5843,19 @@ export const utilSchema = {
         "title": "Flex Shorthand Utilities",
         "rows": [
           {
-            "class": "fnone",
+            "class": "flex-none",
             "styles": "flex-shorthand: 0 0 auto;"
           },
           {
-            "class": "fauto",
+            "class": "flex-auto",
             "styles": "flex-shorthand: 1 1 auto;"
           },
           {
-            "class": "fequal",
+            "class": "flex-1",
             "styles": "flex-shorthand: 1 1 0;"
           },
           {
-            "class": "finitial",
+            "class": "flex-initial",
             "styles": "flex-shorthand: 0 1 auto;"
           }
         ]
@@ -5874,731 +6220,731 @@ export const utilSchema = {
         "title": "Padding Utilities",
         "rows": [
           {
-            "class": "pd0",
+            "class": "p-0",
             "styles": "padding: 0px;"
           },
           {
-            "class": "pdt0",
+            "class": "pt-0",
             "styles": "padding-top: 0px;"
           },
           {
-            "class": "pdb0",
+            "class": "pb-0",
             "styles": "padding-bottom: 0px;"
           },
           {
-            "class": "pdl0",
+            "class": "ps-0",
             "styles": "padding-inline-start: 0px;"
           },
           {
-            "class": "pdr0",
+            "class": "pe-0",
             "styles": "padding-inline-end: 0px;"
           },
           {
-            "class": "pdx0",
+            "class": "px-0",
             "styles": "padding-inline-start: 0px; padding-inline-end: 0px;"
           },
           {
-            "class": "pdy0",
+            "class": "py-0",
             "styles": "padding-top: 0px; padding-bottom: 0px;"
           },
           {
-            "class": "pd1",
+            "class": "p-1",
             "styles": "padding: 2px;"
           },
           {
-            "class": "pdt1",
+            "class": "pt-1",
             "styles": "padding-top: 2px;"
           },
           {
-            "class": "pdb1",
+            "class": "pb-1",
             "styles": "padding-bottom: 2px;"
           },
           {
-            "class": "pdl1",
+            "class": "ps-1",
             "styles": "padding-inline-start: 2px;"
           },
           {
-            "class": "pdr1",
+            "class": "pe-1",
             "styles": "padding-inline-end: 2px;"
           },
           {
-            "class": "pdx1",
+            "class": "px-1",
             "styles": "padding-inline-start: 2px; padding-inline-end: 2px;"
           },
           {
-            "class": "pdy1",
+            "class": "py-1",
             "styles": "padding-top: 2px; padding-bottom: 2px;"
           },
           {
-            "class": "pd2",
+            "class": "p-2",
             "styles": "padding: 4px;"
           },
           {
-            "class": "pdt2",
+            "class": "pt-2",
             "styles": "padding-top: 4px;"
           },
           {
-            "class": "pdb2",
+            "class": "pb-2",
             "styles": "padding-bottom: 4px;"
           },
           {
-            "class": "pdl2",
+            "class": "ps-2",
             "styles": "padding-inline-start: 4px;"
           },
           {
-            "class": "pdr2",
+            "class": "pe-2",
             "styles": "padding-inline-end: 4px;"
           },
           {
-            "class": "pdx2",
+            "class": "px-2",
             "styles": "padding-inline-start: 4px; padding-inline-end: 4px;"
           },
           {
-            "class": "pdy2",
+            "class": "py-2",
             "styles": "padding-top: 4px; padding-bottom: 4px;"
           },
           {
-            "class": "pd3",
+            "class": "p-3",
             "styles": "padding: 6px;"
           },
           {
-            "class": "pdt3",
+            "class": "pt-3",
             "styles": "padding-top: 6px;"
           },
           {
-            "class": "pdb3",
+            "class": "pb-3",
             "styles": "padding-bottom: 6px;"
           },
           {
-            "class": "pdl3",
+            "class": "ps-3",
             "styles": "padding-inline-start: 6px;"
           },
           {
-            "class": "pdr3",
+            "class": "pe-3",
             "styles": "padding-inline-end: 6px;"
           },
           {
-            "class": "pdx3",
+            "class": "px-3",
             "styles": "padding-inline-start: 6px; padding-inline-end: 6px;"
           },
           {
-            "class": "pdy3",
+            "class": "py-3",
             "styles": "padding-top: 6px; padding-bottom: 6px;"
           },
           {
-            "class": "pd4",
+            "class": "p-4",
             "styles": "padding: 8px;"
           },
           {
-            "class": "pdt4",
+            "class": "pt-4",
             "styles": "padding-top: 8px;"
           },
           {
-            "class": "pdb4",
+            "class": "pb-4",
             "styles": "padding-bottom: 8px;"
           },
           {
-            "class": "pdl4",
+            "class": "ps-4",
             "styles": "padding-inline-start: 8px;"
           },
           {
-            "class": "pdr4",
+            "class": "pe-4",
             "styles": "padding-inline-end: 8px;"
           },
           {
-            "class": "pdx4",
+            "class": "px-4",
             "styles": "padding-inline-start: 8px; padding-inline-end: 8px;"
           },
           {
-            "class": "pdy4",
+            "class": "py-4",
             "styles": "padding-top: 8px; padding-bottom: 8px;"
           },
           {
-            "class": "pd5",
+            "class": "p-5",
             "styles": "padding: 10px;"
           },
           {
-            "class": "pdt5",
+            "class": "pt-5",
             "styles": "padding-top: 10px;"
           },
           {
-            "class": "pdb5",
+            "class": "pb-5",
             "styles": "padding-bottom: 10px;"
           },
           {
-            "class": "pdl5",
+            "class": "ps-5",
             "styles": "padding-inline-start: 10px;"
           },
           {
-            "class": "pdr5",
+            "class": "pe-5",
             "styles": "padding-inline-end: 10px;"
           },
           {
-            "class": "pdx5",
+            "class": "px-5",
             "styles": "padding-inline-start: 10px; padding-inline-end: 10px;"
           },
           {
-            "class": "pdy5",
+            "class": "py-5",
             "styles": "padding-top: 10px; padding-bottom: 10px;"
           },
           {
-            "class": "pd6",
+            "class": "p-6",
             "styles": "padding: 12px;"
           },
           {
-            "class": "pdt6",
+            "class": "pt-6",
             "styles": "padding-top: 12px;"
           },
           {
-            "class": "pdb6",
+            "class": "pb-6",
             "styles": "padding-bottom: 12px;"
           },
           {
-            "class": "pdl6",
+            "class": "ps-6",
             "styles": "padding-inline-start: 12px;"
           },
           {
-            "class": "pdr6",
+            "class": "pe-6",
             "styles": "padding-inline-end: 12px;"
           },
           {
-            "class": "pdx6",
+            "class": "px-6",
             "styles": "padding-inline-start: 12px; padding-inline-end: 12px;"
           },
           {
-            "class": "pdy6",
+            "class": "py-6",
             "styles": "padding-top: 12px; padding-bottom: 12px;"
           },
           {
-            "class": "pd7",
+            "class": "p-7",
             "styles": "padding: 14px;"
           },
           {
-            "class": "pdt7",
+            "class": "pt-7",
             "styles": "padding-top: 14px;"
           },
           {
-            "class": "pdb7",
+            "class": "pb-7",
             "styles": "padding-bottom: 14px;"
           },
           {
-            "class": "pdl7",
+            "class": "ps-7",
             "styles": "padding-inline-start: 14px;"
           },
           {
-            "class": "pdr7",
+            "class": "pe-7",
             "styles": "padding-inline-end: 14px;"
           },
           {
-            "class": "pdx7",
+            "class": "px-7",
             "styles": "padding-inline-start: 14px; padding-inline-end: 14px;"
           },
           {
-            "class": "pdy7",
+            "class": "py-7",
             "styles": "padding-top: 14px; padding-bottom: 14px;"
           },
           {
-            "class": "pd8",
+            "class": "p-8",
             "styles": "padding: 16px;"
           },
           {
-            "class": "pdt8",
+            "class": "pt-8",
             "styles": "padding-top: 16px;"
           },
           {
-            "class": "pdb8",
+            "class": "pb-8",
             "styles": "padding-bottom: 16px;"
           },
           {
-            "class": "pdl8",
+            "class": "ps-8",
             "styles": "padding-inline-start: 16px;"
           },
           {
-            "class": "pdr8",
+            "class": "pe-8",
             "styles": "padding-inline-end: 16px;"
           },
           {
-            "class": "pdx8",
+            "class": "px-8",
             "styles": "padding-inline-start: 16px; padding-inline-end: 16px;"
           },
           {
-            "class": "pdy8",
+            "class": "py-8",
             "styles": "padding-top: 16px; padding-bottom: 16px;"
           },
           {
-            "class": "pd9",
+            "class": "p-9",
             "styles": "padding: 18px;"
           },
           {
-            "class": "pdt9",
+            "class": "pt-9",
             "styles": "padding-top: 18px;"
           },
           {
-            "class": "pdb9",
+            "class": "pb-9",
             "styles": "padding-bottom: 18px;"
           },
           {
-            "class": "pdl9",
+            "class": "ps-9",
             "styles": "padding-inline-start: 18px;"
           },
           {
-            "class": "pdr9",
+            "class": "pe-9",
             "styles": "padding-inline-end: 18px;"
           },
           {
-            "class": "pdx9",
+            "class": "px-9",
             "styles": "padding-inline-start: 18px; padding-inline-end: 18px;"
           },
           {
-            "class": "pdy9",
+            "class": "py-9",
             "styles": "padding-top: 18px; padding-bottom: 18px;"
           },
           {
-            "class": "pd10",
+            "class": "p-10",
             "styles": "padding: 20px;"
           },
           {
-            "class": "pdt10",
+            "class": "pt-10",
             "styles": "padding-top: 20px;"
           },
           {
-            "class": "pdb10",
+            "class": "pb-10",
             "styles": "padding-bottom: 20px;"
           },
           {
-            "class": "pdl10",
+            "class": "ps-10",
             "styles": "padding-inline-start: 20px;"
           },
           {
-            "class": "pdr10",
+            "class": "pe-10",
             "styles": "padding-inline-end: 20px;"
           },
           {
-            "class": "pdx10",
+            "class": "px-10",
             "styles": "padding-inline-start: 20px; padding-inline-end: 20px;"
           },
           {
-            "class": "pdy10",
+            "class": "py-10",
             "styles": "padding-top: 20px; padding-bottom: 20px;"
           },
           {
-            "class": "pd11",
+            "class": "p-11",
             "styles": "padding: 22px;"
           },
           {
-            "class": "pdt11",
+            "class": "pt-11",
             "styles": "padding-top: 22px;"
           },
           {
-            "class": "pdb11",
+            "class": "pb-11",
             "styles": "padding-bottom: 22px;"
           },
           {
-            "class": "pdl11",
+            "class": "ps-11",
             "styles": "padding-inline-start: 22px;"
           },
           {
-            "class": "pdr11",
+            "class": "pe-11",
             "styles": "padding-inline-end: 22px;"
           },
           {
-            "class": "pdx11",
+            "class": "px-11",
             "styles": "padding-inline-start: 22px; padding-inline-end: 22px;"
           },
           {
-            "class": "pdy11",
+            "class": "py-11",
             "styles": "padding-top: 22px; padding-bottom: 22px;"
           },
           {
-            "class": "pd12",
+            "class": "p-12",
             "styles": "padding: 24px;"
           },
           {
-            "class": "pdt12",
+            "class": "pt-12",
             "styles": "padding-top: 24px;"
           },
           {
-            "class": "pdb12",
+            "class": "pb-12",
             "styles": "padding-bottom: 24px;"
           },
           {
-            "class": "pdl12",
+            "class": "ps-12",
             "styles": "padding-inline-start: 24px;"
           },
           {
-            "class": "pdr12",
+            "class": "pe-12",
             "styles": "padding-inline-end: 24px;"
           },
           {
-            "class": "pdx12",
+            "class": "px-12",
             "styles": "padding-inline-start: 24px; padding-inline-end: 24px;"
           },
           {
-            "class": "pdy12",
+            "class": "py-12",
             "styles": "padding-top: 24px; padding-bottom: 24px;"
           },
           {
-            "class": "pd13",
+            "class": "p-13",
             "styles": "padding: 26px;"
           },
           {
-            "class": "pdt13",
+            "class": "pt-13",
             "styles": "padding-top: 26px;"
           },
           {
-            "class": "pdb13",
+            "class": "pb-13",
             "styles": "padding-bottom: 26px;"
           },
           {
-            "class": "pdl13",
+            "class": "ps-13",
             "styles": "padding-inline-start: 26px;"
           },
           {
-            "class": "pdr13",
+            "class": "pe-13",
             "styles": "padding-inline-end: 26px;"
           },
           {
-            "class": "pdx13",
+            "class": "px-13",
             "styles": "padding-inline-start: 26px; padding-inline-end: 26px;"
           },
           {
-            "class": "pdy13",
+            "class": "py-13",
             "styles": "padding-top: 26px; padding-bottom: 26px;"
           },
           {
-            "class": "pd14",
+            "class": "p-14",
             "styles": "padding: 28px;"
           },
           {
-            "class": "pdt14",
+            "class": "pt-14",
             "styles": "padding-top: 28px;"
           },
           {
-            "class": "pdb14",
+            "class": "pb-14",
             "styles": "padding-bottom: 28px;"
           },
           {
-            "class": "pdl14",
+            "class": "ps-14",
             "styles": "padding-inline-start: 28px;"
           },
           {
-            "class": "pdr14",
+            "class": "pe-14",
             "styles": "padding-inline-end: 28px;"
           },
           {
-            "class": "pdx14",
+            "class": "px-14",
             "styles": "padding-inline-start: 28px; padding-inline-end: 28px;"
           },
           {
-            "class": "pdy14",
+            "class": "py-14",
             "styles": "padding-top: 28px; padding-bottom: 28px;"
           },
           {
-            "class": "pd15",
+            "class": "p-15",
             "styles": "padding: 30px;"
           },
           {
-            "class": "pdt15",
+            "class": "pt-15",
             "styles": "padding-top: 30px;"
           },
           {
-            "class": "pdb15",
+            "class": "pb-15",
             "styles": "padding-bottom: 30px;"
           },
           {
-            "class": "pdl15",
+            "class": "ps-15",
             "styles": "padding-inline-start: 30px;"
           },
           {
-            "class": "pdr15",
+            "class": "pe-15",
             "styles": "padding-inline-end: 30px;"
           },
           {
-            "class": "pdx15",
+            "class": "px-15",
             "styles": "padding-inline-start: 30px; padding-inline-end: 30px;"
           },
           {
-            "class": "pdy15",
+            "class": "py-15",
             "styles": "padding-top: 30px; padding-bottom: 30px;"
           },
           {
-            "class": "pd16",
+            "class": "p-16",
             "styles": "padding: 32px;"
           },
           {
-            "class": "pdt16",
+            "class": "pt-16",
             "styles": "padding-top: 32px;"
           },
           {
-            "class": "pdb16",
+            "class": "pb-16",
             "styles": "padding-bottom: 32px;"
           },
           {
-            "class": "pdl16",
+            "class": "ps-16",
             "styles": "padding-inline-start: 32px;"
           },
           {
-            "class": "pdr16",
+            "class": "pe-16",
             "styles": "padding-inline-end: 32px;"
           },
           {
-            "class": "pdx16",
+            "class": "px-16",
             "styles": "padding-inline-start: 32px; padding-inline-end: 32px;"
           },
           {
-            "class": "pdy16",
+            "class": "py-16",
             "styles": "padding-top: 32px; padding-bottom: 32px;"
           },
           {
-            "class": "pd17",
+            "class": "p-17",
             "styles": "padding: 34px;"
           },
           {
-            "class": "pdt17",
+            "class": "pt-17",
             "styles": "padding-top: 34px;"
           },
           {
-            "class": "pdb17",
+            "class": "pb-17",
             "styles": "padding-bottom: 34px;"
           },
           {
-            "class": "pdl17",
+            "class": "ps-17",
             "styles": "padding-inline-start: 34px;"
           },
           {
-            "class": "pdr17",
+            "class": "pe-17",
             "styles": "padding-inline-end: 34px;"
           },
           {
-            "class": "pdx17",
+            "class": "px-17",
             "styles": "padding-inline-start: 34px; padding-inline-end: 34px;"
           },
           {
-            "class": "pdy17",
+            "class": "py-17",
             "styles": "padding-top: 34px; padding-bottom: 34px;"
           },
           {
-            "class": "pd18",
+            "class": "p-18",
             "styles": "padding: 36px;"
           },
           {
-            "class": "pdt18",
+            "class": "pt-18",
             "styles": "padding-top: 36px;"
           },
           {
-            "class": "pdb18",
+            "class": "pb-18",
             "styles": "padding-bottom: 36px;"
           },
           {
-            "class": "pdl18",
+            "class": "ps-18",
             "styles": "padding-inline-start: 36px;"
           },
           {
-            "class": "pdr18",
+            "class": "pe-18",
             "styles": "padding-inline-end: 36px;"
           },
           {
-            "class": "pdx18",
+            "class": "px-18",
             "styles": "padding-inline-start: 36px; padding-inline-end: 36px;"
           },
           {
-            "class": "pdy18",
+            "class": "py-18",
             "styles": "padding-top: 36px; padding-bottom: 36px;"
           },
           {
-            "class": "pd19",
+            "class": "p-19",
             "styles": "padding: 38px;"
           },
           {
-            "class": "pdt19",
+            "class": "pt-19",
             "styles": "padding-top: 38px;"
           },
           {
-            "class": "pdb19",
+            "class": "pb-19",
             "styles": "padding-bottom: 38px;"
           },
           {
-            "class": "pdl19",
+            "class": "ps-19",
             "styles": "padding-inline-start: 38px;"
           },
           {
-            "class": "pdr19",
+            "class": "pe-19",
             "styles": "padding-inline-end: 38px;"
           },
           {
-            "class": "pdx19",
+            "class": "px-19",
             "styles": "padding-inline-start: 38px; padding-inline-end: 38px;"
           },
           {
-            "class": "pdy19",
+            "class": "py-19",
             "styles": "padding-top: 38px; padding-bottom: 38px;"
           },
           {
-            "class": "pd20",
+            "class": "p-20",
             "styles": "padding: 40px;"
           },
           {
-            "class": "pdt20",
+            "class": "pt-20",
             "styles": "padding-top: 40px;"
           },
           {
-            "class": "pdb20",
+            "class": "pb-20",
             "styles": "padding-bottom: 40px;"
           },
           {
-            "class": "pdl20",
+            "class": "ps-20",
             "styles": "padding-inline-start: 40px;"
           },
           {
-            "class": "pdr20",
+            "class": "pe-20",
             "styles": "padding-inline-end: 40px;"
           },
           {
-            "class": "pdx20",
+            "class": "px-20",
             "styles": "padding-inline-start: 40px; padding-inline-end: 40px;"
           },
           {
-            "class": "pdy20",
+            "class": "py-20",
             "styles": "padding-top: 40px; padding-bottom: 40px;"
           },
           {
-            "class": "pd21",
+            "class": "p-21",
             "styles": "padding: 42px;"
           },
           {
-            "class": "pdt21",
+            "class": "pt-21",
             "styles": "padding-top: 42px;"
           },
           {
-            "class": "pdb21",
+            "class": "pb-21",
             "styles": "padding-bottom: 42px;"
           },
           {
-            "class": "pdl21",
+            "class": "ps-21",
             "styles": "padding-inline-start: 42px;"
           },
           {
-            "class": "pdr21",
+            "class": "pe-21",
             "styles": "padding-inline-end: 42px;"
           },
           {
-            "class": "pdx21",
+            "class": "px-21",
             "styles": "padding-inline-start: 42px; padding-inline-end: 42px;"
           },
           {
-            "class": "pdy21",
+            "class": "py-21",
             "styles": "padding-top: 42px; padding-bottom: 42px;"
           },
           {
-            "class": "pd22",
+            "class": "p-22",
             "styles": "padding: 44px;"
           },
           {
-            "class": "pdt22",
+            "class": "pt-22",
             "styles": "padding-top: 44px;"
           },
           {
-            "class": "pdb22",
+            "class": "pb-22",
             "styles": "padding-bottom: 44px;"
           },
           {
-            "class": "pdl22",
+            "class": "ps-22",
             "styles": "padding-inline-start: 44px;"
           },
           {
-            "class": "pdr22",
+            "class": "pe-22",
             "styles": "padding-inline-end: 44px;"
           },
           {
-            "class": "pdx22",
+            "class": "px-22",
             "styles": "padding-inline-start: 44px; padding-inline-end: 44px;"
           },
           {
-            "class": "pdy22",
+            "class": "py-22",
             "styles": "padding-top: 44px; padding-bottom: 44px;"
           },
           {
-            "class": "pd23",
+            "class": "p-23",
             "styles": "padding: 46px;"
           },
           {
-            "class": "pdt23",
+            "class": "pt-23",
             "styles": "padding-top: 46px;"
           },
           {
-            "class": "pdb23",
+            "class": "pb-23",
             "styles": "padding-bottom: 46px;"
           },
           {
-            "class": "pdl23",
+            "class": "ps-23",
             "styles": "padding-inline-start: 46px;"
           },
           {
-            "class": "pdr23",
+            "class": "pe-23",
             "styles": "padding-inline-end: 46px;"
           },
           {
-            "class": "pdx23",
+            "class": "px-23",
             "styles": "padding-inline-start: 46px; padding-inline-end: 46px;"
           },
           {
-            "class": "pdy23",
+            "class": "py-23",
             "styles": "padding-top: 46px; padding-bottom: 46px;"
           },
           {
-            "class": "pd24",
+            "class": "p-24",
             "styles": "padding: 48px;"
           },
           {
-            "class": "pdt24",
+            "class": "pt-24",
             "styles": "padding-top: 48px;"
           },
           {
-            "class": "pdb24",
+            "class": "pb-24",
             "styles": "padding-bottom: 48px;"
           },
           {
-            "class": "pdl24",
+            "class": "ps-24",
             "styles": "padding-inline-start: 48px;"
           },
           {
-            "class": "pdr24",
+            "class": "pe-24",
             "styles": "padding-inline-end: 48px;"
           },
           {
-            "class": "pdx24",
+            "class": "px-24",
             "styles": "padding-inline-start: 48px; padding-inline-end: 48px;"
           },
           {
-            "class": "pdy24",
+            "class": "py-24",
             "styles": "padding-top: 48px; padding-bottom: 48px;"
           },
           {
-            "class": "pd25",
+            "class": "p-25",
             "styles": "padding: 50px;"
           },
           {
-            "class": "pdt25",
+            "class": "pt-25",
             "styles": "padding-top: 50px;"
           },
           {
-            "class": "pdb25",
+            "class": "pb-25",
             "styles": "padding-bottom: 50px;"
           },
           {
-            "class": "pdl25",
+            "class": "ps-25",
             "styles": "padding-inline-start: 50px;"
           },
           {
-            "class": "pdr25",
+            "class": "pe-25",
             "styles": "padding-inline-end: 50px;"
           },
           {
-            "class": "pdx25",
+            "class": "px-25",
             "styles": "padding-inline-start: 50px; padding-inline-end: 50px;"
           },
           {
-            "class": "pdy25",
+            "class": "py-25",
             "styles": "padding-top: 50px; padding-bottom: 50px;"
           }
         ]
@@ -6613,759 +6959,759 @@ export const utilSchema = {
         "title": "Margin Utilities",
         "rows": [
           {
-            "class": "mg0",
+            "class": "m-0",
             "styles": "margin: 0px;"
           },
           {
-            "class": "mgt0",
+            "class": "mt-0",
             "styles": "margin-top: 0px;"
           },
           {
-            "class": "mgb0",
+            "class": "mb-0",
             "styles": "margin-bottom: 0px;"
           },
           {
-            "class": "mgl0",
+            "class": "ms-0",
             "styles": "margin-inline-start: 0px;"
           },
           {
-            "class": "mgr0",
+            "class": "me-0",
             "styles": "margin-inline-end: 0px;"
           },
           {
-            "class": "mgx0",
+            "class": "mx-0",
             "styles": "margin-inline-start: 0px; margin-inline-end: 0px;"
           },
           {
-            "class": "mgy0",
+            "class": "my-0",
             "styles": "margin-top: 0px; margin-bottom: 0px;"
           },
           {
-            "class": "mg1",
+            "class": "m-1",
             "styles": "margin: 2px;"
           },
           {
-            "class": "mgt1",
+            "class": "mt-1",
             "styles": "margin-top: 2px;"
           },
           {
-            "class": "mgb1",
+            "class": "mb-1",
             "styles": "margin-bottom: 2px;"
           },
           {
-            "class": "mgl1",
+            "class": "ms-1",
             "styles": "margin-inline-start: 2px;"
           },
           {
-            "class": "mgr1",
+            "class": "me-1",
             "styles": "margin-inline-end: 2px;"
           },
           {
-            "class": "mgx1",
+            "class": "mx-1",
             "styles": "margin-inline-start: 2px; margin-inline-end: 2px;"
           },
           {
-            "class": "mgy1",
+            "class": "my-1",
             "styles": "margin-top: 2px; margin-bottom: 2px;"
           },
           {
-            "class": "mg2",
+            "class": "m-2",
             "styles": "margin: 4px;"
           },
           {
-            "class": "mgt2",
+            "class": "mt-2",
             "styles": "margin-top: 4px;"
           },
           {
-            "class": "mgb2",
+            "class": "mb-2",
             "styles": "margin-bottom: 4px;"
           },
           {
-            "class": "mgl2",
+            "class": "ms-2",
             "styles": "margin-inline-start: 4px;"
           },
           {
-            "class": "mgr2",
+            "class": "me-2",
             "styles": "margin-inline-end: 4px;"
           },
           {
-            "class": "mgx2",
+            "class": "mx-2",
             "styles": "margin-inline-start: 4px; margin-inline-end: 4px;"
           },
           {
-            "class": "mgy2",
+            "class": "my-2",
             "styles": "margin-top: 4px; margin-bottom: 4px;"
           },
           {
-            "class": "mg3",
+            "class": "m-3",
             "styles": "margin: 6px;"
           },
           {
-            "class": "mgt3",
+            "class": "mt-3",
             "styles": "margin-top: 6px;"
           },
           {
-            "class": "mgb3",
+            "class": "mb-3",
             "styles": "margin-bottom: 6px;"
           },
           {
-            "class": "mgl3",
+            "class": "ms-3",
             "styles": "margin-inline-start: 6px;"
           },
           {
-            "class": "mgr3",
+            "class": "me-3",
             "styles": "margin-inline-end: 6px;"
           },
           {
-            "class": "mgx3",
+            "class": "mx-3",
             "styles": "margin-inline-start: 6px; margin-inline-end: 6px;"
           },
           {
-            "class": "mgy3",
+            "class": "my-3",
             "styles": "margin-top: 6px; margin-bottom: 6px;"
           },
           {
-            "class": "mg4",
+            "class": "m-4",
             "styles": "margin: 8px;"
           },
           {
-            "class": "mgt4",
+            "class": "mt-4",
             "styles": "margin-top: 8px;"
           },
           {
-            "class": "mgb4",
+            "class": "mb-4",
             "styles": "margin-bottom: 8px;"
           },
           {
-            "class": "mgl4",
+            "class": "ms-4",
             "styles": "margin-inline-start: 8px;"
           },
           {
-            "class": "mgr4",
+            "class": "me-4",
             "styles": "margin-inline-end: 8px;"
           },
           {
-            "class": "mgx4",
+            "class": "mx-4",
             "styles": "margin-inline-start: 8px; margin-inline-end: 8px;"
           },
           {
-            "class": "mgy4",
+            "class": "my-4",
             "styles": "margin-top: 8px; margin-bottom: 8px;"
           },
           {
-            "class": "mg5",
+            "class": "m-5",
             "styles": "margin: 10px;"
           },
           {
-            "class": "mgt5",
+            "class": "mt-5",
             "styles": "margin-top: 10px;"
           },
           {
-            "class": "mgb5",
+            "class": "mb-5",
             "styles": "margin-bottom: 10px;"
           },
           {
-            "class": "mgl5",
+            "class": "ms-5",
             "styles": "margin-inline-start: 10px;"
           },
           {
-            "class": "mgr5",
+            "class": "me-5",
             "styles": "margin-inline-end: 10px;"
           },
           {
-            "class": "mgx5",
+            "class": "mx-5",
             "styles": "margin-inline-start: 10px; margin-inline-end: 10px;"
           },
           {
-            "class": "mgy5",
+            "class": "my-5",
             "styles": "margin-top: 10px; margin-bottom: 10px;"
           },
           {
-            "class": "mg6",
+            "class": "m-6",
             "styles": "margin: 12px;"
           },
           {
-            "class": "mgt6",
+            "class": "mt-6",
             "styles": "margin-top: 12px;"
           },
           {
-            "class": "mgb6",
+            "class": "mb-6",
             "styles": "margin-bottom: 12px;"
           },
           {
-            "class": "mgl6",
+            "class": "ms-6",
             "styles": "margin-inline-start: 12px;"
           },
           {
-            "class": "mgr6",
+            "class": "me-6",
             "styles": "margin-inline-end: 12px;"
           },
           {
-            "class": "mgx6",
+            "class": "mx-6",
             "styles": "margin-inline-start: 12px; margin-inline-end: 12px;"
           },
           {
-            "class": "mgy6",
+            "class": "my-6",
             "styles": "margin-top: 12px; margin-bottom: 12px;"
           },
           {
-            "class": "mg7",
+            "class": "m-7",
             "styles": "margin: 14px;"
           },
           {
-            "class": "mgt7",
+            "class": "mt-7",
             "styles": "margin-top: 14px;"
           },
           {
-            "class": "mgb7",
+            "class": "mb-7",
             "styles": "margin-bottom: 14px;"
           },
           {
-            "class": "mgl7",
+            "class": "ms-7",
             "styles": "margin-inline-start: 14px;"
           },
           {
-            "class": "mgr7",
+            "class": "me-7",
             "styles": "margin-inline-end: 14px;"
           },
           {
-            "class": "mgx7",
+            "class": "mx-7",
             "styles": "margin-inline-start: 14px; margin-inline-end: 14px;"
           },
           {
-            "class": "mgy7",
+            "class": "my-7",
             "styles": "margin-top: 14px; margin-bottom: 14px;"
           },
           {
-            "class": "mg8",
+            "class": "m-8",
             "styles": "margin: 16px;"
           },
           {
-            "class": "mgt8",
+            "class": "mt-8",
             "styles": "margin-top: 16px;"
           },
           {
-            "class": "mgb8",
+            "class": "mb-8",
             "styles": "margin-bottom: 16px;"
           },
           {
-            "class": "mgl8",
+            "class": "ms-8",
             "styles": "margin-inline-start: 16px;"
           },
           {
-            "class": "mgr8",
+            "class": "me-8",
             "styles": "margin-inline-end: 16px;"
           },
           {
-            "class": "mgx8",
+            "class": "mx-8",
             "styles": "margin-inline-start: 16px; margin-inline-end: 16px;"
           },
           {
-            "class": "mgy8",
+            "class": "my-8",
             "styles": "margin-top: 16px; margin-bottom: 16px;"
           },
           {
-            "class": "mg9",
+            "class": "m-9",
             "styles": "margin: 18px;"
           },
           {
-            "class": "mgt9",
+            "class": "mt-9",
             "styles": "margin-top: 18px;"
           },
           {
-            "class": "mgb9",
+            "class": "mb-9",
             "styles": "margin-bottom: 18px;"
           },
           {
-            "class": "mgl9",
+            "class": "ms-9",
             "styles": "margin-inline-start: 18px;"
           },
           {
-            "class": "mgr9",
+            "class": "me-9",
             "styles": "margin-inline-end: 18px;"
           },
           {
-            "class": "mgx9",
+            "class": "mx-9",
             "styles": "margin-inline-start: 18px; margin-inline-end: 18px;"
           },
           {
-            "class": "mgy9",
+            "class": "my-9",
             "styles": "margin-top: 18px; margin-bottom: 18px;"
           },
           {
-            "class": "mg10",
+            "class": "m-10",
             "styles": "margin: 20px;"
           },
           {
-            "class": "mgt10",
+            "class": "mt-10",
             "styles": "margin-top: 20px;"
           },
           {
-            "class": "mgb10",
+            "class": "mb-10",
             "styles": "margin-bottom: 20px;"
           },
           {
-            "class": "mgl10",
+            "class": "ms-10",
             "styles": "margin-inline-start: 20px;"
           },
           {
-            "class": "mgr10",
+            "class": "me-10",
             "styles": "margin-inline-end: 20px;"
           },
           {
-            "class": "mgx10",
+            "class": "mx-10",
             "styles": "margin-inline-start: 20px; margin-inline-end: 20px;"
           },
           {
-            "class": "mgy10",
+            "class": "my-10",
             "styles": "margin-top: 20px; margin-bottom: 20px;"
           },
           {
-            "class": "mg11",
+            "class": "m-11",
             "styles": "margin: 22px;"
           },
           {
-            "class": "mgt11",
+            "class": "mt-11",
             "styles": "margin-top: 22px;"
           },
           {
-            "class": "mgb11",
+            "class": "mb-11",
             "styles": "margin-bottom: 22px;"
           },
           {
-            "class": "mgl11",
+            "class": "ms-11",
             "styles": "margin-inline-start: 22px;"
           },
           {
-            "class": "mgr11",
+            "class": "me-11",
             "styles": "margin-inline-end: 22px;"
           },
           {
-            "class": "mgx11",
+            "class": "mx-11",
             "styles": "margin-inline-start: 22px; margin-inline-end: 22px;"
           },
           {
-            "class": "mgy11",
+            "class": "my-11",
             "styles": "margin-top: 22px; margin-bottom: 22px;"
           },
           {
-            "class": "mg12",
+            "class": "m-12",
             "styles": "margin: 24px;"
           },
           {
-            "class": "mgt12",
+            "class": "mt-12",
             "styles": "margin-top: 24px;"
           },
           {
-            "class": "mgb12",
+            "class": "mb-12",
             "styles": "margin-bottom: 24px;"
           },
           {
-            "class": "mgl12",
+            "class": "ms-12",
             "styles": "margin-inline-start: 24px;"
           },
           {
-            "class": "mgr12",
+            "class": "me-12",
             "styles": "margin-inline-end: 24px;"
           },
           {
-            "class": "mgx12",
+            "class": "mx-12",
             "styles": "margin-inline-start: 24px; margin-inline-end: 24px;"
           },
           {
-            "class": "mgy12",
+            "class": "my-12",
             "styles": "margin-top: 24px; margin-bottom: 24px;"
           },
           {
-            "class": "mg13",
+            "class": "m-13",
             "styles": "margin: 26px;"
           },
           {
-            "class": "mgt13",
+            "class": "mt-13",
             "styles": "margin-top: 26px;"
           },
           {
-            "class": "mgb13",
+            "class": "mb-13",
             "styles": "margin-bottom: 26px;"
           },
           {
-            "class": "mgl13",
+            "class": "ms-13",
             "styles": "margin-inline-start: 26px;"
           },
           {
-            "class": "mgr13",
+            "class": "me-13",
             "styles": "margin-inline-end: 26px;"
           },
           {
-            "class": "mgx13",
+            "class": "mx-13",
             "styles": "margin-inline-start: 26px; margin-inline-end: 26px;"
           },
           {
-            "class": "mgy13",
+            "class": "my-13",
             "styles": "margin-top: 26px; margin-bottom: 26px;"
           },
           {
-            "class": "mg14",
+            "class": "m-14",
             "styles": "margin: 28px;"
           },
           {
-            "class": "mgt14",
+            "class": "mt-14",
             "styles": "margin-top: 28px;"
           },
           {
-            "class": "mgb14",
+            "class": "mb-14",
             "styles": "margin-bottom: 28px;"
           },
           {
-            "class": "mgl14",
+            "class": "ms-14",
             "styles": "margin-inline-start: 28px;"
           },
           {
-            "class": "mgr14",
+            "class": "me-14",
             "styles": "margin-inline-end: 28px;"
           },
           {
-            "class": "mgx14",
+            "class": "mx-14",
             "styles": "margin-inline-start: 28px; margin-inline-end: 28px;"
           },
           {
-            "class": "mgy14",
+            "class": "my-14",
             "styles": "margin-top: 28px; margin-bottom: 28px;"
           },
           {
-            "class": "mg15",
+            "class": "m-15",
             "styles": "margin: 30px;"
           },
           {
-            "class": "mgt15",
+            "class": "mt-15",
             "styles": "margin-top: 30px;"
           },
           {
-            "class": "mgb15",
+            "class": "mb-15",
             "styles": "margin-bottom: 30px;"
           },
           {
-            "class": "mgl15",
+            "class": "ms-15",
             "styles": "margin-inline-start: 30px;"
           },
           {
-            "class": "mgr15",
+            "class": "me-15",
             "styles": "margin-inline-end: 30px;"
           },
           {
-            "class": "mgx15",
+            "class": "mx-15",
             "styles": "margin-inline-start: 30px; margin-inline-end: 30px;"
           },
           {
-            "class": "mgy15",
+            "class": "my-15",
             "styles": "margin-top: 30px; margin-bottom: 30px;"
           },
           {
-            "class": "mg16",
+            "class": "m-16",
             "styles": "margin: 32px;"
           },
           {
-            "class": "mgt16",
+            "class": "mt-16",
             "styles": "margin-top: 32px;"
           },
           {
-            "class": "mgb16",
+            "class": "mb-16",
             "styles": "margin-bottom: 32px;"
           },
           {
-            "class": "mgl16",
+            "class": "ms-16",
             "styles": "margin-inline-start: 32px;"
           },
           {
-            "class": "mgr16",
+            "class": "me-16",
             "styles": "margin-inline-end: 32px;"
           },
           {
-            "class": "mgx16",
+            "class": "mx-16",
             "styles": "margin-inline-start: 32px; margin-inline-end: 32px;"
           },
           {
-            "class": "mgy16",
+            "class": "my-16",
             "styles": "margin-top: 32px; margin-bottom: 32px;"
           },
           {
-            "class": "mg17",
+            "class": "m-17",
             "styles": "margin: 34px;"
           },
           {
-            "class": "mgt17",
+            "class": "mt-17",
             "styles": "margin-top: 34px;"
           },
           {
-            "class": "mgb17",
+            "class": "mb-17",
             "styles": "margin-bottom: 34px;"
           },
           {
-            "class": "mgl17",
+            "class": "ms-17",
             "styles": "margin-inline-start: 34px;"
           },
           {
-            "class": "mgr17",
+            "class": "me-17",
             "styles": "margin-inline-end: 34px;"
           },
           {
-            "class": "mgx17",
+            "class": "mx-17",
             "styles": "margin-inline-start: 34px; margin-inline-end: 34px;"
           },
           {
-            "class": "mgy17",
+            "class": "my-17",
             "styles": "margin-top: 34px; margin-bottom: 34px;"
           },
           {
-            "class": "mg18",
+            "class": "m-18",
             "styles": "margin: 36px;"
           },
           {
-            "class": "mgt18",
+            "class": "mt-18",
             "styles": "margin-top: 36px;"
           },
           {
-            "class": "mgb18",
+            "class": "mb-18",
             "styles": "margin-bottom: 36px;"
           },
           {
-            "class": "mgl18",
+            "class": "ms-18",
             "styles": "margin-inline-start: 36px;"
           },
           {
-            "class": "mgr18",
+            "class": "me-18",
             "styles": "margin-inline-end: 36px;"
           },
           {
-            "class": "mgx18",
+            "class": "mx-18",
             "styles": "margin-inline-start: 36px; margin-inline-end: 36px;"
           },
           {
-            "class": "mgy18",
+            "class": "my-18",
             "styles": "margin-top: 36px; margin-bottom: 36px;"
           },
           {
-            "class": "mg19",
+            "class": "m-19",
             "styles": "margin: 38px;"
           },
           {
-            "class": "mgt19",
+            "class": "mt-19",
             "styles": "margin-top: 38px;"
           },
           {
-            "class": "mgb19",
+            "class": "mb-19",
             "styles": "margin-bottom: 38px;"
           },
           {
-            "class": "mgl19",
+            "class": "ms-19",
             "styles": "margin-inline-start: 38px;"
           },
           {
-            "class": "mgr19",
+            "class": "me-19",
             "styles": "margin-inline-end: 38px;"
           },
           {
-            "class": "mgx19",
+            "class": "mx-19",
             "styles": "margin-inline-start: 38px; margin-inline-end: 38px;"
           },
           {
-            "class": "mgy19",
+            "class": "my-19",
             "styles": "margin-top: 38px; margin-bottom: 38px;"
           },
           {
-            "class": "mg20",
+            "class": "m-20",
             "styles": "margin: 40px;"
           },
           {
-            "class": "mgt20",
+            "class": "mt-20",
             "styles": "margin-top: 40px;"
           },
           {
-            "class": "mgb20",
+            "class": "mb-20",
             "styles": "margin-bottom: 40px;"
           },
           {
-            "class": "mgl20",
+            "class": "ms-20",
             "styles": "margin-inline-start: 40px;"
           },
           {
-            "class": "mgr20",
+            "class": "me-20",
             "styles": "margin-inline-end: 40px;"
           },
           {
-            "class": "mgx20",
+            "class": "mx-20",
             "styles": "margin-inline-start: 40px; margin-inline-end: 40px;"
           },
           {
-            "class": "mgy20",
+            "class": "my-20",
             "styles": "margin-top: 40px; margin-bottom: 40px;"
           },
           {
-            "class": "mg21",
+            "class": "m-21",
             "styles": "margin: 42px;"
           },
           {
-            "class": "mgt21",
+            "class": "mt-21",
             "styles": "margin-top: 42px;"
           },
           {
-            "class": "mgb21",
+            "class": "mb-21",
             "styles": "margin-bottom: 42px;"
           },
           {
-            "class": "mgl21",
+            "class": "ms-21",
             "styles": "margin-inline-start: 42px;"
           },
           {
-            "class": "mgr21",
+            "class": "me-21",
             "styles": "margin-inline-end: 42px;"
           },
           {
-            "class": "mgx21",
+            "class": "mx-21",
             "styles": "margin-inline-start: 42px; margin-inline-end: 42px;"
           },
           {
-            "class": "mgy21",
+            "class": "my-21",
             "styles": "margin-top: 42px; margin-bottom: 42px;"
           },
           {
-            "class": "mg22",
+            "class": "m-22",
             "styles": "margin: 44px;"
           },
           {
-            "class": "mgt22",
+            "class": "mt-22",
             "styles": "margin-top: 44px;"
           },
           {
-            "class": "mgb22",
+            "class": "mb-22",
             "styles": "margin-bottom: 44px;"
           },
           {
-            "class": "mgl22",
+            "class": "ms-22",
             "styles": "margin-inline-start: 44px;"
           },
           {
-            "class": "mgr22",
+            "class": "me-22",
             "styles": "margin-inline-end: 44px;"
           },
           {
-            "class": "mgx22",
+            "class": "mx-22",
             "styles": "margin-inline-start: 44px; margin-inline-end: 44px;"
           },
           {
-            "class": "mgy22",
+            "class": "my-22",
             "styles": "margin-top: 44px; margin-bottom: 44px;"
           },
           {
-            "class": "mg23",
+            "class": "m-23",
             "styles": "margin: 46px;"
           },
           {
-            "class": "mgt23",
+            "class": "mt-23",
             "styles": "margin-top: 46px;"
           },
           {
-            "class": "mgb23",
+            "class": "mb-23",
             "styles": "margin-bottom: 46px;"
           },
           {
-            "class": "mgl23",
+            "class": "ms-23",
             "styles": "margin-inline-start: 46px;"
           },
           {
-            "class": "mgr23",
+            "class": "me-23",
             "styles": "margin-inline-end: 46px;"
           },
           {
-            "class": "mgx23",
+            "class": "mx-23",
             "styles": "margin-inline-start: 46px; margin-inline-end: 46px;"
           },
           {
-            "class": "mgy23",
+            "class": "my-23",
             "styles": "margin-top: 46px; margin-bottom: 46px;"
           },
           {
-            "class": "mg24",
+            "class": "m-24",
             "styles": "margin: 48px;"
           },
           {
-            "class": "mgt24",
+            "class": "mt-24",
             "styles": "margin-top: 48px;"
           },
           {
-            "class": "mgb24",
+            "class": "mb-24",
             "styles": "margin-bottom: 48px;"
           },
           {
-            "class": "mgl24",
+            "class": "ms-24",
             "styles": "margin-inline-start: 48px;"
           },
           {
-            "class": "mgr24",
+            "class": "me-24",
             "styles": "margin-inline-end: 48px;"
           },
           {
-            "class": "mgx24",
+            "class": "mx-24",
             "styles": "margin-inline-start: 48px; margin-inline-end: 48px;"
           },
           {
-            "class": "mgy24",
+            "class": "my-24",
             "styles": "margin-top: 48px; margin-bottom: 48px;"
           },
           {
-            "class": "mg25",
+            "class": "m-25",
             "styles": "margin: 50px;"
           },
           {
-            "class": "mgt25",
+            "class": "mt-25",
             "styles": "margin-top: 50px;"
           },
           {
-            "class": "mgb25",
+            "class": "mb-25",
             "styles": "margin-bottom: 50px;"
           },
           {
-            "class": "mgl25",
+            "class": "ms-25",
             "styles": "margin-inline-start: 50px;"
           },
           {
-            "class": "mgr25",
+            "class": "me-25",
             "styles": "margin-inline-end: 50px;"
           },
           {
-            "class": "mgx25",
+            "class": "mx-25",
             "styles": "margin-inline-start: 50px; margin-inline-end: 50px;"
           },
           {
-            "class": "mgy25",
+            "class": "my-25",
             "styles": "margin-top: 50px; margin-bottom: 50px;"
           },
           {
-            "class": "mg-auto",
+            "class": "m-auto",
             "styles": "margin: auto;"
           },
           {
-            "class": "mgt-auto",
+            "class": "mt-auto",
             "styles": "margin-top: auto;"
           },
           {
-            "class": "mgb-auto",
+            "class": "mb-auto",
             "styles": "margin-bottom: auto;"
           },
           {
-            "class": "mgl-auto",
+            "class": "ms-auto",
             "styles": "margin-inline-start: auto;"
           },
           {
-            "class": "mgr-apto",
+            "class": "me-auto",
             "styles": "margin-inline-end: auto;"
           },
           {
-            "class": "mgx-auto",
+            "class": "mx-auto",
             "styles": "margin-inline-start: auto; margin-inline-end: auto;"
           },
           {
-            "class": "mgy-auto",
+            "class": "my-auto",
             "styles": "margin-top: auto; margin-bottom: auto;"
           }
         ]
@@ -7380,703 +7726,703 @@ export const utilSchema = {
         "title": "Negative Margin Utilities",
         "rows": [
           {
-            "class": "mgn1",
+            "class": "-m-1",
             "styles": "margin: -2px;"
           },
           {
-            "class": "mgtn1",
+            "class": "-mt-1",
             "styles": "margin-top: -2px;"
           },
           {
-            "class": "mgbn1",
+            "class": "-mb-1",
             "styles": "margin-bottom: -2px;"
           },
           {
-            "class": "mgln1",
+            "class": "-ms-1",
             "styles": "margin-inline-start: -2px;"
           },
           {
-            "class": "mgrn1",
+            "class": "-me-1",
             "styles": "margin-inline-end: -2px;"
           },
           {
-            "class": "mgxn1",
+            "class": "-mx-1",
             "styles": "margin-inline-start: -2px; margin-inline-end: -2px;"
           },
           {
-            "class": "mgyn1",
+            "class": "-my-1",
             "styles": "margin-top: -2px; margin-bottom: -2px;"
           },
           {
-            "class": "mgn2",
+            "class": "-m-2",
             "styles": "margin: -4px;"
           },
           {
-            "class": "mgtn2",
+            "class": "-mt-2",
             "styles": "margin-top: -4px;"
           },
           {
-            "class": "mgbn2",
+            "class": "-mb-2",
             "styles": "margin-bottom: -4px;"
           },
           {
-            "class": "mgln2",
+            "class": "-ms-2",
             "styles": "margin-inline-start: -4px;"
           },
           {
-            "class": "mgrn2",
+            "class": "-me-2",
             "styles": "margin-inline-end: -4px;"
           },
           {
-            "class": "mgxn2",
+            "class": "-mx-2",
             "styles": "margin-inline-start: -4px; margin-inline-end: -4px;"
           },
           {
-            "class": "mgyn2",
+            "class": "-my-2",
             "styles": "margin-top: -4px; margin-bottom: -4px;"
           },
           {
-            "class": "mgn3",
+            "class": "-m-3",
             "styles": "margin: -6px;"
           },
           {
-            "class": "mgtn3",
+            "class": "-mt-3",
             "styles": "margin-top: -6px;"
           },
           {
-            "class": "mgbn3",
+            "class": "-mb-3",
             "styles": "margin-bottom: -6px;"
           },
           {
-            "class": "mgln3",
+            "class": "-ms-3",
             "styles": "margin-inline-start: -6px;"
           },
           {
-            "class": "mgrn3",
+            "class": "-me-3",
             "styles": "margin-inline-end: -6px;"
           },
           {
-            "class": "mgxn3",
+            "class": "-mx-3",
             "styles": "margin-inline-start: -6px; margin-inline-end: -6px;"
           },
           {
-            "class": "mgyn3",
+            "class": "-my-3",
             "styles": "margin-top: -6px; margin-bottom: -6px;"
           },
           {
-            "class": "mgn4",
+            "class": "-m-4",
             "styles": "margin: -8px;"
           },
           {
-            "class": "mgtn4",
+            "class": "-mt-4",
             "styles": "margin-top: -8px;"
           },
           {
-            "class": "mgbn4",
+            "class": "-mb-4",
             "styles": "margin-bottom: -8px;"
           },
           {
-            "class": "mgln4",
+            "class": "-ms-4",
             "styles": "margin-inline-start: -8px;"
           },
           {
-            "class": "mgrn4",
+            "class": "-me-4",
             "styles": "margin-inline-end: -8px;"
           },
           {
-            "class": "mgxn4",
+            "class": "-mx-4",
             "styles": "margin-inline-start: -8px; margin-inline-end: -8px;"
           },
           {
-            "class": "mgyn4",
+            "class": "-my-4",
             "styles": "margin-top: -8px; margin-bottom: -8px;"
           },
           {
-            "class": "mgn5",
+            "class": "-m-5",
             "styles": "margin: -10px;"
           },
           {
-            "class": "mgtn5",
+            "class": "-mt-5",
             "styles": "margin-top: -10px;"
           },
           {
-            "class": "mgbn5",
+            "class": "-mb-5",
             "styles": "margin-bottom: -10px;"
           },
           {
-            "class": "mgln5",
+            "class": "-ms-5",
             "styles": "margin-inline-start: -10px;"
           },
           {
-            "class": "mgrn5",
+            "class": "-me-5",
             "styles": "margin-inline-end: -10px;"
           },
           {
-            "class": "mgxn5",
+            "class": "-mx-5",
             "styles": "margin-inline-start: -10px; margin-inline-end: -10px;"
           },
           {
-            "class": "mgyn5",
+            "class": "-my-5",
             "styles": "margin-top: -10px; margin-bottom: -10px;"
           },
           {
-            "class": "mgn6",
+            "class": "-m-6",
             "styles": "margin: -12px;"
           },
           {
-            "class": "mgtn6",
+            "class": "-mt-6",
             "styles": "margin-top: -12px;"
           },
           {
-            "class": "mgbn6",
+            "class": "-mb-6",
             "styles": "margin-bottom: -12px;"
           },
           {
-            "class": "mgln6",
+            "class": "-ms-6",
             "styles": "margin-inline-start: -12px;"
           },
           {
-            "class": "mgrn6",
+            "class": "-me-6",
             "styles": "margin-inline-end: -12px;"
           },
           {
-            "class": "mgxn6",
+            "class": "-mx-6",
             "styles": "margin-inline-start: -12px; margin-inline-end: -12px;"
           },
           {
-            "class": "mgyn6",
+            "class": "-my-6",
             "styles": "margin-top: -12px; margin-bottom: -12px;"
           },
           {
-            "class": "mgn7",
+            "class": "-m-7",
             "styles": "margin: -14px;"
           },
           {
-            "class": "mgtn7",
+            "class": "-mt-7",
             "styles": "margin-top: -14px;"
           },
           {
-            "class": "mgbn7",
+            "class": "-mb-7",
             "styles": "margin-bottom: -14px;"
           },
           {
-            "class": "mgln7",
+            "class": "-ms-7",
             "styles": "margin-inline-start: -14px;"
           },
           {
-            "class": "mgrn7",
+            "class": "-me-7",
             "styles": "margin-inline-end: -14px;"
           },
           {
-            "class": "mgxn7",
+            "class": "-mx-7",
             "styles": "margin-inline-start: -14px; margin-inline-end: -14px;"
           },
           {
-            "class": "mgyn7",
+            "class": "-my-7",
             "styles": "margin-top: -14px; margin-bottom: -14px;"
           },
           {
-            "class": "mgn8",
+            "class": "-m-8",
             "styles": "margin: -16px;"
           },
           {
-            "class": "mgtn8",
+            "class": "-mt-8",
             "styles": "margin-top: -16px;"
           },
           {
-            "class": "mgbn8",
+            "class": "-mb-8",
             "styles": "margin-bottom: -16px;"
           },
           {
-            "class": "mgln8",
+            "class": "-ms-8",
             "styles": "margin-inline-start: -16px;"
           },
           {
-            "class": "mgrn8",
+            "class": "-me-8",
             "styles": "margin-inline-end: -16px;"
           },
           {
-            "class": "mgxn8",
+            "class": "-mx-8",
             "styles": "margin-inline-start: -16px; margin-inline-end: -16px;"
           },
           {
-            "class": "mgyn8",
+            "class": "-my-8",
             "styles": "margin-top: -16px; margin-bottom: -16px;"
           },
           {
-            "class": "mgn9",
+            "class": "-m-9",
             "styles": "margin: -18px;"
           },
           {
-            "class": "mgtn9",
+            "class": "-mt-9",
             "styles": "margin-top: -18px;"
           },
           {
-            "class": "mgbn9",
+            "class": "-mb-9",
             "styles": "margin-bottom: -18px;"
           },
           {
-            "class": "mgln9",
+            "class": "-ms-9",
             "styles": "margin-inline-start: -18px;"
           },
           {
-            "class": "mgrn9",
+            "class": "-me-9",
             "styles": "margin-inline-end: -18px;"
           },
           {
-            "class": "mgxn9",
+            "class": "-mx-9",
             "styles": "margin-inline-start: -18px; margin-inline-end: -18px;"
           },
           {
-            "class": "mgyn9",
+            "class": "-my-9",
             "styles": "margin-top: -18px; margin-bottom: -18px;"
           },
           {
-            "class": "mgn10",
+            "class": "-m-10",
             "styles": "margin: -20px;"
           },
           {
-            "class": "mgtn10",
+            "class": "-mt-10",
             "styles": "margin-top: -20px;"
           },
           {
-            "class": "mgbn10",
+            "class": "-mb-10",
             "styles": "margin-bottom: -20px;"
           },
           {
-            "class": "mgln10",
+            "class": "-ms-10",
             "styles": "margin-inline-start: -20px;"
           },
           {
-            "class": "mgrn10",
+            "class": "-me-10",
             "styles": "margin-inline-end: -20px;"
           },
           {
-            "class": "mgxn10",
+            "class": "-mx-10",
             "styles": "margin-inline-start: -20px; margin-inline-end: -20px;"
           },
           {
-            "class": "mgyn10",
+            "class": "-my-10",
             "styles": "margin-top: -20px; margin-bottom: -20px;"
           },
           {
-            "class": "mgn11",
+            "class": "-m-11",
             "styles": "margin: -22px;"
           },
           {
-            "class": "mgtn11",
+            "class": "-mt-11",
             "styles": "margin-top: -22px;"
           },
           {
-            "class": "mgbn11",
+            "class": "-mb-11",
             "styles": "margin-bottom: -22px;"
           },
           {
-            "class": "mgln11",
+            "class": "-ms-11",
             "styles": "margin-inline-start: -22px;"
           },
           {
-            "class": "mgrn11",
+            "class": "-me-11",
             "styles": "margin-inline-end: -22px;"
           },
           {
-            "class": "mgxn11",
+            "class": "-mx-11",
             "styles": "margin-inline-start: -22px; margin-inline-end: -22px;"
           },
           {
-            "class": "mgyn11",
+            "class": "-my-11",
             "styles": "margin-top: -22px; margin-bottom: -22px;"
           },
           {
-            "class": "mgn12",
+            "class": "-m-12",
             "styles": "margin: -24px;"
           },
           {
-            "class": "mgtn12",
+            "class": "-mt-12",
             "styles": "margin-top: -24px;"
           },
           {
-            "class": "mgbn12",
+            "class": "-mb-12",
             "styles": "margin-bottom: -24px;"
           },
           {
-            "class": "mgln12",
+            "class": "-ms-12",
             "styles": "margin-inline-start: -24px;"
           },
           {
-            "class": "mgrn12",
+            "class": "-me-12",
             "styles": "margin-inline-end: -24px;"
           },
           {
-            "class": "mgxn12",
+            "class": "-mx-12",
             "styles": "margin-inline-start: -24px; margin-inline-end: -24px;"
           },
           {
-            "class": "mgyn12",
+            "class": "-my-12",
             "styles": "margin-top: -24px; margin-bottom: -24px;"
           },
           {
-            "class": "mgn13",
+            "class": "-m-13",
             "styles": "margin: -26px;"
           },
           {
-            "class": "mgtn13",
+            "class": "-mt-13",
             "styles": "margin-top: -26px;"
           },
           {
-            "class": "mgbn13",
+            "class": "-mb-13",
             "styles": "margin-bottom: -26px;"
           },
           {
-            "class": "mgln13",
+            "class": "-ms-13",
             "styles": "margin-inline-start: -26px;"
           },
           {
-            "class": "mgrn13",
+            "class": "-me-13",
             "styles": "margin-inline-end: -26px;"
           },
           {
-            "class": "mgxn13",
+            "class": "-mx-13",
             "styles": "margin-inline-start: -26px; margin-inline-end: -26px;"
           },
           {
-            "class": "mgyn13",
+            "class": "-my-13",
             "styles": "margin-top: -26px; margin-bottom: -26px;"
           },
           {
-            "class": "mgn14",
+            "class": "-m-14",
             "styles": "margin: -28px;"
           },
           {
-            "class": "mgtn14",
+            "class": "-mt-14",
             "styles": "margin-top: -28px;"
           },
           {
-            "class": "mgbn14",
+            "class": "-mb-14",
             "styles": "margin-bottom: -28px;"
           },
           {
-            "class": "mgln14",
+            "class": "-ms-14",
             "styles": "margin-inline-start: -28px;"
           },
           {
-            "class": "mgrn14",
+            "class": "-me-14",
             "styles": "margin-inline-end: -28px;"
           },
           {
-            "class": "mgxn14",
+            "class": "-mx-14",
             "styles": "margin-inline-start: -28px; margin-inline-end: -28px;"
           },
           {
-            "class": "mgyn14",
+            "class": "-my-14",
             "styles": "margin-top: -28px; margin-bottom: -28px;"
           },
           {
-            "class": "mgn15",
+            "class": "-m-15",
             "styles": "margin: -30px;"
           },
           {
-            "class": "mgtn15",
+            "class": "-mt-15",
             "styles": "margin-top: -30px;"
           },
           {
-            "class": "mgbn15",
+            "class": "-mb-15",
             "styles": "margin-bottom: -30px;"
           },
           {
-            "class": "mgln15",
+            "class": "-ms-15",
             "styles": "margin-inline-start: -30px;"
           },
           {
-            "class": "mgrn15",
+            "class": "-me-15",
             "styles": "margin-inline-end: -30px;"
           },
           {
-            "class": "mgxn15",
+            "class": "-mx-15",
             "styles": "margin-inline-start: -30px; margin-inline-end: -30px;"
           },
           {
-            "class": "mgyn15",
+            "class": "-my-15",
             "styles": "margin-top: -30px; margin-bottom: -30px;"
           },
           {
-            "class": "mgn16",
+            "class": "-m-16",
             "styles": "margin: -32px;"
           },
           {
-            "class": "mgtn16",
+            "class": "-mt-16",
             "styles": "margin-top: -32px;"
           },
           {
-            "class": "mgbn16",
+            "class": "-mb-16",
             "styles": "margin-bottom: -32px;"
           },
           {
-            "class": "mgln16",
+            "class": "-ms-16",
             "styles": "margin-inline-start: -32px;"
           },
           {
-            "class": "mgrn16",
+            "class": "-me-16",
             "styles": "margin-inline-end: -32px;"
           },
           {
-            "class": "mgxn16",
+            "class": "-mx-16",
             "styles": "margin-inline-start: -32px; margin-inline-end: -32px;"
           },
           {
-            "class": "mgyn16",
+            "class": "-my-16",
             "styles": "margin-top: -32px; margin-bottom: -32px;"
           },
           {
-            "class": "mgn17",
+            "class": "-m-17",
             "styles": "margin: -34px;"
           },
           {
-            "class": "mgtn17",
+            "class": "-mt-17",
             "styles": "margin-top: -34px;"
           },
           {
-            "class": "mgbn17",
+            "class": "-mb-17",
             "styles": "margin-bottom: -34px;"
           },
           {
-            "class": "mgln17",
+            "class": "-ms-17",
             "styles": "margin-inline-start: -34px;"
           },
           {
-            "class": "mgrn17",
+            "class": "-me-17",
             "styles": "margin-inline-end: -34px;"
           },
           {
-            "class": "mgxn17",
+            "class": "-mx-17",
             "styles": "margin-inline-start: -34px; margin-inline-end: -34px;"
           },
           {
-            "class": "mgyn17",
+            "class": "-my-17",
             "styles": "margin-top: -34px; margin-bottom: -34px;"
           },
           {
-            "class": "mgn18",
+            "class": "-m-18",
             "styles": "margin: -36px;"
           },
           {
-            "class": "mgtn18",
+            "class": "-mt-18",
             "styles": "margin-top: -36px;"
           },
           {
-            "class": "mgbn18",
+            "class": "-mb-18",
             "styles": "margin-bottom: -36px;"
           },
           {
-            "class": "mgln18",
+            "class": "-ms-18",
             "styles": "margin-inline-start: -36px;"
           },
           {
-            "class": "mgrn18",
+            "class": "-me-18",
             "styles": "margin-inline-end: -36px;"
           },
           {
-            "class": "mgxn18",
+            "class": "-mx-18",
             "styles": "margin-inline-start: -36px; margin-inline-end: -36px;"
           },
           {
-            "class": "mgyn18",
+            "class": "-my-18",
             "styles": "margin-top: -36px; margin-bottom: -36px;"
           },
           {
-            "class": "mgn19",
+            "class": "-m-19",
             "styles": "margin: -38px;"
           },
           {
-            "class": "mgtn19",
+            "class": "-mt-19",
             "styles": "margin-top: -38px;"
           },
           {
-            "class": "mgbn19",
+            "class": "-mb-19",
             "styles": "margin-bottom: -38px;"
           },
           {
-            "class": "mgln19",
+            "class": "-ms-19",
             "styles": "margin-inline-start: -38px;"
           },
           {
-            "class": "mgrn19",
+            "class": "-me-19",
             "styles": "margin-inline-end: -38px;"
           },
           {
-            "class": "mgxn19",
+            "class": "-mx-19",
             "styles": "margin-inline-start: -38px; margin-inline-end: -38px;"
           },
           {
-            "class": "mgyn19",
+            "class": "-my-19",
             "styles": "margin-top: -38px; margin-bottom: -38px;"
           },
           {
-            "class": "mgn20",
+            "class": "-m-20",
             "styles": "margin: -40px;"
           },
           {
-            "class": "mgtn20",
+            "class": "-mt-20",
             "styles": "margin-top: -40px;"
           },
           {
-            "class": "mgbn20",
+            "class": "-mb-20",
             "styles": "margin-bottom: -40px;"
           },
           {
-            "class": "mgln20",
+            "class": "-ms-20",
             "styles": "margin-inline-start: -40px;"
           },
           {
-            "class": "mgrn20",
+            "class": "-me-20",
             "styles": "margin-inline-end: -40px;"
           },
           {
-            "class": "mgxn20",
+            "class": "-mx-20",
             "styles": "margin-inline-start: -40px; margin-inline-end: -40px;"
           },
           {
-            "class": "mgyn20",
+            "class": "-my-20",
             "styles": "margin-top: -40px; margin-bottom: -40px;"
           },
           {
-            "class": "mgn21",
+            "class": "-m-21",
             "styles": "margin: -42px;"
           },
           {
-            "class": "mgtn21",
+            "class": "-mt-21",
             "styles": "margin-top: -42px;"
           },
           {
-            "class": "mgbn21",
+            "class": "-mb-21",
             "styles": "margin-bottom: -42px;"
           },
           {
-            "class": "mgln21",
+            "class": "-ms-21",
             "styles": "margin-inline-start: -42px;"
           },
           {
-            "class": "mgrn21",
+            "class": "-me-21",
             "styles": "margin-inline-end: -42px;"
           },
           {
-            "class": "mgxn21",
+            "class": "-mx-21",
             "styles": "margin-inline-start: -42px; margin-inline-end: -42px;"
           },
           {
-            "class": "mgyn21",
+            "class": "-my-21",
             "styles": "margin-top: -42px; margin-bottom: -42px;"
           },
           {
-            "class": "mgn22",
+            "class": "-m-22",
             "styles": "margin: -44px;"
           },
           {
-            "class": "mgtn22",
+            "class": "-mt-22",
             "styles": "margin-top: -44px;"
           },
           {
-            "class": "mgbn22",
+            "class": "-mb-22",
             "styles": "margin-bottom: -44px;"
           },
           {
-            "class": "mgln22",
+            "class": "-ms-22",
             "styles": "margin-inline-start: -44px;"
           },
           {
-            "class": "mgrn22",
+            "class": "-me-22",
             "styles": "margin-inline-end: -44px;"
           },
           {
-            "class": "mgxn22",
+            "class": "-mx-22",
             "styles": "margin-inline-start: -44px; margin-inline-end: -44px;"
           },
           {
-            "class": "mgyn22",
+            "class": "-my-22",
             "styles": "margin-top: -44px; margin-bottom: -44px;"
           },
           {
-            "class": "mgn23",
+            "class": "-m-23",
             "styles": "margin: -46px;"
           },
           {
-            "class": "mgtn23",
+            "class": "-mt-23",
             "styles": "margin-top: -46px;"
           },
           {
-            "class": "mgbn23",
+            "class": "-mb-23",
             "styles": "margin-bottom: -46px;"
           },
           {
-            "class": "mgln23",
+            "class": "-ms-23",
             "styles": "margin-inline-start: -46px;"
           },
           {
-            "class": "mgrn23",
+            "class": "-me-23",
             "styles": "margin-inline-end: -46px;"
           },
           {
-            "class": "mgxn23",
+            "class": "-mx-23",
             "styles": "margin-inline-start: -46px; margin-inline-end: -46px;"
           },
           {
-            "class": "mgyn23",
+            "class": "-my-23",
             "styles": "margin-top: -46px; margin-bottom: -46px;"
           },
           {
-            "class": "mgn24",
+            "class": "-m-24",
             "styles": "margin: -48px;"
           },
           {
-            "class": "mgtn24",
+            "class": "-mt-24",
             "styles": "margin-top: -48px;"
           },
           {
-            "class": "mgbn24",
+            "class": "-mb-24",
             "styles": "margin-bottom: -48px;"
           },
           {
-            "class": "mgln24",
+            "class": "-ms-24",
             "styles": "margin-inline-start: -48px;"
           },
           {
-            "class": "mgrn24",
+            "class": "-me-24",
             "styles": "margin-inline-end: -48px;"
           },
           {
-            "class": "mgxn24",
+            "class": "-mx-24",
             "styles": "margin-inline-start: -48px; margin-inline-end: -48px;"
           },
           {
-            "class": "mgyn24",
+            "class": "-my-24",
             "styles": "margin-top: -48px; margin-bottom: -48px;"
           },
           {
-            "class": "mgn25",
+            "class": "-m-25",
             "styles": "margin: -50px;"
           },
           {
-            "class": "mgtn25",
+            "class": "-mt-25",
             "styles": "margin-top: -50px;"
           },
           {
-            "class": "mgbn25",
+            "class": "-mb-25",
             "styles": "margin-bottom: -50px;"
           },
           {
-            "class": "mgln25",
+            "class": "-ms-25",
             "styles": "margin-inline-start: -50px;"
           },
           {
-            "class": "mgrn25",
+            "class": "-me-25",
             "styles": "margin-inline-end: -50px;"
           },
           {
-            "class": "mgxn25",
+            "class": "-mx-25",
             "styles": "margin-inline-start: -50px; margin-inline-end: -50px;"
           },
           {
-            "class": "mgyn25",
+            "class": "-my-25",
             "styles": "margin-top: -50px; margin-bottom: -50px;"
           }
         ]
