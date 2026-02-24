@@ -5,10 +5,34 @@ import { on } from '@ember/modifier';
 import { UlxTable } from 'ulx-components';
 
 const initProducts = () => [
-  { id: 1, code: 'f230fh0g3', name: 'Bamboo Watch',  category: 'Accessories', price: 65  },
-  { id: 2, code: 'nvklal433', name: 'Black Watch',    category: 'Accessories', price: 72  },
-  { id: 3, code: 'zz21cz3c1', name: 'Blue Band',      category: 'Fitness',     price: 79  },
-  { id: 4, code: '244wgerg2', name: 'Blue T-Shirt',   category: 'Clothing',    price: 29  },
+  {
+    id: 1,
+    code: 'f230fh0g3',
+    name: 'Bamboo Watch',
+    category: 'Accessories',
+    price: 65,
+  },
+  {
+    id: 2,
+    code: 'nvklal433',
+    name: 'Black Watch',
+    category: 'Accessories',
+    price: 72,
+  },
+  {
+    id: 3,
+    code: 'zz21cz3c1',
+    name: 'Blue Band',
+    category: 'Fitness',
+    price: 79,
+  },
+  {
+    id: 4,
+    code: '244wgerg2',
+    name: 'Blue T-Shirt',
+    category: 'Clothing',
+    price: 29,
+  },
 ];
 
 class NameEditor extends Component {
@@ -53,10 +77,10 @@ export default class DemoTableRowEdit extends Component {
 
   get columns() {
     return [
-      { field: 'code',     header: 'Code'      },
-      { field: 'name',     header: 'Name',     editor: NameEditor  },
-      { field: 'category', header: 'Category', editor: NameEditor  },
-      { field: 'price',    header: 'Price',    editor: PriceEditor },
+      { field: 'code', header: 'Code' },
+      { field: 'name', header: 'Name', editor: NameEditor },
+      { field: 'category', header: 'Category', editor: NameEditor },
+      { field: 'price', header: 'Price', editor: PriceEditor },
       { rowEditor: true },
     ];
   }
@@ -86,8 +110,9 @@ export default class DemoTableRowEdit extends Component {
   }
 
   <template>
-    <p class="text-sm fg-text-secondary mgb2">
-      Click the pencil icon to edit a row. Click the checkmark to save, or X to cancel.
+    <p class="text-sm fg-text-secondary mb-2">
+      Click the pencil icon to edit a row. Click the checkmark to save, or X to
+      cancel.
     </p>
     <UlxTable
       @value={{this.products}}

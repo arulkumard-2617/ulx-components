@@ -24,7 +24,7 @@ import { UlxTooltip, UlxButton, UlxIcon } from 'ulx-components';
         <UlxButton {{attach}} @label="Template" />
       </:trigger>
       <:content>
-        <div class="ulx-column column gp1">
+        <div class="ulx-flex-col flex-col gap-1">
           <span>
             <UlxIcon
               @componentClass="bs-icons1"

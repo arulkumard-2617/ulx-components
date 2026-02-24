@@ -10,7 +10,7 @@ export default class DemoButtonRaised extends Component {
       <UlxButton @label="Success" @raised={{true}} @variant="success" />
       <UlxButton @label="Info" @raised={{true}} @variant="info" />
       <UlxButton @label="Warning" @raised={{true}} @variant="warning" />
-      <UlxButton @label="Help" @raised={{true}} @variant="help" />
+      <UlxButton @label="help" @raised={{true}} @variant="help-button" />
       <UlxButton @label="Danger" @raised={{true}} @variant="danger" />
     </div>
   </template>

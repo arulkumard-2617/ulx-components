@@ -24,7 +24,7 @@ export default class ResponsiveDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Show Responsive Modal"
         @variant="primary"
@@ -42,8 +42,10 @@ export default class ResponsiveDemoComponent extends Component {
         @onDone={{this.handleConfirm}}
         @onCancel={{this.closeModal}}
       >
-        <p>This modal uses the built-in responsive behavior from <code>dialog.less</code>.</p>
-        <p>Resize the browser to mobile (≤767px) to see it adapt: fixed width on desktop, full width with padding on mobile.</p>
+        <p>This modal uses the built-in responsive behavior from
+          <code>dialog.less</code>.</p>
+        <p>Resize the browser to mobile (≤767px) to see it adapt: fixed width on
+          desktop, full width with padding on mobile.</p>
       </UlxModal>
     </div>
   </template>

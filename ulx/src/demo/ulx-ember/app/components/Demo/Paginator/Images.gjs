@@ -7,7 +7,8 @@ export default class ImagesPaginatorDemo extends Component {
   @tracked first = 0;
   rows = 1;
   totalRecords = 12;
-  imagesTemplate = 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink';
+  imagesTemplate =
+    'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink';
 
   @action
   onPageChange(event) {
@@ -27,7 +28,7 @@ export default class ImagesPaginatorDemo extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4 fxd-column">
+    <div class="flex items-center gap-4 fxd-flex-col">
       <UlxPaginator
         @totalRecords={{this.totalRecords}}
         @rows={{this.rows}}
@@ -36,11 +37,7 @@ export default class ImagesPaginatorDemo extends Component {
         @onPageChange={{this.onPageChange}}
       />
       <div class="pda4 text-center">
-        <img
-          alt={{this.imageAlt}}
-          src={{this.imageSrc}}
-          class="max-w-100"
-        />
+        <img alt={{this.imageAlt}} src={{this.imageSrc}} class="max-w-100" />
       </div>
     </div>
   </template>

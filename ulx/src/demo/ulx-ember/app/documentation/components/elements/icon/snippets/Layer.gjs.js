@@ -14,11 +14,11 @@ export default class DemoIconLayer extends Component {
   }
 
   <template>
-    <div class="ulx-column col-3 gp8 fhc">
+    <div class="ulx-flex-col col-3 gap-8 fhc">
       {{#each this.layerVariations as |color|}}
-        <div class="fxb column fvc gp2 col-3">
+        <div class="flex flex-col items-center gap-2 col-3">
           <div class="text-sm">bg-{{color}}</div>
-          <div class="fxb gp4">
+          <div class="flex gap-4">
             {{#each this.sampleIcons as |iconName|}}
               <UlxIcon
                 @componentClass="bs-icons1"

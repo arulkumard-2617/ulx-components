@@ -22,7 +22,7 @@
   {{else if this.isBuilderTab}}
     <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
       <:preview as |props|>
-        <div class="ulx-form s-size ulx-grid gp12">
+        <div class="ulx-form s-size ulx-grid gap-12">
           <UlxMultiSelect
             @label={{props.label}}
             @options={{props.options}}
@@ -48,7 +48,9 @@
         @title={{t "lbl.pass.through"}}
         @subtitle={{t "msg.pass.through.subtitle" component="MultiSelect"}}
       >
-        <p class="fg-text-secondary">{{t "msg.pass.through.content.goes.here"}}</p>
+        <p class="fg-text-secondary">{{t
+            "msg.pass.through.content.goes.here"
+          }}</p>
       </Common::DocMain::FoundationSection>
     </div>
   {{/if}}

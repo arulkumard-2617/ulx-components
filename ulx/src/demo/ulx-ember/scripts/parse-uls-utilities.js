@@ -818,7 +818,7 @@
 //     { class: '.w2 – .w150, .w155 – .w300', styles: 'width (px scale).' },
 //     { class: '.h2 – .h150, .min-h*, .max-h*', styles: 'height.' },
 //     {
-//       class: '.w-100p, .min-w-100p, .w-1-2, .w-1-3',
+//       class: '.w-full, .min-w-full, .w-1-2, .w-1-3',
 //       styles: 'percent and fraction.',
 //     },
 //   ];

@@ -32,7 +32,12 @@ export default class RouterDemoComponent extends Component {
 
     const index = this.items.findIndex((item) => {
       if (item.route === currentRoute) return true;
-      if (item.route === 'utilities.index' && (currentRoute === 'utilities.index' || currentRoute?.startsWith('utilities.utility'))) return true;
+      if (
+        item.route === 'utilities.index' &&
+        (currentRoute === 'utilities.index' ||
+          currentRoute?.startsWith('utilities.utility'))
+      )
+        return true;
       return false;
     });
     return index >= 0 ? index : 0;
@@ -46,7 +51,7 @@ export default class RouterDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc fsb mgb4">
+    <div class="flex items-center justify-between mb-4">
       <p class="fg-text-secondary">
         This demo shows TabMenu with LinkTo routing. Click tabs to navigate
         between routes. The active tab is automatically synced with the current

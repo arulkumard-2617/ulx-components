@@ -6,20 +6,20 @@ export default class ColorPaletteComponent extends Component {
   };
 
   <template>
-    <div class="fxb fcol gp8 w-100p">
+    <div class="flex flex-col gap-8 w-full">
       {{#each @paletteGroups as |group|}}
-        <div class="fxcol gp2">
-          <h5 class="mgt0 mgb2 bold-font fg-primary">{{group.title}}</h5>
-          <div class="ulx-grid col-4 gp5">
+        <div class="flex flex-col gap-2">
+          <h5 class="mt-0 mb-2 bold-font fg-primary">{{group.title}}</h5>
+          <div class="ulx-grid col-4 gap-5">
             {{#each group.colors as |color|}}
               <article
-                class="ulx-foundation-card pd3 rds2 bd flex-column md-w-1-3 text-center"
+                class="ulx-foundation-card p-3 rounded border flex-flex-col md-w-1-3 text-center"
               >
                 <div
-                  class="rds2 mgb2 bd mg-auto"
+                  class="rounded mb-2 border m-auto"
                   style={{this.getStyleString color.cssVar}}
                 ></div>
-                <p class="mgb1 fg-text-secondary"><code
+                <p class="mb-1 fg-text-secondary"><code
                   >{{color.token}}</code></p>
               </article>
             {{/each}}

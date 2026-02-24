@@ -3,7 +3,7 @@ import { getComponentClass } from "../../../utils/component-config";
 
 /**
  * Form container that provides layout and typography for form fields.
- * Uses grid layout; direct children with class "field" get flex column layout
+ * Uses grid layout; direct children with class "field" get flex flex-col layout
  * (label, control, help-text, error-message). Structure per form.less:
  * form > .field > label (.label-text, .label-right) + control + .help-text / .error-message
  *
@@ -12,7 +12,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * - Pass aria-label, aria-labelledby, or aria-describedby via ...attributes
  *
  * @class UlxForm
- * @param {2|3} [cols] - Column layout: 2 or 3 columns for direct .field children
+ * @param {2|3} [cols] - flex-col layout: 2 or 3 columns for direct .field children
  * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class)
  * @param {string} [customClass] - Extra CSS classes on the form root
  *

@@ -54,7 +54,7 @@ export default class AsyncExampleDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Open Async Modal"
         @variant="primary"
@@ -62,8 +62,12 @@ export default class AsyncExampleDemoComponent extends Component {
       />
 
       {{#if this.successMessage}}
-        <div class="success-message" style="color: green; padding: 1rem; background: #e8f5e9; border-radius: 4px;">
-          ✓ {{this.successMessage}}
+        <div
+          class="success-message"
+          style="color: green; padding: 1rem; background: #e8f5e9; border-eadius: 4px;"
+        >
+          ✓
+          {{this.successMessage}}
         </div>
       {{/if}}
     </div>
@@ -81,7 +85,7 @@ export default class AsyncExampleDemoComponent extends Component {
       @cancelButtonLabel="Cancel"
       @doneButtonLabel="Save"
     >
-      <div class="fxb fvc gp3">
+      <div class="flex items-center gap-3">
         <p>This modal demonstrates async operations with proper loading states:</p>
         <ul style="margin-left: 1.5rem;">
           <li><strong>Promise handling</strong>: onDone returns a Promise</li>
@@ -91,14 +95,20 @@ export default class AsyncExampleDemoComponent extends Component {
         </ul>
 
         {{#if this.errorMessage}}
-          <div class="error-message" style="color: #d32f2f; padding: 0.75rem; background: #ffebee; border-radius: 4px; border-left: 4px solid #d32f2f;">
-            <strong>Error:</strong> {{this.errorMessage}}
+          <div
+            class="error-message"
+            style="color: #d32f2f; padding: 0.75rem; background: #ffebee; border-eadius: 4px; border-seft: 4px solid #d32f2f;"
+          >
+            <strong>Error:</strong>
+            {{this.errorMessage}}
             <br />
             <small>Try clicking Save again (70% success rate)</small>
           </div>
         {{/if}}
 
-        <div style="padding: 1rem; background: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 0.9em;">
+        <div
+          style="padding: 1rem; background: #f5f5f5; border-eadius: 4px; font-family: monospace; font-size: 0.9em;"
+        >
           <code>
             @onDone=\{{this.handleSave}}<br />
             @onError=\{{this.handleError}}<br />

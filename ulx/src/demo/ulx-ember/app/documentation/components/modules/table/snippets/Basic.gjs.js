@@ -3,19 +3,23 @@ import Component from '@glimmer/component';
 import { UlxTable } from 'ulx-components';
 
 const PRODUCTS = [
-  { id: 1, code: 'f230fh0g3', name: 'Bamboo Watch',  category: 'Accessories', price: 65 },
-  { id: 2, code: 'nvklal433', name: 'Black Watch',    category: 'Accessories', price: 72 },
-  { id: 3, code: 'zz21cz3c1', name: 'Blue Band',      category: 'Fitness',     price: 79 },
+  { id: 1, code: 'f230fh0g3', name: 'Bamboo Watch', category: 'Accessories', quantity: 24, price: 65, status: 'INSTOCK' },
+  { id: 2, code: 'nvklal433', name: 'Black Watch', category: 'Accessories', quantity: 61, price: 72, status: 'INSTOCK' },
+  { id: 3, code: 'zz21cz3c1', name: 'Blue Band', category: 'Fitness', quantity: 2, price: 79, status: 'LOWSTOCK' },
+  { id: 4, code: '244wgerg2', name: 'Blue T-Shirt', category: 'Clothing', quantity: 25, price: 29, status: 'INSTOCK' },
+  { id: 5, code: 'h456wer53', name: 'Bracelet', category: 'Accessories', quantity: 73, price: 15, status: 'INSTOCK' },
 ];
 
 const columns = [
-  { field: 'code',     header: 'Code'      },
-  { field: 'name',     header: 'Name'      },
-  { field: 'category', header: 'Category'  },
+  { field: 'code',     header: 'Code' },
+  { field: 'name',     header: 'Name' },
+  { field: 'category', header: 'Category' },
+  { field: 'quantity', header: 'Qty' },
   { field: 'price',    header: 'Price ($)' },
+  { field: 'status',   header: 'Status' },
 ];
 
-export default class BasicTableDemo extends Component {
+export default class DemoTableBasic extends Component {
   products = PRODUCTS;
   columns = columns;
 
@@ -23,4 +27,5 @@ export default class BasicTableDemo extends Component {
     <UlxTable @value={{this.products}} @columns={{this.columns}} @dataKey="id" />
   </template>
 }
+
 `;

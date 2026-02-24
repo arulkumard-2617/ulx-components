@@ -19,7 +19,7 @@ export default class BasicSlidepaneDemo extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Open Slide Pane"
         @variant="primary"
@@ -32,7 +32,9 @@ export default class BasicSlidepaneDemo extends Component {
         @position="right"
         @onHide={{this.closePane}}
       >
-          <p>This is the default body content. You can pass any content in the <code>&lt;:body&gt;</code> block.</p>
+        <p>This is the default body content. You can pass any content in the
+          <code>&lt;:body&gt;</code>
+          block.</p>
       </UlxSlidePane>
     </div>
   </template>

@@ -17,30 +17,30 @@ export default class DemoPanelmenuTemplate extends Component {
             label: 'Compose',
             icon: 'bs-icons1 mail-edit-icon s20',
             shortcut: '⌘+N',
-            template: TemplateItem
+            template: TemplateItem,
           },
           {
             key: 'inbox',
             label: 'Inbox',
             icon: 'bs-icons1 email-icon-01 s20',
             badge: 5,
-            template: TemplateItem
+            template: TemplateItem,
           },
           {
             key: 'sent',
             label: 'Sent',
             icon: 'bs-icons1 send-icon s20',
             shortcut: '⌘+S',
-            template: TemplateItem
+            template: TemplateItem,
           },
           {
             key: 'trash',
             label: 'Trash',
             icon: 'bs-icons1 delete-icon s20',
             shortcut: '⌘+T',
-            template: TemplateItem
-          }
-        ]
+            template: TemplateItem,
+          },
+        ],
       },
       {
         key: 'reports',
@@ -49,9 +49,21 @@ export default class DemoPanelmenuTemplate extends Component {
         shortcut: '⌘+R',
         template: TemplateItem,
         items: [
-          { key: 'sales', label: 'Sales', icon: 'bs-icons1 sales-summary-icon s20', badge: 3, template: TemplateItem },
-          { key: 'products', label: 'Products', icon: 'bs-icons1 space-icon s20', badge: 6, template: TemplateItem }
-        ]
+          {
+            key: 'sales',
+            label: 'Sales',
+            icon: 'bs-icons1 sales-summary-icon s20',
+            badge: 3,
+            template: TemplateItem,
+          },
+          {
+            key: 'products',
+            label: 'Products',
+            icon: 'bs-icons1 space-icon s20',
+            badge: 6,
+            template: TemplateItem,
+          },
+        ],
       },
       {
         key: 'profile',
@@ -60,17 +72,28 @@ export default class DemoPanelmenuTemplate extends Component {
         shortcut: '⌘+W',
         template: TemplateItem,
         items: [
-          { key: 'settings', label: 'Settings', icon: 'bs-icons1 settings-icon-01 s20', shortcut: '⌘+O', template: TemplateItem },
-          { key: 'privacy', label: 'Privacy', icon: 'bs-icons1 data-privacy-icon s20', shortcut: '⌘+P', template: TemplateItem }
-        ]
-      }
+          {
+            key: 'settings',
+            label: 'Settings',
+            icon: 'bs-icons1 settings-icon-01 s20',
+            shortcut: '⌘+O',
+            template: TemplateItem,
+          },
+          {
+            key: 'privacy',
+            label: 'Privacy',
+            icon: 'bs-icons1 data-privacy-icon s20',
+            shortcut: '⌘+P',
+            template: TemplateItem,
+          },
+        ],
+      },
     ];
   }
 
   <template>
-    <div class="w-100p md-max-w-640">
+    <div class="w-full md-max-w-640">
       <UlxPanelmenu @model={{this.items}} />
     </div>
   </template>
 }
-

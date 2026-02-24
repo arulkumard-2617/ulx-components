@@ -6,14 +6,22 @@ export default class ComponentsModulesTableController extends Controller {
   @tracked activeTab = 'features';
 
   tabs = [
-    { id: 'features',    label: 'FEATURES'     },
-    { id: 'theming',     label: 'THEMING'      },
-    { id: 'passthrough', label: 'PASS THROUGH' },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'params', label: 'PARAMS' },
+    { id: 'architecture', label: 'ARCHITECTURE' },
   ];
 
-  get isFeaturesTab()    { return this.activeTab === 'features';    }
-  get isThemingTab()     { return this.activeTab === 'theming';     }
-  get isPassthroughTab() { return this.activeTab === 'passthrough'; }
+  get isFeaturesTab() {
+    return this.activeTab === 'features';
+  }
+
+  get isParamsTab() {
+    return this.activeTab === 'params';
+  }
+
+  get isArchitectureTab() {
+    return this.activeTab === 'architecture';
+  }
 
   @action
   onTabChange(tabId) {

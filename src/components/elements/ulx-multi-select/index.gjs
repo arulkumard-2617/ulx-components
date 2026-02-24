@@ -824,7 +824,7 @@ export default class UlxMultiSelect extends Component {
 					>
 						<div class="multiselect-label-container {{this.contentPlaceholderClass}}" tabindex="-1">
 							{{#if (has-block "value")}}
-								<div class="fxb fvc">
+								<div class="flex items-center">
 									{{yield
 										(hash
 											selectedOptions=this.selectedOptions
@@ -930,7 +930,7 @@ export default class UlxMultiSelect extends Component {
 				>
 					<div class="multiselect-label-container {{this.contentPlaceholderClass}}" tabindex="-1">
 						{{#if (has-block "value")}}
-							<div class="fxb fvc">
+							<div class="flex items-center">
 								{{yield
 									(hash
 										selectedOptions=this.selectedOptions
@@ -1260,7 +1260,10 @@ export default class UlxMultiSelect extends Component {
 								{{#if (has-block "footer")}}
 									{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
 								{{else}}
-									<span class="multiselect-footer-count">{{t "msg.multiselect.items.selected" count=this.selectedCount}}</span>
+									<span class="multiselect-footer-count">{{t
+											"msg.multiselect.items.selected"
+											count=this.selectedCount
+										}}</span>
 								{{/if}}
 							</div>
 						</div>

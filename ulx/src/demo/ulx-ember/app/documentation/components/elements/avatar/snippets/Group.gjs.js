@@ -59,7 +59,7 @@ export default class GroupDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fcol gp5">
+    <div class="flex flex-col gap-5">
       <UlxAvatarGroup
         @items={{this.avatarItems}}
         @stacked={{true}}

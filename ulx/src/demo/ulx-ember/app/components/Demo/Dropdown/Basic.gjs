@@ -24,7 +24,7 @@ export default class DemoDropdownBasic extends Component {
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gp12 mgb14">
+    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxDropdown
         id="city-basic"
         @options={{this.cities}}

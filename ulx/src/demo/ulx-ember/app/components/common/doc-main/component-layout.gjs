@@ -10,8 +10,8 @@ export default class ComponentLayoutComponent extends Component {
           @activeTab={{@activeTab}}
           @onChange={{@onTabChange}}
         >
-          <header class="doc-component-page__header mgb8">
-            <h1 class="mgt0 mgb2 bold-font">{{@title}}</h1>
+          <header class="doc-component-page__header mb-8">
+            <h1 class="mgt0 mb-2 bold-font">{{@title}}</h1>
             {{#if @description}}
               <p class="fg-text-secondary mgt0">{{@description}}</p>
             {{/if}}
@@ -21,8 +21,8 @@ export default class ComponentLayoutComponent extends Component {
           </div>
         </DocTab>
       {{else}}
-        <header class="doc-component-page__header mgb8">
-          <h1 class="mgt0 mgb2 bold-font">{{@title}}</h1>
+        <header class="doc-component-page__header mb-8">
+          <h1 class="mgt0 mb-2 bold-font">{{@title}}</h1>
           {{#if @description}}
             <p class="fg-text-secondary mgt0">{{@description}}</p>
           {{/if}}
@@ -34,4 +34,3 @@ export default class ComponentLayoutComponent extends Component {
     </div>
   </template>
 }
-

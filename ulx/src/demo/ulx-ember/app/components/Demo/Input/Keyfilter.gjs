@@ -38,7 +38,7 @@ const keyfilters = [
 ];
 
 <template>
-  <div class="ulx-form s-size ulx-grid gp8 mgb14">
+  <div class="ulx-form s-size ulx-grid gap-8 mb-14">
     {{#each keyfilters as |item|}}
       <UlxInput
         @label={{item.label}}

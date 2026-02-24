@@ -10,23 +10,20 @@ export default class DocPanelComponent extends Component {
   }
 
   <template>
-    <div class="doc-panel-wrapper fxb fsb">
-      <div class="doc-panel fxgrow w-100p">
+    <div class="doc-panel-wrapper flex justify-between">
+      <div class="doc-panel grow w-full">
         {{#if @features}}
           {{#each @features as |feature|}}
-            <FoundationSection 
-              @id={{feature.id}}
-              @title={{feature.sectionNav}}
-            >
+            <FoundationSection @id={{feature.id}} @title={{feature.sectionNav}}>
               {{#if feature.sectionDesc}}
-                <RichText 
+                <RichText
                   @as={{feature.sectionDesc.props.as}}
                   @content={{feature.sectionDesc.props.content}}
                 />
               {{/if}}
-              
+
               {{#if feature.demo}}
-                <CodePreview 
+                <CodePreview
                   @source={{feature.demo.props.source}}
                   @language={{feature.demo.props.language}}
                   @snippetName={{feature.demo.props.snippetName}}
@@ -49,4 +46,3 @@ export default class DocPanelComponent extends Component {
     </div>
   </template>
 }
-

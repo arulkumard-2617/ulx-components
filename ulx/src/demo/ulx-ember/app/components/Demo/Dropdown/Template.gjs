@@ -33,7 +33,7 @@ export default class DemoDropdownTemplate extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gp8 mgb14">
+    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
       <UlxDropdown
         @options={{this.options}}
         @value={{this.selectedItem}}
@@ -52,7 +52,7 @@ export default class DemoDropdownTemplate extends Component {
                 src={{ctx.imageUrl}}
                 alt={{ctx.selectedLabel}}
                 class={{concat
-                  "mgr2 flag "
+                  "me-2 flag "
                   (this.getFlagClass ctx.selectedOption.code)
                 }}
                 style="width: 18px;"
@@ -69,7 +69,7 @@ export default class DemoDropdownTemplate extends Component {
             <img
               src={{ctx.imageUrl}}
               alt={{ctx.label}}
-              class={{concat "mgr2 flag " (this.getFlagClass ctx.option.code)}}
+              class={{concat "me-2 flag " (this.getFlagClass ctx.option.code)}}
               style="width: 18px;"
               aria-hidden="true"
             />

@@ -35,7 +35,7 @@ export default class TemplateToastDemo extends Component {
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}}>
         <:content as |message|>
-          <div class="fxb column gp4">
+          <div class="flex flex-col gap-4">
             <span class="fw-semibold">{{t "lbl.amy.elsner"}}</span>
             <div class="fw-medium">{{message.summary}}</div>
             <UlxButton

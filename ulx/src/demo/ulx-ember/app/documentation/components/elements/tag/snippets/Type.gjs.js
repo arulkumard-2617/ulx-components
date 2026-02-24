@@ -12,7 +12,7 @@ export default class TypeDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap gp4">
+    <div class="flex wrap gap-4">
       {{#each this.types key="label" as |item|}}
         <UlxTag
           @value={{item.label}}

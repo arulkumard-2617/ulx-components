@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { Steps } from 'ulx-components';
+import { UlxSteps } from 'ulx-components';
 
 export default class LinearStepsDemo extends Component {
   get items() {
@@ -13,8 +13,9 @@ export default class LinearStepsDemo extends Component {
 
   <template>
     <div class="pda4">
-      <Steps @model={{this.items}} @readOnly={{true}} />
+      <UlxSteps @model={{this.items}} @readOnly={{true}} />
     </div>
   </template>
 }
+
 `;

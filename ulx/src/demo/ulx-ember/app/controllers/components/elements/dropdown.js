@@ -8,25 +8,20 @@ export default class ComponentsElementsDropdownController extends Controller {
 
   tabs = [
     { id: 'features', label: t('lbl.doc.features') },
-    { id: 'theming', label: t('lbl.doc.theming') },
-    { id: 'builder', label: t('lbl.doc.builder') },
-    { id: 'passthrough', label: t('lbl.doc.pass.through') },
+    { id: 'params', label: t('lbl.doc.params') },
+    { id: 'architecture', label: t('lbl.doc.architecture') },
   ];
 
   get isFeaturesTab() {
     return this.activeTab === 'features';
   }
 
-  get isThemingTab() {
-    return this.activeTab === 'theming';
+  get isParamsTab() {
+    return this.activeTab === 'params';
   }
 
-  get isBuilderTab() {
-    return this.activeTab === 'builder';
-  }
-
-  get isPassthroughTab() {
-    return this.activeTab === 'passthrough';
+  get isArchitectureTab() {
+    return this.activeTab === 'architecture';
   }
 
   @action

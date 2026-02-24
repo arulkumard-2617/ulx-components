@@ -72,8 +72,8 @@ export default class PositionsPopupDemo extends Component {
 
   <template>
     <div class="pda4">
-      <p class="mgb4">Click a button to open the popup at that position.</p>
-      <div class="gp8 fxb wrap">
+      <p class="mb-4">Click a button to open the popup at that position.</p>
+      <div class="gap-8 flex flex-wrap">
         {{#each this.positions as |position|}}
           <UlxButton
             @label={{position}}

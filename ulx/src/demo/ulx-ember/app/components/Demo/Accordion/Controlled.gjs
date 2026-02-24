@@ -19,7 +19,7 @@ export default class ControlledAccordionDemo extends Component {
     return [
       { header: 'Header I', content: LOREM_1 },
       { header: 'Header II', content: LOREM_2 },
-      { header: 'Header III', content: LOREM_3 }
+      { header: 'Header III', content: LOREM_3 },
     ];
   }
 
@@ -42,7 +42,11 @@ export default class ControlledAccordionDemo extends Component {
 
   <template>
     <div class="pda4">
-      <div class="fxb fvc fje gp2 mgb4" role="group" aria-label="Accordion tab control">
+      <div
+        class="flex items-center fje gap-2 mb-4"
+        role="group"
+        aria-label="Accordion tab control"
+      >
         <UlxButton
           @label="1"
           @variant={{if (this.isTabActive 0) "primary" "secondary"}}
