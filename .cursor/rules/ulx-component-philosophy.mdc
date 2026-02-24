@@ -153,6 +153,7 @@ All components **MUST** meet WCAG requirements. Apply these rules so every compo
 - **Overrides**: Prefer passing a11y attributes through `...attributes` so callers can set `aria-label`, `role`, etc. when needed. Default to safe choices (e.g. decorative) and let callers override.
 - **Keyboard & focus**: Interactive components must be keyboard operable and have visible focus. Use `tabindex`, `role`, and focus management as appropriate for the control type.
 - **Semantics**: Use the right HTML element or ARIA role (e.g. `role="button"` only when it behaves like a button; use `<button>` when possible).
+- **snippets**: we need to write whatever the code demo page variation is having , it should be present in the snippet file also,  including the imports.
 
 ### Icon components
 

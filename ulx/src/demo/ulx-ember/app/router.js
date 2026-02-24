@@ -17,8 +17,9 @@ Router.map(function () {
       this.route('option-segment');
       this.route('form');
       this.route('accordion');
+      this.route('multiselect');
       this.route('timeline');
-    });
+});
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -28,6 +29,7 @@ Router.map(function () {
       this.route('radio');
       this.route('tag');
       this.route('badge');
+      this.route('chip');
       this.route('divider');
       this.route('avatar');
       this.route('button');

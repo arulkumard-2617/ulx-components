@@ -10,6 +10,7 @@ export { default as UlxIconInput } from './components/elements/ulx-icon-input/in
 export { default as UlxCheckbox } from './components/elements/ulx-checkbox/index.gjs';
 export { default as UlxRadio } from './components/elements/ulx-radio/index.gjs';
 export { default as UlxTag } from './components/elements/ulx-tag/index.gjs';
+export { default as UlxChip } from './components/elements/ulx-chip/index.gjs';
 export { default as UlxBadge } from './components/elements/ulx-badge/index.gjs';
 export { default as UlxDivider } from './components/elements/ulx-divider/index.gjs';
 export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs';
@@ -19,6 +20,7 @@ export { default as UlxProgressBar } from './components/elements/ulx-progress-ba
 export { default as UlxSplitButton } from './components/elements/ulx-split-button/index.gjs';
 export { default as UlxTristateCheckbox } from './components/elements/ulx-tristate-checkbox/index.gjs';
 export { default as UlxDropdown } from './components/elements/ulx-dropdown/index.gjs';
+export { default as UlxMultiSelect } from './components/elements/ulx-multi-select/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
 export { default as UlxForm } from './components/collections/ulx-form/index.gjs';
