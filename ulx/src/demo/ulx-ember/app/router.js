@@ -47,9 +47,11 @@ Router.map(function () {
       this.route('modal');
       this.route('tooltip');
       this.route('slidepane');
-	  this.route('steps');
-});
-    
+      this.route('steps');
+      this.route('paginator');
+      this.route('table');
+    });
+
 });
 
   this.route('utilities', function () {

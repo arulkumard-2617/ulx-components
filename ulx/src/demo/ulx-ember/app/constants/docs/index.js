@@ -365,6 +365,21 @@ export const DocNavItems = [
         ],
       },
       {
+        category: 'Data',
+        items: [
+          {
+            menuItem: 'Paginator',
+            to: '/components/modules/paginator',
+            route: 'components.modules.paginator',
+          },
+          {
+            menuItem: 'Table',
+            to: '/components/modules/table',
+            route: 'components.modules.table',
+          },
+        ],
+      },
+      {
         category: 'Overlay',
         items: [
           {
