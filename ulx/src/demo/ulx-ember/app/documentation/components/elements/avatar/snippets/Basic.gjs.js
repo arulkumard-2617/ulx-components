@@ -4,8 +4,8 @@ import { UlxAvatar, t } from 'ulx-components';
 <template>
   <div class="ulx-grid col-2">
     <div class="">
-      <h6 class="bold-font mgb3">{{t "lbl.square"}}</h6>
-      <div class="fxb wrap gp4 fvc">
+      <h6 class="bold-font mb-3">{{t "lbl.square"}}</h6>
+      <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @type="text"
           @label="UL"
@@ -31,8 +31,8 @@ import { UlxAvatar, t } from 'ulx-components';
     </div>
 
     <div class="">
-      <h6 class="bold-font mgb3">{{t "lbl.circle"}}</h6>
-      <div class="fxb wrap gp4 fvc">
+      <h6 class="bold-font mb-3">{{t "lbl.circle"}}</h6>
+      <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @type="text"
           @label="P"

@@ -3,7 +3,7 @@ import { UlxButton } from 'ulx-components';
 
 export default class DemoButtonRaisedText extends Component {
   <template>
-    <div class="fxb fvc wrap gap-md">
+    <div class="flex items-center wrap gap-md">
       <UlxButton @label="Primary" @text={{true}} @raised={{true}} />
       <UlxButton
         @label="Secondary"

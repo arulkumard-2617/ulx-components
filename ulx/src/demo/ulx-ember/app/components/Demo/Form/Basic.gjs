@@ -85,7 +85,7 @@ export default class DemoFormBasic extends Component {
   <template>
     <UlxForm
       @size="m-size"
-      @customClass="ulx-grid gp6"
+      @customClass="ulx-grid gap-6"
       aria-label="Form"
       {{on "submit" this.handleSubmit}}
     >

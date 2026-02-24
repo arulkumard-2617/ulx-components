@@ -34,7 +34,7 @@ export default class PositionModalDemo extends Component {
   }
 
   <template>
-    <div class="fxb fw-wrap gp3">
+    <div class="flex flex-wrap gap-3">
       {{#each this.positionOptions as |option|}}
         <UlxButton
           @variant="primary"
@@ -54,7 +54,8 @@ export default class PositionModalDemo extends Component {
       @cancelButtonLabel="Close"
       @onCancel={{this.closeModal}}
     >
-      <p>This modal is positioned at <strong>{{this.currentPosition}}</strong>.</p>
+      <p>This modal is positioned at
+        <strong>{{this.currentPosition}}</strong>.</p>
     </UlxModal>
   </template>
 }

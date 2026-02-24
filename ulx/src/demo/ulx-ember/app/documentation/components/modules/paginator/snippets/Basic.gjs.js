@@ -8,7 +8,7 @@ export default class BasicPaginatorDemo extends Component {
   @tracked first = 0;
   @tracked rows = 10;
   totalRecords = 120;
-  rowsPerPageOptions = [10, 20, 30];
+  rowsPerPageOptions = [10, 20, 30, 40];
 
   @action
   onPageChange(event) {
@@ -17,7 +17,7 @@ export default class BasicPaginatorDemo extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxPaginator
         @totalRecords={{this.totalRecords}}
         @rows={{this.rows}}
@@ -28,4 +28,5 @@ export default class BasicPaginatorDemo extends Component {
     </div>
   </template>
 }
+
 `;

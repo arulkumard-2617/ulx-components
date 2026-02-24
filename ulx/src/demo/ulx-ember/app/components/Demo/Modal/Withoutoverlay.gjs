@@ -40,7 +40,7 @@ export default class WithoutoverlayDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4 fw-wrap">
+    <div class="flex items-center gap-4 flex-wrap">
       <UlxButton
         @label="Show First"
         @variant="primary"
@@ -71,7 +71,11 @@ export default class WithoutoverlayDemoComponent extends Component {
       @onDone={{this.closeModal1}}
       @onCancel={{this.closeModal1}}
     >
-      <p>This dialog has <code>@overlay={{false}}</code> and <code>@draggable={{true}}</code>. No overlay—drag the header to move. Multiple dialogs stack in the center.</p>
+      <p>This dialog has
+        <code>@overlay={{false}}</code>
+        and
+        <code>@draggable={{true}}</code>. No overlay—drag the header to move.
+        Multiple dialogs stack in the center.</p>
     </UlxModal>
 
     <UlxModal
@@ -87,7 +91,8 @@ export default class WithoutoverlayDemoComponent extends Component {
       @onDone={{this.closeModal2}}
       @onCancel={{this.closeModal2}}
     >
-      <p>Multiple non-modal dialogs stack one above the other. Drag by the header to reposition and see the others.</p>
+      <p>Multiple non-modal dialogs stack one above the other. Drag by the
+        header to reposition and see the others.</p>
     </UlxModal>
 
     <UlxModal
@@ -103,7 +108,9 @@ export default class WithoutoverlayDemoComponent extends Component {
       @onDone={{this.closeModal3}}
       @onCancel={{this.closeModal3}}
     >
-      <p>Uses <code>dialog-mask:not(.modal)</code> from uls-v2—transparent, non-blocking. Drag the header to move.</p>
+      <p>Uses
+        <code>dialog-mask:not(.modal)</code>
+        from uls-v2—transparent, non-blocking. Drag the header to move.</p>
     </UlxModal>
   </template>
 }

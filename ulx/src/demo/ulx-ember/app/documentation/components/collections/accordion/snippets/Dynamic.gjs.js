@@ -21,4 +21,5 @@ export default class DynamicAccordionDemo extends Component {
     </div>
   </template>
 }
+
 `;

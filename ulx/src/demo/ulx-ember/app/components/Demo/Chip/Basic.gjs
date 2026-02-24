@@ -9,7 +9,7 @@ export default class BasicChipDemo extends Component {
     { id: 1, label: t('lbl.chip.action'), removable: false },
     { id: 2, label: t('lbl.chip.comedy'), removable: false },
     { id: 3, label: t('lbl.chip.mystery'), removable: false },
-    { id: 4, label: t('lbl.chip.thriller'), removable: true }
+    { id: 4, label: t('lbl.chip.thriller'), removable: true },
   ];
 
   @action
@@ -18,7 +18,7 @@ export default class BasicChipDemo extends Component {
   }
 
   <template>
-    <div class="fxb fxwrap gp4">
+    <div class="flex flex-wrap gap-4">
       {{#each this.chips key="id" as |chip|}}
         <UlxChip
           @label={{chip.label}}

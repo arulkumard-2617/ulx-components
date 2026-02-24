@@ -894,7 +894,7 @@ export default class UlxDropdown extends Component {
 						{{else}}
 							<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
 								{{#if (has-block "value")}}
-									<div class="fxb fvc">
+									<div class="flex items-center">
 										{{yield
 											(hash
 												selectedOption=this.selectedOption
@@ -1037,7 +1037,7 @@ export default class UlxDropdown extends Component {
 					{{else}}
 						<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
 							{{#if (has-block "value")}}
-								<div class="fxb fvc">
+								<div class="flex items-center">
 									{{yield
 										(hash
 											selectedOption=this.selectedOption
@@ -1156,7 +1156,7 @@ export default class UlxDropdown extends Component {
 												{{yield (hash label=row.label group=row.group) to="group"}}
 											{{else}}
 												<span>
-													<div class="fxb fvc">
+													<div class="flex items-center">
 														{{#if row.group.imageUrl}}
 															<img
 																src={{row.group.imageUrl}}
@@ -1198,7 +1198,7 @@ export default class UlxDropdown extends Component {
 											>
 												{{#if (has-block "item")}}
 													<span>
-														<div class="fxb fvc">
+														<div class="flex items-center">
 															{{yield
 																(hash
 																	option=option
@@ -1250,7 +1250,7 @@ export default class UlxDropdown extends Component {
 										>
 											{{#if (has-block "item")}}
 												<span>
-													<div class="fxb fvc">
+													<div class="flex items-center">
 														{{yield
 															(hash
 																option=option

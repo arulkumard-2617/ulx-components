@@ -33,7 +33,7 @@ export default class NamedblocksDemoComponent extends Component {
   <template>
     <UlxTabmenu @model={{this.items}}>
       <:item as |item|>
-        <div class="fxb fvc gp2">
+        <div class="flex items-center gap-2">
           {{#if item.imageUrl}}
             <UlxAvatar
               @type="image"

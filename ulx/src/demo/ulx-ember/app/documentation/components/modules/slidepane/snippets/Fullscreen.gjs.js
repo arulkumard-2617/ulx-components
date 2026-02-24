@@ -24,7 +24,7 @@ export default class FullscreenSlidepaneDemo extends Component {
   }
 
   <template>
-    <div class="fxb fvc gp4">
+    <div class="flex items-center gap-4">
       <UlxButton
         @label="Open Slide Pane"
         @variant="primary"
@@ -43,7 +43,8 @@ export default class FullscreenSlidepaneDemo extends Component {
         @maximizable={{true}}
       >
         <:body>
-          <p>This pane uses the default footer and has a maximize button in the header. Click it to expand to full width, then Restore to return.</p>
+          <p>This pane uses the default footer and has a maximize button in the
+            header. Click it to expand to full width, then Restore to return.</p>
         </:body>
       </UlxSlidePane>
     </div>

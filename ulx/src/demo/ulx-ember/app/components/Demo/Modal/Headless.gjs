@@ -34,8 +34,8 @@ export default class HeadlessModalDemo extends Component {
       @hideFooter={{true}}
     >
       <:body>
-        <div class="fxb column gp4 pd8">
-          <div class="fxb column gp2 w-100p">
+        <div class="flex flex-col gap-4 p-8">
+          <div class="flex flex-col gap-2 w-full">
             <UlxInput
               id="headless-username"
               @label="Username"
@@ -43,7 +43,7 @@ export default class HeadlessModalDemo extends Component {
             />
           </div>
 
-          <div class="fxb column gp2 w-100p">
+          <div class="flex flex-col gap-2 w-full">
             <UlxInput
               id="headless-password"
               @label="Password"
@@ -52,7 +52,7 @@ export default class HeadlessModalDemo extends Component {
             />
           </div>
 
-          <div class="fxb column gp2 w-100p">
+          <div class="flex flex-col gap-2 w-full">
             <UlxButton
               @label="Sign-In"
               @variant="primary"

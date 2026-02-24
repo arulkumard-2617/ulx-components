@@ -23,7 +23,7 @@ export default class SizeDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap gp4 fvc mgb12">
+    <div class="flex wrap gap-4 items-center mb-12">
       {{#each this.sizes key="size" as |item|}}
         <UlxBadge
           @value={{item.label}}
@@ -33,7 +33,7 @@ export default class SizeDemoComponent extends Component {
         />
       {{/each}}
     </div>
-    <div class="fxb wrap gp4 fvc">
+    <div class="flex wrap gap-4 items-center">
       {{#each this.dotSizes key="size" as |item|}}
         <UlxBadge
           @value={{item.label}}

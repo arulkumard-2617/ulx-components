@@ -2,7 +2,7 @@ export default `
 import { UlxIcon } from 'ulx-components';
 
 <template>
-  <div class="fxb fvc gp4">
+  <div class="flex items-center gap-4">
     <UlxIcon
       @componentClass="bs-icons1"
       @type="font"

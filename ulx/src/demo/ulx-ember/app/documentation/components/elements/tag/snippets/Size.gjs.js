@@ -14,7 +14,7 @@ export default class SizeDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap gp4 fvc">
+    <div class="flex wrap gap-4 items-center">
       {{#each this.sizes key="size" as |item|}}
         <UlxTag @value={{item.label}} @size={{item.size}} @variant="primary" />
       {{/each}}

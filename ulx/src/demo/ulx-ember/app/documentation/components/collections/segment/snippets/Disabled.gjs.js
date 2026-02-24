@@ -7,7 +7,7 @@ import { UlxSegment, UlxSegmentsGroup, t } from 'ulx-components';
     <p>Disabled segments have reduced opacity, disabled pointer events, and a
       not-allowed cursor</p>
 
-    <UlxSegment @customClass="mgb5" @disabled={{true}}>
+    <UlxSegment @customClass="mb-5" @disabled={{true}}>
       <p>This segment is disabled. It cannot be interacted with.</p>
     </UlxSegment>
 

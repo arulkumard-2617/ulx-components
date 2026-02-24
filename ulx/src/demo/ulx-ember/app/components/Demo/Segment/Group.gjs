@@ -2,7 +2,7 @@ import { UlxSegmentsGroup, UlxSegment, t } from 'ulx-components';
 
 <template>
   <div class="group-demo">
-    <UlxSegmentsGroup @customClass="mgb12">
+    <UlxSegmentsGroup @customClass="mb-12">
       <UlxSegment @variant="green-invert">
         <p>{{t "msg.first.segment"}}</p>
       </UlxSegment>

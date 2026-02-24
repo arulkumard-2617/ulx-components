@@ -3,12 +3,8 @@ import FoundationSection from './foundation-section';
 
 export default class DocImportSectionComponent extends Component {
   <template>
-    <FoundationSection 
-      @id={{@id}}
-      @title="import"
-      @subtitle={{@subtitle}}
-    >
-      <div class="code-preview-container mgb4">
+    <FoundationSection @id={{@id}} @title="import" @subtitle={{@subtitle}}>
+      <div class="code-preview-container mb-4">
         <div class="code-block">
           <pre><code>{{@code}}</code></pre>
         </div>
@@ -16,4 +12,3 @@ export default class DocImportSectionComponent extends Component {
     </FoundationSection>
   </template>
 }
-

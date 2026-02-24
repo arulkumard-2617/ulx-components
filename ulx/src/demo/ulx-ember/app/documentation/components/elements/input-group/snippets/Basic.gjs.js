@@ -2,7 +2,7 @@ export default `
 import { UlxInput, UlxIcon, t } from 'ulx-components';
 
 <template>
-  <div class="ulx-form s-size ulx-grid gp8 mgb14">
+  <div class="ulx-form s-size ulx-grid gap-8 mb-14">
     <UlxInput
       @inputGroup={{true}}
       @size="s-size"

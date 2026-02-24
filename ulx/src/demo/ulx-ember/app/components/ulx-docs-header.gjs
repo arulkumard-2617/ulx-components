@@ -66,11 +66,11 @@ export default class UlxDocsHeaderComponent extends Component {
 
   <template>
     <div
-      class="ulsp-topbar bg-default bd-b h64 pd1 ulx-grid col-1 w-100p
+      class="ulsp-topbar bg-default border-b h-64 p-1 ulx-grid col-1 w-full
         {{if this.isSticky 'sticky' ''}}"
       {{this.setupScrollObserver}}
     >
-      <header class="ulx-container-fluid fxb fvc fsb">
+      <header class="ulx-container-fluid flex items-center justify-between">
         {{! LEFT: Title }}
         <div class="t-left">
           <div class="t-logo">
@@ -81,22 +81,22 @@ export default class UlxDocsHeaderComponent extends Component {
         </div>
 
         {{! RIGHT: Action Buttons }}
-        <div class="t-right fxb fvc gp2">
+        <div class="t-right flex items-center gap-2">
           {{! Search Button }}
           <button
             type="button"
-            class="hidden ulx-button secondary outlined m-size fxb fvc gp1"
+            class="hidden ulx-button secondary outlined m-size flex items-center gap-1"
             aria-haspopup="dialog"
             aria-expanded="false"
           >
             <span class="fg-text-secondary">Search docs</span>
-            <span class="t-key-hint mgl2">⌘ K</span>
+            <span class="t-key-hint ms-2">⌘ K</span>
           </button>
 
           {{! Download Button }}
           <button
             type="button"
-            class="hidden ulx-button primary fxb fvc gp1 m-size"
+            class="hidden ulx-button primary flex items-center gap-1 m-size"
             aria-haspopup="menu"
             aria-controls="doc-download-menu"
           >

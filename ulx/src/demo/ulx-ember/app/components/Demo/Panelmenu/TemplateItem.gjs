@@ -4,7 +4,8 @@ import { UlxBadge, UlxIcon } from 'ulx-components';
 export default class DemoPanelmenuTemplateItem extends Component {
   get iconMeta() {
     const icon = this.args.item?.icon;
-    if (!icon || typeof icon !== "string") return { base: null, name: null, size: null };
+    if (!icon || typeof icon !== 'string')
+      return { base: null, name: null, size: null };
     const parts = icon.trim().split(/\s+/);
     if (parts.length === 0) return { base: null, name: null, size: null };
 
@@ -32,7 +33,7 @@ export default class DemoPanelmenuTemplateItem extends Component {
   }
 
   get iconSize() {
-    return this.iconMeta?.size ?? "s20";
+    return this.iconMeta?.size ?? 's20';
   }
 
   get hasRightMeta() {
@@ -40,7 +41,7 @@ export default class DemoPanelmenuTemplateItem extends Component {
   }
 
   <template>
-    <span class="fxb fvc gp2 w-100p">
+    <span class="flex items-center gap-2 w-full">
       {{#if @hasChildren}}
         <span class="panelmenu-submenu-icon" aria-hidden="true">
           <UlxIcon
@@ -66,12 +67,19 @@ export default class DemoPanelmenuTemplateItem extends Component {
       <span class="panelmenu-item-text">{{@item.label}}</span>
 
       {{#if this.hasRightMeta}}
-        <span class="ifxb fvc gp2 mgl-auto">
+        <span class="ifxb items-center gap-2 ms-auto">
           {{#if @item.badge}}
-            <UlxBadge @value={{@item.badge}} @type="circle" @variant="primary" @size="s-size" />
+            <UlxBadge
+              @value={{@item.badge}}
+              @type="circle"
+              @variant="primary"
+              @size="s-size"
+            />
           {{/if}}
           {{#if @item.shortcut}}
-            <span class="ifxb fvc bg-layer2 bd border-light rds2 pdy1 pdx2 font-size12 fg-text-tertiary">
+            <span
+              class="ifxb items-center bg-layer2 border border-sight rounded py-1 px-2 text-12 fg-text-tertiary"
+            >
               {{@item.shortcut}}
             </span>
           {{/if}}
@@ -80,4 +88,3 @@ export default class DemoPanelmenuTemplateItem extends Component {
     </span>
   </template>
 }
-

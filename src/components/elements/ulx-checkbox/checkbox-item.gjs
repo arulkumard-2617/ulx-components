@@ -78,7 +78,7 @@ export default class UlxCheckboxItem extends Component {
 	get checkboxIconClass() {
 		const { disabled = false } = this.args;
 
-		const parts = ["checkbox-icon"];
+		const parts = ["check-icon"];
 		disabled && parts.push("disabled");
 		this.isIndeterminate && parts.push("indeterminate");
 		this.isUncheckedWithIcon && parts.push("unchecked");
@@ -87,7 +87,7 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	get checkboxIconName() {
-		if (this.isChecked && !this.isIndeterminate) return "applied-icon";
+		if (this.isChecked && !this.isIndeterminate) return "tick-thick-icon";
 		if (this.isUncheckedWithIcon) return this.args.uncheckIconName;
 		return undefined;
 	}

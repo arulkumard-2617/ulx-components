@@ -28,32 +28,32 @@ export default class ClassPropertyTableComponent extends Component {
             <thead class="datatable-header">
               <tr class="datatable-header-row">
                 <th
-                  class="datatable-column-header-cell"
+                  class="datatable-flex-col-header-cell"
                 >{{this.columnLabels.[0]}}</th>
                 <th
-                  class="datatable-column-header-cell"
+                  class="datatable-flex-col-header-cell"
                 >{{this.columnLabels.[1]}}</th>
               </tr>
             </thead>
             <tbody class="datatable-tbody">
               {{#each this.rows as |row|}}
                 <tr class="datatable-body-row">
-                  <td class="datatable-column-body-cell">
-                    <div class="fxb fvc gp2">
+                  <td class="datatable-flex-col-body-cell">
+                    <div class="flex items-center gap-2">
                       {{#if row.color}}
                         <div
-                          class="rds-circle bd w20 h20"
+                          class="rds-circle border w20 h20"
                           style={{this.getStyleString row.color}}
                           aria-hidden="true"
                         ></div>
                       {{/if}}
                       <span
-                        class="bold-font fg-primary font-size16"
+                        class="bold-font fg-primary text-16"
                       >{{this.formatClassName row.className}}</span>
                     </div>
                   </td>
-                  <td class="datatable-column-body-cell">
-                    <span class="font-size16">{{row.property}}</span>
+                  <td class="datatable-flex-col-body-cell">
+                    <span class="text-16">{{row.property}}</span>
                   </td>
                 </tr>
               {{/each}}

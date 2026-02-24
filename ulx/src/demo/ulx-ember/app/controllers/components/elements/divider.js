@@ -7,25 +7,20 @@ export default class ComponentsElementsDividerController extends Controller {
 
   tabs = [
     { id: 'features', label: 'FEATURES' },
-    { id: 'theming', label: 'THEMING' },
-    { id: 'builder', label: 'BUILDER' },
-    { id: 'passthrough', label: 'PASS THROUGH' }
+    { id: 'params', label: 'PARAMS' },
+    { id: 'architecture', label: 'ARCHITECTURE' },
   ];
 
   get isFeaturesTab() {
     return this.activeTab === 'features';
   }
 
-  get isThemingTab() {
-    return this.activeTab === 'theming';
+  get isParamsTab() {
+    return this.activeTab === 'params';
   }
 
-  get isPassthroughTab() {
-    return this.activeTab === 'passthrough';
-  }
-
-  get isBuilderTab() {
-    return this.activeTab === 'builder';
+  get isArchitectureTab() {
+    return this.activeTab === 'architecture';
   }
 
   @action
@@ -33,4 +28,3 @@ export default class ComponentsElementsDividerController extends Controller {
     this.activeTab = tabId;
   }
 }
-

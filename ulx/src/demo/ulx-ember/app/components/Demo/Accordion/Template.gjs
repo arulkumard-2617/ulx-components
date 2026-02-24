@@ -15,9 +15,27 @@ export default class TemplateAccordionDemo extends Component {
 
   get tabs() {
     return [
-      { header: 'Amy Elsner', content: LOREM_1, badge: '3', image: 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png' },
-      { header: 'Onyama Limba', content: LOREM_2, badge: '4', image: 'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' },
-      { header: 'Ioni Bowcher', content: LOREM_3, badge: '2', image: 'https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' }
+      {
+        header: 'Amy Elsner',
+        content: LOREM_1,
+        badge: '3',
+        image:
+          'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+      },
+      {
+        header: 'Onyama Limba',
+        content: LOREM_2,
+        badge: '4',
+        image:
+          'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
+      },
+      {
+        header: 'Ioni Bowcher',
+        content: LOREM_3,
+        badge: '2',
+        image:
+          'https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png',
+      },
     ];
   }
 
@@ -34,7 +52,7 @@ export default class TemplateAccordionDemo extends Component {
         @onTabChange={{this.handleTabChange}}
       >
         <:content as |item|>
-          <div class="fxb fvc gp2 fhc">
+          <div class="flex items-center gap-2 fhc">
             <UlxAvatar @image={{item.image}} />
             <span class="bold-font white-space-nowrap">{{item.header}}</span>
             <UlxBadge @value={{item.badge}} />

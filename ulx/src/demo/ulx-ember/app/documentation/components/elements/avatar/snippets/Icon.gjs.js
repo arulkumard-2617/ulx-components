@@ -2,7 +2,7 @@ export default `
 import { UlxAvatar } from 'ulx-components';
 
 <template>
-  <div class="fxb wrap gp4 fvc">
+  <div class="flex wrap gap-4 items-center">
     <UlxAvatar
       @type="icon"
       @iconName="user-info-icon-01"

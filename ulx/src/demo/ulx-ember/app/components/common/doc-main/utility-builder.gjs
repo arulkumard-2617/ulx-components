@@ -51,19 +51,19 @@ const MARGIN_OPTIONS = [
       description: 'negative margin x',
     };
   }),
-  { value: 'mg-auto', title: '.mg-auto', description: 'margin: auto' },
+  { value: 'm-auto', title: '.m-auto', description: 'margin: auto' },
   {
-    value: 'mgl-auto',
-    title: '.mgl-auto',
+    value: 'ms-auto',
+    title: '.ms-auto',
     description: 'margin-inline-start: auto',
   },
   {
-    value: 'mgr-auto',
-    title: '.mgr-auto',
+    value: 'me-auto',
+    title: '.me-auto',
     description: 'margin-inline-end: auto',
   },
-  { value: 'mgx-auto', title: '.mgx-auto', description: 'margin-inline: auto' },
-  { value: 'mgy-auto', title: '.mgy-auto', description: 'margin-block: auto' },
+  { value: 'mx-auto', title: '.mx-auto', description: 'margin-inline: auto' },
+  { value: 'my-auto', title: '.my-auto', description: 'margin-block: auto' },
   { value: 'mgt-auto', title: '.mgt-auto', description: 'margin-top: auto' },
   { value: 'mgb-auto', title: '.mgb-auto', description: 'margin-bottom: auto' },
 ];
@@ -182,10 +182,10 @@ export default class CommonDocMainUtilityBuilderComponent extends Component {
     const classAttr = this.effectivePreviewClasses;
     if (!classAttr) return '';
     if (this.slug === 'gap') {
-      return `<div class="fxb ${classAttr}">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>`;
+      return `<div class="flex ${classAttr}">\n  <div>Item 1</div>\n  <div>Item 2</div>\n</div>`;
     }
     if (this.useBoxLayout && this.slug !== 'gap') {
-      return `<div class="${classAttr}">\n  <div class="bg-primary fg-white pd2">Content</div>\n</div>`;
+      return `<div class="${classAttr}">\n  <div class="bg-primary fg-white p-2">Content</div>\n</div>`;
     }
     return `<div class="${classAttr}">\n  Content\n</div>`;
   }
@@ -223,20 +223,20 @@ export default class CommonDocMainUtilityBuilderComponent extends Component {
 
   <template>
     {{#if this.optionItems.length}}
-      <div class="mgt8 mgb6 utility-builder-root">
-        <h4 class="mgt0 mgb2 bold-font fg-text">Try it</h4>
-        <p class="fg-text-secondary font-size12 mgb4">
+      <div class="mt-8 mb-6 utility-builder-root">
+        <h4 class="mt-0 mb-2 bold-font fg-text">Try it</h4>
+        <p class="fg-text-secondary text-12 mb-4">
           Choose a class to see the live preview and code.
         </p>
         {{#if this.hasPositionOptions}}
-          <div class="mgb4">
+          <div class="mb-4">
             <label
               for="utility-builder-position"
-              class="block font-size12 bold-font fg-text mgb2"
+              class="block text-12 bold-font fg-text mb-2"
             >Position</label>
             <select
               id="utility-builder-position"
-              class="block w-100p pd4 rds2 bd bg-default font-size12 fg-text"
+              class="block w-full p-4 rounded border bg-default text-12 fg-text"
               value={{this.selectedPosition}}
               {{on "change" this.handlePositionChange}}
             >
@@ -246,15 +246,15 @@ export default class CommonDocMainUtilityBuilderComponent extends Component {
             </select>
           </div>
         {{/if}}
-        <div class="mgb4">
+        <div class="mb-4">
           {{#if this.useDropdown}}
             <label
               for="utility-builder-select"
-              class="block font-size12 bold-font fg-text mgb2"
+              class="block text-12 bold-font fg-text mb-2"
             >Choose a class</label>
             <select
               id="utility-builder-select"
-              class="block w-100p pd4 rds2 bd bg-default font-size12 fg-text"
+              class="block w-full p-4 rounded border bg-default text-12 fg-text"
               value={{this.effectiveSelectedClass}}
               {{on "change" this.handleDropdownChange}}
             >
@@ -281,37 +281,37 @@ export default class CommonDocMainUtilityBuilderComponent extends Component {
             </div>
           {{/if}}
         </div>
-        <div class="mgb4 utility-builder-preview">
-          <p class="mgt0 mgb2 bold-font font-size12 fg-text">Preview</p>
+        <div class="mb-4 utility-builder-preview">
+          <p class="mt-0 mb-2 bold-font text-12 fg-text">Preview</p>
           {{#each this.previewKey as |pk|}}
             <div data-preview-key={{pk}}>
               {{#if this.useBoxLayout}}
                 <div
-                  class="utility-builder-box-stripe bg-default bd rds3 pd4 min-h80"
+                  class="utility-builder-box-stripe bg-default border rounded-md p-4 min-h80"
                   role="img"
                   aria-label="Box model preview"
                 >
                   {{#if this.useGapLayout}}
-                    <div class="fxb {{this.effectivePreviewClasses}}">
-                      <div class="bg-primary fg-white rds1 pd2 font-size12">Item
-                        1</div>
-                      <div class="bg-primary fg-white rds1 pd2 font-size12">Item
-                        2</div>
+                    <div class="flex {{this.effectivePreviewClasses}}">
+                      <div class="bg-primary fg-white rds1 p-2 text-12">Item 1</div>
+                      <div class="bg-primary fg-white rds1 p-2 text-12">Item 2</div>
                     </div>
                   {{else}}
-                    <div class="bd rds2 {{this.effectivePreviewClasses}}">
+                    <div
+                      class="border rounded {{this.effectivePreviewClasses}}"
+                    >
                       <div
-                        class="bg-primary fg-white rds1 pd2 font-size12"
+                        class="bg-primary fg-white rds1 p-2 text-12"
                       >Content</div>
                     </div>
                   {{/if}}
                 </div>
               {{else}}
                 <div
-                  class="bg-default bd pd8 rds3 min-h80
+                  class="bg-default border p-8 rounded-md min-h80
                     {{this.effectivePreviewClasses}}"
                 >
-                  <span class="fg-text-secondary font-size12">Content</span>
+                  <span class="fg-text-secondary text-12">Content</span>
                 </div>
               {{/if}}
             </div>

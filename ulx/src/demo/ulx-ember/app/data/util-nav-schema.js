@@ -7,10 +7,10 @@ export default [
         "category": "TYPOGRAPHY",
         "items": [
           {
-            "menuItem": "Color",
+            "menuItem": "Text Color",
             "route": "utilities.utility",
-            "slug": "color",
-            "to": "/utilities/color",
+            "slug": "text-color",
+            "to": "/utilities/text-color",
             "schemaKey": "color"
           },
           {
@@ -192,13 +192,6 @@ export default [
             "slug": "grid-auto-rows",
             "to": "/utilities/grid-auto-rows",
             "schemaKey": "gridAutoRows"
-          },
-          {
-            "menuItem": "Grid Column",
-            "route": "utilities.utility",
-            "slug": "grid-column",
-            "to": "/utilities/grid-column",
-            "schemaKey": "gridColumn"
           },
           {
             "menuItem": "Grid Row",
@@ -398,6 +391,20 @@ export default [
             "slug": "gap",
             "to": "/utilities/gap",
             "schemaKey": "gap"
+          },
+          {
+            "menuItem": "Column Gap",
+            "route": "utilities.utility",
+            "slug": "column-gap",
+            "to": "/utilities/column-gap",
+            "schemaKey": "columnGap"
+          },
+          {
+            "menuItem": "Row Gap",
+            "route": "utilities.utility",
+            "slug": "row-gap",
+            "to": "/utilities/row-gap",
+            "schemaKey": "rowGap"
           }
         ]
       },

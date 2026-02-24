@@ -8,7 +8,7 @@ export default class HorizontalTimelineDemo extends Component {
 
   <template>
     <div class="pda4">
-      <div class="fxb fcol gp6">
+      <div class="flex flex-col gap-6">
         <div>
           <UlxTimeline @model={{this.years}} @layout="horizontal" @align="top">
             <:content as |item|>
@@ -18,7 +18,11 @@ export default class HorizontalTimelineDemo extends Component {
         </div>
 
         <div>
-          <UlxTimeline @model={{this.years}} @layout="horizontal" @align="bottom">
+          <UlxTimeline
+            @model={{this.years}}
+            @layout="horizontal"
+            @align="bottom"
+          >
             <:content as |item|>
               {{item}}
             </:content>
@@ -26,7 +30,11 @@ export default class HorizontalTimelineDemo extends Component {
         </div>
 
         <div>
-          <UlxTimeline @model={{this.years}} @layout="horizontal" @align="alternate">
+          <UlxTimeline
+            @model={{this.years}}
+            @layout="horizontal"
+            @align="alternate"
+          >
             <:opposite>
               <span aria-hidden="true">&nbsp;</span>
             </:opposite>
@@ -39,4 +47,3 @@ export default class HorizontalTimelineDemo extends Component {
     </div>
   </template>
 }
-

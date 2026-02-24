@@ -50,7 +50,7 @@ export default class RouterDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb fvc fsb mgb4">
+    <div class="flex items-center justify-between mb-4">
       <p class="fg-text-secondary">
         This demo shows TabMenu with LinkTo routing. Click tabs to navigate
         between routes. The active tab is automatically synced with the current
