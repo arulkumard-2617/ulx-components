@@ -5,7 +5,7 @@ import { UlxButton, t } from 'ulx-components';
     <UlxButton
       @label={{t "lbl.link"}}
       @href="#"
-      @text={{true}}
+      @variant="link"
       @customClass="underline"
     />
     <UlxButton @label={{t "lbl.navigate"}} @variant="link" />

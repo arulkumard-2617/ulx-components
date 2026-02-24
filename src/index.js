@@ -27,6 +27,7 @@ export { default as UlxSegment } from './components/collections/ulx-segment/inde
 export { default as UlxSegmentsGroup } from './components/collections/ulx-segments-group/index.gjs';
 export { default as UlxOptionSegment } from './components/collections/ulx-option-segment/index.gjs';
 export { default as UlxAccordion } from './components/collections/ulx-accordion/index.gjs';
+export { default as UlxTimeline } from './components/collections/ulx-timeline/index.gjs';
 // Modules
 export { default as UlxTable } from './components/modules/ulx-table/index.gjs';
 export { default as UlxModal } from './components/modules/ulx-modal/index.gjs';
@@ -35,6 +36,7 @@ export { default as UlxPopup } from './components/modules/ulx-popup/index.gjs';
 export { default as UlxTooltip } from './components/modules/ulx-tooltip/index.gjs';
 export { default as UlxTieredmenu } from './components/modules/ulx-tieredmenu/index.gjs';
 export { default as UlxToast } from './components/modules/ulx-toast/index.gjs';
+export { default as UlxPanelmenu } from './components/modules/ulx-panelmenu/index.gjs';
 export { default as UlxPaginator } from './components/modules/ulx-paginator/index.gjs';
 export { default as Steps } from './components/modules/ulx-steps/index.gjs';
 export { default as UlxSteps } from './components/modules/ulx-steps/index.gjs';

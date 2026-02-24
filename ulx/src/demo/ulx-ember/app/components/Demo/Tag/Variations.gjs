@@ -51,7 +51,7 @@ export default class VariationsDemoComponent extends Component {
   }
 
   <template>
-    <div class="fxb wrap gp4">
+    <div class="fxb fwrap gp4">
       {{#each this.variations key="class" as |item|}}
         <UlxTag @value={{item.label}} @size="s-size" @variant={{item.class}} />
       {{/each}}

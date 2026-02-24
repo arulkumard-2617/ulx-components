@@ -1,11 +1,15 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import UlxBadge from "../ulx-badge/index.gjs";
+
+const RIPPLE_SIZE = 80;
+const RIPPLE_DURATION_MS = 200;
 
 /**
  * Button element component. Supports multiple variants, sizes, styles (text, outlined, raised, rounded),
@@ -105,7 +109,7 @@ export default class UlxButton extends Component {
 		} = this.args;
 		const parts = [this.baseClass];
 		parts.push(variant);
-		text && parts.push("text");
+		text && parts.push("text-button");
 		href && text && parts.push("link");
 		outlined && parts.push("outlined");
 		raised && parts.push("raised");
@@ -194,6 +198,45 @@ export default class UlxButton extends Component {
 		return "button-label";
 	}
 
+	get inkClass() {
+		return `${this.baseClass}-ink`;
+	}
+
+	get inkActiveClass() {
+		return `${this.baseClass}-ink-active`;
+	}
+
+	get inkSpanClasses() {
+		return this.inkActive ? `${this.inkClass} ${this.inkActiveClass}` : this.inkClass;
+	}
+
+	@tracked inkStyle = "";
+	@tracked inkActive = false;
+
+	@action
+	handleRipple(event) {
+		if (this.isDisabled) return;
+		const el = event?.currentTarget;
+		if (!el || typeof el.getBoundingClientRect !== "function") return;
+		const rect = el.getBoundingClientRect();
+		const x = typeof event.clientX === "number" ? event.clientX : rect.left + rect.width / 2;
+		const y = typeof event.clientY === "number" ? event.clientY : rect.top + rect.height / 2;
+		const half = RIPPLE_SIZE / 2;
+		const top = y - rect.top - half;
+		const left = x - rect.left - half;
+		this.inkStyle = `height: ${RIPPLE_SIZE}px; width: ${RIPPLE_SIZE}px; top: ${top}px; left: ${left}px;`;
+		this.inkActive = true;
+		setTimeout(() => {
+			this.inkActive = false;
+		}, RIPPLE_DURATION_MS);
+	}
+
+	@action
+	handleClickWithRipple(event) {
+		this.handleRipple(event);
+		this.handleClick(event);
+	}
+
 	<template>
 		{{#if @href}}
 			<a
@@ -203,7 +246,7 @@ export default class UlxButton extends Component {
 				tabindex={{if this.isDisabled "-1" "0"}}
 				aria-busy={{if @loading "true"}}
 				{{this.elementRefModifier}}
-				{{on "click" this.handleClick}}
+				{{on "click" this.handleClickWithRipple}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
@@ -266,6 +309,13 @@ export default class UlxButton extends Component {
 				{{#unless (has-block "default")}}
 					{{yield}}
 				{{/unless}}
+
+				<span
+					role="presentation"
+					aria-hidden="true"
+					class={{this.inkSpanClasses}}
+					style={{this.inkStyle}}
+				></span>
 			</a>
 		{{else}}
 			<button
@@ -274,7 +324,7 @@ export default class UlxButton extends Component {
 				disabled={{this.isDisabled}}
 				aria-busy={{if @loading "true"}}
 				{{this.elementRefModifier}}
-				{{on "click" this.handleClick}}
+				{{on "click" this.handleClickWithRipple}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
@@ -337,6 +387,13 @@ export default class UlxButton extends Component {
 				{{#unless (has-block "default")}}
 					{{yield}}
 				{{/unless}}
+
+				<span
+					role="presentation"
+					aria-hidden="true"
+					class={{this.inkSpanClasses}}
+					style={{this.inkStyle}}
+				></span>
 			</button>
 		{{/if}}
 	</template>

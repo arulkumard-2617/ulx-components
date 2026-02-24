@@ -50,7 +50,7 @@ export function buildInputClass({
 }) {
 	const parts = isTextarea
 		? [getComponentClass('inputtextarea'), getComponentClass('input')]
-		: [getComponentClass('input'), getComponentClass('inputtext')];
+		: [getComponentClass('input')];
 
 	if (size) parts.push(size);
 	if (filled) parts.push('filled');
@@ -76,7 +76,7 @@ export function buildFloatLabelClass({ size, filled, invalid, disabled }) {
 }
 
 export function getFloatLabelLabelClass() {
-	return getComponentClass('floatlabel-label');
+	return 'floatlabel-label';
 }
 
 export function buildIconFieldClass({

@@ -33,7 +33,7 @@ export default class DemoButtonRaisedText extends Component {
         @label="Help"
         @text={{true}}
         @raised={{true}}
-        @variant="help"
+        @variant="help-button"
       />
       <UlxButton
         @label="Danger"
