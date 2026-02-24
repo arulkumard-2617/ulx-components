@@ -336,6 +336,11 @@ export const DocNavItems = [
             to: '/components/collections/form',
             route: 'components.collections.form',
           },
+          {
+            menuItem: 'MultiSelect',
+            to: '/components/collections/multiselect',
+            route: 'components.collections.multiselect',
+          },
         ],
       },
     ],

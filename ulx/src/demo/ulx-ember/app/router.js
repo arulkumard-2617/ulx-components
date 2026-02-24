@@ -22,6 +22,7 @@ Router.map(function () {
       this.route('option-segment');
       this.route('form');
       this.route('accordion');
+      this.route('multiselect');
 });
     this.route('elements', function () {
       this.route('icon');

@@ -103,6 +103,7 @@
       "./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
       "./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
       "./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",
+      "./components/elements/ulx-multi-select/index.js": "./dist/_app_/components/elements/ulx-multi-select/index.js",
       "./components/elements/ulx-progress-bar/index.js": "./dist/_app_/components/elements/ulx-progress-bar/index.js",
       "./components/elements/ulx-progressspinner/index.js": "./dist/_app_/components/elements/ulx-progressspinner/index.js",
       "./components/elements/ulx-radio/index.js": "./dist/_app_/components/elements/ulx-radio/index.js",
