@@ -10,6 +10,7 @@ export { default as UlxIconInput } from './components/elements/ulx-icon-input/in
 export { default as UlxCheckbox } from './components/elements/ulx-checkbox/index.gjs';
 export { default as UlxRadio } from './components/elements/ulx-radio/index.gjs';
 export { default as UlxTag } from './components/elements/ulx-tag/index.gjs';
+export { default as UlxChip } from './components/elements/ulx-chip/index.gjs';
 export { default as UlxBadge } from './components/elements/ulx-badge/index.gjs';
 export { default as UlxDivider } from './components/elements/ulx-divider/index.gjs';
 export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs';
@@ -19,6 +20,7 @@ export { default as UlxProgressBar } from './components/elements/ulx-progress-ba
 export { default as UlxSplitButton } from './components/elements/ulx-split-button/index.gjs';
 export { default as UlxTristateCheckbox } from './components/elements/ulx-tristate-checkbox/index.gjs';
 export { default as UlxDropdown } from './components/elements/ulx-dropdown/index.gjs';
+export { default as UlxMultiSelect } from './components/elements/ulx-multi-select/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
 export { default as UlxForm } from './components/collections/ulx-form/index.gjs';
@@ -29,6 +31,7 @@ export { default as UlxOptionSegment } from './components/collections/ulx-option
 export { default as UlxAccordion } from './components/collections/ulx-accordion/index.gjs';
 export { default as UlxTimeline } from './components/collections/ulx-timeline/index.gjs';
 // Modules
+export { default as UlxTable } from './components/modules/ulx-table/index.gjs';
 export { default as UlxModal } from './components/modules/ulx-modal/index.gjs';
 export { default as UlxSlidePane } from './components/modules/ulx-slide-pane/index.gjs';
 export { default as UlxPopup } from './components/modules/ulx-popup/index.gjs';
@@ -36,6 +39,7 @@ export { default as UlxTooltip } from './components/modules/ulx-tooltip/index.gj
 export { default as UlxTieredmenu } from './components/modules/ulx-tieredmenu/index.gjs';
 export { default as UlxToast } from './components/modules/ulx-toast/index.gjs';
 export { default as UlxPanelmenu } from './components/modules/ulx-panelmenu/index.gjs';
+export { default as UlxPaginator } from './components/modules/ulx-paginator/index.gjs';
 export { default as Steps } from './components/modules/ulx-steps/index.gjs';
 export { default as UlxSteps } from './components/modules/ulx-steps/index.gjs';
 

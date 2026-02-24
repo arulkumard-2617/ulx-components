@@ -44,6 +44,16 @@ const enUs = {
 	"lbl.update": "Update",
 	"lbl.submit": "Submit",
 	"lbl.clear": "Clear",
+	"lbl.close": "Close",
+	"lbl.remove": "Remove",
+	"msg.chip.custom.content": "Custom chip content",
+	"msg.chip.removable.label": "Removable chip",
+	"msg.chip.with.image": "With image",
+	"msg.chip.with.image.and.close": "With image and close icon",
+	"lbl.chip.action": "Action",
+	"lbl.chip.comedy": "Comedy",
+	"lbl.chip.mystery": "Mystery",
+	"lbl.chip.thriller": "Thriller",
 	"lbl.reply": "Reply",
 	"lbl.confirm": "Confirm",
 	"lbl.multiple": "Multiple",
@@ -146,6 +156,21 @@ const enUs = {
 	"lbl.doc.section.basic": "Basic",
 	"lbl.doc.section.accessibility": "Accessibility",
 
+	// ── Multiselect ──────────────────────────────────────────
+	"lbl.select.all": "Select all",
+	"lbl.doc.multiselect.title": "MultiSelect - ULS Ember Documentation",
+	"lbl.multiselect.basic": "Basic",
+	"lbl.multiselect.chips": "Chips",
+	"lbl.multiselect.select.all": "Select All",
+	"lbl.multiselect.accessible": "Accessible MultiSelect",
+	"msg.multiselect.placeholder": "Select items",
+	"msg.multiselect.placeholder.city": "Select cities",
+	"msg.multiselect.empty": "No options",
+	"msg.multiselect.empty.filter": "No results found",
+	"msg.multiselect.filter.placeholder": "Search",
+	"msg.multiselect.choose.items": "Choose items",
+	"msg.multiselect.items.selected": "{count} items selected",
+
 	// ── Avatar labels ────────────────────────────────────────
 	"lbl.square": "Square",
 	"lbl.circle": "Circle",
@@ -180,6 +205,16 @@ const enUs = {
 	"msg.danger.toast.a": "Danger toast A",
 	"msg.danger.toast.b": "Danger toast B",
 	"lbl.without.toast": "Without toast",
+
+	// ── Paginator ────────────────────────────────────────────
+	"aria.paginator.firstPage": "First page",
+	"aria.paginator.prevPage": "Previous page",
+	"aria.paginator.nextPage": "Next page",
+	"aria.paginator.lastPage": "Last page",
+	"aria.paginator.pageLabel": "Page {page}",
+	"aria.paginator.rowsPerPage": "Rows per page",
+	"aria.paginator.jumpToPage": "Jump to page",
+	"lbl.paginator.choose": "Choose",
 
 	// ── Progress labels ──────────────────────────────────────
 	"lbl.icons": "icons",

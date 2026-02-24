@@ -96,6 +96,11 @@ export const DocNavItems = [
             route: 'components.elements.badge',
           },
           {
+            menuItem: 'Chip',
+            to: '/components/elements/chip',
+            route: 'components.elements.chip',
+          },
+          {
             menuItem: 'Avatar',
             to: '/components/elements/avatar',
             route: 'components.elements.avatar',
@@ -171,6 +176,11 @@ export const DocNavItems = [
             to: '/components/collections/form',
             route: 'components.collections.form',
           },
+          {
+            menuItem: 'MultiSelect',
+            to: '/components/collections/multiselect',
+            route: 'components.collections.multiselect',
+          },
         ],
       },
     ],
@@ -201,6 +211,21 @@ export const DocNavItems = [
             menuItem: 'Toast',
             to: '/components/modules/toast',
             route: 'components.modules.toast',
+          },
+        ],
+      },
+      {
+        category: 'Data',
+        items: [
+          {
+            menuItem: 'Paginator',
+            to: '/components/modules/paginator',
+            route: 'components.modules.paginator',
+          },
+          {
+            menuItem: 'Table',
+            to: '/components/modules/table',
+            route: 'components.modules.table',
           },
         ],
       },
