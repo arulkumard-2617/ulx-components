@@ -19,6 +19,7 @@ import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import UlxCheckbox from "../ulx-checkbox/index.gjs";
+import UlxTristateCheckbox from "../ulx-tristate-checkbox/index.gjs";
 import UlxButton from "../ulx-button/index.gjs";
 import { eq, and, not, or, gt } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
@@ -374,6 +375,39 @@ export default class UlxMultiSelect extends Component {
 		return true;
 	}
 
+	get headerSelectableCount() {
+		const visible = this.visibleOptions;
+		if (!visible.length) return 0;
+		if (this.hasGroups) {
+			return visible.filter(({ item }) => !this.isOptionDisabled(item)).length;
+		}
+		return visible.filter((option) => !this.isOptionDisabled(option)).length;
+	}
+
+	get headerSelectedCount() {
+		const visible = this.visibleOptions;
+		if (!visible.length) return 0;
+		if (this.hasGroups) {
+			return visible.reduce((count, { item }) => {
+				if (this.isOptionDisabled(item)) return count;
+				return this.isOptionSelected(item) ? count + 1 : count;
+			}, 0);
+		}
+		return visible.reduce((count, option) => {
+			if (this.isOptionDisabled(option)) return count;
+			return this.isOptionSelected(option) ? count + 1 : count;
+		}, 0);
+	}
+
+	get headerTristateValue() {
+		const totalSelectable = this.headerSelectableCount;
+		if (totalSelectable === 0) return false;
+		const selectedCount = this.headerSelectedCount;
+		if (selectedCount === 0) return false;
+		if (selectedCount === totalSelectable) return true;
+		return null;
+	}
+
 	get isAllSelected() {
 		const onSelectAll = this.args.onSelectAll;
 		if (typeof onSelectAll === "function" && this.args.selectAll != null) {
@@ -722,6 +756,13 @@ export default class UlxMultiSelect extends Component {
 		const limit = this.args.selectionLimit;
 		const value = checked ? (limit ? validOptions.slice(0, limit) : validOptions) : [];
 		this.args.onChange?.(value);
+	}
+
+	@action
+	onHeaderTristateChange(_nextValue, event) {
+		event?.stopPropagation?.();
+		const nextChecked = this.isAllSelected ? false : true;
+		this.onSelectAllChange(nextChecked);
 	}
 
 	@action
@@ -1116,10 +1157,10 @@ export default class UlxMultiSelect extends Component {
 					<div class="multiselect-header">
 						{{#if (and @selectAll this.allowOptionSelect)}}
 							<div class="multiselect-header-checkbox-container">
-								<UlxCheckbox
-									@checked={{this.isAllSelected}}
+								<UlxTristateCheckbox
+									@value={{this.headerTristateValue}}
 									@itemLabel={{this.selectAllItemLabel}}
-									@onCheckedChange={{this.onSelectAllChange}}
+									@onValueChange={{this.onHeaderTristateChange}}
 								/>
 							</div>
 						{{/if}}
