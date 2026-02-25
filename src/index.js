@@ -19,6 +19,7 @@ export { default as UlxProgressSpinner } from './components/elements/ulx-progres
 export { default as UlxProgressBar } from './components/elements/ulx-progress-bar/index.gjs';
 export { default as UlxSplitButton } from './components/elements/ulx-split-button/index.gjs';
 export { default as UlxTristateCheckbox } from './components/elements/ulx-tristate-checkbox/index.gjs';
+export { default as UlxToggle } from './components/elements/ulx-toggle/index.gjs';
 export { default as UlxDropdown } from './components/elements/ulx-dropdown/index.gjs';
 export { default as UlxMultiSelect } from './components/elements/ulx-multi-select/index.gjs';
 // Collections

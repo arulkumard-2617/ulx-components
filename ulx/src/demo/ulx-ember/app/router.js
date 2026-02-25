@@ -36,6 +36,7 @@ Router.map(function () {
       this.route('progressbar');
       this.route('progressspinner');
       this.route('tristate-checkbox');
+      this.route('toggle');
       this.route('dropdown');
     });
     this.route('modules', function () {

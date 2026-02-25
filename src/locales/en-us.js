@@ -97,6 +97,9 @@ const enUs = {
 	'msg.send.report': 'Can you send me the report?',
 	'msg.does.not.auto.close': 'Does not auto-close',
 
+	// ── Toggle (InputSwitch) ──────────────────────────────────
+	'lbl.toggle.remember.me': 'Remember Me',
+
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',
 	'lbl.label': 'label',

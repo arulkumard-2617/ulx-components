@@ -548,8 +548,7 @@ export default class UlxDropdown extends Component {
 		if (this.overlayVisible) {
 			this.filterValue = this.args.editable ? (this.selectedLabel ?? "") : "";
 			this.focusedOptionIndex = this.selectedOptionIndex;
-			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
-				this.focusedOptionIndex = 0;
+			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 			this.panelPosition = "below";
 			this.args.onShow?.();
 		} else {
@@ -712,8 +711,7 @@ export default class UlxDropdown extends Component {
 			this.filterValue = this.selectedLabel ?? "";
 			this.overlayVisible = true;
 			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
-				this.focusedOptionIndex = 0;
+			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 			this.args.onShow?.();
 		}
 		this.handleFocus(event);
@@ -727,8 +725,7 @@ export default class UlxDropdown extends Component {
 			this.filterValue = this.selectedLabel ?? "";
 			this.overlayVisible = true;
 			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
-				this.focusedOptionIndex = 0;
+			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 			this.args.onShow?.();
 		}
 	}
@@ -748,8 +745,7 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
-					this.focusedOptionIndex = 0;
+				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			} else this.moveFocus(1);
 			return;
@@ -760,8 +756,7 @@ export default class UlxDropdown extends Component {
 			else {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
-				this.focusedOptionIndex =
-					this.listOptions.length > 0 ? this.listOptions.length - 1 : 0;
+				this.focusedOptionIndex = this.listOptions.length > 0 ? this.listOptions.length - 1 : 0;
 				this.args.onShow?.();
 			}
 			return;
@@ -778,8 +773,7 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
-					this.focusedOptionIndex = 0;
+				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			}
 			return;
@@ -795,8 +789,7 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
-					this.focusedOptionIndex = 0;
+				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			} else if (this.focusedOptionIndex >= 0) {
 				const list = this.listOptions;
@@ -815,8 +808,7 @@ export default class UlxDropdown extends Component {
 		if (!list.length) return;
 		let nextFocusedIndex = this.focusedOptionIndex + delta;
 		if (nextFocusedIndex < 0) nextFocusedIndex = 0;
-		if (nextFocusedIndex >= list.length)
-			nextFocusedIndex = list.length - 1;
+		if (nextFocusedIndex >= list.length) nextFocusedIndex = list.length - 1;
 		this.focusedOptionIndex = nextFocusedIndex;
 	}
 
