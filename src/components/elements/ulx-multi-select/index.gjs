@@ -523,7 +523,7 @@ export default class UlxMultiSelect extends Component {
 	scrollFocusedIntoView = modifier(
 		(element, [when, focusedIndex, listId, useVirtual, itemSize]) => {
 			if (!when || focusedIndex < 0 || !element) return;
-			schedule("afterRender", () => {
+			const runScroll = (retry = false) => {
 				const wrapper = element;
 				if (useVirtual && typeof itemSize === "number") {
 					const targetScroll = Math.max(0, focusedIndex * itemSize - wrapper.clientHeight / 2);
@@ -533,7 +533,10 @@ export default class UlxMultiSelect extends Component {
 				const id = listId ? `${listId}-item-${focusedIndex}` : null;
 				if (!id) return;
 				const item = document.getElementById(id);
-				if (!item) return;
+				if (!item) {
+					if (!retry) requestAnimationFrame(() => runScroll(true));
+					return;
+				}
 				const itemTop = item.offsetTop;
 				const itemBottom = itemTop + item.offsetHeight;
 				const wrapperScrollTop = wrapper.scrollTop;
@@ -541,6 +544,9 @@ export default class UlxMultiSelect extends Component {
 				if (itemBottom > wrapperScrollTop + wrapperHeight)
 					wrapper.scrollTop = itemBottom - wrapperHeight;
 				if (itemTop < wrapperScrollTop) wrapper.scrollTop = itemTop;
+			};
+			schedule("afterRender", () => {
+				requestAnimationFrame(() => runScroll(false));
 			});
 		}
 	);
