@@ -19,6 +19,7 @@ import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import UlxCheckbox from "../ulx-checkbox/index.gjs";
+import UlxButton from "../ulx-button/index.gjs";
 import { eq, and, not, or, gt } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
@@ -69,6 +70,8 @@ import { hash, concat } from "@ember/helper";
  * @param {Function} [onFocus] - Focus callback.
  * @param {Function} [onBlur] - Blur callback.
  * @param {Function} [onFilter] - (filterValue) => void when filter input changes.
+ * @param {boolean} [allowAddition=false] - When true, show an Add button in the panel header tied to the filter input.
+ * @param {Function} [onAddItem] - (filterValue) => void | Promise<void>; called when the Add button is clicked.
  * @param {Function} [onShow] - When overlay opens.
  * @param {Function} [onHide] - When overlay closes.
  * @param {Function} [onSelectAll] - Optional (event, checked) => void; when provided overrides default select-all.
@@ -360,6 +363,17 @@ export default class UlxMultiSelect extends Component {
 		return current < selectionLimit;
 	}
 
+	get canAddItem() {
+		const allowAddition = !!this.args.allowAddition;
+		if (!allowAddition) return false;
+		const filterValue = (this.filterValue ?? "").trim();
+		if (!filterValue) return false;
+		const { selectionLimit, value } = this.args;
+		const currentLength = Array.isArray(value) ? value.length : 0;
+		if (typeof selectionLimit === "number" && currentLength >= selectionLimit) return false;
+		return true;
+	}
+
 	get isAllSelected() {
 		const onSelectAll = this.args.onSelectAll;
 		if (typeof onSelectAll === "function" && this.args.selectAll != null) {
@@ -634,6 +648,22 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	@action
+	addItem() {
+		if (!this.canAddItem) return;
+		const query = (this.filterValue ?? "").trim();
+		const handler = this.args.onAddItem;
+		if (typeof handler !== "function") return;
+		const result = handler(query);
+		this.filterValue = "";
+		this.args.onFilter?.("");
+		if (result != null && typeof result.then === "function") {
+			result.then(() => this.closePanel());
+		} else {
+			this.closePanel();
+		}
+	}
+
+	@action
 	onItemCheckboxChange(entry, _checked, event) {
 		event?.stopPropagation?.();
 		this.selectOption(entry);
@@ -713,6 +743,10 @@ export default class UlxMultiSelect extends Component {
 			this.moveFocus(-1);
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
+			if (this.args.allowAddition && this.canAddItem) {
+				this.addItem();
+				return;
+			}
 			if (this.focusedOptionIndex >= 0) {
 				const visibleOptionsList = this.visibleOptions;
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
@@ -1089,7 +1123,7 @@ export default class UlxMultiSelect extends Component {
 								/>
 							</div>
 						{{/if}}
-						{{#if @filter}}
+						{{#if (or @filter @allowAddition)}}
 							<div class="multiselect-filter-container">
 								<input
 									type="text"
@@ -1100,6 +1134,15 @@ export default class UlxMultiSelect extends Component {
 									{{on "keydown" this.onFilterKeydown}}
 								/>
 							</div>
+							{{#if @allowAddition}}
+								<UlxButton
+									@label={{t "label.add"}}
+									@variant="primary"
+									@size="s-size"
+									@onClick={{this.addItem}}
+									@disabled={{not this.canAddItem}}
+								/>
+							{{/if}}
 						{{/if}}
 						<button
 							type="button"
