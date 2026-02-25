@@ -223,6 +223,9 @@ const enUs = {
 
 	// ── Progress labels ──────────────────────────────────────
 	'lbl.icons': 'icons',
+	'lbl.progress.decrease': 'Decrease value',
+	'lbl.progress.increase': 'Increase value',
+	'msg.progress.adjust.preference': 'Adjust the value based on your preference.',
 
 	// ── HBS / doc section titles ─────────────────────────────
 	'lbl.theming': 'Theming',
