@@ -1,3 +1,4 @@
+export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -11,16 +12,26 @@ const CITIES = [
   { label: 'Paris', value: 'PRS' },
 ];
 
-export default class DemoMultiselectFilter extends Component {
+export default class DemoMultiselectAllowAddition extends Component {
   @tracked selected = [];
+  @tracked addedOptions = [];
 
   get items() {
-    return CITIES;
+    return [...CITIES, ...this.addedOptions];
   }
 
   @action
   setSelected(value) {
     this.selected = value;
+  }
+
+  @action
+  handleAddItem(filterValue) {
+    const trimmed = (filterValue ?? '').trim();
+    if (!trimmed) return;
+    const newOption = { label: trimmed, value: trimmed };
+    this.addedOptions = [...this.addedOptions, newOption];
+    this.selected = [...this.selected, trimmed];
   }
 
   <template>
@@ -29,14 +40,16 @@ export default class DemoMultiselectFilter extends Component {
         @options={{this.items}}
         @value={{this.selected}}
         @onChange={{this.setSelected}}
-        @selectAll={{true}}
-        @selectAllLabel=""
         @filter={{true}}
+        @allowAddition={{true}}
+        @onAddItem={{this.handleAddItem}}
         @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
         @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label={{t "lbl.dropdown.filter"}}
+        @label={{t "lbl.multiselect.allow.addition"}}
         @fieldClass="col-4"
       />
     </div>
   </template>
 }
+
+`;

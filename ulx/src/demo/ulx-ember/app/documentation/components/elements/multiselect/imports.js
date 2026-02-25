@@ -7,6 +7,7 @@ export { default as ChipsDemo } from '../../../../components/Demo/Multiselect/Ch
 export { default as GroupDemo } from '../../../../components/Demo/Multiselect/Group';
 export { default as TemplateDemo } from '../../../../components/Demo/Multiselect/Template';
 export { default as FilterDemo } from '../../../../components/Demo/Multiselect/Filter';
+export { default as AllowAdditionDemo } from '../../../../components/Demo/Multiselect/AllowAddition';
 export { default as VirtualScrollDemo } from '../../../../components/Demo/Multiselect/VirtualScroll';
 export { default as LoadingStateDemo } from '../../../../components/Demo/Multiselect/LoadingState';
 export { default as FloatLabelDemo } from '../../../../components/Demo/Multiselect/FloatLabel';
@@ -21,6 +22,7 @@ export { default as ChipsSource } from './snippets/Chips.gjs';
 export { default as GroupSource } from './snippets/Group.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as FilterSource } from './snippets/Filter.gjs';
+export { default as AllowAdditionSource } from './snippets/AllowAddition.gjs';
 export { default as VirtualScrollSource } from './snippets/VirtualScroll.gjs';
 export { default as LoadingStateSource } from './snippets/LoadingState.gjs';
 export { default as FloatLabelSource } from './snippets/FloatLabel.gjs';

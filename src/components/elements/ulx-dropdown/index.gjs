@@ -89,6 +89,7 @@ export default class UlxDropdown extends Component {
 	@tracked filterValue = "";
 	@tracked triggerElement = null;
 	@tracked panelElement = null;
+	@tracked panelPosition = "below";
 
 	get key() {
 		return this.args.key ?? guidFor(this);
@@ -272,8 +273,12 @@ export default class UlxDropdown extends Component {
 		return flattenedOptions;
 	}
 
+	get unfilteredOptions() {
+		return this.hasGroups ? this.flatOptions : (this.args.options ?? []);
+	}
+
 	get visibleOptions() {
-		const sourceOptionsList = this.hasGroups ? this.flatOptions : (this.args.options ?? []);
+		const sourceOptionsList = this.unfilteredOptions;
 		const normalizedFilterValue = (this.filterValue ?? "").trim().toLowerCase();
 		if (!normalizedFilterValue) return sourceOptionsList;
 
@@ -285,6 +290,10 @@ export default class UlxDropdown extends Component {
 		return sourceOptionsList.filter((option) =>
 			this.getOptionLabel(option).toLowerCase().includes(normalizedFilterValue)
 		);
+	}
+
+	get listOptions() {
+		return this.args.editable ? this.unfilteredOptions : this.visibleOptions;
 	}
 
 	get selectedOption() {
@@ -409,26 +418,67 @@ export default class UlxDropdown extends Component {
 		};
 	});
 
-	positionPanel = modifier((element, [when, triggerEl]) => {
+	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
 		if (!when || !element) return;
 
 		const alignPanelToTrigger = () => {
 			const trigger = this.triggerElement ?? triggerEl;
 			if (!trigger) return;
 
-			const triggerRect = trigger.getBoundingClientRect();
+			const targetRect = trigger.getBoundingClientRect();
 			const scrollX = window.pageXOffset ?? document.documentElement.scrollLeft ?? 0;
 			const scrollY = window.pageYOffset ?? document.documentElement.scrollTop ?? 0;
 
 			element.style.position = "absolute";
-			element.style.top = `${triggerRect.bottom + scrollY + 2}px`;
-			element.style.left = `${triggerRect.left + scrollX}px`;
-			element.style.width = `${triggerRect.width}px`;
-			element.style.minWidth = `${triggerRect.width}px`;
-			element.style.maxWidth = `${triggerRect.width}px`;
+			element.style.top = `${targetRect.bottom + scrollY + 2}px`;
+			element.style.left = `${targetRect.left + scrollX}px`;
+			element.style.width = `${targetRect.width}px`;
+			element.style.minWidth = `${targetRect.width}px`;
+			element.style.maxWidth = `${targetRect.width}px`;
 			element.style.zIndex = "1100";
 			element.style.margin = "0";
 			element.style.padding = "0";
+
+			const menuWidth = element.offsetWidth || targetRect.width;
+			const menuHeight = element.offsetHeight || 200;
+
+			let top = targetRect.bottom + 2;
+			let left = targetRect.left;
+
+			const viewportWidth = window.innerWidth;
+			const viewportHeight = window.innerHeight;
+			const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+			if (left + menuWidth > viewportWidth - scrollbarWidth) {
+				const leftPosition = targetRect.right - menuWidth;
+				if (leftPosition >= 0) {
+					left = leftPosition;
+				} else {
+					left = viewportWidth - menuWidth - scrollbarWidth - 10;
+				}
+			}
+			if (left < 0) {
+				left = 10;
+			}
+
+			if (top + menuHeight > viewportHeight) {
+				const topPosition = targetRect.top - menuHeight - 2;
+				if (topPosition >= 0) {
+					top = topPosition;
+					typeof setPanelPosition === "function" && setPanelPosition("above");
+				} else {
+					top = viewportHeight - menuHeight - 10;
+					typeof setPanelPosition === "function" && setPanelPosition("below");
+				}
+			} else {
+				typeof setPanelPosition === "function" && setPanelPosition("below");
+			}
+			if (top < 0) {
+				top = 10;
+			}
+
+			element.style.top = `${top + scrollY}px`;
+			element.style.left = `${left + scrollX}px`;
 		};
 
 		schedule("afterRender", () => {
@@ -462,6 +512,35 @@ export default class UlxDropdown extends Component {
 		};
 	});
 
+	scrollFocusedIntoView = modifier((element, [when, focusedIndex, listId]) => {
+		if (!when || focusedIndex < 0 || !element) return;
+		const runScroll = (retry = false) => {
+			const wrapper = element;
+			const id = listId ? `${listId}-item-${focusedIndex}` : null;
+			if (!id) return;
+			const item = document.getElementById(id);
+			if (!item) {
+				if (!retry) requestAnimationFrame(() => runScroll(true));
+				return;
+			}
+			const itemTop = item.offsetTop;
+			const itemBottom = itemTop + item.offsetHeight;
+			const wrapperScrollTop = wrapper.scrollTop;
+			const wrapperHeight = wrapper.clientHeight;
+			if (itemBottom > wrapperScrollTop + wrapperHeight)
+				wrapper.scrollTop = itemBottom - wrapperHeight;
+			if (itemTop < wrapperScrollTop) wrapper.scrollTop = itemTop;
+		};
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => runScroll(false));
+		});
+	});
+
+	@action
+	setPanelPosition(position) {
+		this.panelPosition = position;
+	}
+
 	@action
 	toggleOverlay() {
 		if (this.args.disabled || this.args.loading) return;
@@ -469,25 +548,27 @@ export default class UlxDropdown extends Component {
 		if (this.overlayVisible) {
 			this.filterValue = this.args.editable ? (this.selectedLabel ?? "") : "";
 			this.focusedOptionIndex = this.selectedOptionIndex;
-			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
 				this.focusedOptionIndex = 0;
+			this.panelPosition = "below";
 			this.args.onShow?.();
 		} else {
+			this.panelPosition = "below";
 			this.args.onHide?.();
 		}
 	}
 
 	get selectedOptionIndex() {
-		const visibleOptionsList = this.visibleOptions;
+		const list = this.listOptions;
 		const selectedValue = this.args.value;
 		if (this.hasGroups) {
-			for (let i = 0; i < visibleOptionsList.length; i++) {
-				const optionItem = visibleOptionsList[i].item ?? visibleOptionsList[i];
+			for (let i = 0; i < list.length; i++) {
+				const optionItem = list[i].item ?? list[i];
 				if (this.valueEquals(this.getOptionValue(optionItem), selectedValue)) return i;
 			}
 		} else {
-			for (let i = 0; i < visibleOptionsList.length; i++) {
-				if (this.valueEquals(this.getOptionValue(visibleOptionsList[i]), selectedValue)) return i;
+			for (let i = 0; i < list.length; i++) {
+				if (this.valueEquals(this.getOptionValue(list[i]), selectedValue)) return i;
 			}
 		}
 		return -1;
@@ -551,8 +632,8 @@ export default class UlxDropdown extends Component {
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const list = this.listOptions;
+				const focusedEntry = list[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
@@ -591,8 +672,8 @@ export default class UlxDropdown extends Component {
 		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const list = this.listOptions;
+				const focusedEntry = list[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
@@ -611,7 +692,16 @@ export default class UlxDropdown extends Component {
 		const filterInputValue = event.target?.value ?? "";
 		this.filterValue = filterInputValue;
 		if (!this.overlayVisible) this.overlayVisible = true;
-		this.focusedOptionIndex = 0;
+		const list = this.listOptions;
+		const normalized = (filterInputValue ?? "").trim().toLowerCase();
+		let matchIndex = -1;
+		if (normalized && list.length > 0) {
+			matchIndex = list.findIndex((entry) => {
+				const option = entry?.item != null ? entry.item : entry;
+				return this.getOptionLabel(option).toLowerCase().includes(normalized);
+			});
+		}
+		this.focusedOptionIndex = matchIndex >= 0 ? matchIndex : -1;
 		this.args.onFilter?.(filterInputValue);
 	}
 
@@ -622,7 +712,7 @@ export default class UlxDropdown extends Component {
 			this.filterValue = this.selectedLabel ?? "";
 			this.overlayVisible = true;
 			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
 				this.focusedOptionIndex = 0;
 			this.args.onShow?.();
 		}
@@ -637,7 +727,7 @@ export default class UlxDropdown extends Component {
 			this.filterValue = this.selectedLabel ?? "";
 			this.overlayVisible = true;
 			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
 				this.focusedOptionIndex = 0;
 			this.args.onShow?.();
 		}
@@ -658,7 +748,7 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
 					this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			} else this.moveFocus(1);
@@ -671,7 +761,7 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex =
-					this.visibleOptions.length > 0 ? this.visibleOptions.length - 1 : 0;
+					this.listOptions.length > 0 ? this.listOptions.length - 1 : 0;
 				this.args.onShow?.();
 			}
 			return;
@@ -679,8 +769,8 @@ export default class UlxDropdown extends Component {
 		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const list = this.listOptions;
+				const focusedEntry = list[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
@@ -688,7 +778,7 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
 					this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			}
@@ -705,12 +795,12 @@ export default class UlxDropdown extends Component {
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0)
 					this.focusedOptionIndex = 0;
 				this.args.onShow?.();
 			} else if (this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const list = this.listOptions;
+				const focusedEntry = list[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
@@ -721,12 +811,12 @@ export default class UlxDropdown extends Component {
 
 	@action
 	moveFocus(delta) {
-		const visibleOptionsList = this.visibleOptions;
-		if (!visibleOptionsList.length) return;
+		const list = this.listOptions;
+		if (!list.length) return;
 		let nextFocusedIndex = this.focusedOptionIndex + delta;
 		if (nextFocusedIndex < 0) nextFocusedIndex = 0;
-		if (nextFocusedIndex >= visibleOptionsList.length)
-			nextFocusedIndex = visibleOptionsList.length - 1;
+		if (nextFocusedIndex >= list.length)
+			nextFocusedIndex = list.length - 1;
 		this.focusedOptionIndex = nextFocusedIndex;
 	}
 
@@ -742,8 +832,8 @@ export default class UlxDropdown extends Component {
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			if (this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+				const list = this.listOptions;
+				const focusedEntry = list[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
@@ -752,17 +842,17 @@ export default class UlxDropdown extends Component {
 	}
 
 	get optionList() {
-		if (this.hasGroups) return this.visibleOptions;
-		return this.visibleOptions.map((option) => ({ item: option }));
+		if (this.hasGroups) return this.listOptions;
+		return this.listOptions.map((option) => ({ item: option }));
 	}
 
 	get optionListWithGroups() {
 		if (!this.hasGroups) return [];
-		const visibleOptionsList = this.visibleOptions;
+		const list = this.listOptions;
 		const rows = [];
 		let lastGroupLabel = null;
-		for (let flatIndex = 0; flatIndex < visibleOptionsList.length; flatIndex++) {
-			const entry = visibleOptionsList[flatIndex];
+		for (let flatIndex = 0; flatIndex < list.length; flatIndex++) {
+			const entry = list[flatIndex];
 			const groupLabel = entry?.groupLabel ?? "";
 			if (groupLabel !== lastGroupLabel) {
 				rows.push({ type: "group", label: groupLabel, group: entry?.group ?? null });
@@ -1105,13 +1195,13 @@ export default class UlxDropdown extends Component {
 			{{#if this.overlayVisible}}
 				<div
 					id="{{this.triggerId}}-listbox"
-					class="dropdown-panel"
+					class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
 					role="listbox"
 					aria-activedescendant={{this.activeDescendantId}}
 					aria-hidden="false"
 					{{this.panelRef}}
 					{{this.appendToBody this.overlayVisible}}
-					{{this.positionPanel this.overlayVisible this.triggerElement}}
+					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
 				>
@@ -1144,7 +1234,7 @@ export default class UlxDropdown extends Component {
 						}}
 					>
 						<ul class="dropdown-list" role="listbox">
-							{{#if (eq this.visibleOptions.length 0)}}
+							{{#if (eq this.listOptions.length 0)}}
 								<li class="dropdown-empty-message" role="option">
 									{{or (and @filter @emptyFilterMessage) @emptyMessage}}
 								</li>

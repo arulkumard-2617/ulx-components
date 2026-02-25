@@ -17,9 +17,9 @@ import {
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
-import UlxChip from "../ulx-chip/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import UlxCheckbox from "../ulx-checkbox/index.gjs";
+import UlxButton from "../ulx-button/index.gjs";
 import { eq, and, not, or, gt } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
@@ -50,6 +50,7 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [filter=false] - Show filter input in panel.
  * @param {boolean} [showClear=false] - Show clear icon when value has items.
  * @param {boolean} [selectAll=false] - Show select-all checkbox in panel header.
+ * @param {string} [selectAllLabel] - Label for select-all checkbox. When empty string, checkbox is shown without text.
  * @param {boolean} [filled=false] - Filled variant styling.
  * @param {boolean|string} [floatLabel=false] - Float label mode.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
@@ -69,6 +70,8 @@ import { hash, concat } from "@ember/helper";
  * @param {Function} [onFocus] - Focus callback.
  * @param {Function} [onBlur] - Blur callback.
  * @param {Function} [onFilter] - (filterValue) => void when filter input changes.
+ * @param {boolean} [allowAddition=false] - When true, show an Add button in the panel header tied to the filter input.
+ * @param {Function} [onAddItem] - (filterValue) => void | Promise<void>; called when the Add button is clicked.
  * @param {Function} [onShow] - When overlay opens.
  * @param {Function} [onHide] - When overlay closes.
  * @param {Function} [onSelectAll] - Optional (event, checked) => void; when provided overrides default select-all.
@@ -324,8 +327,9 @@ export default class UlxMultiSelect extends Component {
 		return this.args.placeholder ?? t("msg.multiselect.placeholder");
 	}
 
-	get contentPlaceholderClass() {
-		return !this.hasValue ? "multiselect-placeholder" : "";
+	get displayClass() {
+		const displayMode = this.args.display === "chip" ? "chip-display" : "comma-display";
+		return displayMode;
 	}
 
 	get inputtextClass() {
@@ -347,11 +351,27 @@ export default class UlxMultiSelect extends Component {
 		return t("lbl.clear.selection");
 	}
 
+	get selectAllItemLabel() {
+		const { selectAllLabel } = this.args;
+		return selectAllLabel !== undefined ? selectAllLabel : t("lbl.select.all");
+	}
+
 	get allowOptionSelect() {
 		const { selectionLimit, value } = this.args;
 		if (!selectionLimit) return true;
 		const current = Array.isArray(value) ? value.length : 0;
 		return current < selectionLimit;
+	}
+
+	get canAddItem() {
+		const allowAddition = !!this.args.allowAddition;
+		if (!allowAddition) return false;
+		const filterValue = (this.filterValue ?? "").trim();
+		if (!filterValue) return false;
+		const { selectionLimit, value } = this.args;
+		const currentLength = Array.isArray(value) ? value.length : 0;
+		if (typeof selectionLimit === "number" && currentLength >= selectionLimit) return false;
+		return true;
 	}
 
 	get isAllSelected() {
@@ -517,7 +537,7 @@ export default class UlxMultiSelect extends Component {
 	scrollFocusedIntoView = modifier(
 		(element, [when, focusedIndex, listId, useVirtual, itemSize]) => {
 			if (!when || focusedIndex < 0 || !element) return;
-			schedule("afterRender", () => {
+			const runScroll = (retry = false) => {
 				const wrapper = element;
 				if (useVirtual && typeof itemSize === "number") {
 					const targetScroll = Math.max(0, focusedIndex * itemSize - wrapper.clientHeight / 2);
@@ -527,7 +547,10 @@ export default class UlxMultiSelect extends Component {
 				const id = listId ? `${listId}-item-${focusedIndex}` : null;
 				if (!id) return;
 				const item = document.getElementById(id);
-				if (!item) return;
+				if (!item) {
+					if (!retry) requestAnimationFrame(() => runScroll(true));
+					return;
+				}
 				const itemTop = item.offsetTop;
 				const itemBottom = itemTop + item.offsetHeight;
 				const wrapperScrollTop = wrapper.scrollTop;
@@ -535,6 +558,9 @@ export default class UlxMultiSelect extends Component {
 				if (itemBottom > wrapperScrollTop + wrapperHeight)
 					wrapper.scrollTop = itemBottom - wrapperHeight;
 				if (itemTop < wrapperScrollTop) wrapper.scrollTop = itemTop;
+			};
+			schedule("afterRender", () => {
+				requestAnimationFrame(() => runScroll(false));
 			});
 		}
 	);
@@ -622,6 +648,22 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	@action
+	addItem() {
+		if (!this.canAddItem) return;
+		const query = (this.filterValue ?? "").trim();
+		const handler = this.args.onAddItem;
+		if (typeof handler !== "function") return;
+		const result = handler(query);
+		this.filterValue = "";
+		this.args.onFilter?.("");
+		if (result != null && typeof result.then === "function") {
+			result.then(() => this.closePanel());
+		} else {
+			this.closePanel();
+		}
+	}
+
+	@action
 	onItemCheckboxChange(entry, _checked, event) {
 		event?.stopPropagation?.();
 		this.selectOption(entry);
@@ -642,7 +684,21 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	@action
-	removeChipOption(event, option) {
+	onChipRemoveIconKeydown(option, event) {
+		const keyPressed = event.code || event.key;
+		if (
+			keyPressed === "Enter" ||
+			keyPressed === "NumpadEnter" ||
+			keyPressed === " " ||
+			keyPressed === "Space"
+		) {
+			event.preventDefault();
+			this.removeChipOption(option, event);
+		}
+	}
+
+	@action
+	removeChipOption(option, event) {
 		event?.stopPropagation?.();
 		if (this.args.disabled) return;
 		const optionVal = this.getOptionValue(option);
@@ -687,6 +743,10 @@ export default class UlxMultiSelect extends Component {
 			this.moveFocus(-1);
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
+			if (this.args.allowAddition && this.canAddItem) {
+				this.addItem();
+				return;
+			}
 			if (this.focusedOptionIndex >= 0) {
 				const visibleOptionsList = this.visibleOptions;
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
@@ -822,7 +882,7 @@ export default class UlxMultiSelect extends Component {
 						{{on "keydown" this.onTriggerKeydown}}
 						...attributes
 					>
-						<div class="multiselect-label-container {{this.contentPlaceholderClass}}" tabindex="-1">
+						<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
 							{{#if (has-block "value")}}
 								<div class="flex items-center">
 									{{yield
@@ -837,7 +897,7 @@ export default class UlxMultiSelect extends Component {
 							{{else}}
 								{{#if this.displayChips}}
 									{{#if this.hasValue}}
-										<div class="multiselect-chips">
+										<div class="multiselect-label">
 											{{#each this.selectedOptions as |option|}}
 												{{#if (has-block "chip")}}
 													{{yield
@@ -849,16 +909,28 @@ export default class UlxMultiSelect extends Component {
 														to="chip"
 													}}
 												{{else}}
-													<UlxChip
-														@label={{this.getOptionLabel option}}
-														@removable={{true}}
-														@onRemove={{fn this.removeChipOption option}}
-													/>
+													<span class="multiselect-token">
+														<span class="multiselect-token-label">
+															{{this.getOptionLabel option}}
+														</span>
+														<UlxIcon
+															@type="font"
+															@iconName="close-stroke-icon"
+															@componentClass="bs-icons1"
+															@size="s16"
+															class="multiselect-token-icon"
+															role="button"
+															tabindex="0"
+															aria-label={{t "lbl.remove"}}
+															{{on "click" (fn this.removeChipOption option)}}
+															{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
+														/>
+													</span>
 												{{/if}}
 											{{/each}}
 										</div>
 									{{else}}
-										<span class="multiselect-label">{{this.placeholderDisplay}}</span>
+										<span class="multiselect-token">{{this.placeholderDisplay}}</span>
 									{{/if}}
 								{{else}}
 									{{#if this.hasValue}}
@@ -873,7 +945,7 @@ export default class UlxMultiSelect extends Component {
 						{{#if (and @showClear this.hasValue (not @disabled))}}
 							<UlxIcon
 								@type="font"
-								@iconName="close-icon-01"
+								@iconName="close-stroke-icon"
 								@componentClass="bs-icons1"
 								@size="s24"
 								aria-hidden="true"
@@ -928,7 +1000,7 @@ export default class UlxMultiSelect extends Component {
 					{{on "blur" this.handleBlur}}
 					...attributes
 				>
-					<div class="multiselect-label-container {{this.contentPlaceholderClass}}" tabindex="-1">
+					<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
 						{{#if (has-block "value")}}
 							<div class="flex items-center">
 								{{yield
@@ -943,7 +1015,7 @@ export default class UlxMultiSelect extends Component {
 						{{else}}
 							{{#if this.displayChips}}
 								{{#if this.hasValue}}
-									<div class="multiselect-chips">
+									<div class="multiselect-label">
 										{{#each this.selectedOptions as |option|}}
 											{{#if (has-block "chip")}}
 												{{yield
@@ -955,11 +1027,23 @@ export default class UlxMultiSelect extends Component {
 													to="chip"
 												}}
 											{{else}}
-												<UlxChip
-													@label={{this.getOptionLabel option}}
-													@removable={{true}}
-													@onRemove={{fn this.removeChipOption option}}
-												/>
+												<span class="multiselect-token">
+													<span class="multiselect-token-label">
+														{{this.getOptionLabel option}}
+													</span>
+													<UlxIcon
+														@type="font"
+														@iconName="close-stroke-icon"
+														@componentClass="bs-icons1"
+														@size="s16"
+														class="multiselect-token-icon"
+														role="button"
+														tabindex="0"
+														aria-label={{t "lbl.remove"}}
+														{{on "click" (fn this.removeChipOption option)}}
+														{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
+													/>
+												</span>
 											{{/if}}
 										{{/each}}
 									</div>
@@ -984,7 +1068,7 @@ export default class UlxMultiSelect extends Component {
 					{{#if (and @showClear this.hasValue (not @disabled))}}
 						<UlxIcon
 							@type="font"
-							@iconName="close-icon-01"
+							@iconName="close-stroke-icon"
 							@componentClass="bs-icons1"
 							@size="s24"
 							aria-hidden="true"
@@ -1034,12 +1118,12 @@ export default class UlxMultiSelect extends Component {
 							<div class="multiselect-header-checkbox-container">
 								<UlxCheckbox
 									@checked={{this.isAllSelected}}
-									@itemLabel={{t "lbl.select.all"}}
+									@itemLabel={{this.selectAllItemLabel}}
 									@onCheckedChange={{this.onSelectAllChange}}
 								/>
 							</div>
 						{{/if}}
-						{{#if @filter}}
+						{{#if (or @filter @allowAddition)}}
 							<div class="multiselect-filter-container">
 								<input
 									type="text"
@@ -1050,6 +1134,15 @@ export default class UlxMultiSelect extends Component {
 									{{on "keydown" this.onFilterKeydown}}
 								/>
 							</div>
+							{{#if @allowAddition}}
+								<UlxButton
+									@label={{t "label.add"}}
+									@variant="primary"
+									@size="s-size"
+									@onClick={{this.addItem}}
+									@disabled={{not this.canAddItem}}
+								/>
+							{{/if}}
 						{{/if}}
 						<button
 							type="button"
