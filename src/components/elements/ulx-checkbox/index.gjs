@@ -5,6 +5,7 @@ import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
 import {
 	buildAriaDescribedBy,
 	buildFieldClass,
+	invokeCheckedChange,
 	isInvalidState,
 	normalizeRules,
 	resolveKey
@@ -132,12 +133,7 @@ export default class UlxCheckbox extends Component {
 
 	@action
 	handleChange(event) {
-		if (this.args.onChange) {
-			this.args.onChange(event);
-		}
-		if (this.args.onCheckedChange) {
-			this.args.onCheckedChange(event.target.checked, event);
-		}
+		invokeCheckedChange(this.args, event);
 	}
 
 	@action

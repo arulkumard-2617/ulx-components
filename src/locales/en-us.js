@@ -97,6 +97,9 @@ const enUs = {
 	'msg.send.report': 'Can you send me the report?',
 	'msg.does.not.auto.close': 'Does not auto-close',
 
+	// ── Toggle (InputSwitch) ──────────────────────────────────
+	'lbl.toggle.remember.me': 'Remember Me',
+
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',
 	'lbl.label': 'label',
@@ -220,6 +223,9 @@ const enUs = {
 
 	// ── Progress labels ──────────────────────────────────────
 	'lbl.icons': 'icons',
+	'lbl.progress.decrease': 'Decrease value',
+	'lbl.progress.increase': 'Increase value',
+	'msg.progress.adjust.preference': 'Adjust the value based on your preference.',
 
 	// ── HBS / doc section titles ─────────────────────────────
 	'lbl.theming': 'Theming',

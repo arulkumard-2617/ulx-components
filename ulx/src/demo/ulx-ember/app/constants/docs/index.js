@@ -51,6 +51,11 @@ export const DocNavItems = [
             route: 'components.elements.tristate-checkbox',
           },
           {
+            menuItem: 'Toggle',
+            to: '/components/elements/toggle',
+            route: 'components.elements.toggle',
+          },
+          {
             menuItem: 'Dropdown',
             to: '/components/elements/dropdown',
             route: 'components.elements.dropdown',
