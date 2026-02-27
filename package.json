@@ -116,6 +116,7 @@
       "./components/elements/ulx-tag/index.js": "./dist/_app_/components/elements/ulx-tag/index.js",
       "./components/elements/ulx-textarea/index.js": "./dist/_app_/components/elements/ulx-textarea/index.js",
       "./components/elements/ulx-toggle/index.js": "./dist/_app_/components/elements/ulx-toggle/index.js",
+      "./components/elements/ulx-toolbar/index.js": "./dist/_app_/components/elements/ulx-toolbar/index.js",
       "./components/elements/ulx-tristate-checkbox/index.js": "./dist/_app_/components/elements/ulx-tristate-checkbox/index.js",
       "./components/modules/ulx-modal/body.js": "./dist/_app_/components/modules/ulx-modal/body.js",
       "./components/modules/ulx-modal/example.js": "./dist/_app_/components/modules/ulx-modal/example.js",

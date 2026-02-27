@@ -157,6 +157,11 @@ export const DocNavItems = [
             route: 'components.collections.segment',
           },
           {
+            menuItem: 'Toolbar',
+            to: '/components/collections/toolbar',
+            route: 'components.collections.toolbar',
+          },
+          {
             menuItem: 'OptionSegment',
             to: '/components/collections/option-segment',
             route: 'components.collections.option-segment',

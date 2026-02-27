@@ -13,6 +13,7 @@ Router.map(function () {
     this.route('collections', function () {
       this.route('tab-menu');
       this.route('segment');
+      this.route('toolbar');
       this.route('split-button');
       this.route('option-segment');
       this.route('form');
