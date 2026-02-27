@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
-import { UlxMessages, UlxButton } from 'ulx-components';
+import { UlxBannerMessage, UlxButton } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class DynamicMessagesDemo extends Component {
@@ -31,7 +31,7 @@ export default class DynamicMessagesDemo extends Component {
         <UlxButton @label="Warn" @variant="warning" @onClick={{fn this.addMessage "warn"}} />
         <UlxButton @label="Error" @variant="danger" @onClick={{fn this.addMessage "error"}} />
       </div>
-      <UlxMessages @messages={{this.messages}} @onRemove={{this.removeMessage}} />
+      <UlxBannerMessage @messages={{this.messages}} @onRemove={{this.removeMessage}} />
     </div>
   </template>
 }

@@ -1,6 +1,6 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxMessages } from 'ulx-components';
+import { UlxBannerMessage } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class BasicMessagesDemo extends Component {
@@ -11,7 +11,7 @@ export default class BasicMessagesDemo extends Component {
   }
 
   <template>
-    <UlxMessages @messages={{this.messages}} />
+    <UlxBannerMessage @messages={{this.messages}} />
   </template>
 }
 

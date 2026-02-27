@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMessages } from 'ulx-components';
+import { UlxBannerMessage } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class StickyMessagesDemo extends Component {
@@ -18,6 +18,6 @@ export default class StickyMessagesDemo extends Component {
   }
 
   <template>
-    <UlxMessages @messages={{this.messages}} @onRemove={{this.removeMessage}} />
+    <UlxBannerMessage @messages={{this.messages}} @onRemove={{this.removeMessage}} />
   </template>
 }

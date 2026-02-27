@@ -7,6 +7,7 @@ import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
+import UlxButton from "../ulx-button/index.gjs";
 
 const ENTER_DONE_CLASS = "enter-done";
 
@@ -24,15 +25,17 @@ const DEFAULT_LIFE_MS = 3000;
  * optional close button, and optional auto-close (life) or sticky behavior.
  * Uses existing classes from messages.less. Argument-driven: @messages and @onRemove.
  *
- * @class UlxMessages
+ * @class UlxBannerMessage
  * @param {Array<{ id: string, variant?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, life?: number, icon?: string }>} [messages=[]] - List of message objects
  * @param {function} [onRemove] - Callback when a message is removed; receives the message object
  * @param {string} [customClass] - Extra CSS classes for the root container
  * @param {string} [id] - Id for the root element
  * @param {string} [size="m-size"] - Size class for container and each message (e.g. xs-size, s-size, m-size, l-size, xl-size)
  * @block content - Optional. Yields (message); when provided, replaces default summary/detail with custom content.
+ * @block leftItem - Optional. Yields (message); custom left-side content per message (icon, avatar, image). Falls back to default icon when not provided.
+ * @block action - Optional. Yields (message); custom right-side action area per message. Falls back to default close button when not provided.
  */
-export default class UlxMessages extends Component {
+export default class UlxBannerMessage extends Component {
 	@tracked _closeTimeouts = new Map();
 
 	addEnterDoneAfterRender = modifier((element) => {
@@ -120,8 +123,7 @@ export default class UlxMessages extends Component {
 
 	@action
 	getMessageIcon(message) {
-		const variant = message?.variant ?? "info";
-		return message?.icon ?? DEFAULT_ICON_BY_VARIANT[variant];
+		return message?.icon;
 	}
 
 	@action
@@ -153,14 +155,18 @@ export default class UlxMessages extends Component {
 							{{#if (has-block "content")}}
 								{{yield message to="content"}}
 							{{else}}
-								<span class={{this.iconClass}} aria-hidden="true">
-									<UlxIcon
-										@componentClass="bs-icons1"
-										@type="font"
-										@iconName={{this.getMessageIcon message}}
-										@size="s18"
-									/>
-								</span>
+								{{#if (has-block "leftItem")}}
+									{{yield message to="leftItem"}}
+								{{else if message.icon}}
+									<span class={{this.iconClass}} aria-hidden="true">
+										<UlxIcon
+											@componentClass="bs-icons1"
+											@type="font"
+											@iconName={{message.icon}}
+											@size="s18"
+										/>
+									</span>
+								{{/if}}
 								{{#if message.summary}}
 									<span class={{this.summaryClass}}>{{message.summary}}</span>
 								{{/if}}
@@ -168,21 +174,20 @@ export default class UlxMessages extends Component {
 									<span class={{this.detailClass}}>{{message.detail}}</span>
 								{{/if}}
 							{{/if}}
-							{{#if (this.showClose message)}}
-								<button
-									type="button"
-									class={{this.closeButtonClass}}
+							{{#if (has-block "action")}}
+								{{yield message to="action"}}
+							{{else if (this.showClose message)}}
+								<UlxButton
+									@icon="close-stroke-icon"
+									@iconComponentClass="bs-icons1"
+									@iconSize="s18"
+									@text={{true}}
+									@variant="secondary"
+									@size={{@size}}
+									@customClass={{this.closeButtonClass}}
+									@onClick={{fn this.handleRemove message}}
 									aria-label={{t "lbl.close.notification"}}
-									{{on "click" (fn this.handleRemove message)}}
-								>
-									<UlxIcon
-										@componentClass="bs-icons1"
-										@type="font"
-										@iconName="close-stroke-icon"
-										@size="s18"
-										aria-hidden="true"
-									/>
-								</button>
+								/>
 							{{/if}}
 						</div>
 					</div>

@@ -19,10 +19,10 @@ export default {
     { name: 'Pass Through', route: '/passthrough', id: 'passthrough' },
   ],
 
-  importMsg: "import { UlxMessages } from 'ulx-components'",
+  importMsg: "import { UlxBannerMessage } from 'ulx-components'",
 
   accessibility: {
     description: 'Messages use role="alert", aria-live="assertive", aria-atomic="true" per message.',
-    example: '<UlxMessages @messages={{this.messages}} @onRemove={{this.removeMessage}} />',
+    example: '<UlxBannerMessage @messages={{this.messages}} @onRemove={{this.removeMessage}} />',
   },
 };

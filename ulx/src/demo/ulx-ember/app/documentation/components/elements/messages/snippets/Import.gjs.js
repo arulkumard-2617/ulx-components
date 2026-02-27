@@ -1,4 +1,4 @@
 export default `
-import { UlxMessages } from 'ulx-components';
+import { UlxBannerMessage } from 'ulx-components';
 
 `;

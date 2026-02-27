@@ -42,7 +42,7 @@ alwaysApply: true
 - **Must** Always use @action for the function used in the template
 - **MUST** Use ember-truth-helpers if needed and dont forget to import that
 - **Must** Use 'i18n t helper' for all the strings used in the component.Import the t helper in the component also
-- **Must** Also must use the components like input ,button etc... if needed use the existing components we have.
+- **Must** Also must use the components like input ,button etc... if needed use the existing components we have. Eg ulxbutton, ulxicon, ulxinput....
 
 ## Code Style Patterns
 

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxMessages } from 'ulx-components';
+import { UlxBannerMessage } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class TemplateMessagesDemo extends Component {
@@ -10,10 +10,10 @@ export default class TemplateMessagesDemo extends Component {
   }
 
   <template>
-    <UlxMessages @messages={{this.messages}}>
+    <UlxBannerMessage @messages={{this.messages}}>
       <:content as |message|>
         <strong>{{message.summary}}</strong> {{message.detail}}
       </:content>
-    </UlxMessages>
+    </UlxBannerMessage>
   </template>
 }
