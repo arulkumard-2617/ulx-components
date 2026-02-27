@@ -1,0 +1,59 @@
+{{page-title (t "lbl.doc.card.title")}}
+
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <Common::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-collections-card-theming"
+        @title={{t "lbl.theming"}}
+        @subtitle={{t "msg.theming.subtitle" component="Card"}}
+      >
+        <p class="fg-text-secondary">
+          Card uses ULS_V2.0 card classes (ulx-card, ulx-card-header, ulx-card-title,
+          ulx-card-subtitle, ulx-card-content, ulx-card-footer) from card.less.
+        </p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview as |props|>
+        <div class="pda4">
+          <UlxCard
+            @title={{props.title}}
+            @subTitle={{props.subTitle}}
+            @appearance={{props.appearance}}
+            @variant={{props.variant}}
+            @size={{props.size}}
+            @density={{props.density}}
+            @customClass={{props.customClass}}
+          >
+            <p class="fg-text-secondary text-14">
+              {{t "msg.card.basic.body"}}
+            </p>
+          </UlxCard>
+        </div>
+      </:preview>
+    </Common::DocMain::ComponentBuilder>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <Common::DocMain::FoundationSection
+        @id="components-collections-card-passthrough"
+        @title={{t "lbl.pass.through"}}
+        @subtitle={{t "msg.pass.through.subtitle" component="Card"}}
+      >
+        <p class="fg-text-secondary">
+          {{t "msg.pass.through.content.goes.here"}}
+        </p>
+      </Common::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</Common::DocMain::ComponentLayout>
+

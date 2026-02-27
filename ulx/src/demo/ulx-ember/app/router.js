@@ -19,6 +19,7 @@ Router.map(function () {
       this.route('accordion');
       this.route('multiselect');
       this.route('timeline');
+      this.route('card');
 });
     this.route('elements', function () {
       this.route('icon');

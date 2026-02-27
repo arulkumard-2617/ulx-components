@@ -162,6 +162,7 @@ const enUs = {
 	'lbl.doc.section.import': 'Import',
 	'lbl.doc.section.basic': 'Basic',
 	'lbl.doc.section.accessibility': 'Accessibility',
+	'lbl.advanced': 'Advanced',
 
 	// ── Multiselect ──────────────────────────────────────────
 	'lbl.select.all': 'Select all',
@@ -274,7 +275,23 @@ const enUs = {
 	'msg.inline.warn': 'Inline warning message.',
 	'msg.inline.error': 'Inline error message.',
 	'msg.inline.secondary': 'Secondary Message',
-	'msg.inline.contrast': 'Contrast Message'
+	'msg.inline.contrast': 'Contrast Message',
+
+	// ── Card ──────────────────────────────────────────────────
+	'lbl.card': 'Card',
+	'lbl.card.simple': 'Simple Card',
+	'lbl.card.advanced': 'Advanced Card',
+	'lbl.card.subtitle': 'Card subtitle',
+	'lbl.card.region': 'Card region',
+	'msg.card.basic.desc':
+		'Card with optional header, title, subtitle, body, and footer content.',
+	'msg.card.advanced.desc':
+		'Card with custom header and footer based on PrimeReact Card advanced example.',
+	'msg.card.accessibility.desc':
+		'Use role=\"region\" with aria-label when the card should be announced as a landmark.',
+	'msg.card.basic.body':
+		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum.',
+	'lbl.doc.card.title': 'Card - ULS Ember Documentation'
 };
 
 export default enUs;

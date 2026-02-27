@@ -171,6 +171,11 @@ export const DocNavItems = [
             to: '/components/collections/timeline',
             route: 'components.collections.timeline',
           },
+          {
+            menuItem: 'Card',
+            to: '/components/collections/card',
+            route: 'components.collections.card',
+          },
         ],
       },
       {

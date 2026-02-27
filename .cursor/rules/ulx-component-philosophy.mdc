@@ -40,7 +40,7 @@ alwaysApply: true
 - **Must** In the demo page, for the severity case use instead that as Variant not severity
 - Avoid writing new size classes
 - **Must** Always use @action for the function used in the template
-- Use ember-truth-helpers if needed and dont forget to import that
+- **MUST** Use ember-truth-helpers if needed and dont forget to import that
 - **Must** Use 'i18n t helper' for all the strings used in the component.Import the t helper in the component also
 - **Must** Also must use the components like input ,button etc... if needed use the existing components we have.
 
@@ -153,7 +153,7 @@ All components **MUST** meet WCAG requirements. Apply these rules so every compo
 - **Overrides**: Prefer passing a11y attributes through `...attributes` so callers can set `aria-label`, `role`, etc. when needed. Default to safe choices (e.g. decorative) and let callers override.
 - **Keyboard & focus**: Interactive components must be keyboard operable and have visible focus. Use `tabindex`, `role`, and focus management as appropriate for the control type.
 - **Semantics**: Use the right HTML element or ARIA role (e.g. `role="button"` only when it behaves like a button; use `<button>` when possible).
-- **snippets**: we need to write whatever the code demo page variation is having , it should be present in the snippet file also,  including the imports.
+- **snippets**: we need to write whatever the code demo page variation is having , it should be present in the snippet file also, including the imports.
 
 ### Icon components
 

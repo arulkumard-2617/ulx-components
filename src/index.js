@@ -13,6 +13,7 @@ export { default as UlxTag } from './components/elements/ulx-tag/index.gjs';
 export { default as UlxChip } from './components/elements/ulx-chip/index.gjs';
 export { default as UlxBadge } from './components/elements/ulx-badge/index.gjs';
 export { default as UlxDivider } from './components/elements/ulx-divider/index.gjs';
+export { default as UlxCard } from './components/elements/ulx-card/index.gjs';
 export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs';
 export { default as UlxAvatarGroup } from './components/elements/ulx-avatar-group/index.gjs';
 export { default as UlxProgressSpinner } from './components/elements/ulx-progressspinner/index.gjs';
