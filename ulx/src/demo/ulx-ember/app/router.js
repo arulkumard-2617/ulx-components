@@ -38,6 +38,8 @@ Router.map(function () {
       this.route('tristate-checkbox');
       this.route('toggle');
       this.route('dropdown');
+      this.route('message');
+      this.route('messages');
     });
     this.route('modules', function () {
       this.route('toast');

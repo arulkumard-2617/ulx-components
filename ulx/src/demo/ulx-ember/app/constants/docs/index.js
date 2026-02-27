@@ -120,6 +120,16 @@ export const DocNavItems = [
             to: '/components/elements/progressspinner',
             route: 'components.elements.progressspinner',
           },
+          {
+            menuItem: 'Message',
+            to: '/components/elements/message',
+            route: 'components.elements.message',
+          },
+          {
+            menuItem: 'Messages',
+            to: '/components/elements/messages',
+            route: 'components.elements.messages',
+          },
         ],
       },
     ],
