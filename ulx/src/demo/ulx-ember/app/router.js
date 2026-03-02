@@ -42,6 +42,7 @@ Router.map(function () {
       this.route('dropdown');
       this.route('message');
       this.route('messages');
+      this.route('rating');
     });
     this.route('modules', function () {
       this.route('toast');

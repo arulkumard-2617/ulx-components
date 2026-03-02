@@ -26,6 +26,7 @@ export { default as UlxDropdown } from './components/elements/ulx-dropdown/index
 export { default as UlxMultiSelect } from './components/elements/ulx-multi-select/index.gjs';
 export { default as UlxMessage } from './components/elements/ulx-message/index.gjs';
 export { default as UlxBannerMessage } from './components/elements/ulx-banner-message/index.gjs';
+export { default as UlxRating } from './components/elements/ulx-rating/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
 export { default as UlxForm } from './components/collections/ulx-form/index.gjs';

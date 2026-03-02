@@ -60,6 +60,11 @@ export const DocNavItems = [
             to: '/components/elements/dropdown',
             route: 'components.elements.dropdown',
           },
+          {
+            menuItem: 'Rating',
+            to: '/components/elements/rating',
+            route: 'components.elements.rating',
+          },
         ],
       },
       {
