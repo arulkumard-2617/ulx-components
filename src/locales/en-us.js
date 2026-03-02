@@ -44,6 +44,7 @@ const enUs = {
 	'lbl.update': 'Update',
 	'lbl.submit': 'Submit',
 	'lbl.clear': 'Clear',
+	'lbl.show': 'Show',
 	'lbl.close': 'Close',
 	'lbl.remove': 'Remove',
 	'msg.chip.custom.content': 'Custom chip content',
@@ -105,6 +106,9 @@ const enUs = {
 	'lbl.label': 'label',
 	'lbl.username': 'Username',
 	'lbl.enter.username': 'Enter username',
+	'lbl.email': 'Email',
+	'msg.username.required': 'Username is required.',
+	'msg.email.required': 'Email is required.',
 	'lbl.website': 'Website',
 	'lbl.search': 'Search',
 	'lbl.price': 'Price',
@@ -158,6 +162,7 @@ const enUs = {
 	'lbl.doc.section.import': 'Import',
 	'lbl.doc.section.basic': 'Basic',
 	'lbl.doc.section.accessibility': 'Accessibility',
+	'lbl.advanced': 'Advanced',
 
 	// ── Multiselect ──────────────────────────────────────────
 	'lbl.select.all': 'Select all',
@@ -241,7 +246,52 @@ const enUs = {
 	'msg.theming.content.goes.here': 'Theming content goes here.',
 	'msg.pass.through.content.goes.here': 'Pass Through content goes here.',
 	'msg.theming.subtitle': 'Theming documentation for {component} component.',
-	'msg.pass.through.subtitle': 'Pass Through props documentation for {component} component.'
+	'msg.pass.through.subtitle': 'Pass Through props documentation for {component} component.',
+
+	// ── Message / Messages ───────────────────────────────────
+	'lbl.message': 'Message',
+	'msg.message.basic.desc': 'Inline message with variant and optional icon.',
+	'msg.message.variant.desc': 'Message variant (info, success, warn, error).',
+	'msg.message.form.desc': 'Message used in form validation context.',
+	'msg.message.template.desc': 'Custom content via default block.',
+	'msg.messages.basic.desc': 'Messages container with a list of messages.',
+	'msg.messages.variant.desc': 'Each message can have a variant.',
+	'msg.messages.dynamic.desc': 'Add or remove messages dynamically.',
+	'msg.messages.closable.desc': 'Messages can be closable.',
+	'msg.messages.sticky.desc': 'Sticky messages do not auto-close.',
+	'msg.messages.custom.icon.desc': 'Custom icon per message.',
+	'msg.messages.custom.icon.help': 'How may I help you?',
+	'msg.messages.template.desc': 'Custom content via content block.',
+	'lbl.doc.message.title': 'Message - ULS Ember Documentation',
+	'lbl.doc.messages.title': 'Messages - ULS Ember Documentation',
+	'lbl.variant': 'Variant',
+	'lbl.dynamic': 'Dynamic',
+	'lbl.closable': 'Closable',
+	'lbl.custom.icon': 'Custom Icon',
+	'lbl.form': 'Form',
+	'lbl.template': 'Template',
+	'msg.inline.info': 'Inline info message.',
+	'msg.inline.success': 'Inline success message.',
+	'msg.inline.warn': 'Inline warning message.',
+	'msg.inline.error': 'Inline error message.',
+	'msg.inline.secondary': 'Secondary Message',
+	'msg.inline.contrast': 'Contrast Message',
+
+	// ── Card ──────────────────────────────────────────────────
+	'lbl.card': 'Card',
+	'lbl.card.simple': 'Simple Card',
+	'lbl.card.advanced': 'Advanced Card',
+	'lbl.card.subtitle': 'Card subtitle',
+	'lbl.card.region': 'Card region',
+	'msg.card.basic.desc':
+		'Card with optional header, title, subtitle, body, and footer content.',
+	'msg.card.advanced.desc':
+		'Card with custom header and footer based on PrimeReact Card advanced example.',
+	'msg.card.accessibility.desc':
+		'Use role=\"region\" with aria-label when the card should be announced as a landmark.',
+	'msg.card.basic.body':
+		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum.',
+	'lbl.doc.card.title': 'Card - ULS Ember Documentation'
 };
 
 export default enUs;

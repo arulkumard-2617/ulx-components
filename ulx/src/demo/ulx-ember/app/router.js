@@ -13,12 +13,14 @@ Router.map(function () {
     this.route('collections', function () {
       this.route('tab-menu');
       this.route('segment');
+      this.route('toolbar');
       this.route('split-button');
       this.route('option-segment');
       this.route('form');
       this.route('accordion');
       this.route('multiselect');
       this.route('timeline');
+      this.route('card');
 });
     this.route('elements', function () {
       this.route('icon');
@@ -38,6 +40,8 @@ Router.map(function () {
       this.route('tristate-checkbox');
       this.route('toggle');
       this.route('dropdown');
+      this.route('message');
+      this.route('messages');
     });
     this.route('modules', function () {
       this.route('toast');
