@@ -48,7 +48,7 @@ export default class DemoSplitButtonRaisedText extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
       <div class="flex items-center gap-5 fhc wrap">
         <UlxSplitButton

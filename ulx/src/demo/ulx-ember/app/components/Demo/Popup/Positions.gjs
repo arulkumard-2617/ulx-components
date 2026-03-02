@@ -70,7 +70,7 @@ export default class PositionsPopupDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <p class="mb-4">Click a button to open the popup at that position.</p>
       <div class="gap-8 flex flex-wrap">
         {{#each this.positions as |position|}}

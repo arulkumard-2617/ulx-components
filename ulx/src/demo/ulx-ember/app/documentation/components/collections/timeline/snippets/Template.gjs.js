@@ -16,7 +16,7 @@ export default class TemplateTimelineDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxTimeline @model={{this.events}} @align="alternate">
         <:opposite as |item|>
           <small class="fg-text-tertiary">{{item.date}}</small>
@@ -29,7 +29,7 @@ export default class TemplateTimelineDemo extends Component {
         </:marker>
 
         <:content as |item|>
-          <div class="card pda4">
+          <div class="card">
             <div class="bold-font mb-2">{{item.status}}</div>
             <p class="m-0 mb-4">{{LOREM}}</p>
             <UlxButton @label="Read more" @variant="primary" />

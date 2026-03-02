@@ -27,7 +27,7 @@ export default class BasicToastDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxButton
         @label={{t "lbl.show.toast"}}
         @variant="primary"

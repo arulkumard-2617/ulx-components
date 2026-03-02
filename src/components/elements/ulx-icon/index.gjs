@@ -25,7 +25,7 @@ import { getComponentClass } from "../../../utils/component-config";
  */
 export default class UlxIcon extends Component {
 	get baseClass() {
-		return this.args.componentClass ?? getComponentClass("icon");
+		return this.args.componentClass ?? "bs-icons1";
 	}
 
 	get iconClasses() {

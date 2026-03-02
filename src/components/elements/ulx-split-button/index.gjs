@@ -273,7 +273,7 @@ export default class UlxSplitButton extends Component {
 			/>
 
 			<div
-				class="absolute tpfull lt0 z-1000 mgt2
+				class="absolute tpfull lt0 z-1000 mt-2
 					{{if this.menuVisible 'visible transition fade in' 'hidden'}}"
 			>
 				<UlxTieredmenu

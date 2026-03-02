@@ -37,7 +37,7 @@ export default class ImagesPaginatorDemo extends Component {
         @template={{this.imagesTemplate}}
         @onPageChange={{this.onPageChange}}
       />
-      <div class="pda4 text-center">
+      <div class="text-center">
         <img alt={{this.imageAlt}} src={{this.imageSrc}} class="max-w-100" />
       </div>
     </div>

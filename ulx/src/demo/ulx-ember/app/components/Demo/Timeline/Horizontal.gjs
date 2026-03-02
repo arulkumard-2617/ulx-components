@@ -7,7 +7,7 @@ export default class HorizontalTimelineDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div class="flex flex-col gap-6">
         <div>
           <UlxTimeline @model={{this.years}} @layout="horizontal" @align="top">

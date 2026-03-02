@@ -21,7 +21,7 @@ Router.map(function () {
       this.route('multiselect');
       this.route('timeline');
       this.route('card');
-});
+    });
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -42,6 +42,7 @@ Router.map(function () {
       this.route('dropdown');
       this.route('message');
       this.route('messages');
+      this.route('select-button');
     });
     this.route('modules', function () {
       this.route('toast');
@@ -55,8 +56,7 @@ Router.map(function () {
       this.route('paginator');
       this.route('table');
     });
-
-});
+  });
 
   this.route('utilities', function () {
     this.route('index');
