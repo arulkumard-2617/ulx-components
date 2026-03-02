@@ -100,6 +100,8 @@ const enUs = {
 
 	// ── Toggle (InputSwitch) ──────────────────────────────────
 	'lbl.toggle.remember.me': 'Remember Me',
+	'lbl.toggle.off': 'Off',
+	'lbl.toggle.on': 'On',
 
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',

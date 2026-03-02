@@ -11,6 +11,7 @@ import {
   UlxAccordion,
   UlxSelectButton,
   UlxCheckbox,
+  UlxToggle,
   UlxIcon,
 } from 'ulx-components';
 
@@ -614,35 +615,35 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Reading guide</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Improve focus by highlighting the text you are
-                                reading and masking the rest.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.readingGuideValue}}
-                                @onCheckedChange={{this.updateReadingGuide}}
-                              >
-                                <:itemLabel>
-                                  Enable reading guide
-                                </:itemLabel>
-                              </UlxCheckbox>
-                              {{#if this.accessibilityState.readingGuideValue}}
-                                <div class="mt-2">
-                                  <UlxSelectButton
-                                    @options={{this.readingGuideOptions}}
-                                    @value={{this.accessibilityState.readingGuideValue}}
-                                    @onChange={{this.updateReadingGuideLevel}}
-                                    @size="s-size"
-                                    @variant="primary"
-                                    @customClass="mt-3"
-                                  />
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Reading guide</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Improve focus by highlighting the text you
+                                    are reading and masking the rest.
+                                  </span>
                                 </div>
-                              {{/if}}
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.readingGuideValue}}
+                                  @onCheckedChange={{this.updateReadingGuide}}
+                                />
+                              </div>
                             </div>
+                            {{#if this.accessibilityState.readingGuideValue}}
+                              <div class="mt-2">
+                                <UlxSelectButton
+                                  @options={{this.readingGuideOptions}}
+                                  @value={{this.accessibilityState.readingGuideValue}}
+                                  @onChange={{this.updateReadingGuideLevel}}
+                                  @size="s-size"
+                                  @variant="primary"
+                                  @customClass="mt-3"
+                                />
+                              </div>
+                            {{/if}}
                           </div>
                         </div>
 
@@ -656,35 +657,35 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Reading line</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Follow along with a horizontal line that tracks
-                                your cursor.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.readingLineValue}}
-                                @onCheckedChange={{this.updateReadingLine}}
-                              >
-                                <:itemLabel>
-                                  Enable reading line
-                                </:itemLabel>
-                              </UlxCheckbox>
-                              {{#if this.accessibilityState.readingLineValue}}
-                                <div class="mt-2">
-                                  <UlxSelectButton
-                                    @options={{this.readingLineOptions}}
-                                    @value={{this.normalizedReadingLineValue}}
-                                    @onChange={{this.updateReadingLineLevel}}
-                                    @size="s-size"
-                                    @variant="primary"
-                                    @customClass="mt-3"
-                                  />
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Reading line</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Follow along with a horizontal line that
+                                    tracks your cursor.
+                                  </span>
                                 </div>
-                              {{/if}}
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.readingLineValue}}
+                                  @onCheckedChange={{this.updateReadingLine}}
+                                />
+                              </div>
                             </div>
+                            {{#if this.accessibilityState.readingLineValue}}
+                              <div class="mt-2">
+                                <UlxSelectButton
+                                  @options={{this.readingLineOptions}}
+                                  @value={{this.normalizedReadingLineValue}}
+                                  @onChange={{this.updateReadingLineLevel}}
+                                  @size="s-size"
+                                  @variant="primary"
+                                  @customClass="mt-3"
+                                />
+                              </div>
+                            {{/if}}
                           </div>
                         </div>
 
@@ -698,22 +699,22 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Toggle state label</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Show labels for toggle and switch states to
-                                clarify on/off and selected state.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.toggleSwitchLabel}}
-                                @onCheckedChange={{this.toggleCriticalInfo}}
-                              >
-                                <:itemLabel>
-                                  Toggle state label
-                                </:itemLabel>
-                              </UlxCheckbox>
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Toggle state label</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Show labels for toggle and switch states to
+                                    clarify on/off and selected state.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.toggleSwitchLabel}}
+                                  @onCheckedChange={{this.toggleCriticalInfo}}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -728,22 +729,22 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Underline links</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Underline links to make them easier to identify
-                                and improve legibility.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.underlineLink}}
-                                @onCheckedChange={{this.toggleUnderlineLinks}}
-                              >
-                                <:itemLabel>
-                                  Underline links
-                                </:itemLabel>
-                              </UlxCheckbox>
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Underline links</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Underline links to make them easier to
+                                    identify and improve legibility.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.underlineLink}}
+                                  @onCheckedChange={{this.toggleUnderlineLinks}}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -758,22 +759,22 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Big cursor</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Enlarge the cursor to make it easier to see and
-                                track on the screen.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.bigCursor}}
-                                @onCheckedChange={{this.toggleBigCursor}}
-                              >
-                                <:itemLabel>
-                                  Big cursor
-                                </:itemLabel>
-                              </UlxCheckbox>
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Big cursor</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Enlarge the cursor to make it easier to see
+                                    and track on the screen.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.bigCursor}}
+                                  @onCheckedChange={{this.toggleBigCursor}}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -788,22 +789,22 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Emphasize focus</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Highlight the focused element with a visible
-                                outline to improve keyboard navigation.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.emphasizeFocus}}
-                                @onCheckedChange={{this.toggleEmphasizeFocus}}
-                              >
-                                <:itemLabel>
-                                  Emphasize focus
-                                </:itemLabel>
-                              </UlxCheckbox>
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Emphasize focus</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Highlight the focused element with a visible
+                                    outline to improve keyboard navigation.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.emphasizeFocus}}
+                                  @onCheckedChange={{this.toggleEmphasizeFocus}}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -818,22 +819,22 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Dyslexia friendly</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Use a dyslexia-friendly font to improve reading
-                                comfort and comprehension.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.accessibilityState.dyslexicFont}}
-                                @onCheckedChange={{this.toggleDyslexicFont}}
-                              >
-                                <:itemLabel>
-                                  Dyslexia friendly
-                                </:itemLabel>
-                              </UlxCheckbox>
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Dyslexia friendly</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Use a dyslexia-friendly font to improve
+                                    reading comfort and comprehension.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.accessibilityState.dyslexicFont}}
+                                  @onCheckedChange={{this.toggleDyslexicFont}}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -848,35 +849,35 @@ export default class UlxDocsHeaderComponent extends Component {
                             />
                           </div>
                           <div class="right-item">
-                            <h6 class="cl-title h7-font">Zoom level</h6>
-                            <div class="cl-sub-title">
-                              <span class="text-small">
-                                Enable zoom and choose a zoom level for the
-                                screen content.
-                              </span>
-                            </div>
-                            <div class="mt-2">
-                              <UlxCheckbox
-                                @checked={{this.isZoomEnabled}}
-                                @onCheckedChange={{this.toggleZoomEnabled}}
-                              >
-                                <:itemLabel>
-                                  Enable zoom
-                                </:itemLabel>
-                              </UlxCheckbox>
-                              {{#if this.isZoomEnabled}}
-                                <div class="mt-2">
-                                  <UlxSelectButton
-                                    @options={{this.zoomOptions}}
-                                    @value={{this.accessibilityState.selectedScrZoomValue}}
-                                    @onChange={{this.updateZoomLevel}}
-                                    @size="s-size"
-                                    @variant="primary"
-                                    @customClass="mt-3"
-                                  />
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Zoom level</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Enable zoom and choose a zoom level for the
+                                    screen content.
+                                  </span>
                                 </div>
-                              {{/if}}
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @checked={{this.isZoomEnabled}}
+                                  @onCheckedChange={{this.toggleZoomEnabled}}
+                                />
+                              </div>
                             </div>
+                            {{#if this.isZoomEnabled}}
+                              <div class="mt-2">
+                                <UlxSelectButton
+                                  @options={{this.zoomOptions}}
+                                  @value={{this.accessibilityState.selectedScrZoomValue}}
+                                  @onChange={{this.updateZoomLevel}}
+                                  @size="s-size"
+                                  @variant="primary"
+                                  @customClass="mt-3"
+                                />
+                              </div>
+                            {{/if}}
                           </div>
                         </div>
                       </div>
