@@ -1,0 +1,18 @@
+{{page-title "Toolbar - ULS Ember Documentation"}}
+
+<Common::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <Common::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isParamsTab}}
+    <div class="doc-section"></div>
+  {{else if this.isArchitectureTab}}
+    <div class="doc-section"></div>
+  {{/if}}
+</Common::DocMain::ComponentLayout>
+

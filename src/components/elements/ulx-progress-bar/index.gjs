@@ -1,6 +1,9 @@
 import Component from "@glimmer/component";
-import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
+import { action } from "@ember/object";
+import { on } from "@ember/modifier";
+import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
+import UlxButton from "../ulx-button/index.gjs";
 
 /**
  * Progress bar element. Uses existing classes from uls-v2 progress-bar.less. Determinate shows a fill
@@ -12,6 +15,10 @@ import { t } from "../../../utils/i18n";
  * ## Variant (progress-bar.less)
  * - secondary, success, info, warning, danger
  *
+ * ## With controls
+ * When @showControls is true, renders decrease (-) and increase (+) buttons with the bar and a percentage label.
+ * Parent must pass @value and @onChange for controlled usage.
+ *
  * ## WCAG
  * - role="progressbar", aria-valuenow, aria-valuemin, aria-valuemax (determinate).
  * - Indeterminate: role="progressbar" with aria-valuetext="Loading" (no valuenow).
@@ -21,6 +28,11 @@ import { t } from "../../../utils/i18n";
  * @param {number} [value] - Progress 0–100. Omit or null for indeterminate.
  * @param {'determinate'|'indeterminate'} [mode] - Override: 'indeterminate' forces indeterminate; otherwise inferred from value.
  * @param {boolean} [showValue=true] - Show percentage label (determinate only). Use hide-value / show-value classes.
+ * @param {boolean} [showControls=false] - When true, render [ - ] [ bar ] [ + ] [ value% ] layout.
+ * @param {function} [onChange] - Called when user clicks + or - with the new value. Required when showControls is true.
+ * @param {number} [step=1] - Increment/decrement amount for controls.
+ * @param {number} [min=0] - Minimum value when using controls.
+ * @param {number} [max=100] - Maximum value when using controls.
  * @param {string} [size] - Size class from parent (e.g. xs-size, s-size, m-size). Omit for default.
  * @param {'secondary'|'success'|'info'|'warning'|'danger'} [variant] - Bar color variant.
  * @param {string} [customClass] - Additional CSS classes
@@ -42,7 +54,30 @@ export default class UlxProgressBar extends Component {
 	get valuePercent() {
 		if (this.isIndeterminate) return 0;
 		const v = Number(this.args.value);
-		return Math.min(100, Math.max(0, isNaN(v) ? 0 : v));
+		if (!Number.isFinite(v)) return 0;
+		return Math.min(100, Math.max(0, v));
+	}
+
+	get currentValue() {
+		const v = Number(this.args.value);
+		return Number.isFinite(v) ? v : this.min;
+	}
+
+	get fillPercentForControls() {
+		if (this.isIndeterminate || !this.showControls) return this.valuePercent;
+		const range = this.max - this.min;
+		if (range <= 0) return 0;
+		const p = ((this.currentValue - this.min) / range) * 100;
+		return Math.max(0, Math.min(100, p));
+	}
+
+	get valueStyleWithControls() {
+		if (this.isIndeterminate) return undefined;
+		return `width: ${this.fillPercentForControls}%`;
+	}
+
+	get controlsDisplayValue() {
+		return Math.round(this.currentValue);
 	}
 
 	get sizeClass() {
@@ -78,27 +113,137 @@ export default class UlxProgressBar extends Component {
 		return this.isIndeterminate ? undefined : this.valuePercent;
 	}
 
+	get showControls() {
+		return Boolean(this.args.showControls);
+	}
+
+	get step() {
+		const step = Number(this.args.step);
+		return Number.isFinite(step) && step > 0 ? step : 1;
+	}
+
+	get min() {
+		const min = Number(this.args.min);
+		return Number.isFinite(min) ? min : 0;
+	}
+
+	get max() {
+		const max = Number(this.args.max);
+		return Number.isFinite(max) ? max : 100;
+	}
+
+	get decreaseDisabled() {
+		if (!this.showControls) return true;
+		return this.currentValue <= this.min;
+	}
+
+	get increaseDisabled() {
+		if (!this.showControls) return true;
+		return this.currentValue >= this.max;
+	}
+
+	get barClassesWithControls() {
+		const parts = this.rootClasses.split(" ");
+		if (parts.includes("show-value")) {
+			return [...parts.filter((c) => c !== "show-value"), "hide-value"].join(" ");
+		}
+		return this.rootClasses;
+	}
+
+	get withControlsWrapperClass() {
+		return `${this.baseClass}-with-controls`;
+	}
+
+	@action
+	handleDecrease() {
+		if (this.decreaseDisabled || typeof this.args.onChange !== "function") return;
+		const next = Math.max(this.min, this.currentValue - this.step);
+		this.args.onChange(next);
+	}
+
+	@action
+	handleIncrease() {
+		if (this.increaseDisabled || typeof this.args.onChange !== "function") return;
+		const next = Math.min(this.max, this.currentValue + this.step);
+		this.args.onChange(next);
+	}
+
+	@action
+	handleBarClick(event) {
+		if (!this.showControls || typeof this.args.onChange !== "function") return;
+		const element = event.currentTarget;
+		if (!element || typeof element.getBoundingClientRect !== "function") return;
+		const rect = element.getBoundingClientRect();
+		const clientX = typeof event.clientX === "number" ? event.clientX : rect.left + rect.width / 2;
+		let ratio = (clientX - rect.left) / rect.width;
+		ratio = Math.max(0, Math.min(1, ratio));
+		let value = this.min + ratio * (this.max - this.min);
+		value = Math.round(value);
+		value = Math.max(this.min, Math.min(this.max, value));
+		this.args.onChange(value);
+	}
+
 	<template>
-		<div
-			class={{this.rootClasses}}
-			role="progressbar"
-			aria-valuetext={{if this.isIndeterminate (t "lbl.loading")}}
-			aria-valuenow={{this.ariaValueNow}}
-			aria-valuemin={{if this.isIndeterminate undefined 0}}
-			aria-valuemax={{if this.isIndeterminate undefined 100}}
-			...attributes
-		>
-			<div class="progressbar-value" style={{this.valueStyle}} aria-hidden="true">
-				{{#unless this.isIndeterminate}}
-					<div class="progressbar-label" aria-hidden="true">
-						{{#if (has-block "content")}}
-							{{yield this.valuePercent to="content"}}
-						{{else}}
-							{{this.valuePercent}}%
-						{{/if}}
+		{{#if this.showControls}}
+			<div class={{this.withControlsWrapperClass}}>
+				<UlxButton
+					@icon="remove-icon"
+					@iconComponentClass="bs-icons1"
+					@variant="outlined"
+					@size={{this.sizeClass}}
+					@disabled={{this.decreaseDisabled}}
+					@onClick={{this.handleDecrease}}
+					aria-label={{t "lbl.progress.decrease"}}
+				/>
+				<div
+					class={{this.barClassesWithControls}}
+					role="progressbar"
+					aria-valuenow={{this.currentValue}}
+					aria-valuemin={{this.min}}
+					aria-valuemax={{this.max}}
+					{{on "click" this.handleBarClick}}
+					...attributes
+				>
+					<div class="progressbar-value" style={{this.valueStyleWithControls}} aria-hidden="true">
+						<div class="progressbar-label" aria-hidden="true"></div>
 					</div>
-				{{/unless}}
+				</div>
+				<UlxButton
+					@icon="add-box-icon"
+					@iconComponentClass="bs-icons1"
+					@variant="outlined"
+					@size={{this.sizeClass}}
+					@disabled={{this.increaseDisabled}}
+					@onClick={{this.handleIncrease}}
+					aria-label={{t "lbl.progress.increase"}}
+				/>
+				<span
+					class="{{this.baseClass}}-controls-value"
+					aria-hidden="true"
+				>{{this.controlsDisplayValue}}%</span>
 			</div>
-		</div>
+		{{else}}
+			<div
+				class={{this.rootClasses}}
+				role="progressbar"
+				aria-valuetext={{if this.isIndeterminate (t "lbl.loading")}}
+				aria-valuenow={{this.ariaValueNow}}
+				aria-valuemin={{if this.isIndeterminate undefined 0}}
+				aria-valuemax={{if this.isIndeterminate undefined 100}}
+				...attributes
+			>
+				<div class="progressbar-value" style={{this.valueStyle}} aria-hidden="true">
+					{{#unless this.isIndeterminate}}
+						<div class="progressbar-label" aria-hidden="true">
+							{{#if (has-block "content")}}
+								{{yield this.valuePercent to="content"}}
+							{{else}}
+								{{this.valuePercent}}%
+							{{/if}}
+						</div>
+					{{/unless}}
+				</div>
+			</div>
+		{{/if}}
 	</template>
 }

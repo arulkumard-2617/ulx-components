@@ -2,18 +2,15 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxMultiSelect, t } from 'ulx-components';
-import { hash } from '@ember/helper';
-
-const LARGE_LIST = Array.from({ length: 100000 }, (_, i) => ({
-  label: `Item ${i + 1}`,
-  value: i + 1,
-}));
 
 export default class DemoMultiselectVirtualScroll extends Component {
   @tracked selected = [];
 
-  get items() {
-    return LARGE_LIST;
+  get manyOptions() {
+    return Array.from({ length: 1000 }, (_, i) => ({
+      label: t('msg.dropdown.option.n', { number: i + 1 }),
+      value: `opt-${i + 1}`,
+    }));
   }
 
   @action
@@ -24,12 +21,11 @@ export default class DemoMultiselectVirtualScroll extends Component {
   <template>
     <div class="ulx-form s-size ulx-grid gap-8 mb-14">
       <UlxMultiSelect
-        @options={{this.items}}
+        @options={{this.manyOptions}}
         @value={{this.selected}}
         @onChange={{this.setSelected}}
+        @scrollHeight="300px"
         @selectAll={{true}}
-        @virtualScrollerOptions={{hash itemSize=43}}
-        @selectionLimit={{3}}
         @placeholder={{t "msg.dropdown.select.virtual"}}
         @label={{t "lbl.dropdown.virtual.scroll"}}
         @fieldClass="col-4"

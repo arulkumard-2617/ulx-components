@@ -13,6 +13,10 @@ export function buildInputId(namespace, idArg, key) {
 	return idArg ?? `${namespace}-input-${key}`;
 }
 
+export function buildToggleId(namespace, idArg, key) {
+	return idArg ?? `${namespace}-toggle-${key}`;
+}
+
 export function resolveFloatLabelText(floatLabelArg, labelArg) {
 	if (typeof floatLabelArg === 'string') {
 		return floatLabelArg;
@@ -30,6 +34,16 @@ export function getRuleValue(rules, ruleName) {
 
 export function isInvalidState(invalidArg, errorArg) {
 	return !!(invalidArg || errorArg);
+}
+
+/**
+ * Invoke onChange and onCheckedChange from a boolean control's change event.
+ * @param {object} args - Component args with optional onChange, onCheckedChange.
+ * @param {Event} event - Native change event (event.target.checked is the new value).
+ */
+export function invokeCheckedChange(args, event) {
+	args.onChange?.(event);
+	args.onCheckedChange?.(event.target.checked, event);
 }
 
 export function buildFieldClass(fieldClassArg) {
