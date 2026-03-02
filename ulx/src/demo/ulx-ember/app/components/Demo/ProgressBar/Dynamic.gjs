@@ -53,7 +53,7 @@ export default class DynamicProgressBarDemo extends Component {
 
   <template>
     <div
-      class="pda4 flex flex-col gap-8"
+      class="flex flex-col gap-8"
       {{this.didInsert this.startInterval}}
       {{this.willDestroy this.clearInterval}}
     >

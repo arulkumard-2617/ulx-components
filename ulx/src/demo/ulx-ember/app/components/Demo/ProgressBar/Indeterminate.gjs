@@ -1,7 +1,7 @@
 import { UlxProgressBar, t } from 'ulx-components';
 
 <template>
-  <div class="pda4">
+  <div class="">
     <UlxProgressBar
       @customClass="h6"
       @mode="indeterminate"

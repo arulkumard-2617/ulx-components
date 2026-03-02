@@ -1,15 +1,14 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { t } from 'ulx-components';
 
 export default class ComponentsCollectionsMultiselectController extends Controller {
   @tracked activeTab = 'features';
 
   tabs = [
-    { id: 'features', label: t('lbl.doc.features') },
-    { id: 'params', label: t('lbl.doc.params') },
-    { id: 'architecture', label: t('lbl.doc.architecture') },
+    { id: 'features', label: 'FEATURES' },
+    { id: 'params', label: 'PARAMS' },
+    { id: 'architecture', label: 'ARCHITECTURE' },
   ];
 
   get isFeaturesTab() {

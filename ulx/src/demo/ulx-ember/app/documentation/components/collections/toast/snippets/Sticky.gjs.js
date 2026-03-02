@@ -46,7 +46,7 @@ export default class StickyToastDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div class="fx gap8 flxw">
         <UlxButton
           @label={{t "lbl.sticky"}}

@@ -81,7 +81,7 @@ export default class PopupTieredmenuDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxButton
         @label="Show Menu"
         @variant="primary"
