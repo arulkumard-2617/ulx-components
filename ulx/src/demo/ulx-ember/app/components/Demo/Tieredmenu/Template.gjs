@@ -77,7 +77,7 @@ export default class TemplateTieredmenuDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxTieredmenu
         @model={{this.items}}
         @onItemSelect={{this.handleItemSelect}}

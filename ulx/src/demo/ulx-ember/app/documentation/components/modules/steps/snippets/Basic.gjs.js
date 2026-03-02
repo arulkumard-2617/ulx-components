@@ -7,12 +7,12 @@ export default class BasicStepsDemo extends Component {
     return [
       { label: 'Personal Info' },
       { label: 'Reservation' },
-      { label: 'Review' }
+      { label: 'Review' },
     ];
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxSteps @model={{this.items}} />
     </div>
   </template>

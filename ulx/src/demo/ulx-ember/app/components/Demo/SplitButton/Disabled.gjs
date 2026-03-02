@@ -14,7 +14,7 @@ export default class DemoSplitButtonDisabled extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxSplitButton
         @label={{t "lbl.save"}}
         @icon="ls-tick-icon"

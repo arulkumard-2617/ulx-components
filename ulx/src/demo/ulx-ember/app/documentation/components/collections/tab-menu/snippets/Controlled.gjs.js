@@ -72,7 +72,7 @@ export default class ControlledTabMenuDemo extends Component {
         {{#each this.buttons as |btn|}}
           <button
             type="button"
-            class="w-32 h-32 border rds-circle flex items-center fhc
+            class="w-32 h-32 border rounded-full flex items-center fhc
               {{if
                 (this.isActiveButton btn.index)
                 'bg-primary fg-white'

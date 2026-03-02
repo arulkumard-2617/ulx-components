@@ -14,12 +14,12 @@ export default class DisabledAccordionDemo extends Component {
       { header: 'Header I', content: LOREM_1 },
       { header: 'Header II', content: LOREM_2 },
       { header: 'Header III', content: LOREM_3 },
-      { header: 'Header IV', disabled: true }
+      { header: 'Header IV', disabled: true },
     ];
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxAccordion @model={{this.tabs}} @activeIndex={{0}}>
         <:content as |item|>
           {{#if item.content}}

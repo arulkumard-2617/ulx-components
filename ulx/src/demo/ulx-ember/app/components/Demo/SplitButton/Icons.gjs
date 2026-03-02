@@ -11,12 +11,14 @@ export default class DemoSplitButtonIcons extends Component {
       {
         label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
-        command: () => this.addMessage('success', t('lbl.updated'), t('lbl.data.updated')),
+        command: () =>
+          this.addMessage('success', t('lbl.updated'), t('lbl.data.updated')),
       },
       {
         label: 'Delete',
         icon: 'bs-icons1 close-icon-01',
-        command: () => this.addMessage('warn', t('lbl.deleted'), t('lbl.data.deleted')),
+        command: () =>
+          this.addMessage('warn', t('lbl.deleted'), t('lbl.data.deleted')),
       },
     ];
   }
@@ -48,7 +50,7 @@ export default class DemoSplitButtonIcons extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxSplitButton
         @label={{t "lbl.save"}}
         @icon="ls-tick-icon"

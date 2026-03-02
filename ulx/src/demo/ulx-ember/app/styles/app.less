@@ -6,6 +6,31 @@ body {
   overflow-x: hidden;
 }
 
+.ulx-theme-badge-default {
+  background-color: #4757f2;
+  border-color: #4757f2;
+}
+
+.ulx-theme-badge-cobalt {
+  background-color: #2c66dd;
+  border-color: #2c66dd;
+}
+
+.ulx-theme-badge-cardinal {
+  background-color: #cc3929;
+  border-color: #cc3929;
+}
+
+.ulx-theme-badge-fern {
+  background-color: #0c8844;
+  border-color: #0c8844;
+}
+
+.ulx-theme-badge-tangerine {
+  background-color: #ebb625;
+  border-color: #ebb625;
+}
+
 ::-webkit-scrollbar-thumb {
   background: transparent;
   display: none;
@@ -78,7 +103,7 @@ body {
       text-decoration: none;
       transition: all 0.2s ease;
       border-bottom: 2px solid transparent;
-      cursor: pointer;
+      cursor: var(--zdr-cursor-pointer, pointer);
       text-transform: uppercase;
       font-family: var(--ulx-font-face-bold);
 
@@ -333,7 +358,6 @@ body {
   top: 0;
   left: 0;
   z-index: 10;
-  transition: all 0.6s linear;
   position: inherit;
 }
 

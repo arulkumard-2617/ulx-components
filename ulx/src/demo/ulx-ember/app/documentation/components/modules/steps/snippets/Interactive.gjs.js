@@ -13,7 +13,7 @@ export default class InteractiveStepsDemo extends Component {
       { label: 'Personal' },
       { label: 'Seat' },
       { label: 'Payment' },
-      { label: 'Confirmation' }
+      { label: 'Confirmation' },
     ];
   }
 
@@ -28,8 +28,8 @@ export default class InteractiveStepsDemo extends Component {
         id: \`step-\${Date.now()}\`,
         variant: 'info',
         summary: 'Selected',
-        detail: label
-      }
+        detail: label,
+      },
     ];
   }
 
@@ -39,7 +39,7 @@ export default class InteractiveStepsDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxSteps
         @model={{this.items}}
         @activeIndex={{this.activeIndex}}

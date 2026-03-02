@@ -42,7 +42,7 @@ export default class ControlledAccordionDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div
         class="flex items-center fje gap-2 mb-4"
         role="group"

@@ -18,7 +18,7 @@ export default class MultipleAccordionDemo extends Component {
     return [
       { header: 'Header I', content: LOREM_1 },
       { header: 'Header II', content: LOREM_2 },
-      { header: 'Header III', content: LOREM_3 }
+      { header: 'Header III', content: LOREM_3 },
     ];
   }
 
@@ -28,7 +28,7 @@ export default class MultipleAccordionDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxAccordion
         @model={{this.tabs}}
         @activeIndex={{this.activeIndex}}

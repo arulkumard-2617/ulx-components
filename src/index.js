@@ -17,6 +17,7 @@ export { default as UlxAvatar } from './components/elements/ulx-avatar/index.gjs
 export { default as UlxAvatarGroup } from './components/elements/ulx-avatar-group/index.gjs';
 export { default as UlxProgressSpinner } from './components/elements/ulx-progressspinner/index.gjs';
 export { default as UlxProgressBar } from './components/elements/ulx-progress-bar/index.gjs';
+export { default as UlxSelectButton } from './components/elements/ulx-select-button/index.gjs';
 export { default as UlxSplitButton } from './components/elements/ulx-split-button/index.gjs';
 export { default as UlxTristateCheckbox } from './components/elements/ulx-tristate-checkbox/index.gjs';
 export { default as UlxDropdown } from './components/elements/ulx-dropdown/index.gjs';

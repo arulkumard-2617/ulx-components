@@ -216,6 +216,16 @@ const enUs = {
 	"aria.paginator.jumpToPage": "Jump to page",
 	"lbl.paginator.choose": "Choose",
 
+	// ── SelectButton demo ────────────────────────────────────
+	"demo.selectbutton.off": "Off",
+	"demo.selectbutton.on": "On",
+	"demo.selectbutton.option1": "Option 1",
+	"demo.selectbutton.option2": "Option 2",
+	"demo.selectbutton.option3": "Option 3",
+	"demo.selectbutton.choose.option": "Choose option",
+	"demo.selectbutton.choose.options": "Choose options",
+	"demo.selectbutton.alignment": "Alignment",
+
 	// ── Progress labels ──────────────────────────────────────
 	"lbl.icons": "icons",
 

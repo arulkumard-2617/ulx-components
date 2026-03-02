@@ -37,7 +37,8 @@ Router.map(function () {
       this.route('progressspinner');
       this.route('tristate-checkbox');
       this.route('dropdown');
-    });
+      this.route('select-button');
+});
     this.route('modules', function () {
       this.route('toast');
       this.route('tieredmenu');

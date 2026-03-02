@@ -13,7 +13,7 @@ export default class AlignmentTimelineDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div class="flex wrap gap-6">
         <div class="w-full md-w-256px">
           <UlxTimeline @model={{this.events}}>
