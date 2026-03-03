@@ -16,9 +16,9 @@ export default class BasicAccordionDemo extends Component {
 
   get tabs() {
     return [
-      { header: 'Header I', content: LOREM_1 },
-      { header: 'Header II', content: LOREM_2 },
-      { header: 'Header III', content: LOREM_3 },
+      { header: 'Types', content: LOREM_1 },
+      { header: 'Tags', content: LOREM_2 },
+      { header: 'Category', content: LOREM_3 },
     ];
   }
 
@@ -33,6 +33,8 @@ export default class BasicAccordionDemo extends Component {
         @model={{this.tabs}}
         @activeIndex={{this.activeIndex}}
         @onTabChange={{this.handleTabChange}}
+        @toggleIconPosition="right"
+        @variant="elevated"
       >
         <:content as |item|>
           <p class="m-0">{{item.content}}</p>

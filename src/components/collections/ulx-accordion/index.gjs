@@ -28,7 +28,8 @@ const EXIT_TIMEOUT_MS = 450;
  * @param {string} [rounded] - rounded, square
  * @param {string} [customClass] - Extra CSS classes
  * @param {string} [expandIconName='down-stroke-icon-new'] - Font icon when tab is collapsed
- * @param {string} [collapseIconName='up-stroke-icon-new'] - Font icon when tab is expanded
+ * @param {string} [collapseIconName='down-stroke-icon-new'] - Font icon when tab is expanded
+ * @param {'left'|'right'} [toggleIconPosition='left'] - Position of the expand/collapse icon.
  * @param {string} [ariaLabel] - Accessible label for accordion
  *
  * @block content - Optional. Yields (item, index, meta) for tab body; meta: { active, disabled }
@@ -70,7 +71,21 @@ export default class UlxAccordion extends Component {
 	}
 
 	get collapseIconName() {
-		return this.args.collapseIconName ?? "up-stroke-icon-new";
+		return this.args.collapseIconName ?? "down-stroke-icon-new";
+	}
+
+	get toggleIconPosition() {
+		return this.args.toggleIconPosition ?? "left";
+	}
+
+	get isToggleIconRight() {
+		return this.toggleIconPosition === "right";
+	}
+
+	get headerActionClasses() {
+		const parts = ["accordion-header-action"];
+		this.isToggleIconRight && parts.push("toggle-icon-right");
+		return parts.filter(Boolean).join(" ");
 	}
 
 	get rootClasses() {
@@ -355,7 +370,7 @@ export default class UlxAccordion extends Component {
 						<a
 							id={{this.getHeaderId index}}
 							href="#{{this.getContentId index}}"
-							class="accordion-header-action"
+							class={{this.headerActionClasses}}
 							role="button"
 							tabindex={{if item.disabled "-1" "0"}}
 							aria-expanded={{this.isTabSelected index}}
@@ -364,22 +379,24 @@ export default class UlxAccordion extends Component {
 							{{on "click" (fn this.changeActiveIndex item index)}}
 							{{on "keydown" (fn this.onHeaderKeyDown item index)}}
 						>
-							<span
-								class="accordion-header-icon
-									{{if (this.isTabSelected index) 'expanded' 'collapsed'}}"
-								aria-hidden="true"
-							>
-								<UlxIcon
-									@type="font"
-									@size="s22"
-									@iconName={{if
-										(this.isTabSelected index)
-										this.collapseIconName
-										this.expandIconName
-									}}
-									@componentClass="bs-icons1"
-								/>
-							</span>
+							{{#unless this.isToggleIconRight}}
+								<span
+									class="accordion-header-icon
+										{{if (this.isTabSelected index) 'expanded' 'collapsed'}}"
+									aria-hidden="true"
+								>
+									<UlxIcon
+										@type="font"
+										@size="s18"
+										@iconName={{if
+											(this.isTabSelected index)
+											this.collapseIconName
+											this.expandIconName
+										}}
+										@componentClass="bs-icons1"
+									/>
+								</span>
+							{{/unless}}
 							{{#if item.iconName}}
 								<span class="{{this.baseClass}}-header-indicator" aria-hidden="true">
 									<UlxIcon
@@ -391,6 +408,24 @@ export default class UlxAccordion extends Component {
 								</span>
 							{{/if}}
 							<span class="accordion-header-title">{{item.header}}</span>
+							{{#if this.isToggleIconRight}}
+								<span
+									class="accordion-header-icon right
+										{{if (this.isTabSelected index) 'expanded' 'collapsed'}}"
+									aria-hidden="true"
+								>
+									<UlxIcon
+										@type="font"
+										@size="s18"
+										@iconName={{if
+											(this.isTabSelected index)
+											this.collapseIconName
+											this.expandIconName
+										}}
+										@componentClass="bs-icons1"
+									/>
+								</span>
+							{{/if}}
 						</a>
 					</div>
 					{{#if (this.shouldRenderToggleableContent index)}}
