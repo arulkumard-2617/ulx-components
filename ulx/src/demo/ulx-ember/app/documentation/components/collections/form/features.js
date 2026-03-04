@@ -5,9 +5,11 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
+  TemplateDemo,
   // Sources
   ImportSource,
-  BasicSource
+  BasicSource,
+  TemplateSource
 } from './imports';
 
 export const FormFeatureItems = [
@@ -45,6 +47,25 @@ export const FormFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "template",
+    sectionNav: "Template",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Template</code> demo shows a real-world form layout using ULX components."
+      }
+    },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: "template",
         language: "handlebars"
       }
     }
