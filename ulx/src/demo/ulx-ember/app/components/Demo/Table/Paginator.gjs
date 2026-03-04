@@ -32,7 +32,6 @@ export default class DemoTablePaginator extends Component {
       @columns={{this.columns}}
       @dataKey="id"
       @paginator={{true}}
-      @rows={{10}}
       @rowsPerPageOptions={{this.rowsPerPageOptions}}
       @currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       @paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"

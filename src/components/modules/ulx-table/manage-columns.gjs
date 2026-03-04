@@ -3,10 +3,10 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
-import eq from "ember-truth-helpers/helpers/eq";
 import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 /**
  * Manage Columns panel for UlxTable.
@@ -115,14 +115,15 @@ export default class ManageColumns extends Component {
 		<div class="datatable-manage-columns-panel" role="dialog" aria-label="Manage columns">
 			<div class="datatable-manage-columns-header">
 				<span class="datatable-manage-columns-title">Manage Columns</span>
-				<button
-					type="button"
-					class="datatable-manage-columns-close"
+				<UlxButton
+					@variant="text"
+					@icon="x"
+					@iconComponentClass="bs-icons1"
+					@iconSize="s16"
+					@customClass="datatable-manage-columns-close"
+					@onClick={{@onClose}}
 					aria-label="Close manage columns"
-					{{on "click" @onClose}}
-				>
-					<i class="bs-icons1 x s16" aria-hidden="true"></i>
-				</button>
+				/>
 			</div>
 
 			<ul class="datatable-manage-columns-list" role="list">
@@ -136,19 +137,29 @@ export default class ManageColumns extends Component {
 					>
 						<span class="datatable-manage-columns-drag-handle" aria-hidden="true">
 							{{#if (not (this.isLocked col))}}
-								<i class="bs-icons1 grip-vertical s14" aria-hidden="true"></i>
+								<UlxIcon
+									@componentClass="bs-icons1"
+									@type="font"
+									@iconName="grip-vertical"
+									@size="s14"
+								/>
 							{{/if}}
 						</span>
 						<UlxCheckbox
 							@checked={{this.isVisible col}}
 							@disabled={{this.isLocked col}}
 							@onChange={{fn this.toggleColumn col}}
-							aria-label="Toggle flex-col {{col.header}}"
+							aria-label="Toggle column {{col.header}}"
 						/>
 						<span class="datatable-manage-columns-label">{{col.header}}</span>
 						{{#if (this.isLocked col)}}
-							<span class="datatable-manage-columns-locked-icon" aria-label="flex-col locked">
-								<i class="bs-icons1 lock s12" aria-hidden="true"></i>
+							<span class="datatable-manage-columns-locked-icon" aria-label="Column locked">
+								<UlxIcon
+									@componentClass="bs-icons1"
+									@type="font"
+									@iconName="lock"
+									@size="s12"
+								/>
 							</span>
 						{{/if}}
 					</li>

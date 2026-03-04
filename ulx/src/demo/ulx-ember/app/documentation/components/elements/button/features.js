@@ -130,7 +130,7 @@ export const ButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'A button can show a loading state when <code>@loading</code> is true, displaying a spinner and preventing interaction.',
+          'A button shows a loading state when <code>@onClick</code> returns a Promise, displaying a spinner and preventing interaction until the promise settles.',
       },
     },
     demo: {

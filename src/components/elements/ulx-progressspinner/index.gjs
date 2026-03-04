@@ -5,7 +5,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
  * Progress spinner element component. Renders an infinite circular spinner using uls-v2 progress-spinner.less classes.
- * Use standalone for loading states (e.g. page or section) or inside UlxButton when @loading.
+ * Use standalone for loading states (e.g. page or section) or inside UlxButton when loading (e.g. when @onClick returns a Promise).
  *
  * ## Sizes (uls-v2 progress-spinner.less)
  * - xs-size, s-size, m-size, l-size, xl-size

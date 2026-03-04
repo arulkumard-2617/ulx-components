@@ -6,7 +6,6 @@ import { UlxSplitButton, UlxToast, t } from 'ulx-components';
 
 export default class DemoSplitButtonLoading extends Component {
   @tracked messages = [];
-  @tracked loading = false;
 
   get items() {
     return [
@@ -33,19 +32,20 @@ export default class DemoSplitButtonLoading extends Component {
 
   @action
   save() {
-    this.loading = true;
-    setTimeout(() => {
-      this.messages = [
-        ...this.messages,
-        {
-          id: \`msg-\${Date.now()}\`,
-          severity: 'success',
-          summary: t('lbl.success'),
-          detail: t('lbl.data.saved'),
-        },
-      ];
-      this.loading = false;
-    }, 2000);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.messages = [
+          ...this.messages,
+          {
+            id: \`msg-\${Date.now()}\`,
+            severity: 'success',
+            summary: t('lbl.success'),
+            detail: t('lbl.data.saved'),
+          },
+        ];
+        resolve();
+      }, 2000);
+    });
   }
 
   @action
@@ -62,7 +62,6 @@ export default class DemoSplitButtonLoading extends Component {
         @iconSize="s22"
         @size="s-size"
         @model={{this.items}}
-        @loading={{this.loading}}
         @onClick={{this.save}}
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />

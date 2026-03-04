@@ -115,7 +115,7 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@loading={{true}}</code> to show a loading state on the main button.',
+          'When the main action returns a Promise from <code>@onClick</code>, the main button shows a loading state until the promise settles.',
       },
     },
     demo: {
