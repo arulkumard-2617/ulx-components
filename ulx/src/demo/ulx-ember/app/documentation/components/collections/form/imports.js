@@ -5,6 +5,7 @@
 
 // Demo Components
 export { default as BasicDemo } from '../../../../components/Demo/Form/Basic';
+export { default as TemplateDemo } from '../../../../components/Demo/Form/Template';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -13,3 +14,4 @@ export { default as ImportSource } from './snippets/Import.gjs';
 // ==========================================================================
 // Centralized exports for all Form demo source files
 export { default as BasicSource } from './snippets/Basic.gjs';
+export { default as TemplateSource } from './snippets/Template.gjs';

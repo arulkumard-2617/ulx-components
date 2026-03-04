@@ -72,9 +72,12 @@ export default class UlxTimeline extends Component {
 
 		return model.map((item, index) => {
 			const key = dataKey ? this.resolveFieldData(item, dataKey) : undefined;
+			const isHorizontal = this.layout === "horizontal";
 			const meta = {
 				first: index === 0,
 				last: index === lastIndex,
+				isHorizontal,
+				isVertical: !isHorizontal,
 				layout: this.layout,
 				align: this.align
 			};
@@ -83,28 +86,63 @@ export default class UlxTimeline extends Component {
 		});
 	}
 
+	get hasAnyOpposite() {
+		const model = Array.isArray(this.model) ? this.model : [];
+		return model.some((item) => Boolean(item?.opposite));
+	}
+
+	get shouldRenderOppositeColumn() {
+		return this.align === "alternate" || this.hasAnyOpposite;
+	}
+
 	<template>
 		<ol class={{this.rootClasses}} ...attributes>
 			{{#each this.keyedModel key="key" as |row|}}
-				<li class="timeline-event" data-index={{row.index}}>
-					<div class="timeline-opposite">
-						{{#if (has-block "opposite")}}
+				<li class="timeline-event" data-index={{row.index}} data-state={{row.item.state}}>
+					{{#if (has-block "opposite")}}
+						<div class="timeline-opposite">
 							{{yield row.item row.index row.meta to="opposite"}}
-						{{else}}
-							{{row.item.opposite}}
+						</div>
+					{{else}}
+						{{#if this.shouldRenderOppositeColumn}}
+							<div class="timeline-opposite">
+								{{row.item.opposite}}
+							</div>
 						{{/if}}
-					</div>
+					{{/if}}
 
 					<div class="timeline-separator">
-						<div class="timeline-marker" aria-hidden="true">
-							{{#if (has-block "marker")}}
-								{{yield row.item row.index row.meta to="marker"}}
-							{{/if}}
-						</div>
+						{{#if row.meta.isHorizontal}}
+							<div
+								class="timeline-connector"
+								data-part="start"
+								data-placeholder={{if row.meta.first "true" "false"}}
+								aria-hidden="true"
+							></div>
 
-						{{#unless row.meta.last}}
-							<div class="timeline-connector" aria-hidden="true"></div>
-						{{/unless}}
+							<div class="timeline-marker" aria-hidden="true">
+								{{#if (has-block "marker")}}
+									{{yield row.item row.index row.meta to="marker"}}
+								{{/if}}
+							</div>
+
+							<div
+								class="timeline-connector"
+								data-part="end"
+								data-placeholder={{if row.meta.last "true" "false"}}
+								aria-hidden="true"
+							></div>
+						{{else}}
+							<div class="timeline-marker" aria-hidden="true">
+								{{#if (has-block "marker")}}
+									{{yield row.item row.index row.meta to="marker"}}
+								{{/if}}
+							</div>
+
+							{{#unless row.meta.last}}
+								<div class="timeline-connector" aria-hidden="true"></div>
+							{{/unless}}
+						{{/if}}
 					</div>
 
 					<div class="timeline-content">
