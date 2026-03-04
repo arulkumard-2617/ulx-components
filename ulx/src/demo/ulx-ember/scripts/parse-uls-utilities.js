@@ -352,7 +352,7 @@
 //   'white-space': 'Utilities for white-space.',
 //   'line-clamp': 'Utilities for line clamping (multi-line truncation).',
 //   gap: 'Utilities for gap, column-gap, and row-gap (flex/grid).',
-//   flex: 'Flex layout utilities (from grid.less: .fxb, .fxauto, .ifxb, etc.).',
+//   flex: 'Flex layout utilities (from grid.less: .fxb, .fxauto, .flex, etc.).',
 //   grid: 'Grid layout utilities (from grid.less).',
 //   space: 'Spacing utilities: padding and margin (pd0–pd25, mg0–mg25, etc.).',
 //   size: 'Width/height utilities (w2–w300, h2–h300, etc.).',
@@ -763,7 +763,7 @@
 //   const flexRows = [
 //     { class: '.fxb', styles: 'display: flex;' },
 //     { class: '.fxauto', styles: 'flex: 1 1 auto;' },
-//     { class: '.ifxb', styles: 'display: inline-flex;' },
+//     { class: '.flex', styles: 'display: inline-flex;' },
 //     { class: '.wrap / .no-wrap / .wrap-reverse', styles: 'flex-wrap.' },
 //     {
 //       class: '.row / .column / .row-reverse / .column-reverse',

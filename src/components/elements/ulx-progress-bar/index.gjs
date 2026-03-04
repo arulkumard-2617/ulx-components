@@ -76,8 +76,9 @@ export default class UlxProgressBar extends Component {
 		return `width: ${this.fillPercentForControls}%`;
 	}
 
-	get controlsDisplayValue() {
-		return Math.round(this.currentValue);
+	get controlsValuePercent() {
+		if (this.isIndeterminate) return 0;
+		return Math.round(this.fillPercentForControls);
 	}
 
 	get sizeClass() {
@@ -144,14 +145,17 @@ export default class UlxProgressBar extends Component {
 
 	get barClassesWithControls() {
 		const parts = this.rootClasses.split(" ");
-		if (parts.includes("show-value")) {
-			return [...parts.filter((c) => c !== "show-value"), "hide-value"].join(" ");
-		}
-		return this.rootClasses;
+		return parts
+			.filter((c) => c !== "show-value" && c !== "hide-value")
+			.join(" ");
 	}
 
 	get withControlsWrapperClass() {
-		return `${this.baseClass}-with-controls`;
+		const parts = [`${this.baseClass}-with-controls`];
+		if (this.sizeClass) {
+			parts.push(this.sizeClass);
+		}
+		return parts.join(" ");
 	}
 
 	@action
@@ -187,10 +191,11 @@ export default class UlxProgressBar extends Component {
 		{{#if this.showControls}}
 			<div class={{this.withControlsWrapperClass}}>
 				<UlxButton
-					@icon="remove-icon"
-					@iconComponentClass="bs-icons1"
+					@icon="hr-tag-icon"
+					@iconSize="s12"
 					@variant="outlined"
-					@size={{this.sizeClass}}
+					@iconComponentClass="bs-icons1"
+					@size="compact"
 					@disabled={{this.decreaseDisabled}}
 					@onClick={{this.handleDecrease}}
 					aria-label={{t "lbl.progress.decrease"}}
@@ -205,22 +210,29 @@ export default class UlxProgressBar extends Component {
 					...attributes
 				>
 					<div class="progressbar-value" style={{this.valueStyleWithControls}} aria-hidden="true">
-						<div class="progressbar-label" aria-hidden="true"></div>
+						{{#unless this.isIndeterminate}}
+							{{#if (has-block "content")}}
+								<div class="progressbar-label" aria-hidden="true">
+									{{yield this.controlsValuePercent to="content"}}
+								</div>
+							{{else}}
+								<div class="progressbar-label" aria-hidden="true">
+									{{this.controlsValuePercent}}%
+								</div>
+							{{/if}}
+						{{/unless}}
 					</div>
 				</div>
 				<UlxButton
-					@icon="add-box-icon"
+					@icon="add-icon-01"
+					@iconSize="s12"
 					@iconComponentClass="bs-icons1"
 					@variant="outlined"
-					@size={{this.sizeClass}}
+					@size="compact"
 					@disabled={{this.increaseDisabled}}
 					@onClick={{this.handleIncrease}}
 					aria-label={{t "lbl.progress.increase"}}
 				/>
-				<span
-					class="{{this.baseClass}}-controls-value"
-					aria-hidden="true"
-				>{{this.controlsDisplayValue}}%</span>
 			</div>
 		{{else}}
 			<div
@@ -234,13 +246,15 @@ export default class UlxProgressBar extends Component {
 			>
 				<div class="progressbar-value" style={{this.valueStyle}} aria-hidden="true">
 					{{#unless this.isIndeterminate}}
-						<div class="progressbar-label" aria-hidden="true">
-							{{#if (has-block "content")}}
+						{{#if (has-block "content")}}
+							<div class="progressbar-label" aria-hidden="true">
 								{{yield this.valuePercent to="content"}}
-							{{else}}
+							</div>
+						{{else}}
+							<div class="progressbar-label" aria-hidden="true">
 								{{this.valuePercent}}%
-							{{/if}}
-						</div>
+							</div>
+						{{/if}}
 					{{/unless}}
 				</div>
 			</div>

@@ -44,6 +44,7 @@ const enUs = {
 	'lbl.update': 'Update',
 	'lbl.submit': 'Submit',
 	'lbl.clear': 'Clear',
+	'lbl.reset': 'Reset',
 	'lbl.show': 'Show',
 	'lbl.close': 'Close',
 	'lbl.remove': 'Remove',
@@ -102,6 +103,11 @@ const enUs = {
 	'lbl.toggle.remember.me': 'Remember Me',
 	'lbl.toggle.off': 'Off',
 	'lbl.toggle.on': 'On',
+	'lbl.toggle.size.xs': 'Extra small',
+	'lbl.toggle.size.s': 'Small',
+	'lbl.toggle.size.m': 'Medium',
+	'lbl.toggle.size.l': 'Large',
+	'lbl.toggle.size.xl': 'Extra large',
 
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',

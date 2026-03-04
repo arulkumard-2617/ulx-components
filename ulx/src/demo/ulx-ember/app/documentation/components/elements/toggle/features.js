@@ -9,6 +9,7 @@ import {
   DisabledDemo,
   AccessibilityDemo,
   ColorsDemo,
+  SizesDemo,
   WithLabelDemo,
   ImportSource,
   BasicSource,
@@ -17,6 +18,7 @@ import {
   DisabledSource,
   AccessibilitySource,
   ColorsSource,
+  SizesSource,
   WithLabelSource,
 } from './imports';
 
@@ -152,6 +154,26 @@ export const ToggleFeatureItems = [
       props: {
         source: ColorsSource,
         snippetName: 'colors',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'sizes',
+    sectionNav: 'Sizes',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Sizes</code> demo shows size variants for the Toggle using <code>@size</code>: <code>xs-size</code>, <code>s-size</code>, <code>m-size</code>, <code>l-size</code>, <code>xl-size</code>.',
+      },
+    },
+    demo: {
+      component: SizesDemo,
+      props: {
+        source: SizesSource,
+        snippetName: 'sizes',
         language: 'handlebars',
       },
     },

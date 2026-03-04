@@ -9,7 +9,7 @@ import { UlxDivider, UlxTag, UlxButton } from 'ulx-components';
     </p>
 
     <UlxDivider @align="left">
-      <div class="ifxb items-center gap-2">
+      <div class="flex items-center gap-2">
         <b>Text</b>
       </div>
     </UlxDivider>

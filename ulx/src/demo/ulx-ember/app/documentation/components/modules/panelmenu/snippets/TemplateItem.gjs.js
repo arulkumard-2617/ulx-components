@@ -68,7 +68,7 @@ export default class DemoPanelmenuTemplateItem extends Component {
       <span class="panelmenu-item-text">{{@item.label}}</span>
 
       {{#if this.hasRightMeta}}
-        <span class="ifxb items-center gap-2 ms-auto">
+        <span class="flex items-center gap-2 ms-auto">
           {{#if @item.badge}}
             <UlxBadge
               @value={{@item.badge}}
@@ -79,7 +79,7 @@ export default class DemoPanelmenuTemplateItem extends Component {
           {{/if}}
           {{#if @item.shortcut}}
             <span
-              class="ifxb items-center bg-layer2 border border-sight rounded py-1 px-2 text-12 fg-text-tertiary"
+              class="flex items-center bg-layer2 border border-sight rounded py-1 px-2 text-12 fg-text-tertiary"
             >
               {{@item.shortcut}}
             </span>
