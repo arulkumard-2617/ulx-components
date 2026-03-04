@@ -14,8 +14,8 @@ export default class AlignmentTimelineDemo extends Component {
 
   <template>
     <div class="">
-      <div class="flex wrap gap-6">
-        <div class="w-full md-w-256px">
+      <div class="flex justify-between w-full wrap gap-6">
+        <div>
           <UlxTimeline @model={{this.events}}>
             <:content as |item|>
               {{item.status}}
@@ -23,7 +23,7 @@ export default class AlignmentTimelineDemo extends Component {
           </UlxTimeline>
         </div>
 
-        <div class="w-full md-w-256px">
+        <div>
           <UlxTimeline @model={{this.events}} @align="right">
             <:content as |item|>
               {{item.status}}
@@ -31,7 +31,7 @@ export default class AlignmentTimelineDemo extends Component {
           </UlxTimeline>
         </div>
 
-        <div class="w-full md-w-256px">
+        <div class="w-300">
           <UlxTimeline @model={{this.events}} @align="alternate">
             <:content as |item|>
               {{item.status}}

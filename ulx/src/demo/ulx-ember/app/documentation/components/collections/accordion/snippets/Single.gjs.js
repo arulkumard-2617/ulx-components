@@ -1,3 +1,4 @@
+export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -10,30 +11,47 @@ const LOREM_2 =
 const LOREM_3 =
   'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.';
 
-export default class BasicAccordionDemo extends Component {
-  @tracked activeIndex = 0;
+export default class SingleAccordionDemo extends Component {
+  @tracked activeIndexFlat = 0;
+  @tracked activeIndexOutlined = null;
 
   get tabs() {
     return [
-      { header: 'Types', content: LOREM_1 },
-      { header: 'Tags', content: LOREM_2 },
-      { header: 'Category', content: LOREM_3 },
+      { header: 'Show custom fields', content: LOREM_1 }
     ];
   }
 
   @action
-  handleTabChange(event) {
-    this.activeIndex = event.index;
+  handleFlatTabChange(event) {
+    this.activeIndexFlat = event.index;
+  }
+
+  @action
+  handleOutlinedTabChange(event) {
+    this.activeIndexOutlined = event.index;
   }
 
   <template>
-    <div class="">
+    <div class="mb-3">
       <UlxAccordion
         @model={{this.tabs}}
-        @activeIndex={{this.activeIndex}}
-        @onTabChange={{this.handleTabChange}}
+        @activeIndex={{this.activeIndexFlat}}
+        @onTabChange={{this.handleFlatTabChange}}
         @toggleIconPosition="right"
-        @variant="elevated"
+        @variant="flat"
+      >
+        <:content as |item|>
+          <p class="m-0">{{item.content}}</p>
+        </:content>
+      </UlxAccordion>
+    </div>
+    <div>
+      <UlxAccordion
+        @model={{this.tabs}}
+        @activeIndex={{this.activeIndexOutlined}}
+        @onTabChange={{this.handleOutlinedTabChange}}
+        @toggleIconPosition="right"
+        @variant="flat outlined"
       >
         <:content as |item|>
           <p class="m-0">{{item.content}}</p>
@@ -42,3 +60,5 @@ export default class BasicAccordionDemo extends Component {
     </div>
   </template>
 }
+`;
+

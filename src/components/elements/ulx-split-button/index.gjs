@@ -79,7 +79,22 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get dropdownIconSize() {
-		return this.args.dropdownIconSize ?? "s16";
+		return this.args.dropdownIconSize ?? "s18";
+	}
+
+	get rootClasses() {
+		const parts = [this.splitButtonRootClass];
+		parts.push(this.variantValue);
+		parts.push(this.buttonSize);
+
+		this.args.raised && parts.push("raised");
+		this.args.rounded && parts.push("rounded");
+		this.args.text && parts.push("text-button");
+		this.args.outlined && parts.push("outlined");
+		this.isDisabled && parts.push("disabled");
+		this.args.loading && parts.push("loading");
+
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	dropdownTargetRef = modifier((element) => {
@@ -171,7 +186,7 @@ export default class UlxSplitButton extends Component {
 
 	<template>
 		<div
-			class="{{this.splitButtonRootClass}} primary"
+			class={{this.rootClasses}}
 			{{this.closeOnClickOutside this.menuVisible onClose=this.hideMenu}}
 			{{this.closeOnEscape this.menuVisible onClose=this.hideMenu}}
 			...attributes
@@ -252,6 +267,9 @@ export default class UlxSplitButton extends Component {
 					/>
 				{{/if}}
 			{{/if}}
+
+			<span class="splitbutton-divider" aria-hidden="true"></span>
+
 			<UlxButton
 				@icon={{this.dropdownIconName}}
 				@iconComponentClass={{this.dropdownIconComponentClass}}

@@ -4,6 +4,7 @@
 import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   BasicDemo,
+  SingleDemo,
   MultipleDemo,
   DisabledDemo,
   ControlledDemo,
@@ -11,6 +12,7 @@ import {
   TemplateDemo,
   ImportSource,
   BasicSource,
+  SingleSource,
   MultipleSource,
   DisabledSource,
   ControlledSource,
@@ -72,6 +74,25 @@ export const AccordionFeatureItems = [
       props: {
         source: DynamicSource,
         snippetName: 'dynamic',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'single',
+    sectionNav: 'Flat',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content: "By default, Accordion allows only a single tab expanded at a time."
+      }
+    },
+    demo: {
+      component: SingleDemo,
+      props: {
+        source: SingleSource,
+        snippetName: 'single',
         language: 'handlebars'
       }
     }
