@@ -33,7 +33,7 @@ export default class DemoMultiselectChips extends Component {
         @display="chip"
         @placeholder={{t "msg.multiselect.placeholder.city"}}
         @label={{t "lbl.multiselect.chips"}}
-        @fieldClass="col-4"
+        @fieldClass="col-6"
       />
     </div>
   </template>
