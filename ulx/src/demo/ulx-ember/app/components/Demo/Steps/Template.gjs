@@ -10,7 +10,7 @@ export default class TemplateStepsDemo extends Component {
     return [
       { label: 'Personal', icon: 'user-info-icon-01' },
       { label: 'Reservation', icon: 'calendar-icon' },
-      { label: 'Review', icon: 'success-stroke-icon' }
+      { label: 'Review', icon: 'success-stroke-icon' },
     ];
   }
 
@@ -20,7 +20,7 @@ export default class TemplateStepsDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxSteps
         @model={{this.items}}
         @activeIndex={{this.activeIndex}}

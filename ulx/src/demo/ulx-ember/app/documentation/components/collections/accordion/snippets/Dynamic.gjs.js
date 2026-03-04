@@ -7,12 +7,12 @@ export default class DynamicAccordionDemo extends Component {
     return [
       { header: 'Title I', content: 'Content 1' },
       { header: 'Title II', content: 'Content 2' },
-      { header: 'Title III', content: 'Content 3' }
+      { header: 'Title III', content: 'Content 3' },
     ];
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxAccordion @model={{this.tabs}}>
         <:content as |item|>
           <p class="m-0">{{item.content}}</p>

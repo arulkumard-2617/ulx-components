@@ -48,7 +48,7 @@ export default class DemoSplitButtonSizes extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
       <div class="flex gap-3 align-items-center flex-wrap">
         <UlxSplitButton

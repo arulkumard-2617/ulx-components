@@ -9,7 +9,6 @@ import {
   LoadingDemo,
   DisabledDemo,
   RaisedDemo,
-  RoundedDemo,
   TextDemo,
   RaisedTextDemo,
   OutlinedDemo,
@@ -22,7 +21,6 @@ import {
   LoadingSource,
   DisabledSource,
   RaisedSource,
-  RoundedSource,
   TextSource,
   RaisedTextSource,
   OutlinedSource,
@@ -163,26 +161,6 @@ export const SplitButtonFeatureItems = [
       props: {
         source: RaisedSource,
         snippetName: 'raised',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'rounded',
-    sectionNav: 'Rounded',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Rounded buttons have a circular border radius. Use <code>@rounded={{true}}</code>.',
-      },
-    },
-    demo: {
-      component: RoundedDemo,
-      props: {
-        source: RoundedSource,
-        snippetName: 'rounded',
         language: 'handlebars',
       },
     },

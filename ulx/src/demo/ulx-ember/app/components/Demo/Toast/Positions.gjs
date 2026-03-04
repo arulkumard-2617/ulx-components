@@ -55,7 +55,7 @@ export default class PositionsToastDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div class="fx gap8 flxw">
         {{#each POSITIONS as |pos|}}
           <UlxButton

@@ -9,6 +9,7 @@ import {
   GroupDemo,
   TemplateDemo,
   FilterDemo,
+  AllowAdditionDemo,
   VirtualScrollDemo,
   LoadingStateDemo,
   FloatLabelDemo,
@@ -22,6 +23,7 @@ import {
   GroupSource,
   TemplateSource,
   FilterSource,
+  AllowAdditionSource,
   VirtualScrollSource,
   LoadingStateSource,
   FloatLabelSource,
@@ -96,6 +98,14 @@ export const MultiselectFeatureItems = [
     FilterDemo,
     FilterSource,
     'filter'
+  ),
+  section(
+    'allow-addition',
+    t('lbl.multiselect.allow.addition'),
+    'Use <code>@allowAddition</code> and <code>@onAddItem</code> to show an Add button in the panel header; type in the filter and click Add (or press Enter) to create and select a new option.',
+    AllowAdditionDemo,
+    AllowAdditionSource,
+    'allow-addition'
   ),
   section(
     'virtual-scroll',

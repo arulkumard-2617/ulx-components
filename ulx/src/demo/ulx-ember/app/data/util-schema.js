@@ -7,136 +7,140 @@ export const utilSchema = {
         "title": "Cursor Utilities",
         "rows": [
           {
+            "class": "default",
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-default, default)\";"
+          },
+          {
             "class": "pointer",
-            "styles": "cursor: var(--zdr-cursor-pointer, pointer);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-pointer, pointer)\";"
           },
           {
             "class": "move",
-            "styles": "cursor: var(--zdr-cursor-move, move);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-move, move)\";"
           },
           {
             "class": "text",
-            "styles": "cursor: var(--zdr-cursor-text, text);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-text, text)\";"
           },
           {
             "class": "crosshair",
-            "styles": "cursor: var(--zdr-cursor-crosshair, crosshair);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-crosshair, crosshair)\";"
           },
           {
             "class": "help",
-            "styles": "cursor: var(--zdr-cursor-help, help);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-help, help)\";"
           },
           {
             "class": "wait",
-            "styles": "cursor: var(--zdr-cursor-wait, wait);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-wait, wait)\";"
           },
           {
             "class": "progress",
-            "styles": "cursor: var(--zdr-cursor-progress, progress);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-progress, progress)\";"
           },
           {
             "class": "not-allowed",
-            "styles": "cursor: var(--zdr-cursor-not-allowed, not-allowed);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-not-allowed, not-allowed)\";"
           },
           {
             "class": "grab",
-            "styles": "cursor: var(--zdr-cursor-grab, grab);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-grab, grab)\";"
           },
           {
             "class": "grabbing",
-            "styles": "cursor: var(--zdr-cursor-grabbing, grabbing);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-grabbing, grabbing)\";"
           },
           {
             "class": "zoom-in",
-            "styles": "cursor: var(--zdr-cursor-zoom-in, zoom-in);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-zoom-in, zoom-in)\";"
           },
           {
             "class": "zoom-out",
-            "styles": "cursor: var(--zdr-cursor-zoom-out, zoom-out);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-zoom-out, zoom-out)\";"
           },
           {
             "class": "resize-n",
-            "styles": "cursor: var(--zdr-cursor-resize-n, n-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-n, n-resize)\";"
           },
           {
             "class": "resize-s",
-            "styles": "cursor: var(--zdr-cursor-resize-s, s-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-s, s-resize)\";"
           },
           {
             "class": "resize-e",
-            "styles": "cursor: var(--zdr-cursor-resize-e, e-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-e, e-resize)\";"
           },
           {
             "class": "resize-w",
-            "styles": "cursor: var(--zdr-cursor-resize-w, w-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-w, w-resize)\";"
           },
           {
             "class": "resize-ne",
-            "styles": "cursor: var(--zdr-cursor-resize-ne, ne-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-ne, ne-resize)\";"
           },
           {
             "class": "resize-nw",
-            "styles": "cursor: var(--zdr-cursor-resize-nw, nw-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-nw, nw-resize)\";"
           },
           {
             "class": "resize-se",
-            "styles": "cursor: var(--zdr-cursor-resize-se, se-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-se, se-resize)\";"
           },
           {
             "class": "resize-sw",
-            "styles": "cursor: var(--zdr-cursor-resize-sw, sw-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-sw, sw-resize)\";"
           },
           {
             "class": "resize-ew",
-            "styles": "cursor: var(--zdr-cursor-resize-ew, ew-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-ew, ew-resize)\";"
           },
           {
             "class": "resize-ns",
-            "styles": "cursor: var(--zdr-cursor-resize-ns, ns-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-ns, ns-resize)\";"
           },
           {
             "class": "resize-nesw",
-            "styles": "cursor: var(--zdr-cursor-resize-nesw, nesw-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-nesw, nesw-resize)\";"
           },
           {
             "class": "resize-nwse",
-            "styles": "cursor: var(--zdr-cursor-resize-nwse, nwse-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-resize-nwse, nwse-resize)\";"
           },
           {
             "class": "col-resize",
-            "styles": "cursor: var(--zdr-cursor-col-resize, col-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-col-resize, col-resize)\";"
           },
           {
             "class": "row-resize",
-            "styles": "cursor: var(--zdr-cursor-row-resize, row-resize);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-row-resize, row-resize)\";"
           },
           {
             "class": "all-scroll",
-            "styles": "cursor: var(--zdr-cursor-all-scroll, all-scroll);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-all-scroll, all-scroll)\";"
           },
           {
             "class": "cell",
-            "styles": "cursor: var(--zdr-cursor-cell, cell);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-cell, cell)\";"
           },
           {
             "class": "context-menu",
-            "styles": "cursor: var(--zdr-cursor-context-menu, context-menu);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-context-menu, context-menu)\";"
           },
           {
             "class": "copy",
-            "styles": "cursor: var(--zdr-cursor-copy, copy);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-copy, copy)\";"
           },
           {
             "class": "alias",
-            "styles": "cursor: var(--zdr-cursor-alias, alias);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-alias, alias)\";"
           },
           {
             "class": "no-drop",
-            "styles": "cursor: var(--zdr-cursor-no-drop, no-drop);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-no-drop, no-drop)\";"
           },
           {
             "class": "vertical-text",
-            "styles": "cursor: var(--zdr-cursor-vertical-text, vertical-text);"
+            "styles": "cursor: ~\"var(--@{uls-css-var-prefix}cursor-vertical-text, vertical-text)\";"
           }
         ]
       }
@@ -1433,10 +1437,6 @@ export const utilSchema = {
             "styles": "display: table-caption;"
           },
           {
-            "class": "list-item",
-            "styles": "display: list-item;"
-          },
-          {
             "class": "run-in",
             "styles": "display: run-in;"
           },
@@ -1941,14 +1941,6 @@ export const utilSchema = {
             "styles": "translate: 0 50%;"
           },
           {
-            "class": "-translate-x-half",
-            "styles": "translate: -50% 0;"
-          },
-          {
-            "class": "-translate-y-half",
-            "styles": "translate: 0 -50%;"
-          },
-          {
             "class": "translate-x-full",
             "styles": "translate: 100% 0;"
           },
@@ -1957,20 +1949,8 @@ export const utilSchema = {
             "styles": "translate: 0 100%;"
           },
           {
-            "class": "-translate-x-full",
-            "styles": "translate: -100% 0;"
-          },
-          {
-            "class": "-translate-y-full",
-            "styles": "translate: 0 -100%;"
-          },
-          {
             "class": "translate-full",
             "styles": "translate: 100% 100%;"
-          },
-          {
-            "class": "-translate-full",
-            "styles": "translate: -100% -100%;"
           }
         ]
       }
@@ -5264,11 +5244,11 @@ export const utilSchema = {
         "rows": [
           {
             "class": "container-gap-1",
-            "styles": "cgap: 4px;"
+            "styles": "cgap: 4px   /* margin variant;"
           },
           {
             "class": "container-gap-3",
-            "styles": "cgap: 12px;"
+            "styles": "cgap: 12px  /* padding variant;"
           },
           {
             "class": "container-gap-4",

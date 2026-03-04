@@ -13,13 +13,15 @@ Router.map(function () {
     this.route('collections', function () {
       this.route('tab-menu');
       this.route('segment');
+      this.route('toolbar');
       this.route('split-button');
       this.route('option-segment');
       this.route('form');
       this.route('accordion');
       this.route('multiselect');
       this.route('timeline');
-});
+      this.route('card');
+    });
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
@@ -36,7 +38,11 @@ Router.map(function () {
       this.route('progressbar');
       this.route('progressspinner');
       this.route('tristate-checkbox');
+      this.route('toggle');
       this.route('dropdown');
+      this.route('message');
+      this.route('messages');
+      this.route('select-button');
     });
     this.route('modules', function () {
       this.route('toast');
@@ -50,8 +56,7 @@ Router.map(function () {
       this.route('paginator');
       this.route('table');
     });
-
-});
+  });
 
   this.route('utilities', function () {
     this.route('index');

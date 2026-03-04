@@ -51,6 +51,11 @@ export const DocNavItems = [
             route: 'components.elements.tristate-checkbox',
           },
           {
+            menuItem: 'Toggle',
+            to: '/components/elements/toggle',
+            route: 'components.elements.toggle',
+          },
+          {
             menuItem: 'Dropdown',
             to: '/components/elements/dropdown',
             route: 'components.elements.dropdown',
@@ -64,6 +69,11 @@ export const DocNavItems = [
             menuItem: 'Button',
             to: '/components/elements/button',
             route: 'components.elements.button',
+          },
+          {
+            menuItem: 'SelectButton',
+            to: '/components/elements/select-button',
+            route: 'components.elements.select-button',
           },
         ],
       },
@@ -115,6 +125,16 @@ export const DocNavItems = [
             to: '/components/elements/progressspinner',
             route: 'components.elements.progressspinner',
           },
+          {
+            menuItem: 'Message',
+            to: '/components/elements/message',
+            route: 'components.elements.message',
+          },
+          {
+            menuItem: 'Messages',
+            to: '/components/elements/messages',
+            route: 'components.elements.messages',
+          },
         ],
       },
     ],
@@ -142,6 +162,11 @@ export const DocNavItems = [
             route: 'components.collections.segment',
           },
           {
+            menuItem: 'Toolbar',
+            to: '/components/collections/toolbar',
+            route: 'components.collections.toolbar',
+          },
+          {
             menuItem: 'OptionSegment',
             to: '/components/collections/option-segment',
             route: 'components.collections.option-segment',
@@ -155,6 +180,11 @@ export const DocNavItems = [
             menuItem: 'Timeline',
             to: '/components/collections/timeline',
             route: 'components.collections.timeline',
+          },
+          {
+            menuItem: 'Card',
+            to: '/components/collections/card',
+            route: 'components.collections.card',
           },
         ],
       },

@@ -5,11 +5,13 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   BasicDemo,
   DynamicDemo,
+  WithControlsDemo,
   TemplateDemo,
   IndeterminateDemo,
   ImportSource,
   BasicSource,
   DynamicSource,
+  WithControlsSource,
   TemplateSource,
   IndeterminateSource,
 } from './imports';
@@ -71,6 +73,26 @@ export const ProgressBarFeatureItems = [
       props: {
         source: DynamicSource,
         snippetName: 'dynamic',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'with-controls',
+    sectionNav: 'With controls',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@showControls={{true}}</code> with <code>@value</code> and <code>@onChange</code> to render decrease (−) and increase (+) buttons. The value is shown as a percentage to the right.',
+      },
+    },
+    demo: {
+      component: WithControlsDemo,
+      props: {
+        source: WithControlsSource,
+        snippetName: 'with-controls',
         language: 'handlebars',
       },
     },

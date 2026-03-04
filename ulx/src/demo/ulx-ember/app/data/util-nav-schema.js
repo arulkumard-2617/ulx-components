@@ -11,7 +11,7 @@ export default [
             "route": "utilities.utility",
             "slug": "text-color",
             "to": "/utilities/text-color",
-            "schemaKey": "color"
+            "schemaKey": "textColor"
           },
           {
             "menuItem": "Font Size",
