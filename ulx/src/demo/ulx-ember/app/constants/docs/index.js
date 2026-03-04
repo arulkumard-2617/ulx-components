@@ -135,6 +135,16 @@ export const DocNavItems = [
             to: '/components/elements/messages',
             route: 'components.elements.messages',
           },
+          {
+            menuItem: 'DataView',
+            to: '/components/elements/data-view',
+            route: 'components.elements.data-view',
+          },
+          {
+            menuItem: 'Skeleton',
+            to: '/components/elements/skeleton',
+            route: 'components.elements.skeleton',
+          },
         ],
       },
     ],
@@ -247,6 +257,11 @@ export const DocNavItems = [
       {
         category: 'Data',
         items: [
+          {
+            menuItem: 'DataView',
+            to: '/components/elements/data-view',
+            route: 'components.elements.data-view',
+          },
           {
             menuItem: 'Paginator',
             to: '/components/modules/paginator',

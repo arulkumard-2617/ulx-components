@@ -42,7 +42,9 @@ Router.map(function () {
       this.route('dropdown');
       this.route('message');
       this.route('messages');
+      this.route('data-view');
       this.route('rating');
+      this.route('skeleton');
     });
     this.route('modules', function () {
       this.route('toast');
