@@ -90,7 +90,7 @@ export default class DemoTableSelection extends Component {
           @onSelectionChange={{this.onSingleSelect}}
         />
         {{#if this.singleSelection}}
-          <p class="mgt2 text-sm">Selected:
+          <p class="mt-2 text-sm">Selected:
             <strong>{{this.singleSelection.name}}</strong></p>
         {{/if}}
       </div>
@@ -107,7 +107,7 @@ export default class DemoTableSelection extends Component {
           @selection={{this.multiSelection}}
           @onSelectionChange={{this.onMultiSelect}}
         />
-        <p class="mgt2 text-sm">Selected:
+        <p class="mt-2 text-sm">Selected:
           <strong>{{this.multiSelection.length}}</strong>
           row(s)</p>
       </div>

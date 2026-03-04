@@ -63,7 +63,7 @@ export default class BasicPopupDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxButton
         @label="Show popup"
         @variant="primary"

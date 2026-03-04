@@ -32,7 +32,9 @@ export default class DocPanelComponent extends Component {
                   @hasDemo={{this.hasValidComponent feature}}
                 >
                   {{#if (this.hasValidComponent feature)}}
-                    {{component feature.demo.component}}
+                    {{#let feature.demo.component as |DemoComponent|}}
+                      <DemoComponent />
+                    {{/let}}
                   {{/if}}
                 </CodePreview>
               {{/if}}

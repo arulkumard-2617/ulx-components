@@ -27,8 +27,9 @@ const EXIT_TIMEOUT_MS = 450;
  * @param {string} [spacing] - compact, spacious
  * @param {string} [rounded] - rounded, square
  * @param {string} [customClass] - Extra CSS classes
- * @param {string} [expandIconName='down-arrow-icon'] - Font icon when tab is collapsed
- * @param {string} [collapseIconName='up-arrow-icon'] - Font icon when tab is expanded
+ * @param {string} [expandIconName='down-stroke-icon-new'] - Font icon when tab is collapsed
+ * @param {string} [collapseIconName='down-stroke-icon-new'] - Font icon when tab is expanded
+ * @param {'left'|'right'} [toggleIconPosition='left'] - Position of the expand/collapse icon.
  * @param {string} [ariaLabel] - Accessible label for accordion
  *
  * @block content - Optional. Yields (item, index, meta) for tab body; meta: { active, disabled }
@@ -66,21 +67,29 @@ export default class UlxAccordion extends Component {
 	}
 
 	get expandIconName() {
-		return this.args.expandIconName ?? "down-arrow-icon";
+		return this.args.expandIconName ?? "down-stroke-icon-new";
 	}
 
 	get collapseIconName() {
-		return this.args.collapseIconName ?? "up-arrow-icon";
+		return this.args.collapseIconName ?? "down-stroke-icon-new";
+	}
+
+	get toggleIconPosition() {
+		return this.args.toggleIconPosition ?? "left";
+	}
+
+	get isToggleIconRight() {
+		return this.toggleIconPosition === "right";
+	}
+
+	get headerActionClasses() {
+		const parts = ["accordion-header-action"];
+		this.isToggleIconRight && parts.push("toggle-icon-right");
+		return parts.filter(Boolean).join(" ");
 	}
 
 	get rootClasses() {
-		const {
-			size = "s-size",
-			variant,
-			spacing,
-			rounded,
-			customClass
-		} = this.args;
+		const { size = "s-size", variant, spacing, rounded, customClass } = this.args;
 		const parts = [this.baseClass];
 		parts.push(size);
 		this.multiple && parts.push("multiple");
@@ -120,7 +129,7 @@ export default class UlxAccordion extends Component {
 
 	@action
 	getHeaderClasses(item, index) {
-		const parts = [`${this.baseClass}-header`];
+		const parts = ["accordion-header"];
 		this.isTabSelected(index) && parts.push("active");
 		item?.disabled && parts.push("disabled");
 		return parts.filter(Boolean).join(" ");
@@ -161,7 +170,7 @@ export default class UlxAccordion extends Component {
 		const selected = this.isTabSelected(index);
 		const phase = this.getContentTransitionState(index);
 		const prev = this.getPrevSelected(index);
-		const parts = [`${this.baseClass}-toggleable-content`];
+		const parts = ["accordion-toggleable-content"];
 		const isInitiallyExpanded = prev === undefined && selected && !phase;
 		isInitiallyExpanded && parts.push("initially-expanded");
 
@@ -250,7 +259,7 @@ export default class UlxAccordion extends Component {
 	});
 
 	@action
-changeActiveIndex(item, index, originalEvent) {
+	changeActiveIndex(item, index, originalEvent) {
 		if (item?.disabled) {
 			originalEvent?.preventDefault?.();
 			return;
@@ -264,7 +273,9 @@ changeActiveIndex(item, index, originalEvent) {
 		let newIndex;
 		if (this.multiple) {
 			const current = Array.isArray(this.activeIndexState) ? [...this.activeIndexState] : [];
-			newIndex = selected ? current.filter((i) => i !== Number(index)) : [...current, Number(index)].sort((a, b) => a - b);
+			newIndex = selected
+				? current.filter((i) => i !== Number(index))
+				: [...current, Number(index)].sort((a, b) => a - b);
 		} else {
 			newIndex = selected ? null : Number(index);
 		}
@@ -359,7 +370,7 @@ changeActiveIndex(item, index, originalEvent) {
 						<a
 							id={{this.getHeaderId index}}
 							href="#{{this.getContentId index}}"
-							class="{{this.baseClass}}-header-action"
+							class={{this.headerActionClasses}}
 							role="button"
 							tabindex={{if item.disabled "-1" "0"}}
 							aria-expanded={{this.isTabSelected index}}
@@ -368,17 +379,53 @@ changeActiveIndex(item, index, originalEvent) {
 							{{on "click" (fn this.changeActiveIndex item index)}}
 							{{on "keydown" (fn this.onHeaderKeyDown item index)}}
 						>
-							<span
-								class="{{this.baseClass}}-header-icon {{if (this.isTabSelected index) "expanded" "collapsed"}}"
-								aria-hidden="true"
-							>
-								<UlxIcon
-									@type="font"
-									@iconName={{if (this.isTabSelected index) this.collapseIconName this.expandIconName}}
-									@componentClass="bs-icons1"
-								/>
-							</span>
-							<span class="{{this.baseClass}}-header-title">{{item.header}}</span>
+							{{#unless this.isToggleIconRight}}
+								<span
+									class="accordion-header-icon
+										{{if (this.isTabSelected index) 'expanded' 'collapsed'}}"
+									aria-hidden="true"
+								>
+									<UlxIcon
+										@type="font"
+										@size="s18"
+										@iconName={{if
+											(this.isTabSelected index)
+											this.collapseIconName
+											this.expandIconName
+										}}
+										@componentClass="bs-icons1"
+									/>
+								</span>
+							{{/unless}}
+							{{#if item.iconName}}
+								<span class="{{this.baseClass}}-header-indicator" aria-hidden="true">
+									<UlxIcon
+										@type="font"
+										@iconName={{item.iconName}}
+										@componentClass="bs-icons1"
+										@size="s18"
+									/>
+								</span>
+							{{/if}}
+							<span class="accordion-header-title">{{item.header}}</span>
+							{{#if this.isToggleIconRight}}
+								<span
+									class="accordion-header-icon right
+										{{if (this.isTabSelected index) 'expanded' 'collapsed'}}"
+									aria-hidden="true"
+								>
+									<UlxIcon
+										@type="font"
+										@size="s18"
+										@iconName={{if
+											(this.isTabSelected index)
+											this.collapseIconName
+											this.expandIconName
+										}}
+										@componentClass="bs-icons1"
+									/>
+								</span>
+							{{/if}}
 						</a>
 					</div>
 					{{#if (this.shouldRenderToggleableContent index)}}
@@ -389,7 +436,7 @@ changeActiveIndex(item, index, originalEvent) {
 							aria-labelledby={{this.getHeaderId index}}
 							{{this.accordionContentTransition index (this.isTabSelected index)}}
 						>
-							<div class="{{this.baseClass}}-content">
+							<div class="accordion-content">
 								{{#if (has-block "content")}}
 									{{yield item index (this.getContentMeta item index) to="content"}}
 								{{else}}

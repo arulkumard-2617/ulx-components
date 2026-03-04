@@ -35,7 +35,7 @@ export default class TypesToastDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div class="fx gap8 flxw">
         <UlxButton
           @label={{t "lbl.info"}}

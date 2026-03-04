@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
+import { t } from "../../../utils/i18n";
 import {
 	buildToggleId,
 	invokeCheckedChange,
@@ -27,7 +28,7 @@ import {
  * @param {string} [inputId] - Id for the hidden input; use with <label for=""> for a11y.
  * @param {string} [key] - Stable key for auto-generated id when inputId not provided.
  * @param {string} [size="m-size"] - Size: xs-size, s-size, m-size, l-size, xl-size.
- * @param {string} [variant="outlined"] - "outlined" or "filled".
+ * @param {string} [variant="primary"] - Color variant class (e.g. "primary", "green", etc.).
  * @param {string} [customClass] - Extra classes on root.
  */
 export default class UlxToggle extends Component {
@@ -48,7 +49,7 @@ export default class UlxToggle extends Component {
 	}
 
 	get rootClasses() {
-		const { size = "m-size", variant = "outlined", disabled = false, customClass } = this.args;
+		const { size = "m-size", variant = "primary", disabled = false, customClass } = this.args;
 
 		const parts = [this.baseClass];
 		parts.push(size);
@@ -93,7 +94,13 @@ export default class UlxToggle extends Component {
 				{{on "change" this.handleChange}}
 				...attributes
 			/>
-			<div class={{this.sliderClasses}} aria-hidden="true"></div>
+			<div class={{this.sliderClasses}} aria-hidden="true">
+				{{#if @checked}}
+					<span class="on-lbl">{{t "lbl.toggle.on"}}</span>
+				{{else}}
+					<span class="off-lbl">{{t "lbl.toggle.off"}}</span>
+				{{/if}}
+			</div>
 		</div>
 	</template>
 }

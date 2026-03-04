@@ -75,6 +75,11 @@ export const DocNavItems = [
             to: '/components/elements/button',
             route: 'components.elements.button',
           },
+          {
+            menuItem: 'SelectButton',
+            to: '/components/elements/select-button',
+            route: 'components.elements.select-button',
+          },
         ],
       },
       {

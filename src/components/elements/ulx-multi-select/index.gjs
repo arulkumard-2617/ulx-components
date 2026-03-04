@@ -40,6 +40,7 @@ import { hash, concat } from "@ember/helper";
  * Named block <:value> - Custom content for the trigger value area. Receives (hash selectedOptions selectedLabels placeholder).
  * Named block <:item> - Custom content for each option. Receives (hash option label index).
  * Named block <:footer> - Panel footer. Receives (hash selectedOptions).
+ * Named block <:footerActions> - Panel footer actions (right side). Use for buttons/links such as Remove.
  * Named block <:icon> - Custom trigger icon. Receives (hash overlayVisible).
  * Named block <:chip> - Custom chip content per selected item. Receives (hash option label value).
  * @param {string} [placeholder] - Placeholder when nothing selected.
@@ -48,8 +49,9 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [disabled=false] - Disables the component.
  * @param {boolean} [loading=false] - Shows progress spinner in trigger.
  * @param {boolean} [invalid=false] - Invalid state styling.
- * @param {boolean} [filter=false] - Show filter input in panel.
- * @param {boolean} [showClear=false] - Show clear icon when value has items.
+ * @param {boolean} [filter] - Show filter input in panel. When not provided, filter auto-enables for larger option lists (more than 10).
+ * @param {boolean} [showClose=false] - Show close (X) button in panel header.
+ * @param {boolean} [showClear=true] - Show a Clear action in the panel footer when value has items. Pass `false` to disable.
  * @param {boolean} [selectAll=false] - Show select-all checkbox in panel header.
  * @param {string} [selectAllLabel] - Label for select-all checkbox. When empty string, checkbox is shown without text.
  * @param {boolean} [filled=false] - Filled variant styling.
@@ -58,6 +60,13 @@ import { hash, concat } from "@ember/helper";
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
+ * @param {number} [zIndex=1100] - Overlay z-index (useful since panel is appended to <body>).
+ * @param {'body'|'self'|HTMLElement|Function|string} [renderContainer='body'] - Where to render the overlay panel.
+ *   - `"body"`: append overlay to `<body>` (default).
+ *   - `"self"`: keep overlay where it is rendered in DOM (no re-parenting).
+ *   - `HTMLElement`: append to that element.
+ *   - `Function`: called to resolve the container element.
+ *   - `string`: a CSS selector resolved via `document.querySelector()`.
  * @param {boolean} [resetFilterOnHide=true] - Reset filter when overlay closes.
  * @param {string} [label] - Label text.
  * @param {string} [labelRight] - Optional right-side label text.
@@ -122,7 +131,7 @@ export default class UlxMultiSelect extends Component {
 			error,
 			filled = false,
 			loading = false,
-			size = "s-size",
+			size = "m-size",
 			customClass
 		} = this.args;
 		const invalid = isInvalidState(invalidArg, error);
@@ -168,6 +177,10 @@ export default class UlxMultiSelect extends Component {
 		return Array.isArray(value) && value.length > 0;
 	}
 
+	get isClearEnabled() {
+		return typeof this.args.showClear === "boolean" ? this.args.showClear : true;
+	}
+
 	get floatLabelRootClasses() {
 		const base = this.rootClasses;
 		const parts = base ? [base] : [];
@@ -196,6 +209,29 @@ export default class UlxMultiSelect extends Component {
 
 	get hasGroups() {
 		return !!this.args.optionGroupLabel;
+	}
+
+	get optionCount() {
+		if (this.hasGroups) return this.flatOptions.length;
+		const options = this.args.options ?? [];
+		return Array.isArray(options) ? options.length : 0;
+	}
+
+	get isFilterEnabled() {
+		// Explicit override wins.
+		if (typeof this.args.filter === "boolean") return this.args.filter;
+
+		// Allow-addition needs filter input for typing new items.
+		if (this.args.allowAddition) return true;
+
+		// Heuristic: large lists get filter by default.
+		return this.optionCount > 10;
+	}
+
+	get shouldRenderPanelHeader() {
+		const selectAllEnabled = !!this.args.selectAll && this.allowOptionSelect;
+		const showClose = !!this.args.showClose;
+		return selectAllEnabled || this.isFilterEnabled || showClose;
 	}
 
 	get groupLabelKey() {
@@ -324,6 +360,11 @@ export default class UlxMultiSelect extends Component {
 		return this.selectedOptions.length;
 	}
 
+	get selectedValueCount() {
+		const value = this.args.value;
+		return Array.isArray(value) ? value.length : 0;
+	}
+
 	get placeholderDisplay() {
 		return this.args.placeholder ?? t("msg.multiselect.placeholder");
 	}
@@ -348,8 +389,12 @@ export default class UlxMultiSelect extends Component {
 		return !!this.args.required;
 	}
 
-	get clearButtonAriaLabel() {
-		return t("lbl.clear.selection");
+	@action
+	clearSelectionInPanel(event) {
+		event?.stopPropagation?.();
+		event?.preventDefault?.();
+		if (this.args.disabled) return;
+		this.args.onChange?.([]);
 	}
 
 	get selectAllItemLabel() {
@@ -456,6 +501,128 @@ export default class UlxMultiSelect extends Component {
 		return this.args.scrollHeight ?? "232px";
 	}
 
+	resolveRenderContainer() {
+		const containerArg = this.args.renderContainer ?? "body";
+		if (containerArg === "self") return null;
+		if (containerArg === "body") return document.body;
+		if (typeof containerArg === "function") {
+			try {
+				const result = containerArg();
+				return result instanceof HTMLElement ? result : document.body;
+			} catch {
+				return document.body;
+			}
+		}
+		if (typeof containerArg === "string") {
+			if (containerArg.trim().length === 0) return document.body;
+			return document.querySelector(containerArg) ?? document.body;
+		}
+		return containerArg instanceof HTMLElement ? containerArg : document.body;
+	}
+
+	parsePx(value, fallback) {
+		if (typeof value !== "string") return fallback;
+		const trimmed = value.trim();
+		if (!trimmed.endsWith("px")) return fallback;
+		const n = Number(trimmed.slice(0, -2));
+		return Number.isFinite(n) ? n : fallback;
+	}
+
+	@action
+	alignPanelToTrigger(panelEl, triggerElArg) {
+		if (!panelEl) return;
+		const trigger = this.triggerElement ?? triggerElArg;
+		if (!trigger) return;
+
+		const triggerRect = trigger.getBoundingClientRect();
+		const viewportPadding = 8;
+		const spacing = 2;
+
+		const container = this.resolveRenderContainer();
+		const useBody = !container || container === document.body;
+		const containerRect = !useBody ? container.getBoundingClientRect() : null;
+
+		const triggerLeft = useBody
+			? triggerRect.left
+			: triggerRect.left - containerRect.left + container.scrollLeft;
+		const triggerTop = useBody
+			? triggerRect.top
+			: triggerRect.top - containerRect.top + container.scrollTop;
+		const triggerBottom = useBody
+			? triggerRect.bottom
+			: triggerRect.bottom - containerRect.top + container.scrollTop;
+
+		// Ensure the panel is laid out so we can measure chrome heights.
+		panelEl.style.position = useBody ? "fixed" : "absolute";
+		panelEl.style.left = `${triggerLeft}px`;
+		panelEl.style.width = `${triggerRect.width}px`;
+		panelEl.style.minWidth = `${triggerRect.width}px`;
+		panelEl.style.maxWidth = `${triggerRect.width}px`;
+
+		const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : 5;
+		panelEl.style.zIndex = `${zIndex}`;
+		panelEl.style.margin = "0";
+		panelEl.style.padding = "0";
+
+		const headerEl = panelEl.querySelector(".multiselect-header");
+		const footerEl = panelEl.querySelector(".multiselect-footer");
+		const wrapperEl = panelEl.querySelector(".multiselect-wrapper");
+
+		const headerH = headerEl?.offsetHeight ?? 0;
+		const footerH = footerEl?.offsetHeight ?? 0;
+		const chromeH = headerH + footerH;
+
+		const requestedWrapperMax = this.parsePx(this.scrollHeightValue, 232);
+		const desiredWrapperHeight = Math.min(
+			requestedWrapperMax,
+			Math.max(0, wrapperEl?.scrollHeight ?? requestedWrapperMax)
+		);
+
+		const boundaryTop = useBody ? 0 : container.scrollTop;
+		const boundaryBottom = useBody ? window.innerHeight : container.scrollTop + container.clientHeight;
+
+		const spaceBelow = Math.max(0, boundaryBottom - triggerBottom - spacing - viewportPadding);
+		const spaceAbove = Math.max(0, triggerTop - boundaryTop - spacing - viewportPadding);
+
+		const availableWrapperBelow = Math.max(0, spaceBelow - chromeH);
+		const availableWrapperAbove = Math.max(0, spaceAbove - chromeH);
+		const maxWrapperBelow = Math.min(desiredWrapperHeight, availableWrapperBelow);
+		const maxWrapperAbove = Math.min(desiredWrapperHeight, availableWrapperAbove);
+
+		const useAbove = maxWrapperAbove > maxWrapperBelow;
+		const wrapperMax = useAbove ? maxWrapperAbove : maxWrapperBelow;
+
+		wrapperEl && (wrapperEl.style.maxHeight = `${wrapperMax}px`);
+
+		const panelHeight = chromeH + wrapperMax;
+		const desiredTop = useAbove ? triggerTop - panelHeight - spacing : triggerBottom + spacing;
+
+		// Clamp panel within the visible boundary only while the trigger is within it.
+		// If the trigger scrolls off-screen (top or bottom), allow the panel to move off-screen too
+		// (prevents the panel from getting "stuck" at a fixed top value).
+		let boundaryMinTop = boundaryTop + viewportPadding;
+		let boundaryMaxTop = boundaryBottom - panelHeight - viewportPadding;
+
+		const triggerOutTop = triggerBottom < boundaryTop + viewportPadding;
+		const triggerOutBottom = triggerTop > boundaryBottom - viewportPadding;
+
+		triggerOutTop && (boundaryMinTop = Math.min(boundaryMinTop, desiredTop));
+		triggerOutBottom && (boundaryMaxTop = Math.max(boundaryMaxTop, desiredTop));
+
+		// Safety: allow negative values when rendering to body and moving above viewport.
+		if (useBody) {
+			boundaryMinTop = Math.min(boundaryMinTop, -panelHeight);
+		}
+
+		const clampedTop = Math.min(
+			Math.max(boundaryMinTop, desiredTop),
+			Math.max(boundaryMinTop, boundaryMaxTop)
+		);
+
+		panelEl.style.top = `${clampedTop}px`;
+		panelEl.dataset.placement = useAbove ? "top" : "bottom";
+	}
+
 	get useVirtualScroll() {
 		const opts = this.args.virtualScrollerOptions;
 		return !!(opts && typeof opts.itemSize === "number") && !this.hasGroups;
@@ -531,41 +698,66 @@ export default class UlxMultiSelect extends Component {
 	});
 
 	appendToBody = modifier((element, [when]) => {
+		const container = this.resolveRenderContainer();
+
+		let restoreContainerPosition = null;
+
 		if (!when) {
-			if (element?.parentNode === document.body) document.body.removeChild(element);
+			// Modifier teardown handles any cleanup via returned function below.
 			return;
 		}
-		if (element?.parentNode !== document.body) document.body.appendChild(element);
+
+		if (container && element?.parentNode !== container) {
+			container.appendChild(element);
+		}
+
+		// If we append to a non-body container, ensure it can anchor absolute positioning.
+		if (container && container !== document.body) {
+			const computed = window.getComputedStyle(container);
+			if (computed.position === "static") {
+				const prev = container.style.position;
+				container.style.position = "relative";
+				restoreContainerPosition = () => {
+					container.style.position = prev;
+				};
+			}
+		}
+
 		return () => {
-			if (element?.parentNode === document.body) document.body.removeChild(element);
+			restoreContainerPosition?.();
+			// Remove element if it was moved under a container.
+			if (container && element?.parentNode === container) container.removeChild(element);
 		};
 	});
 
 	positionPanel = modifier((element, [when, triggerEl]) => {
 		if (!when || !element) return;
-		const alignPanelToTrigger = () => {
-			const trigger = this.triggerElement ?? triggerEl;
-			if (!trigger) return;
-			const triggerRect = trigger.getBoundingClientRect();
-			element.style.position = "fixed";
-			element.style.top = `${triggerRect.bottom + 2}px`;
-			element.style.left = `${triggerRect.left}px`;
-			element.style.width = `${triggerRect.width}px`;
-			element.style.minWidth = `${triggerRect.width}px`;
-			element.style.maxWidth = `${triggerRect.width}px`;
-			element.style.zIndex = "1100";
-			element.style.margin = "0";
-			element.style.padding = "0";
-		};
+		const alignPanel = () => this.alignPanelToTrigger(element, triggerEl);
 		schedule("afterRender", () => {
-			alignPanelToTrigger();
-			if (element.parentNode === document.body) requestAnimationFrame(alignPanelToTrigger);
+			alignPanel();
+			requestAnimationFrame(alignPanel);
 		});
-		const onScroll = () => {
-			if (this.overlayVisible && element.parentNode === document.body) alignPanelToTrigger();
+		const onScrollOrResize = () => {
+			if (this.overlayVisible) alignPanel();
 		};
-		window.addEventListener("scroll", onScroll, true);
-		return () => window.removeEventListener("scroll", onScroll, true);
+		const containerForScroll = this.resolveRenderContainer();
+		window.addEventListener("scroll", onScrollOrResize, true);
+		window.addEventListener("resize", onScrollOrResize);
+		containerForScroll && containerForScroll !== document.body && containerForScroll.addEventListener("scroll", onScrollOrResize, true);
+		return () => {
+			window.removeEventListener("scroll", onScrollOrResize, true);
+			window.removeEventListener("resize", onScrollOrResize);
+			containerForScroll && containerForScroll !== document.body && containerForScroll.removeEventListener("scroll", onScrollOrResize, true);
+		};
+	});
+
+	repositionOnLayoutChange = modifier((element, [when, selectedCount, headerShown, footerShown]) => {
+		if (!when || !element) return;
+		// Runs when these args change while overlay is open (e.g. footer appears after selecting).
+		schedule("afterRender", () => {
+			this.alignPanelToTrigger(element);
+			requestAnimationFrame(() => this.alignPanelToTrigger(element));
+		});
 	});
 
 	scrollFocusedIntoView = modifier(
@@ -661,15 +853,6 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	@action
-	clearSelection(event) {
-		event?.stopPropagation?.();
-		event?.preventDefault?.();
-		if (this.args.disabled) return;
-		this.closePanel(event);
-		this.args.onChange?.([]);
-	}
-
-	@action
 	closePanel(event) {
 		event?.stopPropagation?.();
 		event?.preventDefault?.();
@@ -701,20 +884,6 @@ export default class UlxMultiSelect extends Component {
 	onItemCheckboxChange(entry, _checked, event) {
 		event?.stopPropagation?.();
 		this.selectOption(entry);
-	}
-
-	@action
-	onClearIconKeydown(event) {
-		const keyPressed = event.code || event.key;
-		if (
-			keyPressed === "Enter" ||
-			keyPressed === "NumpadEnter" ||
-			keyPressed === " " ||
-			keyPressed === "Space"
-		) {
-			event.preventDefault();
-			this.clearSelection(event);
-		}
 	}
 
 	@action
@@ -871,6 +1040,11 @@ export default class UlxMultiSelect extends Component {
 		event.stopPropagation();
 	}
 
+	@action
+	stopItemCheckboxClick(event) {
+		event.stopPropagation();
+	}
+
 	<template>
 		<div class={{this.fieldClass}}>
 			{{#unless @floatLabel}}
@@ -983,20 +1157,6 @@ export default class UlxMultiSelect extends Component {
 							{{/if}}
 						</div>
 						<div class="multiselect-trigger {{if @disabled 'disabled' ''}}" tabindex="-1"></div>
-						{{#if (and @showClear this.hasValue (not @disabled))}}
-							<UlxIcon
-								@type="font"
-								@iconName="close-stroke-icon"
-								@componentClass="bs-icons1"
-								@size="s24"
-								aria-hidden="true"
-								role="button"
-								tabindex="0"
-								aria-label={{this.clearButtonAriaLabel}}
-								{{on "click" this.clearSelection}}
-								{{on "keydown" this.onClearIconKeydown}}
-							/>
-						{{/if}}
 						{{#if (and @loading)}}
 							<span class="multiselect-loading-icon" aria-hidden="true">
 								<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
@@ -1106,20 +1266,6 @@ export default class UlxMultiSelect extends Component {
 						tabindex={{if (not @disabled) "0" "-1"}}
 						role="button"
 					></div>
-					{{#if (and @showClear this.hasValue (not @disabled))}}
-						<UlxIcon
-							@type="font"
-							@iconName="close-stroke-icon"
-							@componentClass="bs-icons1"
-							@size="s24"
-							aria-hidden="true"
-							role="button"
-							tabindex="0"
-							aria-label={{this.clearButtonAriaLabel}}
-							{{on "click" this.clearSelection}}
-							{{on "keydown" this.onClearIconKeydown}}
-						/>
-					{{/if}}
 					{{#if (and @loading)}}
 						<span class="multiselect-loading-icon" aria-hidden="true">
 							<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
@@ -1151,55 +1297,65 @@ export default class UlxMultiSelect extends Component {
 					{{this.panelRef}}
 					{{this.appendToBody this.overlayVisible}}
 					{{this.positionPanel this.overlayVisible this.triggerElement}}
+					{{this.repositionOnLayoutChange
+						this.overlayVisible
+						this.selectedValueCount
+						this.shouldRenderPanelHeader
+						(or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))
+					}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
 				>
-					<div class="multiselect-header">
-						{{#if (and @selectAll this.allowOptionSelect)}}
-							<div class="multiselect-header-checkbox-container">
-								<UlxTristateCheckbox
-									@value={{this.headerTristateValue}}
-									@itemLabel={{this.selectAllItemLabel}}
-									@onValueChange={{this.onHeaderTristateChange}}
-								/>
-							</div>
-						{{/if}}
-						{{#if (or @filter @allowAddition)}}
-							<div class="multiselect-filter-container">
-								<input
-									type="text"
-									class="multiselect-filter-input"
-									value={{this.filterValue}}
-									placeholder={{or @filterPlaceholder (t "msg.multiselect.filter.placeholder")}}
-									{{on "input" this.onFilterInput}}
-									{{on "keydown" this.onFilterKeydown}}
-								/>
-							</div>
-							{{#if @allowAddition}}
-								<UlxButton
-									@label={{t "label.add"}}
-									@variant="primary"
-									@size="s-size"
-									@onClick={{this.addItem}}
-									@disabled={{not this.canAddItem}}
-								/>
+					{{#if this.shouldRenderPanelHeader}}
+						<div class="multiselect-header">
+							{{#if (and @selectAll this.allowOptionSelect)}}
+								<div class="multiselect-header-checkbox-container">
+									<UlxTristateCheckbox
+										@value={{this.headerTristateValue}}
+										@itemLabel={{this.selectAllItemLabel}}
+										@onValueChange={{this.onHeaderTristateChange}}
+									/>
+								</div>
 							{{/if}}
-						{{/if}}
-						<button
-							type="button"
-							class="multiselect-close-button"
-							aria-label={{t "lbl.close"}}
-							{{on "click" this.closePanel}}
-						>
-							<UlxIcon
-								@iconName="close-icon-01"
-								@type="font"
-								@size="s22"
-								@componentClass="bs-icons1"
-								aria-hidden="true"
-							/>
-						</button>
-					</div>
+							{{#if this.isFilterEnabled}}
+								<div class="multiselect-filter-container">
+									<input
+										type="text"
+										class="multiselect-filter-input"
+										value={{this.filterValue}}
+										placeholder={{or @filterPlaceholder (t "msg.multiselect.filter.placeholder")}}
+										{{on "input" this.onFilterInput}}
+										{{on "keydown" this.onFilterKeydown}}
+									/>
+								</div>
+								{{#if @allowAddition}}
+									<UlxButton
+										@label={{t "label.add"}}
+										@variant="primary"
+										@size="s-size"
+										@onClick={{this.addItem}}
+										@disabled={{not this.canAddItem}}
+									/>
+								{{/if}}
+							{{/if}}
+							{{#if @showClose}}
+								<button
+									type="button"
+									class="multiselect-close-button"
+									aria-label={{t "lbl.close"}}
+									{{on "click" this.closePanel}}
+								>
+									<UlxIcon
+										@iconName="close-icon-01"
+										@type="font"
+										@size="s22"
+										@componentClass="bs-icons1"
+										aria-hidden="true"
+									/>
+								</button>
+							{{/if}}
+						</div>
+					{{/if}}
 					<div
 						class="multiselect-wrapper"
 						style="max-height: {{this.scrollHeightValue}};"
@@ -1222,7 +1378,7 @@ export default class UlxMultiSelect extends Component {
 									{{#if (eq this.optionList.length 0)}}
 										<li class="multiselect-empty-message" role="option">
 											{{or
-												(and @filter @emptyFilterMessage)
+												(and this.isFilterEnabled @emptyFilterMessage)
 												@emptyMessage
 												(t "msg.multiselect.empty")
 											}}
@@ -1247,10 +1403,11 @@ export default class UlxMultiSelect extends Component {
 													style="height: {{this.virtualItemSize}}px;"
 													{{on "click" (fn this.selectOption entry)}}
 												>
-													<span class="multiselect-item-checkbox">
+													<span class="multiselect-item-checkbox" {{on "click" this.stopItemCheckboxClick}}>
 														<UlxCheckbox
 															@checked={{this.isOptionSelected option}}
 															@onCheckedChange={{fn this.onItemCheckboxChange entry}}
+															@fieldClass="flex"
 														/>
 													</span>
 													{{#if (has-block "item")}}
@@ -1285,7 +1442,7 @@ export default class UlxMultiSelect extends Component {
 								{{#if (eq this.visibleOptions.length 0)}}
 									<li class="multiselect-empty-message" role="option">
 										{{or
-											(and @filter @emptyFilterMessage)
+											(and this.isFilterEnabled @emptyFilterMessage)
 											@emptyMessage
 											(t "msg.multiselect.empty")
 										}}
@@ -1314,10 +1471,11 @@ export default class UlxMultiSelect extends Component {
 													tabindex="-1"
 													{{on "click" (fn this.selectOption row.entry)}}
 												>
-													<span class="multiselect-item-checkbox">
+													<span class="multiselect-item-checkbox" {{on "click" this.stopItemCheckboxClick}}>
 														<UlxCheckbox
 															@checked={{this.isOptionSelected option}}
 															@onCheckedChange={{fn this.onItemCheckboxChange row.entry}}
+															@fieldClass="flex"
 														/>
 													</span>
 													{{#if (has-block "item")}}
@@ -1359,10 +1517,11 @@ export default class UlxMultiSelect extends Component {
 												tabindex="-1"
 												{{on "click" (fn this.selectOption entry)}}
 											>
-												<span class="multiselect-item-checkbox">
+												<span class="multiselect-item-checkbox" {{on "click" this.stopItemCheckboxClick}}>
 													<UlxCheckbox
 														@checked={{this.isOptionSelected option}}
 														@onCheckedChange={{fn this.onItemCheckboxChange entry}}
+														@fieldClass="flex"
 													/>
 												</span>
 												{{#if (has-block "item")}}
@@ -1388,16 +1547,28 @@ export default class UlxMultiSelect extends Component {
 							</ul>
 						{{/if}}
 					</div>
-					{{#if (or (has-block "footer") (gt this.selectedCount 3))}}
-						<div class="multiselect-panel-footer">
-							<div class="multiselect-panel-footer-content">
+					{{#if (or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))}}
+						<div class="multiselect-footer">
+							<div class="multiselect-footer-left">
 								{{#if (has-block "footer")}}
 									{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
-								{{else}}
+								{{else if (gt this.selectedValueCount 0)}}
 									<span class="multiselect-footer-count">{{t
 											"msg.multiselect.items.selected"
-											count=this.selectedCount
+											count=this.selectedValueCount
 										}}</span>
+								{{/if}}
+							</div>
+							<div class="multiselect-footer-right">
+								{{#if (has-block "footerActions")}}
+									{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
+								{{/if}}
+								{{#if (and this.isClearEnabled this.hasValue (not @disabled))}}
+									<UlxButton
+										@label={{t "lbl.clear"}}
+										@variant="link"
+										@onClick={{this.clearSelectionInPanel}}
+									/>
 								{{/if}}
 							</div>
 						</div>

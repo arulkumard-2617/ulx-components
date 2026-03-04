@@ -49,7 +49,7 @@ export default class DemoSplitButtonTemplate extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxSplitButton
         @label="ULX"
         @icon="comment-icon"

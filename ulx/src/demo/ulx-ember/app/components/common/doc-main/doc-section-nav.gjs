@@ -23,23 +23,23 @@ export default class DocSectionNavComponent extends Component {
 
   isActive = (sectionId) => {
     return this.activeSectionId === sectionId;
-  }
+  };
 
   @action
   scrollToSection(sectionId, event) {
     if (event) {
       event.preventDefault();
     }
-    
+
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 100; // Offset from top for sticky header
+      const offset = 150; // Offset from top for sticky header
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }
@@ -55,7 +55,7 @@ export default class DocSectionNavComponent extends Component {
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
         const element = document.getElementById(section.id);
-        
+
         if (element) {
           const elementTop = element.offsetTop;
           if (scrollPosition >= elementTop) {
@@ -102,4 +102,3 @@ export default class DocSectionNavComponent extends Component {
     {{/if}}
   </template>
 }
-

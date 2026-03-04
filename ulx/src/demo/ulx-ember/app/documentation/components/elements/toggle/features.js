@@ -8,12 +8,16 @@ import {
   InvalidDemo,
   DisabledDemo,
   AccessibilityDemo,
+  ColorsDemo,
+  WithLabelDemo,
   ImportSource,
   BasicSource,
   PreselectionSource,
   InvalidSource,
   DisabledSource,
   AccessibilitySource,
+  ColorsSource,
+  WithLabelSource,
 } from './imports';
 
 export const ToggleFeatureItems = [
@@ -33,6 +37,26 @@ export const ToggleFeatureItems = [
         source: ImportSource,
         snippetName: 'import',
         language: 'jsx',
+      },
+    },
+  },
+  {
+    id: 'with-label',
+    sectionNav: 'With Label',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>With Label</code> demo shows the Toggle with its built-in On/Off labels inside the switch track.',
+      },
+    },
+    demo: {
+      component: WithLabelDemo,
+      props: {
+        source: WithLabelSource,
+        snippetName: 'withLabel',
+        language: 'handlebars',
       },
     },
   },
@@ -108,6 +132,26 @@ export const ToggleFeatureItems = [
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'colors',
+    sectionNav: 'Colors',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Colors</code> demo shows color variants for the Toggle using <code>@variant</code>, such as <code>primary</code> and <code>green</code>.',
+      },
+    },
+    demo: {
+      component: ColorsDemo,
+      props: {
+        source: ColorsSource,
+        snippetName: 'colors',
         language: 'handlebars',
       },
     },

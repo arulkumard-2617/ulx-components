@@ -113,6 +113,7 @@
       "./components/elements/ulx-progressspinner/index.js": "./dist/_app_/components/elements/ulx-progressspinner/index.js",
       "./components/elements/ulx-radio/index.js": "./dist/_app_/components/elements/ulx-radio/index.js",
       "./components/elements/ulx-radio/radio-item.js": "./dist/_app_/components/elements/ulx-radio/radio-item.js",
+      "./components/elements/ulx-select-button/index.js": "./dist/_app_/components/elements/ulx-select-button/index.js",
       "./components/elements/ulx-rating/index.js": "./dist/_app_/components/elements/ulx-rating/index.js",
       "./components/elements/ulx-skeleton/index.js": "./dist/_app_/components/elements/ulx-skeleton/index.js",
       "./components/elements/ulx-split-button/index.js": "./dist/_app_/components/elements/ulx-split-button/index.js",
@@ -150,6 +151,7 @@
       "./helpers/t.js": "./dist/_app_/helpers/t.js",
       "./modifiers/overlay-lifecycle.js": "./dist/_app_/modifiers/overlay-lifecycle.js",
       "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
+      "./services/accessibility.js": "./dist/_app_/services/accessibility.js",
       "./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
     }
   }

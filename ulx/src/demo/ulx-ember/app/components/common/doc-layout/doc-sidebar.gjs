@@ -371,7 +371,7 @@ export default class DocSidebarComponent extends Component {
 
               {{#if (this.hasChildren item)}}
                 <div
-                  class="accordion-content"
+                  class=""
                   style={{this.getAccordionStyle item}}
                   {{this.setContentRef item.menuTitle}}
                 >

@@ -45,7 +45,7 @@ export default class TemplateAccordionDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <UlxAccordion
         @model={{this.tabs}}
         @activeIndex={{this.activeIndex}}
@@ -57,7 +57,7 @@ export default class TemplateAccordionDemo extends Component {
             <span class="bold-font white-space-nowrap">{{item.header}}</span>
             <UlxBadge @value={{item.badge}} />
           </div>
-          <p class="m-0 mgt2">{{item.content}}</p>
+          <p class="m-0 mt-2">{{item.content}}</p>
         </:content>
       </UlxAccordion>
     </div>

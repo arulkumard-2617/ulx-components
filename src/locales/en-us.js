@@ -100,6 +100,8 @@ const enUs = {
 
 	// ── Toggle (InputSwitch) ──────────────────────────────────
 	'lbl.toggle.remember.me': 'Remember Me',
+	'lbl.toggle.off': 'Off',
+	'lbl.toggle.on': 'On',
 
 	// ── Rating ────────────────────────────────────────────────
 	'lbl.rating': 'Rating',
@@ -229,6 +231,16 @@ const enUs = {
 	'aria.paginator.rowsPerPage': 'Rows per page',
 	'aria.paginator.jumpToPage': 'Jump to page',
 	'lbl.paginator.choose': 'Choose',
+
+	// ── SelectButton demo ────────────────────────────────────
+	"demo.selectbutton.off": "Off",
+	"demo.selectbutton.on": "On",
+	"demo.selectbutton.option1": "Option 1",
+	"demo.selectbutton.option2": "Option 2",
+	"demo.selectbutton.option3": "Option 3",
+	"demo.selectbutton.choose.option": "Choose option",
+	"demo.selectbutton.choose.options": "Choose options",
+	"demo.selectbutton.alignment": "Alignment",
 
 	// ── Progress labels ──────────────────────────────────────
 	'lbl.icons': 'icons',
