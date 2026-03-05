@@ -103,6 +103,10 @@ const enUs = {
 	'lbl.toggle.off': 'Off',
 	'lbl.toggle.on': 'On',
 
+	// ── Rating ────────────────────────────────────────────────
+	'lbl.rating': 'Rating',
+	'lbl.rating.cancel': 'Reset rating',
+
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',
 	'lbl.label': 'label',
@@ -288,6 +292,34 @@ const enUs = {
 	'msg.inline.error': 'Inline error message.',
 	'msg.inline.secondary': 'Secondary Message',
 	'msg.inline.contrast': 'Contrast Message',
+
+	// ── DataView ───────────────────────────────────────────────
+	'msg.dataview.empty': 'No records found.',
+	'aria.dataview.region': 'Data view',
+	'lbl.doc.dataview.title': 'DataView - ULS Ember Documentation',
+	'lbl.doc.dataview.layout.list': 'List',
+	'lbl.doc.dataview.layout.grid': 'Grid',
+	'lbl.doc.dataview.addToCart': 'Add to cart',
+	'lbl.doc.dataview.tagIcon': 'Tag icon',
+	'lbl.doc.dataview.sort.label': 'Sorting',
+	'lbl.doc.dataview.sort.placeholder': 'Select sort order',
+	'lbl.doc.dataview.sort.priceLowToHigh': 'Price Low to High',
+	'lbl.doc.dataview.sort.priceHighToLow': 'Price High to Low',
+	'lbl.doc.dataview.sort.nameAZ': 'Name A to Z',
+	'lbl.doc.dataview.sort.nameZA': 'Name Z to A',
+
+	// ── Skeleton ─────────────────────────────────────────────
+	'lbl.doc.skeleton.title': 'Skeleton - ULS Ember Documentation',
+	'lbl.doc.skeleton.rectangle': 'Rectangle',
+	'lbl.doc.skeleton.rounded': 'Rounded',
+	'lbl.doc.skeleton.square': 'Square',
+	'lbl.doc.skeleton.circle': 'Circle',
+	'msg.doc.skeleton.shapes.desc': 'Various shapes and sizes can be created using shape, width, height, borderRadius, and size arguments.',
+	'msg.doc.skeleton.card.desc': 'Sample Card implementation using different Skeleton components.',
+	'msg.doc.skeleton.list.desc': 'Sample List implementation using different Skeleton components.',
+	'msg.doc.skeleton.datatable.desc': 'Sample DataTable implementation using different Skeleton components.',
+	'msg.doc.skeleton.accessibility.desc': 'Skeleton uses aria-hidden="true" so that it gets ignored by screen readers.',
+	'msg.doc.skeleton.import.desc': 'The <code>import</code> section shows how to import and use the <code>UlxSkeleton</code> component.',
 
 	// ── Card ──────────────────────────────────────────────────
 	'lbl.card': 'Card',
