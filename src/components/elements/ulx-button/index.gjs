@@ -127,6 +127,10 @@ export default class UlxButton extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get buttonSize() {
+		return this.args.size || "m-size";
+	}
+
 	get hasIcon() {
 		const { icon } = this.args;
 		return icon || this.effectiveLoading;
@@ -263,7 +267,7 @@ export default class UlxButton extends Component {
 				{{#if this.showIconLeft}}
 					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon left">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -291,7 +295,7 @@ export default class UlxButton extends Component {
 				{{#if this.showIconRight}}
 					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -341,7 +345,7 @@ export default class UlxButton extends Component {
 				{{#if this.showIconLeft}}
 					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -369,7 +373,7 @@ export default class UlxButton extends Component {
 				{{#if this.showIconRight}}
 					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon right">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}

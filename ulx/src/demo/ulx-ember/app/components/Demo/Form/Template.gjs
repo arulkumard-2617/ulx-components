@@ -59,7 +59,11 @@ const FREQUENCY_OPTIONS = [
 
 const INTEREST_OPTIONS = [
   { title: 'Design', value: 'design', description: 'UI/UX, systems' },
-  { title: 'Engineering', value: 'engineering', description: 'Frontend, backend' },
+  {
+    title: 'Engineering',
+    value: 'engineering',
+    description: 'Frontend, backend',
+  },
   { title: 'Product', value: 'product', description: 'PM, strategy' },
 ];
 
@@ -416,12 +420,18 @@ export default class DemoFormTemplate extends Component {
               @onChange={{this.setSocialPlatform}}
               @placeholder="X"
               @size="m-size"
-              @customClass="ulx-inputgroup-addon left w-140"
+              @customClass="inputgroup-addon left w-140"
               aria-label="Social platform"
             />
           </:start>
           <:end>
-            <UlxButton @label="Add" @customClass="ulx-inputgroup-addon right" @variant="primary" @size="m-size" @onClick={{this.addSocial}} />
+            <UlxButton
+              @label="Add"
+              @customClass="inputgroup-addon right"
+              @variant="primary"
+              @size="m-size"
+              @onClick={{this.addSocial}}
+            />
           </:end>
         </UlxInput>
 
@@ -442,7 +452,7 @@ export default class DemoFormTemplate extends Component {
               @value={{this.dialCode}}
               @onChange={{this.setDialCode}}
               @size="m-size"
-              @customClass="ulx-inputgroup-addon left w-100"
+              @customClass="inputgroup-addon left w-100"
               aria-label="Dial code"
             />
           </:start>
@@ -465,7 +475,7 @@ export default class DemoFormTemplate extends Component {
               @value={{this.altDialCode}}
               @onChange={{this.setAltDialCode}}
               @size="m-size"
-              @customClass="ulx-inputgroup-addon left w-100"
+              @customClass="inputgroup-addon left w-100"
               aria-label="Alternative dial code"
             />
           </:start>
@@ -485,4 +495,3 @@ export default class DemoFormTemplate extends Component {
     </div>
   </template>
 }
-

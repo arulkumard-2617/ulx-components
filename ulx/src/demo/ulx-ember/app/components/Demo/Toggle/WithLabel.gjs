@@ -12,10 +12,11 @@ export default class WithLabelToggleDemo extends Component {
   }
 
   <template>
-    <UlxToggle
-      @checked={{this.checked}}
-      @onCheckedChange={{this.handleCheckedChange}}
-    />
+    <div class="ulx-toggle-status">
+      <UlxToggle
+        @checked={{this.checked}}
+        @onCheckedChange={{this.handleCheckedChange}}
+      />
+    </div>
   </template>
 }
-

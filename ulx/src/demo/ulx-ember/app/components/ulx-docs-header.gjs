@@ -10,9 +10,10 @@ import {
   UlxSlidePane,
   UlxAccordion,
   UlxSelectButton,
-  UlxCheckbox,
   UlxToggle,
   UlxIcon,
+  UlxProgressBar,
+  t,
 } from 'ulx-components';
 
 export default class UlxDocsHeaderComponent extends Component {
@@ -20,6 +21,9 @@ export default class UlxDocsHeaderComponent extends Component {
   @tracked isDarkMode = false;
   @tracked selectedTheme = 'default';
   @tracked isAccessibilityOpen = false;
+  @tracked accessibilityAccordionActiveIndex = 0;
+  @tracked _saturationLocal = null;
+  @tracked _colorAdjustmentLocal = null;
 
   @service accessibility;
 
@@ -120,12 +124,74 @@ export default class UlxDocsHeaderComponent extends Component {
     return selectedContrast ?? 100;
   }
 
+  get saturationFromState() {
+    const { selectedSaturation } = this.accessibilityState;
+    if (typeof selectedSaturation === 'string') {
+      const parsed = parseInt(selectedSaturation, 10);
+      return Number.isNaN(parsed) ? 100 : Math.min(200, Math.max(0, parsed));
+    }
+    const n = Number(selectedSaturation);
+    return Number.isFinite(n) ? Math.min(200, Math.max(0, n)) : 100;
+  }
+
+  get saturationValue() {
+    if (this._saturationLocal != null) {
+      return this._saturationLocal;
+    }
+    return this.saturationFromState;
+  }
+
+  get colorAdjustmentOptions() {
+    return [
+      { value: 'bw', label: 'B&W' },
+      { value: 'default', label: 'Default' },
+      { value: 'sepia', label: 'Sepia' },
+    ];
+  }
+
+  get selectedColorAdjustment() {
+    if (this._colorAdjustmentLocal != null) {
+      return this._colorAdjustmentLocal;
+    }
+    const cv = this.accessibilityState.selectedColorValue;
+    if (cv && cv['--ulx-ba-grayscale'] === '100%') return 'bw';
+    if (cv && cv['--ulx-ba-sepia'] === '100%') return 'sepia';
+    return 'default';
+  }
+
   get accessibilitySections() {
     return [
-      { header: 'Vision', id: 'vision', isVision: true, iconName: 'view-icon' },
-      { header: 'Hearing', id: 'hearing', isVision: false },
-      { header: 'Mobility', id: 'mobility', isVision: false },
-      { header: 'Learning', id: 'learning', isVision: false },
+      {
+        header: 'Vision',
+        id: 'vision',
+        isVision: true,
+        iconName: 'view-icon',
+        iconSize: 's22',
+      },
+      {
+        header: 'Hearing',
+        id: 'hearing',
+        isVision: false,
+        isHearing: true,
+        iconName: 'hearing-icon',
+        iconSize: 's22',
+      },
+      {
+        header: 'Mobility',
+        id: 'mobility',
+        isVision: false,
+        isMobility: true,
+        iconName: 'mobility-icon',
+        iconSize: 's22',
+      },
+      {
+        header: 'Learning',
+        id: 'learning',
+        isVision: false,
+        isLearning: true,
+        iconName: 'read-icon',
+        iconSize: 's22',
+      },
     ];
   }
 
@@ -257,6 +323,11 @@ export default class UlxDocsHeaderComponent extends Component {
   }
 
   @action
+  handleAccessibilityTabChange(event) {
+    this.accessibilityAccordionActiveIndex = event.index;
+  }
+
+  @action
   openAccessibilityPane() {
     this.isAccessibilityOpen = true;
     if (typeof window !== 'undefined') {
@@ -290,6 +361,11 @@ export default class UlxDocsHeaderComponent extends Component {
   }
 
   @action
+  toggleToggleLabel(checked) {
+    this.accessibility.checkAndUpdateToggleStatusLabel(checked);
+  }
+
+  @action
   toggleDyslexicFont(checked) {
     this.accessibility.addDyslexicFont(checked);
   }
@@ -307,6 +383,82 @@ export default class UlxDocsHeaderComponent extends Component {
       this.accessibility.setContrast(nextValue);
     }
   }
+
+  @action
+  updateColorAdjustment(nextValue) {
+    const mode =
+      nextValue === 'bw' || nextValue === 'sepia' ? nextValue : 'default';
+    this._colorAdjustmentLocal = mode;
+    const sepia = mode === 'sepia' ? '100%' : '0%';
+    const grayscale = mode === 'bw' ? '100%' : '0%';
+    if (typeof document !== 'undefined' && document.documentElement) {
+      document.documentElement.style.setProperty('--ulx-ba-sepia', sepia);
+      document.documentElement.style.setProperty(
+        '--ulx-ba-grayscale',
+        grayscale,
+      );
+    }
+    this.accessibility.setColorValue?.({
+      '--ulx-ba-sepia': sepia,
+      '--ulx-ba-grayscale': grayscale,
+    });
+  }
+
+  applyColorAdjustmentToDocument = modifier((_element, [mode]) => {
+    if (
+      typeof document === 'undefined' ||
+      !document.documentElement ||
+      mode == null
+    )
+      return;
+    const sepia = mode === 'sepia' ? '100%' : '0%';
+    const grayscale = mode === 'bw' ? '100%' : '0%';
+    document.documentElement.style.setProperty('--ulx-ba-sepia', sepia);
+    document.documentElement.style.setProperty('--ulx-ba-grayscale', grayscale);
+  });
+
+  @action
+  resetSaturation() {
+    const defaultVal = 100;
+    this._saturationLocal = defaultVal;
+    if (typeof document !== 'undefined' && document.documentElement) {
+      document.documentElement.style.setProperty(
+        '--ulx-ba-saturate',
+        `${defaultVal}%`,
+      );
+    }
+    this.accessibility.setSaturation?.(defaultVal);
+  }
+
+  @action
+  updateSaturation(nextValue) {
+    const n = Number(nextValue);
+    if (Number.isFinite(n)) {
+      const clamped = Math.min(200, Math.max(0, n));
+      this._saturationLocal = clamped;
+      if (typeof document !== 'undefined' && document.documentElement) {
+        document.documentElement.style.setProperty(
+          '--ulx-ba-saturate',
+          `${clamped}%`,
+        );
+      }
+      this.accessibility.setSaturation?.(clamped);
+    }
+  }
+
+  applySaturationToDocument = modifier((_element, [saturationPercent]) => {
+    if (
+      typeof document !== 'undefined' &&
+      document.documentElement &&
+      saturationPercent != null
+    ) {
+      const value = Math.min(200, Math.max(0, Number(saturationPercent)));
+      document.documentElement.style.setProperty(
+        '--ulx-ba-saturate',
+        `${value}%`,
+      );
+    }
+  });
 
   @action
   updateTextSpacing(nextValue) {
@@ -461,7 +613,7 @@ export default class UlxDocsHeaderComponent extends Component {
           <UlxButton
             @icon={{if this.isDarkMode "light-mode-icon" "dark-mode-icon"}}
             @iconComponentClass="bs-icons1"
-            @iconSize="s18"
+            @iconSize="s22"
             @variant="basic"
             aria-label={{if
               this.isDarkMode
@@ -497,7 +649,10 @@ export default class UlxDocsHeaderComponent extends Component {
           <div class="ulx-grid col-1 gap-3">
             <UlxAccordion
               @model={{this.accessibilitySections}}
-              @variant="flat"
+              @activeIndex={{this.accessibilityAccordionActiveIndex}}
+              @onTabChange={{this.handleAccessibilityTabChange}}
+              @toggleIconPosition="right"
+              @variant="elevated"
               @size="m-size"
             >
               <:content as |paneSection|>
@@ -532,6 +687,90 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @variant="primary"
                                 @customClass="mt-3"
                               />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="list-item"
+                          {{this.applyColorAdjustmentToDocument
+                            this.selectedColorAdjustment
+                          }}
+                        >
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgGrayscale"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <h6 class="cl-title h7-font">Color Adjustments</h6>
+                            <div class="cl-sub-title">
+                              <span class="text-small">
+                                Grayscale filters remove all colors from the
+                                screen, displaying everything in shades of gray.
+                              </span>
+                            </div>
+                            <div class="mt-2">
+                              <UlxSelectButton
+                                @options={{this.colorAdjustmentOptions}}
+                                @value={{this.selectedColorAdjustment}}
+                                @onChange={{this.updateColorAdjustment}}
+                                @size="s-size"
+                                @variant="primary"
+                                @customClass="mt-3"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="list-item"
+                          {{this.applySaturationToDocument
+                            this.saturationValue
+                          }}
+                        >
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgSaturation"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex items-center gap-2">
+                              <h6 class="cl-title h7-font">Saturation</h6>
+                              <UlxButton
+                                @icon="reset-icon"
+                                @iconComponentClass="bs-icons1"
+                                @iconSize="s18"
+                                @variant="link"
+                                @label={{t "lbl.reset"}}
+                                @onClick={{this.resetSaturation}}
+                                aria-label={{t "lbl.reset"}}
+                                @size="s-size"
+                              />
+                            </div>
+                            <div class="cl-sub-title">
+                              <span class="text-small">
+                                Adjust the saturation level based on your
+                                preference.
+                              </span>
+                            </div>
+                            <div class="mt-2">
+                              <UlxProgressBar
+                                @showControls={{true}}
+                                @value={{this.saturationValue}}
+                                @onChange={{this.updateSaturation}}
+                                @min={{0}}
+                                @max={{200}}
+                                @size="xs-size"
+                              >
+                                <:content>{{this.saturationValue}}%</:content>
+                              </UlxProgressBar>
                             </div>
                           </div>
                         </div>
@@ -627,6 +866,7 @@ export default class UlxDocsHeaderComponent extends Component {
                               </div>
                               <div class="mt-2 flex align-items-center gap-2">
                                 <UlxToggle
+                                  @variant="green"
                                   @checked={{this.accessibilityState.readingGuideValue}}
                                   @onCheckedChange={{this.updateReadingGuide}}
                                 />
@@ -669,6 +909,7 @@ export default class UlxDocsHeaderComponent extends Component {
                               </div>
                               <div class="mt-2 flex align-items-center gap-2">
                                 <UlxToggle
+                                  @variant="green"
                                   @checked={{this.accessibilityState.readingLineValue}}
                                   @onCheckedChange={{this.updateReadingLine}}
                                 />
@@ -711,8 +952,9 @@ export default class UlxDocsHeaderComponent extends Component {
                               </div>
                               <div class="mt-2 flex align-items-center gap-2">
                                 <UlxToggle
+                                  @variant="green"
                                   @checked={{this.accessibilityState.toggleSwitchLabel}}
-                                  @onCheckedChange={{this.toggleCriticalInfo}}
+                                  @onCheckedChange={{this.toggleToggleLabel}}
                                 />
                               </div>
                             </div>
@@ -741,68 +983,9 @@ export default class UlxDocsHeaderComponent extends Component {
                               </div>
                               <div class="mt-2 flex align-items-center gap-2">
                                 <UlxToggle
+                                  @variant="green"
                                   @checked={{this.accessibilityState.underlineLink}}
                                   @onCheckedChange={{this.toggleUnderlineLinks}}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="list-item">
-                          <div class="left-item" aria-hidden="true">
-                            <UlxIcon
-                              @type="svg"
-                              @iconName="svgReadingLine"
-                              @size="s32"
-                              aria-hidden="true"
-                            />
-                          </div>
-                          <div class="right-item">
-                            <div class="flex justify-between gap-2">
-                              <div>
-                                <h6 class="cl-title h7-font">Big cursor</h6>
-                                <div class="cl-sub-title">
-                                  <span class="text-small">
-                                    Enlarge the cursor to make it easier to see
-                                    and track on the screen.
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="mt-2 flex align-items-center gap-2">
-                                <UlxToggle
-                                  @checked={{this.accessibilityState.bigCursor}}
-                                  @onCheckedChange={{this.toggleBigCursor}}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="list-item">
-                          <div class="left-item" aria-hidden="true">
-                            <UlxIcon
-                              @type="svg"
-                              @iconName="svgReadingGuide"
-                              @size="s32"
-                              aria-hidden="true"
-                            />
-                          </div>
-                          <div class="right-item">
-                            <div class="flex justify-between gap-2">
-                              <div>
-                                <h6 class="cl-title h7-font">Emphasize focus</h6>
-                                <div class="cl-sub-title">
-                                  <span class="text-small">
-                                    Highlight the focused element with a visible
-                                    outline to improve keyboard navigation.
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="mt-2 flex align-items-center gap-2">
-                                <UlxToggle
-                                  @checked={{this.accessibilityState.emphasizeFocus}}
-                                  @onCheckedChange={{this.toggleEmphasizeFocus}}
                                 />
                               </div>
                             </div>
@@ -831,6 +1014,7 @@ export default class UlxDocsHeaderComponent extends Component {
                               </div>
                               <div class="mt-2 flex align-items-center gap-2">
                                 <UlxToggle
+                                  @variant="green"
                                   @checked={{this.accessibilityState.dyslexicFont}}
                                   @onCheckedChange={{this.toggleDyslexicFont}}
                                 />
@@ -861,6 +1045,7 @@ export default class UlxDocsHeaderComponent extends Component {
                               </div>
                               <div class="mt-2 flex align-items-center gap-2">
                                 <UlxToggle
+                                  @variant="green"
                                   @checked={{this.isZoomEnabled}}
                                   @onCheckedChange={{this.toggleZoomEnabled}}
                                 />
@@ -878,6 +1063,277 @@ export default class UlxDocsHeaderComponent extends Component {
                                 />
                               </div>
                             {{/if}}
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                {{else if paneSection.isHearing}}
+                  <div class="ulx-grid col-1 gap-3">
+                    <section class="ulx-section">
+                      <div class="ulx-content-list divider">
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgScreenZoom"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <h6 class="cl-title h7-font">Screen Reader</h6>
+                            <div class="cl-sub-title">
+                              <span class="text-small">
+                                Narrates the content on the screen using voice
+                                and visual captions to help users perceive the
+                                presented information more efficiently.
+                              </span>
+                            </div>
+                            <div class="mt-3">
+                              <p class="bold-font mb-1">macOS</p>
+                              <p class="flex items-center gap-2">
+                                <span class="t-key-hint">Cmd+F5</span>
+                                <span class="fg-text-secondary text-sm">(Voice
+                                  Over)</span>
+                              </p>
+                            </div>
+                            <div class="mt-3">
+                              <p class="bold-font mb-1">Windows / Linux</p>
+                              <p class="flex items-center gap-2">
+                                <span class="t-key-hint">Ctrl+Win+Enter</span>
+                                <span
+                                  class="fg-text-secondary text-sm"
+                                >(Narrator)</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgReadingLine"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Skip to Main
+                                  Content</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Lets users bypass repeated elements and
+                                    directly reach the main content of the page.
+                                  </span>
+                                </div>
+                                <div class="mt-3">
+                                  <span class="t-key-hint">G+M</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                {{else if paneSection.isMobility}}
+                  <div class="ulx-grid col-1 gap-3">
+                    <section class="ulx-section">
+                      <div class="ulx-content-list divider">
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgReadingLine"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Big cursor</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Enlarge the cursor to make it easier to see
+                                    and track on the screen.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @variant="green"
+                                  @checked={{this.accessibilityState.bigCursor}}
+                                  @onCheckedChange={{this.toggleBigCursor}}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgReadingGuide"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Emphasize focus</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Highlight the focused element with a visible
+                                    outline to improve keyboard navigation.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @variant="green"
+                                  @checked={{this.accessibilityState.emphasizeFocus}}
+                                  @onCheckedChange={{this.toggleEmphasizeFocus}}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="keyboardShortcutIcon"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Keyboard Shortcuts</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Enable users to navigate across the help
+                                    desk and perform actions quickly using the
+                                    keyboard.
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  class="mt-2 fg-primary text-sm underline flex items-center gap-1"
+                                >
+                                  <span>View Shortcuts</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="pageNavigatorIcon"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Page Navigator</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Lets user navigate to a specific part of the
+                                    page using the keyboard.
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  class="mt-2 fg-primary text-sm underline flex items-center gap-1"
+                                >
+                                  <span>Invoke Page Navigator</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                {{else if paneSection.isLearning}}
+                  <div class="ulx-grid col-1 gap-3">
+                    <section class="ulx-section">
+                      <div class="ulx-content-list divider">
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgToggle"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Highlight Critical
+                                  Information</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Displays critical information, such as
+                                    ticket ID, ticket owner, and contact
+                                    details, in a striking color.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="mt-2 flex align-items-center gap-2">
+                                <UlxToggle
+                                  @variant="green"
+                                  @checked={{this.accessibilityState.highLightCriticalInfo}}
+                                  @onCheckedChange={{this.toggleCriticalInfo}}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="list-item">
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgScreenZoom"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <div class="flex justify-between gap-2">
+                              <div>
+                                <h6 class="cl-title h7-font">Toast Notifications</h6>
+                                <div class="cl-sub-title">
+                                  <span class="text-small">
+                                    Toasts are short, time-sensitive
+                                    notifications that appear after an action is
+                                    performed.
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  class="mt-2 fg-primary text-sm underline flex items-center gap-1"
+                                >
+                                  <span>Configure</span>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
