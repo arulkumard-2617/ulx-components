@@ -30,6 +30,7 @@ export { default as UlxBannerMessage } from './components/elements/ulx-banner-me
 export { default as UlxRating } from './components/elements/ulx-rating/index.gjs';
 export { default as UlxDataView } from './components/elements/ulx-data-view/index.gjs';
 export { default as UlxSkeleton } from './components/elements/ulx-skeleton/index.gjs';
+export { default as UlxEmptyState } from './components/elements/ulx-empty-state/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
 export { default as UlxForm } from './components/collections/ulx-form/index.gjs';

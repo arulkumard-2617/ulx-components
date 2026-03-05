@@ -17,6 +17,9 @@ const enUs = {
 	'lbl.loading': 'Loading',
 	'lbl.image': 'Image',
 	'msg.more.members': '{count} more members',
+	'lbl.a11y.empty.state.content': 'Empty state content',
+	'msg.empty.state.title': 'No results found',
+	'msg.empty.state.subtitle': 'Try adjusting your search or filters to find what you are looking for.',
 
 	// ── Doc common strings ───────────────────────────────────
 	'lbl.collapse.code': 'Collapse code',

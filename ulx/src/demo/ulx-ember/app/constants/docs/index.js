@@ -150,6 +150,11 @@ export const DocNavItems = [
             to: '/components/elements/skeleton',
             route: 'components.elements.skeleton',
           },
+          {
+            menuItem: 'EmptyState',
+            to: '/components/elements/empty-state',
+            route: 'components.elements.empty-state',
+          },
         ],
       },
     ],
