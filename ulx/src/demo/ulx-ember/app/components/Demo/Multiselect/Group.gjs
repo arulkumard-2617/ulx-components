@@ -50,7 +50,7 @@ export default class DemoMultiselectGroup extends Component {
         @selectAll={{true}}
         @placeholder={{t "msg.multiselect.placeholder.city"}}
         @label={{t "lbl.group"}}
-        @fieldClass="col-4"
+        @fieldClass="col-6"
       />
     </div>
   </template>

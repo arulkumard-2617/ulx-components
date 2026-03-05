@@ -5,6 +5,7 @@ import { t } from 'ulx-components';
 import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   BasicDemo,
+  SizeDemo,
   ChipsDemo,
   GroupDemo,
   TemplateDemo,
@@ -19,6 +20,7 @@ import {
   AccessibilityDemo,
   ImportSource,
   BasicSource,
+  SizeSource,
   ChipsSource,
   GroupSource,
   TemplateSource,
@@ -66,6 +68,14 @@ export const MultiselectFeatureItems = [
     BasicDemo,
     BasicSource,
     'basic'
+  ),
+  section(
+    'sizes',
+    'Sizes',
+    'Use the <code>@size</code> argument to change the MultiSelect height: <code>xs-size</code>, <code>s-size</code>, <code>m-size</code>, <code>l-size</code>, <code>xl-size</code>.',
+    SizeDemo,
+    SizeSource,
+    'sizes'
   ),
   section(
     'chips',
