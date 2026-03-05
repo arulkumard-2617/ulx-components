@@ -14,7 +14,8 @@ import {
 	filterItems,
 	paginateItems,
 	exportCSV,
-	reorderArray
+	reorderArray,
+	getFieldValue
 } from "./utils.js";
 import TableHeader from "./table-header.gjs";
 import TableBody from "./table-body.gjs";
@@ -33,6 +34,7 @@ import UlxSlidePane from "../ulx-slide-pane/index.gjs";
 import UlxPopup from "../ulx-popup/index.gjs";
 import UlxAccordion from "../../collections/ulx-accordion/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
+import UlxCard from "../../elements/ulx-card/index.gjs";
 import { t } from "../../../utils/i18n.js";
 import { fn } from "@ember/helper";
 
@@ -73,6 +75,11 @@ import { fn } from "@ember/helper";
  * @param {boolean} [scrollable]     - enable overflow scroll with sticky header
  * @param {string}  [scrollHeight]   - CSS height for scroll container (e.g. '400px')
  * @param {string}  [customClass]    - extra classes on root element
+ * @param {string}  [layout='horizontal'] - 'horizontal' (default) | 'vertical'. In vertical layout,
+ *                                          each row represents a column/property and each column
+ *                                          represents a data record (transposed table).
+ * @param {string}  [verticalLabelField]  - field name from each data record to use as column headers
+ *                                          in vertical layout (e.g. 'name' shows row.name as header)
  *
  * ── Sort ────────────────────────────────────────────────────────────────────
  * @param {string}  [sortMode='single']     - 'single' | 'multiple'
@@ -226,6 +233,9 @@ export default class UlxTable extends Component {
 	@tracked sortPopoverTriggerElement = null;
 	@tracked _sortByString = "";
 
+	// ─── Manage columns popup ─────────────────────────────────────────────────
+	@tracked manageColumnsTriggerElement = null;
+
 	// ─── Filter slide pane (filterGroups) ──────────────────────────────────────
 	@tracked filterPaneOpen = false;
 	@tracked _filterPaneSelections = {};
@@ -256,6 +266,7 @@ export default class UlxTable extends Component {
 			showGridlines,
 			loading,
 			scrollable,
+			layout,
 			customClass
 		} = this.args;
 		const parts = [this.baseClass];
@@ -264,6 +275,7 @@ export default class UlxTable extends Component {
 		showGridlines && parts.push("gridlines");
 		loading && parts.push("loading");
 		scrollable && parts.push("scrollable");
+		layout === "vertical" && parts.push("vertical-layout");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
@@ -465,6 +477,22 @@ export default class UlxTable extends Component {
 
 	get cardViewColumns() {
 		return this.args.cardViewColumns ?? 3;
+	}
+
+	// ─── Vertical layout ──────────────────────────────────────────────────────
+	get isVertical() {
+		return this.args.layout === "vertical";
+	}
+
+	get verticalRows() {
+		return this.orderedColumns.filter(
+			(col) => col.field && !col.selectionMode && !col.expander && !col.rowReorder && !col.rowEditor
+		);
+	}
+
+	@action
+	getCellValue(row, col) {
+		return getFieldValue(row, col.field);
 	}
 
 	// ─── Selection helpers ────────────────────────────────────────────────────
@@ -842,13 +870,15 @@ export default class UlxTable extends Component {
 
 	// ─── Manage columns ────────────────────────────────────────────────────────
 	@action
-	openManageColumns() {
+	openManageColumns(event) {
+		this.manageColumnsTriggerElement = event?.currentTarget ?? null;
 		this.showManagePanel = true;
 	}
 
 	@action
 	closeManageColumns() {
 		this.showManagePanel = false;
+		this.manageColumnsTriggerElement = null;
 	}
 
 	@action
@@ -861,13 +891,13 @@ export default class UlxTable extends Component {
 		this._visibleColumnFields = dataFields;
 		this._columnOrder = columns;
 		this.showManagePanel = false;
+		this.manageColumnsTriggerElement = null;
 	}
 
 	@action
 	handleManageColumnsReset() {
 		this._visibleColumnFields = null;
 		this._columnOrder = null;
-		this.showManagePanel = false;
 	}
 
 	// ─── Row reorder ──────────────────────────────────────────────────────────
@@ -1100,9 +1130,63 @@ export default class UlxTable extends Component {
 				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
 					<div class="ulx-grid gap-4 col-{{this.cardViewColumns}}">
 						{{#each this.pagedData as |row|}}
-							<div class="item">{{yield row to="card"}}</div>
+							<UlxCard>{{yield row to="card"}}</UlxCard>
 						{{/each}}
 					</div>
+					{{#if (and (not @loading) (not this.pagedData.length))}}
+						<div class="datatable-empty-message">
+							{{#if (has-block "emptyMessage")}}{{yield
+									to="emptyMessage"
+								}}{{else}}{{@emptyMessage}}{{/if}}
+						</div>
+					{{/if}}
+				</div>
+			{{else if this.isVertical}}
+				{{! Vertical (transposed) table — rows = properties, columns = data records }}
+				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
+					<table class="{{this.tableClass}} datatable-vertical" role="grid">
+						{{#if @verticalLabelField}}
+							<thead>
+								<tr>
+									<th
+										class="datatable-vertical-corner"
+										scope="col"
+										aria-label={{t "aria.table.vertical.corner"}}
+									></th>
+									{{#each this.pagedData as |row|}}
+										<th class="datatable-vertical-col-header" scope="col">
+											{{getFieldValue row @verticalLabelField}}
+										</th>
+									{{/each}}
+								</tr>
+							</thead>
+						{{/if}}
+						<tbody>
+							{{#each this.verticalRows as |col|}}
+								<tr class="datatable-vertical-row">
+									<th
+										class="datatable-column-header-cell datatable-vertical-row-header"
+										scope="row"
+									>
+										{{col.header}}
+									</th>
+									{{#each this.pagedData as |row rowIdx|}}
+										<td class="datatable-cell">
+											{{#if col.body}}
+												<col.body
+													@row={{row}}
+													@value={{this.getCellValue row col}}
+													@index={{rowIdx}}
+												/>
+											{{else}}
+												{{this.getCellValue row col}}
+											{{/if}}
+										</td>
+									{{/each}}
+								</tr>
+							{{/each}}
+						</tbody>
+					</table>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
 							{{#if (has-block "emptyMessage")}}{{yield
@@ -1258,9 +1342,17 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Manage columns panel }}
-			{{#if this.showManagePanel}}
-				<div class="datatable-manage-columns-overlay" role="presentation">
+			{{! Manage columns panel (in UlxPopup, anchored to trigger button) }}
+			{{#if (and this.showManagePanel this.manageColumnsTriggerElement)}}
+				<UlxPopup
+					@visible={{this.showManagePanel}}
+					@target={{this.manageColumnsTriggerElement}}
+					@position="position-bottom-right"
+					@size="m-size"
+					@closable={{true}}
+					@onHide={{this.closeManageColumns}}
+					@ariaLabel={{t "lbl.manage.columns"}}
+				>
 					<ManageColumns
 						@allColumns={{this.allColumns}}
 						@visibleColumns={{this.visibleColumns}}
@@ -1268,7 +1360,7 @@ export default class UlxTable extends Component {
 						@onClose={{this.closeManageColumns}}
 						@onReset={{this.handleManageColumnsReset}}
 					/>
-				</div>
+				</UlxPopup>
 			{{/if}}
 
 			{{! Filter overlay (menu mode) – portaled to body, position: absolute in document like PrimeReact }}

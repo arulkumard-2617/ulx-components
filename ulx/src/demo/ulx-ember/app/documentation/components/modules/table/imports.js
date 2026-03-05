@@ -25,6 +25,7 @@ export { default as DynamicColumnsDemo }     from '../../../../components/Demo/T
 export { default as CardViewDemo }           from '../../../../components/Demo/Table/CardView';
 export { default as AdvancedFilterDemo }     from '../../../../components/Demo/Table/AdvancedFilter';
 export { default as PortalMembersDemo }      from '../../../../components/Demo/Table/PortalMembers';
+export { default as VerticalTableDemo }      from '../../../../components/Demo/Table/VerticalTable';
 
 export { default as ImportSource }               from './snippets/Import.gjs';
 export { default as BasicSource }                from './snippets/Basic.gjs';
@@ -46,3 +47,4 @@ export { default as DynamicColumnsSource }       from './snippets/DynamicColumns
 export { default as CardViewSource }             from './snippets/CardView.gjs';
 export { default as AdvancedFilterSource }       from './snippets/AdvancedFilter.gjs';
 export { default as PortalMembersSource }        from './snippets/PortalMembers.gjs';
+export { default as VerticalTableSource }        from './snippets/VerticalTable.gjs';

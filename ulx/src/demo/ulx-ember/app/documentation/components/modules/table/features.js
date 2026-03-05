@@ -46,6 +46,8 @@ import {
   CardViewSource,
   PortalMembersDemo,
   PortalMembersSource,
+  VerticalTableDemo,
+  VerticalTableSource,
   ImportSource,
 } from './imports';
 
@@ -64,6 +66,66 @@ export const TableFeatureItems = [
     demo: {
       component: null,
       props: { source: ImportSource, snippetName: 'import', language: 'jsx' },
+    },
+  },
+  {
+    id: 'portal-members',
+    sectionNav: 'BSTable view',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Portal-members style table: <code>@showGlobalFilter</code>, toolbar <code>@sortOptions</code> / <code>@sortBy</code> / <code>@onSortByChange</code>, filter slide pane via <code>@filterGroups</code>, <code>@showManageColumns</code>, and primary action in <code>&lt;:postRightMenu&gt;</code>. Uses custom body for Name & Email (avatar + name + email) and <code>&lt;:optionCell&gt;</code> for row actions.',
+      },
+    },
+    demo: {
+      component: PortalMembersDemo,
+      props: {
+        source: PortalMembersSource,
+        snippetName: 'portal-members',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'card-view',
+    sectionNav: 'Table / Detailed / Card views',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Three view modes: <strong>table</strong> (default), <strong>detailed</strong> (list — one full-width row per item, uls-grid col-12), and <strong>card</strong> (grid — column count from <code>@cardViewColumns</code>). Layouts use ULS <code>uls-grid</code> / <code>uls-column</code> from grid.less. <code>&lt;:customOptions&gt;</code> is shared by all views.',
+      },
+    },
+    demo: {
+      component: CardViewDemo,
+      props: {
+        source: CardViewSource,
+        snippetName: 'card-view',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'vertical-table',
+    sectionNav: 'Vertical Table',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Transpose the table with <code>@layout="vertical"</code>. Each row represents a <strong>property/field</strong> and each column represents a <strong>data record</strong>. Optionally pass <code>@verticalLabelField</code> (e.g. <code>"name"</code>) to render a header row whose cells show that field value from each record.',
+      },
+    },
+    demo: {
+      component: VerticalTableDemo,
+      props: {
+        source: VerticalTableSource,
+        snippetName: 'vertical-table',
+        language: 'handlebars',
+      },
     },
   },
   {
@@ -538,46 +600,6 @@ export const TableFeatureItems = [
       props: {
         source: ContextMenuSource,
         snippetName: 'context-menu',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'portal-members',
-    sectionNav: 'Portal Members',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Portal-members style table: <code>@showGlobalFilter</code>, toolbar <code>@sortOptions</code> / <code>@sortBy</code> / <code>@onSortByChange</code>, filter slide pane via <code>@filterGroups</code>, <code>@showManageColumns</code>, and primary action in <code>&lt;:postRightMenu&gt;</code>. Uses custom body for Name & Email (avatar + name + email) and <code>&lt;:optionCell&gt;</code> for row actions.',
-      },
-    },
-    demo: {
-      component: PortalMembersDemo,
-      props: {
-        source: PortalMembersSource,
-        snippetName: 'portal-members',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'card-view',
-    sectionNav: 'Table / Detailed / Card views',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Three view modes: <strong>table</strong> (default), <strong>detailed</strong> (list — one full-width row per item, uls-grid col-12), and <strong>card</strong> (grid — column count from <code>@cardViewColumns</code>). Layouts use ULS <code>uls-grid</code> / <code>uls-column</code> from grid.less. <code>&lt;:customOptions&gt;</code> is shared by all views.',
-      },
-    },
-    demo: {
-      component: CardViewDemo,
-      props: {
-        source: CardViewSource,
-        snippetName: 'card-view',
         language: 'handlebars',
       },
     },

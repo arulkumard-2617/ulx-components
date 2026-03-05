@@ -113,15 +113,12 @@ export default class DemoTableCardView extends Component {
       @showGlobalFilter={{true}}
     >
       <:card as |row|>
-        <div
-          style="padding: 1rem; border: 1px solid var(--uls-default-border-color, #dee2e6); border-radius: 0.375rem; background: var(--uls-body-bg, #fff);"
-        >
-          <strong>{{row.name}}</strong>
-          <span class="text-sm">{{row.category}} · ${{row.price}}</span>
-          <span
-            class="uls-tag {{statusVariant row.status}} s-size"
-          >{{row.status}}</span>
-        </div>
+        <strong>{{row.name}}</strong>
+        <span class="text-sm">{{row.category}} · ${{row.price}}</span>
+        <span
+          class="uls-tag {{statusVariant row.status}} s-size"
+        >{{row.status}}</span>
+
       </:card>
 
       <:detailed as |row|>

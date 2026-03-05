@@ -7,6 +7,7 @@ import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Manage Columns panel for UlxTable.
@@ -84,7 +85,6 @@ export default class ManageColumns extends Component {
 		this.localOrder = null;
 		this.localVisible = null;
 		this.args.onReset?.();
-		this.args.onClose?.();
 	}
 
 	@action
@@ -112,9 +112,9 @@ export default class ManageColumns extends Component {
 	}
 
 	<template>
-		<div class="datatable-manage-columns-panel" role="dialog" aria-label="Manage columns">
+		<div class="datatable-manage-columns-panel" role="dialog" aria-label={{t "lbl.manage.columns"}}>
 			<div class="datatable-manage-columns-header">
-				<span class="datatable-manage-columns-title">Manage Columns</span>
+				<span class="datatable-manage-columns-title">{{t "lbl.manage.columns"}}</span>
 				<UlxButton
 					@variant="text"
 					@icon="x"
@@ -122,7 +122,7 @@ export default class ManageColumns extends Component {
 					@iconSize="s16"
 					@customClass="datatable-manage-columns-close"
 					@onClick={{@onClose}}
-					aria-label="Close manage columns"
+					aria-label={{t "lbl.close"}}
 				/>
 			</div>
 
@@ -167,8 +167,16 @@ export default class ManageColumns extends Component {
 			</ul>
 
 			<div class="datatable-manage-columns-footer">
-				<UlxButton @variant="text" @label="Reset" @onClick={{this.handleReset}} />
-				<UlxButton @variant="primary" @label="Apply" @onClick={{this.handleApply}} />
+				<UlxButton
+					@variant="text"
+					@icon="arrow-clockwise"
+					@iconComponentClass="bs-icons1"
+					@iconSize="s14"
+					@label={{t "lbl.reset.to.default"}}
+					@onClick={{this.handleReset}}
+				/>
+				<UlxButton @variant="outlined" @label={{t "lbl.cancel"}} @onClick={{@onClose}} />
+				<UlxButton @variant="primary" @label={{t "lbl.save"}} @onClick={{this.handleApply}} />
 			</div>
 		</div>
 	</template>
