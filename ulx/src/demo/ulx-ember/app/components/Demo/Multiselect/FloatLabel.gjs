@@ -31,7 +31,7 @@ export default class DemoMultiselectFloatLabel extends Component {
         @floatLabel={{true}}
         @placeholder={{t "msg.multiselect.placeholder.city"}}
         @label={{t "lbl.dropdown.float.label.city"}}
-        @fieldClass="col-4"
+        @fieldClass="col-6"
       />
     </div>
   </template>

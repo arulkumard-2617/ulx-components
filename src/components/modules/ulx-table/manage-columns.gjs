@@ -3,10 +3,11 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
-import eq from "ember-truth-helpers/helpers/eq";
 import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Manage Columns panel for UlxTable.
@@ -84,7 +85,6 @@ export default class ManageColumns extends Component {
 		this.localOrder = null;
 		this.localVisible = null;
 		this.args.onReset?.();
-		this.args.onClose?.();
 	}
 
 	@action
@@ -112,17 +112,18 @@ export default class ManageColumns extends Component {
 	}
 
 	<template>
-		<div class="datatable-manage-columns-panel" role="dialog" aria-label="Manage columns">
+		<div class="datatable-manage-columns-panel" role="dialog" aria-label={{t "lbl.manage.columns"}}>
 			<div class="datatable-manage-columns-header">
-				<span class="datatable-manage-columns-title">Manage Columns</span>
-				<button
-					type="button"
-					class="datatable-manage-columns-close"
-					aria-label="Close manage columns"
-					{{on "click" @onClose}}
-				>
-					<i class="bs-icons1 x s16" aria-hidden="true"></i>
-				</button>
+				<span class="datatable-manage-columns-title">{{t "lbl.manage.columns"}}</span>
+				<UlxButton
+					@variant="text"
+					@icon="x"
+					@iconComponentClass="bs-icons1"
+					@iconSize="s16"
+					@customClass="datatable-manage-columns-close"
+					@onClick={{@onClose}}
+					aria-label={{t "lbl.close"}}
+				/>
 			</div>
 
 			<ul class="datatable-manage-columns-list" role="list">
@@ -136,19 +137,29 @@ export default class ManageColumns extends Component {
 					>
 						<span class="datatable-manage-columns-drag-handle" aria-hidden="true">
 							{{#if (not (this.isLocked col))}}
-								<i class="bs-icons1 grip-vertical s14" aria-hidden="true"></i>
+								<UlxIcon
+									@componentClass="bs-icons1"
+									@type="font"
+									@iconName="grip-vertical"
+									@size="s14"
+								/>
 							{{/if}}
 						</span>
 						<UlxCheckbox
 							@checked={{this.isVisible col}}
 							@disabled={{this.isLocked col}}
 							@onChange={{fn this.toggleColumn col}}
-							aria-label="Toggle flex-col {{col.header}}"
+							aria-label="Toggle column {{col.header}}"
 						/>
 						<span class="datatable-manage-columns-label">{{col.header}}</span>
 						{{#if (this.isLocked col)}}
-							<span class="datatable-manage-columns-locked-icon" aria-label="flex-col locked">
-								<i class="bs-icons1 lock s12" aria-hidden="true"></i>
+							<span class="datatable-manage-columns-locked-icon" aria-label="Column locked">
+								<UlxIcon
+									@componentClass="bs-icons1"
+									@type="font"
+									@iconName="lock"
+									@size="s12"
+								/>
 							</span>
 						{{/if}}
 					</li>
@@ -156,8 +167,16 @@ export default class ManageColumns extends Component {
 			</ul>
 
 			<div class="datatable-manage-columns-footer">
-				<UlxButton @variant="text" @label="Reset" @onClick={{this.handleReset}} />
-				<UlxButton @variant="primary" @label="Apply" @onClick={{this.handleApply}} />
+				<UlxButton
+					@variant="text"
+					@icon="arrow-clockwise"
+					@iconComponentClass="bs-icons1"
+					@iconSize="s14"
+					@label={{t "lbl.reset.to.default"}}
+					@onClick={{this.handleReset}}
+				/>
+				<UlxButton @variant="outlined" @label={{t "lbl.cancel"}} @onClick={{@onClose}} />
+				<UlxButton @variant="primary" @label={{t "lbl.save"}} @onClick={{this.handleApply}} />
 			</div>
 		</div>
 	</template>

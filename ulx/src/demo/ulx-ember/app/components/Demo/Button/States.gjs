@@ -1,18 +1,13 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { UlxButton, t } from 'ulx-components';
 
 export default class DemoButtonStates extends Component {
-  @tracked loading = false;
-
   @action
   startLoading() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 20000);
+    return new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
   }
 
   <template>
@@ -22,7 +17,7 @@ export default class DemoButtonStates extends Component {
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @loading={{this.loading}}
-        {{on "click" this.startLoading}}
+        @onClick={{this.startLoading}}
       />
     </div>
   </template>

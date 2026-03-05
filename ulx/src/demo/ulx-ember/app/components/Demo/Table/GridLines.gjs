@@ -44,7 +44,7 @@ export default class DemoTableGridLines extends Component {
   columns = columns;
 
   <template>
-    <div class="ulx-grid cols-1 gap-3">
+    <div>
       <div>
         <h4 class="h5 mb-2">Striped Rows</h4>
         <UlxTable
