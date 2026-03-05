@@ -115,6 +115,16 @@ const enUs = {
 	'lbl.username': 'Username',
 	'lbl.enter.username': 'Enter username',
 	'lbl.email': 'Email',
+	'lbl.duration': 'Duration',
+	'lbl.duration.hours': 'Hours',
+	'lbl.duration.minutes': 'Minutes',
+	'lbl.hr': 'Hr',
+	'lbl.min': 'Mins',
+	'lbl.increment': 'Increment',
+	'lbl.decrement': 'Decrement',
+	'lbl.start.time': 'Start Time',
+	'lbl.start.time.placeholder': '12:00 AM',
+	'lbl.to.be.announced': 'To be announced',
 	'msg.username.required': 'Username is required.',
 	'msg.email.required': 'Email is required.',
 	'lbl.website': 'Website',
@@ -164,6 +174,8 @@ const enUs = {
 	'msg.dropdown.error.here': 'Error message here',
 	'lbl.doc.dropdown.title': 'Dropdown - ULS Ember Documentation',
 	'lbl.doc.features': 'FEATURES',
+	'lbl.doc.params': 'PARAMS',
+	'lbl.doc.architecture': 'AECHITECTURE',
 	'lbl.doc.theming': 'THEMING',
 	'lbl.doc.builder': 'BUILDER',
 	'lbl.doc.pass.through': 'PASS THROUGH',
@@ -235,14 +247,14 @@ const enUs = {
 	'lbl.paginator.choose': 'Choose',
 
 	// ── SelectButton demo ────────────────────────────────────
-	"demo.selectbutton.off": "Off",
-	"demo.selectbutton.on": "On",
-	"demo.selectbutton.option1": "Option 1",
-	"demo.selectbutton.option2": "Option 2",
-	"demo.selectbutton.option3": "Option 3",
-	"demo.selectbutton.choose.option": "Choose option",
-	"demo.selectbutton.choose.options": "Choose options",
-	"demo.selectbutton.alignment": "Alignment",
+	'demo.selectbutton.off': 'Off',
+	'demo.selectbutton.on': 'On',
+	'demo.selectbutton.option1': 'Option 1',
+	'demo.selectbutton.option2': 'Option 2',
+	'demo.selectbutton.option3': 'Option 3',
+	'demo.selectbutton.choose.option': 'Choose option',
+	'demo.selectbutton.choose.options': 'Choose options',
+	'demo.selectbutton.alignment': 'Alignment',
 
 	// ── Progress labels ──────────────────────────────────────
 	'lbl.icons': 'icons',
@@ -301,8 +313,7 @@ const enUs = {
 	'lbl.card.advanced': 'Advanced Card',
 	'lbl.card.subtitle': 'Card subtitle',
 	'lbl.card.region': 'Card region',
-	'msg.card.basic.desc':
-		'Card with optional header, title, subtitle, body, and footer content.',
+	'msg.card.basic.desc': 'Card with optional header, title, subtitle, body, and footer content.',
 	'msg.card.advanced.desc':
 		'Card with custom header and footer based on PrimeReact Card advanced example.',
 	'msg.card.accessibility.desc':

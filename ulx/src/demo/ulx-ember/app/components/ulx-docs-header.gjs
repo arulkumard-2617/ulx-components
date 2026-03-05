@@ -21,7 +21,9 @@ export default class UlxDocsHeaderComponent extends Component {
   @tracked isDarkMode = false;
   @tracked selectedTheme = 'default';
   @tracked isAccessibilityOpen = false;
+  @tracked accessibilityAccordionActiveIndex = 0;
   @tracked _saturationLocal = null;
+  @tracked _colorAdjustmentLocal = null;
 
   @service accessibility;
 
@@ -139,12 +141,57 @@ export default class UlxDocsHeaderComponent extends Component {
     return this.saturationFromState;
   }
 
+  get colorAdjustmentOptions() {
+    return [
+      { value: 'bw', label: 'B&W' },
+      { value: 'default', label: 'Default' },
+      { value: 'sepia', label: 'Sepia' },
+    ];
+  }
+
+  get selectedColorAdjustment() {
+    if (this._colorAdjustmentLocal != null) {
+      return this._colorAdjustmentLocal;
+    }
+    const cv = this.accessibilityState.selectedColorValue;
+    if (cv && cv['--ulx-ba-grayscale'] === '100%') return 'bw';
+    if (cv && cv['--ulx-ba-sepia'] === '100%') return 'sepia';
+    return 'default';
+  }
+
   get accessibilitySections() {
     return [
-      { header: 'Vision', id: 'vision', isVision: true, iconName: 'view-icon' },
-      { header: 'Hearing', id: 'hearing', isVision: false, isHearing: true },
-      { header: 'Mobility', id: 'mobility', isVision: false, isMobility: true },
-      { header: 'Learning', id: 'learning', isVision: false, isLearning: true },
+      {
+        header: 'Vision',
+        id: 'vision',
+        isVision: true,
+        iconName: 'view-icon',
+        iconSize: 's22',
+      },
+      {
+        header: 'Hearing',
+        id: 'hearing',
+        isVision: false,
+        isHearing: true,
+        iconName: 'hearing-icon',
+        iconSize: 's22',
+      },
+      {
+        header: 'Mobility',
+        id: 'mobility',
+        isVision: false,
+        isMobility: true,
+        iconName: 'mobility-icon',
+        iconSize: 's22',
+      },
+      {
+        header: 'Learning',
+        id: 'learning',
+        isVision: false,
+        isLearning: true,
+        iconName: 'read-icon',
+        iconSize: 's22',
+      },
     ];
   }
 
@@ -276,6 +323,11 @@ export default class UlxDocsHeaderComponent extends Component {
   }
 
   @action
+  handleAccessibilityTabChange(event) {
+    this.accessibilityAccordionActiveIndex = event.index;
+  }
+
+  @action
   openAccessibilityPane() {
     this.isAccessibilityOpen = true;
     if (typeof window !== 'undefined') {
@@ -331,6 +383,39 @@ export default class UlxDocsHeaderComponent extends Component {
       this.accessibility.setContrast(nextValue);
     }
   }
+
+  @action
+  updateColorAdjustment(nextValue) {
+    const mode =
+      nextValue === 'bw' || nextValue === 'sepia' ? nextValue : 'default';
+    this._colorAdjustmentLocal = mode;
+    const sepia = mode === 'sepia' ? '100%' : '0%';
+    const grayscale = mode === 'bw' ? '100%' : '0%';
+    if (typeof document !== 'undefined' && document.documentElement) {
+      document.documentElement.style.setProperty('--ulx-ba-sepia', sepia);
+      document.documentElement.style.setProperty(
+        '--ulx-ba-grayscale',
+        grayscale,
+      );
+    }
+    this.accessibility.setColorValue?.({
+      '--ulx-ba-sepia': sepia,
+      '--ulx-ba-grayscale': grayscale,
+    });
+  }
+
+  applyColorAdjustmentToDocument = modifier((_element, [mode]) => {
+    if (
+      typeof document === 'undefined' ||
+      !document.documentElement ||
+      mode == null
+    )
+      return;
+    const sepia = mode === 'sepia' ? '100%' : '0%';
+    const grayscale = mode === 'bw' ? '100%' : '0%';
+    document.documentElement.style.setProperty('--ulx-ba-sepia', sepia);
+    document.documentElement.style.setProperty('--ulx-ba-grayscale', grayscale);
+  });
 
   @action
   resetSaturation() {
@@ -528,7 +613,7 @@ export default class UlxDocsHeaderComponent extends Component {
           <UlxButton
             @icon={{if this.isDarkMode "light-mode-icon" "dark-mode-icon"}}
             @iconComponentClass="bs-icons1"
-            @iconSize="s18"
+            @iconSize="s22"
             @variant="basic"
             aria-label={{if
               this.isDarkMode
@@ -564,7 +649,10 @@ export default class UlxDocsHeaderComponent extends Component {
           <div class="ulx-grid col-1 gap-3">
             <UlxAccordion
               @model={{this.accessibilitySections}}
-              @variant="flat"
+              @activeIndex={{this.accessibilityAccordionActiveIndex}}
+              @onTabChange={{this.handleAccessibilityTabChange}}
+              @toggleIconPosition="right"
+              @variant="elevated"
               @size="m-size"
             >
               <:content as |paneSection|>
@@ -595,6 +683,41 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @options={{this.contrastOptions}}
                                 @value={{this.accessibilityState.selectedContrast}}
                                 @onChange={{this.updateContrast}}
+                                @size="s-size"
+                                @variant="primary"
+                                @customClass="mt-3"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="list-item"
+                          {{this.applyColorAdjustmentToDocument
+                            this.selectedColorAdjustment
+                          }}
+                        >
+                          <div class="left-item" aria-hidden="true">
+                            <UlxIcon
+                              @type="svg"
+                              @iconName="svgGrayscale"
+                              @size="s32"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <div class="right-item">
+                            <h6 class="cl-title h7-font">Color Adjustments</h6>
+                            <div class="cl-sub-title">
+                              <span class="text-small">
+                                Grayscale filters remove all colors from the
+                                screen, displaying everything in shades of gray.
+                              </span>
+                            </div>
+                            <div class="mt-2">
+                              <UlxSelectButton
+                                @options={{this.colorAdjustmentOptions}}
+                                @value={{this.selectedColorAdjustment}}
+                                @onChange={{this.updateColorAdjustment}}
                                 @size="s-size"
                                 @variant="primary"
                                 @customClass="mt-3"

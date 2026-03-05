@@ -18,6 +18,26 @@ export default class SymbolDemoComponent extends Component {
         type: undefined,
         customClass: 'with-star',
       },
+      {
+        label: 'with-symbol ●',
+        variant: 'info',
+        type: undefined,
+        customClass: 'with-symbol',
+        symbol: '●',
+      },
+      {
+        label: 'with-symbol ★',
+        variant: 'warning',
+        type: undefined,
+        customClass: 'with-symbol',
+        symbol: '★',
+      },
+      {
+        label: 'running label',
+        variant: 'running-color',
+        type: undefined,
+        customClass: 'running-lbl',
+      },
 
       // Icon positions (UlxTag @iconPosition)
       {
@@ -34,15 +54,6 @@ export default class SymbolDemoComponent extends Component {
         icon: 'close-icon-01',
         iconPosition: 'right',
       },
-      {
-        label: 'icon both sides',
-        variant: 'info',
-        type: undefined,
-        icon: 'comment-icon',
-        iconPosition: 'left',
-        rightIcon: 'session-settings-icon',
-      },
-
       // Icon labels (UlxTag @icon / @iconType)
       {
         label: 'tick icon',
@@ -85,6 +96,7 @@ export default class SymbolDemoComponent extends Component {
           @iconType="font"
           @iconClass="bs-icons1"
           @iconSize="s14"
+          data-symbol={{item.symbol}}
         />
       {{/each}}
     </div>

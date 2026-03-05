@@ -21,7 +21,6 @@ export default class DemoButtonStates extends Component {
         @label={{t "lbl.submit"}}
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
-        @iconSize="s20"
         @loading={{this.loading}}
         {{on "click" this.startLoading}}
       />
