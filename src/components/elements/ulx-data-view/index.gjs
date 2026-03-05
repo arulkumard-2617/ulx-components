@@ -40,16 +40,14 @@ export default class UlxDataView extends Component {
 			class={{this.rootClasses}}
 			role="region"
 			aria-label={{t "aria.dataview.region"}}
-			data-pc-name="dataview"
-			data-pc-section="root"
 			...attributes
 		>
 			{{#if (has-block "header")}}
-				<div class="dataview-header" data-pc-section="header">
+				<div class="dataview-header">
 					{{yield to="header"}}
 				</div>
 			{{/if}}
-			<div class="dataview-content" data-pc-section="content">
+			<div class="dataview-content">
 
 				<div class="uls-grid" role={{this.args.gridRole}}>
 					{{#if (has-block "left")}}
@@ -67,7 +65,7 @@ export default class UlxDataView extends Component {
 				</div>
 
 				{{#if (has-block "footer")}}
-					<div data-pc-section="footer">
+					<div>
 						{{yield to="footer"}}
 					</div>
 				{{/if}}
