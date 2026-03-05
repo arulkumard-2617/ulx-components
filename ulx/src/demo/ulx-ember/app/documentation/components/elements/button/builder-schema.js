@@ -15,7 +15,6 @@ const stateToProps = (state) => {
     raised: state.raised,
     rounded: state.rounded,
     disabled: state.disabled,
-    loading: state.loading,
     fluid: state.fluid,
     badge: state.badge || undefined,
   };
@@ -36,7 +35,6 @@ const stateToSnippet = (state) => {
   if (p.raised) attrs.push('@raised={{true}}');
   if (p.rounded) attrs.push('@rounded={{true}}');
   if (p.disabled) attrs.push('@disabled={{true}}');
-  if (p.loading) attrs.push('@loading={{true}}');
   if (p.fluid) attrs.push('@fluid={{true}}');
   if (p.badge) attrs.push(`@badge="${p.badge}"`);
 
@@ -132,12 +130,6 @@ export default {
     {
       key: 'disabled',
       label: 'Disabled',
-      type: 'checkbox',
-      default: false,
-    },
-    {
-      key: 'loading',
-      label: 'Loading',
       type: 'checkbox',
       default: false,
     },

@@ -77,26 +77,30 @@ export default class DemoTableSort extends Component {
   multiColumns = multiColumns;
 
   <template>
-    <div class="ulx-grid cols-1 gap-3">
-      <h4 class="h5">Single Sort</h4>
-      <UlxTable
-        @value={{this.products}}
-        @columns={{this.columns}}
-        @dataKey="id"
-        @sortMode="single"
-        @removableSort={{true}}
-      />
+    <div>
+      <div>
+        <h4 class="h5 mb-2">Single Sort</h4>
+        <UlxTable
+          @value={{this.products}}
+          @columns={{this.columns}}
+          @dataKey="id"
+          @sortMode="single"
+          @removableSort={{true}}
+        />
+      </div>
 
-      <h4 class="h5 mgt3">Multi Sort</h4>
-      <p class="text-sm fg-text-secondary">Hold Ctrl/Cmd and click flex-col
-        headers for multi-sort.</p>
-      <UlxTable
-        @value={{this.products}}
-        @columns={{this.multiColumns}}
-        @dataKey="id"
-        @sortMode="multiple"
-        @removableSort={{true}}
-      />
+      <div class="mgt3">
+        <h4 class="h5 mb-2">Multi Sort</h4>
+        <p class="text-sm fg-text-secondary mb-2">Hold Ctrl/Cmd and click column
+          headers for multi-sort.</p>
+        <UlxTable
+          @value={{this.products}}
+          @columns={{this.multiColumns}}
+          @dataKey="id"
+          @sortMode="multiple"
+          @removableSort={{true}}
+        />
+      </div>
     </div>
   </template>
 }

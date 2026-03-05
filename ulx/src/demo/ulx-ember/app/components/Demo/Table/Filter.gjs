@@ -1,6 +1,4 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { UlxTable } from 'ulx-components';
 
 const PRODUCTS = [
@@ -96,14 +94,41 @@ const menuFilterCols = [
   { field: 'status', header: 'Status', filter: true },
 ];
 
+const globalFilterCols = [
+  { field: 'name',     header: 'Name' },
+  { field: 'category', header: 'Category' },
+  { field: 'price',    header: 'Price' },
+  { field: 'status',   header: 'Status' },
+];
+
+const globalFilterFields = ['name', 'category', 'price', 'status'];
+
 export default class DemoTableFilter extends Component {
   products = PRODUCTS;
   rowFilterCols = rowFilterCols;
   menuFilterCols = menuFilterCols;
+  globalFilterCols = globalFilterCols;
+  globalFilterFields = globalFilterFields;
 
   <template>
-    <div class="ulx-grid cols-1 gap-3">
+    <div>
       <div>
+        <h4 class="h5 mb-2">Global Search</h4>
+        <p class="text-sm fg-text-secondary mb-2">Use
+          <code>@showGlobalFilter</code>
+          for a built-in search bar. Provide
+          <code>@globalFilterFields</code>
+          to scope which fields are searched.</p>
+        <UlxTable
+          @value={{this.products}}
+          @columns={{this.globalFilterCols}}
+          @dataKey="id"
+          @showGlobalFilter={{true}}
+          @globalFilterFields={{this.globalFilterFields}}
+          @globalFilterPlaceholder="Search products…"
+        />
+      </div>
+      <div class="mgt3">
         <h4 class="h5 mb-2">Row Filter</h4>
         <p class="text-sm fg-text-secondary mb-2">Filter inputs appear in
           flex-col headers.</p>

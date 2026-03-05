@@ -31,8 +31,8 @@ export default class TemplatePaginatorDemo extends Component {
   }
 
   <template>
-    <div class="flex items-center gap-4 fxd-flex-col gpy6">
-      <div class="flex items-center gap-4 fxd-flex-col gap-4">
+    <div class="flex items-center gap-4 flex-col">
+      <div class="flex items-center gap-4 flex-col">
         <UlxPaginator
           @totalRecords={{this.totalRecords}}
           @rows={{this.rows1}}
