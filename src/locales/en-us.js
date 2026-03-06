@@ -338,7 +338,24 @@ const enUs = {
 		'Use role=\"region\" with aria-label when the card should be announced as a landmark.',
 	'msg.card.basic.body':
 		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum.',
-	'lbl.doc.card.title': 'Card - ULS Ember Documentation'
+	'lbl.doc.card.title': 'Card - ULS Ember Documentation',
+
+	// ── Password ─────────────────────────────────────────────
+	'lbl.password': 'Password',
+	'lbl.password.prompt': 'Please enter a password',
+	'lbl.password.weak': 'Weak',
+	'lbl.password.medium': 'Medium',
+	'lbl.password.strong': 'Strong',
+	'lbl.password.show': 'Show Password',
+	'lbl.password.hide': 'Hide Password',
+	'lbl.enter.password': 'Enter password',
+	'lbl.password.pick': 'Pick a password',
+	'lbl.password.suggestions': 'Suggestions',
+	'msg.password.suggestion.lowercase': 'At least one lowercase',
+	'msg.password.suggestion.uppercase': 'At least one uppercase',
+	'msg.password.suggestion.numeric': 'At least one numeric',
+	'msg.password.suggestion.length': 'Minimum 8 characters',
+	'lbl.doc.password.title': 'Password - ULS Ember Documentation'
 };
 
 export default enUs;
