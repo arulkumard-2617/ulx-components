@@ -19,7 +19,7 @@ export default class DemoDropdownVirtualScroll extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxDropdown
         @options={{this.manyOptions}}
         @value={{this.selectedOption}}

@@ -1,31 +1,29 @@
 import { UlxInput, UlxIcon, t } from 'ulx-components';
 
 <template>
-  <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
     <UlxInput
       @inputGroup={{true}}
-      @size="s-size"
       placeholder={{t "lbl.price"}}
       aria-label={{t "lbl.price"}}
       @fieldClass="col-12"
     >
       <:start>
-        <span class="ulx-inputgroup-addon">$</span>
+        <span class="inputgroup-addon text-addon">$</span>
       </:start>
       <:end>
-        <span class="ulx-inputgroup-addon">.00</span>
+        <span class="inputgroup-addon text-addon">.00</span>
       </:end>
     </UlxInput>
 
     <UlxInput
       @inputGroup={{true}}
-      @size="s-size"
       placeholder={{t "lbl.search"}}
       aria-label={{t "lbl.search"}}
       @fieldClass="col-12"
     >
       <:start>
-        <span class="ulx-inputgroup-addon">
+        <span class="inputgroup-addon icon-addon">
           <UlxIcon
             @componentClass="bs-icons1"
             @type="font"

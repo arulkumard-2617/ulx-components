@@ -20,7 +20,7 @@ export default class WithControlsProgressBarDemo extends Component {
         @onChange={{this.updateValue}}
         @min={{1}}
         @max={{200}}
-        @size="m-size"
+        @size="xs-size"
       />
     </div>
   </template>

@@ -111,7 +111,7 @@ export default class UlxDropdown extends Component {
 			error,
 			filled = false,
 			loading = false,
-			size = "s-size",
+			size = "m-size",
 			customClass
 		} = this.args;
 		const invalid = isInvalidState(invalidArg, error);
@@ -140,7 +140,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	get floatLabelClass() {
-		const { size, filled, disabled } = this.args;
+		const { size = "m-size", filled, disabled } = this.args;
 		return buildFloatLabelClass({
 			size,
 			filled,

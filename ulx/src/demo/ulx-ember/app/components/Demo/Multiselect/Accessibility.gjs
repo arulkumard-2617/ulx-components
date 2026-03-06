@@ -22,7 +22,7 @@ export default class DemoMultiselectAccessibility extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxMultiSelect
         id="a11y-multiselect"
         @options={{this.items}}

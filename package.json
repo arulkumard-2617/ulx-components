@@ -141,6 +141,7 @@
       "./components/modules/ulx-table/filter-overlay.js": "./dist/_app_/components/modules/ulx-table/filter-overlay.js",
       "./components/modules/ulx-table/index.js": "./dist/_app_/components/modules/ulx-table/index.js",
       "./components/modules/ulx-table/manage-columns.js": "./dist/_app_/components/modules/ulx-table/manage-columns.js",
+      "./components/modules/ulx-table/sort-options.js": "./dist/_app_/components/modules/ulx-table/sort-options.js",
       "./components/modules/ulx-table/table-body.js": "./dist/_app_/components/modules/ulx-table/table-body.js",
       "./components/modules/ulx-table/table-footer.js": "./dist/_app_/components/modules/ulx-table/table-footer.js",
       "./components/modules/ulx-table/table-header.js": "./dist/_app_/components/modules/ulx-table/table-header.js",

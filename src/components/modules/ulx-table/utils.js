@@ -93,7 +93,7 @@ const MATCH_MODES = {
 
 function matchesConstraint(cellValue, constraint) {
   const { value, matchMode = 'contains' } = constraint;
-  if (value == null || value === '') return true;
+  if (value == null || value === '' || (Array.isArray(value) && value.length === 0)) return true;
   const fn = MATCH_MODES[matchMode];
   return fn ? fn(cellValue, value) : true;
 }
@@ -136,7 +136,8 @@ export function filterItems(items, filters, globalFilterFields) {
         if (!pass) return false;
       } else {
         // Simple: { value, matchMode }
-        if (filterMeta.value == null || filterMeta.value === '') continue;
+        const v = filterMeta.value;
+        if (v == null || v === '' || (Array.isArray(v) && v.length === 0)) continue;
         const cellValue = getFieldValue(row, key);
         if (!matchesConstraint(cellValue, filterMeta)) return false;
       }

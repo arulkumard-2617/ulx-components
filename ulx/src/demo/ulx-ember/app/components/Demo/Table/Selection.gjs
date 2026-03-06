@@ -41,7 +41,7 @@ const PRODUCTS = [
   },
 ];
 
-const singleCols = [
+const dataCols = [
   { field: 'code', header: 'Code' },
   { field: 'name', header: 'Name' },
   { field: 'category', header: 'Category' },
@@ -50,20 +50,25 @@ const singleCols = [
 
 const checkboxCols = [
   { selectionMode: 'multiple' },
-  { field: 'code', header: 'Code' },
-  { field: 'name', header: 'Name' },
-  { field: 'category', header: 'Category' },
-  { field: 'price', header: 'Price ($)' },
+  ...dataCols,
+];
+
+const radioCols = [
+  { selectionMode: 'single' },
+  ...dataCols,
 ];
 
 export default class DemoTableSelection extends Component {
   products = PRODUCTS;
 
   @tracked singleSelection = null;
-  @tracked multiSelection = [];
+  @tracked multipleSelection = [];
+  @tracked checkboxSelection = [];
+  @tracked radioSelection = [];
 
-  singleCols = singleCols;
+  dataCols = dataCols;
   checkboxCols = checkboxCols;
+  radioCols = radioCols;
 
   @action
   onSingleSelect(row) {
@@ -71,18 +76,28 @@ export default class DemoTableSelection extends Component {
   }
 
   @action
-  onMultiSelect(selection) {
-    this.multiSelection = selection;
+  onMultipleSelect(selection) {
+    this.multipleSelection = selection;
+  }
+
+  @action
+  onCheckboxSelect(selection) {
+    this.checkboxSelection = selection;
+  }
+
+  @action
+  onRadioSelect(selection) {
+    this.radioSelection = Array.isArray(selection) ? selection : [selection];
   }
 
   <template>
-    <div class="ulx-grid cols-1 gap-3">
+    <div>
       <div>
         <h4 class="h5 mb-2">Single Row Selection</h4>
         <p class="text-sm fg-text-secondary mb-2">Click a row to select it.</p>
         <UlxTable
           @value={{this.products}}
-          @columns={{this.singleCols}}
+          @columns={{this.dataCols}}
           @dataKey="id"
           @selectionMode="single"
           @selection={{this.singleSelection}}
@@ -95,20 +110,59 @@ export default class DemoTableSelection extends Component {
       </div>
 
       <div class="mgt3">
+        <h4 class="h5 mb-2">Multiple Row Selection</h4>
+        <p class="text-sm fg-text-secondary mb-2">Hold
+          <kbd>Ctrl</kbd>
+          (or
+          <kbd>Cmd</kbd>) and click rows to select multiple. Hold
+          <kbd>Shift</kbd>
+          to range-select.</p>
+        <UlxTable
+          @value={{this.products}}
+          @columns={{this.dataCols}}
+          @dataKey="id"
+          @selectionMode="multiple"
+          @selection={{this.multipleSelection}}
+          @onSelectionChange={{this.onMultipleSelect}}
+        />
+        <p class="mgt2 text-sm">Selected:
+          <strong>{{this.multipleSelection.length}}</strong>
+          row(s)</p>
+      </div>
+
+      <div class="mgt3">
         <h4 class="h5 mb-2">Checkbox Selection</h4>
         <p class="text-sm fg-text-secondary mb-2">Use checkboxes to select
-          multiple rows.</p>
+          multiple rows. The header checkbox toggles all rows.</p>
         <UlxTable
           @value={{this.products}}
           @columns={{this.checkboxCols}}
           @dataKey="id"
           @selectionMode="checkbox"
-          @selection={{this.multiSelection}}
-          @onSelectionChange={{this.onMultiSelect}}
+          @selection={{this.checkboxSelection}}
+          @onSelectionChange={{this.onCheckboxSelect}}
         />
         <p class="mt-2 text-sm">Selected:
-          <strong>{{this.multiSelection.length}}</strong>
+          <strong>{{this.checkboxSelection.length}}</strong>
           row(s)</p>
+      </div>
+
+      <div class="mgt3">
+        <h4 class="h5 mb-2">Radio Button Selection</h4>
+        <p class="text-sm fg-text-secondary mb-2">Use the radio column to
+          select a single row at a time.</p>
+        <UlxTable
+          @value={{this.products}}
+          @columns={{this.radioCols}}
+          @dataKey="id"
+          @selectionMode="radio"
+          @selection={{this.radioSelection}}
+          @onSelectionChange={{this.onRadioSelect}}
+        />
+        {{#if this.radioSelection.length}}
+          <p class="mgt2 text-sm">Selected:
+            <strong>{{this.radioSelection.[0].name}}</strong></p>
+        {{/if}}
       </div>
     </div>
   </template>

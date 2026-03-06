@@ -135,6 +135,11 @@ export default class UlxAccordion extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	@action
+	getHeaderIconSize(item) {
+		return item?.iconSize ?? "s18";
+	}
+
 	getContentTransitionState(index) {
 		return this._contentTransition[index] ?? null;
 	}
@@ -403,7 +408,7 @@ export default class UlxAccordion extends Component {
 										@type="font"
 										@iconName={{item.iconName}}
 										@componentClass="bs-icons1"
-										@size="s18"
+										@size={{this.getHeaderIconSize item}}
 									/>
 								</span>
 							{{/if}}

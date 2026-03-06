@@ -5,15 +5,17 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
+  TemplateDemo,
   KeyfilterDemo,
   SizesDemo,
   FloatlabelDemo,
   FilledDemo,
   InvalidDemo,
-  DisabledDemo,// Sources
+  DisabledDemo,
+  // Sources
   ImportSource,
   BasicSource,
+  TemplateSource,
   KeyfilterSource,
   SizesSource,
   FloatlabelSource,
@@ -57,6 +59,27 @@ export const InputFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "template",
+    sectionNav: "Template",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          'The <code>Template</code> demo shows a common form layout: first and last name inputs, and a checkbox rendered via the new <code>&lt;:bottom&gt;</code> block to feature the speaker.'
+      }
+    },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: "template",
         language: "handlebars"
       }
     }

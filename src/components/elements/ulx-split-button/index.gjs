@@ -32,7 +32,6 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @param {function} [onHide] - Called when dropdown closes
  * @param {string} [dropdownIcon] - Dropdown trigger icon (default session-settings-icon)
  * @param {string} [dropdownIconSize] - Dropdown trigger icon size (default s16)
- * @param {boolean} [loading=false] - Loading state for main button
  * @param {boolean} [disabled=false] - Disables both buttons
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Variant/type
  * @param {boolean} [raised=false] - Raised style
@@ -63,7 +62,7 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get isDisabled() {
-		return this.args.disabled || this.args.loading;
+		return this.args.disabled;
 	}
 
 	get menuItems() {
@@ -146,7 +145,7 @@ export default class UlxSplitButton extends Component {
 			return;
 		}
 		const { onClick } = this.args;
-		if (typeof onClick === "function") onClick(event);
+		if (typeof onClick === "function") return onClick(event);
 	}
 
 	@action
@@ -196,7 +195,6 @@ export default class UlxSplitButton extends Component {
 					<UlxButton
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
-						@loading={{@loading}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
 						@raised={{@raised}}
@@ -215,7 +213,6 @@ export default class UlxSplitButton extends Component {
 						@label={{@label}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
-						@loading={{@loading}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
 						@raised={{@raised}}
@@ -235,7 +232,6 @@ export default class UlxSplitButton extends Component {
 						@icon={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
-						@loading={{@loading}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
 						@raised={{@raised}}
@@ -254,7 +250,6 @@ export default class UlxSplitButton extends Component {
 						@icon={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
-						@loading={{@loading}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
 						@raised={{@raised}}

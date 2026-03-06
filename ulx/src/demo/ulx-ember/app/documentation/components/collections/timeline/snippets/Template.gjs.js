@@ -23,7 +23,7 @@ export default class TemplateTimelineDemo extends Component {
         </:opposite>
 
         <:marker as |item|>
-          <span class="ifxb center-all">
+          <span class="flex center-all">
             <UlxIcon @type="font" @iconName={{item.icon}} />
           </span>
         </:marker>

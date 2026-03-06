@@ -61,6 +61,11 @@ export const DocNavItems = [
             route: 'components.elements.dropdown',
           },
           {
+            menuItem: 'MultiSelect',
+            to: '/components/collections/multiselect',
+            route: 'components.collections.multiselect',
+          },
+          {
             menuItem: 'Rating',
             to: '/components/elements/rating',
             route: 'components.elements.rating',
@@ -230,11 +235,6 @@ export const DocNavItems = [
             menuItem: 'Form',
             to: '/components/collections/form',
             route: 'components.collections.form',
-          },
-          {
-            menuItem: 'MultiSelect',
-            to: '/components/collections/multiselect',
-            route: 'components.collections.multiselect',
           },
         ],
       },
