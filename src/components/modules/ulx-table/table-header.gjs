@@ -266,31 +266,31 @@ export default class TableHeader extends Component {
 					{{/if}}
 				{{/each}}
 
-			{{#if @hasOptionCell}}
-				<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
-			{{/if}}
+				{{#if @hasOptionCell}}
+					<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
+				{{/if}}
 
-			{{#if @showManageColumns}}
-				<th
-					class="datatable-column-header-cell"
-					scope="col"
-					style="width: 2.5rem; padding: 0.5rem;"
-				>
-					<UlxButton
-						@variant="text"
-						@icon="sliders"
-						@iconComponentClass="bs-icons1"
-						@iconSize="s16"
-						@onClick={{@onManageColumns}}
-						aria-label="Manage columns"
-					/>
-				</th>
-			{{/if}}
-		</tr>
+				{{#if @showManageColumns}}
+					<th
+						class="datatable-column-header-cell"
+						scope="col"
+						style="width: 2.5rem; padding: 0.5rem;"
+					>
+						<UlxButton
+							@variant="text"
+							@icon="sliders"
+							@iconComponentClass="bs-icons1"
+							@iconSize="s16"
+							@onClick={{@onManageColumns}}
+							aria-label="Manage columns"
+						/>
+					</th>
+				{{/if}}
+			</tr>
 
-		{{! Separate filter row — rendered below header row when filterDisplay="row" (matches PrimeReact BasicFilter structure) }}
-		{{#if (eq @filterDisplay "row")}}
-			<tr class="datatable-header-row">
+			{{! Separate filter row — rendered below header row when filterDisplay="row" (matches PrimeReact BasicFilter structure) }}
+			{{#if (eq @filterDisplay "row")}}
+				<tr class="datatable-header-row">
 					{{#each @columns as |col|}}
 						{{#if (not col)}}
 							{{! skip undefined column entries }}
@@ -353,7 +353,7 @@ export default class TableHeader extends Component {
 										/>
 										<UlxButton
 											@variant="text"
-											@icon="x-circle"
+											@icon="close-icon-01"
 											@iconComponentClass="bs-icons1"
 											@iconSize="s12"
 											@customClass={{this.filterClearButtonClass col}}
@@ -365,15 +365,15 @@ export default class TableHeader extends Component {
 							</th>
 						{{/if}}
 					{{/each}}
-				{{#if @hasOptionCell}}
-					<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
-				{{/if}}
+					{{#if @hasOptionCell}}
+						<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
+					{{/if}}
 
-				{{#if @showManageColumns}}
-					<th class="datatable-column-header-cell" scope="col" style="width: 2.5rem;"></th>
-				{{/if}}
-			</tr>
-		{{/if}}
-	</thead>
+					{{#if @showManageColumns}}
+						<th class="datatable-column-header-cell" scope="col" style="width: 2.5rem;"></th>
+					{{/if}}
+				</tr>
+			{{/if}}
+		</thead>
 	</template>
 }

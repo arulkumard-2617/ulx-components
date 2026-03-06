@@ -115,15 +115,7 @@ export default class ManageColumns extends Component {
 		<div class="datatable-manage-columns-panel" role="dialog" aria-label={{t "lbl.manage.columns"}}>
 			<div class="datatable-manage-columns-header">
 				<span class="datatable-manage-columns-title">{{t "lbl.manage.columns"}}</span>
-				<UlxButton
-					@variant="text"
-					@icon="x"
-					@iconComponentClass="bs-icons1"
-					@iconSize="s16"
-					@customClass="datatable-manage-columns-close"
-					@onClick={{@onClose}}
-					aria-label={{t "lbl.close"}}
-				/>
+
 			</div>
 
 			<ul class="datatable-manage-columns-list" role="list">
@@ -136,30 +128,24 @@ export default class ManageColumns extends Component {
 						{{on "drop" (fn this.handleDrop index)}}
 					>
 						<span class="datatable-manage-columns-drag-handle" aria-hidden="true">
-							{{#if (not (this.isLocked col))}}
-								<UlxIcon
-									@componentClass="bs-icons1"
-									@type="font"
-									@iconName="grip-vertical"
-									@size="s14"
-								/>
-							{{/if}}
+							<UlxIcon
+								@componentClass="bs-icons1"
+								@type="font"
+								@iconName="dragdrop-icon1"
+								@size="s14"
+							/>
 						</span>
 						<UlxCheckbox
 							@checked={{this.isVisible col}}
 							@disabled={{this.isLocked col}}
+							@itemLabel={{col.header}}
 							@onChange={{fn this.toggleColumn col}}
+							@customClass="datatable-manage-columns-label"
 							aria-label="Toggle column {{col.header}}"
 						/>
-						<span class="datatable-manage-columns-label">{{col.header}}</span>
 						{{#if (this.isLocked col)}}
 							<span class="datatable-manage-columns-locked-icon" aria-label="Column locked">
-								<UlxIcon
-									@componentClass="bs-icons1"
-									@type="font"
-									@iconName="lock"
-									@size="s12"
-								/>
+								<UlxIcon @componentClass="bs-icons1" @type="font" @iconName="lock" @size="s12" />
 							</span>
 						{{/if}}
 					</li>
@@ -169,7 +155,7 @@ export default class ManageColumns extends Component {
 			<div class="datatable-manage-columns-footer">
 				<UlxButton
 					@variant="text"
-					@icon="arrow-clockwise"
+					@icon="reset-icon"
 					@iconComponentClass="bs-icons1"
 					@iconSize="s14"
 					@label={{t "lbl.reset.to.default"}}

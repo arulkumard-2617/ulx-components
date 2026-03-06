@@ -35,6 +35,8 @@ import UlxPopup from "../ulx-popup/index.gjs";
 import UlxAccordion from "../../collections/ulx-accordion/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxCard from "../../elements/ulx-card/index.gjs";
+import UlxChip from "../../elements/ulx-chip/index.gjs";
+import UlxDataView from "../../elements/ulx-data-view/index.gjs";
 import { t } from "../../../utils/i18n.js";
 import { fn } from "@ember/helper";
 
@@ -239,6 +241,10 @@ export default class UlxTable extends Component {
 	// ─── Filter slide pane (filterGroups) ──────────────────────────────────────
 	@tracked filterPaneOpen = false;
 	@tracked _filterPaneSelections = {};
+
+	// ─── Filter bubble popup ──────────────────────────────────────────────────
+	@tracked activeFilterBubbleField = null;
+	@tracked filterBubbleTriggerEl = null;
 
 	// ─── Resize state ────────────────────────────────────────────────────────
 	_resizingColIndex = null;
@@ -639,8 +645,69 @@ export default class UlxTable extends Component {
 
 	get showClearFiltersBar() {
 		const fd = this.args.filterDisplay;
-		const hasColumnFilters = (fd === "menu" || fd === "row") && this.hasFilterableColumns;
-		return (hasColumnFilters || this.args.showGlobalFilter) && this.hasActiveFilters;
+		return fd === "row" && this.hasFilterableColumns && this.hasActiveFilters;
+	}
+
+	get showFilterBubblesBar() {
+		return this.hasActiveFilters;
+	}
+
+	get activeFilterBubbles() {
+		const bubbles = [];
+		const processedFields = new Set();
+
+		for (const group of this.filterGroups) {
+			const meta = this.filters[group.key];
+			if (!meta) continue;
+			const values = Array.isArray(meta.value) ? meta.value : [meta.value].filter(Boolean);
+			if (!values.length) continue;
+			const labels = values.map(
+				(v) => group.options?.find((o) => o.value === v)?.label ?? String(v)
+			);
+			bubbles.push({
+				field: group.key,
+				label: group.heading ?? group.key,
+				displayValue: labels.join(", "),
+				type: "pane",
+				meta,
+				group
+			});
+			processedFields.add(group.key);
+		}
+
+		for (const col of this.allColumns) {
+			if (!col.filter) continue;
+			const field = col.filterField ?? col.field;
+			if (processedFields.has(field)) continue;
+			const meta = this.filters[field];
+			if (!meta) continue;
+			const constraints = meta.constraints ?? [{ value: meta.value, matchMode: meta.matchMode }];
+			const ruleCount = constraints.length;
+			const firstValue = constraints[0]?.value;
+			const displayValue =
+				ruleCount > 1
+					? `${ruleCount} ${ruleCount === 1 ? "rule" : "rules"}`
+					: Array.isArray(firstValue)
+						? firstValue.join(", ")
+						: String(firstValue ?? "");
+			bubbles.push({
+				field,
+				label: col.header ?? field,
+				displayValue,
+				ruleCount,
+				type: "column",
+				meta,
+				col
+			});
+			processedFields.add(field);
+		}
+
+		return bubbles;
+	}
+
+	get activeBubble() {
+		if (!this.activeFilterBubbleField) return null;
+		return this.activeFilterBubbles.find((b) => b.field === this.activeFilterBubbleField) ?? null;
 	}
 
 	@action
@@ -688,6 +755,61 @@ export default class UlxTable extends Component {
 	@action
 	closeFilterOverlay() {
 		this.filterOverlayColumn = null;
+	}
+
+	@action
+	openFilterBubble(bubble, event) {
+		this.filterBubbleTriggerEl = event?.currentTarget ?? null;
+		this.activeFilterBubbleField = bubble.field;
+		if (bubble.type === "pane") {
+			const meta = this.filters[bubble.field];
+			const val = meta?.value;
+			this._filterPaneSelections = {
+				...this._filterPaneSelections,
+				[bubble.field]: Array.isArray(val) ? [...val] : val != null ? [val] : []
+			};
+		}
+	}
+
+	@action
+	closeFilterBubble() {
+		this.activeFilterBubbleField = null;
+		this.filterBubbleTriggerEl = null;
+	}
+
+	@action
+	deleteFilterFromBubble(field) {
+		const updated = { ...this.filters };
+		delete updated[field];
+		this._filters = updated;
+		this._first = 0;
+		this.filterOverlayColumn = null;
+		this.closeFilterBubble();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+	}
+
+	@action
+	applyFilterFromBubble(field, meta) {
+		const updated = { ...this.filters, [field]: meta };
+		this._filters = updated;
+		this._first = 0;
+		this.closeFilterBubble();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+	}
+
+	@action
+	applyPaneFilterFromBubble(field) {
+		const arr = this._filterPaneSelections[field];
+		const updated = { ...this.filters };
+		if (Array.isArray(arr) && arr.length > 0) {
+			updated[field] = { value: arr, matchMode: "in" };
+		} else {
+			delete updated[field];
+		}
+		this._filters = updated;
+		this._first = 0;
+		this.closeFilterBubble();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
 	}
 
 	@action
@@ -1079,14 +1201,75 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Common clear filters bar (menu or row filter when any filter is active) }}
+			{{! Row-mode clear filters bar }}
 			{{#if this.showClearFiltersBar}}
-				<div class="datatable-clear-filters-bar">
+				<div class="datatable-clear-filters-bar py-2">
 					<UlxButton
 						@variant="text"
 						@label={{t "lbl.clear.filters"}}
 						@onClick={{this.handleClearAllFilters}}
 						aria-label={{t "lbl.clear.filters"}}
+					/>
+				</div>
+			{{/if}}
+
+			{{! Filter bubbles bar — shown whenever any filter is active }}
+			{{#if this.showFilterBubblesBar}}
+				<div
+					class="datatable-filter-bubbles-bar flex flex-row flex-wrap items-center gap-2 py-2"
+					role="group"
+					aria-label={{t "lbl.filter"}}
+				>
+					{{#each this.activeFilterBubbles as |bubble|}}
+						<div class="datatable-filter-bubble-item flex items-center">
+							<UlxButton
+								@variant="outlined"
+								@size="s-size"
+								@customClass="filter-bubble-trigger"
+								@onClick={{fn this.openFilterBubble bubble}}
+								aria-haspopup="true"
+								aria-expanded={{eq this.activeFilterBubbleField bubble.field}}
+							>
+								<:default>
+									<UlxChip @size="s-size" @customClass="filter-bubble-chip">
+										<UlxIcon
+											@iconName="filter-icon"
+											@componentClass="bs-icons1"
+											@type="font"
+											@size="s12"
+											aria-hidden="true"
+										/>
+										<span class="filter-bubble-label">
+											{{bubble.label}}:
+											<strong>{{bubble.displayValue}}</strong>
+										</span>
+										<UlxIcon
+											@iconName="down-arrow-filled-icon"
+											@componentClass="bs-icons1"
+											@type="font"
+											@size="s12"
+											aria-hidden="true"
+										/>
+									</UlxChip>
+								</:default>
+							</UlxButton>
+							<UlxButton
+								@variant="text"
+								@size="s-size"
+								@icon="remove-icon"
+								@iconComponentClass="bs-icons1"
+								@iconSize="s12"
+								@customClass="filter-bubble-remove-btn"
+								@onClick={{fn this.deleteFilterFromBubble bubble.field}}
+								aria-label={{t "lbl.delete.filter"}}
+							/>
+						</div>
+					{{/each}}
+					<UlxButton
+						@variant="text"
+						@size="s-size"
+						@label={{t "lbl.clear.filters"}}
+						@onClick={{this.handleClearAllFilters}}
 					/>
 				</div>
 			{{/if}}
@@ -1109,14 +1292,18 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Detailed view (list view — one full-width row per item; uses ulx-grid from grid.less) }}
+			{{! Detailed view (list view — uses UlxDataView) }}
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
 				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<div class="ulx-dataview">
-						{{#each this.pagedData as |row|}}
-							<div class="ulx-dataview-list-item">{{yield row to="detailed"}}</div>
-						{{/each}}
-					</div>
+					<UlxDataView @layout="list" @gridRole="list">
+						<:content>
+							{{#each this.pagedData as |row|}}
+								<div class="ulx-dataview-list-item">
+									{{yield row to="detailed"}}
+								</div>
+							{{/each}}
+						</:content>
+					</UlxDataView>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
 							{{#if (has-block "emptyMessage")}}{{yield
@@ -1360,6 +1547,79 @@ export default class UlxTable extends Component {
 						@onClose={{this.closeManageColumns}}
 						@onReset={{this.handleManageColumnsReset}}
 					/>
+				</UlxPopup>
+			{{/if}}
+
+			{{! Filter bubble edit popup }}
+			{{#if (and this.activeBubble this.filterBubbleTriggerEl)}}
+				<UlxPopup
+					@visible={{true}}
+					@target={{this.filterBubbleTriggerEl}}
+					@position="position-bottom-left"
+					@size="m-size"
+					@dismissable={{true}}
+					@onHide={{this.closeFilterBubble}}
+					@ariaLabel={{t "lbl.filter"}}
+				>
+					{{#if (eq this.activeBubble.type "column")}}
+						<FilterOverlay
+							@column={{this.activeBubble.col}}
+							@filterMeta={{this.activeBubble.meta}}
+							@onApply={{this.applyFilterFromBubble}}
+							@onClear={{this.deleteFilterFromBubble}}
+							@onClose={{this.closeFilterBubble}}
+						/>
+					{{else}}
+						<div class="datatable-filter-pane-bubble-popup flex flex-col gap-3">
+							<div class="filter-pane-bubble-header flex justify-between items-center">
+								<span class="filter-pane-bubble-title">{{this.activeBubble.label}}</span>
+								<div class="filter-pane-bubble-header-actions flex items-center gap-2">
+									<UlxButton
+										@variant="text"
+										@size="s-size"
+										@icon="trash-icon"
+										@iconComponentClass="bs-icons1"
+										@iconSize="s14"
+										@label={{t "lbl.delete.filter"}}
+										@onClick={{fn this.deleteFilterFromBubble this.activeBubble.field}}
+									/>
+									<UlxButton
+										@variant="text"
+										@size="s-size"
+										@icon="close-icon-01"
+										@iconComponentClass="bs-icons1"
+										@iconSize="s18"
+										@onClick={{this.closeFilterBubble}}
+										aria-label={{t "lbl.close"}}
+									/>
+								</div>
+							</div>
+							<div class="filter-pane-bubble-body flex flex-col gap-2">
+								{{#each this.activeBubble.group.options as |opt|}}
+									<UlxCheckbox
+										@itemLabel={{opt.label}}
+										@checked={{this.isFilterPaneOptionChecked
+											this.activeBubble.group.key
+											opt.value
+										}}
+										@onCheckedChange={{fn
+											this.updateFilterPaneSelection
+											this.activeBubble.group.key
+											opt.value
+										}}
+									/>
+								{{/each}}
+							</div>
+							<div class="filter-pane-bubble-footer flex justify-end">
+								<UlxButton
+									@variant="primary"
+									@size="s-size"
+									@label={{t "lbl.apply.filter"}}
+									@onClick={{fn this.applyPaneFilterFromBubble this.activeBubble.field}}
+								/>
+							</div>
+						</div>
+					{{/if}}
 				</UlxPopup>
 			{{/if}}
 

@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import { t } from "ulx-components";
+import { t } from "../../../utils/i18n.js";
 import { eq, lte, and, or, not } from "ember-truth-helpers";
 import { fn } from "@ember/helper";
 import UlxIcon from "../ulx-icon/index.gjs";
