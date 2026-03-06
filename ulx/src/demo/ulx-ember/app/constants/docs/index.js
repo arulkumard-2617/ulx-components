@@ -70,6 +70,16 @@ export const DocNavItems = [
             to: '/components/elements/rating',
             route: 'components.elements.rating',
           },
+          {
+            menuItem: 'Slider',
+            to: '/components/elements/slider',
+            route: 'components.elements.slider',
+          },
+          {
+            menuItem: 'Password',
+            to: '/components/elements/password',
+            route: 'components.elements.password',
+          },
         ],
       },
       {
@@ -154,6 +164,11 @@ export const DocNavItems = [
             menuItem: 'Skeleton',
             to: '/components/elements/skeleton',
             route: 'components.elements.skeleton',
+          },
+          {
+            menuItem: 'EmptyState',
+            to: '/components/elements/empty-state',
+            route: 'components.elements.empty-state',
           },
         ],
       },

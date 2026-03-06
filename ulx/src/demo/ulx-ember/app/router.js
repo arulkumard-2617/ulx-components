@@ -46,6 +46,9 @@ Router.map(function () {
       this.route('data-view');
       this.route('rating');
       this.route('skeleton');
+      this.route('empty-state');
+      this.route('password');
+      this.route('slider');
     });
     this.route('modules', function () {
       this.route('toast');

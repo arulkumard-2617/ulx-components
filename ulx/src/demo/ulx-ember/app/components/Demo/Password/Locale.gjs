@@ -1,0 +1,29 @@
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxPassword, t } from 'ulx-components';
+
+export default class DemoPasswordLocale extends Component {
+  @tracked value = '';
+
+  @action
+  handleInput(event) {
+    this.value = event.target.value;
+  }
+
+  <template>
+    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+      <UlxPassword
+        @value={{this.value}}
+        @onInput={{this.handleInput}}
+        @promptLabel="Choose a password"
+        @weakLabel="Too simple"
+        @mediumLabel="Average complexity"
+        @strongLabel="Complex password"
+        @label={{t "lbl.password"}}
+        @fieldClass="col-12"
+        placeholder={{t "lbl.enter.password"}}
+      />
+    </div>
+  </template>
+}
