@@ -71,6 +71,11 @@ export const DocNavItems = [
             route: 'components.elements.rating',
           },
           {
+            menuItem: 'Slider',
+            to: '/components/elements/slider',
+            route: 'components.elements.slider',
+          },
+          {
             menuItem: 'Password',
             to: '/components/elements/password',
             route: 'components.elements.password',

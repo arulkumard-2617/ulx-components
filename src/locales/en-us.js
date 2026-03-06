@@ -131,6 +131,15 @@ const enUs = {
 	'lbl.rating': 'Rating',
 	'lbl.rating.cancel': 'Reset rating',
 
+	// ── Slider ────────────────────────────────────────────────
+	'lbl.slider': 'Slider',
+	'lbl.value': 'Value',
+	'lbl.step': 'Step',
+	'lbl.range': 'Range',
+	'lbl.min.price': 'Min price',
+	'lbl.products': 'Products',
+	'msg.slider.keyboard.hint': 'Keyboard: Arrow keys, Home/End, PageUp/PageDown.',
+
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',
 	'lbl.label': 'label',
