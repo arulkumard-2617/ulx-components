@@ -6,10 +6,10 @@ import { t } from 'ulx-components';
 
 export default class BasicChipDemo extends Component {
   @tracked chips = [
-    { id: 1, label: t('lbl.chip.action'), removable: false },
-    { id: 2, label: t('lbl.chip.comedy'), removable: false },
-    { id: 3, label: t('lbl.chip.mystery'), removable: false },
-    { id: 4, label: t('lbl.chip.thriller'), removable: true },
+    { id: 1, label: t('lbl.chip.action'), size: 'm-size', removable: false },
+    { id: 2, label: t('lbl.chip.comedy'), size: 'm-size', removable: false },
+    { id: 3, label: t('lbl.chip.mystery'), size: 'm-size', removable: false },
+    { id: 4, label: t('lbl.chip.thriller'), size: 'm-size', removable: true },
   ];
 
   @action
@@ -24,6 +24,7 @@ export default class BasicChipDemo extends Component {
           @label={{chip.label}}
           @removable={{chip.removable}}
           @onRemove={{this.handleRemove}}
+          @size={{chip.size}}
         />
       {{/each}}
     </div>

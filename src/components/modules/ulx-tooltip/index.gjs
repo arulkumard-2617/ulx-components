@@ -40,7 +40,7 @@ function ensureFocusableForTooltip(element) {
  *
  * @class UlxTooltip
  * @param {string} [content] - Tooltip text. Ignored when using <:content> block.
- * @param {string} [position='right'] - Position: 'top' | 'right' | 'bottom' | 'left'
+ * @param {string} [position='bottom'] - Position: 'top' | 'right' | 'bottom' | 'left'
  * @param {string} [event='both'] - When to show: 'hover' | 'focus' | 'both'. Default 'both' for WCAG (tooltip on keyboard focus).
  * @param {number} [showDelay=0] - Delay in ms before showing
  * @param {number} [hideDelay=0] - Delay in ms before hiding
@@ -60,7 +60,7 @@ function ensureFocusableForTooltip(element) {
  */
 export default class UlxTooltip extends Component {
 	@tracked visible = false;
-	@tracked positionState = "right";
+	@tracked positionState = "bottom";
 	triggerElement = null;
 	tooltipElement = null;
 	_showTimeout = null;
@@ -95,7 +95,7 @@ export default class UlxTooltip extends Component {
 	}
 
 	get tooltipPosition() {
-		return this.args.position ?? "right";
+		return this.args.position ?? "bottom";
 	}
 
 	get shouldCloseOnEscape() {
@@ -153,7 +153,7 @@ export default class UlxTooltip extends Component {
 	}
 
 	_doShow(event) {
-		this.positionState = this.args.position ?? "right";
+		this.positionState = this.args.position ?? "bottom";
 		this.visible = true;
 		this._allowHide = true;
 		this.args.onShow?.({ originalEvent: event, target: this.triggerElement });

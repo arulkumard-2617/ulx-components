@@ -276,7 +276,7 @@ export default class DocSidebarComponent extends Component {
       <nav class="sidebar-nav grow">
         <ol class="s-nav-list">
           {{#each this.filteredNavItems as |item|}}
-            <li class="s-nav-item mb-4">
+            <li class="s-nav-item mb-4" data-a11y="focus">
               {{#if item.to}}
                 {{#if (this.hasChildren item)}}
                   {{! Parent with children - dropdown button only (not LinkTo) }}
@@ -378,14 +378,14 @@ export default class DocSidebarComponent extends Component {
                   <ol class="s-nav-list mgt1 ps-2 py-3">
                     {{#each item.children as |childItem|}}
                       {{#if childItem.category}}
-                        <li class="s-nav-item pb-2 pt-2">
+                        <li class="s-nav-item pb-2 pt-2" data-a11y="focus">
                           <div
                             class="s-nav-category medium-font fg-text-secondary text-uppercase text-12"
                           >{{childItem.category}}</div>
                           {{#if childItem.items}}
                             <ol class="s-nav-list pt-2">
                               {{#each childItem.items as |subItem|}}
-                                <li class="s-nav-item">
+                                <li class="s-nav-item" data-a11y="focus">
                                   {{#if subItem.slug}}
                                     <LinkTo
                                       @route={{subItem.route}}
@@ -410,7 +410,7 @@ export default class DocSidebarComponent extends Component {
                           {{/if}}
                         </li>
                       {{else}}
-                        <li class="s-nav-item">
+                        <li class="s-nav-item" data-a11y="focus">
                           <LinkTo
                             @route={{childItem.route}}
                             @activeClass="border-primary fg-primary"

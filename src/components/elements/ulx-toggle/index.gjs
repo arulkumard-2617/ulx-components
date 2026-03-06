@@ -63,14 +63,14 @@ export default class UlxToggle extends Component {
 
 	get sliderClasses() {
 		const { checked = false } = this.args;
-		const parts = [`${this.baseClass}-slider`];
+		const parts = ["inputswitch-slider"];
 		checked && parts.push("checked");
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get inputClasses() {
 		const { disabled = false } = this.args;
-		const parts = [`${this.baseClass}-input`];
+		const parts = ["inputswitch-input"];
 		disabled && parts.push("disabled");
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}

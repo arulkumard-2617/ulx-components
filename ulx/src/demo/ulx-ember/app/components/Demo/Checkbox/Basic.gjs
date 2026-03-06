@@ -16,7 +16,7 @@ export default class BasicCheckboxDemo extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxCheckbox
         @rules={{this.requiredRules}}
         @size="s-size"
