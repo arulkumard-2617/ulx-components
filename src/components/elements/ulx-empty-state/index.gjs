@@ -29,19 +29,7 @@ export default class UlxEmptyState extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
-	get iconWrapperClass() {
-		return getComponentClass("empty-state-icon");
-	}
-
-	get titleClass() {
-		return getComponentClass("empty-state-title");
-	}
-
-	get subtitleClass() {
-		return getComponentClass("empty-state-subtitle");
-	}
-
-	get navClass() {
+	get actionClass() {
 		const marginClass = this.args.marginClass ?? DEFAULT_MARGIN_CLASS;
 		const base = getComponentClass("empty-state-nav");
 		return `${base} ${marginClass}`.trim();
@@ -67,7 +55,7 @@ export default class UlxEmptyState extends Component {
 		<div aria-label={{this.ariaLabel}} ...attributes>
 			<div class={{this.rootClasses}}>
 				{{#if @iconName}}
-					<div class={{this.iconWrapperClass}}>
+					<div class="empty-state-icon">
 						<UlxIcon
 							@type="svg"
 							@componentClass="empty-svg-size"
@@ -78,17 +66,17 @@ export default class UlxEmptyState extends Component {
 					</div>
 				{{/if}}
 				{{#if @headerText}}
-					<h4 class={{this.titleClass}} aria-describedby="empty-state-subtitle">
+					<h4 class="empty-state-title" aria-describedby="empty-state-subtitle">
 						{{this.headerDisplay}}
 					</h4>
 				{{/if}}
 				{{#if @subHeaderText}}
-					<h6 class={{this.subtitleClass}} id="empty-state-subtitle" aria-hidden="true">
+					<h6 class="empty-state-subtitle" id="empty-state-subtitle" aria-hidden="true">
 						{{this.subHeaderDisplay}}
 					</h6>
 				{{/if}}
 				{{#if (has-block)}}
-					<div class={{this.navClass}}>
+					<div class={{this.actionClass}}>
 						{{yield}}
 					</div>
 				{{/if}}
