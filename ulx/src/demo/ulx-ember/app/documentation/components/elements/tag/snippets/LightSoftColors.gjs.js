@@ -42,5 +42,5 @@ export default class LightSoftColorsTagDemo extends Component {
   </template>
 }
 
-`;
 
+`;

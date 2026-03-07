@@ -29,14 +29,6 @@ export default class HorizontalTimelineDemo extends Component {
         </div>
 
         <div>
-          <UlxTimeline @model={{this.years}} @layout="horizontal" @align="top">
-            <:content as |item|>
-              {{item}}
-            </:content>
-          </UlxTimeline>
-        </div>
-
-        <div>
           <UlxTimeline
             @model={{this.years}}
             @layout="horizontal"

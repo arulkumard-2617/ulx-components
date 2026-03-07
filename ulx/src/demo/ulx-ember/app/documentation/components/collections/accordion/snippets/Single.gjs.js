@@ -60,5 +60,6 @@ export default class SingleAccordionDemo extends Component {
     </div>
   </template>
 }
-`;
 
+
+`;

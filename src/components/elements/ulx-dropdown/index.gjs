@@ -126,6 +126,10 @@ export default class UlxDropdown extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get dropdownSize() {
+		return this.args.size ?? "m-size";
+	}
+
 	get focusItemClass() {
 		return getComponentClass("focus");
 	}
@@ -958,7 +962,7 @@ export default class UlxDropdown extends Component {
 								{{/if}}
 								{{#if (and @loading)}}
 									<span class="dropdown-loading-icon" aria-hidden="true">
-										<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+										<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 									</span>
 								{{else}}
 									{{#if (has-block "icon")}}
@@ -1022,7 +1026,7 @@ export default class UlxDropdown extends Component {
 								{{/if}}
 								{{#if (and @loading)}}
 									<span class="dropdown-loading-icon" aria-hidden="true">
-										<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+										<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 									</span>
 								{{else}}
 									{{#if (has-block "icon")}}
@@ -1101,7 +1105,7 @@ export default class UlxDropdown extends Component {
 							{{/if}}
 							{{#if (and @loading)}}
 								<span class="dropdown-loading-icon" aria-hidden="true">
-									<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+									<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 								</span>
 							{{else}}
 								{{#if (has-block "icon")}}
@@ -1165,7 +1169,7 @@ export default class UlxDropdown extends Component {
 							{{/if}}
 							{{#if (and @loading)}}
 								<span class="dropdown-loading-icon" aria-hidden="true">
-									<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+									<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 								</span>
 							{{else}}
 								{{#if (has-block "icon")}}

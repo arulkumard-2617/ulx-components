@@ -23,42 +23,49 @@ export default class DemoInputGroupVerticalStack extends Component {
     return { min: { value: this.minuteMin }, max: { value: this.minuteMax } };
   }
 
-  @action updateHours(event) {
+  @action
+  updateHours(event) {
     const num = Number(event.target.value);
     if (!Number.isNaN(num)) {
       this.hours = Math.max(this.hourMin, Math.min(this.hourMax, num));
     }
   }
 
-  @action updateMinutes(event) {
+  @action
+  updateMinutes(event) {
     const num = Number(event.target.value);
     if (!Number.isNaN(num)) {
       this.minutes = Math.max(this.minuteMin, Math.min(this.minuteMax, num));
     }
   }
 
-  @action incrementHours() {
+  @action
+  incrementHours() {
     this.hours = Math.min(this.hourMax, this.hours + 1);
   }
 
-  @action decrementHours() {
+  @action
+  decrementHours() {
     this.hours = Math.max(this.hourMin, this.hours - 1);
   }
 
-  @action incrementMinutes() {
+  @action
+  incrementMinutes() {
     this.minutes = Math.min(this.minuteMax, this.minutes + 1);
   }
 
-  @action decrementMinutes() {
+  @action
+  decrementMinutes() {
     this.minutes = Math.max(this.minuteMin, this.minutes - 1);
   }
 
   <template>
     <div class="ulx-form m-size mb-14">
       <div class="field col-12">
-        <span class="field-label">{{t "lbl.duration"}}</span>
-
-        <div class="ulx-grid gap-8">
+        <label>
+          <span class="label-text">{{t "lbl.duration"}}</span>
+        </label>
+        <div class="ulx-grid gap-3">
           <UlxInput
             @inputGroup={{true}}
             @type="number"
@@ -66,7 +73,7 @@ export default class DemoInputGroupVerticalStack extends Component {
             @rules={{this.hourRules}}
             @onChange={{this.updateHours}}
             aria-label={{t "lbl.duration.hours"}}
-            @fieldClass="col-6"
+            @fieldClass="col-2"
           >
             <:end>
               <span class="inputgroup-addon text-addon">{{t "lbl.hr"}}</span>
@@ -100,7 +107,7 @@ export default class DemoInputGroupVerticalStack extends Component {
             @rules={{this.minuteRules}}
             @onChange={{this.updateMinutes}}
             aria-label={{t "lbl.duration.minutes"}}
-            @fieldClass="col-6"
+            @fieldClass="col-2"
           >
             <:end>
               <span class="inputgroup-addon text-addon">{{t "lbl.min"}}</span>
@@ -131,4 +138,5 @@ export default class DemoInputGroupVerticalStack extends Component {
     </div>
   </template>
 }
+
 `;

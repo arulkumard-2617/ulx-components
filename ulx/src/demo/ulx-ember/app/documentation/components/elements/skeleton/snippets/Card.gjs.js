@@ -21,4 +21,5 @@ export default class DemoSkeletonCard extends Component {
     </div>
   </template>
 }
+
 `;

@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import { t } from "ulx-components";
+import { t } from "../../../utils/i18n";
 import { eq, lte, and, or, not } from "ember-truth-helpers";
 import { fn } from "@ember/helper";
 import UlxIcon from "../ulx-icon/index.gjs";
@@ -22,7 +22,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {boolean} [cancel=true] - Whether to show the cancel (reset) icon.
  * @param {boolean} [readOnly=false] - When true, value cannot be changed.
  * @param {boolean} [disabled=false] - Disables interaction.
- * @param {string} [size="m-size"] - Size: xs-size, s-size, m-size, l-size, xl-size.
+ * @param {string} [size="xxs-size"] - Size: xxxs-size, xxs-size, xs-size, s-size, m-size, l-size, xl-size.
  * @param {string} [variant] - Optional: "filled" or "elevated".
  * @param {string} [customClass] - Extra CSS classes on root.
  * @param {string} [ariaLabel] - Accessible name for the rating group (default from i18n).
@@ -33,11 +33,11 @@ export default class UlxRating extends Component {
 	}
 
 	get iconClass() {
-		return `${this.baseClass}-icon`;
+		return "rating-icon";
 	}
 
 	get rootClasses() {
-		const { size = "m-size", variant, disabled = false, readOnly = false, customClass } = this.args;
+		const { size = "xxs-size", variant, disabled = false, readOnly = false, customClass } = this.args;
 
 		const parts = [this.baseClass];
 		parts.push(size);
@@ -140,7 +140,6 @@ export default class UlxRating extends Component {
 						@type="font"
 						@iconName="taken-icon"
 						@componentClass="bs-icons1"
-						@size="s20"
 						@customClass="{{this.iconClass}} cancelicon"
 						role="button"
 						tabindex="0"
@@ -162,7 +161,9 @@ export default class UlxRating extends Component {
 						tabindex={{if
 							this.isInteractive
 							(if
-								(or (eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1)))
+								(or
+									(eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))
+								)
 								"0"
 								"-1"
 							)
@@ -186,7 +187,6 @@ export default class UlxRating extends Component {
 							"ls-star-stroke-icon"
 						}}
 						@componentClass="bs-icons1"
-						@size="s20"
 						@customClass="{{this.iconClass}} {{if (lte starValue this.currentValue) 'onicon' ''}}"
 						role="radio"
 						aria-checked={{eq starValue this.currentValue}}
@@ -196,7 +196,9 @@ export default class UlxRating extends Component {
 						tabindex={{if
 							this.isInteractive
 							(if
-								(or (eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1)))
+								(or
+									(eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))
+								)
 								"0"
 								"-1"
 							)

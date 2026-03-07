@@ -46,4 +46,5 @@ export default class DemoSkeletonList extends Component {
     </div>
   </template>
 }
+
 `;

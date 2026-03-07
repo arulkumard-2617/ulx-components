@@ -211,6 +211,7 @@ const enUs = {
 	'lbl.multiselect.select.all': 'Select All',
 	'lbl.multiselect.accessible': 'Accessible MultiSelect',
 	'lbl.multiselect.allow.addition': 'Allow addition',
+	'lbl.multiselect.tags': 'Tags',
 	'label.add': 'Add',
 	'msg.multiselect.placeholder': 'Select items',
 	'msg.multiselect.placeholder.city': 'Select cities',
@@ -219,6 +220,15 @@ const enUs = {
 	'msg.multiselect.filter.placeholder': 'Search',
 	'msg.multiselect.choose.items': 'Choose items',
 	'msg.multiselect.items.selected': '{count} items selected',
+	'msg.multiselect.tags.help':
+		'Use keywords or phrases that describe your event to help everyone find it easily. Separate multiple tags with commas.',
+
+	// ── Tristate checkbox ────────────────────────────────────
+	'lbl.tristate.checkbox.label': 'Accept terms',
+	'lbl.tristate.checked': 'Checked',
+	'lbl.tristate.indeterminate': 'Indeterminate',
+	'lbl.tristate.unchecked': 'Unchecked',
+	'aria.tristate.checkbox.state': 'Tri-state checkbox: {state}',
 
 	// ── Avatar labels ────────────────────────────────────────
 	'lbl.square': 'Square',

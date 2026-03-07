@@ -37,7 +37,7 @@ export default class InvalidRadioDemo extends Component {
       <UlxRadio
         @rules={{this.requiredRules}}
         @label={{t "lbl.with.label"}}
-        @size="s-size"
+        @size="xxxs-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}

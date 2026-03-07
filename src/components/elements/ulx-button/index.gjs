@@ -205,7 +205,6 @@ export default class UlxButton extends Component {
 		const { label } = this.args;
 		const parts = ["icon"];
 		if (!(this.hasIcon && !label)) parts.push(this.iconPosition);
-		if (this.hasIcon && !this.effectiveLoading) parts.push("fx-item", "self-center");
 		return parts.filter(Boolean).join(" ");
 	}
 

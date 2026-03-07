@@ -10,6 +10,7 @@ const initProducts = () => [
   { id: 3, code: 'zz21cz3c1', name: 'Blue Band', category: 'Fitness', price: 79 },
   { id: 4, code: '244wgerg2', name: 'Blue T-Shirt', category: 'Clothing', price: 29 },
   { id: 5, code: 'h456wer53', name: 'Bracelet', category: 'Accessories', price: 15 },
+  { id: 6, code: 'mbvjkgc55', name: 'Brown Purse', category: 'Accessories', price: 120 },
 ];
 
 const columns = [
@@ -30,6 +31,9 @@ export default class DemoTableRowReorder extends Component {
   }
 
   <template>
+    <p class="text-sm fg-text-secondary mb-2">
+      Drag the handle icon in the first column to reorder rows.
+    </p>
     <UlxTable
       @value={{this.products}}
       @columns={{this.columns}}
@@ -38,4 +42,5 @@ export default class DemoTableRowReorder extends Component {
     />
   </template>
 }
+
 `;

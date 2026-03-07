@@ -10,7 +10,7 @@ import UlxButton from "../ulx-button/index.gjs";
  * from 0–100%; indeterminate shows an animated sliding bar.
  *
  * ## Sizes (progress-bar.less)
- * - xs-size, s-size, m-size, l-size, xl-size
+ * - xxxs-size, xs-size, s-size, m-size, l-size, xl-size
  *
  * ## Variant (progress-bar.less)
  * - secondary, success, info, warning, danger
@@ -33,7 +33,8 @@ import UlxButton from "../ulx-button/index.gjs";
  * @param {number} [step=1] - Increment/decrement amount for controls.
  * @param {number} [min=0] - Minimum value when using controls.
  * @param {number} [max=100] - Maximum value when using controls.
- * @param {string} [size] - Size class from parent (e.g. xs-size, s-size, m-size). Omit for default.
+ * @param {string} [size="xxxs-size"] - Size class (e.g. xxxs-size, xs-size, s-size, m-size).
+ * @param {string} [iconSize] - Optional icon size for control buttons (e.g. s12). No default; only applied when provided.
  * @param {'secondary'|'success'|'info'|'warning'|'danger'} [variant] - Bar color variant.
  * @param {string} [customClass] - Additional CSS classes
  * @param {string} [componentClass] - Override base component class (default from getComponentClass('progressbar'))
@@ -73,7 +74,7 @@ export default class UlxProgressBar extends Component {
 
 	get valueStyleWithControls() {
 		if (this.isIndeterminate) return undefined;
-		return `width: ${this.fillPercentForControls}%`;
+		return `width: ${this.controlsValuePercent}%`;
 	}
 
 	get controlsValuePercent() {
@@ -82,7 +83,7 @@ export default class UlxProgressBar extends Component {
 	}
 
 	get sizeClass() {
-		return this.args.size || "s-size";
+		return this.args.size ?? "xxxs-size";
 	}
 
 	get showValue() {
@@ -145,17 +146,15 @@ export default class UlxProgressBar extends Component {
 
 	get barClassesWithControls() {
 		const parts = this.rootClasses.split(" ");
-		return parts
-			.filter((c) => c !== "show-value" && c !== "hide-value")
-			.join(" ");
+		return parts.filter((c) => c !== "show-value" && c !== "hide-value").join(" ");
 	}
 
 	get withControlsWrapperClass() {
-		const parts = [`${this.baseClass}-with-controls`];
-		if (this.sizeClass) {
-			parts.push(this.sizeClass);
-		}
-		return parts.join(" ");
+		return `${this.baseClass}-with-controls`;
+	}
+
+	get controlsIconSize() {
+		return this.args.iconSize;
 	}
 
 	@action
@@ -192,7 +191,7 @@ export default class UlxProgressBar extends Component {
 			<div class={{this.withControlsWrapperClass}}>
 				<UlxButton
 					@icon="hr-tag-icon"
-					@iconSize="s12"
+					@iconSize={{this.controlsIconSize}}
 					@variant="outlined"
 					@iconComponentClass="bs-icons1"
 					@size="compact"
@@ -210,22 +209,24 @@ export default class UlxProgressBar extends Component {
 					...attributes
 				>
 					<div class="progressbar-value" style={{this.valueStyleWithControls}} aria-hidden="true">
-						{{#unless this.isIndeterminate}}
-							{{#if (has-block "content")}}
-								<div class="progressbar-label" aria-hidden="true">
-									{{yield this.controlsValuePercent to="content"}}
-								</div>
-							{{else}}
-								<div class="progressbar-label" aria-hidden="true">
-									{{this.controlsValuePercent}}%
-								</div>
-							{{/if}}
-						{{/unless}}
+						{{#if this.showValue}}
+							{{#unless this.isIndeterminate}}
+								{{#if (has-block "content")}}
+									<div class="progressbar-label" aria-hidden="true">
+										{{yield this.controlsValuePercent to="content"}}
+									</div>
+								{{else}}
+									<div class="progressbar-label" aria-hidden="true">
+										{{this.controlsValuePercent}}%
+									</div>
+								{{/if}}
+							{{/unless}}
+						{{/if}}
 					</div>
 				</div>
 				<UlxButton
 					@icon="add-icon-01"
-					@iconSize="s12"
+					@iconSize={{this.controlsIconSize}}
 					@iconComponentClass="bs-icons1"
 					@variant="outlined"
 					@size="compact"

@@ -6,9 +6,6 @@ import { UlxBannerMessage, UlxIcon, UlxAvatar } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class CustomIconMessagesDemo extends Component {
-  avatarImageUrl =
-    'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png';
-
   @tracked messages = [
     {
       id: '1',
@@ -24,6 +21,7 @@ export default class CustomIconMessagesDemo extends Component {
       sticky: true,
       closable: true,
       customContent: true,
+      img: 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
     },
   ];
 
@@ -38,7 +36,7 @@ export default class CustomIconMessagesDemo extends Component {
         {{#if message.customContent}}
           <UlxAvatar
             @type="image"
-            @image={{this.avatarImageUrl}}
+            @image={{message.img}}
             @ariaLabel={{t "lbl.image"}}
           />
           <div>{{t "msg.messages.custom.icon.help"}}</div>
@@ -59,4 +57,5 @@ export default class CustomIconMessagesDemo extends Component {
     </UlxBannerMessage>
   </template>
 }
+
 `;

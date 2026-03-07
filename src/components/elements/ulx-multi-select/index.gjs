@@ -141,6 +141,7 @@ export default class UlxMultiSelect extends Component {
 		invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		filled && parts.push("filled");
+		this.overlayVisible && parts.push("open");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
@@ -402,6 +403,10 @@ export default class UlxMultiSelect extends Component {
 		return selectAllLabel !== undefined ? selectAllLabel : t("lbl.select.all");
 	}
 
+	get selectAllHeaderLabel() {
+		return this.isFilterEnabled ? undefined : this.selectAllItemLabel;
+	}
+
 	get allowOptionSelect() {
 		const { selectionLimit, value } = this.args;
 		if (!selectionLimit) return true;
@@ -579,7 +584,9 @@ export default class UlxMultiSelect extends Component {
 		);
 
 		const boundaryTop = useBody ? 0 : container.scrollTop;
-		const boundaryBottom = useBody ? window.innerHeight : container.scrollTop + container.clientHeight;
+		const boundaryBottom = useBody
+			? window.innerHeight
+			: container.scrollTop + container.clientHeight;
 
 		const spaceBelow = Math.max(0, boundaryBottom - triggerBottom - spacing - viewportPadding);
 		const spaceAbove = Math.max(0, triggerTop - boundaryTop - spacing - viewportPadding);
@@ -592,7 +599,10 @@ export default class UlxMultiSelect extends Component {
 		const useAbove = maxWrapperAbove > maxWrapperBelow;
 		const wrapperMax = useAbove ? maxWrapperAbove : maxWrapperBelow;
 
-		wrapperEl && (wrapperEl.style.maxHeight = `${wrapperMax}px`);
+		if (wrapperEl) {
+			wrapperEl.style.maxHeight = `${wrapperMax}px`;
+			wrapperEl.style.height = `${wrapperMax}px`;
+		}
 
 		const panelHeight = chromeH + wrapperMax;
 		const desiredTop = useAbove ? triggerTop - panelHeight - spacing : triggerBottom + spacing;
@@ -743,22 +753,28 @@ export default class UlxMultiSelect extends Component {
 		const containerForScroll = this.resolveRenderContainer();
 		window.addEventListener("scroll", onScrollOrResize, true);
 		window.addEventListener("resize", onScrollOrResize);
-		containerForScroll && containerForScroll !== document.body && containerForScroll.addEventListener("scroll", onScrollOrResize, true);
+		containerForScroll &&
+			containerForScroll !== document.body &&
+			containerForScroll.addEventListener("scroll", onScrollOrResize, true);
 		return () => {
 			window.removeEventListener("scroll", onScrollOrResize, true);
 			window.removeEventListener("resize", onScrollOrResize);
-			containerForScroll && containerForScroll !== document.body && containerForScroll.removeEventListener("scroll", onScrollOrResize, true);
+			containerForScroll &&
+				containerForScroll !== document.body &&
+				containerForScroll.removeEventListener("scroll", onScrollOrResize, true);
 		};
 	});
 
-	repositionOnLayoutChange = modifier((element, [when, selectedCount, headerShown, footerShown]) => {
-		if (!when || !element) return;
-		// Runs when these args change while overlay is open (e.g. footer appears after selecting).
-		schedule("afterRender", () => {
-			this.alignPanelToTrigger(element);
-			requestAnimationFrame(() => this.alignPanelToTrigger(element));
-		});
-	});
+	repositionOnLayoutChange = modifier(
+		(element, [when, selectedCount, headerShown, footerShown]) => {
+			if (!when || !element) return;
+			// Runs when these args change while overlay is open (e.g. footer appears after selecting).
+			schedule("afterRender", () => {
+				this.alignPanelToTrigger(element);
+				requestAnimationFrame(() => this.alignPanelToTrigger(element));
+			});
+		}
+	);
 
 	scrollFocusedIntoView = modifier(
 		(element, [when, focusedIndex, listId, useVirtual, itemSize]) => {
@@ -1166,9 +1182,8 @@ export default class UlxMultiSelect extends Component {
 								{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 							{{else}}
 								<UlxIcon
-									@iconName="down-arrow-icon"
+									@iconName="down-stroke-icon-new multiselect-icon"
 									@type="font"
-									@size="s22"
 									@componentClass="bs-icons1"
 									aria-hidden="true"
 								/>
@@ -1275,9 +1290,8 @@ export default class UlxMultiSelect extends Component {
 							{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 						{{else}}
 							<UlxIcon
-								@iconName="down-arrow-icon"
+								@iconName="down-stroke-icon-new multiselect-icon"
 								@type="font"
-								@size="s22"
 								@componentClass="bs-icons1"
 								aria-hidden="true"
 							/>
@@ -1312,7 +1326,7 @@ export default class UlxMultiSelect extends Component {
 								<div class="multiselect-header-checkbox-container">
 									<UlxTristateCheckbox
 										@value={{this.headerTristateValue}}
-										@itemLabel={{this.selectAllItemLabel}}
+										@itemLabel={{this.selectAllHeaderLabel}}
 										@onValueChange={{this.onHeaderTristateChange}}
 									/>
 								</div>
@@ -1332,7 +1346,6 @@ export default class UlxMultiSelect extends Component {
 									<UlxButton
 										@label={{t "label.add"}}
 										@variant="primary"
-										@size="s-size"
 										@onClick={{this.addItem}}
 										@disabled={{not this.canAddItem}}
 									/>
@@ -1403,7 +1416,10 @@ export default class UlxMultiSelect extends Component {
 													style="height: {{this.virtualItemSize}}px;"
 													{{on "click" (fn this.selectOption entry)}}
 												>
-													<span class="multiselect-item-checkbox" {{on "click" this.stopItemCheckboxClick}}>
+													<span
+														class="multiselect-item-checkbox"
+														{{on "click" this.stopItemCheckboxClick}}
+													>
 														<UlxCheckbox
 															@checked={{this.isOptionSelected option}}
 															@onCheckedChange={{fn this.onItemCheckboxChange entry}}
@@ -1471,7 +1487,10 @@ export default class UlxMultiSelect extends Component {
 													tabindex="-1"
 													{{on "click" (fn this.selectOption row.entry)}}
 												>
-													<span class="multiselect-item-checkbox" {{on "click" this.stopItemCheckboxClick}}>
+													<span
+														class="multiselect-item-checkbox"
+														{{on "click" this.stopItemCheckboxClick}}
+													>
 														<UlxCheckbox
 															@checked={{this.isOptionSelected option}}
 															@onCheckedChange={{fn this.onItemCheckboxChange row.entry}}
@@ -1517,7 +1536,10 @@ export default class UlxMultiSelect extends Component {
 												tabindex="-1"
 												{{on "click" (fn this.selectOption entry)}}
 											>
-												<span class="multiselect-item-checkbox" {{on "click" this.stopItemCheckboxClick}}>
+												<span
+													class="multiselect-item-checkbox"
+													{{on "click" this.stopItemCheckboxClick}}
+												>
 													<UlxCheckbox
 														@checked={{this.isOptionSelected option}}
 														@onCheckedChange={{fn this.onItemCheckboxChange entry}}
@@ -1547,7 +1569,9 @@ export default class UlxMultiSelect extends Component {
 							</ul>
 						{{/if}}
 					</div>
-					{{#if (or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))}}
+					{{#if
+						(or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))
+					}}
 						<div class="multiselect-footer">
 							<div class="multiselect-footer-left">
 								{{#if (has-block "footer")}}

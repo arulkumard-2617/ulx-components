@@ -33,9 +33,7 @@ export default class VariantMessagesDemo extends Component {
     ];
   }
 
-  <template>
-    <UlxBannerMessage @messages={{this.messages}} />
-  </template>
+  <template><UlxBannerMessage @messages={{this.messages}} /></template>
 }
 
 `;

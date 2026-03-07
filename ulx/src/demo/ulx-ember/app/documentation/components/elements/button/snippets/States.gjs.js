@@ -16,8 +16,9 @@ export default class DemoButtonStates extends Component {
       <UlxButton
         @label={{t "lbl.submit"}}
         @icon="ls-tick-icon"
+        @iconSize="s18"
         @iconComponentClass="bs-icons1"
-        @iconSize="s20"
+        @loading={{this.loading}}
         @onClick={{this.startLoading}}
       />
     </div>

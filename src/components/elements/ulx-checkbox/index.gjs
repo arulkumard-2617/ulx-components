@@ -54,7 +54,7 @@ function buildCheckboxId(namespace, idArg, key) {
  * @param {boolean} [disabled=false] - Whether the checkbox is disabled (single mode) or disables all items (group mode).
  * @param {boolean} [invalid=false] - Whether the field is in invalid state.
  * @param {boolean} [filled=false] - Whether to use filled variant styling.
- * @param {string} [size] - Size variant: "xs-size", "s-size", "m-size", "l-size", "xl-size".
+ * @param {string} [size="xxxs-size"] - Size variant: "xxxs-size", "xs-size", "s-size", "m-size", "l-size", "xl-size".
  *
  * @param {string} [fieldClass] - Extra classes for the field wrapper (appended to base `field`).
  * @param {string} [groupClass] - Extra classes for the items wrapper (appended to base `ulx-checkbox-group`).

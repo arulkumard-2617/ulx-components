@@ -23,7 +23,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [removeIcon] - Icon name for remove button; defaults to close icon from bs-icons1.
  * @param {Function} [onRemove] - Callback (event, value) when remove is triggered; value is label, image, or icon context.
  * @param {Function} [onImageError] - Callback when image fails to load.
- * @param {string} [size] - Size class (e.g. "s-size", "m-size"); applied to root.
+ * @param {string} [size="m-size"] - Size class (e.g. "s-size", "m-size"); applied to root.
  * @param {string} [customClass] - Extra CSS classes appended to the root.
  * @param {string} [componentClass] - Override base component class.
  */

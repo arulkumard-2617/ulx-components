@@ -685,7 +685,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @onChange={{this.updateContrast}}
                                 @size="s-size"
                                 @variant="primary"
-                                @customClass="mt-3"
+                                @customClass="mt-3 fluid"
                               />
                             </div>
                           </div>
@@ -720,7 +720,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @onChange={{this.updateColorAdjustment}}
                                 @size="s-size"
                                 @variant="primary"
-                                @customClass="mt-3"
+                                @customClass="mt-3 fluid"
                               />
                             </div>
                           </div>
@@ -760,17 +760,22 @@ export default class UlxDocsHeaderComponent extends Component {
                                 preference.
                               </span>
                             </div>
-                            <div class="mt-2">
-                              <UlxProgressBar
-                                @showControls={{true}}
-                                @value={{this.saturationValue}}
-                                @onChange={{this.updateSaturation}}
-                                @min={{0}}
-                                @max={{200}}
-                                @size="xs-size"
-                              >
-                                <:content>{{this.saturationValue}}%</:content>
-                              </UlxProgressBar>
+                            <div class="mt-2 flex gap-4 align-items-center">
+                              <div class="grow">
+                                <UlxProgressBar
+                                  @iconSize="s12"
+                                  @showControls={{true}}
+                                  @showValue={{false}}
+                                  @value={{this.saturationValue}}
+                                  @onChange={{this.updateSaturation}}
+                                  @min={{0}}
+                                  @max={{200}}
+                                  @size="h-14"
+                                />
+                              </div>
+                              <span
+                                class="fg-text-secondary"
+                              >{{this.saturationValue}}%</span>
                             </div>
                           </div>
                         </div>
@@ -799,7 +804,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @onChange={{this.updateTextSpacing}}
                                 @size="s-size"
                                 @variant="primary"
-                                @customClass="mt-3"
+                                @customClass="mt-3 fluid"
                               />
                             </div>
                           </div>
@@ -829,7 +834,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @onChange={{this.updateTextSize}}
                                 @size="s-size"
                                 @variant="primary"
-                                @customClass="mt-3"
+                                @customClass="mt-3 fluid"
                               >
                                 <:item as |item|>
                                   <div class="flex flex-col items-start">
@@ -880,7 +885,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                   @onChange={{this.updateReadingGuideLevel}}
                                   @size="s-size"
                                   @variant="primary"
-                                  @customClass="mt-3"
+                                  @customClass="mt-3 fluid"
                                 />
                               </div>
                             {{/if}}
@@ -923,7 +928,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                   @onChange={{this.updateReadingLineLevel}}
                                   @size="s-size"
                                   @variant="primary"
-                                  @customClass="mt-3"
+                                  @customClass="mt-3 fluid"
                                 />
                               </div>
                             {{/if}}
@@ -1059,7 +1064,7 @@ export default class UlxDocsHeaderComponent extends Component {
                                   @onChange={{this.updateZoomLevel}}
                                   @size="s-size"
                                   @variant="primary"
-                                  @customClass="mt-3"
+                                  @customClass="mt-3 fluid"
                                 />
                               </div>
                             {{/if}}
