@@ -1,3 +1,4 @@
+export default `
 import Component from '@glimmer/component';
 import { UlxBannerMessage, UlxButton } from 'ulx-components';
 import { t } from 'ulx-components';
@@ -20,11 +21,12 @@ export default class BasicMessagesDemo extends Component {
     <UlxBannerMessage @messages={{this.messages}}>
       <:action>
         <UlxButton
-          @variant="primary"
-          @outlined={{true}}
+          @variant="outlined"
           @label={{t "lbl.view.more.details"}}
         />
       </:action>
     </UlxBannerMessage>
   </template>
 }
+
+`;

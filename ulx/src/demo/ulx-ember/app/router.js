@@ -21,6 +21,8 @@ Router.map(function () {
       this.route('multiselect');
       this.route('timeline');
       this.route('card');
+      this.route('message');
+      this.route('messages');
     });
     this.route('elements', function () {
       this.route('icon');
@@ -40,14 +42,12 @@ Router.map(function () {
       this.route('tristate-checkbox');
       this.route('toggle');
       this.route('dropdown');
-      this.route('message');
-      this.route('messages');
       this.route('select-button');
-      this.route('data-view');
       this.route('rating');
       this.route('skeleton');
     });
     this.route('modules', function () {
+      this.route('data-view');
       this.route('toast');
       this.route('tieredmenu');
       this.route('panel-menu');

@@ -8,19 +8,11 @@ import {
   VariantDemo,
   DynamicDemo,
   ClosableDemo,
-  StickyDemo,
-  CustomIconDemo,
-  TemplateDemo,
-  AccessibilityDemo,
   ImportSource,
   BasicSource,
   VariantSource,
   DynamicSource,
   ClosableSource,
-  StickySource,
-  CustomIconSource,
-  TemplateSource,
-  AccessibilitySource,
 } from './imports';
 
 const section = (id, sectionNav, content, Demo, Source, snippetName) => ({
@@ -80,38 +72,6 @@ export const MessagesFeatureItems = [
     ClosableDemo,
     ClosableSource,
     'closable'
-  ),
-  section(
-    'sticky',
-    t('lbl.sticky'),
-    t('msg.messages.sticky.desc'),
-    StickyDemo,
-    StickySource,
-    'sticky'
-  ),
-  section(
-    'custom-icon',
-    t('lbl.custom.icon'),
-    t('msg.messages.custom.icon.desc'),
-    CustomIconDemo,
-    CustomIconSource,
-    'custom-icon'
-  ),
-  section(
-    'template',
-    t('lbl.template'),
-    t('msg.messages.template.desc'),
-    TemplateDemo,
-    TemplateSource,
-    'template'
-  ),
-  section(
-    'accessibility',
-    t('lbl.doc.section.accessibility'),
-    'Messages use role="alert", aria-live="assertive", aria-atomic="true" per message; close button has aria-label.',
-    AccessibilityDemo,
-    AccessibilitySource,
-    'accessibility'
   ),
 ];
 

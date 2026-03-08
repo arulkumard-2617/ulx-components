@@ -3,10 +3,10 @@
 // ==========================================================================
 
 export default {
-  category: 'Elements',
-  subCategory: 'Misc',
+  category: 'Collections',
+  subCategory: 'Notifications',
   menuItem: 'messages',
-  routeBase: '/components/elements/messages',
+  routeBase: '/components/collections/messages',
   icon: 'pi pi-compass',
 
   header: 'messages',
@@ -20,9 +20,4 @@ export default {
   ],
 
   importMsg: "import { UlxBannerMessage } from 'ulx-components'",
-
-  accessibility: {
-    description: 'Messages use role="alert", aria-live="assertive", aria-atomic="true" per message.',
-    example: '<UlxBannerMessage @messages={{this.messages}} @onRemove={{this.removeMessage}} />',
-  },
 };

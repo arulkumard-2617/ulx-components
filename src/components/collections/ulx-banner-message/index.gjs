@@ -3,11 +3,12 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { fn } from "@ember/helper";
+import { eq } from "ember-truth-helpers";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
-import UlxIcon from "../ulx-icon/index.gjs";
-import UlxButton from "../ulx-button/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import UlxButton from "../../elements/ulx-button/index.gjs";
 
 const ENTER_DONE_CLASS = "enter-done";
 
@@ -31,11 +32,14 @@ const DEFAULT_LIFE_MS = 3000;
  * @param {string} [customClass] - Extra CSS classes for the root container
  * @param {string} [id] - Id for the root element
  * @param {string} [size="m-size"] - Size class for container and each message (e.g. xs-size, s-size, m-size, l-size, xl-size)
+ * @param {string} [iconType="svg"] - Icon type for message icons (e.g. "svg", "font"). Default "svg".
+ * @param {string} [iconSize] - Optional icon size for message icons (e.g. s18). No default; only applied when provided.
  * @block content - Optional. Yields (message); when provided, replaces default summary/detail with custom content.
  * @block leftItem - Optional. Yields (message); custom left-side content per message (icon, avatar, image). Falls back to default icon when not provided.
  * @block action - Optional. Yields (message); custom right-side action area per message. Falls back to default close button when not provided.
  */
 export default class UlxBannerMessage extends Component {
+	eq = eq;
 	@tracked _closeTimeouts = new Map();
 
 	addEnterDoneAfterRender = modifier((element) => {
@@ -94,11 +98,12 @@ export default class UlxBannerMessage extends Component {
 
 	@action
 	getMessageRootClasses(message) {
-		const { size = "m-size" } = this.args;
+		const { customClass, size = "m-size" } = this.args;
 		const variant = message?.variant ?? "info";
 		const parts = [this.messagesBaseClass, variant];
 		size && parts.push(size);
-		return parts.filter(Boolean).join(" ");
+		customClass && parts.push(customClass);
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get wrapperClass() {
@@ -109,12 +114,34 @@ export default class UlxBannerMessage extends Component {
 		return `${this.messageBaseClass}-detail`;
 	}
 
+	get contentClass() {
+		return "message-content";
+	}
+
+	/** Wrapper for summary + detail (aligns with message.less .message-text) */
+	get contentTextClass() {
+		return "message-text";
+	}
+
+	/** Wrapper for action block or close button */
+	get contentActionClass() {
+		return "message-actions";
+	}
+
 	get summaryClass() {
 		return `${this.messageBaseClass}-summary`;
 	}
 
 	get iconClass() {
 		return `${this.messageBaseClass}-icon`;
+	}
+
+	get resolvedIconType() {
+		return this.args.iconType ?? "svg";
+	}
+
+	get resolvedIconSize() {
+		return this.args.iconSize;
 	}
 
 	get closeButtonClass() {
@@ -141,46 +168,50 @@ export default class UlxBannerMessage extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}} id={{@id}} ...attributes>
-			<div>
-				{{#each this.messages key="id" as |message|}}
-					<div
-						class={{this.getMessageRootClasses message}}
-						role="alert"
-						aria-live="assertive"
-						aria-atomic="true"
-						{{this.addEnterDoneAfterRender}}
-					>
-						<div class={{this.wrapperClass}}>
-							{{#if (has-block "content")}}
-								{{yield message to="content"}}
-							{{else}}
-								{{#if (has-block "leftItem")}}
-									{{yield message to="leftItem"}}
-								{{else if message.icon}}
-									<span class={{this.iconClass}} aria-hidden="true">
-										<UlxIcon
-											@componentClass="bs-icons1"
-											@type="font"
-											@iconName={{message.icon}}
-											@size="s18"
-										/>
-									</span>
-								{{/if}}
+		{{#each this.messages key="id" as |message index|}}
+			<div
+				class={{this.getMessageRootClasses message}}
+				id={{if (this.eq index 0) @id}}
+				role="alert"
+				aria-live="assertive"
+				aria-atomic="true"
+				{{this.addEnterDoneAfterRender}}
+				...attributes
+			>
+				<div class={{this.wrapperClass}}>
+					{{#if (has-block "leftItem")}}
+						{{yield message to="leftItem"}}
+					{{else if message.icon}}
+						<span class={{this.iconClass}} aria-hidden="true">
+							<UlxIcon
+								@componentClass="bs-icons1"
+								@type={{this.resolvedIconType}}
+								@iconName={{message.icon}}
+								@size={{this.resolvedIconSize}}
+							/>
+						</span>
+					{{/if}}
+					<div class={{this.contentClass}}>
+						{{#if (has-block "content")}}
+							{{yield message to="content"}}
+						{{else}}
+							<div class={{this.contentTextClass}}>
 								{{#if message.summary}}
-									<span class={{this.summaryClass}}>{{message.summary}}</span>
+									<h5 class={{this.summaryClass}}>{{message.summary}}</h5>
 								{{/if}}
 								{{#if message.detail}}
 									<span class={{this.detailClass}}>{{message.detail}}</span>
 								{{/if}}
-							{{/if}}
+							</div>
+						{{/if}}
+						<div class={{this.contentActionClass}}>
 							{{#if (has-block "action")}}
 								{{yield message to="action"}}
 							{{else if (this.showClose message)}}
 								<UlxButton
 									@icon="close-stroke-icon"
 									@iconComponentClass="bs-icons1"
-									@iconSize="s18"
+									@iconSize="s22"
 									@text={{true}}
 									@variant="secondary"
 									@size={{@size}}
@@ -191,8 +222,8 @@ export default class UlxBannerMessage extends Component {
 							{{/if}}
 						</div>
 					</div>
-				{{/each}}
+				</div>
 			</div>
-		</div>
+		{{/each}}
 	</template>
 }

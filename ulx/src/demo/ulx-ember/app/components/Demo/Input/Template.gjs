@@ -19,13 +19,13 @@ export default class DemoInputTemplate extends Component {
         placeholder="Aaron"
         aria-label="First Name"
       >
-        <:bottom>
+        <:footer>
           <UlxCheckbox
             @itemLabel="Feature this speaker"
             @checked={{this.isFeatured}}
             @onCheckedChange={{this.handleFeaturedChange}}
           />
-        </:bottom>
+        </:footer>
       </UlxInput>
 
       <UlxInput

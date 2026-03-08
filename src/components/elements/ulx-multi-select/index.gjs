@@ -137,13 +137,21 @@ export default class UlxMultiSelect extends Component {
 		const invalid = isInvalidState(invalidArg, error);
 		const parts = [this.baseClass];
 		size && parts.push(size);
-		disabled && parts.push("disabled");
+		(disabled || loading) && parts.push("disabled");
 		invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		filled && parts.push("filled");
 		this.overlayVisible && parts.push("open");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get isTriggerDisabled() {
+		return !!this.args.disabled || !!this.args.loading;
+	}
+
+	get multiselectSize() {
+		return this.args.size ?? "m-size";
 	}
 
 	get focusItemClass() {
@@ -160,12 +168,12 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get floatLabelClass() {
-		const { size, filled, disabled } = this.args;
+		const { size, filled } = this.args;
 		return buildFloatLabelClass({
 			size,
 			filled,
 			invalid: this.isInvalid,
-			disabled
+			disabled: this.isTriggerDisabled
 		});
 	}
 
@@ -394,7 +402,7 @@ export default class UlxMultiSelect extends Component {
 	clearSelectionInPanel(event) {
 		event?.stopPropagation?.();
 		event?.preventDefault?.();
-		if (this.args.disabled) return;
+		if (this.isTriggerDisabled) return;
 		this.args.onChange?.([]);
 	}
 
@@ -919,7 +927,7 @@ export default class UlxMultiSelect extends Component {
 	@action
 	removeChipOption(option, event) {
 		event?.stopPropagation?.();
-		if (this.args.disabled) return;
+		if (this.isTriggerDisabled) return;
 		const optionVal = this.getOptionValue(option);
 		const value = (this.args.value ?? []).filter((v) => !this.valueEquals(v, optionVal));
 		this.args.onChange?.(value);
@@ -988,7 +996,7 @@ export default class UlxMultiSelect extends Component {
 
 	@action
 	onTriggerKeydown(event) {
-		if (this.args.disabled) return;
+		if (this.isTriggerDisabled) return;
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
@@ -1106,7 +1114,7 @@ export default class UlxMultiSelect extends Component {
 						aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
 						aria-required={{this.isRequired}}
 						aria-describedby={{this.ariaDescribedBy}}
-						tabindex={{if (not @disabled) "0" "-1"}}
+						tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 						{{this.triggerRef}}
 						{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
 						{{on "click" this.toggleOverlay}}
@@ -1172,10 +1180,13 @@ export default class UlxMultiSelect extends Component {
 								{{/if}}
 							{{/if}}
 						</div>
-						<div class="multiselect-trigger {{if @disabled 'disabled' ''}}" tabindex="-1"></div>
+						<div
+							class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+							tabindex="-1"
+						></div>
 						{{#if (and @loading)}}
 							<span class="multiselect-loading-icon" aria-hidden="true">
-								<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+								<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
 							</span>
 						{{else}}
 							{{#if (has-block "icon")}}
@@ -1276,14 +1287,14 @@ export default class UlxMultiSelect extends Component {
 						{{/if}}
 					</div>
 					<div
-						class="multiselect-trigger {{if @disabled 'disabled' ''}}"
+						class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
 						id={{this.triggerId}}
-						tabindex={{if (not @disabled) "0" "-1"}}
+						tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 						role="button"
 					></div>
 					{{#if (and @loading)}}
 						<span class="multiselect-loading-icon" aria-hidden="true">
-							<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
 						</span>
 					{{else}}
 						{{#if (has-block "icon")}}
@@ -1587,7 +1598,7 @@ export default class UlxMultiSelect extends Component {
 								{{#if (has-block "footerActions")}}
 									{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
 								{{/if}}
-								{{#if (and this.isClearEnabled this.hasValue (not @disabled))}}
+								{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
 									<UlxButton
 										@label={{t "lbl.clear"}}
 										@variant="link"

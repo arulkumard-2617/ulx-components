@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
-import UlxIcon from "../ulx-icon/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 /**
  * Inline message element: single-line message with optional icon and variant styling.
@@ -12,6 +12,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [text] - Message text (ignored when using default or template block).
  * @param {'info'|'success'|'warn'|'error'} [variant='info'] - Visual variant (demo: use "Variant" not "Severity").
  * @param {string} [icon] - Icon name/class; icon is shown only when this is passed.
+ * @param {string} [iconSize] - Optional icon size (e.g. s18). No default; only applied when provided.
  * @param {string} [customClass] - Extra CSS classes for the root.
  * @param {string} [id] - Id for the root element.
  */
@@ -33,7 +34,7 @@ export default class UlxMessage extends Component {
 	}
 
 	get textClass() {
-		return `${this.baseClass}-text`;
+		return "message-text";
 	}
 
 	get showIcon() {
@@ -54,7 +55,7 @@ export default class UlxMessage extends Component {
 						@componentClass="bs-icons1"
 						@type="font"
 						@iconName={{@icon}}
-						@size="s18"
+						@size={{@iconSize}}
 					/>
 				</span>
 			{{/if}}

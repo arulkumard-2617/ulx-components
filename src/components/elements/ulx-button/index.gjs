@@ -78,6 +78,7 @@ const RIPPLE_DURATION_MS = 200;
  * @param {string} [badgeCustomClass] - Custom badge CSS classes
  * @param {string} [customClass] - Additional CSS classes
  * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute
+ * @param {boolean} [loading=false] - When true, button shows loading spinner and is disabled. Use for always-on loading state.
  * @param {function} [onClick] - Click handler; may return a Promise to show loading until it settles
  * @param {Modifier} [elementRef] - Optional modifier (or element-ref callback) applied to the root element for parent ref capture (e.g. dropdown target)
  */
@@ -95,7 +96,7 @@ export default class UlxButton extends Component {
 	}
 
 	get effectiveLoading() {
-		return this.promiseLoading;
+		return !!this.args.loading || this.promiseLoading;
 	}
 
 	get buttonClasses() {

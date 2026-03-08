@@ -52,15 +52,15 @@ export default class VariantsToastDemo extends Component {
   }
 
   @action
-  showNoIcon() {
+  showWithIcon() {
     this.messages = [
       ...this.messages,
       {
-        id: \`msg-\${Date.now()}-noicon\`,
+        id: \`msg-\${Date.now()}-withicon\`,
         variant: 'info',
-        summary: t('lbl.no.icon'),
-        detail: 'showIcon: false',
-        showIcon: false,
+        summary: t('lbl.with.icon'),
+        detail: 'showIcon: true',
+        showIcon: true,
       },
     ];
   }
@@ -103,9 +103,9 @@ export default class VariantsToastDemo extends Component {
           {{on "click" this.showOutlined}}
         />
         <UlxButton
-          @label={{t "lbl.no.icon"}}
+          @label={{t "lbl.with.icon"}}
           @variant="secondary"
-          {{on "click" this.showNoIcon}}
+          {{on "click" this.showWithIcon}}
         />
         <UlxButton @label={{t "lbl.sticky"}} {{on "click" this.showSticky}} />
       </div>
@@ -129,9 +129,9 @@ export default class VariantsToastDemo extends Component {
           {{on "click" this.showOutlined}}
         />
         <UlxButton
-          @label="No icon"
+          @label="With icon"
           @variant="secondary"
-          {{on "click" this.showNoIcon}}
+          {{on "click" this.showWithIcon}}
         />
         <UlxButton @label="Sticky" {{on "click" this.showSticky}} />
       </div>

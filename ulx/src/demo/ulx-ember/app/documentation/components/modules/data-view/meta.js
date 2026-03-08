@@ -3,10 +3,10 @@
 // ==========================================================================
 
 export default {
-  category: 'Elements',
-  subCategory: 'Misc',
+  category: 'Modules',
+  subCategory: 'Data',
   menuItem: 'DataView',
-  routeBase: '/components/elements/data-view',
+  routeBase: '/components/modules/data-view',
   icon: 'pi pi-th-large',
 
   header: 'DataView',

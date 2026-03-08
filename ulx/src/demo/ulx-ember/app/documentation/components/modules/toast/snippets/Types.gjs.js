@@ -10,7 +10,7 @@ export default class TypesToastDemo extends Component {
   @tracked messages = [];
 
   @action
-  addMessage(type) {
+  addMessage(variant) {
     const labels = {
       info: t('lbl.info'),
       success: t('lbl.success'),
@@ -22,10 +22,10 @@ export default class TypesToastDemo extends Component {
     this.messages = [
       ...this.messages,
       {
-        id: \`msg-\${Date.now()}-\${type}\`,
-        type,
-        summary: labels[type] ?? type,
-        detail: t('msg.type.message', { type: labels[type] ?? type }),
+        id: \`msg-\${Date.now()}-\${variant}\`,
+        variant,
+        summary: labels[variant] ?? variant,
+        detail: t('msg.type.message', { type: labels[variant] ?? variant }),
       },
     ];
   }

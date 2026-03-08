@@ -136,21 +136,6 @@ export const DocNavItems = [
             route: 'components.elements.progressspinner',
           },
           {
-            menuItem: 'Message',
-            to: '/components/elements/message',
-            route: 'components.elements.message',
-          },
-          {
-            menuItem: 'Messages',
-            to: '/components/elements/messages',
-            route: 'components.elements.messages',
-          },
-          {
-            menuItem: 'DataView',
-            to: '/components/elements/data-view',
-            route: 'components.elements.data-view',
-          },
-          {
             menuItem: 'Skeleton',
             to: '/components/elements/skeleton',
             route: 'components.elements.skeleton',
@@ -228,6 +213,21 @@ export const DocNavItems = [
           },
         ],
       },
+      {
+        category: 'Notifications',
+        items: [
+          {
+            menuItem: 'Message',
+            to: '/components/collections/message',
+            route: 'components.collections.message',
+          },
+          {
+            menuItem: 'Messages',
+            to: '/components/collections/messages',
+            route: 'components.collections.messages',
+          },
+        ],
+      },
     ],
   },
   {
@@ -264,8 +264,8 @@ export const DocNavItems = [
         items: [
           {
             menuItem: 'DataView',
-            to: '/components/elements/data-view',
-            route: 'components.elements.data-view',
+            to: '/components/modules/data-view',
+            route: 'components.modules.data-view',
           },
           {
             menuItem: 'Paginator',

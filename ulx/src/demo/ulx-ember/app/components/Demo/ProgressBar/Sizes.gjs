@@ -3,6 +3,7 @@ import { UlxProgressBar } from 'ulx-components';
 
 export default class SizesProgressBarDemo extends Component {
   sizes = [
+    'default',
     'h-14',
     'h-20',
     'xxxs-size',
@@ -18,7 +19,7 @@ export default class SizesProgressBarDemo extends Component {
       {{#each this.sizes as |size|}}
         <div class="flex flex-col gap-2">
           <span class="fg-text-secondary">{{size}}</span>
-          <UlxProgressBar @value={{50}} @size={{size}} />
+          <UlxProgressBar @value={{50}} @size={{size}} @showValue={{false}} />
         </div>
       {{/each}}
     </div>

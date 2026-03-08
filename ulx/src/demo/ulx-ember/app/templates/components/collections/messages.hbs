@@ -1,4 +1,4 @@
-{{page-title (t "lbl.doc.message.title")}}
+{{page-title (t "lbl.doc.messages.title")}}
 
 <Common::DocMain::ComponentLayout
   @title={{@model.meta.header}}
@@ -12,9 +12,9 @@
   {{else if this.isThemingTab}}
     <div class="doc-section">
       <Common::DocMain::FoundationSection
-        @id="components-elements-message-theming"
+        @id="components-collections-messages-theming"
         @title={{t "lbl.theming"}}
-        @subtitle={{t "msg.theming.subtitle" component="message"}}
+        @subtitle={{t "msg.theming.subtitle" component="messages"}}
       >
         <p class="fg-text-secondary">{{t "msg.theming.content.goes.here"}}</p>
       </Common::DocMain::FoundationSection>
@@ -30,9 +30,9 @@
   {{else if this.isPassthroughTab}}
     <div class="doc-section">
       <Common::DocMain::FoundationSection
-        @id="components-elements-message-passthrough"
+        @id="components-collections-messages-passthrough"
         @title={{t "lbl.pass.through"}}
-        @subtitle={{t "msg.pass.through.subtitle" component="message"}}
+        @subtitle={{t "msg.pass.through.subtitle" component="messages"}}
       >
         <p class="fg-text-secondary">{{t "msg.pass.through.content.goes.here"}}</p>
       </Common::DocMain::FoundationSection>

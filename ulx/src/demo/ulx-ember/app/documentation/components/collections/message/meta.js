@@ -3,10 +3,10 @@
 // ==========================================================================
 
 export default {
-  category: 'Elements',
-  subCategory: 'Misc',
+  category: 'Collections',
+  subCategory: 'Notifications',
   menuItem: 'message',
-  routeBase: '/components/elements/message',
+  routeBase: '/components/collections/message',
   icon: 'pi pi-compass',
 
   header: 'message',
