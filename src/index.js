@@ -27,6 +27,9 @@ export { default as UlxDropdown } from './components/elements/ulx-dropdown/index
 export { default as UlxMultiSelect } from './components/elements/ulx-multi-select/index.gjs';
 export { default as UlxRating } from './components/elements/ulx-rating/index.gjs';
 export { default as UlxSkeleton } from './components/elements/ulx-skeleton/index.gjs';
+export { default as UlxEmptyState } from './components/elements/ulx-empty-state/index.gjs';
+export { default as UlxPassword } from './components/elements/ulx-password/index.gjs';
+export { default as UlxSlider } from './components/elements/ulx-slider/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
 export { default as UlxForm } from './components/collections/ulx-form/index.gjs';
