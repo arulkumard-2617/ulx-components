@@ -13,13 +13,17 @@ export default class DemoPasswordFloatLabel extends Component {
   }
 
   <template>
-    <UlxPassword
-      @value={{this.value}}
-      @onInput={{this.handleInput}}
-      @floatLabel={{true}}
-      @label={{t "lbl.password"}}
-      @feedback={{false}}
-    />
+    <form class="ulx-form m-size ulx-grid gap-12 mb-14">
+      <UlxPassword
+        @value={{this.value}}
+        @onInput={{this.handleInput}}
+        @floatLabel={{true}}
+        @label={{t "lbl.password"}}
+        @feedback={{false}}
+        @fieldClass="col-12"
+      />
+    </form>
   </template>
 }
+
 `;

@@ -97,6 +97,7 @@ export default class NestedpanesDemoComponent extends Component {
       @onBack={{this.backToPane1}}
       @backButtonLabel="Back to Pane 1"
       @position="right"
+      @hideCancelButton={{true}}
       @size="m-size"
       @onCancel={{this.closePane2}}
       @onDone={{this.closePane2}}

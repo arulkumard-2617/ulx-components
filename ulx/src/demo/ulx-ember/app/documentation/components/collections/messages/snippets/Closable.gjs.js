@@ -3,12 +3,18 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxBannerMessage } from 'ulx-components';
-import { t } from 'ulx-components';
 
 export default class ClosableMessagesDemo extends Component {
   @tracked messages = [
-    { id: '1', variant: 'info', detail: t('lbl.info.message'), closable: true },
-    { id: '2', variant: 'success', detail: t('lbl.success.message'), closable: true },
+    {
+      id: '1',
+      variant: 'primary',
+      summary: 'Complimentary Spaces Expiring Soon!',
+      detail:
+        "To continue using your complimentary Spaces beyond April 15, 2025 , you'll need to purchase and apply the necessary Space add-ons.",
+      icon: 'space-notification-icon',
+      closable: true,
+    },
   ];
 
   @action

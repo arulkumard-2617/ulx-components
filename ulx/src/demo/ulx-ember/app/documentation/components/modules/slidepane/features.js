@@ -5,19 +5,21 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
   PositionDemo,
   FullscreenDemo,
   TemplateDemo,
   WithoutoverlayDemo,
-  NestedpanesDemo,// Sources
+  NestedpanesDemo,
+  SizesDemo,
+  // Sources
   ImportSource,
   BasicSource,
   PositionSource,
   FullscreenSource,
   TemplateSource,
   WithoutoverlaySource,
-  NestedpanesSource
+  NestedpanesSource,
+  SizesSource
 } from './imports';
 
 export const SlidepaneFeatureItems = [
@@ -55,6 +57,26 @@ export const SlidepaneFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "sizes",
+    sectionNav: "Sizes",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Sizes</code> demo shows how to configure different widths for the Slidepane using the <code>@size</code> argument (e.g. <code>s-size</code>, <code>m-size</code>, <code>l-size</code>)."
+      }
+    },
+    demo: {
+      component: SizesDemo,
+      props: {
+        source: SizesSource,
+        snippetName: "sizes",
         language: "handlebars"
       }
     }

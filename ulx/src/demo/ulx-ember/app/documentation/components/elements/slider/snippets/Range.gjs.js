@@ -34,5 +34,5 @@ export default class RangeSliderDemo extends Component {
   </template>
 }
 
-`;
 
+`;

@@ -132,4 +132,5 @@ export default class DemoDataViewPagination extends Component {
     </UlxDataView>
   </template>
 }
+
 `;
