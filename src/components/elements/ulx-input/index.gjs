@@ -402,8 +402,8 @@ export default class UlxInput extends Component {
 				{{/if}}
 			{{/if}}
 
-			{{#if (has-block "bottom")}}
-				{{yield to="bottom"}}
+			{{#if (has-block "footer")}}
+				{{yield to="footer"}}
 			{{/if}}
 
 			{{#if @helpText}}

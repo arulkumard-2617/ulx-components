@@ -27,7 +27,7 @@ import {
  * @param {string} [error] - Error message or flag; sets invalid state when present (with @invalid).
  * @param {string} [inputId] - Id for the hidden input; use with <label for=""> for a11y.
  * @param {string} [key] - Stable key for auto-generated id when inputId not provided.
- * @param {string} [size="m-size"] - Size: xs-size, s-size, m-size, l-size, xl-size.
+ * @param {string} [size="xxs-size"] - Size: xs-size, s-size, m-size, l-size, xl-size.
  * @param {string} [variant="primary"] - Color variant class (e.g. "primary", "green", etc.).
  * @param {string} [customClass] - Extra classes on root.
  */
@@ -49,7 +49,7 @@ export default class UlxToggle extends Component {
 	}
 
 	get rootClasses() {
-		const { size = "m-size", variant = "primary", disabled = false, customClass } = this.args;
+		const { size = "xxs-size", variant = "primary", disabled = false, customClass } = this.args;
 
 		const parts = [this.baseClass];
 		parts.push(size);

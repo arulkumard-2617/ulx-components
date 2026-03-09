@@ -15,7 +15,7 @@ export default class BasicToastDemo extends Component {
       ...this.messages,
       {
         id: '1',
-        type: 'info',
+        variant: 'info',
         summary: t('lbl.info'),
         detail: t('msg.basic.toast'),
       },

@@ -1,7 +1,10 @@
 export default `
-import { UlxSkeleton } from 'ulx-components';
+import Component from '@glimmer/component';
 
-<template>
-  <UlxSkeleton />
-</template>
+export default class DemoSkeletonImport extends Component {
+  <template>
+    <code>import {'{ UlxSkeleton }'} from 'ulx-components';</code>
+  </template>
+}
+
 `;

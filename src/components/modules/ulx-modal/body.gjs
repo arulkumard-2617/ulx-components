@@ -29,22 +29,18 @@ export default class UlxModalBody extends Component {
 
 	get contentStyle() {
 		const styles = [];
-		
+
 		if (this.scrollable) {
 			styles.push("overflow-y: auto");
 		} else {
 			styles.push("overflow-y: hidden");
 		}
-		
+
 		return styles.join("; ");
 	}
 
 	<template>
-		<div
-			class={{this.contentClasses}}
-			style={{this.contentStyle}}
-			...attributes
-		>
+		<div class={{this.contentClasses}} style={{this.contentStyle}} ...attributes>
 			{{yield}}
 		</div>
 	</template>

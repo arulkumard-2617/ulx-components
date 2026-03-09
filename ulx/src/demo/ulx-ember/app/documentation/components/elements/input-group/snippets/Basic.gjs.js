@@ -1,5 +1,5 @@
 export default `
-import { UlxInput, UlxIcon, t } from 'ulx-components';
+import { UlxInput, UlxButton, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gap-8 mb-14">
@@ -7,21 +7,21 @@ import { UlxInput, UlxIcon, t } from 'ulx-components';
       @inputGroup={{true}}
       @label={{t "lbl.start.time"}}
       placeholder={{t "lbl.start.time.placeholder"}}
-      @fieldClass="col-12"
+      @fieldClass="col-3"
     >
       <:end>
-        <span class="inputgroup-addon icon-addon">
-          <UlxIcon
-            @componentClass="bs-icons1"
-            @type="font"
-            @iconName="time-icon"
-            @size="s18"
-          />
-        </span>
+        <UlxButton
+          @variant="basic"
+          @size="compact"
+          @icon="time-icon"
+          @iconComponentClass="bs-icons1"
+          @iconSize="s18"
+          @customClass="inputgroup-addon icon-addon"
+          aria-label={{t "lbl.start.time"}}
+        />
       </:end>
     </UlxInput>
   </div>
 </template>
 
 `;
-

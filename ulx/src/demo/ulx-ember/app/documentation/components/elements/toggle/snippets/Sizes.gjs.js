@@ -44,7 +44,7 @@ export default class SizesToggleDemo extends Component {
           @checked={{this.checkedXs}}
           @onCheckedChange={{this.handleXsChange}}
         />
-        <span>{{t "lbl.toggle.size.xs"}}</span>
+        <span>xs-size</span>
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle
@@ -52,7 +52,7 @@ export default class SizesToggleDemo extends Component {
           @checked={{this.checkedS}}
           @onCheckedChange={{this.handleSChange}}
         />
-        <span>{{t "lbl.toggle.size.s"}}</span>
+        <span>s-size</span>
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle
@@ -60,7 +60,7 @@ export default class SizesToggleDemo extends Component {
           @checked={{this.checkedM}}
           @onCheckedChange={{this.handleMChange}}
         />
-        <span>{{t "lbl.toggle.size.m"}}</span>
+        <span>m-size</span>
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle
@@ -68,7 +68,7 @@ export default class SizesToggleDemo extends Component {
           @checked={{this.checkedL}}
           @onCheckedChange={{this.handleLChange}}
         />
-        <span>{{t "lbl.toggle.size.l"}}</span>
+        <span>l-size</span>
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle
@@ -76,7 +76,7 @@ export default class SizesToggleDemo extends Component {
           @checked={{this.checkedXl}}
           @onCheckedChange={{this.handleXlChange}}
         />
-        <span>{{t "lbl.toggle.size.xl"}}</span>
+        <span>xl-size</span>
       </div>
     </div>
   </template>

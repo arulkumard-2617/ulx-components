@@ -72,7 +72,7 @@ export const InputFeatureItems = [
       props: {
         as: "span",
         content:
-          'The <code>Template</code> demo shows a common form layout: first and last name inputs, and a checkbox rendered via the new <code>&lt;:bottom&gt;</code> block to feature the speaker.'
+          'The <code>Template</code> demo shows a common form layout: first and last name inputs, and a checkbox rendered via the new <code>&lt;:footer&gt;</code> block to feature the speaker.'
       }
     },
     demo: {

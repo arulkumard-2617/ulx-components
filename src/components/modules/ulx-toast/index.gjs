@@ -16,8 +16,8 @@ const DEFAULT_LIFE_MS = 2000;
 /** Exit animation duration in ms (must match toast.less toast-slide-out). */
 const EXIT_ANIMATION_MS = 300;
 
-/** Default variant-to-icon map. Keys: info, success, warn, warning, error, secondary, contrast. */
-const DEFAULT_VARIANT_ICONS = {
+/** Variant-to-icon map when a message has showIcon: true. Keys: info, success, warn, warning, error, secondary, contrast. */
+const VARIANT_ICONS = {
 	info: "info-icon",
 	success: "success-stroke-icon",
 	warn: "alert-icon-01",
@@ -58,8 +58,8 @@ const DEFAULT_VARIANT_ICONS = {
  * - Close button has aria-label and keyboard support.
  *
  * @class UlxToast
- * @param {Array<{ id: string, variant?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, autoClose?: boolean, life?: number, showIcon?: boolean, type?: string }>} [messages=[]] - List of message objects to display
- * @param {'top-left'|'top-center'|'top-right'|'center'|'bottom-left'|'bottom-center'|'bottom-right'} [position='top-right'] - Position of the toast container
+ * @param {Array<{ id: string, variant?: string, summary?: string, detail?: string, closable?: boolean, sticky?: boolean, autoClose?: boolean, life?: number, showIcon?: boolean, type?: string }>} [messages=[]] - List of message objects to display. Set message.showIcon to true to show a variant icon; default is no icon.
+ * @param {'top-left'|'top-center'|'top-right'|'center'|'bottom-left'|'bottom-center'|'bottom-right'} [position='top-center'] - Position of the toast container
  * @param {function} [onClose] - Callback when a message is closed; receives the message object
  * @param {boolean} [autoClose=true] - When false, no message auto-closes unless the message has autoClose:true or life set
  * @param {boolean} [closable=true] - When false, close buttons are hidden and ESC does not close toasts
@@ -82,7 +82,7 @@ export default class UlxToast extends Component {
 
 	get severityIconMap() {
 		const overrides = this.args.variantIcons ?? {};
-		return { ...DEFAULT_VARIANT_ICONS, ...overrides };
+		return { ...VARIANT_ICONS, ...overrides };
 	}
 
 	get iconComponentClass() {
@@ -99,7 +99,7 @@ export default class UlxToast extends Component {
 	_boundDocumentKeyHandler = null;
 
 	get containerClasses() {
-		const position = this.args.position || "top-right";
+		const position = this.args.position || "top-center";
 		const classes = [TOAST_PREFIX + "toast", position];
 		if (this.args.stacked) {
 			classes.push("stacked");
@@ -207,7 +207,7 @@ export default class UlxToast extends Component {
 		parts.push(variant === "warning" ? "warn" : variant);
 		if (message.type) parts.push(message.type);
 		if (this.args.closable !== false && message.closable !== false) parts.push("closable");
-		if (message.showIcon === false) parts.push("without-icon");
+		if (message.showIcon !== true) parts.push("without-icon");
 		if (message.sticky) parts.push("toast-sticky");
 		if (message.exit || (message?.id && this?.exitingIds?.has(message.id)))
 			parts.push("toast-exit");
@@ -221,10 +221,10 @@ export default class UlxToast extends Component {
 		return map[severity] ?? map.info;
 	}
 
-	/** Returns true when the message should show an icon (default true). */
+	/** Returns true when the message should show an icon (default false; set message.showIcon to true to show). */
 	@action
 	showMessageIcon(message) {
-		return message.showIcon !== false;
+		return message.showIcon === true;
 	}
 
 	/** Returns true when the message should show a close button. Respects @closable and per-message closable. */
@@ -352,6 +352,7 @@ export default class UlxToast extends Component {
  * 7. Message object shape (per message)
  *    { id, variant?, summary?, detail?, closable?, sticky?, autoClose?, life?, showIcon?, type? }
  *    variant: "info" | "success" | "warn" | "warning" | "error" | "secondary" | "contrast"
+ *    showIcon: when true, shows variant icon; default is no icon
  *    type: "elevated" | "flat" | "outlined"
  *
  * 8. Custom content block (replaces default summary/detail)

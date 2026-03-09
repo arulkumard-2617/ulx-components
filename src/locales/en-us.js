@@ -51,6 +51,7 @@ const enUs = {
 	'lbl.submit': 'Submit',
 	'lbl.clear': 'Clear',
 	'lbl.clear.filters': 'Clear filters',
+	'lbl.view.more.details': 'View More Details',
 	'lbl.filter': 'Filter',
 	'lbl.sort': 'Sort',
 	'lbl.columns': 'Columns',
@@ -88,6 +89,7 @@ const enUs = {
 	'lbl.outlined': 'Outlined',
 	'lbl.sticky': 'Sticky',
 	'lbl.no.icon': 'No icon',
+	'lbl.with.icon': 'With icon',
 	'lbl.show.toast': 'Show toast',
 	'lbl.warn': 'Warn',
 	'lbl.auto.close': 'Auto-close',
@@ -223,6 +225,7 @@ const enUs = {
 	'lbl.multiselect.select.all': 'Select All',
 	'lbl.multiselect.accessible': 'Accessible MultiSelect',
 	'lbl.multiselect.allow.addition': 'Allow addition',
+	'lbl.multiselect.tags': 'Tags',
 	'label.add': 'Add',
 	'msg.multiselect.placeholder': 'Select items',
 	'msg.multiselect.placeholder.city': 'Select cities',
@@ -231,6 +234,15 @@ const enUs = {
 	'msg.multiselect.filter.placeholder': 'Search',
 	'msg.multiselect.choose.items': 'Choose items',
 	'msg.multiselect.items.selected': '{count} items selected',
+	'msg.multiselect.tags.help':
+		'Use keywords or phrases that describe your event to help everyone find it easily. Separate multiple tags with commas.',
+
+	// ── Tristate checkbox ────────────────────────────────────
+	'lbl.tristate.checkbox.label': 'Accept terms',
+	'lbl.tristate.checked': 'Checked',
+	'lbl.tristate.indeterminate': 'Indeterminate',
+	'lbl.tristate.unchecked': 'Unchecked',
+	'aria.tristate.checkbox.state': 'Tri-state checkbox: {state}',
 
 	// ── Avatar labels ────────────────────────────────────────
 	'lbl.square': 'Square',

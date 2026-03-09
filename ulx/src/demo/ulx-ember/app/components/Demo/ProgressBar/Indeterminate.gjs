@@ -5,7 +5,6 @@ import { UlxProgressBar, t } from 'ulx-components';
     <UlxProgressBar
       @customClass="h6"
       @mode="indeterminate"
-      @size="s-size"
       aria-label={{t "lbl.loading"}}
     />
   </div>

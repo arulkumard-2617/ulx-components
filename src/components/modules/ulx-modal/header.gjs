@@ -26,7 +26,7 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * @param {Function} [onMaximize] - Callback when maximize button is clicked
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
  * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
- * @param {string} [iconVariant="text"] - UlxButton variant for header icon buttons
+ * @param {string} [iconVariant] - UlxButton variant for header icon buttons
  * @param {string} [iconSize="s18"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon name for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for minimize/restore button (when maximized)
@@ -56,7 +56,7 @@ export default class UlxModalHeader extends Component {
 	}
 
 	get iconVariant() {
-		return this.args.iconVariant ?? "text";
+		return this.args.iconVariant ?? "secondary";
 	}
 
 	get iconSize() {
@@ -111,9 +111,9 @@ export default class UlxModalHeader extends Component {
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
-				<h2 class="dialog-title" id="modal-title">
+				<h4 class="dialog-title" id="modal-title">
 					{{@title}}
-				</h2>
+				</h4>
 			{{/if}}
 
 			<div class="dialog-header-icons">
@@ -122,6 +122,7 @@ export default class UlxModalHeader extends Component {
 						@icon={{this.currentMaximizeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
+						@text={{true}}
 						@iconSize={{this.iconSize}}
 						@customClass="dialog-maximizable-button"
 						aria-label={{this.maximizeButtonAriaLabel}}
@@ -135,6 +136,7 @@ export default class UlxModalHeader extends Component {
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
 						@iconSize={{this.iconSize}}
+						@text={{true}}
 						aria-label="Close"
 						{{on "click" this.handleClose}}
 						{{on "keydown" this.handleKeyDown}}

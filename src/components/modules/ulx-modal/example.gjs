@@ -182,7 +182,7 @@ export default class UlxModalExample extends Component {
 				@scrollable={{true}}
 			>
 				<:head>
-					<h2 class="dialog-title" id="modal-title">Custom Header</h2>
+					<h4 class="dialog-title" id="modal-title">Custom Header</h4>
 				</:head>
 
 				<:body>

@@ -54,6 +54,7 @@ export default class SymbolDemoComponent extends Component {
         icon: 'close-icon-01',
         iconPosition: 'right',
       },
+
       // Icon labels (UlxTag @icon / @iconType)
       {
         label: 'tick icon',
