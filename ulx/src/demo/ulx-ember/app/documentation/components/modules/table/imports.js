@@ -14,6 +14,7 @@ export { default as FrozenColumnsDemo }      from '../../../../components/Demo/T
 export { default as ConditionalStyleDemo }   from '../../../../components/Demo/Table/ConditionalStyle';
 export { default as RowReorderDemo }         from '../../../../components/Demo/Table/RowReorder';
 export { default as LoadingDemo }            from '../../../../components/Demo/Table/Loading';
+export { default as EmptyStateDemo }         from '../../../../components/Demo/Table/EmptyState';
 export { default as ExportDemo }             from '../../../../components/Demo/Table/Export';
 export { default as FrozenRowsDemo }         from '../../../../components/Demo/Table/FrozenRows';
 export { default as CellSelectionDemo }      from '../../../../components/Demo/Table/CellSelection';
@@ -36,6 +37,7 @@ export { default as ExpansionSource }            from './snippets/Expansion.gjs'
 export { default as ConditionalStyleSource }     from './snippets/ConditionalStyle.gjs';
 export { default as RowReorderSource }           from './snippets/RowReorder.gjs';
 export { default as LoadingSource }              from './snippets/Loading.gjs';
+export { default as EmptyStateSource }           from './snippets/EmptyState.gjs';
 export { default as ExportSource }               from './snippets/Export.gjs';
 export { default as FrozenRowsSource }           from './snippets/FrozenRows.gjs';
 export { default as CellSelectionSource }        from './snippets/CellSelection.gjs';

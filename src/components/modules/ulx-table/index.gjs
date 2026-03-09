@@ -41,7 +41,8 @@ import UlxAccordion from "../../collections/ulx-accordion/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxCard from "../../elements/ulx-card/index.gjs";
 import UlxChip from "../../elements/ulx-chip/index.gjs";
-import UlxDataView from "../../elements/ulx-data-view/index.gjs";
+import UlxDataView from "../../modules/ulx-data-view/index.gjs";
+import UlxEmptyState from "../../elements/ulx-empty-state/index.gjs";
 import { t } from "../../../utils/i18n.js";
 import { fn } from "@ember/helper";
 
@@ -523,6 +524,26 @@ export default class UlxTable extends Component {
 
 	get globalFilterValue() {
 		return this.filters?.global?.value ?? "";
+	}
+
+	get shouldUseSearchEmptyState() {
+		return this.hasActiveFilters && !this.args.emptyMessage;
+	}
+
+	get emptyStateHeaderText() {
+		if (this.shouldUseSearchEmptyState) {
+			return "msg.empty.state.title";
+		}
+
+		return this.args.emptyMessage ?? "msg.table.no.records";
+	}
+
+	get emptyStateSubHeaderText() {
+		return this.shouldUseSearchEmptyState ? "msg.empty.state.subtitle" : null;
+	}
+
+	get emptyStateIconName() {
+		return this.shouldUseSearchEmptyState ? "event-past-icon" : null;
 	}
 
 	get processedData() {
@@ -1178,9 +1199,7 @@ export default class UlxTable extends Component {
 	}
 
 	getViewToggleOptions(hasDetailed, hasCard) {
-		const opts = [
-			{ value: "table", label: t("aria.table.view.table"), icon: "grid-icon-master" }
-		];
+		const opts = [{ value: "table", label: t("aria.table.view.table"), icon: "grid-icon-master" }];
 		hasDetailed &&
 			opts.push({
 				value: "detailed",
@@ -1198,7 +1217,7 @@ export default class UlxTable extends Component {
 
 	effectiveViewModeForOptions(currentViewMode, options) {
 		const values = Array.isArray(options) ? options.map((o) => o?.value) : [];
-		return values.includes(currentViewMode) ? currentViewMode : options?.[0]?.value ?? "table";
+		return values.includes(currentViewMode) ? currentViewMode : (options?.[0]?.value ?? "table");
 	}
 
 	@action
@@ -1454,9 +1473,16 @@ export default class UlxTable extends Component {
 					</UlxDataView>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}{{yield
-									to="emptyMessage"
-								}}{{else}}{{@emptyMessage}}{{/if}}
+							{{#if (has-block "emptyMessage")}}
+								{{yield to="emptyMessage"}}
+							{{else}}
+								<UlxEmptyState
+									@headerText={{this.emptyStateHeaderText}}
+									@subHeaderText={{this.emptyStateSubHeaderText}}
+									@iconName={{this.emptyStateIconName}}
+									@iconSize="s32"
+								/>
+							{{/if}}
 						</div>
 					{{/if}}
 				</div>
@@ -1470,9 +1496,16 @@ export default class UlxTable extends Component {
 					</div>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}{{yield
-									to="emptyMessage"
-								}}{{else}}{{@emptyMessage}}{{/if}}
+							{{#if (has-block "emptyMessage")}}
+								{{yield to="emptyMessage"}}
+							{{else}}
+								<UlxEmptyState
+									@headerText={{this.emptyStateHeaderText}}
+									@subHeaderText={{this.emptyStateSubHeaderText}}
+									@iconName={{this.emptyStateIconName}}
+									@iconSize="s32"
+								/>
+							{{/if}}
 						</div>
 					{{/if}}
 				</div>
@@ -1524,9 +1557,16 @@ export default class UlxTable extends Component {
 					</table>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}{{yield
-									to="emptyMessage"
-								}}{{else}}{{@emptyMessage}}{{/if}}
+							{{#if (has-block "emptyMessage")}}
+								{{yield to="emptyMessage"}}
+							{{else}}
+								<UlxEmptyState
+									@headerText={{this.emptyStateHeaderText}}
+									@subHeaderText={{this.emptyStateSubHeaderText}}
+									@iconName={{this.emptyStateIconName}}
+									@iconSize="s32"
+								/>
+							{{/if}}
 						</div>
 					{{/if}}
 				</div>
@@ -1591,8 +1631,17 @@ export default class UlxTable extends Component {
 								<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 								<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
 								<:emptyMessage>
-									{{#if (has-block "customEmptyState")}}{{yield to="customEmptyState"}}
-									{{else if (has-block "emptyMessage")}}{{yield to="emptyMessage"}}
+									{{#if (has-block "customEmptyState")}}
+										{{yield to="customEmptyState"}}
+									{{else if (has-block "emptyMessage")}}
+										{{yield to="emptyMessage"}}
+									{{else}}
+										<UlxEmptyState
+											@headerText={{this.emptyStateHeaderText}}
+											@subHeaderText={{this.emptyStateSubHeaderText}}
+											@iconName={{this.emptyStateIconName}}
+											@iconSize="s32"
+										/>
 									{{/if}}
 								</:emptyMessage>
 							</TableBody>
@@ -1630,8 +1679,17 @@ export default class UlxTable extends Component {
 							<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 							<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
 							<:emptyMessage>
-								{{#if (has-block "customEmptyState")}}{{yield to="customEmptyState"}}
-								{{else if (has-block "emptyMessage")}}{{yield to="emptyMessage"}}
+								{{#if (has-block "customEmptyState")}}
+									{{yield to="customEmptyState"}}
+								{{else if (has-block "emptyMessage")}}
+									{{yield to="emptyMessage"}}
+								{{else}}
+									<UlxEmptyState
+										@headerText={{this.emptyStateHeaderText}}
+										@subHeaderText={{this.emptyStateSubHeaderText}}
+										@iconName={{this.emptyStateIconName}}
+										@iconSize="s32"
+									/>
 								{{/if}}
 							</:emptyMessage>
 						</TableBody>

@@ -26,6 +26,8 @@ import {
   RowReorderSource,
   LoadingDemo,
   LoadingSource,
+  EmptyStateDemo,
+  EmptyStateSource,
   ExportDemo,
   ExportSource,
   FrozenRowsDemo,
@@ -560,6 +562,26 @@ export const TableFeatureItems = [
       props: {
         source: LoadingSource,
         snippetName: 'loading',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'empty-state',
+    sectionNav: 'Empty State',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Render custom empty content with the <code>&lt;:emptyMessage&gt;</code> named block. This example uses <code>UlxEmptyState</code> when the table has no rows.',
+      },
+    },
+    demo: {
+      component: EmptyStateDemo,
+      props: {
+        source: EmptyStateSource,
+        snippetName: 'empty-state',
         language: 'handlebars',
       },
     },
