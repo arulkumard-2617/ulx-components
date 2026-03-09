@@ -20,7 +20,10 @@
       ]
     }
   },
-  "files": {},
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "rollup --config",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",

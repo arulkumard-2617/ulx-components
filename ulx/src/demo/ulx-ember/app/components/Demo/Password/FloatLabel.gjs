@@ -12,7 +12,7 @@ export default class DemoPasswordFloatLabel extends Component {
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+    <form class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxPassword
         @value={{this.value}}
         @onInput={{this.handleInput}}
@@ -21,6 +21,6 @@ export default class DemoPasswordFloatLabel extends Component {
         @feedback={{false}}
         @fieldClass="col-12"
       />
-    </div>
+    </form>
   </template>
 }

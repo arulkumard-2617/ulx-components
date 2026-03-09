@@ -1,7 +1,7 @@
 import { UlxPassword, t } from 'ulx-components';
 
 <template>
-  <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+  <form class="ulx-form m-size ulx-grid gap-12 mb-14">
     <UlxPassword
       @disabled={{true}}
       @feedback={{false}}
@@ -9,5 +9,5 @@ import { UlxPassword, t } from 'ulx-components';
       @fieldClass="col-12"
       placeholder={{t "lbl.enter.password"}}
     />
-  </div>
+  </form>
 </template>

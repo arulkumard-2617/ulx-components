@@ -11,12 +11,21 @@ import {
 	getRuleValue,
 	isInvalidState,
 	resolveKey,
-	buildInputId
+	buildInputId,
+	buildFieldClass,
+	buildInputClass,
+	buildAriaDescribedBy,
+	buildIconFieldClass,
+	getInputIconClass,
+	buildFloatLabelClass,
+	getFloatLabelLabelClass,
+	resolveFloatLabelText,
+	syncFloatLabelFilledClass
 } from "../../../utils/input-util";
 import { t } from "../../../utils/i18n";
-import UlxInput from "../ulx-input/index.gjs";
-import UlxIconInput from "../ulx-icon-input/index.gjs";
+import { and, not } from "ember-truth-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
+import tooltip from "../../../modifiers/tooltip";
 
 const DEFAULT_MEDIUM_REGEX =
 	"^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}).";
@@ -34,6 +43,7 @@ const DEFAULT_STRONG_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})";
  * @param {string} [helpText] - Help text below the input.
  * @param {string} [error] - Error message below the input.
  * @param {string} [fieldClass] - Extra classes for the field wrapper.
+ * @param {string} [tooltipMessage] - Optional info text shown in a tooltip on an info icon next to the label.
  * @param {string} [placeholder] - Placeholder text.
  * @param {boolean} [disabled=false] - Disabled state.
  * @param {boolean} [readonly=false] - Read-only state.
@@ -166,11 +176,86 @@ export default class UlxPassword extends Component {
 		return this.hasFeedback && this.focused;
 	}
 
+	get fieldClass() {
+		return buildFieldClass(this.args.fieldClass);
+	}
+
 	get rootClass() {
 		const { customClass } = this.args;
 		const parts = [this.baseClass];
 		customClass && parts.push(customClass);
 		return parts.filter(Boolean).join(" ");
+	}
+
+	get inputClass() {
+		const { size = "m-size", filled, disabled, readonly, value } = this.args;
+		return buildInputClass({
+			isTextarea: false,
+			size,
+			filled,
+			invalid: this.isInvalid,
+			disabled,
+			readonly,
+			floatLabel: this.args.floatLabel,
+			value
+		});
+	}
+
+	get iconFieldClass() {
+		const { size = "m-size", filled, disabled } = this.args;
+		return buildIconFieldClass({
+			iconPosition: "right",
+			size,
+			filled,
+			invalid: this.isInvalid,
+			disabled,
+			iconFieldClass: null
+		});
+	}
+
+	get inputIconClass() {
+		return getInputIconClass();
+	}
+
+	get hasLabelMeta() {
+		return this.minLength != null || this.maxLength != null;
+	}
+
+	get labelMetaText() {
+		const parts = [];
+		if (this.minLength != null) parts.push(`${this.minLength}`);
+		if (this.maxLength != null) parts.push(`${this.maxLength}`);
+		return parts.join(" / ");
+	}
+
+	get ariaDescribedBy() {
+		return buildAriaDescribedBy(this.inputId, {
+			helpText: this.args.helpText,
+			error: this.args.error
+		});
+	}
+
+	get ariaErrorMessage() {
+		return this.args.error ? `${this.inputId}-error` : undefined;
+	}
+
+	get floatLabelText() {
+		const { floatLabel, label } = this.args;
+		return resolveFloatLabelText(floatLabel, label);
+	}
+
+	get floatLabelClass() {
+		const { size = "m-size", filled, disabled } = this.args;
+		return buildFloatLabelClass({
+			size,
+			filled,
+			invalid: this.isInvalid,
+			disabled
+		});
+	}
+
+	get floatLabelLabelClass() {
+		return getFloatLabelLabelClass();
 	}
 
 	get toggleIconWrapperClass() {
@@ -186,7 +271,7 @@ export default class UlxPassword extends Component {
 	}
 
 	get toggleIconName() {
-		return this.unmasked ? "view-icon-01" : "view-icon";
+		return this.unmasked ? "hide-icon" : "view-icon";
 	}
 
 	get panelClass() {
@@ -250,7 +335,8 @@ export default class UlxPassword extends Component {
 			const trigger = this.triggerElement ?? triggerEl;
 			if (!trigger) return;
 
-			const targetRect = trigger.getBoundingClientRect();
+			const inputEl = trigger.tagName === "INPUT" ? trigger : trigger.querySelector("input");
+			const targetRect = (inputEl ?? trigger).getBoundingClientRect();
 			const scrollX = window.pageXOffset ?? document.documentElement.scrollLeft ?? 0;
 			const scrollY = window.pageYOffset ?? document.documentElement.scrollTop ?? 0;
 
@@ -265,7 +351,7 @@ export default class UlxPassword extends Component {
 
 			const panelHeight = element.offsetHeight || 80;
 			let top = targetRect.bottom + 4;
-			let left = targetRect.left;
+			const left = targetRect.left;
 			const viewportHeight = window.innerHeight;
 
 			if (top + panelHeight > viewportHeight) {
@@ -313,7 +399,21 @@ export default class UlxPassword extends Component {
 	}
 
 	@action
+	handleIconFieldFocusIn(event) {
+		event.currentTarget.classList.add("focused");
+	}
+
+	@action
+	handleIconFieldFocusOut(event) {
+		if (!event.currentTarget.contains(event.relatedTarget)) {
+			event.currentTarget.classList.remove("focused");
+		}
+	}
+
+	@action
 	handleInput(event) {
+		const { floatLabel } = this.args;
+		if (floatLabel) syncFloatLabelFilledClass(event.target);
 		this.args.onInput?.(event);
 	}
 
@@ -324,112 +424,250 @@ export default class UlxPassword extends Component {
 
 	@action
 	handleFocus(event) {
+		const { floatLabel } = this.args;
+		if (floatLabel) event.target.classList.add("focus");
 		this.focused = true;
 		this.args.onFocus?.(event);
 	}
 
 	@action
 	handleBlur(event) {
+		const { floatLabel } = this.args;
+		if (floatLabel) {
+			event.target.classList.remove("focus");
+			syncFloatLabelFilledClass(event.target);
+		}
 		this.focused = false;
 		this.args.onBlur?.(event);
 	}
 
 	<template>
-		<div class={{this.rootClass}} {{this.triggerRef}}>
-			{{#if this.hasToggleMask}}
-				<UlxIconInput
-					@id={{this.inputId}}
-					@key={{@key}}
-					@value={{@value}}
-					@label={{@label}}
-					@rules={{@rules}}
-					@helpText={{@helpText}}
-					@error={{@error}}
-					@fieldClass={{@fieldClass}}
-					@placeholder={{@placeholder}}
-					@disabled={{@disabled}}
-					@readonly={{@readonly}}
-					@invalid={{@invalid}}
-					@filled={{@filled}}
-					@size={{@size}}
-					@type={{this.inputType}}
-					@iconPosition="right"
-					@iconAriaLabel={{this.toggleAriaLabel}}
-					@onInput={{this.handleInput}}
-					@onChange={{this.handleChange}}
-					@onFocus={{this.handleFocus}}
-					@onBlur={{this.handleBlur}}
-					...attributes
-				>
-					<:icon>
-						<span
-							class={{this.toggleIconWrapperClass}}
-							role="switch"
-							tabindex="0"
-							aria-label={{this.toggleAriaLabel}}
-							aria-checked={{if this.unmasked "true" "false"}}
-							{{on "click" this.toggleMask}}
-							{{on "keydown" this.handleToggleKeydown}}
-						>
+		<div class={{this.fieldClass}}>
+			{{#if (and @label (not @floatLabel))}}
+				<label for={{this.inputId}}>
+					<span class="label-text">
+						{{@label}}
+						{{#if this.isRequired}}
+							<span class="fg-red" aria-hidden="true">*</span>
+						{{/if}}
+						{{#if @tooltipMessage}}
 							<UlxIcon
-								@iconName={{this.toggleIconName}}
+								{{tooltip @tooltipMessage position="bottom"}}
 								@type="font"
-								@size="s18"
-								aria-hidden="true"
+								@iconName="info-icon"
+								@size="s14"
 							/>
-						</span>
-					</:icon>
-				</UlxIconInput>
-			{{else}}
-				<UlxInput
-					@id={{this.inputId}}
-					@key={{@key}}
-					@value={{@value}}
-					@label={{@label}}
-					@rules={{@rules}}
-					@helpText={{@helpText}}
-					@error={{@error}}
-					@fieldClass={{@fieldClass}}
-					@placeholder={{@placeholder}}
-					@disabled={{@disabled}}
-					@readonly={{@readonly}}
-					@invalid={{@invalid}}
-					@filled={{@filled}}
-					@size={{@size}}
-					@floatLabel={{@floatLabel}}
-					@type={{this.inputType}}
-					@onInput={{this.handleInput}}
-					@onChange={{this.handleChange}}
-					@onFocus={{this.handleFocus}}
-					@onBlur={{this.handleBlur}}
-					...attributes
-				/>
+						{{/if}}
+					</span>
+					{{#if this.hasLabelMeta}}
+						<span class="label-right">{{this.labelMetaText}}</span>
+					{{/if}}
+				</label>
 			{{/if}}
 
-			{{#if this.showPanel}}
-				<div
-					class={{this.panelClass}}
-					aria-hidden="false"
-					{{this.appendToBody this.showPanel}}
-					{{this.positionPanel this.showPanel this.triggerElement}}
-				>
-					{{#if (has-block "header")}}
-						<div class={{this.headerClass}}>
-							{{yield to="header"}}
+			<div class={{this.rootClass}} {{this.triggerRef}}>
+				{{#if @floatLabel}}
+					<span class={{this.floatLabelClass}}>
+						{{#if this.hasToggleMask}}
+							<div
+								class={{this.iconFieldClass}}
+								{{on "focusin" this.handleIconFieldFocusIn}}
+								{{on "focusout" this.handleIconFieldFocusOut}}
+							>
+								<span class={{this.inputIconClass}} aria-hidden="true">
+									<span
+										class={{this.toggleIconWrapperClass}}
+										role="switch"
+										tabindex="0"
+										aria-label={{this.toggleAriaLabel}}
+										aria-checked={{if this.unmasked "true" "false"}}
+										{{on "click" this.toggleMask}}
+										{{on "keydown" this.handleToggleKeydown}}
+									>
+										<UlxIcon
+											@iconName={{this.toggleIconName}}
+											@type="font"
+											@size="s18"
+											aria-hidden="true"
+										/>
+									</span>
+								</span>
+								<input
+									id={{this.inputId}}
+									type={{this.inputType}}
+									class={{this.inputClass}}
+									value={{@value}}
+									placeholder={{@placeholder}}
+									disabled={{@disabled}}
+									readonly={{@readonly}}
+									minlength={{this.minLength}}
+									maxlength={{this.maxLength}}
+									required={{this.isRequired}}
+									aria-required={{this.isRequired}}
+									aria-invalid={{if this.isInvalid "true" "false"}}
+									aria-describedby={{this.ariaDescribedBy}}
+									aria-errormessage={{this.ariaErrorMessage}}
+									{{on "input" this.handleInput}}
+									{{on "change" this.handleChange}}
+									{{on "focus" this.handleFocus}}
+									{{on "blur" this.handleBlur}}
+									...attributes
+								/>
+							</div>
+						{{else}}
+							<input
+								id={{this.inputId}}
+								type={{this.inputType}}
+								class={{this.inputClass}}
+								value={{@value}}
+								placeholder={{@placeholder}}
+								disabled={{@disabled}}
+								readonly={{@readonly}}
+								minlength={{this.minLength}}
+								maxlength={{this.maxLength}}
+								required={{this.isRequired}}
+								aria-required={{this.isRequired}}
+								aria-invalid={{if this.isInvalid "true" "false"}}
+								aria-describedby={{this.ariaDescribedBy}}
+								aria-errormessage={{this.ariaErrorMessage}}
+								{{on "input" this.handleInput}}
+								{{on "change" this.handleChange}}
+								{{on "focus" this.handleFocus}}
+								{{on "blur" this.handleBlur}}
+								...attributes
+							/>
+						{{/if}}
+						<label for={{this.inputId}} class={{this.floatLabelLabelClass}}>
+							<span class="label-text">
+								{{this.floatLabelText}}
+								{{#if this.isRequired}}
+									<span class="fg-red" aria-hidden="true">*</span>
+								{{/if}}
+								{{#if @tooltipMessage}}
+									<UlxIcon
+										{{tooltip @tooltipMessage position="bottom"}}
+										@type="font"
+										@iconName="info-icon"
+										@size="s14"
+									/>
+								{{/if}}
+							</span>
+						</label>
+					</span>
+				{{else}}
+					{{#if this.hasToggleMask}}
+						<div
+							class={{this.iconFieldClass}}
+							{{on "focusin" this.handleIconFieldFocusIn}}
+							{{on "focusout" this.handleIconFieldFocusOut}}
+						>
+							<span class={{this.inputIconClass}} aria-hidden="true">
+								<span
+									class={{this.toggleIconWrapperClass}}
+									role="switch"
+									tabindex="0"
+									aria-label={{this.toggleAriaLabel}}
+									aria-checked={{if this.unmasked "true" "false"}}
+									{{on "click" this.toggleMask}}
+									{{on "keydown" this.handleToggleKeydown}}
+								>
+									<UlxIcon
+										@iconName={{this.toggleIconName}}
+										@type="font"
+										@size="s18"
+										aria-hidden="true"
+									/>
+								</span>
+							</span>
+							<input
+								id={{this.inputId}}
+								type={{this.inputType}}
+								class={{this.inputClass}}
+								value={{@value}}
+								placeholder={{@placeholder}}
+								disabled={{@disabled}}
+								readonly={{@readonly}}
+								minlength={{this.minLength}}
+								maxlength={{this.maxLength}}
+								required={{this.isRequired}}
+								aria-required={{this.isRequired}}
+								aria-invalid={{if this.isInvalid "true" "false"}}
+								aria-describedby={{this.ariaDescribedBy}}
+								aria-errormessage={{this.ariaErrorMessage}}
+								{{on "input" this.handleInput}}
+								{{on "change" this.handleChange}}
+								{{on "focus" this.handleFocus}}
+								{{on "blur" this.handleBlur}}
+								...attributes
+							/>
 						</div>
+					{{else}}
+						<input
+							id={{this.inputId}}
+							type={{this.inputType}}
+							class={{this.inputClass}}
+							value={{@value}}
+							placeholder={{@placeholder}}
+							disabled={{@disabled}}
+							readonly={{@readonly}}
+							minlength={{this.minLength}}
+							maxlength={{this.maxLength}}
+							required={{this.isRequired}}
+							aria-required={{this.isRequired}}
+							aria-invalid={{if this.isInvalid "true" "false"}}
+							aria-describedby={{this.ariaDescribedBy}}
+							aria-errormessage={{this.ariaErrorMessage}}
+							{{on "input" this.handleInput}}
+							{{on "change" this.handleChange}}
+							{{on "focus" this.handleFocus}}
+							{{on "blur" this.handleBlur}}
+							...attributes
+						/>
 					{{/if}}
+				{{/if}}
 
-					<div class={{this.meterClass}}>
-						<div class={{this.strengthBarClass}} style={{this.strengthWidthStyle}}></div>
+				{{#if this.showPanel}}
+					<div
+						class={{this.panelClass}}
+						aria-hidden="false"
+						{{this.appendToBody this.showPanel}}
+						{{this.positionPanel this.showPanel this.triggerElement}}
+					>
+						{{#if (has-block "panel-header")}}
+							<div class={{this.headerClass}}>
+								{{yield to="panel-header"}}
+							</div>
+						{{/if}}
+
+						<div class={{this.meterClass}}>
+							<div class={{this.strengthBarClass}} style={{this.strengthWidthStyle}}></div>
+						</div>
+						<div class={{this.infoClass}}>{{this.strengthLabel}}</div>
+
+						{{#if (has-block "panel-footer")}}
+							<div class={{this.footerClass}}>
+								{{yield to="panel-footer"}}
+							</div>
+						{{/if}}
 					</div>
-					<div class={{this.infoClass}}>{{this.strengthLabel}}</div>
+				{{/if}}
+			</div>
 
-					{{#if (has-block "footer")}}
-						<div class={{this.footerClass}}>
-							{{yield to="footer"}}
-						</div>
-					{{/if}}
-				</div>
+			{{#if (has-block "footer")}}
+				{{yield to="footer"}}
+			{{/if}}
+
+			{{#if @helpText}}
+				<div id="{{this.inputId}}-help" class="help-text">{{@helpText}}</div>
+			{{/if}}
+
+			{{#if @error}}
+				<div
+					id="{{this.inputId}}-error"
+					class="error-message"
+					role="alert"
+					aria-atomic="true"
+				>*{{@error}}</div>
 			{{/if}}
 		</div>
 	</template>
