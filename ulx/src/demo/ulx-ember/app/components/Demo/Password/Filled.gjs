@@ -12,7 +12,7 @@ export default class DemoPasswordFilled extends Component {
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+    <form class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxPassword
         @value={{this.value}}
         @onInput={{this.handleInput}}
@@ -22,6 +22,6 @@ export default class DemoPasswordFilled extends Component {
         @fieldClass="col-12"
         placeholder={{t "lbl.enter.password"}}
       />
-    </div>
+    </form>
   </template>
 }

@@ -5,12 +5,13 @@
 export default {
   category: 'Collections',
   subCategory: 'Notifications',
-  menuItem: 'messages',
+  menuItem: 'Message banner',
   routeBase: '/components/collections/messages',
   icon: 'pi pi-compass',
 
-  header: 'messages',
-  subHeader: 'Container for a list of messages with variant, closable, and optional auto-close.',
+  header: 'Message banner',
+  subHeader:
+    'Container for a list of messages with variant, closable, and optional auto-close.',
 
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },

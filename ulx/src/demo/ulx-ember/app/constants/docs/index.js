@@ -237,7 +237,7 @@ export const DocNavItems = [
             route: 'components.collections.message',
           },
           {
-            menuItem: 'Messages',
+            menuItem: 'Message banner',
             to: '/components/collections/messages',
             route: 'components.collections.messages',
           },

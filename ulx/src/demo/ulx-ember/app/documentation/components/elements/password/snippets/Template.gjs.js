@@ -20,9 +20,9 @@ export default class DemoPasswordTemplate extends Component {
       @label={{t "lbl.password"}}
       placeholder={{t "lbl.enter.password"}}
     >
-      <:header>
-        <div class="font-bold">{{t "lbl.password.pick"}}</div>
-      </:header>
+      <:panel-header>
+        <div class="bold-font">{{t "lbl.password.pick"}}</div>
+      </:panel-header>
       <:footer>
         <UlxDivider />
         <p class="font-bold mt-8 mb-4">{{t "lbl.password.suggestions"}}</p>

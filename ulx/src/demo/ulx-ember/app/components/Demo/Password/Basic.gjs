@@ -12,15 +12,15 @@ export default class DemoPasswordBasic extends Component {
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+    <form class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxPassword
         @value={{this.value}}
         @onInput={{this.handleInput}}
         @feedback={{false}}
         @label={{t "lbl.password"}}
-        @fieldClass="col-12"
+        @fieldClass="col-6"
         placeholder={{t "lbl.enter.password"}}
       />
-    </div>
+    </form>
   </template>
 }
