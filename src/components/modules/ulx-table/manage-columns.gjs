@@ -8,11 +8,13 @@ import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import { t } from "../../../utils/i18n.js";
+import { isSpecialColumn } from "./utils.js";
 
 /**
  * Manage Columns panel for UlxTable.
  * Allows hiding/showing columns and reordering via drag-and-drop.
- * Columns with `manageable: false` are excluded from management.
+ * Mandatory columns that cannot be disabled: set column `manageable: false`;
+ * they appear in the list as locked (checkbox disabled, lock icon) and cannot be toggled off.
  *
  * @param {Array} allColumns - full flex-col list (including hidden ones)
  * @param {Array} visibleColumns - currently visible columns
@@ -28,7 +30,7 @@ export default class ManageColumns extends Component {
 	get manageableColumns() {
 		return (
 			this.args.allColumns?.filter((c) => {
-				return c.field && !c.selectionMode && !c.expander && !c.rowReorder && !c.rowEditor;
+				return c.field && !isSpecialColumn(c);
 			}) ?? []
 		);
 	}
@@ -73,7 +75,7 @@ export default class ManageColumns extends Component {
 		const lockedCols = this.args.allColumns?.filter((c) => c.manageable === false) ?? [];
 		const nonManageableCols =
 			this.args.allColumns?.filter(
-				(c) => c.selectionMode || c.expander || c.rowReorder || c.rowEditor
+				(c) => isSpecialColumn(c)
 			) ?? [];
 		const result = [...nonManageableCols, ...lockedCols, ...orderedVisible];
 		this.args.onApply?.({ columns: result });
@@ -141,10 +143,10 @@ export default class ManageColumns extends Component {
 							@itemLabel={{col.header}}
 							@onChange={{fn this.toggleColumn col}}
 							@customClass="datatable-manage-columns-label"
-							aria-label="Toggle column {{col.header}}"
+							aria-label={{t "aria.table.toggle.column" header=col.header}}
 						/>
 						{{#if (this.isLocked col)}}
-							<span class="datatable-manage-columns-locked-icon" aria-label="Column locked">
+							<span class="datatable-manage-columns-locked-icon" aria-label={{t "aria.table.column.locked"}}>
 								<UlxIcon @componentClass="bs-icons1" @type="font" @iconName="lock" @size="s12" />
 							</span>
 						{{/if}}

@@ -3,6 +3,7 @@ export default `
   @value={{this.members}}
   @columns={{this.columns}}
   @dataKey="id"
+  @moduleName="portal-members"
   @showGlobalFilter={{true}}
   @globalFilterPlaceholder={{t "lbl.search"}}
   @sortOptions={{this.sortOptions}}

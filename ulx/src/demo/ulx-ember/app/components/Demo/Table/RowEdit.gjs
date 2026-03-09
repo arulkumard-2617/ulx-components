@@ -1,8 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { UlxTable } from 'ulx-components';
+import { UlxTable, UlxInput } from 'ulx-components';
 
 const initProducts = () => [
   {
@@ -42,11 +41,10 @@ class NameEditor extends Component {
     onChange?.({ row, field, value: event.target.value });
   }
   <template>
-    <input
-      type="text"
-      class="uls-input s-size"
-      value={{@value}}
-      {{on "input" this.handleInput}}
+    <UlxInput
+      @value={{@value}}
+      @size="s-size"
+      @onInput={{this.handleInput}}
       aria-label="Edit {{@field}}"
     />
   </template>
@@ -60,13 +58,12 @@ class PriceEditor extends Component {
     onChange?.({ row, field, value });
   }
   <template>
-    <input
-      type="number"
-      class="uls-input s-size"
-      value={{@value}}
-      {{on "input" this.handleInput}}
+    <UlxInput
+      @value={{@value}}
+      @type="number"
+      @size="s-size"
+      @onInput={{this.handleInput}}
       aria-label="Edit price"
-      style="width: 80px"
     />
   </template>
 }
@@ -74,6 +71,7 @@ class PriceEditor extends Component {
 export default class DemoTableRowEdit extends Component {
   @tracked products = initProducts();
   @tracked editingRows = [];
+  @tracked _originals = {};
 
   get columns() {
     return [
@@ -91,6 +89,7 @@ export default class DemoTableRowEdit extends Component {
     this._originals = { ...this._originals, [row.id]: { ...row } };
   }
 
+
   @action
   onRowEditSave({ row }) {
     this.editingRows = this.editingRows.filter((r) => r.id !== row.id);
@@ -99,14 +98,17 @@ export default class DemoTableRowEdit extends Component {
   @action
   onRowEditCancel({ row }) {
     const orig = this._originals?.[row.id];
-    if (orig) Object.assign(row, orig);
+    if (orig) {
+      this.products = this.products.map((p) => (p.id === row.id ? { ...orig } : p));
+    }
     this.editingRows = this.editingRows.filter((r) => r.id !== row.id);
   }
 
   @action
   onCellEditComplete({ row, field, value }) {
-    row[field] = value;
-    this.products = [...this.products];
+    this.products = this.products.map((p) =>
+      p === row ? { ...p, [field]: value } : p
+    );
   }
 
   <template>

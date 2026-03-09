@@ -44,8 +44,8 @@ import {
   DynamicColumnsSource,
   CardViewDemo,
   CardViewSource,
-  PortalMembersDemo,
-  PortalMembersSource,
+  BsTableViewDemo,
+  BsTableViewSource,
   VerticalTableDemo,
   VerticalTableSource,
   ImportSource,
@@ -76,13 +76,13 @@ export const TableFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Portal-members style table: <code>@showGlobalFilter</code>, toolbar <code>@sortOptions</code> / <code>@sortBy</code> / <code>@onSortByChange</code>, filter slide pane via <code>@filterGroups</code>, <code>@showManageColumns</code>, and primary action in <code>&lt;:postRightMenu&gt;</code>. Uses custom body for Name & Email (avatar + name + email) and <code>&lt;:optionCell&gt;</code> for row actions.',
+          'BSTable style: <code>@showGlobalFilter</code>, toolbar <code>@sortOptions</code> / <code>@sortBy</code> / <code>@onSortByChange</code>, filter slide pane via <code>@filterGroups</code>, <code>@showManageColumns</code> (use <code>manageable: false</code> on columns to lock them), and primary action in <code>&lt;:postRightMenu&gt;</code>. Uses custom body for Name & Email (avatar + name + email) and <code>&lt;:optionCell&gt;</code> for row actions.',
       },
     },
     demo: {
-      component: PortalMembersDemo,
+      component: BsTableViewDemo,
       props: {
-        source: PortalMembersSource,
+        source: BsTableViewSource,
         snippetName: 'portal-members',
         language: 'handlebars',
       },
