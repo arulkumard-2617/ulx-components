@@ -25,7 +25,7 @@
     "src"
   ],
   "scripts": {
-    "build": "rollup --config",
+    "build": "rollup --config && node ulx/src/scripts/less/ulx-editor-build.js",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
     "lint:js": "eslint . --cache",
