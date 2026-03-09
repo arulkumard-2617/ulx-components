@@ -24,4 +24,5 @@ export default class DemoSkeletonDataTable extends Component {
     />
   </template>
 }
+
 `;

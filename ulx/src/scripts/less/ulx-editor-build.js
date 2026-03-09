@@ -5,9 +5,15 @@ const { readFileSync, writeFileSync, mkdirSync, existsSync, watch } = require('f
 const less = require('less');
 
 // Configuration
+// Script lives at ulx/src/scripts/less/
+// ulxRoot → ulx package root
+// addonRoot → ulx-components root (one level above ulx)
+const ulxRoot = resolve(__dirname, '../../..');
+const addonRoot = resolve(ulxRoot, '..');
 const stylesPath = 'src/styles/ulx';
-const entryFile = resolve(process.cwd(), stylesPath, 'ulx-editor.less');
-const outDir = resolve(process.cwd(), 'dist/css');
+const entryFile = resolve(ulxRoot, stylesPath, 'ulx-editor.less');
+// Write CSS to the root addon dist so it is a direct child of ulx-components
+const outDir = resolve(addonRoot, 'dist/css');
 const outFile = resolve(outDir, 'ulx-editor.css');
 const outMinFile = resolve(outDir, 'ulx-editor.min.css');
 
@@ -40,8 +46,8 @@ const cssVarPrefix =
 	ulxConfig.cssVarPrefixes?.[appName] || ulxConfig.cssVarPrefix || ulxConfig.prefix || 'ulx-';
 
 // Paths for LESS compilation (similar to vite config)
-const nodeModulesPath = resolve(process.cwd(), 'node_modules');
-const stylesRoot = resolve(process.cwd(), stylesPath);
+const nodeModulesPath = resolve(ulxRoot, 'node_modules');
+const stylesRoot = resolve(ulxRoot, stylesPath);
 const entryDir = dirname(entryFile);
 const ulsPackagePath = resolve(__dirname, '../../ULS_V2.0/node_modules/ulx-v2');
 const ulsStylesPath = resolve(ulsPackagePath, 'src/styles');

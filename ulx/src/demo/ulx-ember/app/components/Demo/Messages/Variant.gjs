@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxBannerMessage } from 'ulx-components';
+import { UlxBannerMessage, UlxButton } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class VariantMessagesDemo extends Component {
@@ -8,29 +8,43 @@ export default class VariantMessagesDemo extends Component {
       {
         id: '1',
         variant: 'info',
-        detail: t('lbl.info.message'),
         summary: t('lbl.info'),
+        detail: t('lbl.info.message'),
+        icon: 'enhance-icon',
       },
       {
         id: '2',
         variant: 'success',
-        detail: t('lbl.success.message'),
         summary: t('lbl.success'),
+        detail: t('lbl.success.message'),
+        icon: 'documents-filled-icon',
       },
       {
         id: '3',
         variant: 'warn',
-        detail: t('lbl.warn.message'),
         summary: t('lbl.warn'),
+        detail: t('lbl.warn.message'),
+        icon: 'enhance-icon',
       },
       {
         id: '4',
         variant: 'error',
-        detail: t('lbl.error.message'),
         summary: t('lbl.error'),
+        detail: t('lbl.error.message'),
+        icon: 'documents-filled-icon',
       },
     ];
   }
 
-  <template><UlxBannerMessage @messages={{this.messages}} /></template>
+  <template>
+    <UlxBannerMessage @messages={{this.messages}} @iconType="font" @customClass="my-5">
+      <:action>
+        <UlxButton
+          @variant="primary"
+          @outlined={{true}}
+          @label={{t "lbl.view.more.details"}}
+        />
+      </:action>
+    </UlxBannerMessage>
+  </template>
 }

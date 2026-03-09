@@ -70,6 +70,16 @@ export const DocNavItems = [
             to: '/components/elements/rating',
             route: 'components.elements.rating',
           },
+          {
+            menuItem: 'Slider',
+            to: '/components/elements/slider',
+            route: 'components.elements.slider',
+          },
+          {
+            menuItem: 'Password',
+            to: '/components/elements/password',
+            route: 'components.elements.password',
+          },
         ],
       },
       {
@@ -136,24 +146,14 @@ export const DocNavItems = [
             route: 'components.elements.progressspinner',
           },
           {
-            menuItem: 'Message',
-            to: '/components/elements/message',
-            route: 'components.elements.message',
-          },
-          {
-            menuItem: 'Messages',
-            to: '/components/elements/messages',
-            route: 'components.elements.messages',
-          },
-          {
-            menuItem: 'DataView',
-            to: '/components/elements/data-view',
-            route: 'components.elements.data-view',
-          },
-          {
             menuItem: 'Skeleton',
             to: '/components/elements/skeleton',
             route: 'components.elements.skeleton',
+          },
+          {
+            menuItem: 'EmptyState',
+            to: '/components/elements/empty-state',
+            route: 'components.elements.empty-state',
           },
         ],
       },
@@ -228,6 +228,21 @@ export const DocNavItems = [
           },
         ],
       },
+      {
+        category: 'Notifications',
+        items: [
+          {
+            menuItem: 'Message',
+            to: '/components/collections/message',
+            route: 'components.collections.message',
+          },
+          {
+            menuItem: 'Message banner',
+            to: '/components/collections/messages',
+            route: 'components.collections.messages',
+          },
+        ],
+      },
     ],
   },
   {
@@ -264,8 +279,8 @@ export const DocNavItems = [
         items: [
           {
             menuItem: 'DataView',
-            to: '/components/elements/data-view',
-            route: 'components.elements.data-view',
+            to: '/components/modules/data-view',
+            route: 'components.modules.data-view',
           },
           {
             menuItem: 'Paginator',

@@ -102,13 +102,13 @@ export default class DemoInputGroupTemplate extends Component {
           />
         </:end>
 
-        <:bottom>
+        <:footer>
           <UlxCheckbox
             @itemLabel={{t "lbl.to.be.announced"}}
             @checked={{this.isToBeAnnounced}}
             @onCheckedChange={{this.handleToBeAnnouncedChange}}
           />
-        </:bottom>
+        </:footer>
       </UlxInput>
 
       <div class="field col-8">

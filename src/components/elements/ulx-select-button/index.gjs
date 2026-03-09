@@ -36,7 +36,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {boolean} [disabled=false] - Disables the whole component.
  * @param {boolean} [invalid=false] - Invalid/error state for validation.
  * @param {boolean} [stretch=false] - Buttons stretch to fill width.
- * @param {string} [size='s-size'] - Size class: xs-size, s-size, m-size, l-size, xl-size.
+ * @param {string} [size='m-size'] - Size class: xs-size, s-size, m-size, l-size, xl-size.
  * @param {string} [variant='primary'] - Severity variant: primary, secondary, success, info, warning, help, danger.
  * @param {string} [styleVariant] - Visual style: filled, text, raised, rounded.
  * @param {string} [ariaLabel] - Accessible name for the group (recommended when no visible label).
@@ -85,7 +85,7 @@ export default class UlxSelectButton extends Component {
 
 	get rootClasses() {
 		const {
-			size = "s-size",
+			size = "m-size",
 			variant = "primary",
 			styleVariant,
 			stretch = false,

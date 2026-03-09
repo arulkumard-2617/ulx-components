@@ -43,6 +43,10 @@ export default class DemoTableConditionalStyle extends Component {
   rowClass = rowClass;
 
   <template>
+    <p class="text-sm fg-text-secondary mb-2">
+      Rows in the "Fitness" category are highlighted. The Quantity column is
+      color-coded: green = in-stock, orange = low-stock, red = out-of-stock.
+    </p>
     <UlxTable
       @value={{this.products}}
       @columns={{this.columns}}
@@ -51,4 +55,5 @@ export default class DemoTableConditionalStyle extends Component {
     />
   </template>
 }
+
 `;

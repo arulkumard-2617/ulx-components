@@ -4,14 +4,18 @@
 import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   BasicDemo,
+  SizesDemo,
   DynamicDemo,
   WithControlsDemo,
+  WithoutValueDemo,
   TemplateDemo,
   IndeterminateDemo,
   ImportSource,
   BasicSource,
+  SizesSource,
   DynamicSource,
   WithControlsSource,
+  WithoutValueSource,
   TemplateSource,
   IndeterminateSource,
 } from './imports';
@@ -58,21 +62,21 @@ export const ProgressBarFeatureItems = [
     },
   },
   {
-    id: 'dynamic',
-    sectionNav: 'Dynamic',
+    id: 'sizes',
+    sectionNav: 'Sizes',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Value is reactive so updating it dynamically changes the bar as well. This demo starts at 0 and increments by a random amount every 2s until 100, then shows a success toast (Process Completed).',
+          'Size variants: <code>xxxs-size</code>, <code>xs-size</code>, <code>s-size</code>, <code>m-size</code>, <code>l-size</code>, <code>xl-size</code>, and custom height <code>h-14</code>, <code>h-20</code>. Pass <code>@size</code> to change the bar height.',
       },
     },
     demo: {
-      component: DynamicDemo,
+      component: SizesDemo,
       props: {
-        source: DynamicSource,
-        snippetName: 'dynamic',
+        source: SizesSource,
+        snippetName: 'sizes',
         language: 'handlebars',
       },
     },
@@ -93,6 +97,46 @@ export const ProgressBarFeatureItems = [
       props: {
         source: WithControlsSource,
         snippetName: 'with-controls',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'without-value',
+    sectionNav: 'Without value',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Pass <code>@showValue={{false}}</code> to hide the percentage label inside the bar. The bar fill still reflects the value; only the text is hidden.',
+      },
+    },
+    demo: {
+      component: WithoutValueDemo,
+      props: {
+        source: WithoutValueSource,
+        snippetName: 'without-value',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'dynamic',
+    sectionNav: 'Dynamic',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Value is reactive so updating it dynamically changes the bar as well. This demo starts at 0 and increments by a random amount every 2s until 100, then shows a success toast (Process Completed).',
+      },
+    },
+    demo: {
+      component: DynamicDemo,
+      props: {
+        source: DynamicSource,
+        snippetName: 'dynamic',
         language: 'handlebars',
       },
     },

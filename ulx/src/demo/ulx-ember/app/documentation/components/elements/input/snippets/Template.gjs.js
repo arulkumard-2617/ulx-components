@@ -7,18 +7,27 @@ import { UlxInput, UlxCheckbox, t } from 'ulx-components';
 export default class DemoInputTemplate extends Component {
   @tracked isFeatured = false;
 
-  @action handleFeaturedChange(checked) {
+  @action
+  handleFeaturedChange(checked) {
     this.isFeatured = checked;
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-6 mb-14">
       <UlxInput
         @label="First Name"
         @fieldClass="col-6"
         placeholder="Aaron"
         aria-label="First Name"
-      />
+      >
+        <:footer>
+          <UlxCheckbox
+            @itemLabel="Feature this speaker"
+            @checked={{this.isFeatured}}
+            @onCheckedChange={{this.handleFeaturedChange}}
+          />
+        </:footer>
+      </UlxInput>
 
       <UlxInput
         @label="Last Name"
@@ -27,22 +36,8 @@ export default class DemoInputTemplate extends Component {
         aria-label="Last Name"
       />
 
-      <UlxInput
-        @label="First Name"
-        @fieldClass="col-6"
-        placeholder="Aaron"
-        aria-label="First Name"
-      >
-        <:bottom>
-          <UlxCheckbox
-            @itemLabel="Feature this speaker"
-            @checked={{this.isFeatured}}
-            @onCheckedChange={{this.handleFeaturedChange}}
-          />
-        </:bottom>
-      </UlxInput>
     </div>
   </template>
 }
-`;
 
+`;

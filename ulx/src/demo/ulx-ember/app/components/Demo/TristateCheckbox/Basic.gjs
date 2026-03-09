@@ -1,15 +1,16 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxTristateCheckbox } from 'ulx-components';
+import { hash } from '@ember/helper';
+import { UlxTristateCheckbox, t } from 'ulx-components';
 
 export default class BasicTristateCheckboxDemo extends Component {
   @tracked value = false;
 
   get stateLabel() {
-    if (this.value === true) return 'Checked';
-    if (this.value === null) return 'Indeterminate';
-    return 'Unchecked';
+    if (this.value === true) return t('lbl.tristate.checked');
+    if (this.value === null) return t('lbl.tristate.indeterminate');
+    return t('lbl.tristate.unchecked');
   }
 
   @action
@@ -18,12 +19,18 @@ export default class BasicTristateCheckboxDemo extends Component {
   }
 
   <template>
-    <UlxTristateCheckbox
-      @id="tristate-basic"
-      @value={{this.value}}
-      @onValueChange={{this.handleValueChange}}
-      @itemLabel="Accept terms"
-      aria-label="Tri-state checkbox: {{this.stateLabel}}"
-    />
+    <div class="ulx-form m-size">
+      <UlxTristateCheckbox
+        @id="tristate-basic"
+        @size="xxxs-size"
+        @value={{this.value}}
+        @onValueChange={{this.handleValueChange}}
+        @itemLabel={{t "lbl.tristate.checkbox.label"}}
+        aria-label={{t
+          "aria.tristate.checkbox.state"
+          (hash state=this.stateLabel)
+        }}
+      />
+    </div>
   </template>
 }

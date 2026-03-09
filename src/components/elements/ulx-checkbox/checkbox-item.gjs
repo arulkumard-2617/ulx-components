@@ -15,7 +15,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {boolean} [disabled=false] - Disabled state.
  * @param {boolean} [invalid=false] - Invalid state (aria + styling).
  * @param {boolean} [filled=false] - Filled variant styling.
- * @param {string} [size] - Size variant.
+ * @param {string} [size="xxxs-size"] - Size variant. Defaults to "xxxs-size" when not provided.
  * @param {string} [iconSize="s20"] - Icon size class passed to `UlxIcon` (e.g. "s20").
  * @param {string} [customClass] - Extra classes for the row wrapper.
  * @param {string} [itemLabel] - Label text rendered next to the checkbox.
@@ -41,7 +41,7 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	get resolvedSize() {
-		return this.args.size ?? "s-size";
+		return this.args.size ?? "xxxs-size";
 	}
 
 	get resolvedVariant() {

@@ -1,20 +1,21 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import didInsert from '@ember/render-modifiers/modifiers/did-insert';
-import willDestroy from '@ember/render-modifiers/modifiers/will-destroy';
+import { modifier } from 'ember-modifier';
 import { UlxProgressBar, UlxToast, t } from 'ulx-components';
 
 const INTERVAL_MS = 2000;
 
 export default class DynamicProgressBarDemo extends Component {
-  didInsert = didInsert;
-  willDestroy = willDestroy;
-
   @tracked value = 0;
   @tracked messages = [];
 
   _interval = null;
+
+  intervalLifecycle = modifier((_element, [onStart, onStop]) => {
+    onStart?.();
+    return () => onStop?.();
+  });
 
   @action
   startInterval() {
@@ -54,10 +55,9 @@ export default class DynamicProgressBarDemo extends Component {
   <template>
     <div
       class="flex flex-col gap-8"
-      {{this.didInsert this.startInterval}}
-      {{this.willDestroy this.clearInterval}}
+      {{this.intervalLifecycle this.startInterval this.clearInterval}}
     >
-      <UlxProgressBar @value={{this.value}} @size="m-size" />
+      <UlxProgressBar @value={{this.value}} @size="xxxs-size" />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>
   </template>

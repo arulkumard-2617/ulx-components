@@ -42,4 +42,5 @@ export default class DemoSkeletonShapes extends Component {
     </div>
   </template>
 }
+
 `;

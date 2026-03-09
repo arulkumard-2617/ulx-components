@@ -1,11 +1,11 @@
-import { modifier } from "ember-modifier";
+import { modifier } from 'ember-modifier';
 
-const TRANSITION_DURATION = 150;
+const TRANSITION_DURATION = 220;
 
 /**
  * Shared overlay lifecycle modifier for modal and slide-pane components.
- * Handles visibility transitions, focus management, keyboard events, and body scroll blocking.
- * 
+ * Handles visibility transitions, focus management, and keyboard events.
+ *
  * @param {HTMLElement} maskElement - The mask/backdrop element
  * @param {Array} [params] - Array with [componentInstance, options]
  * @param {Object} options - Configuration options
@@ -13,7 +13,7 @@ const TRANSITION_DURATION = 150;
  * @param {Function} options.onHide - Callback when overlay closes
  * @param {Function} options.onEscape - Callback when Escape is pressed
  * @param {boolean} options.closeOnEscape - Whether Escape closes overlay
- * @param {boolean} options.blockScroll - Whether to block body scroll
+ * @param {boolean} options.blockScroll - When true, set body overflow hidden while open; restored after exit animation completes
  * @param {string} options.role - Selector for the focusable overlay element (e.g., '[tabindex="-1"]')
  * @param {string} [options.initialFocusSelector] - Optional selector for a container (within overlay) whose first focusable receives initial focus (WCAG: focus main content first)
  * @param {Function} options.handleTabKey - Function to handle Tab key trapping
@@ -62,20 +62,22 @@ export default modifier((maskElement, [componentInstance, options]) => {
 
 	if (currentVisible && !wasVisible) {
 		setShouldRender && setShouldRender(true);
-		setTransitionState && setTransitionState("enter");
+		setTransitionState && setTransitionState('enter');
 
 		enterTimer = setTimeout(() => {
-			setTransitionState && setTransitionState("enter-active");
+			requestAnimationFrame(() => {
+				setTransitionState && setTransitionState('enter-active');
 
-			enterActiveTimer = setTimeout(() => {
-				setTransitionState && setTransitionState("enter-done");
-			}, TRANSITION_DURATION);
+				enterActiveTimer = setTimeout(() => {
+					setTransitionState && setTransitionState('enter-done');
+				}, TRANSITION_DURATION);
+			});
 		}, 0);
 
 		setPreviousActiveElement && setPreviousActiveElement(document.activeElement);
 
-		if (blockScroll && typeof document !== "undefined") {
-			document.body.style.overflow = "hidden";
+		if (blockScroll && typeof document !== 'undefined') {
+			document.body.style.overflow = 'hidden';
 		}
 
 		setTimeout(() => {
@@ -103,25 +105,26 @@ export default modifier((maskElement, [componentInstance, options]) => {
 			onShow();
 		}
 	} else if (!currentVisible && wasVisible) {
-		setTransitionState && setTransitionState("exit-active");
+		setTransitionState && setTransitionState('exit-active');
 
 		exitTimer = setTimeout(() => {
-			setTransitionState && setTransitionState("exit-done");
+			setTransitionState && setTransitionState('exit-done');
 		}, TRANSITION_DURATION);
 
 		unmountTimer = setTimeout(() => {
 			setShouldRender && setShouldRender(false);
-			setTransitionState && setTransitionState("");
+			setTransitionState && setTransitionState('');
+			// Restore body overflow after modal is closed (next tick), not in the same callback
+			if (blockScroll && typeof document !== 'undefined') {
+				setTimeout(() => {
+					document.body.style.overflow = '';
+				}, 0);
+			}
 		}, TRANSITION_DURATION + 50);
-
-		// Restore body scroll when overlay closes
-		if (blockScroll && typeof document !== "undefined") {
-			document.body.style.overflow = "";
-		}
 
 		// Restore focus when overlay closes (after animation completes)
 		const previousActiveElement = getPreviousActiveElement && getPreviousActiveElement();
-		if (previousActiveElement && typeof previousActiveElement.focus === "function") {
+		if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
 			setTimeout(() => {
 				try {
 					previousActiveElement.focus();
@@ -141,7 +144,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 		if (!visible) return;
 
 		switch (event.key) {
-			case "Escape":
+			case 'Escape':
 				if (closeOnEscape) {
 					event.preventDefault();
 					if (onEscape) {
@@ -151,7 +154,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 					}
 				}
 				break;
-			case "Tab":
+			case 'Tab':
 				if (handleTabKey) {
 					const overlayElement = maskElement.querySelector(role);
 					overlayElement && handleTabKey(event, overlayElement);
@@ -160,7 +163,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 		}
 	};
 
-	document.addEventListener("keydown", handleKeyDown);
+	document.addEventListener('keydown', handleKeyDown);
 
 	return () => {
 		if (enterTimer) clearTimeout(enterTimer);
@@ -168,6 +171,10 @@ export default modifier((maskElement, [componentInstance, options]) => {
 		if (exitTimer) clearTimeout(exitTimer);
 		if (unmountTimer) clearTimeout(unmountTimer);
 
-		document.removeEventListener("keydown", handleKeyDown);
+		if (blockScroll && typeof document !== 'undefined') {
+			document.body.style.overflow = '';
+		}
+
+		document.removeEventListener('keydown', handleKeyDown);
 	};
 });

@@ -14,8 +14,8 @@ export default class TemplateRatingDemo extends Component {
 
   <template>
     <UlxRating @value={{this.value}} @onChange={{this.handleChange}}>
-      <:onIcon><span aria-hidden="true">★</span></:onIcon>
-      <:offIcon><span aria-hidden="true">☆</span></:offIcon>
+      <:onIcon><span aria-hidden="true">🥵</span></:onIcon>
+      <:offIcon><span aria-hidden="true">🥶</span></:offIcon>
       <:cancelIcon><span aria-hidden="true">✕</span></:cancelIcon>
     </UlxRating>
   </template>

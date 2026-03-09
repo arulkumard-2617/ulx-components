@@ -25,11 +25,11 @@ export { default as UlxTristateCheckbox } from './components/elements/ulx-trista
 export { default as UlxToggle } from './components/elements/ulx-toggle/index.gjs';
 export { default as UlxDropdown } from './components/elements/ulx-dropdown/index.gjs';
 export { default as UlxMultiSelect } from './components/elements/ulx-multi-select/index.gjs';
-export { default as UlxMessage } from './components/elements/ulx-message/index.gjs';
-export { default as UlxBannerMessage } from './components/elements/ulx-banner-message/index.gjs';
 export { default as UlxRating } from './components/elements/ulx-rating/index.gjs';
-export { default as UlxDataView } from './components/elements/ulx-data-view/index.gjs';
 export { default as UlxSkeleton } from './components/elements/ulx-skeleton/index.gjs';
+export { default as UlxEmptyState } from './components/elements/ulx-empty-state/index.gjs';
+export { default as UlxPassword } from './components/elements/ulx-password/index.gjs';
+export { default as UlxSlider } from './components/elements/ulx-slider/index.gjs';
 // Collections
 export { default as UlxButtonGroup } from './components/collections/ulx-button-group/index.gjs';
 export { default as UlxForm } from './components/collections/ulx-form/index.gjs';
@@ -39,7 +39,10 @@ export { default as UlxSegmentsGroup } from './components/collections/ulx-segmen
 export { default as UlxOptionSegment } from './components/collections/ulx-option-segment/index.gjs';
 export { default as UlxAccordion } from './components/collections/ulx-accordion/index.gjs';
 export { default as UlxTimeline } from './components/collections/ulx-timeline/index.gjs';
+export { default as UlxMessage } from './components/collections/ulx-message/index.gjs';
+export { default as UlxBannerMessage } from './components/collections/ulx-banner-message/index.gjs';
 // Modules
+export { default as UlxDataView } from './components/modules/ulx-data-view/index.gjs';
 export { default as UlxTable } from './components/modules/ulx-table/index.gjs';
 export { default as UlxModal } from './components/modules/ulx-modal/index.gjs';
 export { default as UlxSlidePane } from './components/modules/ulx-slide-pane/index.gjs';

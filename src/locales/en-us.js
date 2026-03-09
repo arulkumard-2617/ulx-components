@@ -17,6 +17,9 @@ const enUs = {
 	'lbl.loading': 'Loading',
 	'lbl.image': 'Image',
 	'msg.more.members': '{count} more members',
+	'lbl.a11y.empty.state.content': 'Empty state content',
+	'msg.empty.state.title': 'No results found',
+	'msg.empty.state.subtitle': 'Try adjusting your search or filters to find what you are looking for.',
 
 	// ── Doc common strings ───────────────────────────────────
 	'lbl.collapse.code': 'Collapse code',
@@ -48,6 +51,7 @@ const enUs = {
 	'lbl.submit': 'Submit',
 	'lbl.clear': 'Clear',
 	'lbl.clear.filters': 'Clear filters',
+	'lbl.view.more.details': 'View More Details',
 	'lbl.filter': 'Filter',
 	'lbl.delete.filter': 'Delete filter',
 	'lbl.add.filter': '+ Filter',
@@ -90,6 +94,7 @@ const enUs = {
 	'lbl.outlined': 'Outlined',
 	'lbl.sticky': 'Sticky',
 	'lbl.no.icon': 'No icon',
+	'lbl.with.icon': 'With icon',
 	'lbl.show.toast': 'Show toast',
 	'lbl.warn': 'Warn',
 	'lbl.auto.close': 'Auto-close',
@@ -132,6 +137,15 @@ const enUs = {
 	// ── Rating ────────────────────────────────────────────────
 	'lbl.rating': 'Rating',
 	'lbl.rating.cancel': 'Reset rating',
+
+	// ── Slider ────────────────────────────────────────────────
+	'lbl.slider': 'Slider',
+	'lbl.value': 'Value',
+	'lbl.step': 'Step',
+	'lbl.range': 'Range',
+	'lbl.min.price': 'Min price',
+	'lbl.products': 'Products',
+	'msg.slider.keyboard.hint': 'Keyboard: Arrow keys, Home/End, PageUp/PageDown.',
 
 	// ── Form / input labels ──────────────────────────────────
 	'lbl.input': 'Input',
@@ -216,6 +230,7 @@ const enUs = {
 	'lbl.multiselect.select.all': 'Select All',
 	'lbl.multiselect.accessible': 'Accessible MultiSelect',
 	'lbl.multiselect.allow.addition': 'Allow addition',
+	'lbl.multiselect.tags': 'Tags',
 	'label.add': 'Add',
 	'msg.multiselect.placeholder': 'Select items',
 	'msg.multiselect.placeholder.city': 'Select cities',
@@ -224,6 +239,15 @@ const enUs = {
 	'msg.multiselect.filter.placeholder': 'Search',
 	'msg.multiselect.choose.items': 'Choose items',
 	'msg.multiselect.items.selected': '{count} items selected',
+	'msg.multiselect.tags.help':
+		'Use keywords or phrases that describe your event to help everyone find it easily. Separate multiple tags with commas.',
+
+	// ── Tristate checkbox ────────────────────────────────────
+	'lbl.tristate.checkbox.label': 'Accept terms',
+	'lbl.tristate.checked': 'Checked',
+	'lbl.tristate.indeterminate': 'Indeterminate',
+	'lbl.tristate.unchecked': 'Unchecked',
+	'aria.tristate.checkbox.state': 'Tri-state checkbox: {state}',
 
 	// ── Avatar labels ────────────────────────────────────────
 	'lbl.square': 'Square',
@@ -411,7 +435,24 @@ const enUs = {
 		'Use role=\"region\" with aria-label when the card should be announced as a landmark.',
 	'msg.card.basic.body':
 		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum.',
-	'lbl.doc.card.title': 'Card - ULS Ember Documentation'
+	'lbl.doc.card.title': 'Card - ULS Ember Documentation',
+
+	// ── Password ─────────────────────────────────────────────
+	'lbl.password': 'Password',
+	'lbl.password.prompt': 'Please enter a password',
+	'lbl.password.weak': 'Weak',
+	'lbl.password.medium': 'Medium',
+	'lbl.password.strong': 'Strong',
+	'lbl.password.show': 'Show Password',
+	'lbl.password.hide': 'Hide Password',
+	'lbl.enter.password': 'Enter password',
+	'lbl.password.pick': 'Pick a password',
+	'lbl.password.suggestions': 'Suggestions',
+	'msg.password.suggestion.lowercase': 'At least one lowercase',
+	'msg.password.suggestion.uppercase': 'At least one uppercase',
+	'msg.password.suggestion.numeric': 'At least one numeric',
+	'msg.password.suggestion.length': 'Minimum 8 characters',
+	'lbl.doc.password.title': 'Password - ULS Ember Documentation'
 };
 
 export default enUs;
