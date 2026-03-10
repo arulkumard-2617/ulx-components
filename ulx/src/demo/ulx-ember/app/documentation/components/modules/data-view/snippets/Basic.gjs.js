@@ -45,16 +45,14 @@ export default class DemoDataViewBasic extends Component {
         {{#each this.products as |product|}}
           <div class="col-12">
             <div class="flex p-10 items-center gap-4">
-              <div class="flex-shrink-0 flex items-center justify-center">
-                <img
-                  src={{this.getProductImageUrl product.image}}
-                  alt=""
-                  class="w-96 h-96 rounded shadow-lg object-cover"
-                  aria-hidden="true"
-                />
-              </div>
+              <img
+                src={{this.getProductImageUrl product.image}}
+                alt=""
+                class="w-96 h-96 rounded shadow-lg object-cover"
+                aria-hidden="true"
+              />
 
-              <div class="flex flex-col justify-between w-full gap-4">
+              <div class="flex items-center gap-4 justify-between w-full">
                 <div class="flex gap-3 flex-col">
                   <div class="font-size20 bold-font">{{product.name}}</div>
                   <UlxRating
@@ -62,7 +60,7 @@ export default class DemoDataViewBasic extends Component {
                     @readOnly={{true}}
                     @cancel={{false}}
                   />
-                  <div class="flex flex-wrap align-items-center gap-2">
+                  <div class="flex items-center gap-3">
                     <span class="flex items-center gap-2">
                       <UlxIcon
                         @iconName="brands-icon"
@@ -81,7 +79,7 @@ export default class DemoDataViewBasic extends Component {
                   </div>
                 </div>
 
-                <div class="flex items-center justify-between gap-3">
+                <div class="flex flex-col items-center gap-3 justify-start">
                   <span class="font-size24 font-semibold">
                     \${{product.price}}
                   </span>
@@ -102,4 +100,5 @@ export default class DemoDataViewBasic extends Component {
     </UlxDataView>
   </template>
 }
+
 `;

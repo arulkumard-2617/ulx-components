@@ -99,4 +99,5 @@ export default class DemoDataViewAccessibility extends Component {
     </UlxDataView>
   </template>
 }
+
 `;
