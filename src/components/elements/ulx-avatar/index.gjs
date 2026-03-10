@@ -1,7 +1,11 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
+import GeneralUtil from "../../../utils/general-util";
 import UlxIcon from "../ulx-icon/index.gjs";
+import { on } from "@ember/modifier";
 
 /**
  * Avatar component for displaying user representations using images, icons, or text labels.
@@ -28,23 +32,175 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {boolean} [clickable=false] - When true, applies clickable styling with hover/active states. Requires `@ariaLabel` for accessibility.
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [componentClass] - Override base component class (defaults to "ulx-avatar").
+ * @param {Function} [onLoad] - Optional image load handler when `@type="image"`. Receives the native load event.
+ * @param {Function} [onError] - Optional image error handler when `@type="image"`. Receives the native error event.
+ *
+ * // Member-aware arguments (optional)
+ * @param {object} [member] - Domain member object. When provided, `member.userProfile` is used as a fallback for profile data.
+ * @param {object} [memberProfile] - Member profile object containing avatar and name information.
+ * @param {string} [fullName] - Explicit full name for the member. Falls back to profile fields when not provided.
+ * @param {boolean} [nameOnly=false] - When true, renders initials based on `@name` or `@fullName` without image.
+ * @param {string} [name] - Display name used for initials when `@nameOnly` is true.
+ * @param {number} [index] - Optional index used to derive pseudo-unique color variants in `nameOnly` mode.
+ * @param {string} [avatarSize] - Legacy avatar size. Mapped to `@size` when provided.
+ * @param {boolean} [circular=false] - Convenience flag to force circle shape when `@shape` is not provided.
+ * @param {boolean} [canShowAvatar] - Optional explicit flag to control whether the image avatar should be shown.
+ * @param {string} [noImageSentinel] - Optional sentinel value that represents \"no image\" for the resolved avatar URL.
+ * @param {Function} [onShowProfile] - Optional callback invoked on click with `(member, members, index)` to approximate legacy `showProfile` action.
+ * @param {Array} [members] - Optional members collection forwarded to `@onShowProfile` for parity with legacy API.
  */
 export default class UlxAvatar extends Component {
+	@tracked isImageLoaded = false;
+
 	get baseClass() {
 		const { componentClass } = this.args;
 		return componentClass ?? getComponentClass("avatar");
 	}
 
+	get memberProfile() {
+		const { memberProfile, member } = this.args;
+
+		if (memberProfile) {
+			return memberProfile;
+		}
+
+		if (member && member.userProfile) {
+			return member.userProfile;
+		}
+
+		return member ?? null;
+	}
+
+	get hasMemberContext() {
+		const { member, memberProfile, nameOnly } = this.args;
+		return Boolean(member || memberProfile || nameOnly || this.memberProfile);
+	}
+
+	get resolvedFullName() {
+		const profile = this.memberProfile;
+
+		if (this.isAnonymous) {
+			return t("lbl.anonymous.user");
+		}
+
+		const { fullName } = this.args;
+
+		if (fullName) {
+			return fullName;
+		}
+
+		return (
+			profile?.fullName ?? profile?.name ?? profile?.userProfileTranslation?.fullName ?? undefined
+		);
+	}
+
+	get ariaLabel() {
+		const { ariaLabel } = this.args;
+		return ariaLabel ?? this.resolvedFullName;
+	}
+
+	get resolvedImage() {
+		const { image } = this.args;
+		const profile = this.memberProfile;
+
+		if (image) {
+			return image;
+		}
+
+		if (profile?.avatarUrl) {
+			return profile.avatarUrl;
+		}
+
+		if (profile?.avatar) {
+			return profile.avatar;
+		}
+
+		return undefined;
+	}
+
+	get canShowAvatar() {
+		const { canShowAvatar } = this.args;
+
+		if (typeof canShowAvatar === "boolean") {
+			return canShowAvatar;
+		}
+
+		const profile = this.memberProfile;
+
+		if (!profile) {
+			return false;
+		}
+
+		const hasAvatarFlags = profile.hasBsAvatar || profile.hasIAMPhoto || profile.hasImage;
+
+		const rawUrl = profile.avatarUrl || profile.avatar;
+		const { noImageSentinel } = this.args;
+		const isNoImage = typeof noImageSentinel === "string" && rawUrl === noImageSentinel;
+
+		return Boolean(rawUrl && !isNoImage && hasAvatarFlags);
+	}
+
+	get isAnonymous() {
+		return Boolean(this.memberProfile?.isAnnon);
+	}
+
+	get resolvedIconName() {
+		const { iconName } = this.args;
+
+		if (typeof iconName === "string" && iconName.length > 0) {
+			return iconName;
+		}
+
+		if (this.isAnonymous) {
+			return "anonymous-icon";
+		}
+
+		return undefined;
+	}
+
+	get resolvedIconType() {
+		const { iconType } = this.args;
+
+		if (typeof iconType === "string" && iconType.length > 0) {
+			return iconType;
+		}
+
+		if (this.isAnonymous) {
+			return "font";
+		}
+
+		return "svg";
+	}
+
+	get avatarType() {
+		// Explicit type always wins for generic usage.
+		if (this.args.type) {
+			return this.args.type;
+		}
+
+		// Member-aware: use avatar URL or icon; fall back to text only when neither is available.
+		if (this.hasMemberContext) {
+			const hasImage = this.canShowAvatar && this.resolvedImage;
+			const hasIcon = this.resolvedIconName;
+
+			if (hasImage) {
+				return "image";
+			}
+
+			if (hasIcon) {
+				return "icon";
+			}
+
+			return "text";
+		}
+
+		// Default for plain usage.
+		return "text";
+	}
+
 	get rootClasses() {
-		const {
-			variant,
-			size = "m-size",
-			shape = "square",
-			disabled = false,
-			clickable = false,
-			image,
-			customClass
-		} = this.args;
+		const { disabled = false, customClass } = this.args;
+		const { resolvedVariant: variant, size, shape, resolvedImage: image, isClickable: clickable } = this;
 
 		const parts = [this.baseClass];
 
@@ -71,10 +227,6 @@ export default class UlxAvatar extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
-	get avatarType() {
-		return this.args.type ?? "text";
-	}
-
 	get isImageType() {
 		return this.avatarType === "image";
 	}
@@ -88,7 +240,7 @@ export default class UlxAvatar extends Component {
 	}
 
 	get hasAriaLabel() {
-		return typeof this.args.ariaLabel === "string" && this.args.ariaLabel.length > 0;
+		return typeof this.ariaLabel === "string" && this.ariaLabel.length > 0;
 	}
 
 	get ariaHidden() {
@@ -99,15 +251,157 @@ export default class UlxAvatar extends Component {
 		return this.hasAriaLabel ? "img" : undefined;
 	}
 
+	get isClickable() {
+		const { clickable = false, onShowProfile, onClick } = this.args;
+
+		return Boolean(
+			clickable || typeof onShowProfile === "function" || typeof onClick === "function"
+		);
+	}
+
+	get size() {
+		const { size, avatarSize } = this.args;
+		return size ?? avatarSize ?? "m-size";
+	}
+
+	get shape() {
+		const { shape, circular = false } = this.args;
+
+		if (shape) {
+			return shape;
+		}
+
+		return circular ? "circle" : "square";
+	}
+
+	get resolvedVariant() {
+		const { variant, nameOnly = false, index } = this.args;
+
+		if (variant) {
+			return variant;
+		}
+
+		if (!this.isImageLoaded || !this.canShowAvatar) {
+			if (this.isAnonymous) {
+				return "grey";
+			}
+
+			if (nameOnly) {
+				return GeneralUtil.getPseudoUniqueColorClass(index);
+			}
+
+			const profile = this.memberProfile;
+
+			if (profile?.colorTheme) {
+				return profile.colorTheme;
+			}
+		}
+
+		return undefined;
+	}
+
+	get label() {
+		// Explicit label from args always wins.
+		if (typeof this.args.label === "string" && this.args.label.length > 0) {
+			return this.args.label;
+		}
+
+		if (this.avatarType === "icon") {
+			return undefined;
+		}
+
+		const { nameOnly = false, name } = this.args;
+
+		if (nameOnly && typeof name === "string" && name.length > 0) {
+			return this.buildInitials(name);
+		}
+
+		const fullName = this.resolvedFullName;
+
+		if (fullName) {
+			return this.buildInitials(fullName);
+		}
+
+		const profile = this.memberProfile;
+
+		if (profile?.firstName || profile?.lastName) {
+			const combined = [profile.firstName, profile.lastName].filter(Boolean).join(" ");
+
+			return this.buildInitials(combined);
+		}
+
+		const fallbackName = profile?.name ?? profile?.email;
+
+		if (fallbackName) {
+			return this.buildInitials(fallbackName);
+		}
+
+		return undefined;
+	}
+
 	get tabindex() {
-		if (this.args.clickable) {
+		if (this.isClickable) {
 			return this.args.disabled ? "-1" : "0";
 		}
 		return undefined;
 	}
 
 	get imageAlt() {
-		return this.args.imageAlt ?? this.args.ariaLabel ?? this.args.label ?? t("lbl.image");
+		return this.args.imageAlt ?? this.ariaLabel ?? this.label ?? t("lbl.image");
+	}
+
+	buildInitials(source) {
+		if (typeof source !== "string") {
+			return undefined;
+		}
+
+		const parts = source.split(/\s+/).filter(Boolean).slice(0, 2);
+
+		if (parts.length === 0) {
+			return undefined;
+		}
+
+		const initials = parts
+			.map((part) => part[0])
+			.join("")
+			.toUpperCase();
+
+		return initials;
+	}
+
+	@action
+	handleImageLoad(event) {
+		const { onLoad } = this.args;
+
+		this.isImageLoaded = true;
+
+		if (typeof onLoad === "function") {
+			onLoad(event);
+		}
+	}
+
+	@action
+	handleImageError(event) {
+		const { onError } = this.args;
+
+		this.isImageLoaded = false;
+
+		if (typeof onError === "function") {
+			onError(event);
+		}
+	}
+
+	@action
+	handleClick(event) {
+		const { onClick, onShowProfile, member, members, index } = this.args;
+
+		if (typeof onClick === "function") {
+			onClick(event);
+		}
+
+		if (typeof onShowProfile === "function") {
+			onShowProfile(member, members, index);
+		}
 	}
 
 	<template>
@@ -115,25 +409,32 @@ export default class UlxAvatar extends Component {
 			class={{this.rootClasses}}
 			aria-hidden={{this.ariaHidden}}
 			role={{this.role}}
-			aria-label={{@ariaLabel}}
+			aria-label={{this.ariaLabel}}
 			aria-disabled={{if @disabled "true"}}
 			tabindex={{this.tabindex}}
+			{{on "click" this.handleClick}}
 			...attributes
 		>
 			{{#if this.isImageType}}
-				<img src={{@image}} alt={{this.imageAlt}} class="avatar-image" />
+				<img
+					src={{this.resolvedImage}}
+					alt={{this.imageAlt}}
+					class="avatar-image"
+					{{on "load" this.handleImageLoad}}
+					{{on "error" this.handleImageError}}
+				/>
 			{{else if this.isIconType}}
 				<span class="avatar-icon">
 					<UlxIcon
-						@iconName={{@iconName}}
-						@type={{@iconType}}
+						@iconName={{this.resolvedIconName}}
+						@type={{this.resolvedIconType}}
 						@componentClass={{@iconComponentClass}}
 						@ariaLabel={{@iconAriaLabel}}
 					/>
 				</span>
 			{{else if this.isTextType}}
 				<span class="avatar-label">
-					{{@label}}
+					{{this.label}}
 				</span>
 			{{/if}}
 		</span>
