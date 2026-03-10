@@ -158,17 +158,7 @@ export default class UlxRating extends Component {
 						aria-posinset={{starValue}}
 						aria-setsize={{this.starsCount}}
 						aria-disabled={{not this.isInteractive}}
-						tabindex={{if
-							this.isInteractive
-							(if
-								(or
-									(eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))
-								)
-								"0"
-								"-1"
-							)
-							"-1"
-						}}
+						tabindex={{if this.isInteractive "0" null}}
 						{{on "click" (fn this.handleStarClick starValue)}}
 						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
 					>
@@ -193,17 +183,7 @@ export default class UlxRating extends Component {
 						aria-posinset={{starValue}}
 						aria-setsize={{this.starsCount}}
 						aria-disabled={{not this.isInteractive}}
-						tabindex={{if
-							this.isInteractive
-							(if
-								(or
-									(eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))
-								)
-								"0"
-								"-1"
-							)
-							"-1"
-						}}
+						tabindex={{if this.isInteractive "0" null}}
 						{{on "click" (fn this.handleStarClick starValue)}}
 						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
 					/>

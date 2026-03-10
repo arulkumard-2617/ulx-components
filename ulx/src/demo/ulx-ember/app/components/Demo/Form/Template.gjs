@@ -355,7 +355,6 @@ export default class DemoFormTemplate extends Component {
           @label="Notification Channels"
           @items={{this.notificationItems}}
           @onItemChange={{this.handleNotificationItemChange}}
-          @size="m-size"
           @fieldClass="col-12"
         />
 
@@ -363,7 +362,6 @@ export default class DemoFormTemplate extends Component {
           @label="Preferred Contact Method"
           @items={{this.contactMethodItems}}
           @onItemChange={{this.handleContactMethodChange}}
-          @size="m-size"
           @fieldClass="col-12"
         />
 
@@ -375,7 +373,6 @@ export default class DemoFormTemplate extends Component {
             @inputId="newsletter-optin"
             @checked={{this.newsletterOptIn}}
             @onCheckedChange={{this.setNewsletterOptIn}}
-            @size="m-size"
             aria-label="Subscribe to Newsletter"
           />
         </div>

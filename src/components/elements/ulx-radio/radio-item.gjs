@@ -28,7 +28,7 @@ export default class UlxRadioItem extends Component {
 	}
 
 	get resolvedSize() {
-		return this.args.size ?? "s-size";
+		return this.args.size ?? "xxxs-size";
 	}
 
 	get resolvedVariant() {
