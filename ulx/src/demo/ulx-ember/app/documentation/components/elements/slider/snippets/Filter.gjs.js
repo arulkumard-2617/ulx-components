@@ -66,30 +66,32 @@ export default class FilterSliderDemo extends Component {
   }
 
   <template>
-    <div class="ulx-flex ulx-flex-col gap-3 ulx-items-start">
-      <img
-        alt="user header"
-        class="w-300 border-round"
-        src="https://primefaces.org/cdn/primevue/images/card-vue.jpg"
-        style={{this.filterStyle}}
-      />
+    <div class="flex items-center">
+      <div class="flex flex-col gap-4">
+        <img
+          alt="user header"
+          class="w-300 border-round"
+          src="https://primefaces.org/cdn/primevue/images/card-vue.jpg"
+          style={{this.filterStyle}}
+        />
 
-      <UlxSelectButton
-        @options={{this.filterOptions}}
-        @value={{this.filter}}
-        @onChange={{this.handleFilterChange}}
-        @stretch={{true}}
-      />
+        <UlxSelectButton
+          @options={{this.filterOptions}}
+          @value={{this.filter}}
+          @onChange={{this.handleFilterChange}}
+          @stretch={{true}}
+        />
 
-      <UlxSlider
-        @value={{this.currentValue}}
-        @onChange={{this.handleSliderChange}}
-        @size="w-300 s-size"
-        @min={{0}}
-        @max={{200}}
-      />
+        <UlxSlider
+          @value={{this.currentValue}}
+          @onChange={{this.handleSliderChange}}
+          @size="w-300 s-size"
+          @min={{0}}
+          @max={{200}}
+        />
+      </div>
     </div>
   </template>
 }
-`;
 
+`;

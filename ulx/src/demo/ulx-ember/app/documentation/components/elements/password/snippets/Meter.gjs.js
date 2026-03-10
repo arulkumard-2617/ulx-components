@@ -13,12 +13,16 @@ export default class DemoPasswordMeter extends Component {
   }
 
   <template>
-    <UlxPassword
-      @value={{this.value}}
-      @onInput={{this.handleInput}}
-      @label={{t "lbl.password"}}
-      placeholder={{t "lbl.enter.password"}}
-    />
+    <form class="ulx-form m-size ulx-grid gap-12 mb-14">
+      <UlxPassword
+        @value={{this.value}}
+        @onInput={{this.handleInput}}
+        @label={{t "lbl.password"}}
+        @fieldClass="col-12"
+        placeholder={{t "lbl.enter.password"}}
+      />
+    </form>
   </template>
 }
+
 `;

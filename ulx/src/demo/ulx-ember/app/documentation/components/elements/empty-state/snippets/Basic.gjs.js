@@ -9,4 +9,5 @@ import { UlxEmptyState } from 'ulx-components';
     @iconSize="s32"
   />
 </template>
+
 `;

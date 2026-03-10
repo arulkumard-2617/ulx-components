@@ -11,5 +11,5 @@ import { UlxEmptyState, UlxButton, t } from 'ulx-components';
     <UlxButton @label={{t "lbl.show"}} />
   </UlxEmptyState>
 </template>
-`;
 
+`;

@@ -36,5 +36,5 @@ export default class AccessibilitySliderDemo extends Component {
   </template>
 }
 
-`;
 
+`;

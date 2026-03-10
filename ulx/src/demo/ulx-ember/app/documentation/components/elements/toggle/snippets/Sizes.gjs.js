@@ -62,22 +62,6 @@ export default class SizesToggleDemo extends Component {
         />
         <span>m-size</span>
       </div>
-      <div class="flex align-items-center gap-2">
-        <UlxToggle
-          @size="l-size"
-          @checked={{this.checkedL}}
-          @onCheckedChange={{this.handleLChange}}
-        />
-        <span>l-size</span>
-      </div>
-      <div class="flex align-items-center gap-2">
-        <UlxToggle
-          @size="xl-size"
-          @checked={{this.checkedXl}}
-          @onCheckedChange={{this.handleXlChange}}
-        />
-        <span>xl-size</span>
-      </div>
     </div>
   </template>
 }

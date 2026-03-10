@@ -31,7 +31,6 @@ export default class WithlabelDemoComponent extends Component {
       <UlxCheckbox
         @label={{t "lbl.with.label"}}
         @rules={{this.requiredRules}}
-        @size="xxxs-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}

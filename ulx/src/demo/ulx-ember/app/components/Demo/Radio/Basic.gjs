@@ -25,7 +25,6 @@ export default class BasicRadioDemo extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxRadio
         @rules={{this.requiredRules}}
-        @size="xxxs-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}

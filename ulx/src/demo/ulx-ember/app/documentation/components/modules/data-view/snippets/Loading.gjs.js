@@ -120,4 +120,5 @@ export default class DemoDataViewLoading extends Component {
     </UlxDataView>
   </template>
 }
+
 `;
