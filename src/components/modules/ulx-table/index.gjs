@@ -34,6 +34,7 @@ import UlxSlidePane from "../ulx-slide-pane/index.gjs";
 import UlxPopup from "../ulx-popup/index.gjs";
 import UlxAccordion from "../../collections/ulx-accordion/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
+import UlxCheckboxItem from "../../elements/ulx-checkbox/checkbox-item.gjs";
 import UlxCard from "../../elements/ulx-card/index.gjs";
 import { t } from "../../../utils/i18n.js";
 import { fn } from "@ember/helper";
@@ -255,13 +256,17 @@ export default class UlxTable extends Component {
 	// ─── View toggle (table / card) ──────────────────────────────────────────
 	@tracked _viewMode = null;
 
+	get filterPaneGroupClass() {
+		return getComponentClass("checkbox-group");
+	}
+
 	get baseClass() {
 		return getComponentClass("datatable");
 	}
 
 	get rootClasses() {
 		const {
-			size = "s-size",
+			size = "m-size",
 			stripedRows,
 			showGridlines,
 			loading,
@@ -748,7 +753,9 @@ export default class UlxTable extends Component {
 	}
 
 	@action
-	updateFilterPaneSelection(groupKey, optionValue, checked) {
+	updateFilterPaneSelection(groupKey, optionValue, checkedOrEvent) {
+		const checked =
+			typeof checkedOrEvent === "boolean" ? checkedOrEvent : !!checkedOrEvent?.target?.checked;
 		const arr = this._filterPaneSelections[groupKey] ?? [];
 		let next;
 		if (checked) {
@@ -940,7 +947,7 @@ export default class UlxTable extends Component {
 		<div class={{this.rootClasses}} ...attributes>
 			{{! Custom table header area }}
 			{{#if (has-block "header")}}
-				<div class="datatable-header-toolbar">
+				<div class="header-toolbar">
 					{{yield to="header"}}
 				</div>
 			{{/if}}
@@ -955,7 +962,7 @@ export default class UlxTable extends Component {
 					(has-block "postRightMenu")
 				)
 			}}
-				<div class="datatable-header-toolbar datatable-toolbar flex justify-between">
+				<div class="header-toolbar datatable-toolbar flex justify-between">
 					<div class="datatable-toolbar-left">
 						{{yield to="preLeftMenu"}}
 						{{#if @showGlobalFilter}}
@@ -1164,10 +1171,7 @@ export default class UlxTable extends Component {
 						<tbody>
 							{{#each this.verticalRows as |col|}}
 								<tr class="datatable-vertical-row">
-									<th
-										class="datatable-column-header-cell datatable-vertical-row-header"
-										scope="row"
-									>
+									<th class="column-header-cell datatable-vertical-row-header" scope="row">
 										{{col.header}}
 									</th>
 									{{#each this.pagedData as |row rowIdx|}}
@@ -1406,34 +1410,32 @@ export default class UlxTable extends Component {
 			{{#if this.hasFilterGroups}}
 				<UlxSlidePane
 					@visible={{this.filterPaneOpen}}
+					@title={{t "lbl.filter"}}
 					@position="right"
-					@width="320px"
+					@contentClassName="p-0"
 					@onHide={{this.closeFilterPane}}
+					@onCancel={{this.closeFilterPane}}
+					@onDone={{this.applyFilterPane}}
+					@cancelButtonLabel={{t "lbl.close"}}
+					@doneButtonLabel={{t "lbl.apply.filter"}}
 				>
-					<:head>
-						<h2 class="slidepane-title" id="ulx-table-filter-pane-title">
-							{{t "lbl.filter"}}
-						</h2>
-						<UlxButton
-							@icon="close-icon-01"
-							@iconComponentClass="bs-icons1"
-							@variant="text"
-							@iconSize="s18"
-							aria-label={{t "lbl.close"}}
-							{{on "click" this.closeFilterPane}}
-						/>
-					</:head>
 					<:body>
-						<UlxAccordion @model={{this.filterAccordionModel}} @multiple={{true}} @size="s-size">
+						<UlxAccordion
+							@model={{this.filterAccordionModel}}
+							@multiple={{true}}
+							@toggleIconPosition="right"
+							@variant="elevated"
+							@size="m-size"
+						>
 							<:content as |item idx|>
 								{{#let (this.getFilterGroupAt idx) as |group|}}
 									{{#if group}}
-										<div class="ulx-table-filter-pane-group flex flex-col gp2">
+										<div class={{this.filterPaneGroupClass}}>
 											{{#each group.options as |opt|}}
-												<UlxCheckbox
+												<UlxCheckboxItem
 													@itemLabel={{opt.label}}
 													@checked={{this.isFilterPaneOptionChecked group.key opt.value}}
-													@onCheckedChange={{fn this.updateFilterPaneSelection group.key opt.value}}
+													@onChange={{fn this.updateFilterPaneSelection group.key opt.value}}
 												/>
 											{{/each}}
 										</div>
@@ -1442,20 +1444,6 @@ export default class UlxTable extends Component {
 							</:content>
 						</UlxAccordion>
 					</:body>
-					<:footer>
-						<UlxButtonGroup @size="s-size">
-							<UlxButton
-								@variant="outlined"
-								@label={{t "lbl.close"}}
-								{{on "click" this.closeFilterPane}}
-							/>
-							<UlxButton
-								@variant="primary"
-								@label={{t "lbl.apply.filter"}}
-								{{on "click" this.applyFilterPane}}
-							/>
-						</UlxButtonGroup>
-					</:footer>
 				</UlxSlidePane>
 			{{/if}}
 		</div>

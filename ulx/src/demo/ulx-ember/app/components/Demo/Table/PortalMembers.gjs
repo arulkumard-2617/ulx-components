@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
@@ -67,7 +66,7 @@ function initials(name) {
 }
 
 const NameEmailCell = <template>
-  <div class="fxb fvc gp2">
+  <div class="flex items-center gap-2">
     <UlxAvatar
       @type="text"
       @label={{initials @row.name}}
@@ -76,9 +75,9 @@ const NameEmailCell = <template>
       @variant="orange"
       aria-hidden="true"
     />
-    <div class="fcol">
+    <div class="flex flex-col">
       <span class="font-semibold">{{@row.name}}</span>
-      <span class="text-12 fg-text-secondary">{{@row.emailId}}</span>
+      <span class="text-13 fg-text-secondary">{{@row.emailId}}</span>
     </div>
   </div>
 </template>;
@@ -96,16 +95,10 @@ const columns = [
   {
     field: 'name',
     header: 'Name & Email',
-    sortable: true,
     body: NameEmailCell,
   },
-  { field: 'role', header: 'Role', sortable: true },
+  { field: 'role', header: 'Role' },
   { field: 'status', header: 'Status', body: StatusCell },
-];
-
-const sortOptions = [
-  { key: 'name', lbl: 'Name' },
-  { key: 'role', lbl: 'Role' },
 ];
 
 const filterGroups = [
@@ -130,10 +123,7 @@ const filterGroups = [
 export default class DemoTablePortalMembers extends Component {
   members = MEMBERS;
   columns = columns;
-  sortOptions = sortOptions;
   filterGroups = filterGroups;
-
-  @tracked sortBy = 'name:asc';
 
   @action
   getRowActionModel(member) {
@@ -157,11 +147,6 @@ export default class DemoTablePortalMembers extends Component {
           }),
       },
     ];
-  }
-
-  @action
-  handleSortByChange(value) {
-    this.sortBy = value;
   }
 
   @action
@@ -195,9 +180,6 @@ export default class DemoTablePortalMembers extends Component {
       @dataKey="id"
       @showGlobalFilter={{true}}
       @globalFilterPlaceholder={{t "lbl.search"}}
-      @sortOptions={{this.sortOptions}}
-      @sortBy={{this.sortBy}}
-      @onSortByChange={{this.handleSortByChange}}
       @filterGroups={{this.filterGroups}}
       @showManageColumns={{true}}
     >
@@ -214,8 +196,7 @@ export default class DemoTablePortalMembers extends Component {
       <:optionCell as |member|>
         <UlxSplitButton
           @label="Delete"
-          @variant="text"
-          @size="s-size"
+          @variant="basic"
           @outlined={{true}}
           @model={{this.getRowActionModel member}}
           @onClick={{fn this.deleteMember member}}

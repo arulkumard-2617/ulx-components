@@ -78,7 +78,7 @@ export default class TableHeader extends Component {
 
 	@action
 	headerCellClass(col) {
-		const base = "datatable-column-header-cell";
+		const base = "column-header-cell";
 		if (!col) return base;
 		const parts = [base];
 		const field = col.sortField ?? col.field;
@@ -190,7 +190,7 @@ export default class TableHeader extends Component {
 					{{#if (not col)}}
 						{{! skip undefined column entries }}
 					{{else if col.selectionMode}}
-						<th class="datatable-column-header-cell selection" scope="col" style="width: 3rem">
+						<th class="column-header-cell selection" scope="col" style="width: 3rem">
 							{{#if (this.isMultiSelectionMode col)}}
 								<UlxTristateCheckbox
 									@value={{this.headerCheckboxValue}}
@@ -201,11 +201,11 @@ export default class TableHeader extends Component {
 							{{/if}}
 						</th>
 					{{else if col.expander}}
-						<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
+						<th class="column-header-cell" scope="col" style="width: 3rem"></th>
 					{{else if col.rowReorder}}
-						<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
+						<th class="column-header-cell" scope="col" style="width: 3rem"></th>
 					{{else if col.rowEditor}}
-						<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
+						<th class="column-header-cell" scope="col" style="width: 6rem"></th>
 					{{else}}
 						<th
 							class={{this.headerCellClass col}}
@@ -214,11 +214,11 @@ export default class TableHeader extends Component {
 							aria-sort={{this.ariaSort (or col.sortField col.field)}}
 							{{on "click" (fn this.handleSort col)}}
 						>
-							<div class="datatable-column-header-content">
+							<div class="column-header-content">
 								{{#if col.headerTemplate}}
 									<col.headerTemplate @col={{col}} />
 								{{else}}
-									<span class="datatable-column-header-title">{{col.header}}</span>
+									<span class="column-header-title">{{col.header}}</span>
 								{{/if}}
 
 								{{#if col.sortable}}
@@ -266,48 +266,40 @@ export default class TableHeader extends Component {
 					{{/if}}
 				{{/each}}
 
-			{{#if @hasOptionCell}}
-				<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
-			{{/if}}
+				{{#if @hasOptionCell}}
+					<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+				{{/if}}
 
-			{{#if @showManageColumns}}
-				<th
-					class="datatable-column-header-cell"
-					scope="col"
-					style="width: 2.5rem; padding: 0.5rem;"
-				>
-					<UlxButton
-						@variant="text"
-						@icon="sliders"
-						@iconComponentClass="bs-icons1"
-						@iconSize="s16"
-						@onClick={{@onManageColumns}}
-						aria-label="Manage columns"
-					/>
-				</th>
-			{{/if}}
-		</tr>
+				{{#if @showManageColumns}}
+					<th class="column-header-cell" scope="col" style="width: 2.5rem; padding: 0.5rem;">
+						<UlxButton
+							@variant="text"
+							@icon="sliders"
+							@iconComponentClass="bs-icons1"
+							@iconSize="s16"
+							@onClick={{@onManageColumns}}
+							aria-label="Manage columns"
+						/>
+					</th>
+				{{/if}}
+			</tr>
 
-		{{! Separate filter row — rendered below header row when filterDisplay="row" (matches PrimeReact BasicFilter structure) }}
-		{{#if (eq @filterDisplay "row")}}
-			<tr class="datatable-header-row">
+			{{! Separate filter row — rendered below header row when filterDisplay="row" (matches PrimeReact BasicFilter structure) }}
+			{{#if (eq @filterDisplay "row")}}
+				<tr class="datatable-header-row">
 					{{#each @columns as |col|}}
 						{{#if (not col)}}
 							{{! skip undefined column entries }}
 						{{else if col.selectionMode}}
-							<th
-								class="datatable-column-header-cell selection"
-								scope="col"
-								style="width: 3rem"
-							></th>
+							<th class="column-header-cell selection" scope="col" style="width: 3rem"></th>
 						{{else if col.expander}}
-							<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
+							<th class="column-header-cell" scope="col" style="width: 3rem"></th>
 						{{else if col.rowReorder}}
-							<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
+							<th class="column-header-cell" scope="col" style="width: 3rem"></th>
 						{{else if col.rowEditor}}
-							<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
+							<th class="column-header-cell" scope="col" style="width: 6rem"></th>
 						{{else}}
-							<th class="datatable-column-header-cell" scope="col">
+							<th class="column-header-cell" scope="col">
 								{{#if col.filter}}
 									<div class="datatable-column-filter">
 										<div class="datatable-filter-input">
@@ -365,15 +357,15 @@ export default class TableHeader extends Component {
 							</th>
 						{{/if}}
 					{{/each}}
-				{{#if @hasOptionCell}}
-					<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
-				{{/if}}
+					{{#if @hasOptionCell}}
+						<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+					{{/if}}
 
-				{{#if @showManageColumns}}
-					<th class="datatable-column-header-cell" scope="col" style="width: 2.5rem;"></th>
-				{{/if}}
-			</tr>
-		{{/if}}
-	</thead>
+					{{#if @showManageColumns}}
+						<th class="column-header-cell" scope="col" style="width: 2.5rem;"></th>
+					{{/if}}
+				</tr>
+			{{/if}}
+		</thead>
 	</template>
 }
