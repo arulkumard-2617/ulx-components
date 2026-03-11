@@ -113,7 +113,9 @@ export default class DemoDataViewLayout extends Component {
                       </span>
                       <UlxTag
                         @value={{product.inventoryStatus}}
-                        @variant={{this.getStatusVariant product.inventoryStatus}}
+                        @variant={{this.getStatusVariant
+                          product.inventoryStatus
+                        }}
                         @size="s-size"
                       />
                     </div>
@@ -194,4 +196,5 @@ export default class DemoDataViewLayout extends Component {
     </UlxDataView>
   </template>
 }
+
 `;

@@ -41,7 +41,7 @@ import UlxSlidePaneFooter from "./footer.gjs";
  * @param {string} [position="right"] - Position: "left", "right", "top", "bottom"
  * @param {string} [title] - Pane title (used when no :head block)
  * @param {string} [width] - CSS width (e.g. "400px"); overridden by size when set
- * @param {string} [size="m-size"] - Preset size: "s-size", "m-size", "s800"
+ * @param {string} [size="m-size"] - Preset size: "s-size", "m-size", "l-size"
  * @param {boolean} [closeOnBackdrop=true] - Close when backdrop is clicked
  * @param {boolean} [closeOnEscape=true] - Close on Escape key
  * @param {boolean} [showCloseButton=true] - Show close button in header
@@ -125,6 +125,11 @@ export default class UlxSlidePane extends Component {
 		const dockedClass = positionMap[this.position] || "docked-right";
 		parts.push(dockedClass);
 
+		if (!this.isMaximized) {
+			const size = this.args.size || "m-size";
+			parts.push(size);
+		}
+
 		if (this.transitionState) {
 			parts.push(this.transitionState);
 		}
@@ -168,7 +173,7 @@ export default class UlxSlidePane extends Component {
 			styles.push(`z-index: ${zIndex}`);
 		}
 
-		if (!this.isMaximized && this.args.width) {
+		if (!this.isMaximized && this.args.width && !this.args.size) {
 			styles.push(`inline-size: ${this.args.width}`);
 		}
 
@@ -432,12 +437,14 @@ export default class UlxSlidePane extends Component {
 										@hideFooter={{@hideFooter}}
 										@hideCancelButton={{@hideCancelButton}}
 										@hideDoneButton={{@hideDoneButton}}
+										@showBackButton={{this.showBackInHeader}}
 										@cancelLabel={{@cancelButtonLabel}}
 										@doneLabel={{@doneButtonLabel}}
 										@submittingLabel={{@submittingLabel}}
 										@submitting={{this.isSubmitting}}
 										@onCancel={{this.handleCancel}}
 										@onDone={{this.handleDone}}
+										@onBack={{this.handleBack}}
 										@footerClassName={{@footerClassName}}
 									/>
 							{{/if}}

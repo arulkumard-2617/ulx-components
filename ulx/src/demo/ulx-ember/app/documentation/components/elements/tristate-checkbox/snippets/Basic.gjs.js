@@ -20,17 +20,20 @@ export default class BasicTristateCheckboxDemo extends Component {
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size">
       <UlxTristateCheckbox
         @id="tristate-basic"
+        @size="xxxs-size"
         @value={{this.value}}
         @onValueChange={{this.handleValueChange}}
         @itemLabel={{t "lbl.tristate.checkbox.label"}}
-        aria-label={{t "aria.tristate.checkbox.state" (hash state=this.stateLabel)}}
+        aria-label={{t
+          "aria.tristate.checkbox.state"
+          (hash state=this.stateLabel)
+        }}
       />
     </div>
   </template>
 }
 
 `;
-

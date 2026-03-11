@@ -3,44 +3,25 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
-import { UlxPopup, UlxButton } from 'ulx-components';
+import { UlxPopup, UlxButton, UlxIcon } from 'ulx-components';
 
 export default class BasicPopupDemo extends Component {
-  @tracked activeItem = null;
   @tracked isPopupVisible = false;
   @tracked triggerElement = null;
   popupRef = null;
 
   @action
   setPopupRef(ref) {
-    // UlxPopup calls this with the component instance on mount and null on teardown.
     this.popupRef = ref;
-  }
-
-  get items() {
-    return [
-      { label: 'Item 1', value: 'item1' },
-      { label: 'Item 2', value: 'item2' },
-      { label: 'Item 3', value: 'item3' },
-    ];
-  }
-
-  @action
-  handleItemClick(item) {
-    this.activeItem = item;
-    this.isPopupVisible = false;
   }
 
   @action
   togglePopup(event) {
     if (this.isPopupVisible) {
-      // Close via popup’s internal animation, then @onHide will sync state
       this.popupRef?.hide(event);
       return;
     }
 
-    // Opening: capture target and set visible
     this.triggerElement = event?.currentTarget ?? this.triggerElement;
     this.isPopupVisible = true;
   }
@@ -58,11 +39,6 @@ export default class BasicPopupDemo extends Component {
     }
   }
 
-  @action
-  isActive(item) {
-    return this.activeItem?.value === item.value;
-  }
-
   <template>
     <div class="">
       <UlxButton
@@ -78,36 +54,78 @@ export default class BasicPopupDemo extends Component {
         @visible={{this.isPopupVisible}}
         @target={{this.triggerElement}}
         @position="position-bottom"
-        @size="m-size"
+        @size="xl-size"
         @variant="elevated"
         @dismissable={{true}}
-        @closable={{true}}
         @closeOnEscape={{true}}
         @ariaLabel="Select an item"
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
+        @bodyClassName="p-0"
       >
-        <:default>
-          <div class="p-2">
-            <p class="mb-2">
-              Choose an item from the list below.
-            </p>
-            <ul>
-              {{#each this.items as |item|}}
-                <li class="flex flex-col gap-5">
-                  <UlxButton
-                    @label={{item.label}}
-                    @variant={{if (this.isActive item) "primary" "secondary"}}
-                    @size="s-size"
-                    @customClass="mb-3"
-                    aria-pressed={{if (this.isActive item) "true" "false"}}
-                    {{on "click" (fn this.handleItemClick item)}}
-                  />
-                </li>
-              {{/each}}
-            </ul>
+        <:head>
+          <div class="flex items-center gap-2">
+            <UlxIcon
+              @type="font"
+              @size="m-size"
+              @iconName="generate-icon"
+              @customClass="primary-layer bg-primaryLayer1 rounded"
+              aria-hidden="true"
+            />
+            <div class="flex flex-col">
+              <span class="h5">Generate from Scratch</span>
+            </div>
           </div>
-        </:default>
+        </:head>
+
+        <:body>
+          <div class="p-5">
+            <p class="mb-5">Hey there, warm greetings!</p>
+            <p class="mb-6">
+              We invite you to the Zylker Summit 2027. We expect yourpresence to
+              make this event a grand success.
+            </p>
+          </div>
+          <p class="mb-0 px-5 py-2 bg-primaryLayer1 text-11">
+            AI responses may not always be accurate. Please verify important
+            information.
+            <UlxButton
+              @label="More Info"
+              @variant="link"
+              @size="compact"
+              @customClass="text-11 bold-font ms-1"
+            />
+          </p>
+        </:body>
+
+        <:footer>
+          <div class="flex justify-between items-center w-full">
+            <span class="fg-muted">560/10000</span>
+            <div class="flex gap-2">
+              <UlxButton
+                @icon="update-icon"
+                @label="Regenerate"
+                @variant="link"
+                @size="s-size"
+              />
+              <UlxButton
+                @icon="copy-icon"
+                @label="Copy"
+                @variant="link"
+                @size="s-size"
+              />
+
+              <UlxButton
+                @label="Insert"
+                @icon="ls-arrow-icon"
+                @iconPos="right"
+                @variant="primary"
+                @size="s-size"
+                {{on "click" this.togglePopup}}
+              />
+            </div>
+          </div>
+        </:footer>
       </UlxPopup>
     </div>
   </template>

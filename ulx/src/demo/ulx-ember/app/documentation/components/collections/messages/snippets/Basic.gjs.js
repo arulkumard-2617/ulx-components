@@ -21,7 +21,8 @@ export default class BasicMessagesDemo extends Component {
     <UlxBannerMessage @messages={{this.messages}}>
       <:action>
         <UlxButton
-          @variant="outlined"
+          @variant="primary"
+          @outlined={{true}}
           @label={{t "lbl.view.more.details"}}
         />
       </:action>

@@ -125,6 +125,27 @@ export default class UlxPopup extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get headerClasses() {
+		const { headerClassName } = this.args;
+		const parts = ["popup-header"];
+		headerClassName && parts.push(headerClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
+	get bodyClasses() {
+		const { bodyClassName } = this.args;
+		const parts = ["popup-body"];
+		bodyClassName && parts.push(bodyClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
+	get footerClasses() {
+		const { footerClassName } = this.args;
+		const parts = ["popup-footer"];
+		footerClassName && parts.push(footerClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
 	get ariaLabel() {
 		return this.args.ariaLabel;
 	}
@@ -698,7 +719,27 @@ export default class UlxPopup extends Component {
 				...attributes
 			>
 				<div class="popup-content">
-					{{yield}}
+					{{#if (has-block "head")}}
+						<div class={{this.headerClasses}}>
+							{{yield to="head"}}
+						</div>
+					{{/if}}
+
+					{{#if (has-block "body")}}
+						<div class={{this.bodyClasses}}>
+							{{yield to="body"}}
+						</div>
+					{{else}}
+						<div class={{this.bodyClasses}}>
+							{{yield}}
+						</div>
+					{{/if}}
+
+					{{#if (has-block "footer")}}
+						<div class={{this.footerClasses}}>
+							{{yield to="footer"}}
+						</div>
+					{{/if}}
 				</div>
 				{{#if this.isClosable}}
 					<button

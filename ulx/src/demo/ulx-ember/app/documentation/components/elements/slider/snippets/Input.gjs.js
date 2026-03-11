@@ -47,4 +47,3 @@ export default class InputSliderDemo extends Component {
 }
 
 `;
-

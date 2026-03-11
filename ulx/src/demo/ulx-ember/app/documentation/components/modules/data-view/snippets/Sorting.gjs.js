@@ -162,4 +162,5 @@ export default class DemoDataViewSorting extends Component {
     </UlxDataView>
   </template>
 }
+
 `;
