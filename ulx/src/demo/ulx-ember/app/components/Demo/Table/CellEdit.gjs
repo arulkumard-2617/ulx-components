@@ -1,8 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { UlxTable } from 'ulx-components';
+import { UlxTable, UlxInput } from 'ulx-components';
 
 const initProducts = () => [
   { id: 1, code: 'f230fh0g3', name: 'Bamboo Watch', category: 'Accessories', price: 65 },
@@ -13,34 +12,90 @@ const initProducts = () => [
 ];
 
 class TextEditor extends Component {
+  @tracked localValue = null;
+
+  get displayValue() {
+    if (this.localValue !== null) return this.localValue;
+    return this.args.value ?? '';
+  }
+
   @action
   handleInput(event) {
-    this.args.onChange?.({ row: this.args.row, field: this.args.field, value: event.target.value });
+    this.localValue = event.target.value;
+  }
+
+  @action
+  commitEdit() {
+    const value = this.localValue !== null ? this.localValue : (this.args.value ?? '');
+    this.localValue = null;
+    this.args.onChange?.({ row: this.args.row, field: this.args.field, value });
+  }
+
+  @action
+  handleKeydown(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.commitEdit();
+    }
+    if (event.key === 'Escape') {
+      this.localValue = null;
+      event.target.blur();
+    }
   }
   <template>
-    <input
-      type="text"
-      class="uls-input s-size w-100"
-      value={{@value}}
-      {{on "input" this.handleInput}}
+    <UlxInput
+      @value={{this.displayValue}}
+      @size="s-size"
+      @onInput={{this.handleInput}}
+      @onBlur={{this.commitEdit}}
+      @onKeydown={{this.handleKeydown}}
       aria-label="Edit {{@field}}"
     />
   </template>
 }
 
 class PriceEditor extends Component {
+  @tracked localValue = null;
+
+  get displayValue() {
+    if (this.localValue !== null) return this.localValue;
+    const v = this.args.value;
+    return v !== undefined && v !== null ? String(v) : '';
+  }
+
   @action
   handleInput(event) {
-    this.args.onChange?.({ row: this.args.row, field: this.args.field, value: Number(event.target.value) });
+    this.localValue = event.target.value;
+  }
+
+  @action
+  commitEdit() {
+    const raw = this.localValue !== null ? this.localValue : (this.args.value ?? '');
+    this.localValue = null;
+    const value = raw === '' ? 0 : Number(raw);
+    this.args.onChange?.({ row: this.args.row, field: this.args.field, value });
+  }
+
+  @action
+  handleKeydown(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.commitEdit();
+    }
+    if (event.key === 'Escape') {
+      this.localValue = null;
+      event.target.blur();
+    }
   }
   <template>
-    <input
-      type="number"
-      class="uls-input s-size"
-      value={{@value}}
-      {{on "input" this.handleInput}}
+    <UlxInput
+      @value={{this.displayValue}}
+      @type="number"
+      @size="s-size"
+      @onInput={{this.handleInput}}
+      @onBlur={{this.commitEdit}}
+      @onKeydown={{this.handleKeydown}}
       aria-label="Edit price"
-      style="width: 90px"
     />
   </template>
 }
@@ -59,8 +114,9 @@ export default class DemoTableCellEdit extends Component {
 
   @action
   onCellEditComplete({ row, field, value }) {
-    row[field] = value;
-    this.products = [...this.products];
+    this.products = this.products.map((p) =>
+      p === row ? { ...p, [field]: value } : p
+    );
   }
 
   <template>
