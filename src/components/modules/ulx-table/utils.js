@@ -2,6 +2,16 @@
  * UlxTable utilities — client-side sort, filter, paginate, state persistence, and helpers.
  */
 
+// ─── Column helpers ──────────────────────────────────────────────────────────
+
+/**
+ * Returns true for special (non-data) columns: selection, expander, rowReorder, rowEditor.
+ * Use instead of repeating the guard check across table sub-components.
+ */
+export function isSpecialColumn(col) {
+  return !!(col.selectionMode || col.expander || col.rowReorder || col.rowEditor);
+}
+
 // ─── Field value ─────────────────────────────────────────────────────────────
 
 /**
@@ -114,10 +124,11 @@ export function filterItems(items, filters, globalFilterFields) {
       if (key === 'global') {
         const globalValue = filterMeta?.value;
         if (!globalValue) continue;
+        const matchMode = filterMeta?.matchMode ?? 'contains';
         const fields = globalFilterFields ?? [];
         const matched = fields.some((f) => {
-          const cv = String(getFieldValue(row, f) ?? '').toLowerCase();
-          return cv.includes(String(globalValue).toLowerCase());
+          const cellValue = getFieldValue(row, f);
+          return matchesConstraint(cellValue, { value: globalValue, matchMode });
         });
         if (!matched) return false;
         continue;
@@ -208,7 +219,7 @@ export function loadColumnWidths(key) {
  * @param {string} filename
  */
 export function exportCSV(columns, data, filename = 'export.csv') {
-  const exportCols = columns.filter((c) => c.field && !c.selectionMode && !c.expander && !c.rowReorder && !c.rowEditor);
+  const exportCols = columns.filter((c) => c.field && !isSpecialColumn(c));
   const headers = exportCols.map((c) => JSON.stringify(String(c.header ?? c.field ?? '')));
   const rows = data.map((row) =>
     exportCols.map((c) => JSON.stringify(String(getFieldValue(row, c.field) ?? ''))).join(',')
@@ -223,6 +234,18 @@ export function exportCSV(columns, data, filename = 'export.csv') {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+}
+
+// ─── Sort string parser ───────────────────────────────────────────────────────
+
+/**
+ * Parses a "field:asc" / "field:desc" sort string into { field, order }.
+ * Returns { field: null, order: 1 } for empty/invalid input.
+ */
+export function parseSortBy(sortByStr) {
+  if (!sortByStr || typeof sortByStr !== 'string') return { field: null, order: 1 };
+  const [field, dir] = sortByStr.split(':');
+  return { field: field || null, order: dir === 'desc' ? -1 : 1 };
 }
 
 // ─── Row reorder ──────────────────────────────────────────────────────────────

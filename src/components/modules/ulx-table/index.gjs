@@ -15,7 +15,11 @@ import {
 	paginateItems,
 	exportCSV,
 	reorderArray,
-	getFieldValue
+	getFieldValue,
+	isSpecialColumn,
+	parseSortBy,
+	saveTableState,
+	loadTableState
 } from "./utils.js";
 import TableHeader from "./table-header.gjs";
 import TableBody from "./table-body.gjs";
@@ -28,6 +32,7 @@ import UlxProgressSpinner from "../../elements/ulx-progressspinner/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxButtonGroup from "../../collections/ulx-button-group/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import UlxSelectButton from "../../elements/ulx-select-button/index.gjs";
 import UlxInput from "../../elements/ulx-input/index.gjs";
 import UlxIconInput from "../../elements/ulx-icon-input/index.gjs";
 import UlxSlidePane from "../ulx-slide-pane/index.gjs";
@@ -35,6 +40,9 @@ import UlxPopup from "../ulx-popup/index.gjs";
 import UlxAccordion from "../../collections/ulx-accordion/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxCard from "../../elements/ulx-card/index.gjs";
+import UlxChip from "../../elements/ulx-chip/index.gjs";
+import UlxDataView from "../../modules/ulx-data-view/index.gjs";
+import UlxEmptyState from "../../elements/ulx-empty-state/index.gjs";
 import { t } from "../../../utils/i18n.js";
 import { fn } from "@ember/helper";
 
@@ -65,8 +73,9 @@ import { fn } from "@ember/helper";
  * @param {string}  [emptyMessage]   - text when no rows; or use <:emptyMessage> block
  *
  * ── Columns ─────────────────────────────────────────────────────────────────
- * @param {Array}   columns          - column definition array (see above)
- * @param {boolean} [showManageColumns=false] - show manage-columns button
+ * @param {Array}   columns          - column definition array (see above). Use manageable: false on a
+ *                                    column to make it mandatory (always visible, cannot be disabled in manage columns).
+ * @param {boolean} [showManageColumns=false] - show manage-columns button (shown even when only one column is enabled)
  *
  * ── Layout ──────────────────────────────────────────────────────────────────
  * @param {string}  [size]           - 'xs-size' | 's-size' | 'm-size' | 'l-size' | 'xl-size'
@@ -162,6 +171,8 @@ import { fn } from "@ember/helper";
  *
  * ── State persistence ───────────────────────────────────────────────────────
  * @param {string}  [stateKey]              - localStorage/sessionStorage key
+ * @param {string}  [moduleName]            - BSTable-compatible alias for stateKey. When used without
+ *                                            stateStorage, state is persisted in localStorage.
  * @param {string}  [stateStorage='session'] - 'local' | 'session'
  *
  * ── Frozen rows ─────────────────────────────────────────────────────────────
@@ -173,7 +184,7 @@ import { fn } from "@ember/helper";
  * Named blocks: <:rowGroupHeader as |data|>, <:rowGroupFooter as |data|>
  *
  * ── View toggle (table / detailed / card) ─────────────────────────────────────
- * @param {boolean} [showToggleViews=false] - show view toggle (table / detailed / card) and optional custom options
+ * @param {boolean} [showToggleViews=false] - show view toggle when at least one of <:detailed> or <:card> is passed. Buttons shown are derived from named blocks: table always; detailed/card only when block is present.
  * @param {string}  [defaultView='table']   - initial view: 'table' | 'detailed' | 'card'
  * @param {number}  [cardViewColumns=3]     - number of columns in card view grid (passed from outside; used with ulx-grid col span)
  * When view is 'card', <:card as |row|> renders each row in a grid (ulx-grid, column count from @cardViewColumns).
@@ -204,6 +215,8 @@ import { fn } from "@ember/helper";
  * <:detailed as |row|>       - detailed/list view renderer
  */
 export default class UlxTable extends Component {
+	_restoredStateKey = null;
+
 	// ─── Internal sort state (uncontrolled) ──────────────────────────────────
 	@tracked _sortField = null;
 	@tracked _sortOrder = 1;
@@ -240,23 +253,114 @@ export default class UlxTable extends Component {
 	@tracked filterPaneOpen = false;
 	@tracked _filterPaneSelections = {};
 
+	// ─── Filter bubble popup ──────────────────────────────────────────────────
+	@tracked activeFilterBubbleField = null;
+	@tracked filterBubbleTriggerEl = null;
+
 	// ─── Resize state ────────────────────────────────────────────────────────
-	_resizingColIndex = null;
+	_resizingColField = null;
 	_resizeStartX = null;
 	_resizeStartWidth = null;
+
+	// ─── Debounce timer ──────────────────────────────────────────────────────
+	_globalFilterTimer = null;
 
 	// ─── Editing (uncontrolled fallback) ─────────────────────────────────────
 	@tracked _editingRows = [];
 	@tracked _editingCell = null;
 
-	// ─── Context menu ─────────────────────────────────────────────────────────
-	@tracked contextMenuData = null;
-
 	// ─── View toggle (table / card) ──────────────────────────────────────────
 	@tracked _viewMode = null;
 
+	willDestroy() {
+		super.willDestroy(...arguments);
+		document.removeEventListener("mousemove", this._onResizeMove);
+		document.removeEventListener("mouseup", this._onResizeEnd);
+		this._globalFilterTimer && clearTimeout(this._globalFilterTimer);
+	}
+
 	get baseClass() {
 		return getComponentClass("datatable");
+	}
+
+	get persistenceKey() {
+		return this.args.stateKey ?? this.args.moduleName ?? null;
+	}
+
+	get persistenceStorage() {
+		const { stateStorage, moduleName, stateKey } = this.args;
+		if (stateStorage) return stateStorage;
+		return moduleName && !stateKey ? "local" : "session";
+	}
+
+	restorePersistedState() {
+		const key = this.persistenceKey;
+		if (!key || this._restoredStateKey === key) return;
+
+		this._restoredStateKey = key;
+		const persistedState = loadTableState(key, this.persistenceStorage) ?? {};
+		const columnMap = new Map(
+			this.allColumns.filter((column) => column?.field).map((column) => [column.field, column])
+		);
+
+		this.args.sortField === undefined &&
+			("sortField" in persistedState || "sortOrder" in persistedState) &&
+			(this._sortField = persistedState.sortField ?? null);
+		this.args.sortOrder === undefined &&
+			typeof persistedState.sortOrder === "number" &&
+			(this._sortOrder = persistedState.sortOrder);
+		this.args.multiSortMeta === undefined &&
+			Array.isArray(persistedState.multiSortMeta) &&
+			(this._multiSortMeta = persistedState.multiSortMeta);
+		this.args.sortBy === undefined &&
+			typeof persistedState.sortBy === "string" &&
+			(this._sortByString = persistedState.sortBy);
+		this.args.filters === undefined &&
+			persistedState.filters &&
+			typeof persistedState.filters === "object" &&
+			(this._filters = persistedState.filters);
+		this.args.first === undefined &&
+			typeof persistedState.first === "number" &&
+			(this._first = persistedState.first);
+		this.args.rows === undefined &&
+			typeof persistedState.rows === "number" &&
+			(this._rows = persistedState.rows);
+		typeof persistedState.viewMode === "string" && (this._viewMode = persistedState.viewMode);
+		Array.isArray(persistedState.visibleColumnFields) &&
+			(this._visibleColumnFields = new Set(persistedState.visibleColumnFields));
+		Array.isArray(persistedState.columnOrder) &&
+			(this._columnOrder = persistedState.columnOrder
+				.map((field) => columnMap.get(field))
+				.filter(Boolean));
+		persistedState.columnWidths &&
+			typeof persistedState.columnWidths === "object" &&
+			(this._columnWidths = persistedState.columnWidths);
+	}
+
+	get persistenceState() {
+		const sortByString = this._sortByString || this.args.sortBy || "";
+
+		return {
+			sortField: this._sortField ?? this.args.sortField ?? null,
+			sortOrder: this._sortOrder ?? this.args.sortOrder ?? 1,
+			multiSortMeta: this._multiSortMeta ?? this.args.multiSortMeta ?? [],
+			sortBy: sortByString,
+			filters: this._filters ?? this.args.filters ?? {},
+			first: this._first ?? this.args.first ?? 0,
+			rows: this._rows ?? this.args.rows ?? 10,
+			viewMode: this._viewMode ?? this.args.defaultView ?? "table",
+			visibleColumnFields: this._visibleColumnFields ? [...this._visibleColumnFields] : null,
+			columnOrder: Array.isArray(this._columnOrder)
+				? this._columnOrder.map((column) => column?.field).filter(Boolean)
+				: null,
+			columnWidths: this._columnWidths ?? {}
+		};
+	}
+
+	persistState() {
+		const key = this.persistenceKey;
+		if (!key) return;
+		saveTableState(key, this.persistenceStorage, this.persistenceState);
 	}
 
 	get rootClasses() {
@@ -288,6 +392,10 @@ export default class UlxTable extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	get tableStyle() {
+		return this.args.resizableColumns ? "table-layout: fixed;" : undefined;
+	}
+
 	get wrapperStyle() {
 		const { scrollable, scrollHeight } = this.args;
 		if (scrollable && scrollHeight) return `overflow: auto; max-height: ${scrollHeight};`;
@@ -298,32 +406,25 @@ export default class UlxTable extends Component {
 	// ─── Sort (controlled vs uncontrolled) ───────────────────────────────────
 	// When sortOptions is provided, sort is driven by sortBy string "key:asc|desc".
 	get sortField() {
+		this.restorePersistedState();
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
-			const s = this.args.sortBy ?? this._sortByString;
-			if (s && typeof s === "string") {
-				const [k] = s.split(":");
-				return k || null;
-			}
-			return null;
+			return parseSortBy(this.args.sortBy ?? this._sortByString).field;
 		}
 		return this.args.sortField !== undefined ? this.args.sortField : this._sortField;
 	}
 
 	get sortOrder() {
+		this.restorePersistedState();
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
-			const s = this.args.sortBy ?? this._sortByString;
-			if (s && typeof s === "string") {
-				const [, o] = s.split(":");
-				return o === "desc" ? -1 : 1;
-			}
-			return 1;
+			return parseSortBy(this.args.sortBy ?? this._sortByString).order;
 		}
 		return this.args.sortOrder !== undefined ? this.args.sortOrder : this._sortOrder;
 	}
 
 	get sortByString() {
+		this.restorePersistedState();
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
 			return this.args.sortBy ?? this._sortByString ?? "";
@@ -338,20 +439,24 @@ export default class UlxTable extends Component {
 	}
 
 	get multiSortMeta() {
+		this.restorePersistedState();
 		return this.args.multiSortMeta !== undefined ? this.args.multiSortMeta : this._multiSortMeta;
 	}
 
 	// ─── Filter (controlled vs uncontrolled) ────────────────────────────────
 	get filters() {
+		this.restorePersistedState();
 		return this.args.filters !== undefined ? this.args.filters : this._filters;
 	}
 
 	// ─── Pagination (controlled vs uncontrolled) ─────────────────────────────
 	get first() {
+		this.restorePersistedState();
 		return this.args.first !== undefined ? this.args.first : this._first;
 	}
 
 	get rows() {
+		this.restorePersistedState();
 		return this.args.rows !== undefined ? this.args.rows : this._rows;
 	}
 
@@ -374,16 +479,18 @@ export default class UlxTable extends Component {
 	}
 
 	get visibleColumns() {
+		this.restorePersistedState();
 		const fields = this._visibleColumnFields;
 		if (!fields) return this.allColumns;
 		return this.allColumns.filter((c) => {
-			if (c.selectionMode || c.expander || c.rowReorder || c.rowEditor) return true;
+			if (isSpecialColumn(c)) return true;
 			if (c.manageable === false) return true;
 			return fields.has(c.field);
 		});
 	}
 
 	get orderedColumns() {
+		this.restorePersistedState();
 		const order = this._columnOrder;
 		if (!order) return this.visibleColumns;
 		const fieldOrder = order.map((c) => c.field);
@@ -410,13 +517,33 @@ export default class UlxTable extends Component {
 		return (
 			this.args.globalFilterFields ??
 			this.allColumns
-				.filter((c) => c.field && !c.selectionMode && !c.expander && !c.rowReorder && !c.rowEditor)
+				.filter((c) => c.field && !isSpecialColumn(c))
 				.map((c) => c.filterField ?? c.field)
 		);
 	}
 
 	get globalFilterValue() {
 		return this.filters?.global?.value ?? "";
+	}
+
+	get shouldUseSearchEmptyState() {
+		return this.hasActiveFilters && !this.args.emptyMessage;
+	}
+
+	get emptyStateHeaderText() {
+		if (this.shouldUseSearchEmptyState) {
+			return "msg.empty.state.title";
+		}
+
+		return this.args.emptyMessage ?? "msg.table.no.records";
+	}
+
+	get emptyStateSubHeaderText() {
+		return this.shouldUseSearchEmptyState ? "msg.empty.state.subtitle" : null;
+	}
+
+	get emptyStateIconName() {
+		return this.shouldUseSearchEmptyState ? "event-past-icon" : null;
 	}
 
 	get processedData() {
@@ -460,18 +587,26 @@ export default class UlxTable extends Component {
 		return this.processedData.length;
 	}
 
+	get paginatorPosition() {
+		return this.args.paginatorPosition ?? "bottom";
+	}
+
 	get showPaginatorTop() {
-		const pos = this.args.paginatorPosition ?? "top";
-		return this.args.paginator && (pos === "top" || pos === "both");
+		return (
+			this.args.paginator && (this.paginatorPosition === "top" || this.paginatorPosition === "both")
+		);
 	}
 
 	get showPaginatorBottom() {
-		const pos = this.args.paginatorPosition ?? "bottom";
-		return this.args.paginator && (pos === "bottom" || pos === "both");
+		return (
+			this.args.paginator &&
+			(this.paginatorPosition === "bottom" || this.paginatorPosition === "both")
+		);
 	}
 
 	// ─── View mode (table / detailed / card) ──────────────────────────────────
 	get viewMode() {
+		this.restorePersistedState();
 		return this._viewMode ?? this.args.defaultView ?? "table";
 	}
 
@@ -485,9 +620,7 @@ export default class UlxTable extends Component {
 	}
 
 	get verticalRows() {
-		return this.orderedColumns.filter(
-			(col) => col.field && !col.selectionMode && !col.expander && !col.rowReorder && !col.rowEditor
-		);
+		return this.orderedColumns.filter((col) => col.field && !isSpecialColumn(col));
 	}
 
 	@action
@@ -522,7 +655,7 @@ export default class UlxTable extends Component {
 	// ─── Sort actions ─────────────────────────────────────────────────────────
 	@action
 	handleSort(field) {
-		const { lazy, removableSort } = this.args;
+		const { removableSort } = this.args;
 
 		if (this.sortMode === "multiple") {
 			const meta = [...(this.multiSortMeta ?? [])];
@@ -539,7 +672,9 @@ export default class UlxTable extends Component {
 				meta.push({ field, order: 1 });
 			}
 			this._multiSortMeta = meta;
-			if (lazy) this.args.onSort?.({ multiSortMeta: meta });
+			this._first = 0;
+			this.persistState();
+			this.args.onSort?.({ multiSortMeta: meta });
 		} else {
 			let order;
 			if (this.sortField === field) {
@@ -547,7 +682,11 @@ export default class UlxTable extends Component {
 				else if (removableSort) {
 					this._sortField = null;
 					this._sortOrder = 1;
-					if (lazy) this.args.onSort?.({ field: null, order: null });
+					this._sortByString = "";
+					this._first = 0;
+					this.persistState();
+					this.args.onSort?.({ field: null, order: null });
+					this.args.sortOptions?.length && this.args.onSortByChange?.("");
 					return;
 				} else order = 1;
 			} else {
@@ -555,17 +694,28 @@ export default class UlxTable extends Component {
 			}
 			this._sortField = field;
 			this._sortOrder = order;
+			const sortByString = `${field}:${order === 1 ? "asc" : "desc"}`;
+			this._sortByString = sortByString;
 			this._first = 0;
-			if (lazy) this.args.onSort?.({ field, order });
+			this.persistState();
+			this.args.onSort?.({ field, order });
+			this.args.sortOptions?.length && this.args.onSortByChange?.(sortByString);
 		}
 	}
 
 	// ─── Filter actions ───────────────────────────────────────────────────────
 	@action
 	handleFilterChange(field, value, matchMode = "contains") {
-		const updated = { ...this.filters, [field]: { value, matchMode } };
+		const updated = { ...this.filters };
+		const isEmpty = value == null || value === "" || (Array.isArray(value) && value.length === 0);
+		if (isEmpty) {
+			delete updated[field];
+		} else {
+			updated[field] = { value, matchMode };
+		}
 		this._filters = updated;
 		this._first = 0;
+		this.persistState();
 		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
 	}
 
@@ -575,6 +725,7 @@ export default class UlxTable extends Component {
 		this._filters = updated;
 		this._first = 0;
 		this.filterOverlayColumn = null;
+		this.persistState();
 		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
 	}
 
@@ -585,6 +736,7 @@ export default class UlxTable extends Component {
 		this._filters = updated;
 		this._first = 0;
 		this.filterOverlayColumn = null;
+		this.persistState();
 		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
 	}
 
@@ -610,20 +762,13 @@ export default class UlxTable extends Component {
 			!!showGlobalFilter ||
 			sortOptions?.length > 0 ||
 			this.hasFilterGroups ||
-			(showManageColumns && this.orderedColumns.length > 1) ||
+			!!showManageColumns ||
 			!!showToggleViews
 		);
 	}
 
 	get filterAccordionModel() {
 		return this.filterGroups.map((g) => ({ header: g.heading ?? g.key }));
-	}
-
-	get filterPaneSelectionForKey() {
-		return (key) => {
-			const arr = this._filterPaneSelections[key];
-			return Array.isArray(arr) ? arr : [];
-		};
 	}
 
 	@action
@@ -639,32 +784,99 @@ export default class UlxTable extends Component {
 
 	get showClearFiltersBar() {
 		const fd = this.args.filterDisplay;
-		const hasColumnFilters = (fd === "menu" || fd === "row") && this.hasFilterableColumns;
-		return (hasColumnFilters || this.args.showGlobalFilter) && this.hasActiveFilters;
+		return fd === "row" && this.hasFilterableColumns && this.hasActiveFilters;
+	}
+
+	get showFilterBubblesBar() {
+		return this.hasActiveFilters;
+	}
+
+	get activeFilterBubbles() {
+		const bubbles = [];
+		const processedFields = new Set();
+
+		for (const group of this.filterGroups) {
+			const meta = this.filters[group.key];
+			if (!meta) continue;
+			const values = Array.isArray(meta.value) ? meta.value : [meta.value].filter(Boolean);
+			if (!values.length) continue;
+			const labels = values.map(
+				(v) => group.options?.find((o) => o.value === v)?.label ?? String(v)
+			);
+			bubbles.push({
+				field: group.key,
+				label: group.heading ?? group.key,
+				displayValue: labels.join(", "),
+				type: "pane",
+				meta,
+				group
+			});
+			processedFields.add(group.key);
+		}
+
+		for (const col of this.allColumns) {
+			if (!col.filter) continue;
+			const field = col.filterField ?? col.field;
+			if (processedFields.has(field)) continue;
+			const meta = this.filters[field];
+			if (!meta) continue;
+			const constraints = meta.constraints ?? [{ value: meta.value, matchMode: meta.matchMode }];
+			const ruleCount = constraints.length;
+			const firstValue = constraints[0]?.value;
+			const displayValue =
+				ruleCount > 1
+					? `${ruleCount} rules`
+					: Array.isArray(firstValue)
+						? firstValue.join(", ")
+						: String(firstValue ?? "");
+			bubbles.push({
+				field,
+				label: col.header ?? field,
+				displayValue,
+				ruleCount,
+				type: "column",
+				meta,
+				col
+			});
+			processedFields.add(field);
+		}
+
+		return bubbles;
+	}
+
+	get activeBubble() {
+		if (!this.activeFilterBubbleField) return null;
+		return this.activeFilterBubbles.find((b) => b.field === this.activeFilterBubbleField) ?? null;
 	}
 
 	@action
 	handleGlobalFilterInput(event) {
 		const value = event?.target?.value ?? "";
-		if (value) {
-			const updated = { ...this.filters, global: { value, matchMode: "contains" } };
-			this._filters = updated;
-			this._first = 0;
-			if (this.args.lazy) this.args.onFilter?.({ filters: updated });
-		} else {
-			const updated = { ...this.filters };
-			delete updated.global;
-			this._filters = updated;
-			this._first = 0;
-			if (this.args.lazy) this.args.onFilter?.({ filters: updated });
-		}
+		this._globalFilterTimer && clearTimeout(this._globalFilterTimer);
+		this._globalFilterTimer = setTimeout(() => {
+			this._applyGlobalFilter(value);
+		}, 300);
 	}
+
+	_applyGlobalFilter = (value) => {
+		const updated = { ...this.filters };
+		if (value) {
+			updated.global = { value, matchMode: "contains" };
+		} else {
+			delete updated.global;
+		}
+		this._filters = updated;
+		this._first = 0;
+		this.persistState();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+	};
 
 	@action
 	handleClearAllFilters() {
 		this._filters = {};
 		this._first = 0;
 		this.filterOverlayColumn = null;
+		this.persistState();
 		if (this.args.lazy) this.args.onFilter?.({ filters: {} });
 	}
 
@@ -691,10 +903,68 @@ export default class UlxTable extends Component {
 	}
 
 	@action
+	openFilterBubble(bubble, event) {
+		this.filterBubbleTriggerEl = event?.currentTarget ?? null;
+		this.activeFilterBubbleField = bubble.field;
+		if (bubble.type === "pane") {
+			const meta = this.filters[bubble.field];
+			const val = meta?.value;
+			this._filterPaneSelections = {
+				...this._filterPaneSelections,
+				[bubble.field]: Array.isArray(val) ? [...val] : val != null ? [val] : []
+			};
+		}
+	}
+
+	@action
+	closeFilterBubble() {
+		this.activeFilterBubbleField = null;
+		this.filterBubbleTriggerEl = null;
+	}
+
+	@action
+	deleteFilterFromBubble(field) {
+		const updated = { ...this.filters };
+		delete updated[field];
+		this._filters = updated;
+		this._first = 0;
+		this.filterOverlayColumn = null;
+		this.closeFilterBubble();
+		this.persistState();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+	}
+
+	@action
+	applyFilterFromBubble(field, meta) {
+		const updated = { ...this.filters, [field]: meta };
+		this._filters = updated;
+		this._first = 0;
+		this.closeFilterBubble();
+		this.persistState();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+	}
+
+	@action
+	applyPaneFilterFromBubble(field) {
+		const arr = this._filterPaneSelections[field];
+		const updated = { ...this.filters };
+		if (Array.isArray(arr) && arr.length > 0) {
+			updated[field] = { value: arr, matchMode: "in" };
+		} else {
+			delete updated[field];
+		}
+		this._filters = updated;
+		this._first = 0;
+		this.closeFilterBubble();
+		this.persistState();
+		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+	}
+
+	@action
 	handleSortByChange(sortByString) {
 		this._sortByString = sortByString;
+		this.persistState();
 		this.args.onSortByChange?.(sortByString);
-		this.closeSortPopover();
 	}
 
 	@action
@@ -743,6 +1013,7 @@ export default class UlxTable extends Component {
 		this._filters = updated;
 		this._first = 0;
 		this.filterPaneOpen = false;
+		this.persistState();
 		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
 		this.args.onFilterApply?.(this._filterPaneSelections);
 	}
@@ -762,6 +1033,10 @@ export default class UlxTable extends Component {
 		};
 	}
 
+	get filterOverlayField() {
+		return this.filterOverlayColumn?.filterField ?? this.filterOverlayColumn?.field ?? null;
+	}
+
 	get filterOverlayPortalTarget() {
 		return typeof document !== "undefined" ? document.body : null;
 	}
@@ -777,6 +1052,7 @@ export default class UlxTable extends Component {
 	handlePageChange(event) {
 		this._first = event.first;
 		this._rows = event.rows;
+		this.persistState();
 		this.args.onPage?.(event);
 	}
 
@@ -845,7 +1121,8 @@ export default class UlxTable extends Component {
 	// ─── Column resize actions ────────────────────────────────────────────────
 	@action
 	handleColumnResizeStart(event, colIndex) {
-		this._resizingColIndex = colIndex;
+		const col = this.orderedColumns[colIndex];
+		this._resizingColField = col?.field ?? colIndex;
 		this._resizeStartX = event.clientX;
 		const th = event.target?.closest?.("th");
 		this._resizeStartWidth = th?.offsetWidth ?? 100;
@@ -855,17 +1132,18 @@ export default class UlxTable extends Component {
 	}
 
 	_onResizeMove = (event) => {
-		if (this._resizingColIndex == null) return;
+		if (this._resizingColField == null) return;
 		const delta = event.clientX - this._resizeStartX;
 		const newWidth = Math.max(50, this._resizeStartWidth + delta);
-		const widths = { ...this._columnWidths, [this._resizingColIndex]: newWidth };
+		const widths = { ...this._columnWidths, [this._resizingColField]: newWidth };
 		this._columnWidths = widths;
 	};
 
 	_onResizeEnd = () => {
 		document.removeEventListener("mousemove", this._onResizeMove);
 		document.removeEventListener("mouseup", this._onResizeEnd);
-		this._resizingColIndex = null;
+		this._resizingColField = null;
+		this.persistState();
 	};
 
 	// ─── Manage columns ────────────────────────────────────────────────────────
@@ -884,20 +1162,20 @@ export default class UlxTable extends Component {
 	@action
 	handleManageColumnsApply({ columns }) {
 		const dataFields = new Set(
-			columns
-				.filter((c) => c.field && !c.selectionMode && !c.expander && !c.rowReorder && !c.rowEditor)
-				.map((c) => c.field)
+			columns.filter((c) => c.field && !isSpecialColumn(c)).map((c) => c.field)
 		);
 		this._visibleColumnFields = dataFields;
 		this._columnOrder = columns;
 		this.showManagePanel = false;
 		this.manageColumnsTriggerElement = null;
+		this.persistState();
 	}
 
 	@action
 	handleManageColumnsReset() {
 		this._visibleColumnFields = null;
 		this._columnOrder = null;
+		this.persistState();
 	}
 
 	// ─── Row reorder ──────────────────────────────────────────────────────────
@@ -910,7 +1188,6 @@ export default class UlxTable extends Component {
 	// ─── Context menu ──────────────────────────────────────────────────────────
 	@action
 	handleContextMenu({ row, index, originalEvent }) {
-		this.contextMenuData = { row, index };
 		this.args.onContextMenu?.({ row, index, originalEvent });
 	}
 
@@ -918,6 +1195,34 @@ export default class UlxTable extends Component {
 	@action
 	setViewMode(mode) {
 		this._viewMode = mode;
+		this.persistState();
+	}
+
+	getViewToggleOptions(hasDetailed, hasCard) {
+		const opts = [{ value: "table", label: t("aria.table.view.table"), icon: "grid-icon-master" }];
+		hasDetailed &&
+			opts.push({
+				value: "detailed",
+				label: t("aria.table.view.detailed"),
+				icon: "list-view-icon"
+			});
+		hasCard &&
+			opts.push({
+				value: "card",
+				label: t("aria.table.view.card"),
+				icon: "card-view-icon"
+			});
+		return opts;
+	}
+
+	effectiveViewModeForOptions(currentViewMode, options) {
+		const values = Array.isArray(options) ? options.map((o) => o?.value) : [];
+		return values.includes(currentViewMode) ? currentViewMode : (options?.[0]?.value ?? "table");
+	}
+
+	@action
+	handleViewToggleChange(value) {
+		this.setViewMode(value);
 	}
 
 	// ─── Row events ────────────────────────────────────────────────────────────
@@ -936,8 +1241,14 @@ export default class UlxTable extends Component {
 		exportCSV(this.orderedColumns, this.processedData, filename);
 	}
 
+	@action
+	filterMetaFor(col) {
+		const field = col?.filterField ?? col?.field;
+		return this.filters?.[field];
+	}
+
 	<template>
-		<div class={{this.rootClasses}} ...attributes>
+		<div class={{this.rootClasses}} ...attributes aria-busy={{if @loading "true"}}>
 			{{! Custom table header area }}
 			{{#if (has-block "header")}}
 				<div class="datatable-header-toolbar">
@@ -984,7 +1295,7 @@ export default class UlxTable extends Component {
 							(or
 								this.hasFilterGroups
 								(and @sortOptions (gt @sortOptions.length 0))
-								(and @showManageColumns (gt this.orderedColumns.length 1))
+								@showManageColumns
 								@showToggleViews
 							)
 						}}
@@ -1012,7 +1323,7 @@ export default class UlxTable extends Component {
 										{{on "click" this.openSortPopover}}
 									/>
 								{{/if}}
-								{{#if (and @showManageColumns (gt this.orderedColumns.length 1))}}
+								{{#if @showManageColumns}}
 									<UlxButton
 										@variant="outlined"
 										@size="m-size"
@@ -1025,53 +1336,31 @@ export default class UlxTable extends Component {
 								{{/if}}
 							</UlxButtonGroup>
 							{{#if @showToggleViews}}
-								<UlxButtonGroup @size="m-size">
-									<UlxButton
-										@variant="outlined"
-										@size="m-size"
-										@onClick={{fn this.setViewMode "table"}}
-										aria-pressed={{eq this.viewMode "table"}}
-										aria-label="Table view"
-									>
-										<UlxIcon
-											@componentClass="bs-icons1"
-											@type="font"
-											@iconName="grid-icon-master"
-											@size="s16"
-											aria-hidden="true"
-										/>
-									</UlxButton>
-									<UlxButton
-										@variant="outlined"
-										@size="m-size"
-										@onClick={{fn this.setViewMode "detailed"}}
-										aria-pressed={{eq this.viewMode "detailed"}}
-										aria-label="Detailed view"
-									>
-										<UlxIcon
-											@componentClass="bs-icons1"
-											@type="font"
-											@iconName="list-view-icon"
-											@size="s16"
-											aria-hidden="true"
-										/>
-									</UlxButton>
-									<UlxButton
-										@variant="outlined"
-										@size="m-size"
-										@onClick={{fn this.setViewMode "card"}}
-										aria-pressed={{eq this.viewMode "card"}}
-										aria-label="Card view"
-									>
-										<UlxIcon
-											@componentClass="bs-icons1"
-											@type="font"
-											@iconName="card-view-icon"
-											@size="s16"
-											aria-hidden="true"
-										/>
-									</UlxButton>
-								</UlxButtonGroup>
+								{{#if (or (has-block "detailed") (has-block "card"))}}
+									{{#let (has-block "detailed") (has-block "card") as |hasDetailed hasCard|}}
+										{{#let (this.getViewToggleOptions hasDetailed hasCard) as |viewOpts|}}
+											<UlxSelectButton
+												@options={{viewOpts}}
+												@value={{this.effectiveViewModeForOptions this.viewMode viewOpts}}
+												@onChange={{this.handleViewToggleChange}}
+												@size="m-size"
+												@variant="secondary"
+												@styleVariant="text"
+												@ariaLabel={{t "aria.table.view.toggle"}}
+											>
+												<:item as |option|>
+													<UlxIcon
+														@iconName={{option.icon}}
+														@type="font"
+														@componentClass="bs-icons1"
+														@size="s16"
+														aria-hidden="true"
+													/>
+												</:item>
+											</UlxSelectButton>
+										{{/let}}
+									{{/let}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 						{{yield to="postRightMenu"}}
@@ -1079,14 +1368,75 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Common clear filters bar (menu or row filter when any filter is active) }}
+			{{! Row-mode clear filters bar }}
 			{{#if this.showClearFiltersBar}}
-				<div class="datatable-clear-filters-bar">
+				<div class="datatable-clear-filters-bar py-2">
 					<UlxButton
 						@variant="text"
 						@label={{t "lbl.clear.filters"}}
 						@onClick={{this.handleClearAllFilters}}
 						aria-label={{t "lbl.clear.filters"}}
+					/>
+				</div>
+			{{/if}}
+
+			{{! Filter bubbles bar — shown whenever any filter is active }}
+			{{#if this.showFilterBubblesBar}}
+				<div
+					class="datatable-filter-bubbles-bar flex flex-row flex-wrap items-center gap-2 py-2"
+					role="group"
+					aria-label={{t "lbl.filter"}}
+				>
+					{{#each this.activeFilterBubbles as |bubble|}}
+						<div class="datatable-filter-bubble-item flex items-center">
+							<UlxButton
+								@variant="outlined"
+								@size="s-size"
+								@customClass="filter-bubble-trigger"
+								@onClick={{fn this.openFilterBubble bubble}}
+								aria-haspopup="true"
+								aria-expanded={{eq this.activeFilterBubbleField bubble.field}}
+							>
+								<:default>
+									<UlxChip @size="s-size" @customClass="filter-bubble-chip">
+										<UlxIcon
+											@iconName="filter-icon"
+											@componentClass="bs-icons1"
+											@type="font"
+											@size="s12"
+											aria-hidden="true"
+										/>
+										<span class="filter-bubble-label">
+											{{bubble.label}}:
+											<strong>{{bubble.displayValue}}</strong>
+										</span>
+										<UlxIcon
+											@iconName="down-arrow-filled-icon"
+											@componentClass="bs-icons1"
+											@type="font"
+											@size="s12"
+											aria-hidden="true"
+										/>
+									</UlxChip>
+								</:default>
+							</UlxButton>
+							<UlxButton
+								@variant="text"
+								@size="s-size"
+								@icon="remove-icon"
+								@iconComponentClass="bs-icons1"
+								@iconSize="s12"
+								@customClass="filter-bubble-remove-btn"
+								@onClick={{fn this.deleteFilterFromBubble bubble.field}}
+								aria-label={{t "lbl.delete.filter"}}
+							/>
+						</div>
+					{{/each}}
+					<UlxButton
+						@variant="text"
+						@size="s-size"
+						@label={{t "lbl.clear.filters"}}
+						@onClick={{this.handleClearAllFilters}}
 					/>
 				</div>
 			{{/if}}
@@ -1109,19 +1459,30 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Detailed view (list view — one full-width row per item; uses ulx-grid from grid.less) }}
+			{{! Detailed view (list view — uses UlxDataView) }}
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
 				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<div class="ulx-dataview">
-						{{#each this.pagedData as |row|}}
-							<div class="ulx-dataview-list-item">{{yield row to="detailed"}}</div>
-						{{/each}}
-					</div>
+					<UlxDataView @layout="list" @gridRole="list">
+						<:content>
+							{{#each this.pagedData as |row|}}
+								<div class="ulx-dataview-list-item">
+									{{yield row to="detailed"}}
+								</div>
+							{{/each}}
+						</:content>
+					</UlxDataView>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}{{yield
-									to="emptyMessage"
-								}}{{else}}{{@emptyMessage}}{{/if}}
+							{{#if (has-block "emptyMessage")}}
+								{{yield to="emptyMessage"}}
+							{{else}}
+								<UlxEmptyState
+									@headerText={{this.emptyStateHeaderText}}
+									@subHeaderText={{this.emptyStateSubHeaderText}}
+									@iconName={{this.emptyStateIconName}}
+									@iconSize="s32"
+								/>
+							{{/if}}
 						</div>
 					{{/if}}
 				</div>
@@ -1135,9 +1496,16 @@ export default class UlxTable extends Component {
 					</div>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}{{yield
-									to="emptyMessage"
-								}}{{else}}{{@emptyMessage}}{{/if}}
+							{{#if (has-block "emptyMessage")}}
+								{{yield to="emptyMessage"}}
+							{{else}}
+								<UlxEmptyState
+									@headerText={{this.emptyStateHeaderText}}
+									@subHeaderText={{this.emptyStateSubHeaderText}}
+									@iconName={{this.emptyStateIconName}}
+									@iconSize="s32"
+								/>
+							{{/if}}
 						</div>
 					{{/if}}
 				</div>
@@ -1189,18 +1557,26 @@ export default class UlxTable extends Component {
 					</table>
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}{{yield
-									to="emptyMessage"
-								}}{{else}}{{@emptyMessage}}{{/if}}
+							{{#if (has-block "emptyMessage")}}
+								{{yield to="emptyMessage"}}
+							{{else}}
+								<UlxEmptyState
+									@headerText={{this.emptyStateHeaderText}}
+									@subHeaderText={{this.emptyStateSubHeaderText}}
+									@iconName={{this.emptyStateIconName}}
+									@iconSize="s32"
+								/>
+							{{/if}}
 						</div>
 					{{/if}}
 				</div>
 			{{else}}
 				{{! Table wrapper }}
 				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<table class={{this.tableClass}} role="grid">
+					<table class={{this.tableClass}} style={{this.tableStyle}} role="grid">
 						<TableHeader
 							@columns={{this.orderedColumns}}
+							@columnWidths={{this._columnWidths}}
 							@sortField={{this.sortField}}
 							@sortOrder={{this.sortOrder}}
 							@sortMode={{this.sortMode}}
@@ -1214,6 +1590,7 @@ export default class UlxTable extends Component {
 							@filters={{this.filters}}
 							@showManageColumns={{@showManageColumns}}
 							@hasOptionCell={{has-block "optionCell"}}
+							@filterOverlayField={{this.filterOverlayField}}
 							@onSort={{this.handleSort}}
 							@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
 							@onFilterChange={{this.handleFilterChange}}
@@ -1227,6 +1604,7 @@ export default class UlxTable extends Component {
 							<TableBody
 								@rows={{this.frozenData}}
 								@columns={{this.orderedColumns}}
+								@columnWidths={{this._columnWidths}}
 								@dataKey={{@dataKey}}
 								@selectionMode={{@selectionMode}}
 								@selection={{@selection}}
@@ -1253,8 +1631,17 @@ export default class UlxTable extends Component {
 								<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 								<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
 								<:emptyMessage>
-									{{#if (has-block "customEmptyState")}}{{yield to="customEmptyState"}}
-									{{else if (has-block "emptyMessage")}}{{yield to="emptyMessage"}}
+									{{#if (has-block "customEmptyState")}}
+										{{yield to="customEmptyState"}}
+									{{else if (has-block "emptyMessage")}}
+										{{yield to="emptyMessage"}}
+									{{else}}
+										<UlxEmptyState
+											@headerText={{this.emptyStateHeaderText}}
+											@subHeaderText={{this.emptyStateSubHeaderText}}
+											@iconName={{this.emptyStateIconName}}
+											@iconSize="s32"
+										/>
 									{{/if}}
 								</:emptyMessage>
 							</TableBody>
@@ -1264,6 +1651,7 @@ export default class UlxTable extends Component {
 						<TableBody
 							@rows={{this.pagedData}}
 							@columns={{this.orderedColumns}}
+							@columnWidths={{this._columnWidths}}
 							@dataKey={{@dataKey}}
 							@loading={{@loading}}
 							@selectionMode={{@selectionMode}}
@@ -1291,8 +1679,17 @@ export default class UlxTable extends Component {
 							<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 							<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
 							<:emptyMessage>
-								{{#if (has-block "customEmptyState")}}{{yield to="customEmptyState"}}
-								{{else if (has-block "emptyMessage")}}{{yield to="emptyMessage"}}
+								{{#if (has-block "customEmptyState")}}
+									{{yield to="customEmptyState"}}
+								{{else if (has-block "emptyMessage")}}
+									{{yield to="emptyMessage"}}
+								{{else}}
+									<UlxEmptyState
+										@headerText={{this.emptyStateHeaderText}}
+										@subHeaderText={{this.emptyStateSubHeaderText}}
+										@iconName={{this.emptyStateIconName}}
+										@iconSize="s32"
+									/>
 								{{/if}}
 							</:emptyMessage>
 						</TableBody>
@@ -1308,7 +1705,11 @@ export default class UlxTable extends Component {
 
 			{{! Loading overlay }}
 			{{#if @loading}}
-				<div class="datatable-loading-overlay" aria-live="polite" aria-label="Loading data">
+				<div
+					class="datatable-loading-overlay"
+					aria-live="polite"
+					aria-label={{t "aria.table.loading"}}
+				>
 					{{#if (has-block "loadingOverlay")}}
 						{{yield to="loadingOverlay"}}
 					{{else}}
@@ -1363,6 +1764,72 @@ export default class UlxTable extends Component {
 				</UlxPopup>
 			{{/if}}
 
+			{{! Filter bubble edit popup }}
+			{{#if (and this.activeBubble this.filterBubbleTriggerEl)}}
+				<UlxPopup
+					@visible={{true}}
+					@target={{this.filterBubbleTriggerEl}}
+					@position="position-bottom-left"
+					@size="m-size"
+					@dismissable={{true}}
+					@onHide={{this.closeFilterBubble}}
+					@ariaLabel={{t "lbl.filter"}}
+				>
+					{{#if (eq this.activeBubble.type "column")}}
+						<FilterOverlay
+							@column={{this.activeBubble.col}}
+							@filterMeta={{this.activeBubble.meta}}
+							@onApply={{this.applyFilterFromBubble}}
+							@onClear={{this.deleteFilterFromBubble}}
+							@onClose={{this.closeFilterBubble}}
+						/>
+					{{else}}
+						<div class="datatable-filter-pane-bubble-popup flex flex-col gap-3">
+							{{! Body first in DOM so first focusable is the first checkbox; order for visual layout }}
+							<div class="filter-pane-bubble-body flex flex-col gap-2" style="order: 2">
+								{{#each this.activeBubble.group.options as |opt|}}
+									<UlxCheckbox
+										@itemLabel={{opt.label}}
+										@checked={{this.isFilterPaneOptionChecked
+											this.activeBubble.group.key
+											opt.value
+										}}
+										@onCheckedChange={{fn
+											this.updateFilterPaneSelection
+											this.activeBubble.group.key
+											opt.value
+										}}
+									/>
+								{{/each}}
+							</div>
+							<div
+								class="filter-pane-bubble-header flex justify-between items-center"
+								style="order: 1"
+							>
+								<span class="filter-pane-bubble-title">{{this.activeBubble.label}}</span>
+								<UlxButton
+									@variant="text"
+									@size="s-size"
+									@icon="trash-icon"
+									@iconComponentClass="bs-icons1"
+									@iconSize="s14"
+									@label={{t "lbl.delete.filter"}}
+									@onClick={{fn this.deleteFilterFromBubble this.activeBubble.field}}
+								/>
+							</div>
+							<div class="filter-pane-bubble-footer flex justify-end" style="order: 3">
+								<UlxButton
+									@variant="primary"
+									@size="s-size"
+									@label={{t "lbl.apply.filter"}}
+									@onClick={{fn this.applyPaneFilterFromBubble this.activeBubble.field}}
+								/>
+							</div>
+						</div>
+					{{/if}}
+				</UlxPopup>
+			{{/if}}
+
 			{{! Filter overlay (menu mode) – portaled to body, position: absolute in document like PrimeReact }}
 			{{#if (and this.filterOverlayColumn this.filterOverlayPortalTarget)}}
 				{{#in-element this.filterOverlayPortalTarget insertBefore=null}}
@@ -1389,6 +1856,8 @@ export default class UlxTable extends Component {
 					@target={{this.sortPopoverTriggerElement}}
 					@position="position-bottom-center"
 					@size="xs-size"
+					@dismissable={{true}}
+					@closable={{true}}
 					@onHide={{this.closeSortPopover}}
 					@ariaLabel={{t "lbl.sort"}}
 				>
@@ -1460,10 +1929,4 @@ export default class UlxTable extends Component {
 			{{/if}}
 		</div>
 	</template>
-
-	@action
-	filterMetaFor(col) {
-		const field = col?.filterField ?? col?.field;
-		return this.filters?.[field];
-	}
 }

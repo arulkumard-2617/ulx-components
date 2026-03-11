@@ -97,6 +97,7 @@ const columns = [
     field: 'name',
     header: 'Name & Email',
     sortable: true,
+    manageable: false,
     body: NameEmailCell,
   },
   { field: 'role', header: 'Role', sortable: true },
@@ -127,7 +128,7 @@ const filterGroups = [
   },
 ];
 
-export default class DemoTablePortalMembers extends Component {
+export default class DemoTableBsTableView extends Component {
   members = MEMBERS;
   columns = columns;
   sortOptions = sortOptions;
@@ -186,13 +187,15 @@ export default class DemoTablePortalMembers extends Component {
   <template>
     <p class="text-sm fg-text-secondary mb-2">
       Portal-members style table: global search, toolbar sort dropdown, filter
-      slide pane (Status / Role), manage columns, and primary action in
+      slide pane (Status / Role), manage columns (some columns use
+      <code>manageable: false</code>), and primary action in
       <code>&lt;:postRightMenu&gt;</code>.
     </p>
     <UlxTable
       @value={{this.members}}
       @columns={{this.columns}}
       @dataKey="id"
+      @moduleName="portal-members"
       @showGlobalFilter={{true}}
       @globalFilterPlaceholder={{t "lbl.search"}}
       @sortOptions={{this.sortOptions}}
@@ -214,7 +217,7 @@ export default class DemoTablePortalMembers extends Component {
       <:optionCell as |member|>
         <UlxSplitButton
           @label="Delete"
-          @variant="text"
+          @variant="text-button"
           @size="s-size"
           @outlined={{true}}
           @model={{this.getRowActionModel member}}

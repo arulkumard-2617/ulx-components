@@ -59,10 +59,6 @@ export default class TableFooter extends Component {
 				{{#if @hasOptionCell}}
 					<td class="datatable-flex-col-footer-cell" style="width: 6rem"></td>
 				{{/if}}
-
-				{{#if @showManageColumns}}
-					<td class="datatable-flex-col-footer-cell" style="width: 2.5rem"></td>
-				{{/if}}
 				</tr>
 			</tfoot>
 		{{/if}}

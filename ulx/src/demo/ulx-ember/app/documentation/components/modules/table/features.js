@@ -26,6 +26,8 @@ import {
   RowReorderSource,
   LoadingDemo,
   LoadingSource,
+  EmptyStateDemo,
+  EmptyStateSource,
   ExportDemo,
   ExportSource,
   FrozenRowsDemo,
@@ -44,8 +46,8 @@ import {
   DynamicColumnsSource,
   CardViewDemo,
   CardViewSource,
-  PortalMembersDemo,
-  PortalMembersSource,
+  BsTableViewDemo,
+  BsTableViewSource,
   VerticalTableDemo,
   VerticalTableSource,
   ImportSource,
@@ -76,13 +78,13 @@ export const TableFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Portal-members style table: <code>@showGlobalFilter</code>, toolbar <code>@sortOptions</code> / <code>@sortBy</code> / <code>@onSortByChange</code>, filter slide pane via <code>@filterGroups</code>, <code>@showManageColumns</code>, and primary action in <code>&lt;:postRightMenu&gt;</code>. Uses custom body for Name & Email (avatar + name + email) and <code>&lt;:optionCell&gt;</code> for row actions.',
+          'BSTable style: <code>@showGlobalFilter</code>, toolbar <code>@sortOptions</code> / <code>@sortBy</code> / <code>@onSortByChange</code>, filter slide pane via <code>@filterGroups</code>, <code>@showManageColumns</code> (use <code>manageable: false</code> on columns to lock them), and primary action in <code>&lt;:postRightMenu&gt;</code>. Uses custom body for Name & Email (avatar + name + email) and <code>&lt;:optionCell&gt;</code> for row actions.',
       },
     },
     demo: {
-      component: PortalMembersDemo,
+      component: BsTableViewDemo,
       props: {
-        source: PortalMembersSource,
+        source: BsTableViewSource,
         snippetName: 'portal-members',
         language: 'handlebars',
       },
@@ -560,6 +562,26 @@ export const TableFeatureItems = [
       props: {
         source: LoadingSource,
         snippetName: 'loading',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'empty-state',
+    sectionNav: 'Empty State',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Render custom empty content with the <code>&lt;:emptyMessage&gt;</code> named block. This example uses <code>UlxEmptyState</code> when the table has no rows.',
+      },
+    },
+    demo: {
+      component: EmptyStateDemo,
+      props: {
+        source: EmptyStateSource,
+        snippetName: 'empty-state',
         language: 'handlebars',
       },
     },
