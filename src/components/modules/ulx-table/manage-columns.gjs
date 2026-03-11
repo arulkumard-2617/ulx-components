@@ -26,6 +26,7 @@ export default class ManageColumns extends Component {
 	@tracked localOrder = null;
 	@tracked localVisible = null;
 	@tracked dragFromIndex = null;
+	@tracked liveMessage = "";
 
 	get manageableColumns() {
 		return (
@@ -93,6 +94,13 @@ export default class ManageColumns extends Component {
 	handleDragStart(index, event) {
 		this.dragFromIndex = index;
 		event.dataTransfer.effectAllowed = "move";
+		event.dataTransfer.setData("text/plain", String(index));
+	}
+
+	@action
+	handleDragEnter(event) {
+		event.preventDefault();
+		event.dataTransfer.dropEffect = "move";
 	}
 
 	@action
@@ -104,20 +112,70 @@ export default class ManageColumns extends Component {
 	@action
 	handleDrop(toIndex, event) {
 		event.preventDefault();
-		const fromIndex = this.dragFromIndex;
-		if (fromIndex == null || fromIndex === toIndex) return;
+		const fromIndex =
+			this.dragFromIndex ?? Number(event.dataTransfer.getData("text/plain"));
+		if (Number.isNaN(fromIndex) || fromIndex === toIndex) return;
+		this.reorderColumns(fromIndex, toIndex);
+		this.dragFromIndex = null;
+	}
+
+	@action
+	handleDragEnd() {
+		this.dragFromIndex = null;
+	}
+
+	@action
+	canMoveUp(col, index) {
+		return !this.isLocked(col) && index > 0;
+	}
+
+	@action
+	canMoveDown(col, index) {
+		return !this.isLocked(col) && index < this.orderedColumns.length - 1;
+	}
+
+	@action
+	handleMoveUp(col, index) {
+		if (!this.canMoveUp(col, index)) return;
+		this.reorderColumns(index, index - 1);
+	}
+
+	@action
+	handleMoveDown(col, index) {
+		if (!this.canMoveDown(col, index)) return;
+		this.reorderColumns(index, index + 1);
+	}
+
+	@action
+	handleItemKeyDown(col, index, event) {
+		if (event.target !== event.currentTarget || this.isLocked(col)) return;
+		if (event.key === "ArrowUp") {
+			event.preventDefault();
+			this.handleMoveUp(col, index);
+			return;
+		}
+		if (event.key === "ArrowDown") {
+			event.preventDefault();
+			this.handleMoveDown(col, index);
+		}
+	}
+
+	reorderColumns(fromIndex, toIndex) {
 		const cols = [...this.orderedColumns];
 		const [moved] = cols.splice(fromIndex, 1);
 		cols.splice(toIndex, 0, moved);
 		this.localOrder = cols;
-		this.dragFromIndex = null;
+		this.liveMessage = t("msg.table.column.moved", {
+			header: moved?.header ?? "",
+			position: toIndex + 1
+		});
 	}
 
 	<template>
 		<div class="datatable-manage-columns-panel" role="dialog" aria-label={{t "lbl.manage.columns"}}>
 			<div class="datatable-manage-columns-header">
 				<span class="datatable-manage-columns-title">{{t "lbl.manage.columns"}}</span>
-
+				<div role="status" aria-live="polite" aria-atomic="true">{{this.liveMessage}}</div>
 			</div>
 
 			<ul class="datatable-manage-columns-list" role="list">
@@ -125,9 +183,13 @@ export default class ManageColumns extends Component {
 					<li
 						class="datatable-manage-columns-item {{if (this.isLocked col) 'locked'}}"
 						draggable={{if (not (this.isLocked col)) "true"}}
+						tabindex={{if (not (this.isLocked col)) "0" "-1"}}
 						{{on "dragstart" (fn this.handleDragStart index)}}
+						{{on "dragenter" this.handleDragEnter}}
 						{{on "dragover" this.handleDragOver}}
 						{{on "drop" (fn this.handleDrop index)}}
+						{{on "dragend" this.handleDragEnd}}
+						{{on "keydown" (fn this.handleItemKeyDown col index)}}
 					>
 						<span class="datatable-manage-columns-drag-handle" aria-hidden="true">
 							<UlxIcon
@@ -144,6 +206,20 @@ export default class ManageColumns extends Component {
 							@onChange={{fn this.toggleColumn col}}
 							@customClass="datatable-manage-columns-label"
 							aria-label={{t "aria.table.toggle.column" header=col.header}}
+						/>
+						<UlxButton
+							@variant="text"
+							@label={{t "lbl.move.up"}}
+							@disabled={{not (this.canMoveUp col index)}}
+							@onClick={{fn this.handleMoveUp col index}}
+							aria-label={{t "aria.table.move.column.up" header=col.header}}
+						/>
+						<UlxButton
+							@variant="text"
+							@label={{t "lbl.move.down"}}
+							@disabled={{not (this.canMoveDown col index)}}
+							@onClick={{fn this.handleMoveDown col index}}
+							aria-label={{t "aria.table.move.column.down" header=col.header}}
 						/>
 						{{#if (this.isLocked col)}}
 							<span class="datatable-manage-columns-locked-icon" aria-label={{t "aria.table.column.locked"}}>

@@ -309,6 +309,14 @@ export default class TableBody extends Component {
 	}
 
 	@action
+	handleDelegatedDragEnter(event) {
+		if (!this.hasRowReorder) return;
+
+		const rowContext = this._getRowContextFromEvent(event);
+		rowContext && this.handleDragEnter(rowContext.index, event);
+	}
+
+	@action
 	handleDelegatedDragOver(event) {
 		if (!this.hasRowReorder) return;
 
@@ -449,6 +457,12 @@ export default class TableBody extends Component {
 	}
 
 	@action
+	handleDragEnter(index, event) {
+		event.preventDefault();
+		event.dataTransfer.dropEffect = 'move';
+	}
+
+	@action
 	handleDragOver(index, event) {
 		event.preventDefault();
 		event.dataTransfer.dropEffect = 'move';
@@ -471,6 +485,7 @@ export default class TableBody extends Component {
 			{{on "dblclick" this.handleDelegatedRowDoubleClick}}
 			{{on "contextmenu" this.handleDelegatedRowContextMenu}}
 			{{on "dragstart" this.handleDelegatedDragStart}}
+			{{on "dragenter" this.handleDelegatedDragEnter}}
 			{{on "dragover" this.handleDelegatedDragOver}}
 			{{on "drop" this.handleDelegatedDrop}}
 		>
