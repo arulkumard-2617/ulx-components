@@ -5,6 +5,7 @@ import { inject as service } from "@ember/service";
 import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
+import { or } from "ember-truth-helpers";
 import { getComponentClass } from "../../../utils/component-config";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
 import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
@@ -96,26 +97,16 @@ import UlxModalFooter from "./footer.gjs";
 export default class UlxModal extends Component {
 	@service modalStack;
 
-	@tracked destinationElement = null;
 	@tracked isMaximized = false;
 	@tracked isDragging = false;
 	@tracked isSubmitting = false;
-	@tracked transitionState = ""; // "", "enter", "enter-active", "enter-done", "exit-active", "exit-done"
-	@tracked shouldRender = false; // Controls whether modal is in DOM (for exit animations)
-	previousVisible = false; // Track previous visibility state
+	@tracked transitionState = "";
+	@tracked shouldRender = false;
+	previousVisible = false;
 	previousActiveElement = null;
 
-	constructor(owner, args) {
-		super(owner, args);
-		// Create destination element in body for portal rendering
-		if (typeof document !== "undefined") {
-			this.destinationElement = document.body;
-		}
-		// Initialize maximized state from args
-		this.isMaximized = this.args.maximized || false;
-		// Initialize shouldRender based on initial visibility
-		this.shouldRender = this.args.visible || false;
-		this.previousVisible = this.args.visible || false;
+	get destinationElement() {
+		return typeof document !== "undefined" ? document.body : null;
 	}
 
 	get baseClass() {
@@ -123,52 +114,29 @@ export default class UlxModal extends Component {
 	}
 
 	get modalClasses() {
+		const { size = "m-size", position = "center", variant } = this.args;
 		const parts = [this.baseClass];
 
-		// Size variant (not applied when maximized)
-		if (!this.isMaximized) {
-			const size = this.args.size || "m-size";
-			parts.push(size);
-		}
-
-		// Position variant (not applied when maximized)
-		if (!this.isMaximized) {
-			const position = this.args.position || "center";
-			parts.push(`position-${position}`);
-		}
-
-		// Visual variant
-		if (this.args.variant) {
-			parts.push(this.args.variant);
-		}
-
-		// Maximized state
-		if (this.isMaximized) {
-			parts.push("maximized");
-		}
-
-		// Draggable
-		if (this.draggable) {
-			parts.push("draggable");
-		}
-
-		// Transition state classes
-		if (this.transitionState) {
-			parts.push(this.transitionState);
-		}
+		!this.isMaximized && parts.push(size, `position-${position}`);
+		variant && parts.push(variant);
+		this.isMaximized && parts.push("maximized");
+		this.draggable && parts.push("draggable");
+		this.transitionState && parts.push(this.transitionState);
 
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get headerWrapperClasses() {
+		const { headerClassName } = this.args;
 		const parts = ["dialog-header"];
-		this.args.headerClassName && parts.push(this.args.headerClassName);
+		headerClassName && parts.push(headerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get bodyContentClasses() {
+		const { contentClassName } = this.args;
 		const parts = ["dialog-content"];
-		this.args.contentClassName && parts.push(this.args.contentClassName);
+		contentClassName && parts.push(contentClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -177,51 +145,37 @@ export default class UlxModal extends Component {
 	}
 
 	get footerWrapperClasses() {
+		const { footerClassName } = this.args;
 		const parts = ["dialog-footer"];
-		this.args.footerClassName && parts.push(this.args.footerClassName);
+		footerClassName && parts.push(footerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get maskClasses() {
+		const { visible, animationType, maskClassName } = this.args;
 		const parts = ["dialog-mask"];
+
 		this.overlay && parts.push("modal overlay");
-
-		if (this.args.visible) {
-			parts.push("visible");
-		}
-
-		if (this.args.animationType) {
-			parts.push(`animation-${this.args.animationType}`);
-		}
-
-		// Custom mask class
-		if (this.args.maskClassName) {
-			parts.push(this.args.maskClassName);
-		}
+		visible && parts.push("visible");
+		animationType && parts.push(`animation-${animationType}`);
+		maskClassName && parts.push(maskClassName);
 
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get modalStyle() {
+		const { visible, width, breakpoints } = this.args;
 		const styles = [];
 
-		// Don't apply width when maximized
-		if (this.args.width && !this.isMaximized) {
-			styles.push(`width: ${this.args.width}`);
-		}
+		!this.isMaximized && width && styles.push(`width: ${width}`);
 
-		// Apply responsive breakpoints
-		if (this.args.breakpoints && !this.isMaximized) {
-			// Note: Breakpoints would be better handled via CSS media queries
-			// This is a simplified approach for demonstration
-			Object.entries(this.args.breakpoints).forEach(([breakpoint, width]) => {
-				// Add CSS custom properties for breakpoint handling
-				styles.push(`--dialog-width-${breakpoint}: ${width}`);
+		if (breakpoints && !this.isMaximized) {
+			Object.entries(breakpoints).forEach(([breakpoint, bpWidth]) => {
+				styles.push(`--dialog-width-${breakpoint}: ${bpWidth}`);
 			});
 		}
 
-		// Handle z-index for stacking using modal-stack service
-		if (this.args.visible) {
+		if (visible) {
 			const zIndex = this.modalStack.getZIndex(this);
 			styles.push(`z-index: ${zIndex}`);
 		}
@@ -338,7 +292,7 @@ export default class UlxModal extends Component {
 			onEscape: this.handleClose,
 			closeOnEscape: this.closeOnEscape,
 			blockScroll: this.blockScroll,
-			role: '[tabindex="-1"]',
+			overlaySelector: '[tabindex="-1"]',
 			handleTabKey: this.handleTabKey,
 			getTransitionState: () => this.transitionState,
 			setTransitionState: (value) => {
@@ -438,24 +392,14 @@ export default class UlxModal extends Component {
 		handleTabKey(event, dialogElement);
 	}
 
-	// Check if modal should be rendered - handles initial render when @visible is true
-	get shouldRenderModal() {
-		// If visible is true and shouldRender hasn't been set yet, render immediately
-		if (this.args.visible && !this.shouldRender) {
-			// Use schedule to avoid updating tracked property during render
-			schedule("afterRender", () => {
-				this.shouldRender = true;
-			});
-			return true;
-		}
-		return this.shouldRender;
-	}
-
-	// Modal stack registration modifier - manages z-index stacking.
-	// Defer registration/unregistration to avoid updating service state during the same
-	// render that reads it (modalStyle getter uses getZIndex), which triggers Ember's assertion.
 	modalStackManagement = modifier(() => {
-		if (this.args.visible) {
+		const { visible, maximized } = this.args;
+
+		if (this.isMaximized !== (maximized ?? false)) {
+			this.isMaximized = maximized ?? false;
+		}
+
+		if (visible) {
 			schedule("actions", () => {
 				this.modalStack.registerModal(this);
 			});
@@ -471,7 +415,7 @@ export default class UlxModal extends Component {
 	<template>
 		{{#if this.destinationElement}}
 			{{#in-element this.destinationElement insertBefore=null}}
-				{{#if this.shouldRenderModal}}
+				{{#if (or this.shouldRender @visible)}}
 					<div
 						class={{this.maskClasses}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}

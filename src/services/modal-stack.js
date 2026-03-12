@@ -37,14 +37,9 @@ export default class ModalStackService extends Service {
 	 * @returns {number} The calculated z-index
 	 */
 	getZIndex(modalInstance) {
-		const index = this.modals.indexOf(modalInstance);
-		if (index === -1) {
-			// Modal not registered, return default
-			const baseZIndex = modalInstance?.args?.zIndexBase || 1000;
-			return baseZIndex;
-		}
 		const baseZIndex = modalInstance?.args?.zIndexBase || 1000;
-		return baseZIndex + (index * 10);
+		const index = this.modals.indexOf(modalInstance);
+		return index === -1 ? baseZIndex : baseZIndex + (index * 10);
 	}
 
 	/**

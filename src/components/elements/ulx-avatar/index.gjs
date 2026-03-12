@@ -1,4 +1,7 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
+import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
@@ -26,10 +29,13 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [ariaLabel] - Accessible name for meaningful avatars. When provided, automatically sets `aria-hidden="false"` and `role="img"`.
  * @param {boolean} [disabled=false] - When true, applies disabled styling and prevents interaction.
  * @param {boolean} [clickable=false] - When true, applies clickable styling with hover/active states. Requires `@ariaLabel` for accessibility.
+ * @param {Function} [onImageError] - Callback fired when image fails to load. Avatar will automatically fallback to icon (if `@iconName` provided) or label (if `@label` provided).
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [componentClass] - Override base component class (defaults to "ulx-avatar").
  */
 export default class UlxAvatar extends Component {
+	@tracked imageFailed = false;
+
 	get baseClass() {
 		const { componentClass } = this.args;
 		return componentClass ?? getComponentClass("avatar");
@@ -76,27 +82,42 @@ export default class UlxAvatar extends Component {
 	}
 
 	get isImageType() {
-		return this.avatarType === "image";
+		return this.avatarType === "image" && !this.imageFailed;
 	}
 
 	get isIconType() {
-		return this.avatarType === "icon";
+		return this.avatarType === "icon" || (this.avatarType === "image" && this.imageFailed && this.args.iconName);
 	}
 
 	get isTextType() {
-		return this.avatarType === "text";
+		return this.avatarType === "text" || (this.avatarType === "image" && this.imageFailed && !this.args.iconName && this.args.label);
+	}
+
+	@action
+	handleImageError(event) {
+		this.imageFailed = true;
+		this.args.onImageError?.(event);
 	}
 
 	get hasAriaLabel() {
 		return typeof this.args.ariaLabel === "string" && this.args.ariaLabel.length > 0;
 	}
 
+	get isMeaningful() {
+		// Avatar is meaningful if it has ariaLabel, imageAlt, or iconAriaLabel
+		return this.hasAriaLabel || 
+			(this.isImageType && this.args.imageAlt) || 
+			(this.isIconType && this.args.iconAriaLabel);
+	}
+
 	get ariaHidden() {
-		return this.hasAriaLabel ? "false" : "true";
+		// Only hide if explicitly decorative or if no meaningful content
+		return this.isMeaningful ? "false" : "true";
 	}
 
 	get role() {
-		return this.hasAriaLabel ? "img" : undefined;
+		// Set role="img" when avatar has meaningful content at container level
+		return this.isMeaningful ? "img" : undefined;
 	}
 
 	get tabindex() {
@@ -120,9 +141,9 @@ export default class UlxAvatar extends Component {
 			tabindex={{this.tabindex}}
 			...attributes
 		>
-			{{#if this.isImageType}}
-				<img src={{@image}} alt={{this.imageAlt}} class="avatar-image" />
-			{{else if this.isIconType}}
+		{{#if this.isImageType}}
+			<img src={{@image}} alt={{this.imageAlt}} class="avatar-image" {{on "error" this.handleImageError}} />
+		{{else if this.isIconType}}
 				<span class="avatar-icon">
 					<UlxIcon
 						@iconName={{@iconName}}

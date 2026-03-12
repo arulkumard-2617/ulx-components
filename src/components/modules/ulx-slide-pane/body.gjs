@@ -20,9 +20,10 @@ export default class UlxSlidePaneBody extends Component {
 	}
 
 	get contentClasses() {
+		const { contentClassName } = this.args;
 		const parts = ["slidepane-content"];
 		this.noPadding && parts.push("no-padding");
-		this.args.contentClassName && parts.push(this.args.contentClassName);
+		contentClassName && parts.push(contentClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 

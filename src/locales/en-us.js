@@ -253,6 +253,8 @@ const enUs = {
 	'lbl.square': 'Square',
 	'lbl.circle': 'Circle',
 	'lbl.amy.elsner': 'Amy Elsner',
+	'lbl.user.profile.picture': 'User profile picture',
+	'lbl.user.profile': 'User profile',
 
 	// ── Tab labels ───────────────────────────────────────────
 	'lbl.dashboard': 'Dashboard',
@@ -407,10 +409,15 @@ const enUs = {
 	'aria.table.remove.filter.rule': 'Remove filter rule',
 	'aria.table.toggle.column': 'Toggle column {header}',
 	'aria.table.column.locked': 'Column locked',
+	'aria.table.move.column.up': 'Move column {header} up',
+	'aria.table.move.column.down': 'Move column {header} down',
 	'msg.table.no.records': 'No records found.',
+	'msg.table.column.moved': 'Moved column {header} to position {position}.',
 	'msg.table.enter.filter.value': 'Enter filter value',
 	'msg.table.select.values': 'Select values',
 	'lbl.select': 'Select',
+	'lbl.move.up': 'Move up',
+	'lbl.move.down': 'Move down',
 	'lbl.filter.contains': 'Contains',
 	'lbl.filter.not.contains': 'Not contains',
 	'lbl.filter.starts.with': 'Starts with',
@@ -452,7 +459,12 @@ const enUs = {
 	'msg.password.suggestion.uppercase': 'At least one uppercase',
 	'msg.password.suggestion.numeric': 'At least one numeric',
 	'msg.password.suggestion.length': 'Minimum 8 characters',
-	'lbl.doc.password.title': 'Password - ULS Ember Documentation'
+	'lbl.doc.password.title': 'Password - ULS Ember Documentation',
+
+	// ── SlidePane ────────────────────────────────────────
+	'lbl.back': 'Back',
+	'lbl.maximize': 'Maximize',
+	'lbl.restore': 'Restore'
 };
 
 export default enUs;
