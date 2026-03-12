@@ -58,17 +58,8 @@ export default class UlxAvatar extends Component {
 	}
 
 	get memberProfile() {
-		const { memberProfile, member } = this.args;
-
-		if (memberProfile) {
-			return memberProfile;
-		}
-
-		if (member && member.userProfile) {
-			return member.userProfile;
-		}
-
-		return member ?? null;
+		const { memberProfile } = this.args;
+		return memberProfile ?? null;
 	}
 
 	get hasMemberContext() {
