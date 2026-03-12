@@ -54,7 +54,6 @@ export default class DemoSplitButtonTemplate extends Component {
         @icon="comment-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"
-        @size="s-size"
         @model={{this.items}}
         @onClick={{this.save}}
         @variant="primary"

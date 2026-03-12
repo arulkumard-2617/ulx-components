@@ -4,6 +4,8 @@ import { action } from "@ember/object";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import UlxPopupHeader from "./header.gjs";
+import UlxPopupFooter from "./footer.gjs";
 
 /**
  * Popup module component for displaying lightweight, non-modal overlays anchored to a target element.
@@ -46,7 +48,50 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
  * @param {function} [onHide] - Callback invoked after exit animation completes and popup is fully hidden.
  * @param {function} [registerRef] - Callback invoked with the component instance when the popup is mounted (for calling show/hide/toggle), and with null on teardown.
- * @block default - Popup content. Rendered inside `.popup-content`.
+ * @param {string} [headerClassName] - Extra class for the header wrapper (when header is shown).
+ * @param {string} [footerClassName] - Extra class for the footer wrapper (when footer is shown).
+ * Default header/footer (same usage as UlxModal): when <:head> / <:footer> are not passed, use these args.
+ * @param {string} [title] - Default header title. When set and no <:head> block, shows default header with this title.
+ * @param {string} [cancelButtonLabel="Cancel"] - Default footer cancel button label.
+ * @param {string} [doneButtonLabel="Confirm"] - Default footer done/confirm button label.
+ * @param {Function} [onCancel] - Callback when default footer cancel button is clicked.
+ * @param {Function} [onDone] - Callback when default footer done button is clicked.
+ * @param {boolean} [hideFooter=false] - When true, hide default footer (when no <:footer> block).
+ * @param {boolean} [hideTertiaryButton=true] - In default footer, hide the tertiary (left) button. Set false with tertiaryButtonLabel to show.
+ * @param {string} [tertiaryButtonLabel] - Default footer tertiary button label (e.g. "Reset"). Shown when hideTertiaryButton is false.
+ * @param {Function} [onTertiary] - Callback when default footer tertiary button is clicked.
+ * @param {boolean} [hideCancelButton=false] - In default footer, hide the cancel button.
+ * @param {boolean} [hideDoneButton=false] - In default footer, hide the done button.
+ *
+ * ## Named blocks (passable, like UlxModal)
+ * - **<:head>** – Custom header content. When omitted and @title is set, default header with title is shown.
+ * - **<:body>** – Custom body content. When provided, replaces default content.
+ * - **<:footer>** – Custom footer content. When omitted and @hideFooter is false, default footer (Cancel/Done) is shown.
+ * - **default** – Popup body when <:body> is not used.
+ *
+ * ## Usage (default header/footer, like UlxModal Basic)
+ * ```gjs
+ * <UlxPopup
+ *   @visible={{this.showPopup}}
+ *   @target={{this.triggerElement}}
+ *   @title="Basic Popup"
+ *   @onHide={{this.closePopup}}
+ *   @cancelButtonLabel="Cancel"
+ *   @doneButtonLabel="Confirm"
+ *   @onDone={{this.handleConfirm}}
+ *   @onCancel={{this.closePopup}}
+ * >
+ *   Body content here (or use <:body> for custom body)
+ * </UlxPopup>
+ * ```
+ *
+ * ## Usage (custom head/footer blocks)
+ * ```gjs
+ * <UlxPopup @visible={{this.showPopup}} @target={{this.triggerElement}} @onHide={{this.closePopup}}>
+ *   <:head>Custom header</:head>
+ *   <:footer>Custom footer buttons</:footer>
+ * </UlxPopup>
+ * ```
  */
 export default class UlxPopup extends Component {
 	@tracked animationState = null; // 'enter', 'enter-active', 'enter-done', 'exit', 'exit-active', 'exit-done', null
@@ -723,6 +768,10 @@ export default class UlxPopup extends Component {
 						<div class={{this.headerClasses}}>
 							{{yield to="head"}}
 						</div>
+					{{else if @title}}
+						<div class={{this.headerClasses}}>
+							<UlxPopupHeader @title={{@title}} />
+						</div>
 					{{/if}}
 
 					{{#if (has-block "body")}}
@@ -739,7 +788,20 @@ export default class UlxPopup extends Component {
 						<div class={{this.footerClasses}}>
 							{{yield to="footer"}}
 						</div>
-					{{/if}}
+					{{else}}{{#unless @hideFooter}}
+							<UlxPopupFooter
+								@footerClassName={{@footerClassName}}
+								@tertiaryButtonLabel={{@tertiaryButtonLabel}}
+								@onTertiary={{@onTertiary}}
+								@hideTertiaryButton={{@hideTertiaryButton}}
+								@cancelLabel={{@cancelButtonLabel}}
+								@doneLabel={{@doneButtonLabel}}
+								@onCancel={{@onCancel}}
+								@onDone={{@onDone}}
+								@hideCancelButton={{@hideCancelButton}}
+								@hideDoneButton={{@hideDoneButton}}
+							/>
+						{{/unless}}{{/if}}
 				</div>
 				{{#if this.isClosable}}
 					<button
