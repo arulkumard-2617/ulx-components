@@ -25,6 +25,8 @@ export default class BasicTabMenuDemo extends Component {
       @model={{this.items}}
       @activeIndex={{this.activeIndex}}
       @onTabChange={{this.handleTabChange}}
+      @tabId="basic-tabmenu"
+      @ariaLabel={{t "lbl.tabmenu.navigation"}}
     />
   </template>
 }

@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { UlxTabmenu } from 'ulx-components';
+import { UlxTabmenu, t } from 'ulx-components';
 
 export default class RouterDemoComponent extends Component {
   @service router;
@@ -12,15 +12,15 @@ export default class RouterDemoComponent extends Component {
   get items() {
     return [
       {
-        label: 'Tab Menu',
+        label: t('lbl.tabmenu'),
         route: 'components.collections.tab-menu',
       },
       {
-        label: 'Walkthrough',
+        label: t('lbl.walkthrough'),
         route: 'walkthrough',
       },
       {
-        label: 'Utilities',
+        label: t('lbl.utilities'),
         route: 'utilities.index',
       },
     ];
@@ -52,16 +52,16 @@ export default class RouterDemoComponent extends Component {
 
   <template>
     <div class="flex items-center justify-between mb-4">
-      <p class="fg-text-secondary">
-        This demo shows TabMenu with LinkTo routing. Click tabs to navigate
-        between routes. The active tab is automatically synced with the current
-        route.
+      <p id="router-tabmenu-description" class="fg-text-secondary">
+        {{t "msg.router.tabmenu.description"}}
       </p>
     </div>
     <UlxTabmenu
       @model={{this.items}}
       @activeIndex={{this.currentActiveIndex}}
       @onTabChange={{this.handleTabChange}}
+      @tabId="router-tabmenu"
+      @ariaLabelledBy="router-tabmenu-description"
     />
   </template>
 }

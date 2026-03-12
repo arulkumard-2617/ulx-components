@@ -5,17 +5,19 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
   ControlledDemo,
   NamedblocksDemo,
   RouterDemo,
-  CommandDemo,// Sources
+  CommandDemo,
+  AccessibilityDemo,
+  // Sources
   ImportSource,
   BasicSource,
   ControlledSource,
   NamedblocksSource,
   RouterSource,
-  CommandSource
+  CommandSource,
+  AccessibilitySource,
 } from './imports';
 
 export const TabMenuFeatureItems = [
@@ -133,6 +135,27 @@ export const TabMenuFeatureItems = [
       props: {
         source: CommandSource,
         snippetName: "command",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "accessibility",
+    sectionNav: "Accessibility",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Accessibility</code> demo shows TabMenu using <code>aria-label</code> to name the menubar and a disabled tab that exposes <code>aria-disabled</code> in line with the PrimeReact TabMenu accessibility guidance.",
+      }
+    },
+    demo: {
+      component: AccessibilityDemo,
+      props: {
+        source: AccessibilitySource,
+        snippetName: "accessibility",
         language: "handlebars"
       }
     }
