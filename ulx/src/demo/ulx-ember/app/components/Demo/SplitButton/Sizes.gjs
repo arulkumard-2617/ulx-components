@@ -58,7 +58,6 @@ export default class DemoSplitButtonSizes extends Component {
           @iconSize="s22"
           @model={{this.items}}
           @onClick={{this.save}}
-          @size="s-size"
         />
         <UlxSplitButton
           @label={{t "lbl.save"}}

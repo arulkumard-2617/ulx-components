@@ -38,3 +38,6 @@ ulx/src/demo/ulx-ember/dist/
 
 package-lock.json
 ulx/package-lock.json
+
+# local docs
+component-brain

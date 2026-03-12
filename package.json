@@ -136,6 +136,8 @@
       "./components/modules/ulx-paginator/index.js": "./dist/_app_/components/modules/ulx-paginator/index.js",
       "./components/modules/ulx-panelmenu/index.js": "./dist/_app_/components/modules/ulx-panelmenu/index.js",
       "./components/modules/ulx-panelmenu/panelmenu-sub.js": "./dist/_app_/components/modules/ulx-panelmenu/panelmenu-sub.js",
+      "./components/modules/ulx-popup/footer.js": "./dist/_app_/components/modules/ulx-popup/footer.js",
+      "./components/modules/ulx-popup/header.js": "./dist/_app_/components/modules/ulx-popup/header.js",
       "./components/modules/ulx-popup/index.js": "./dist/_app_/components/modules/ulx-popup/index.js",
       "./components/modules/ulx-slide-pane/body.js": "./dist/_app_/components/modules/ulx-slide-pane/body.js",
       "./components/modules/ulx-slide-pane/footer.js": "./dist/_app_/components/modules/ulx-slide-pane/footer.js",

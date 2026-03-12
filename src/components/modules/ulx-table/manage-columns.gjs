@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import not from "ember-truth-helpers/helpers/not";
@@ -21,8 +22,15 @@ import { isSpecialColumn } from "./utils.js";
  * @param {Function} onApply - ({ columns }) => void  — called with updated visible columns
  * @param {Function} onClose - () => void
  * @param {Function} onReset - () => void
+ * @param {Function} [registerRef] - (instance | null) => void — called with this component instance on mount, null on teardown
  */
 export default class ManageColumns extends Component {
+	registerRefModifier = modifier(() => {
+		this.args.registerRef?.(this);
+		return () => {
+			this.args.registerRef?.(null);
+		};
+	});
 	@tracked localOrder = null;
 	@tracked localVisible = null;
 	@tracked dragFromIndex = null;
@@ -74,10 +82,7 @@ export default class ManageColumns extends Component {
 	handleApply() {
 		const orderedVisible = this.orderedColumns.filter((c) => this.visibleSet.has(c.field));
 		const lockedCols = this.args.allColumns?.filter((c) => c.manageable === false) ?? [];
-		const nonManageableCols =
-			this.args.allColumns?.filter(
-				(c) => isSpecialColumn(c)
-			) ?? [];
+		const nonManageableCols = this.args.allColumns?.filter((c) => isSpecialColumn(c)) ?? [];
 		const result = [...nonManageableCols, ...lockedCols, ...orderedVisible];
 		this.args.onApply?.({ columns: result });
 		this.args.onClose?.();
@@ -112,8 +117,7 @@ export default class ManageColumns extends Component {
 	@action
 	handleDrop(toIndex, event) {
 		event.preventDefault();
-		const fromIndex =
-			this.dragFromIndex ?? Number(event.dataTransfer.getData("text/plain"));
+		const fromIndex = this.dragFromIndex ?? Number(event.dataTransfer.getData("text/plain"));
 		if (Number.isNaN(fromIndex) || fromIndex === toIndex) return;
 		this.reorderColumns(fromIndex, toIndex);
 		this.dragFromIndex = null;
@@ -172,12 +176,8 @@ export default class ManageColumns extends Component {
 	}
 
 	<template>
-		<div class="datatable-manage-columns-panel" role="dialog" aria-label={{t "lbl.manage.columns"}}>
-			<div class="datatable-manage-columns-header">
-				<span class="datatable-manage-columns-title">{{t "lbl.manage.columns"}}</span>
-				<div role="status" aria-live="polite" aria-atomic="true">{{this.liveMessage}}</div>
-			</div>
-
+		<div class="datatable-manage-columns-panel" {{this.registerRefModifier}}>
+			<div role="status" aria-live="polite" aria-atomic="true" class="datatable-manage-columns-live">{{this.liveMessage}}</div>
 			<ul class="datatable-manage-columns-list" role="list">
 				{{#each this.orderedColumns as |col index|}}
 					<li
@@ -222,26 +222,16 @@ export default class ManageColumns extends Component {
 							aria-label={{t "aria.table.move.column.down" header=col.header}}
 						/>
 						{{#if (this.isLocked col)}}
-							<span class="datatable-manage-columns-locked-icon" aria-label={{t "aria.table.column.locked"}}>
+							<span
+								class="datatable-manage-columns-locked-icon"
+								aria-label={{t "aria.table.column.locked"}}
+							>
 								<UlxIcon @componentClass="bs-icons1" @type="font" @iconName="lock" @size="s12" />
 							</span>
 						{{/if}}
 					</li>
 				{{/each}}
 			</ul>
-
-			<div class="datatable-manage-columns-footer">
-				<UlxButton
-					@variant="text"
-					@icon="reset-icon"
-					@iconComponentClass="bs-icons1"
-					@iconSize="s14"
-					@label={{t "lbl.reset.to.default"}}
-					@onClick={{this.handleReset}}
-				/>
-				<UlxButton @variant="outlined" @label={{t "lbl.cancel"}} @onClick={{@onClose}} />
-				<UlxButton @variant="primary" @label={{t "lbl.save"}} @onClick={{this.handleApply}} />
-			</div>
 		</div>
 	</template>
 }

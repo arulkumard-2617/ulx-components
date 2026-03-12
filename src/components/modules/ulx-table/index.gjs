@@ -39,6 +39,7 @@ import UlxSlidePane from "../ulx-slide-pane/index.gjs";
 import UlxPopup from "../ulx-popup/index.gjs";
 import UlxAccordion from "../../collections/ulx-accordion/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
+import UlxCheckboxItem from "../../elements/ulx-checkbox/checkbox-item.gjs";
 import UlxCard from "../../elements/ulx-card/index.gjs";
 import UlxChip from "../../elements/ulx-chip/index.gjs";
 import UlxDataView from "../../modules/ulx-data-view/index.gjs";
@@ -248,6 +249,7 @@ export default class UlxTable extends Component {
 
 	// ─── Manage columns popup ─────────────────────────────────────────────────
 	@tracked manageColumnsTriggerElement = null;
+	@tracked manageColumnsRef = null;
 
 	// ─── Filter slide pane (filterGroups) ──────────────────────────────────────
 	@tracked filterPaneOpen = false;
@@ -271,6 +273,10 @@ export default class UlxTable extends Component {
 
 	// ─── View toggle (table / card) ──────────────────────────────────────────
 	@tracked _viewMode = null;
+
+	get filterPaneGroupClass() {
+		return getComponentClass("checkbox-group");
+	}
 
 	willDestroy() {
 		super.willDestroy(...arguments);
@@ -365,7 +371,7 @@ export default class UlxTable extends Component {
 
 	get rootClasses() {
 		const {
-			size = "s-size",
+			size = "m-size",
 			stripedRows,
 			showGridlines,
 			loading,
@@ -1019,7 +1025,9 @@ export default class UlxTable extends Component {
 	}
 
 	@action
-	updateFilterPaneSelection(groupKey, optionValue, checked) {
+	updateFilterPaneSelection(groupKey, optionValue, checkedOrEvent) {
+		const checked =
+			typeof checkedOrEvent === "boolean" ? checkedOrEvent : !!checkedOrEvent?.target?.checked;
 		const arr = this._filterPaneSelections[groupKey] ?? [];
 		let next;
 		if (checked) {
@@ -1157,6 +1165,12 @@ export default class UlxTable extends Component {
 	closeManageColumns() {
 		this.showManagePanel = false;
 		this.manageColumnsTriggerElement = null;
+		this.manageColumnsRef = null;
+	}
+
+	@action
+	setManageColumnsRef(ref) {
+		this.manageColumnsRef = ref;
 	}
 
 	@action
@@ -1176,6 +1190,11 @@ export default class UlxTable extends Component {
 		this._visibleColumnFields = null;
 		this._columnOrder = null;
 		this.persistState();
+	}
+
+	@action
+	invokeManageColumnsApply() {
+		this.manageColumnsRef?.handleApply();
 	}
 
 	// ─── Row reorder ──────────────────────────────────────────────────────────
@@ -1251,7 +1270,7 @@ export default class UlxTable extends Component {
 		<div class={{this.rootClasses}} ...attributes aria-busy={{if @loading "true"}}>
 			{{! Custom table header area }}
 			{{#if (has-block "header")}}
-				<div class="datatable-header-toolbar">
+				<div class="header-toolbar">
 					{{yield to="header"}}
 				</div>
 			{{/if}}
@@ -1266,7 +1285,7 @@ export default class UlxTable extends Component {
 					(has-block "postRightMenu")
 				)
 			}}
-				<div class="datatable-header-toolbar datatable-toolbar flex justify-between">
+				<div class="header-toolbar datatable-toolbar flex justify-between">
 					<div class="datatable-toolbar-left">
 						{{yield to="preLeftMenu"}}
 						{{#if @showGlobalFilter}}
@@ -1306,7 +1325,6 @@ export default class UlxTable extends Component {
 										@size="m-size"
 										@icon="filter-icon"
 										@iconComponentClass="bs-icons1"
-										@iconSize="s14"
 										aria-label={{t "lbl.filter"}}
 										{{on "click" this.openFilterPane}}
 									/>
@@ -1317,7 +1335,6 @@ export default class UlxTable extends Component {
 										@size="m-size"
 										@icon="sort-icon"
 										@iconComponentClass="bs-icons1"
-										@iconSize="s14"
 										aria-label={{t "lbl.sort"}}
 										aria-expanded={{this.showSortPopover}}
 										{{on "click" this.openSortPopover}}
@@ -1329,7 +1346,6 @@ export default class UlxTable extends Component {
 										@size="m-size"
 										@icon="columns-icon"
 										@iconComponentClass="bs-icons1"
-										@iconSize="s14"
 										aria-label={{t "lbl.columns"}}
 										{{on "click" this.openManageColumns}}
 									/>
@@ -1344,8 +1360,7 @@ export default class UlxTable extends Component {
 												@value={{this.effectiveViewModeForOptions this.viewMode viewOpts}}
 												@onChange={{this.handleViewToggleChange}}
 												@size="m-size"
-												@variant="secondary"
-												@styleVariant="text"
+												@variant="primary"
 												@ariaLabel={{t "aria.table.view.toggle"}}
 											>
 												<:item as |option|>
@@ -1383,7 +1398,7 @@ export default class UlxTable extends Component {
 			{{! Filter bubbles bar — shown whenever any filter is active }}
 			{{#if this.showFilterBubblesBar}}
 				<div
-					class="datatable-filter-bubbles-bar flex flex-row flex-wrap items-center gap-2 py-2"
+					class="datatable-filter-bubbles-bar flex flex-row flex-wrap items-center gap-3 py-2"
 					role="group"
 					aria-label={{t "lbl.filter"}}
 				>
@@ -1391,7 +1406,7 @@ export default class UlxTable extends Component {
 						<div class="datatable-filter-bubble-item flex items-center">
 							<UlxButton
 								@variant="outlined"
-								@size="s-size"
+								@size="compact"
 								@customClass="filter-bubble-trigger"
 								@onClick={{fn this.openFilterBubble bubble}}
 								aria-haspopup="true"
@@ -1403,7 +1418,7 @@ export default class UlxTable extends Component {
 											@iconName="filter-icon"
 											@componentClass="bs-icons1"
 											@type="font"
-											@size="s12"
+											@size="s18"
 											aria-hidden="true"
 										/>
 										<span class="filter-bubble-label">
@@ -1414,18 +1429,17 @@ export default class UlxTable extends Component {
 											@iconName="down-arrow-filled-icon"
 											@componentClass="bs-icons1"
 											@type="font"
-											@size="s12"
+											@size="s18"
 											aria-hidden="true"
 										/>
 									</UlxChip>
 								</:default>
 							</UlxButton>
 							<UlxButton
-								@variant="text"
+								@variant="link"
 								@size="s-size"
+								@iconSize="s18"
 								@icon="remove-icon"
-								@iconComponentClass="bs-icons1"
-								@iconSize="s12"
 								@customClass="filter-bubble-remove-btn"
 								@onClick={{fn this.deleteFilterFromBubble bubble.field}}
 								aria-label={{t "lbl.delete.filter"}}
@@ -1433,8 +1447,10 @@ export default class UlxTable extends Component {
 						</div>
 					{{/each}}
 					<UlxButton
-						@variant="text"
-						@size="s-size"
+						@variant="danger"
+						@text={{true}}
+						@size="compact"
+						@icon="delete-icon-02"
 						@label={{t "lbl.clear.filters"}}
 						@onClick={{this.handleClearAllFilters}}
 					/>
@@ -1532,10 +1548,7 @@ export default class UlxTable extends Component {
 						<tbody>
 							{{#each this.verticalRows as |col|}}
 								<tr class="datatable-vertical-row">
-									<th
-										class="datatable-column-header-cell datatable-vertical-row-header"
-										scope="row"
-									>
+									<th class="column-header-cell datatable-vertical-row-header" scope="row">
 										{{col.header}}
 									</th>
 									{{#each this.pagedData as |row rowIdx|}}
@@ -1749,10 +1762,18 @@ export default class UlxTable extends Component {
 					@visible={{this.showManagePanel}}
 					@target={{this.manageColumnsTriggerElement}}
 					@position="position-bottom-right"
-					@size="m-size"
+					@size="l-size"
 					@closable={{true}}
+					@title={{t "lbl.manage.columns"}}
 					@onHide={{this.closeManageColumns}}
 					@ariaLabel={{t "lbl.manage.columns"}}
+					@hideTertiaryButton={{false}}
+					@tertiaryButtonLabel={{t "lbl.reset.to.default"}}
+					@onTertiary={{this.handleManageColumnsReset}}
+					@cancelButtonLabel={{t "lbl.cancel"}}
+					@doneButtonLabel={{t "lbl.save"}}
+					@onCancel={{this.closeManageColumns}}
+					@onDone={{this.invokeManageColumnsApply}}
 				>
 					<ManageColumns
 						@allColumns={{this.allColumns}}
@@ -1760,6 +1781,7 @@ export default class UlxTable extends Component {
 						@onApply={{this.handleManageColumnsApply}}
 						@onClose={{this.closeManageColumns}}
 						@onReset={{this.handleManageColumnsReset}}
+						@registerRef={{this.setManageColumnsRef}}
 					/>
 				</UlxPopup>
 			{{/if}}
@@ -1774,6 +1796,7 @@ export default class UlxTable extends Component {
 					@dismissable={{true}}
 					@onHide={{this.closeFilterBubble}}
 					@ariaLabel={{t "lbl.filter"}}
+					@hideFooter={{true}}
 				>
 					{{#if (eq this.activeBubble.type "column")}}
 						<FilterOverlay
@@ -1784,17 +1807,29 @@ export default class UlxTable extends Component {
 							@onClose={{this.closeFilterBubble}}
 						/>
 					{{else}}
-						<div class="datatable-filter-pane-bubble-popup flex flex-col gap-3">
-							{{! Body first in DOM so first focusable is the first checkbox; order for visual layout }}
-							<div class="filter-pane-bubble-body flex flex-col gap-2" style="order: 2">
+						<div class="flex flex-col gap-3">
+							<div class="flex justify-between items-center">
+								<span class="popup-title">{{this.activeBubble.label}}</span>
+								<UlxButton
+									@variant="danger"
+									@text={{true}}
+									@size="s-size"
+									@icon="delete-icon-02"
+									@iconComponentClass="bs-icons1"
+									@label={{t "lbl.delete.filter"}}
+									@onClick={{fn this.deleteFilterFromBubble this.activeBubble.field}}
+								/>
+							</div>
+
+							<div class="ulx-checkbox-group">
 								{{#each this.activeBubble.group.options as |opt|}}
-									<UlxCheckbox
+									<UlxCheckboxItem
 										@itemLabel={{opt.label}}
 										@checked={{this.isFilterPaneOptionChecked
 											this.activeBubble.group.key
 											opt.value
 										}}
-										@onCheckedChange={{fn
+										@onChange={{fn
 											this.updateFilterPaneSelection
 											this.activeBubble.group.key
 											opt.value
@@ -1802,22 +1837,8 @@ export default class UlxTable extends Component {
 									/>
 								{{/each}}
 							</div>
-							<div
-								class="filter-pane-bubble-header flex justify-between items-center"
-								style="order: 1"
-							>
-								<span class="filter-pane-bubble-title">{{this.activeBubble.label}}</span>
-								<UlxButton
-									@variant="text"
-									@size="s-size"
-									@icon="trash-icon"
-									@iconComponentClass="bs-icons1"
-									@iconSize="s14"
-									@label={{t "lbl.delete.filter"}}
-									@onClick={{fn this.deleteFilterFromBubble this.activeBubble.field}}
-								/>
-							</div>
-							<div class="filter-pane-bubble-footer flex justify-end" style="order: 3">
+
+							<div class="flex justify-end">
 								<UlxButton
 									@variant="primary"
 									@size="s-size"
@@ -1875,34 +1896,32 @@ export default class UlxTable extends Component {
 			{{#if this.hasFilterGroups}}
 				<UlxSlidePane
 					@visible={{this.filterPaneOpen}}
+					@title={{t "lbl.filter"}}
 					@position="right"
-					@width="320px"
+					@contentClassName="p-0"
 					@onHide={{this.closeFilterPane}}
+					@onCancel={{this.closeFilterPane}}
+					@onDone={{this.applyFilterPane}}
+					@cancelButtonLabel={{t "lbl.close"}}
+					@doneButtonLabel={{t "lbl.apply.filter"}}
 				>
-					<:head>
-						<h2 class="slidepane-title" id="ulx-table-filter-pane-title">
-							{{t "lbl.filter"}}
-						</h2>
-						<UlxButton
-							@icon="close-icon-01"
-							@iconComponentClass="bs-icons1"
-							@variant="text"
-							@iconSize="s18"
-							aria-label={{t "lbl.close"}}
-							{{on "click" this.closeFilterPane}}
-						/>
-					</:head>
 					<:body>
-						<UlxAccordion @model={{this.filterAccordionModel}} @multiple={{true}} @size="s-size">
+						<UlxAccordion
+							@model={{this.filterAccordionModel}}
+							@multiple={{true}}
+							@toggleIconPosition="right"
+							@variant="elevated"
+							@size="m-size"
+						>
 							<:content as |item idx|>
 								{{#let (this.getFilterGroupAt idx) as |group|}}
 									{{#if group}}
-										<div class="ulx-table-filter-pane-group flex flex-col gp2">
+										<div class={{this.filterPaneGroupClass}}>
 											{{#each group.options as |opt|}}
-												<UlxCheckbox
+												<UlxCheckboxItem
 													@itemLabel={{opt.label}}
 													@checked={{this.isFilterPaneOptionChecked group.key opt.value}}
-													@onCheckedChange={{fn this.updateFilterPaneSelection group.key opt.value}}
+													@onChange={{fn this.updateFilterPaneSelection group.key opt.value}}
 												/>
 											{{/each}}
 										</div>
@@ -1911,20 +1930,6 @@ export default class UlxTable extends Component {
 							</:content>
 						</UlxAccordion>
 					</:body>
-					<:footer>
-						<UlxButtonGroup @size="s-size">
-							<UlxButton
-								@variant="outlined"
-								@label={{t "lbl.close"}}
-								{{on "click" this.closeFilterPane}}
-							/>
-							<UlxButton
-								@variant="primary"
-								@label={{t "lbl.apply.filter"}}
-								{{on "click" this.applyFilterPane}}
-							/>
-						</UlxButtonGroup>
-					</:footer>
 				</UlxSlidePane>
 			{{/if}}
 		</div>

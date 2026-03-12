@@ -1,17 +1,17 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { fn } from '@ember/helper';
-import { on } from '@ember/modifier';
-import eq from 'ember-truth-helpers/helpers/eq';
-import and from 'ember-truth-helpers/helpers/and';
-import or from 'ember-truth-helpers/helpers/or';
-import not from 'ember-truth-helpers/helpers/not';
-import UlxCheckbox from '../../elements/ulx-checkbox/index.gjs';
-import UlxRadio from '../../elements/ulx-radio/index.gjs';
-import UlxButton from '../../elements/ulx-button/index.gjs';
-import UlxIcon from '../../elements/ulx-icon/index.gjs';
-import { getFieldValue } from './utils.js';
-import { t } from '../../../utils/i18n.js';
+import Component from "@glimmer/component";
+import { action } from "@ember/object";
+import { fn } from "@ember/helper";
+import { on } from "@ember/modifier";
+import eq from "ember-truth-helpers/helpers/eq";
+import and from "ember-truth-helpers/helpers/and";
+import or from "ember-truth-helpers/helpers/or";
+import not from "ember-truth-helpers/helpers/not";
+import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
+import UlxRadio from "../../elements/ulx-radio/index.gjs";
+import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import { getFieldValue } from "./utils.js";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Internal tbody for UlxTable.
@@ -30,7 +30,7 @@ export default class TableBody extends Component {
 	get selectedKeySet() {
 		const { selection, selectionMode, dataKey } = this.args;
 		if (!selection || !dataKey) return null;
-		if (selectionMode === 'single') {
+		if (selectionMode === "single") {
 			const key = getFieldValue(selection, dataKey);
 			return key != null ? new Set([String(key)]) : new Set();
 		}
@@ -46,7 +46,7 @@ export default class TableBody extends Component {
 		if (Array.isArray(expandedRows)) {
 			return new Set(expandedRows.map((r) => String(getFieldValue(r, dataKey))));
 		}
-		if (typeof expandedRows === 'object') {
+		if (typeof expandedRows === "object") {
 			return new Set(
 				Object.entries(expandedRows)
 					.filter(([, v]) => v)
@@ -62,7 +62,7 @@ export default class TableBody extends Component {
 		if (Array.isArray(editingRows)) {
 			return new Set(editingRows.map((r) => String(getFieldValue(r, dataKey))));
 		}
-		if (typeof editingRows === 'object') {
+		if (typeof editingRows === "object") {
 			return new Set(
 				Object.entries(editingRows)
 					.filter(([, v]) => v)
@@ -79,7 +79,7 @@ export default class TableBody extends Component {
 		if (dataKey && this.selectedKeySet) {
 			return this.selectedKeySet.has(String(getFieldValue(row, dataKey)));
 		}
-		if (selectionMode === 'single') return selection === row;
+		if (selectionMode === "single") return selection === row;
 		if (Array.isArray(selection)) return selection.includes(row);
 		return false;
 	}
@@ -120,33 +120,34 @@ export default class TableBody extends Component {
 
 	@action
 	rowClass(row, index) {
-		const parts = ['datatable-body-row'];
-		this.isRowSelected(row) && parts.push('selected');
-		this.isRowExpanded(row) && parts.push('expanded');
-		this.isRowEditing(row) && parts.push('editing');
+		const parts = ["datatable-body-row"];
+		this.isRowSelected(row) && parts.push("selected");
+		this.isRowExpanded(row) && parts.push("expanded");
+		this.isRowEditing(row) && parts.push("editing");
 		const { rowClassName, selectionMode } = this.args;
-		(selectionMode === 'single' ||
-			selectionMode === 'multiple' ||
-			selectionMode === 'checkbox' ||
-			selectionMode === 'radio') && parts.push('row-selection');
-		if (typeof rowClassName === 'function') {
+		(selectionMode === "single" ||
+			selectionMode === "multiple" ||
+			selectionMode === "checkbox" ||
+			selectionMode === "radio") &&
+			parts.push("row-selection");
+		if (typeof rowClassName === "function") {
 			const extra = rowClassName(row, index);
 			extra && parts.push(extra);
-		} else if (typeof rowClassName === 'string') {
+		} else if (typeof rowClassName === "string") {
 			parts.push(rowClassName);
 		}
-		return parts.filter(Boolean).join(' ');
+		return parts.filter(Boolean).join(" ");
 	}
 
 	@action
 	bodyCellClass(col, row) {
-		const parts = ['datatable-column-body-cell'];
-		this.isRowSelected(row) && this.args.selectionMode !== 'cell' && parts.push('selected');
-		col.frozen && parts.push(`frozen-${col.alignFrozen ?? 'left'}`);
+		const parts = ["column-body-cell"];
+		this.isRowSelected(row) && this.args.selectionMode !== "cell" && parts.push("selected");
+		col.frozen && parts.push(`frozen-${col.alignFrozen ?? "left"}`);
 		col.className && parts.push(col.className);
-		this.args.editMode === 'cell' && col.editor && parts.push('editable');
-		this.isCellEditing(row, col) && parts.push('editing');
-		return parts.filter(Boolean).join(' ');
+		this.args.editMode === "cell" && col.editor && parts.push("editable");
+		this.isCellEditing(row, col) && parts.push("editing");
+		return parts.filter(Boolean).join(" ");
 	}
 
 	@action
@@ -154,21 +155,21 @@ export default class TableBody extends Component {
 		const parts = [];
 		col.style && parts.push(col.style);
 		if (col.frozen) {
-			const side = col.alignFrozen ?? 'left';
-			parts.push(`${side}: ${col.frozenOffset ?? '0px'}`);
+			const side = col.alignFrozen ?? "left";
+			parts.push(`${side}: ${col.frozenOffset ?? "0px"}`);
 		}
 		if (col.align) parts.push(`text-align: ${col.align}`);
 		const width = this.args.columnWidths?.[col.field];
-		if (typeof width === 'number') {
+		if (typeof width === "number") {
 			parts.push(`min-width: ${width}px`);
 			parts.push(`width: ${width}px`);
 		}
-		return parts.join('; ') || undefined;
+		return parts.join("; ") || undefined;
 	}
 
 	@action
 	cellValue(row, col) {
-		if (!col.field) return '';
+		if (!col.field) return "";
 		return getFieldValue(row, col.field);
 	}
 
@@ -185,20 +186,22 @@ export default class TableBody extends Component {
 	@action
 	handleKeydown(event) {
 		const { key, target } = event;
-		const tbody = target?.closest?.('tbody');
+		const tbody = target?.closest?.("tbody");
 		if (!tbody) return;
 
-		const isNavKey = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key);
-		if (!isNavKey && key !== 'Enter' && key !== ' ') return;
+		const isNavKey = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End"].includes(
+			key
+		);
+		if (!isNavKey && key !== "Enter" && key !== " ") return;
 
-		const cell = target?.closest?.('td');
+		const cell = target?.closest?.("td");
 		if (!cell) return;
-		const row = cell.closest('tr');
+		const row = cell.closest("tr");
 		if (!row) return;
 
-		const allRows = [...tbody.querySelectorAll('tr.datatable-body-row')];
+		const allRows = [...tbody.querySelectorAll("tr.datatable-body-row")];
 		const rowIndex = allRows.indexOf(row);
-		const cells = [...row.querySelectorAll('td')];
+		const cells = [...row.querySelectorAll("td")];
 		const cellIndex = cells.indexOf(cell);
 
 		if (rowIndex < 0 || cellIndex < 0) return;
@@ -207,28 +210,28 @@ export default class TableBody extends Component {
 		let targetCell = cellIndex;
 
 		switch (key) {
-			case 'ArrowUp':
+			case "ArrowUp":
 				targetRow = Math.max(0, rowIndex - 1);
 				break;
-			case 'ArrowDown':
+			case "ArrowDown":
 				targetRow = Math.min(allRows.length - 1, rowIndex + 1);
 				break;
-			case 'ArrowLeft':
+			case "ArrowLeft":
 				targetCell = Math.max(0, cellIndex - 1);
 				break;
-			case 'ArrowRight':
+			case "ArrowRight":
 				targetCell = Math.min(cells.length - 1, cellIndex + 1);
 				break;
-			case 'Home':
+			case "Home":
 				targetCell = event.ctrlKey ? ((targetRow = 0), 0) : 0;
 				break;
-			case 'End':
+			case "End":
 				targetCell = event.ctrlKey
 					? ((targetRow = allRows.length - 1), cells.length - 1)
 					: cells.length - 1;
 				break;
-			case 'Enter':
-			case ' ':
+			case "Enter":
+			case " ":
 				this._activateCell(cell, event);
 				return;
 			default:
@@ -238,11 +241,11 @@ export default class TableBody extends Component {
 		event.preventDefault();
 		const nextRow = allRows[targetRow];
 		if (!nextRow) return;
-		const nextCells = [...nextRow.querySelectorAll('td')];
+		const nextCells = [...nextRow.querySelectorAll("td")];
 		const nextCell = nextCells[Math.min(targetCell, nextCells.length - 1)];
 		if (nextCell) {
-			nextCell.setAttribute('tabindex', '0');
-			cell.setAttribute('tabindex', '-1');
+			nextCell.setAttribute("tabindex", "0");
+			cell.setAttribute("tabindex", "-1");
 			nextCell.focus();
 		}
 	}
@@ -252,14 +255,14 @@ export default class TableBody extends Component {
 		if (focusable) {
 			event.preventDefault();
 			focusable.focus();
-			if (focusable.tagName === 'BUTTON' || focusable.tagName === 'A') {
+			if (focusable.tagName === "BUTTON" || focusable.tagName === "A") {
 				focusable.click();
 			}
 		}
 	}
 
 	_getRowContextFromEvent(event) {
-		const rowElement = event.target?.closest?.('tr[data-row-index]');
+		const rowElement = event.target?.closest?.("tr[data-row-index]");
 		if (!rowElement) return null;
 
 		const index = Number(rowElement.dataset.rowIndex);
@@ -277,7 +280,7 @@ export default class TableBody extends Component {
 		const rowContext = this._getRowContextFromEvent(event);
 		if (!rowContext) return;
 
-		const cellElement = event.target?.closest?.('td[data-col-index]');
+		const cellElement = event.target?.closest?.("td[data-col-index]");
 		if (cellElement) {
 			const colIndex = Number(cellElement.dataset.colIndex);
 			const columns = this.args.columns ?? [];
@@ -336,11 +339,11 @@ export default class TableBody extends Component {
 	handleRowClick(row, index, event) {
 		const { selectionMode, onRowClick, onSelectionChange, dataKey, selection } = this.args;
 		onRowClick?.({ row, index, originalEvent: event });
-		if (!selectionMode || selectionMode === 'cell') return;
-		if (selectionMode === 'checkbox') return;
-		if (selectionMode === 'single') {
+		if (!selectionMode || selectionMode === "cell") return;
+		if (selectionMode === "checkbox") return;
+		if (selectionMode === "single") {
 			onSelectionChange?.(row);
-		} else if (selectionMode === 'multiple' || selectionMode === 'radio') {
+		} else if (selectionMode === "multiple" || selectionMode === "radio") {
 			const current = Array.isArray(selection) ? selection : [];
 			const isSelected = this.isRowSelected(row);
 			if (isSelected) {
@@ -426,10 +429,10 @@ export default class TableBody extends Component {
 
 	@action
 	handleCellClick(row, col, event) {
-		if (this.args.editMode === 'cell' && col.editor) {
+		if (this.args.editMode === "cell" && col.editor) {
 			this.args.onCellEditInit?.({ row, field: col.field, originalEvent: event });
 		}
-		if (this.args.selectionMode === 'cell') {
+		if (this.args.selectionMode === "cell") {
 			this.args.onSelectionChange?.({ row, field: col.field });
 		}
 	}
@@ -451,27 +454,27 @@ export default class TableBody extends Component {
 
 	@action
 	handleDragStart(index, event) {
-		event.dataTransfer.effectAllowed = 'move';
-		event.dataTransfer.setData('text/plain', String(index));
+		event.dataTransfer.effectAllowed = "move";
+		event.dataTransfer.setData("text/plain", String(index));
 		this.args.onRowDragStart?.({ index, originalEvent: event });
 	}
 
 	@action
 	handleDragEnter(index, event) {
 		event.preventDefault();
-		event.dataTransfer.dropEffect = 'move';
+		event.dataTransfer.dropEffect = "move";
 	}
 
 	@action
 	handleDragOver(index, event) {
 		event.preventDefault();
-		event.dataTransfer.dropEffect = 'move';
+		event.dataTransfer.dropEffect = "move";
 	}
 
 	@action
 	handleDrop(index, event) {
 		event.preventDefault();
-		const fromIndex = Number(event.dataTransfer.getData('text/plain'));
+		const fromIndex = Number(event.dataTransfer.getData("text/plain"));
 		if (!isNaN(fromIndex) && fromIndex !== index) {
 			this.args.onRowReorder?.({ dragIndex: fromIndex, dropIndex: index });
 		}
@@ -492,7 +495,7 @@ export default class TableBody extends Component {
 			{{#if (and (not @loading) (eq @rows.length 0))}}
 				<tr class="datatable-row" role="row">
 					<td
-						class="datatable-column-body-cell datatable-empty-message"
+						class="column-body-cell datatable-empty-message"
 						colspan={{this.colCount}}
 						role="gridcell"
 					>
@@ -516,7 +519,7 @@ export default class TableBody extends Component {
 						{{#each @columns as |col colIdx|}}
 							{{#if col.selectionMode}}
 								<td
-									class="datatable-column-body-cell selection"
+									class="column-body-cell selection"
 									role="gridcell"
 									style="width: 3rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
@@ -538,7 +541,7 @@ export default class TableBody extends Component {
 								</td>
 							{{else if col.expander}}
 								<td
-									class="datatable-column-body-cell"
+									class="column-body-cell"
 									role="gridcell"
 									style="width: 3rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
@@ -560,7 +563,7 @@ export default class TableBody extends Component {
 								</td>
 							{{else if col.rowReorder}}
 								<td
-									class="datatable-column-body-cell"
+									class="column-body-cell"
 									role="gridcell"
 									style="width: 3rem; cursor: grab"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
@@ -576,7 +579,7 @@ export default class TableBody extends Component {
 								</td>
 							{{else if col.rowEditor}}
 								<td
-									class="datatable-column-body-cell"
+									class="column-body-cell"
 									role="gridcell"
 									style="width: 6rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
@@ -649,7 +652,7 @@ export default class TableBody extends Component {
 
 						{{#if @hasOptionCell}}
 							<td
-								class="datatable-column-body-cell datatable-option-cell"
+								class="column-body-cell datatable-option-cell"
 								role="gridcell"
 								style="width: 6rem"
 								tabindex="-1"
@@ -661,7 +664,7 @@ export default class TableBody extends Component {
 
 					{{#if (this.isRowExpanded row)}}
 						<tr class="datatable-row-expansion expanded" role="row">
-							<td colspan={{this.colCount}} class="datatable-column-body-cell" role="gridcell">
+							<td colspan={{this.colCount}} class="column-body-cell" role="gridcell">
 								{{yield row to="rowExpansion"}}
 							</td>
 						</tr>

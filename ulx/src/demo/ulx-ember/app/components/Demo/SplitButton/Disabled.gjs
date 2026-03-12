@@ -20,7 +20,6 @@ export default class DemoSplitButtonDisabled extends Component {
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"
-        @size="s-size"
         @model={{this.items}}
         @disabled={{true}}
       />
