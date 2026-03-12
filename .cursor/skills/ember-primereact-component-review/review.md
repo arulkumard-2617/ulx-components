@@ -192,14 +192,14 @@ get rootClasses() {
 
 ## 6. Demo & Documentation
 
-- **Demo page location:** `ulx/src/demo/ulx-ember/app/components/Demo/{ComponentName}/`
+- **Demo/documentation locations (either may be used):**
+  - **Demo:** `ulx/src/demo/ulx-ember/app/components/Demo/{ComponentName}/`
+  - **Documentation:** `ulx/src/demo/ulx-ember/app/documentation/components/{elements|collections|modules}/{component-name}/`
 
 **Checklist:**
 
-- [ ] Demo page exists at the correct path
+- [ ] Demo or documentation page exists (check both paths above)
 - [ ] Demo uses "Variant" not "severity" for variant cases
-- [ ] Snippet file mirrors all demo page variations including imports
-- [ ] Snippets located in correct path (`snippets/` subdirectory)
 - [ ] No auto-generated `.md` files for components
 
 ---
@@ -277,7 +277,10 @@ Do not include a section if there are no findings for it.
 ### Demo & Snippets
 
 - **Demo pages**: `ulx/src/demo/ulx-ember/app/components/Demo/{ComponentName}/`
-- **Snippets**: `ulx/src/demo/ulx-ember/app/components/Demo/{ComponentName}/snippets/`
+- **Documentation (alternative)**: `ulx/src/demo/ulx-ember/app/documentation/components/{elements|collections|modules}/{component-name}/` (e.g. `elements/avatar`, `collections/accordion`, `modules/table`)
+- **Snippets**: May be under either location — **check both** before reporting missing:
+  - `ulx/src/demo/ulx-ember/app/components/Demo/{ComponentName}/snippets/`
+  - `ulx/src/demo/ulx-ember/app/documentation/components/{elements|collections|modules}/{component-name}/snippets/`
 
 ### i18n
 
