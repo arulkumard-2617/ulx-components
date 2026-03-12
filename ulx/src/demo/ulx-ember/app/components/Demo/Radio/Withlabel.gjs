@@ -26,11 +26,10 @@ export default class BasicRadioDemo extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxRadio
         @rules={{this.requiredRules}}
         @label={{t "lbl.with.label"}}
-        @size="s-size"
         @fieldClass="col-12"
         @items={{this.items}}
         @onItemChange={{this.handleItemChange}}

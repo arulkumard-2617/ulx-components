@@ -19,7 +19,7 @@ export default class ColorsToggleDemo extends Component {
   }
 
   <template>
-    <div class="flex gap-4 align-items-center flex-wrap">
+    <div class="flex gap-5 align-items-center flex-wrap flex-col">
       <div class="flex align-items-center gap-2">
         <UlxToggle
           @variant="primary"
@@ -34,11 +34,10 @@ export default class ColorsToggleDemo extends Component {
           @checked={{this.checkedGreen}}
           @onCheckedChange={{this.handleGreenChange}}
         />
-        <span>{{t "lbl.green"}}</span>
+        <span>Green</span>
       </div>
     </div>
   </template>
 }
 
 `;
-

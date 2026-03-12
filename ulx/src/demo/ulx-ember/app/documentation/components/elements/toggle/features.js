@@ -9,6 +9,7 @@ import {
   DisabledDemo,
   AccessibilityDemo,
   ColorsDemo,
+  SizesDemo,
   WithLabelDemo,
   ImportSource,
   BasicSource,
@@ -17,6 +18,7 @@ import {
   DisabledSource,
   AccessibilitySource,
   ColorsSource,
+  SizesSource,
   WithLabelSource,
 } from './imports';
 
@@ -28,7 +30,8 @@ export const ToggleFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'The <code>import</code> property is used to import the <code>UlxToggle</code> component.',
+        content:
+          'The <code>import</code> property is used to import the <code>UlxToggle</code> component.',
       },
     },
     demo: {
@@ -67,7 +70,8 @@ export const ToggleFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'The <code>Basic</code> demo shows basic usage of the Toggle component.',
+        content:
+          'The <code>Basic</code> demo shows basic usage of the Toggle component.',
       },
     },
     demo: {
@@ -75,63 +79,6 @@ export const ToggleFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'preselection',
-    sectionNav: 'Preselection',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content: 'The <code>Preselection</code> demo shows the Toggle with initial checked state.',
-      },
-    },
-    demo: {
-      component: PreselectionDemo,
-      props: {
-        source: PreselectionSource,
-        snippetName: 'preselection',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'invalid',
-    sectionNav: 'Invalid',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content: 'The <code>Invalid</code> demo shows the Toggle in invalid/error state.',
-      },
-    },
-    demo: {
-      component: InvalidDemo,
-      props: {
-        source: InvalidSource,
-        snippetName: 'invalid',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'disabled',
-    sectionNav: 'Disabled',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content: 'The <code>Disabled</code> demo shows the Toggle in disabled state.',
-      },
-    },
-    demo: {
-      component: DisabledDemo,
-      props: {
-        source: DisabledSource,
-        snippetName: 'disabled',
         language: 'handlebars',
       },
     },
@@ -157,13 +104,94 @@ export const ToggleFeatureItems = [
     },
   },
   {
+    id: 'preselection',
+    sectionNav: 'Preselection',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Preselection</code> demo shows the Toggle with initial checked state.',
+      },
+    },
+    demo: {
+      component: PreselectionDemo,
+      props: {
+        source: PreselectionSource,
+        snippetName: 'preselection',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'invalid',
+    sectionNav: 'Invalid',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Invalid</code> demo shows the Toggle in invalid/error state.',
+      },
+    },
+    demo: {
+      component: InvalidDemo,
+      props: {
+        source: InvalidSource,
+        snippetName: 'invalid',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'disabled',
+    sectionNav: 'Disabled',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Disabled</code> demo shows the Toggle in disabled state.',
+      },
+    },
+    demo: {
+      component: DisabledDemo,
+      props: {
+        source: DisabledSource,
+        snippetName: 'disabled',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'sizes',
+    sectionNav: 'Sizes',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Sizes</code> demo shows size variants for the Toggle using <code>@size</code>: <code>xs-size</code>, <code>s-size</code>, <code>m-size</code>, <code>l-size</code>, <code>xl-size</code>.',
+      },
+    },
+    demo: {
+      component: SizesDemo,
+      props: {
+        source: SizesSource,
+        snippetName: 'sizes',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
     id: 'accessibility',
     sectionNav: 'Accessibility',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
-        content: 'The <code>Accessibility</code> demo shows labeling via inputId + label, aria-labelledby, and aria-label.',
+        content:
+          'The <code>Accessibility</code> demo shows labeling via inputId + label, aria-labelledby, and aria-label.',
       },
     },
     demo: {

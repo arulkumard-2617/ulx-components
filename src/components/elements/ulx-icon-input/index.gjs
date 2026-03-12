@@ -116,7 +116,7 @@ export default class UlxIconInput extends Component {
 	}
 
 	get inputClass() {
-		const { size, filled, disabled, readonly, value } = this.args;
+		const { size = "m-size", filled, disabled, readonly, value } = this.args;
 		return buildInputClass({
 			isTextarea: false,
 			size,
@@ -138,7 +138,7 @@ export default class UlxIconInput extends Component {
 	}
 
 	get iconFieldClass() {
-		const { iconPosition, size, filled, disabled, iconFieldClass } = this.args;
+		const { iconPosition, size = "m-size", filled, disabled, iconFieldClass } = this.args;
 		return buildIconFieldClass({
 			iconPosition,
 			size,

@@ -66,4 +66,5 @@ import { array, hash } from '@ember/helper';
     </UlxToolbar>
   </div>
 </template>
+
 `;

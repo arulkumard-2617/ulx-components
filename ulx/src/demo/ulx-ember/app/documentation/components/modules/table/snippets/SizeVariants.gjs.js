@@ -19,7 +19,7 @@ export default class DemoTableSizeVariants extends Component {
   columns = columns;
 
   <template>
-    <div class="ulx-grid cols-1 gap-3">
+    <div>
       <div>
         <h4 class="h5 mb-2">Extra Small (xs-size)</h4>
         <UlxTable

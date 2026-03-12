@@ -6,77 +6,70 @@ import eq from "ember-truth-helpers/helpers/eq";
 import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
 import not from "ember-truth-helpers/helpers/not";
-import UlxIcon from "../../elements/ulx-icon/index.gjs";
-import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
+import UlxTristateCheckbox from "../../elements/ulx-tristate-checkbox/index.gjs";
 import UlxInput from "../../elements/ulx-input/index.gjs";
+import UlxMultiSelect from "../../elements/ulx-multi-select/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Internal thead for UlxTable.
- * Handles: sort headers, flex-col resize, filter row, selection header, manage-columns button.
+ * Handles: sort headers, column resize, filter row, selection header, manage-columns button.
  */
 export default class TableHeader extends Component {
-	@action
-	sortOrderFor(field) {
+	// ─── Debounce timer for row filter inputs ─────────────────────────────────
+	_rowFilterTimer = null;
+
+	willDestroy() {
+		super.willDestroy(...arguments);
+		clearTimeout(this._rowFilterTimer);
+	}
+
+	// ─── Pure computation helpers — arrow properties preserve `this` binding ──
+	// when invoked from the template as {{this.method arg}}.
+
+	sortOrderFor = (field) => {
 		const { sortMode, sortField, sortOrder, multiSortMeta } = this.args;
 		if (sortMode === "multiple") {
 			const meta = multiSortMeta?.find((m) => m.field === field);
 			return meta ? meta.order : 0;
 		}
 		return sortField === field ? (sortOrder ?? 0) : 0;
-	}
+	};
 
-	@action
-	sortBadgeFor(field) {
+	sortBadgeFor = (field) => {
 		const { sortMode, multiSortMeta } = this.args;
 		if (sortMode !== "multiple") return null;
 		const idx = multiSortMeta?.findIndex((m) => m.field === field) ?? -1;
 		return idx >= 0 ? idx + 1 : null;
-	}
+	};
 
-	@action
-	isSorted(field) {
-		return this.sortOrderFor(field) !== 0;
-	}
-
-	@action
-	sortIconClass(field) {
+	sortIconClass = (field) => {
 		const order = this.sortOrderFor(field);
 		if (order === 1) return "asc";
 		if (order === -1) return "desc";
 		return "";
-	}
+	};
 
-	@action
-	sortIconName(field) {
-		const order = this.sortOrderFor(field);
-		if (order === 1) return "sort-amount-up-alt";
-		if (order === -1) return "sort-amount-down";
-		return "sort-alt";
-	}
-
-	@action
-	ariaSort(field) {
+	ariaSort = (field) => {
 		const order = this.sortOrderFor(field);
 		if (order === 1) return "ascending";
 		if (order === -1) return "descending";
 		return "none";
-	}
+	};
 
-	@action
-	filterValueFor(field) {
+	filterValueFor = (field) => {
 		return this.args.filters?.[field]?.value ?? "";
-	}
+	};
 
-	@action
-	isFilterActive(field) {
+	isFilterActive = (field) => {
 		const v = this.filterValueFor(field);
 		return v != null && v !== "";
-	}
+	};
 
-	@action
-	headerCellClass(col) {
-		const base = "datatable-flex-col-header-cell";
+	headerCellClass = (col) => {
+		const base = "datatable-column-header-cell";
 		if (!col) return base;
 		const parts = [base];
 		const field = col.sortField ?? col.field;
@@ -91,10 +84,9 @@ export default class TableHeader extends Component {
 		col.frozen && parts.push(`frozen-${col.alignFrozen ?? "left"}`);
 		col.headerClassName && parts.push(col.headerClassName);
 		return parts.filter(Boolean).join(" ");
-	}
+	};
 
-	@action
-	headerCellStyle(col) {
+	headerCellStyle = (col) => {
 		if (!col) return undefined;
 		const parts = [];
 		col.headerStyle && parts.push(col.headerStyle);
@@ -103,34 +95,77 @@ export default class TableHeader extends Component {
 			parts.push(`${side}: ${col.frozenOffset ?? "0px"}`);
 		}
 		if (col.style) parts.push(col.style);
+		const width = this.args.columnWidths?.[col.field];
+		if (typeof width === "number") {
+			parts.push(`min-width: ${width}px`);
+			parts.push(`width: ${width}px`);
+		}
 		return parts.join("; ") || undefined;
-	}
+	};
 
-	@action
-	isMultiSelectionMode(col) {
+	isMultiSelectionMode = (col) => {
 		return col.selectionMode === "multiple" || this.args.selectionMode === "checkbox";
+	};
+
+	filterButtonClass = (col) => {
+		const field = col?.filterField ?? col?.field;
+		const active = this.isFilterActive(field);
+		return `datatable-filter-menu-button${active ? " active" : ""}`;
+	};
+
+	filterClearButtonClass = (col) => {
+		const field = col?.filterField ?? col?.field;
+		const active = this.isFilterActive(field);
+		return `datatable-header-filter-clear-button${active ? " active" : ""}`;
+	};
+
+	isFilterMenuOpen = (col) => {
+		const field = col?.filterField ?? col?.field;
+		return this.args.filterOverlayField === field;
+	};
+
+	// ─── State getters ────────────────────────────────────────────────────────
+
+	get headerCheckboxValue() {
+		if (this.args.allSelected) return true;
+		if (this.args.someSelected) return null;
+		return false;
 	}
 
-	@action
-	colHasFilter(col) {
-		return Boolean(col.filter);
-	}
+	// ─── Event handlers ───────────────────────────────────────────────────────
 
 	@action
 	handleSort(col, event) {
 		if (!col.sortable) return;
+		if (event?.target?.closest?.(".datatable-column-filter")) return;
 		this.args.onSort?.(col.sortField ?? col.field, col);
 	}
 
 	@action
-	handleHeaderCheckbox(checked) {
-		this.args.onHeaderCheckboxChange?.(checked);
+	handleSortKeydown(col, event) {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			this.handleSort(col, event);
+		}
+	}
+
+	@action
+	handleHeaderCheckbox(nextValue) {
+		this.args.onHeaderCheckboxChange?.(nextValue === true);
 	}
 
 	@action
 	handleFilterInput(field, event) {
 		const value = typeof event === "string" ? event : (event?.target?.value ?? "");
-		this.args.onFilterChange?.(field, value, "contains");
+		clearTimeout(this._rowFilterTimer);
+		this._rowFilterTimer = setTimeout(() => {
+			this.args.onFilterChange?.(field, value, "contains");
+		}, 300);
+	}
+
+	@action
+	handleMultiSelectFilter(field, value) {
+		this.args.onFilterChange?.(field, value, "in");
 	}
 
 	@action
@@ -140,124 +175,209 @@ export default class TableHeader extends Component {
 	}
 
 	@action
+	handleRowFilterClear(col, event) {
+		event?.stopPropagation?.();
+		const field = col?.filterField ?? col?.field;
+		this.args.onFilterChange?.(field, "", "contains");
+	}
+
+	@action
 	handleResizeStart(colIndex, event) {
 		this.args.onColumnResizeStart?.(event, colIndex);
 	}
 
 	<template>
-		<thead class="datatable-thead">
+		<thead class="datatable-header">
+			{{! Column title row }}
 			<tr class="datatable-header-row">
 				{{#each @columns as |col index|}}
 					{{#if (not col)}}
-						{{! skip undefined flex-col entries }}
+						{{! skip undefined column entries }}
 					{{else if col.selectionMode}}
-						<th class="datatable-flex-col-header-cell selection" scope="col" style="width: 3rem">
+						<th class="datatable-column-header-cell selection" scope="col" style="width: 3rem">
 							{{#if (this.isMultiSelectionMode col)}}
-								<UlxCheckbox
-									@checked={{@allSelected}}
-									@indeterminate={{@someSelected}}
-									@onChange={{this.handleHeaderCheckbox}}
-									aria-label="Select all rows"
+								<UlxTristateCheckbox
+									@value={{this.headerCheckboxValue}}
+									@onValueChange={{this.handleHeaderCheckbox}}
+									@hideLabel={{true}}
+									aria-label={{t "aria.table.select.all"}}
 								/>
 							{{/if}}
 						</th>
 					{{else if col.expander}}
-						<th class="datatable-flex-col-header-cell" scope="col" style="width: 3rem"></th>
+						<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
 					{{else if col.rowReorder}}
-						<th class="datatable-flex-col-header-cell" scope="col" style="width: 3rem"></th>
+						<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
 					{{else if col.rowEditor}}
-						<th class="datatable-flex-col-header-cell" scope="col" style="width: 6rem"></th>
+						<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
 					{{else}}
 						<th
 							class={{this.headerCellClass col}}
 							style={{this.headerCellStyle col}}
 							scope="col"
-							aria-sort={{this.ariaSort (or col.sortField col.field)}}
+							tabindex={{if col.sortable "0"}}
+							aria-sort={{if col.sortable (this.ariaSort (or col.sortField col.field))}}
 							{{on "click" (fn this.handleSort col)}}
+							{{on "keydown" (fn this.handleSortKeydown col)}}
 						>
-							<div class="datatable-flex-col-header-content">
+							<div class="datatable-column-header-content">
 								{{#if col.headerTemplate}}
 									<col.headerTemplate @col={{col}} />
 								{{else}}
-									<span class="datatable-flex-col-header-title">{{col.header}}</span>
+									<span class="datatable-column-header-title">{{col.header}}</span>
 								{{/if}}
 
 								{{#if col.sortable}}
 									<span
-										class="datatable-flex-col-sort-icon
+										class="datatable-column-sort-icon
 											{{this.sortIconClass (or col.sortField col.field)}}"
 										aria-hidden="true"
 									>
-										<i class="bs-icons1 {{this.sortIconName (or col.sortField col.field)}} s12"></i>
+										{{#let (this.sortOrderFor (or col.sortField col.field)) as |order|}}
+											{{#if (eq order 1)}}
+												<UlxIcon
+													@componentClass="bs-icons1"
+													@type="font"
+													@iconName="ascending-icon"
+													@size="s12"
+												/>
+											{{else if (eq order -1)}}
+												<UlxIcon
+													@componentClass="bs-icons1"
+													@type="font"
+													@iconName="descending-icon"
+													@size="s12"
+												/>
+											{{else}}
+												<UlxIcon
+													@componentClass="bs-icons1"
+													@type="font"
+													@iconName="sort-icon"
+													@size="s12"
+												/>
+											{{/if}}
+										{{/let}}
 									</span>
-									{{#if (this.sortBadgeFor (or col.sortField col.field))}}
-										<span class="datatable-sort-badge">
-											{{this.sortBadgeFor (or col.sortField col.field)}}
-										</span>
-									{{/if}}
+									{{#let (this.sortBadgeFor (or col.sortField col.field)) as |badge|}}
+										{{#if badge}}
+											<span class="datatable-sort-badge">{{badge}}</span>
+										{{/if}}
+									{{/let}}
 								{{/if}}
 
 								{{#if (and col.filter (eq @filterDisplay "menu"))}}
-									<button
-										type="button"
-										class="datatable-filter-menu-button
-											{{if (this.isFilterActive (or col.filterField col.field)) 'active'}}"
-										aria-label="Filter flex-col {{col.header}}"
-										{{on "click" (fn this.handleFilterMenuOpen col)}}
-									>
-										<i class="bs-icons1 filter s12" aria-hidden="true"></i>
-									</button>
+									<UlxButton
+										@variant="text"
+										@icon="filter-icon"
+										@iconComponentClass="bs-icons1"
+										@iconSize="s12"
+										@customClass={{this.filterButtonClass col}}
+										@onClick={{fn this.handleFilterMenuOpen col}}
+										aria-label={{t "aria.table.filter.column" header=col.header}}
+									/>
 								{{/if}}
 
 								{{#if (and @resizableColumns (not (eq col.resizable false)))}}
 									{{#if (and (not col.selectionMode) (not col.expander))}}
 										<span
-											class="datatable-flex-col-resizer"
+											class="datatable-column-resizer"
 											{{on "mousedown" (fn this.handleResizeStart index)}}
 										></span>
 									{{/if}}
 								{{/if}}
 							</div>
-
-							{{#if (and col.filter (eq @filterDisplay "row"))}}
-								<div class="datatable-flex-col-filter">
-									{{#if col.filterElement}}
-										<col.filterElement
-											@field={{or col.filterField col.field}}
-											@value={{this.filterValueFor (or col.filterField col.field)}}
-											@onChange={{fn this.handleFilterInput (or col.filterField col.field)}}
-										/>
-									{{else}}
-										<UlxInput
-											@value={{this.filterValueFor (or col.filterField col.field)}}
-											@placeholder={{or col.filterPlaceholder "Search"}}
-											{{on "input" (fn this.handleFilterInput (or col.filterField col.field))}}
-											aria-label="Filter {{col.header}}"
-										/>
-									{{/if}}
-								</div>
-							{{/if}}
 						</th>
 					{{/if}}
 				{{/each}}
 
-				{{#if @showManageColumns}}
-					<th
-						class="datatable-flex-col-header-cell"
-						scope="col"
-						style="width: 2.5rem; padding: 0.5rem;"
-					>
-						<UlxButton
-							@variant="text"
-							@icon="sliders"
-							@iconComponentClass="bs-icons1"
-							@iconSize="s16"
-							@onClick={{@onManageColumns}}
-							aria-label="Manage columns"
-						/>
-					</th>
+				{{#if @hasOptionCell}}
+					<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
 				{{/if}}
+
 			</tr>
+
+			{{! Separate filter row — rendered below header row when filterDisplay="row" }}
+			{{#if (eq @filterDisplay "row")}}
+				<tr class="datatable-header-row">
+					{{#each @columns as |col|}}
+						{{#if (not col)}}
+							{{! skip undefined column entries }}
+						{{else if col.selectionMode}}
+							<th
+								class="datatable-column-header-cell selection"
+								scope="col"
+								style="width: 3rem"
+							></th>
+						{{else if col.expander}}
+							<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
+						{{else if col.rowReorder}}
+							<th class="datatable-column-header-cell" scope="col" style="width: 3rem"></th>
+						{{else if col.rowEditor}}
+							<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
+						{{else}}
+							<th class="datatable-column-header-cell" scope="col">
+								{{#if col.filter}}
+									<div class="datatable-column-filter">
+										<div class="datatable-filter-input">
+											{{#if col.filterElement}}
+												<col.filterElement
+													@field={{or col.filterField col.field}}
+													@value={{this.filterValueFor (or col.filterField col.field)}}
+													@onChange={{fn this.handleFilterInput (or col.filterField col.field)}}
+												/>
+											{{else if (eq col.filterType "multiselect")}}
+												<UlxMultiSelect
+													@value={{this.filterValueFor (or col.filterField col.field)}}
+													@options={{col.filterOptions}}
+													@optionLabel="label"
+													@optionValue="value"
+													@placeholder={{or col.filterPlaceholder (t "lbl.select")}}
+													@filter={{true}}
+													@onChange={{fn
+														this.handleMultiSelectFilter
+														(or col.filterField col.field)
+													}}
+													aria-label={{t "aria.table.filter.column" header=col.header}}
+												/>
+											{{else}}
+												<UlxInput
+													@value={{this.filterValueFor (or col.filterField col.field)}}
+													@placeholder={{or col.filterPlaceholder (t "lbl.search")}}
+													{{on "input" (fn this.handleFilterInput (or col.filterField col.field))}}
+													aria-label={{t "aria.table.filter.column" header=col.header}}
+												/>
+											{{/if}}
+										</div>
+										<UlxButton
+											@variant="text"
+											@icon="filter-icon"
+											@iconComponentClass="bs-icons1"
+											@iconSize="s12"
+											@customClass="datatable-filter-menu-button"
+											@onClick={{fn this.handleFilterMenuOpen col}}
+											aria-haspopup="true"
+											aria-expanded={{this.isFilterMenuOpen col}}
+											aria-label={{t "aria.table.show.filter.menu"}}
+										/>
+										<UlxButton
+											@variant="text"
+											@icon="close-icon-01"
+											@iconComponentClass="bs-icons1"
+											@iconSize="s12"
+											@customClass={{this.filterClearButtonClass col}}
+											@onClick={{fn this.handleRowFilterClear col}}
+											aria-label={{t "lbl.clear"}}
+										/>
+									</div>
+								{{/if}}
+							</th>
+						{{/if}}
+					{{/each}}
+					{{#if @hasOptionCell}}
+						<th class="datatable-column-header-cell" scope="col" style="width: 6rem"></th>
+					{{/if}}
+				</tr>
+			{{/if}}
 		</thead>
 	</template>
 }

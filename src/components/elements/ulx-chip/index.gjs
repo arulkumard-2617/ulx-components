@@ -23,7 +23,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [removeIcon] - Icon name for remove button; defaults to close icon from bs-icons1.
  * @param {Function} [onRemove] - Callback (event, value) when remove is triggered; value is label, image, or icon context.
  * @param {Function} [onImageError] - Callback when image fails to load.
- * @param {string} [size] - Size class (e.g. "s-size", "m-size"); applied to root.
+ * @param {string} [size="m-size"] - Size class (e.g. "s-size", "m-size"); applied to root.
  * @param {string} [customClass] - Extra CSS classes appended to the root.
  * @param {string} [componentClass] - Override base component class.
  */
@@ -33,7 +33,7 @@ export default class UlxChip extends Component {
 	}
 
 	get rootClasses() {
-		const { image, size, customClass } = this.args;
+		const { image, size = "m-size", customClass } = this.args;
 
 		const parts = [this.baseClass];
 		image && parts.push("with-image");
@@ -86,7 +86,7 @@ export default class UlxChip extends Component {
 			{{else}}
 				{{#if @image}}
 					<img
-						class="ulx-chip-image"
+						class="chip-image"
 						src={{@image}}
 						alt={{this.imageAltText}}
 						{{on "error" this.handleImageError}}
@@ -98,7 +98,7 @@ export default class UlxChip extends Component {
 					</span>
 				{{else if @icon}}
 					<span class="chip-icon">
-						<UlxIcon @iconName={{@icon}} @size="s22" @type="font" aria-hidden="true" />
+						<UlxIcon @iconName={{@icon}} @size="s18" @type="font" aria-hidden="true" />
 					</span>
 				{{/if}}
 				{{#if @label}}
@@ -115,7 +115,7 @@ export default class UlxChip extends Component {
 						<UlxIcon
 							@iconName={{this.removeIconName}}
 							@type="font"
-							@size="s22"
+							@size="s18"
 							aria-hidden="true"
 						/>
 					</button>

@@ -3,15 +3,18 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
-import eq from "ember-truth-helpers/helpers/eq";
 import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import { t } from "../../../utils/i18n.js";
+import { isSpecialColumn } from "./utils.js";
 
 /**
  * Manage Columns panel for UlxTable.
  * Allows hiding/showing columns and reordering via drag-and-drop.
- * Columns with `manageable: false` are excluded from management.
+ * Mandatory columns that cannot be disabled: set column `manageable: false`;
+ * they appear in the list as locked (checkbox disabled, lock icon) and cannot be toggled off.
  *
  * @param {Array} allColumns - full flex-col list (including hidden ones)
  * @param {Array} visibleColumns - currently visible columns
@@ -23,11 +26,12 @@ export default class ManageColumns extends Component {
 	@tracked localOrder = null;
 	@tracked localVisible = null;
 	@tracked dragFromIndex = null;
+	@tracked liveMessage = "";
 
 	get manageableColumns() {
 		return (
 			this.args.allColumns?.filter((c) => {
-				return c.field && !c.selectionMode && !c.expander && !c.rowReorder && !c.rowEditor;
+				return c.field && !isSpecialColumn(c);
 			}) ?? []
 		);
 	}
@@ -72,7 +76,7 @@ export default class ManageColumns extends Component {
 		const lockedCols = this.args.allColumns?.filter((c) => c.manageable === false) ?? [];
 		const nonManageableCols =
 			this.args.allColumns?.filter(
-				(c) => c.selectionMode || c.expander || c.rowReorder || c.rowEditor
+				(c) => isSpecialColumn(c)
 			) ?? [];
 		const result = [...nonManageableCols, ...lockedCols, ...orderedVisible];
 		this.args.onApply?.({ columns: result });
@@ -84,13 +88,19 @@ export default class ManageColumns extends Component {
 		this.localOrder = null;
 		this.localVisible = null;
 		this.args.onReset?.();
-		this.args.onClose?.();
 	}
 
 	@action
 	handleDragStart(index, event) {
 		this.dragFromIndex = index;
 		event.dataTransfer.effectAllowed = "move";
+		event.dataTransfer.setData("text/plain", String(index));
+	}
+
+	@action
+	handleDragEnter(event) {
+		event.preventDefault();
+		event.dataTransfer.dropEffect = "move";
 	}
 
 	@action
@@ -102,27 +112,70 @@ export default class ManageColumns extends Component {
 	@action
 	handleDrop(toIndex, event) {
 		event.preventDefault();
-		const fromIndex = this.dragFromIndex;
-		if (fromIndex == null || fromIndex === toIndex) return;
+		const fromIndex =
+			this.dragFromIndex ?? Number(event.dataTransfer.getData("text/plain"));
+		if (Number.isNaN(fromIndex) || fromIndex === toIndex) return;
+		this.reorderColumns(fromIndex, toIndex);
+		this.dragFromIndex = null;
+	}
+
+	@action
+	handleDragEnd() {
+		this.dragFromIndex = null;
+	}
+
+	@action
+	canMoveUp(col, index) {
+		return !this.isLocked(col) && index > 0;
+	}
+
+	@action
+	canMoveDown(col, index) {
+		return !this.isLocked(col) && index < this.orderedColumns.length - 1;
+	}
+
+	@action
+	handleMoveUp(col, index) {
+		if (!this.canMoveUp(col, index)) return;
+		this.reorderColumns(index, index - 1);
+	}
+
+	@action
+	handleMoveDown(col, index) {
+		if (!this.canMoveDown(col, index)) return;
+		this.reorderColumns(index, index + 1);
+	}
+
+	@action
+	handleItemKeyDown(col, index, event) {
+		if (event.target !== event.currentTarget || this.isLocked(col)) return;
+		if (event.key === "ArrowUp") {
+			event.preventDefault();
+			this.handleMoveUp(col, index);
+			return;
+		}
+		if (event.key === "ArrowDown") {
+			event.preventDefault();
+			this.handleMoveDown(col, index);
+		}
+	}
+
+	reorderColumns(fromIndex, toIndex) {
 		const cols = [...this.orderedColumns];
 		const [moved] = cols.splice(fromIndex, 1);
 		cols.splice(toIndex, 0, moved);
 		this.localOrder = cols;
-		this.dragFromIndex = null;
+		this.liveMessage = t("msg.table.column.moved", {
+			header: moved?.header ?? "",
+			position: toIndex + 1
+		});
 	}
 
 	<template>
-		<div class="datatable-manage-columns-panel" role="dialog" aria-label="Manage columns">
+		<div class="datatable-manage-columns-panel" role="dialog" aria-label={{t "lbl.manage.columns"}}>
 			<div class="datatable-manage-columns-header">
-				<span class="datatable-manage-columns-title">Manage Columns</span>
-				<button
-					type="button"
-					class="datatable-manage-columns-close"
-					aria-label="Close manage columns"
-					{{on "click" @onClose}}
-				>
-					<i class="bs-icons1 x s16" aria-hidden="true"></i>
-				</button>
+				<span class="datatable-manage-columns-title">{{t "lbl.manage.columns"}}</span>
+				<div role="status" aria-live="polite" aria-atomic="true">{{this.liveMessage}}</div>
 			</div>
 
 			<ul class="datatable-manage-columns-list" role="list">
@@ -130,25 +183,47 @@ export default class ManageColumns extends Component {
 					<li
 						class="datatable-manage-columns-item {{if (this.isLocked col) 'locked'}}"
 						draggable={{if (not (this.isLocked col)) "true"}}
+						tabindex={{if (not (this.isLocked col)) "0" "-1"}}
 						{{on "dragstart" (fn this.handleDragStart index)}}
+						{{on "dragenter" this.handleDragEnter}}
 						{{on "dragover" this.handleDragOver}}
 						{{on "drop" (fn this.handleDrop index)}}
+						{{on "dragend" this.handleDragEnd}}
+						{{on "keydown" (fn this.handleItemKeyDown col index)}}
 					>
 						<span class="datatable-manage-columns-drag-handle" aria-hidden="true">
-							{{#if (not (this.isLocked col))}}
-								<i class="bs-icons1 grip-vertical s14" aria-hidden="true"></i>
-							{{/if}}
+							<UlxIcon
+								@componentClass="bs-icons1"
+								@type="font"
+								@iconName="dragdrop-icon1"
+								@size="s14"
+							/>
 						</span>
 						<UlxCheckbox
 							@checked={{this.isVisible col}}
 							@disabled={{this.isLocked col}}
+							@itemLabel={{col.header}}
 							@onChange={{fn this.toggleColumn col}}
-							aria-label="Toggle flex-col {{col.header}}"
+							@customClass="datatable-manage-columns-label"
+							aria-label={{t "aria.table.toggle.column" header=col.header}}
 						/>
-						<span class="datatable-manage-columns-label">{{col.header}}</span>
+						<UlxButton
+							@variant="text"
+							@label={{t "lbl.move.up"}}
+							@disabled={{not (this.canMoveUp col index)}}
+							@onClick={{fn this.handleMoveUp col index}}
+							aria-label={{t "aria.table.move.column.up" header=col.header}}
+						/>
+						<UlxButton
+							@variant="text"
+							@label={{t "lbl.move.down"}}
+							@disabled={{not (this.canMoveDown col index)}}
+							@onClick={{fn this.handleMoveDown col index}}
+							aria-label={{t "aria.table.move.column.down" header=col.header}}
+						/>
 						{{#if (this.isLocked col)}}
-							<span class="datatable-manage-columns-locked-icon" aria-label="flex-col locked">
-								<i class="bs-icons1 lock s12" aria-hidden="true"></i>
+							<span class="datatable-manage-columns-locked-icon" aria-label={{t "aria.table.column.locked"}}>
+								<UlxIcon @componentClass="bs-icons1" @type="font" @iconName="lock" @size="s12" />
 							</span>
 						{{/if}}
 					</li>
@@ -156,8 +231,16 @@ export default class ManageColumns extends Component {
 			</ul>
 
 			<div class="datatable-manage-columns-footer">
-				<UlxButton @variant="text" @label="Reset" @onClick={{this.handleReset}} />
-				<UlxButton @variant="primary" @label="Apply" @onClick={{this.handleApply}} />
+				<UlxButton
+					@variant="text"
+					@icon="reset-icon"
+					@iconComponentClass="bs-icons1"
+					@iconSize="s14"
+					@label={{t "lbl.reset.to.default"}}
+					@onClick={{this.handleReset}}
+				/>
+				<UlxButton @variant="outlined" @label={{t "lbl.cancel"}} @onClick={{@onClose}} />
+				<UlxButton @variant="primary" @label={{t "lbl.save"}} @onClick={{this.handleApply}} />
 			</div>
 		</div>
 	</template>

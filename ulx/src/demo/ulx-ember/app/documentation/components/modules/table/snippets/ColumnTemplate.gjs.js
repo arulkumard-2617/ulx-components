@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxTable } from 'ulx-components';
+import { UlxTable, UlxButton } from 'ulx-components';
 
 const PRODUCTS = [
   {
@@ -75,27 +75,33 @@ const StatusCell = <template>
 
 const ActionsCell = <template>
   <div class="flex items-start gap-2">
-    <button
-      type="button"
-      class="uls-button text primary xs-size"
+    <UlxButton
+      @icon="eye"
+      @iconComponentClass="bs-icons1"
+      @iconSize="s14"
+      @variant="primary"
+      @text={{true}}
+      @size="xs-size"
       aria-label="View {{@row.name}}"
-    >
-      <i class="bs-icons1 eye s14" aria-hidden="true"></i>
-    </button>
-    <button
-      type="button"
-      class="uls-button text warning xs-size"
+    />
+    <UlxButton
+      @icon="pencil"
+      @iconComponentClass="bs-icons1"
+      @iconSize="s14"
+      @variant="warning"
+      @text={{true}}
+      @size="xs-size"
       aria-label="Edit {{@row.name}}"
-    >
-      <i class="bs-icons1 pencil s14" aria-hidden="true"></i>
-    </button>
-    <button
-      type="button"
-      class="uls-button text danger xs-size"
+    />
+    <UlxButton
+      @icon="trash"
+      @iconComponentClass="bs-icons1"
+      @iconSize="s14"
+      @variant="danger"
+      @text={{true}}
+      @size="xs-size"
       aria-label="Delete {{@row.name}}"
-    >
-      <i class="bs-icons1 trash s14" aria-hidden="true"></i>
-    </button>
+    />
   </div>
 </template>;
 

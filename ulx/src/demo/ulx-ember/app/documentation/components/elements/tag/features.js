@@ -5,14 +5,20 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
   VariationsDemo,
+  ExtendedPaletteDemo,
+  LightSoftColorsDemo,
+  StatusLabelsDemo,
   TypeDemo,
   SymbolDemo,
-  SizeDemo,// Sources
+  SizeDemo,
+  // Sources
   ImportSource,
   BasicSource,
   VariationsSource,
+  ExtendedPaletteSource,
+  LightSoftColorsSource,
+  StatusLabelsSource,
   TypeSource,
   SymbolSource,
   SizeSource
@@ -59,20 +65,80 @@ export const TagFeatureItems = [
   }
 ,
   {
-    id: "variations",
-    sectionNav: "Variations",
+    id: "semantic-variants",
+    sectionNav: "Variant colors (semantic)",
     sectionDesc: {
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Variations</code> demo shows Variations usage of the Tag component."
+        content: "Shows semantic Tag variants like <code>primary</code>, <code>success</code>, <code>danger</code>, and related theme colors."
       }
     },
     demo: {
       component: VariationsDemo,
       props: {
         source: VariationsSource,
-        snippetName: "variations",
+        snippetName: "semantic-variants",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "extended-palette",
+    sectionNav: "Extended palette",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Shows extended color palette variants like <code>tag-red</code>, <code>tag-blue</code>, and other project colors."
+      }
+    },
+    demo: {
+      component: ExtendedPaletteDemo,
+      props: {
+        source: ExtendedPaletteSource,
+        snippetName: "extended-palette",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "light-soft-colors",
+    sectionNav: "Light / soft colors",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Shows soft tone Tag colors using <code>lt-*</code> and <code>light-*</code> classes for subtle backgrounds."
+      }
+    },
+    demo: {
+      component: LightSoftColorsDemo,
+      props: {
+        source: LightSoftColorsSource,
+        snippetName: "light-soft-colors",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "status-labels",
+    sectionNav: "Status & labels",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Shows status and label Tag variants like <code>running-color</code>, <code>completed-color</code>, and user check-in labels."
+      }
+    },
+    demo: {
+      component: StatusLabelsDemo,
+      props: {
+        source: StatusLabelsSource,
+        snippetName: "status-labels",
         language: "handlebars"
       }
     }

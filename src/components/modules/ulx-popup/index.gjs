@@ -30,7 +30,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * - Root element uses `role="dialog"` with `aria-modal="false"` and `aria-hidden` reflecting visibility.
  * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name.
  * - Focus is moved into the popup on open (first focusable element, or the popup container as fallback).
- * - Escape closes the popup (when enabled) and returns focus to the trigger element when possible.
+ * - Escape closes the popup by default (unless @closeOnEscape is false) and returns focus to the trigger.
  *
  * @class UlxPopup
  * @param {boolean} [visible=false] - Controls visibility of the popup.
@@ -39,8 +39,8 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [size='m-size'] - Size class: xs-size | s-size | m-size | l-size | xl-size.
  * @param {string} [variant] - Visual variant: elevated | flat | outlined.
  * @param {boolean} [dismissable=true] - When true, clicking outside or resizing closes the popup.
- * @param {boolean} [closable=false] - When true, shows a close button and enables Escape-to-close.
- * @param {boolean} [closeOnEscape=true] - When true and @closable is not false, Escape closes the popup.
+ * @param {boolean} [closable=false] - When true, shows a close button in the popup.
+ * @param {boolean} [closeOnEscape=true] - When true (default), Escape closes the popup.
  * @param {string} [customClass] - Additional CSS classes applied to the root element.
  * @param {string} [ariaLabel] - Accessible label for the popup; maps to `aria-label` on root.
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
@@ -125,6 +125,27 @@ export default class UlxPopup extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get headerClasses() {
+		const { headerClassName } = this.args;
+		const parts = ["popup-header"];
+		headerClassName && parts.push(headerClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
+	get bodyClasses() {
+		const { bodyClassName } = this.args;
+		const parts = ["popup-body"];
+		bodyClassName && parts.push(bodyClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
+	get footerClasses() {
+		const { footerClassName } = this.args;
+		const parts = ["popup-footer"];
+		footerClassName && parts.push(footerClassName);
+		return parts.filter(Boolean).join(" ");
+	}
+
 	get ariaLabel() {
 		return this.args.ariaLabel;
 	}
@@ -172,11 +193,11 @@ export default class UlxPopup extends Component {
 
 	@action
 	handleRootKeyDown(event) {
-		if (!this.isClosable) return;
 		if (this.args.closeOnEscape === false) return;
 
 		if (event.key === "Escape" || event.key === "Esc") {
 			event.preventDefault();
+			event.stopPropagation();
 			this._handleHideInternal();
 		}
 	}
@@ -208,6 +229,9 @@ export default class UlxPopup extends Component {
 				transitionCompleted = true;
 				this.animationState = "exit-done";
 				this._clearZIndex();
+				if (this.targetElement && typeof this.targetElement.focus === "function") {
+					this.targetElement.focus();
+				}
 				this.args.onHide?.();
 				setTimeout(() => {
 					this.animationState = null;
@@ -570,6 +594,46 @@ export default class UlxPopup extends Component {
 		}
 	});
 
+	get _focusableSelector() {
+		return 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+	}
+
+	focusTrap = modifier((element, [isVisible, animationState]) => {
+		if (!isVisible || animationState !== "enter-done") return;
+
+		const getFocusables = () => {
+			const nodes = element.querySelectorAll(this._focusableSelector);
+			return Array.from(nodes).filter(
+				(el) =>
+					el.offsetParent !== null &&
+					el.disabled !== true &&
+					el.getAttribute("aria-disabled") !== "true"
+			);
+		};
+
+		const handleKeyDown = (e) => {
+			if (e.key !== "Tab") return;
+			const focusables = getFocusables();
+			if (focusables.length === 0) return;
+			const first = focusables[0];
+			const last = focusables[focusables.length - 1];
+			if (e.shiftKey) {
+				if (document.activeElement === first) {
+					e.preventDefault();
+					last.focus();
+				}
+			} else {
+				if (document.activeElement === last) {
+					e.preventDefault();
+					first.focus();
+				}
+			}
+		};
+
+		element.addEventListener("keydown", handleKeyDown);
+		return () => element.removeEventListener("keydown", handleKeyDown);
+	});
+
 	closeOnClickOutside = modifier((element, [isVisible]) => {
 		if (!this.isDismissable) {
 			return;
@@ -614,7 +678,7 @@ export default class UlxPopup extends Component {
 	});
 
 	escapeListener = modifier((_, [isVisible]) => {
-		if (!this.isClosable || this.args.closeOnEscape === false) {
+		if (this.args.closeOnEscape === false) {
 			return;
 		}
 
@@ -622,14 +686,15 @@ export default class UlxPopup extends Component {
 			if (!isVisible || !this.isVisible) return;
 			if (event.key === "Escape" || event.key === "Esc") {
 				event.preventDefault();
+				event.stopPropagation();
 				this._handleHideInternal();
 			}
 		};
 
-		document.addEventListener("keydown", handleKeyDown);
+		document.addEventListener("keydown", handleKeyDown, true);
 
 		return () => {
-			document.removeEventListener("keydown", handleKeyDown);
+			document.removeEventListener("keydown", handleKeyDown, true);
 		};
 	});
 
@@ -646,6 +711,7 @@ export default class UlxPopup extends Component {
 				{{this.registerPopup}}
 				{{this.watchVisibility this.isVisible this.args.target}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}
+				{{this.focusTrap this.isVisible this.animationState}}
 				{{this.closeOnClickOutside this.isVisible}}
 				{{this.handleResize this.isVisible}}
 				{{this.escapeListener this.isVisible}}
@@ -653,7 +719,27 @@ export default class UlxPopup extends Component {
 				...attributes
 			>
 				<div class="popup-content">
-					{{yield}}
+					{{#if (has-block "head")}}
+						<div class={{this.headerClasses}}>
+							{{yield to="head"}}
+						</div>
+					{{/if}}
+
+					{{#if (has-block "body")}}
+						<div class={{this.bodyClasses}}>
+							{{yield to="body"}}
+						</div>
+					{{else}}
+						<div class={{this.bodyClasses}}>
+							{{yield}}
+						</div>
+					{{/if}}
+
+					{{#if (has-block "footer")}}
+						<div class={{this.footerClasses}}>
+							{{yield to="footer"}}
+						</div>
+					{{/if}}
 				</div>
 				{{#if this.isClosable}}
 					<button

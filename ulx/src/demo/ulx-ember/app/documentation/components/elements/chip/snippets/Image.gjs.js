@@ -21,14 +21,12 @@ export default class DemoChipImage extends Component {
         @label={{t "msg.chip.with.image"}}
         @image={{AVATAR_IMAGE}}
         @imageAlt={{t "lbl.image"}}
-        @size="s-size"
       />
       {{#if this.showImageWithClose}}
         <UlxChip
           @label={{t "msg.chip.with.image.and.close"}}
           @image={{AVATAR_IMAGE}}
           @imageAlt={{t "lbl.image"}}
-          @size="s-size"
           @removable={{true}}
           @onRemove={{this.handleRemoveImageWithClose}}
         />

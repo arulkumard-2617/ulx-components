@@ -25,12 +25,13 @@ export default class DemoMultiselectFilter extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxMultiSelect
         @options={{this.items}}
         @value={{this.selected}}
         @onChange={{this.setSelected}}
         @selectAll={{true}}
+        @selectAllLabel=""
         @filter={{true}}
         @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
         @placeholder={{t "msg.multiselect.placeholder.city"}}

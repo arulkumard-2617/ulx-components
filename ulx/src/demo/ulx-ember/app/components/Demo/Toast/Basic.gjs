@@ -14,8 +14,8 @@ export default class BasicToastDemo extends Component {
       {
         id: `msg-${Date.now()}`,
         variant: 'info',
-        summary: t('lbl.info'),
-        detail: t('msg.basic.toast'),
+        summary:
+          'It is a long established fact that a reader will be distracted.',
       },
     ];
   }

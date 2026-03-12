@@ -51,7 +51,7 @@ export default class DemoSplitButtonVariants extends Component {
   <template>
     <div class="">
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
-      <div class="flex items-center gap-5 fhc wrap">
+      <div class="flex items-center gap-5 flex-wrap">
         <UlxSplitButton
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"

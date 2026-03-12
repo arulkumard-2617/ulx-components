@@ -59,7 +59,11 @@ const FREQUENCY_OPTIONS = [
 
 const INTEREST_OPTIONS = [
   { title: 'Design', value: 'design', description: 'UI/UX, systems' },
-  { title: 'Engineering', value: 'engineering', description: 'Frontend, backend' },
+  {
+    title: 'Engineering',
+    value: 'engineering',
+    description: 'Frontend, backend',
+  },
   { title: 'Product', value: 'product', description: 'PM, strategy' },
 ];
 
@@ -351,7 +355,6 @@ export default class DemoFormTemplate extends Component {
           @label="Notification Channels"
           @items={{this.notificationItems}}
           @onItemChange={{this.handleNotificationItemChange}}
-          @size="m-size"
           @fieldClass="col-12"
         />
 
@@ -359,7 +362,6 @@ export default class DemoFormTemplate extends Component {
           @label="Preferred Contact Method"
           @items={{this.contactMethodItems}}
           @onItemChange={{this.handleContactMethodChange}}
-          @size="m-size"
           @fieldClass="col-12"
         />
 
@@ -371,7 +373,6 @@ export default class DemoFormTemplate extends Component {
             @inputId="newsletter-optin"
             @checked={{this.newsletterOptIn}}
             @onCheckedChange={{this.setNewsletterOptIn}}
-            @size="m-size"
             aria-label="Subscribe to Newsletter"
           />
         </div>
@@ -416,12 +417,18 @@ export default class DemoFormTemplate extends Component {
               @onChange={{this.setSocialPlatform}}
               @placeholder="X"
               @size="m-size"
-              @customClass="ulx-inputgroup-addon left w-140"
+              @customClass="inputgroup-addon left w-140"
               aria-label="Social platform"
             />
           </:start>
           <:end>
-            <UlxButton @label="Add" @customClass="ulx-inputgroup-addon right" @variant="primary" @size="m-size" @onClick={{this.addSocial}} />
+            <UlxButton
+              @label="Add"
+              @customClass="inputgroup-addon right"
+              @variant="primary"
+              @size="m-size"
+              @onClick={{this.addSocial}}
+            />
           </:end>
         </UlxInput>
 
@@ -442,7 +449,7 @@ export default class DemoFormTemplate extends Component {
               @value={{this.dialCode}}
               @onChange={{this.setDialCode}}
               @size="m-size"
-              @customClass="ulx-inputgroup-addon left w-100"
+              @customClass="inputgroup-addon left w-100"
               aria-label="Dial code"
             />
           </:start>
@@ -465,7 +472,7 @@ export default class DemoFormTemplate extends Component {
               @value={{this.altDialCode}}
               @onChange={{this.setAltDialCode}}
               @size="m-size"
-              @customClass="ulx-inputgroup-addon left w-100"
+              @customClass="inputgroup-addon left w-100"
               aria-label="Alternative dial code"
             />
           </:start>
@@ -485,4 +492,3 @@ export default class DemoFormTemplate extends Component {
     </div>
   </template>
 }
-

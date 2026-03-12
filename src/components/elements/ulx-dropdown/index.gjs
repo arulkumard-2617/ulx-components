@@ -70,6 +70,7 @@ import { hash, concat } from "@ember/helper";
  * @param {Function} [onShow] - When overlay opens.
  * @param {Function} [onHide] - When overlay closes.
  * @param {Function} [optionDisabled] - (option) => boolean or property key to disable options.
+ * @param {number} [zIndex] - Overlay panel z-index (e.g. when appended to body).
  */
 export default class UlxDropdown extends Component {
 	@action
@@ -111,19 +112,27 @@ export default class UlxDropdown extends Component {
 			error,
 			filled = false,
 			loading = false,
-			size = "s-size",
+			size = "m-size",
 			customClass
 		} = this.args;
 		const invalid = isInvalidState(invalidArg, error);
 		const parts = [this.baseClass];
 		size && parts.push(size);
-		disabled && parts.push("disabled");
+		(disabled || loading) && parts.push("disabled");
 		invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		filled && parts.push("filled");
 		this.overlayVisible && parts.push("open");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get isTriggerDisabled() {
+		return !!this.args.disabled || !!this.args.loading;
+	}
+
+	get dropdownSize() {
+		return this.args.size ?? "m-size";
 	}
 
 	get focusItemClass() {
@@ -140,12 +149,12 @@ export default class UlxDropdown extends Component {
 	}
 
 	get floatLabelClass() {
-		const { size, filled, disabled } = this.args;
+		const { size = "m-size", filled } = this.args;
 		return buildFloatLabelClass({
 			size,
 			filled,
 			invalid: this.isInvalid,
-			disabled
+			disabled: this.isTriggerDisabled
 		});
 	}
 
@@ -435,7 +444,8 @@ export default class UlxDropdown extends Component {
 			element.style.width = `${targetRect.width}px`;
 			element.style.minWidth = `${targetRect.width}px`;
 			element.style.maxWidth = `${targetRect.width}px`;
-			element.style.zIndex = "1100";
+			const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : 5;
+			element.style.zIndex = `${zIndex}`;
 			element.style.margin = "0";
 			element.style.padding = "0";
 
@@ -926,7 +936,7 @@ export default class UlxDropdown extends Component {
 								autocomplete="off"
 								value={{this.editableInputValue}}
 								placeholder={{this.triggerPlaceholderDisplay}}
-								readonly={{@disabled}}
+								readonly={{this.isTriggerDisabled}}
 								role="combobox"
 								aria-haspopup="listbox"
 								aria-expanded={{this.overlayVisible}}
@@ -942,8 +952,11 @@ export default class UlxDropdown extends Component {
 								{{on "click" this.onEditableClick}}
 								{{on "blur" this.onEditableBlur}}
 							/>
-							<div class="dropdown-trigger {{if @disabled 'disabled' ''}}" tabindex="-1">
-								{{#if (and @showClear this.selectedOption (not @disabled))}}
+							<div
+								class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+								tabindex="-1"
+							>
+								{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 									<UlxIcon
 										@type="font"
 										@iconName="dropdown-clear-icon close-stroke-icon-new"
@@ -958,7 +971,7 @@ export default class UlxDropdown extends Component {
 								{{/if}}
 								{{#if (and @loading)}}
 									<span class="dropdown-loading-icon" aria-hidden="true">
-										<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+										<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 									</span>
 								{{else}}
 									{{#if (has-block "icon")}}
@@ -999,15 +1012,15 @@ export default class UlxDropdown extends Component {
 								{{/if}}
 							</div>
 							<div
-								class="dropdown-trigger {{if @disabled 'disabled' ''}}"
+								class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
 								id={{this.triggerId}}
-								tabindex={{if (not @disabled) "0" "-1"}}
+								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 								role="button"
 								{{on "keydown" this.onTriggerKeydown}}
 								{{on "focus" this.handleFocus}}
 								{{on "blur" this.handleBlur}}
 							>
-								{{#if (and @showClear this.selectedOption (not @disabled))}}
+								{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 									<UlxIcon
 										@type="font"
 										@iconName="close-stroke-icon-new dropdown-clear-icon"
@@ -1022,7 +1035,7 @@ export default class UlxDropdown extends Component {
 								{{/if}}
 								{{#if (and @loading)}}
 									<span class="dropdown-loading-icon" aria-hidden="true">
-										<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+										<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 									</span>
 								{{else}}
 									{{#if (has-block "icon")}}
@@ -1069,7 +1082,7 @@ export default class UlxDropdown extends Component {
 							autocomplete="off"
 							value={{this.editableInputValue}}
 							placeholder={{this.triggerPlaceholderDisplay}}
-							readonly={{@disabled}}
+							readonly={{this.isTriggerDisabled}}
 							role="combobox"
 							aria-haspopup="listbox"
 							aria-expanded={{this.overlayVisible}}
@@ -1085,8 +1098,8 @@ export default class UlxDropdown extends Component {
 							{{on "click" this.onEditableClick}}
 							{{on "blur" this.onEditableBlur}}
 						/>
-						<div class="dropdown-trigger {{if @disabled 'disabled' ''}}" tabindex="-1">
-							{{#if (and @showClear this.selectedOption (not @disabled))}}
+						<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}" tabindex="-1">
+							{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 								<UlxIcon
 									@type="font"
 									@iconName="close-stroke-icon-new dropdown-clear-icon"
@@ -1101,7 +1114,7 @@ export default class UlxDropdown extends Component {
 							{{/if}}
 							{{#if (and @loading)}}
 								<span class="dropdown-loading-icon" aria-hidden="true">
-									<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+									<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 								</span>
 							{{else}}
 								{{#if (has-block "icon")}}
@@ -1142,15 +1155,15 @@ export default class UlxDropdown extends Component {
 							{{/if}}
 						</div>
 						<div
-							class="dropdown-trigger {{if @disabled 'disabled' ''}}"
+							class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
 							id={{this.triggerId}}
-							tabindex={{if (not @disabled) "0" "-1"}}
+							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 							role="button"
 							{{on "keydown" this.onTriggerKeydown}}
 							{{on "focus" this.handleFocus}}
 							{{on "blur" this.handleBlur}}
 						>
-							{{#if (and @showClear this.selectedOption (not @disabled))}}
+							{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 								<UlxIcon
 									@type="font"
 									@iconName="close-stroke-icon-new dropdown-clear-icon"
@@ -1165,7 +1178,7 @@ export default class UlxDropdown extends Component {
 							{{/if}}
 							{{#if (and @loading)}}
 								<span class="dropdown-loading-icon" aria-hidden="true">
-									<UlxProgressSpinner @size="xs-size" aria-hidden="true" />
+									<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 								</span>
 							{{else}}
 								{{#if (has-block "icon")}}

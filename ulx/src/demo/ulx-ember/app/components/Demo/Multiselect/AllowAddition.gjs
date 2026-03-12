@@ -34,7 +34,7 @@ export default class DemoMultiselectAllowAddition extends Component {
   }
 
   <template>
-    <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxMultiSelect
         @options={{this.items}}
         @value={{this.selected}}
@@ -43,9 +43,10 @@ export default class DemoMultiselectAllowAddition extends Component {
         @allowAddition={{true}}
         @onAddItem={{this.handleAddItem}}
         @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label={{t "lbl.multiselect.allow.addition"}}
-        @fieldClass="col-4"
+        @placeholder={{t "msg.multiselect.filter.placeholder"}}
+        @label={{t "lbl.multiselect.tags"}}
+        @helpText={{t "msg.multiselect.tags.help"}}
+        @fieldClass="col-8"
       />
     </div>
   </template>

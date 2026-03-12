@@ -62,14 +62,14 @@ export const ToastFeatureItems = [
     },
   },
   {
-    id: 'types',
-    sectionNav: 'Types',
+    id: 'variants',
+    sectionNav: 'Variants',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Toast supports <code>info</code>, <code>success</code>, <code>warn</code>, <code>error</code>, <code>secondary</code>, and <code>contrast</code> types per message.',
+          'Toast supports <code>info</code>, <code>success</code>, <code>warn</code>, <code>error</code>, <code>secondary</code>, and <code>contrast</code> variants per message.',
       },
     },
     demo: {
@@ -89,7 +89,7 @@ export const ToastFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@position</code> to place the toast container: <code>top-left</code>, <code>top-center</code>, <code>top-right</code>, <code>center</code>, <code>bottom-left</code>, <code>bottom-center</code>, <code>bottom-right</code>. Default is <code>top-right</code>.',
+          'Use <code>@position</code> to place the toast container: <code>top-left</code>, <code>top-center</code>, <code>top-right</code>, <code>center</code>, <code>bottom-left</code>, <code>bottom-center</code>, <code>bottom-right</code>. Default is <code>top-center</code>.',
       },
     },
     demo: {
@@ -102,14 +102,14 @@ export const ToastFeatureItems = [
     },
   },
   {
-    id: 'variants',
-    sectionNav: 'Variants',
+    id: 'types',
+    sectionNav: 'Types',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Per-message <code>variant</code>: <code>elevated</code>, <code>flat</code>, or <code>outlined</code>. Messages can be <code>closable</code>, <code>sticky</code>, or <code>showIcon: false</code>.',
+          'Per-message <code>type</code>: <code>elevated</code>, <code>flat</code>, or <code>outlined</code>. Messages can be <code>closable</code>, <code>sticky</code>, or <code>showIcon: true</code> to show the variant icon.',
       },
     },
     demo: {

@@ -10,6 +10,7 @@ export { default as FullscreenDemo } from '../../../../components/Demo/Slidepane
 export { default as TemplateDemo } from '../../../../components/Demo/Slidepane/Template';
 export { default as WithoutoverlayDemo } from '../../../../components/Demo/Slidepane/Withoutoverlay';
 export { default as NestedpanesDemo } from '../../../../components/Demo/Slidepane/Nestedpanes';
+export { default as SizesDemo } from '../../../../components/Demo/Slidepane/Sizes';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -23,3 +24,4 @@ export { default as FullscreenSource } from './snippets/Fullscreen.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as WithoutoverlaySource } from './snippets/Withoutoverlay.gjs';
 export { default as NestedpanesSource } from './snippets/Nestedpanes.gjs';
+export { default as SizesSource } from './snippets/Sizes.gjs';

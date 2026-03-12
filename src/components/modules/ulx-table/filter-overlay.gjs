@@ -5,63 +5,111 @@ import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import eq from "ember-truth-helpers/helpers/eq";
 import not from "ember-truth-helpers/helpers/not";
+import and from "ember-truth-helpers/helpers/and";
+import or from "ember-truth-helpers/helpers/or";
+import gt from "ember-truth-helpers/helpers/gt";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxDropdown from "../../elements/ulx-dropdown/index.gjs";
 import UlxInput from "../../elements/ulx-input/index.gjs";
+import UlxMultiSelect from "../../elements/ulx-multi-select/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
-const MATCH_MODE_OPTIONS = [
-	{ label: "Contains", value: "contains" },
-	{ label: "Not contains", value: "notContains" },
-	{ label: "Starts with", value: "startsWith" },
-	{ label: "Ends with", value: "endsWith" },
-	{ label: "Equals", value: "equals" },
-	{ label: "Not equals", value: "notEquals" }
-];
-
-const OPERATOR_OPTIONS = [
-	{ label: "AND", value: "and" },
-	{ label: "OR", value: "or" }
-];
 
 /**
  * Filter overlay popup for UlxTable menu-display filter mode.
  *
- * @param {Object} flex-col - the flex-col definition being filtered
- * @param {Object} filterMeta - current filter state for the flex-col: { value?, matchMode?, operator?, constraints? }
+ * @param {Object} column - the column definition being filtered
+ * @param {Object} filterMeta - current filter state: { value?, matchMode?, operator?, constraints? }
  * @param {Function} onApply - (field, filterMeta) => void
  * @param {Function} onClear - (field) => void
  * @param {Function} onClose - () => void
- * @param {string} [position] - e.g. 'bottom-left'
  */
 export default class FilterOverlay extends Component {
 	@tracked localConstraints = null;
-	@tracked localOperator = "and";
-
-	matchModeDefaults = MATCH_MODE_OPTIONS;
-	operatorOptions = OPERATOR_OPTIONS;
+	@tracked localOperator = null;
+	@tracked showValidation = false;
 
 	get field() {
-		return this.args.flex - col?.filterField ?? this.args.flex - col?.field;
+		return this.args.column?.filterField ?? this.args.column?.field;
+	}
+
+	get isMultiSelect() {
+		return this.args.column?.filterType === "multiselect";
 	}
 
 	get hasMatchModes() {
-		return this.args.flex - col?.filterMatchModeOptions !== false;
+		return this.args.column?.filterMatchModeOptions !== false;
 	}
 
 	get matchModeOptions() {
-		return this.args.flex - col?.filterMatchModeOptions ?? MATCH_MODE_OPTIONS;
+		const textOptions = [
+			{ label: t('lbl.filter.contains'), value: 'contains' },
+			{ label: t('lbl.filter.not.contains'), value: 'notContains' },
+			{ label: t('lbl.filter.starts.with'), value: 'startsWith' },
+			{ label: t('lbl.filter.ends.with'), value: 'endsWith' },
+			{ label: t('lbl.filter.equals'), value: 'equals' },
+			{ label: t('lbl.filter.not.equals'), value: 'notEquals' },
+		];
+		const multiselectOptions = [
+			{ label: t('lbl.filter.in'), value: 'in' },
+			{ label: t('lbl.filter.not.in'), value: 'notIn' },
+		];
+		if (this.isMultiSelect) {
+			return this.args.column?.filterMatchModeOptions ?? multiselectOptions;
+		}
+		return this.args.column?.filterMatchModeOptions ?? textOptions;
+	}
+
+	get operatorOptions() {
+		return [
+			{ label: t('lbl.filter.and'), value: 'and' },
+			{ label: t('lbl.filter.or'), value: 'or' },
+		];
+	}
+
+	get filterOptions() {
+		return this.args.column?.filterOptions ?? [];
+	}
+
+	get defaultMatchMode() {
+		return this.isMultiSelect ? "in" : "contains";
+	}
+
+	get defaultValue() {
+		return this.isMultiSelect ? [] : "";
 	}
 
 	get constraints() {
 		if (this.localConstraints) return this.localConstraints;
 		const meta = this.args.filterMeta;
 		if (meta?.constraints) return meta.constraints;
-		return [{ value: meta?.value ?? "", matchMode: meta?.matchMode ?? "contains" }];
+		return [{
+			value: meta?.value ?? this.defaultValue,
+			matchMode: meta?.matchMode ?? this.defaultMatchMode
+		}];
 	}
 
 	get operator() {
 		return this.localOperator ?? this.args.filterMeta?.operator ?? "and";
 	}
+
+	get canAddRule() {
+		return !this.isMultiSelect;
+	}
+
+	get isValid() {
+		return this.constraints.every((c) => {
+			const { value } = c;
+			if (Array.isArray(value)) return value.length > 0;
+			return value != null && String(value).trim() !== "";
+		});
+	}
+
+	isConstraintValueEmpty = (constraint) => {
+		const { value } = constraint;
+		if (Array.isArray(value)) return value.length === 0;
+		return value == null || String(value).trim() === "";
+	};
 
 	@action
 	updateConstraint(index, key, value) {
@@ -70,8 +118,18 @@ export default class FilterOverlay extends Component {
 	}
 
 	@action
+	updateConstraintFromInput(index, event) {
+		const value = typeof event === "string" ? event : (event?.target?.value ?? "");
+		this.updateConstraint(index, "value", value);
+	}
+
+	@action
 	addConstraint() {
-		this.localConstraints = [...this.constraints, { value: "", matchMode: "contains" }];
+		if (!this.canAddRule) return;
+		this.localConstraints = [
+			...this.constraints,
+			{ value: this.defaultValue, matchMode: this.defaultMatchMode }
+		];
 	}
 
 	@action
@@ -87,6 +145,8 @@ export default class FilterOverlay extends Component {
 
 	@action
 	handleApply() {
+		this.showValidation = true;
+		if (!this.isValid) return;
 		const singleConstraint = this.constraints.length === 1;
 		const meta = singleConstraint
 			? { value: this.constraints[0].value, matchMode: this.constraints[0].matchMode }
@@ -98,17 +158,47 @@ export default class FilterOverlay extends Component {
 	@action
 	handleClear() {
 		this.localConstraints = null;
-		this.localOperator = "and";
+		this.localOperator = null;
+		this.showValidation = false;
 		this.args.onClear?.(this.field);
 		this.args.onClose?.();
 	}
 
+	@action
+	handleOverlayKeydown(event) {
+		if (event.key === "Escape") {
+			event.preventDefault();
+			this.args.onClose?.();
+		}
+	}
+
+	@action
+	handleFilterValueKeydown(event) {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			this.addConstraint();
+		}
+	}
+
 	<template>
 		<div
-			class="ulx-datatable-filter-overlay menu-display"
+			class="ulx-datatable-filter-overlay menu-display flex flex-col gap-3"
 			role="dialog"
-			aria-label="flex-col filter"
+			aria-label={{t "aria.table.column.filter"}}
+			{{on "keydown" this.handleOverlayKeydown}}
 		>
+			<div class="datatable-filter-overlay-header flex justify-between items-center">
+				<span class="datatable-filter-overlay-title">{{or @column.header this.field}}</span>
+				<UlxButton
+					@variant="text"
+					@size="s-size"
+					@icon="close-icon-01"
+					@iconComponentClass="bs-icons1"
+					@iconSize="s18"
+					@onClick={{@onClose}}
+					aria-label={{t "lbl.close"}}
+				/>
+			</div>
 			{{#if this.hasMatchModes}}
 				<div class="datatable-filter-operator">
 					<UlxDropdown
@@ -117,14 +207,14 @@ export default class FilterOverlay extends Component {
 						@optionLabel="label"
 						@optionValue="value"
 						@onChange={{this.setOperator}}
-						aria-label="Filter operator"
+						aria-label={{t "aria.table.filter.operator"}}
 					/>
 				</div>
 			{{/if}}
 
-			<div class="datatable-filter-constraints">
-				{{#each this.constraints as |constraint index|}}
-					<div class="datatable-filter-constraint">
+			<div class="datatable-filter-constraints flex flex-col gap-2">
+				{{#each this.constraints key="@index" as |constraint index|}}
+					<div class="datatable-filter-constraint flex flex-row items-center gap-2 flex-wrap">
 						{{#if this.hasMatchModes}}
 							<UlxDropdown
 								@value={{constraint.matchMode}}
@@ -132,53 +222,74 @@ export default class FilterOverlay extends Component {
 								@optionLabel="label"
 								@optionValue="value"
 								@onChange={{fn this.updateConstraint index "matchMode"}}
-								aria-label="Filter match mode"
+								aria-label={{t "aria.table.filter.match.mode"}}
 							/>
 						{{/if}}
 
-						{{#if @flex-col.filterElement}}
-							<@flex-col.filterElement
+						{{#if @column.filterElement}}
+							<@column.filterElement
 								@field={{this.field}}
 								@value={{constraint.value}}
 								@onChange={{fn this.updateConstraint index "value"}}
 							/>
+						{{else if this.isMultiSelect}}
+							<UlxMultiSelect
+								@value={{constraint.value}}
+								@options={{this.filterOptions}}
+								@optionLabel="label"
+								@optionValue="value"
+								@placeholder={{t "msg.table.select.values"}}
+								@filter={{true}}
+							@invalid={{and this.showValidation (not constraint.value.length)}}
+							@onChange={{fn this.updateConstraint index "value"}}
+							aria-label={{t "aria.table.filter.values"}}
+							/>
 						{{else}}
 							<UlxInput
 								@value={{constraint.value}}
-								@placeholder="Enter filter value"
-								@onChange={{fn this.updateConstraint index "value"}}
-								aria-label="Filter value"
+								@placeholder={{t "msg.table.enter.filter.value"}}
+								@invalid={{and this.showValidation (this.isConstraintValueEmpty constraint)}}
+								@onKeydown={{this.handleFilterValueKeydown}}
+								{{on "input" (fn this.updateConstraintFromInput index)}}
+								aria-label={{t "aria.table.filter.value"}}
 							/>
 						{{/if}}
 
-						{{#if (not (eq index 0))}}
-							<button
-								type="button"
-								class="datatable-filter-remove"
-								aria-label="Remove filter rule"
-								{{on "click" (fn this.removeConstraint index)}}
-							>
-								<i class="bs-icons1 dash-circle s14" aria-hidden="true"></i>
-							</button>
+						{{#if (gt index 0)}}
+							<UlxButton
+								@variant="text"
+								@icon="dash-circle"
+								@iconComponentClass="bs-icons1"
+								@iconSize="s14"
+								@customClass="datatable-filter-remove"
+								@onClick={{fn this.removeConstraint index}}
+								aria-label={{t "aria.table.remove.filter.rule"}}
+							/>
 						{{/if}}
 					</div>
 				{{/each}}
 			</div>
 
-			<div class="datatable-filter-add-rule">
-				<UlxButton
-					@variant="text"
-					@label="Add rule"
-					@icon="plus-circle"
-					@iconComponentClass="bs-icons1"
-					@iconSize="s14"
-					@onClick={{this.addConstraint}}
-				/>
-			</div>
+			{{#if this.canAddRule}}
+				<div class="datatable-filter-add-rule">
+					<UlxButton
+						@variant="text"
+						@label={{t "lbl.add.filter.rule"}}
+						@icon="plus-circle"
+						@iconComponentClass="bs-icons1"
+						@iconSize="s14"
+						@onClick={{this.addConstraint}}
+					/>
+				</div>
+			{{/if}}
 
-			<div class="datatable-filter-buttonbar">
-				<UlxButton @variant="outlined" @label="Clear" @onClick={{this.handleClear}} />
-				<UlxButton @variant="primary" @label="Apply" @onClick={{this.handleApply}} />
+			<div class="datatable-filter-buttonbar flex flex-row justify-end gap-2">
+				<UlxButton @variant="outlined" @label={{t "lbl.clear"}} @onClick={{this.handleClear}} />
+				<UlxButton
+					@variant="primary"
+					@label={{t "lbl.apply.filter"}}
+					@onClick={{this.handleApply}}
+				/>
 			</div>
 		</div>
 	</template>

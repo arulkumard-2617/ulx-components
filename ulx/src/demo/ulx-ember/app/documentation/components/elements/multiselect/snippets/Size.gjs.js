@@ -113,5 +113,5 @@ export default class DemoMultiselectSize extends Component {
   </template>
 }
 
-`;
 
+`;

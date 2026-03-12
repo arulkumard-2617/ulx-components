@@ -1,6 +1,8 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
+import UlxIcon from "../ulx-icon/index.gjs";
+import tooltip from "../../../modifiers/tooltip";
 import { NAMESPACE } from "../../../utils/component-config";
 import {
 	buildAriaDescribedBy,
@@ -47,6 +49,7 @@ import {
  * @param {string} [error] - Error message displayed below the input. Sets invalid state.
  * @param {string} [fieldClass] - Extra classes for the field wrapper (e.g. grid utilities).
  * @param {string} [placeholder] - Placeholder text.
+ * @param {string} [tooltipMessage] - Optional info text shown in a tooltip on an info icon next to the label.
  * @param {boolean} [disabled=false] - Whether the input is disabled.
  * @param {boolean} [readonly=false] - Whether the input is read-only.
  * @param {boolean} [invalid=false] - Whether the input is in invalid state.
@@ -123,7 +126,7 @@ export default class UlxInput extends Component {
 	}
 
 	get inputClass() {
-		const { size, filled, disabled, readonly, floatLabel, value } = this.args;
+		const { size = "m-size", filled, disabled, readonly, floatLabel, value } = this.args;
 		return buildInputClass({
 			isTextarea: false,
 			size,
@@ -141,7 +144,7 @@ export default class UlxInput extends Component {
 	}
 
 	get floatLabelClass() {
-		const { size, filled, disabled } = this.args;
+		const { size = "m-size", filled, disabled } = this.args;
 		return buildFloatLabelClass({
 			size,
 			filled,
@@ -155,7 +158,7 @@ export default class UlxInput extends Component {
 	}
 
 	get inputGroupWrapperClass() {
-		const { inputGroupClass, size, filled, disabled, invalid } = this.args;
+		const { inputGroupClass, size = "m-size", filled, disabled, invalid } = this.args;
 
 		const base = buildInputGroupClass({
 			size,
@@ -278,10 +281,20 @@ export default class UlxInput extends Component {
 					/>
 
 					<label for={{this.inputId}} class={{this.floatLabelLabelClass}}>
-						{{this.floatLabelText}}
-						{{#if this.isRequired}}
-							<span class="fg-red" aria-hidden="true">*</span>
-						{{/if}}
+						<span class="label-text">
+							{{this.floatLabelText}}
+							{{#if this.isRequired}}
+								<span class="fg-red" aria-hidden="true">*</span>
+							{{/if}}
+							{{#if @tooltipMessage}}
+								<UlxIcon
+									{{tooltip @tooltipMessage position="bottom"}}
+									@type="font"
+									@iconName="info-icon"
+									@size="s14"
+								/>
+							{{/if}}
+						</span>
 					</label>
 				</span>
 			{{else}}
@@ -291,6 +304,14 @@ export default class UlxInput extends Component {
 							{{yield to="label"}}
 							{{#if this.isRequired}}
 								<span class="fg-red" aria-hidden="true">*</span>
+							{{/if}}
+							{{#if @tooltipMessage}}
+								<UlxIcon
+									{{tooltip @tooltipMessage position="bottom"}}
+									@type="font"
+									@iconName="info-icon"
+									@size="s14"
+								/>
 							{{/if}}
 						</span>
 						{{#if this.hasLabelMeta}}
@@ -303,6 +324,14 @@ export default class UlxInput extends Component {
 							{{@label}}
 							{{#if this.isRequired}}
 								<span class="fg-red" aria-hidden="true">*</span>
+							{{/if}}
+							{{#if @tooltipMessage}}
+								<UlxIcon
+									{{tooltip @tooltipMessage position="bottom"}}
+									@type="font"
+									@iconName="info-icon"
+									@size="s14"
+								/>
 							{{/if}}
 						</span>
 						{{#if this.hasLabelMeta}}
@@ -373,6 +402,10 @@ export default class UlxInput extends Component {
 				{{/if}}
 			{{/if}}
 
+			{{#if (has-block "footer")}}
+				{{yield to="footer"}}
+			{{/if}}
+
 			{{#if @helpText}}
 				<div id="{{this.inputId}}-help" class="help-text">{{@helpText}}</div>
 			{{/if}}
@@ -383,7 +416,7 @@ export default class UlxInput extends Component {
 					class="error-message"
 					role="alert"
 					aria-atomic="true"
-				>{{@error}}</div>
+				>*{{@error}}</div>
 			{{/if}}
 		</div>
 	</template>

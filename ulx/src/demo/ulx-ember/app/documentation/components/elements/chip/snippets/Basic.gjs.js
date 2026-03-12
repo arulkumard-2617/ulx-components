@@ -25,6 +25,7 @@ export default class BasicChipDemo extends Component {
           @label={{chip.label}}
           @removable={{chip.removable}}
           @onRemove={{this.handleRemove}}
+          @size={{chip.size}}
         />
       {{/each}}
     </div>

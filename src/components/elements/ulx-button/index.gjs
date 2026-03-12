@@ -62,7 +62,6 @@ const RIPPLE_DURATION_MS = 200;
  * @param {string} [iconComponentClass] - UlxIcon base class (e.g. "bs-icons1" for font icons)
  * @param {string} [iconSize] - uls-v2 icon size class (e.g. s13, s16, s18) passed to UlxIcon as @size
  * @param {'left'|'right'} [iconPos='left'] - Icon position relative to label
- * @param {boolean} [loading=false] - Shows loading state with spinner
  * @param {boolean} [disabled=false] - Disables the button
  * @param {string} [href] - When set, renders as <a href="{{href}}">; otherwise <button>
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Button variant/type
@@ -79,10 +78,13 @@ const RIPPLE_DURATION_MS = 200;
  * @param {string} [badgeCustomClass] - Custom badge CSS classes
  * @param {string} [customClass] - Additional CSS classes
  * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute
- * @param {function} [onClick] - Click handler
+ * @param {boolean} [loading=false] - When true, button shows loading spinner and is disabled. Use for always-on loading state.
+ * @param {function} [onClick] - Click handler; may return a Promise to show loading until it settles
  * @param {Modifier} [elementRef] - Optional modifier (or element-ref callback) applied to the root element for parent ref capture (e.g. dropdown target)
  */
 export default class UlxButton extends Component {
+	@tracked promiseLoading = false;
+
 	noOpElementRef = modifier(() => () => {});
 
 	get elementRefModifier() {
@@ -91,6 +93,10 @@ export default class UlxButton extends Component {
 
 	get baseClass() {
 		return getComponentClass("button");
+	}
+
+	get effectiveLoading() {
+		return !!this.args.loading || this.promiseLoading;
 	}
 
 	get buttonClasses() {
@@ -103,7 +109,6 @@ export default class UlxButton extends Component {
 			rounded,
 			size,
 			fluid,
-			loading,
 			customClass,
 			label
 		} = this.args;
@@ -117,15 +122,19 @@ export default class UlxButton extends Component {
 		parts.push(size || "m-size");
 		this.hasIcon && !label && parts.push("icon-only");
 		fluid && parts.push("fluid");
-		loading && parts.push("loading");
+		this.effectiveLoading && parts.push("loading");
 		this.isDisabled && parts.push("disabled");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get buttonSize() {
+		return this.args.size || "m-size";
+	}
+
 	get hasIcon() {
-		const { icon, loading } = this.args;
-		return icon || loading;
+		const { icon } = this.args;
+		return icon || this.effectiveLoading;
 	}
 
 	get hasCustomIconBlock() {
@@ -150,8 +159,8 @@ export default class UlxButton extends Component {
 	}
 
 	get iconToDisplay() {
-		const { loading, icon } = this.args;
-		if (loading) return this.loadingIconName;
+		const { icon } = this.args;
+		if (this.effectiveLoading) return this.loadingIconName;
 		return icon;
 	}
 
@@ -161,8 +170,8 @@ export default class UlxButton extends Component {
 	}
 
 	get isDisabled() {
-		const { disabled, loading } = this.args;
-		return disabled || loading;
+		const { disabled } = this.args;
+		return disabled || this.effectiveLoading;
 	}
 
 	get showBadge() {
@@ -181,16 +190,22 @@ export default class UlxButton extends Component {
 			return;
 		}
 		if (typeof onClick === "function") {
-			onClick(event);
+			const result = onClick(event);
 			if (href) event.preventDefault();
+			const promise = result != null && typeof result.finally === "function" ? result : null;
+			if (promise) {
+				this.promiseLoading = true;
+				promise.finally(() => {
+					this.promiseLoading = false;
+				});
+			}
 		}
 	}
 
 	get iconClass() {
-		const { label, loading } = this.args;
+		const { label } = this.args;
 		const parts = ["icon"];
 		if (!(this.hasIcon && !label)) parts.push(this.iconPosition);
-		if (this.hasIcon && !loading) parts.push("fx-item", "self-center");
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -244,15 +259,15 @@ export default class UlxButton extends Component {
 				class={{this.buttonClasses}}
 				aria-disabled={{if this.isDisabled "true"}}
 				tabindex={{if this.isDisabled "-1" "0"}}
-				aria-busy={{if @loading "true"}}
+				aria-busy={{if this.effectiveLoading "true"}}
 				{{this.elementRefModifier}}
 				{{on "click" this.handleClickWithRipple}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
-					{{#if @loading}}
+					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon left">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -278,9 +293,9 @@ export default class UlxButton extends Component {
 				{{/if}}
 
 				{{#if this.showIconRight}}
-					{{#if @loading}}
+					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -322,15 +337,15 @@ export default class UlxButton extends Component {
 				class={{this.buttonClasses}}
 				type={{this.buttonType}}
 				disabled={{this.isDisabled}}
-				aria-busy={{if @loading "true"}}
+				aria-busy={{if this.effectiveLoading "true"}}
 				{{this.elementRefModifier}}
 				{{on "click" this.handleClickWithRipple}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
-					{{#if @loading}}
+					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}
@@ -356,9 +371,9 @@ export default class UlxButton extends Component {
 				{{/if}}
 
 				{{#if this.showIconRight}}
-					{{#if @loading}}
+					{{#if this.effectiveLoading}}
 						<span class="{{this.baseClass}}-loading-icon right">
-							<UlxProgressSpinner @iconSize={{@iconSize}} @color="white" aria-hidden="true" />
+							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
 						{{yield to="icon"}}

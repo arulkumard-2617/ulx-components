@@ -1,28 +1,23 @@
-import { UlxInput, UlxIcon, t } from 'ulx-components';
+import { UlxInput, UlxButton, t } from 'ulx-components';
 
 <template>
-  <div class="ulx-form s-size ulx-grid gap-8 mb-14">
+  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
     <UlxInput
       @inputGroup={{true}}
-      @size="s-size"
-      placeholder={{t "lbl.website"}}
-      aria-label={{t "lbl.website"}}
-      @fieldClass="col-12"
+      @label={{t "lbl.start.time"}}
+      placeholder={{t "lbl.start.time.placeholder"}}
+      @fieldClass="col-3"
     >
-      <:start>
-        <span class="ulx-inputgroup-addon">
-          <UlxIcon
-            @componentClass="bs-icons1"
-            @type="font"
-            @iconName="ls-tick-icon"
-            @size="s18"
-            @ariaLabel="tick icon"
-          />
-        </span>
-      </:start>
-
       <:end>
-        <span class="ulx-inputgroup-addon">.com</span>
+        <UlxButton
+          @variant="basic"
+          @size="compact"
+          @icon="time-icon"
+          @iconComponentClass="bs-icons1"
+          @iconSize="s18"
+          @customClass="inputgroup-addon icon-addon"
+          aria-label={{t "lbl.start.time"}}
+        />
       </:end>
     </UlxInput>
   </div>

@@ -15,7 +15,7 @@ import { UlxToolbar, UlxButton, t } from 'ulx-components';
           />
           <UlxButton
             @variant="secondary"
-            @icon="italic-icon"
+            @icon="italics-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             aria-label={{t "lbl.italic"}}
@@ -34,14 +34,14 @@ import { UlxToolbar, UlxButton, t } from 'ulx-components';
         <div class="flex items-center gap-2">
           <UlxButton
             @variant="text"
-            @icon="undo-icon-01"
+            @icon="undo-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             aria-label={{t "lbl.undo"}}
           />
           <UlxButton
             @variant="text"
-            @icon="redo-icon-01"
+            @icon="redo-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             aria-label={{t "lbl.redo"}}
@@ -51,5 +51,5 @@ import { UlxToolbar, UlxButton, t } from 'ulx-components';
     </UlxToolbar>
   </div>
 </template>
-`;
 
+`;
