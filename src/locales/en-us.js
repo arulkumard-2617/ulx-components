@@ -192,6 +192,18 @@ const enUs = {
 	'lbl.dashboard': 'Dashboard',
 	'lbl.transactions': 'Transactions',
 	'lbl.products': 'Products',
+	'lbl.overview': 'Overview',
+	'lbl.activity': 'Activity',
+	'lbl.team': 'Team',
+	'lbl.settings': 'Settings',
+	'lbl.new': 'New',
+	'lbl.tabmenu': 'Tab Menu',
+	'lbl.walkthrough': 'Walkthrough',
+	'lbl.utilities': 'Utilities',
+	'lbl.tabmenu.navigation': 'Tab menu navigation',
+	'lbl.tabmenu.profileNavigation': 'Profile tab navigation',
+	'msg.router.tabmenu.description':
+		'This demo shows TabMenu with LinkTo routing. Click tabs to navigate between routes. The active tab is automatically synced with the current route.',
 
 	// ── Segment labels ───────────────────────────────────────
 	'lbl.loading.state': 'Loading State',

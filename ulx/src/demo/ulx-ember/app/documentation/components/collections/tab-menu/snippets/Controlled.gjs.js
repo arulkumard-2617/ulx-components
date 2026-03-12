@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import { UlxTabmenu, t } from 'ulx-components';
+import { UlxTabmenu, UlxButton, t } from 'ulx-components';
 
 export default class ControlledTabMenuDemo extends Component {
   @tracked activeIndex = 1;
@@ -70,19 +70,14 @@ export default class ControlledTabMenuDemo extends Component {
       <div class="flex items-center gap-2">
         <span class="fg-text-secondary">{{t "lbl.activate"}}:</span>
         {{#each this.buttons as |btn|}}
-          <button
-            type="button"
-            class="w-32 h-32 border rounded-full flex items-center fhc
-              {{if
-                (this.isActiveButton btn.index)
-                'bg-primary fg-white'
-                'border-primary fg-primary bg-transparent'
-              }}"
-            {{on "click" (fn this.setActiveIndex btn.index)}}
+          <UlxButton
+            @label={{btn.label}}
+            @variant={{if (this.isActiveButton btn.index) "primary" "secondary"}}
+            @size="s-size"
             aria-label={{t "msg.activate.tab" label=btn.label}}
-          >
-            {{btn.label}}
-          </button>
+            aria-pressed={{this.isActiveButton btn.index}}
+            {{on "click" (fn this.setActiveIndex btn.index)}}
+          />
         {{/each}}
       </div>
     </div>
@@ -90,6 +85,8 @@ export default class ControlledTabMenuDemo extends Component {
       @model={{this.items}}
       @activeIndex={{this.activeIndex}}
       @onTabChange={{this.handleTabChange}}
+      @tabId="controlled-tabmenu"
+      @ariaLabel={{t "lbl.tabmenu.navigation"}}
     />
   </template>
 }
