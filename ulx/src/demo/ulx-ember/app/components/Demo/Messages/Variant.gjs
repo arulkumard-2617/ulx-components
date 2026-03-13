@@ -9,7 +9,6 @@ export default class VariantMessagesDemo extends Component {
       variant: 'info',
       summary: t('lbl.info'),
       detail: t('lbl.info.message'),
-      icon: 'enhance-icon',
     };
   }
 

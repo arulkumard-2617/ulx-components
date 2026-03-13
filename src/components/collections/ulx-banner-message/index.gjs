@@ -10,6 +10,14 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
 
 const ENTER_DONE_CLASS = "enter-done";
 
+const DEFAULT_ICON_BY_VARIANT = {
+	info: "info-stroked-icon",
+	primary: "info-circle-icon",
+	success: "check-circle-icon",
+	warn: "exclamation-triangle-icon",
+	error: "x-circle-icon"
+};
+
 /**
  * Single-message banner: displays one message with variant, summary, detail,
  * and optional close button. Optional one-time banner: when @dismissStorageKey is set,
@@ -26,7 +34,7 @@ const ENTER_DONE_CLASS = "enter-done";
  * @param {string} [iconType="svg"] - Icon type for message icon (e.g. "svg", "font"). Default "svg".
  * @param {string} [iconSize] - Optional icon size for message icon (e.g. s18). No default; only applied when provided.
  * @block content - Optional. Yields (message); when provided, replaces default summary/detail with custom content.
- * @block leftItem - Optional. Yields (message); custom left-side content (icon, avatar, image). Icon is shown only when message.icon is set.
+ * @block leftItem - Optional. Yields (message); custom left-side content (icon, avatar, image). When not provided, shows message.icon or default icon by variant.
  * @block action - Optional. Yields (message); custom right-side action area. Falls back to default close button when not provided.
  */
 export default class UlxBannerMessage extends Component {
@@ -54,10 +62,19 @@ export default class UlxBannerMessage extends Component {
 		return !!window.localStorage.getItem(key);
 	}
 
-	get messageToShow() {
+	get displayMessage() {
 		if (this.isDismissed) return null;
 		const msg = this.args.message;
 		return msg != null ? msg : null;
+	}
+
+	get displayMessageIconName() {
+		const msg = this.displayMessage;
+		if (!msg) return null;
+		const icon = msg.icon;
+		if (icon) return icon;
+		const variant = msg.variant ?? "info";
+		return DEFAULT_ICON_BY_VARIANT[variant] ?? DEFAULT_ICON_BY_VARIANT.info;
 	}
 
 	@action
@@ -128,9 +145,9 @@ export default class UlxBannerMessage extends Component {
 	}
 
 	<template>
-		{{#if this.messageToShow}}
+		{{#if this.displayMessage}}
 			<div
-				class={{this.getMessageRootClasses this.messageToShow}}
+				class={{this.getMessageRootClasses this.displayMessage}}
 				id={{@id}}
 				role="alert"
 				aria-live="assertive"
@@ -141,34 +158,34 @@ export default class UlxBannerMessage extends Component {
 			>
 				<div class={{this.wrapperClass}} data-qa="ulx-banner-message-wrapper">
 					{{#if (has-block "leftItem")}}
-						{{yield this.messageToShow to="leftItem"}}
-					{{else if this.messageToShow.icon}}
+						{{yield this.displayMessage to="leftItem"}}
+					{{else if this.displayMessageIconName}}
 						<span class={{this.iconClass}} aria-hidden="true" data-qa="ulx-banner-message-icon">
 							<UlxIcon
 								@componentClass="bs-icons1"
 								@type={{this.resolvedIconType}}
-								@iconName={{this.messageToShow.icon}}
+								@iconName={{this.displayMessageIconName}}
 								@size={{this.resolvedIconSize}}
 							/>
 						</span>
 					{{/if}}
 					<div class={{this.contentClass}} data-qa="ulx-banner-message-content">
 						{{#if (has-block "content")}}
-							{{yield this.messageToShow to="content"}}
+							{{yield this.displayMessage to="content"}}
 						{{else}}
 							<div class={{this.contentTextClass}}>
-								{{#if this.messageToShow.summary}}
-									<h5 class={{this.summaryClass}}>{{this.messageToShow.summary}}</h5>
+								{{#if this.displayMessage.summary}}
+									<h5 class={{this.summaryClass}}>{{this.displayMessage.summary}}</h5>
 								{{/if}}
-								{{#if this.messageToShow.detail}}
-									<span class={{this.detailClass}}>{{this.messageToShow.detail}}</span>
+								{{#if this.displayMessage.detail}}
+									<span class={{this.detailClass}}>{{this.displayMessage.detail}}</span>
 								{{/if}}
 							</div>
 						{{/if}}
 						<div class={{this.contentActionClass}} data-qa="ulx-banner-message-actions">
 							{{#if (has-block "action")}}
-								{{yield this.messageToShow to="action"}}
-							{{else if (this.showClose this.messageToShow)}}
+								{{yield this.displayMessage to="action"}}
+							{{else if (this.showClose this.displayMessage)}}
 								<UlxButton
 									@icon="close-stroke-icon"
 									@iconComponentClass="bs-icons1"
@@ -177,7 +194,7 @@ export default class UlxBannerMessage extends Component {
 									@variant="secondary"
 									@size={{@size}}
 									@customClass={{this.closeButtonClass}}
-									@onClick={{fn this.handleRemove this.messageToShow}}
+									@onClick={{fn this.handleRemove this.displayMessage}}
 									aria-label={{t "lbl.close.notification"}}
 									data-qa="ulx-banner-message-close"
 								/>
