@@ -4,24 +4,22 @@ import { action } from '@ember/object';
 import { UlxBannerMessage } from 'ulx-components';
 
 export default class ClosableMessagesDemo extends Component {
-  @tracked messages = [
-    {
-      id: '1',
-      variant: 'primary',
-      summary: 'Complimentary Spaces Expiring Soon!',
-      detail:
-        "To continue using your complimentary Spaces beyond April 15, 2025 , you'll need to purchase and apply the necessary Space add-ons.",
-      icon: 'space-notification-icon',
-      closable: true,
-    },
-  ];
+  @tracked message = {
+    id: '1',
+    variant: 'primary',
+    summary: 'Complimentary Spaces Expiring Soon!',
+    detail:
+      "To continue using your complimentary Spaces beyond April 15, 2025 , you'll need to purchase and apply the necessary Space add-ons.",
+    icon: 'space-notification-icon',
+    closable: true,
+  };
 
   @action
-  removeMessage(message) {
-    this.messages = this.messages.filter((m) => m.id !== message.id);
+  removeMessage(_message) {
+    this.message = null;
   }
 
   <template>
-    <UlxBannerMessage @messages={{this.messages}} @onRemove={{this.removeMessage}} />
+    <UlxBannerMessage @message={{this.message}} @onRemove={{this.removeMessage}} />
   </template>
 }

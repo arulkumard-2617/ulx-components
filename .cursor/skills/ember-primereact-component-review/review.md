@@ -34,6 +34,7 @@ When performing a review, adopt this role and apply the criteria below. Structur
 - Missing i18n
 - Incorrect ULX class usage
 - PrimeReact behavioral mismatch
+- Missing data-qa attributes
 
 **Minor**
 - Style issues
@@ -142,9 +143,14 @@ get rootClasses() {
 - **Reuse existing components:** Use `UlxButton`, `UlxIcon`, `UlxInput`, etc. instead of raw HTML elements where applicable.
 - **ember-truth-helpers:** Import and use when needed; do not forget the import.
 - **Stateless by default:** Prefer components that derive output from arguments without internal state.
+- **data-qa attributes:** All ULX components must expose data-qa attributes for testing and automation.
+  - **Root selector:** `data-qa="ulx-{component}"` on the component’s root element (e.g. `data-qa="ulx-accordion"`).
+  - **Internal elements:** `data-qa="ulx-{component}-{element}"` on meaningful internal elements (e.g. `data-qa="ulx-accordion-trigger"`, `data-qa="ulx-accordion-content"`).
 
 **Checklist:**
 
+- [ ] Root element has `data-qa="ulx-{component}"`
+- [ ] Internal elements have `data-qa="ulx-{component}-{element}"` where applicable
 - [ ] Class names use `getComponentClass()`, not hardcoded prefixes
 - [ ] CSS classes match ULX style system (verified against `.less` files)
 - [ ] All strings use `t` helper and import is present

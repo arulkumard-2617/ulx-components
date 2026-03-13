@@ -13,7 +13,7 @@ const EXIT_TIMEOUT_MS = 450;
 
 /**
  * Accordion collection component. Groups content in expandable tabs.
- * Matches ULS markup/classes from accordion.less and PrimeReact structure.
+ * Matches ULS markup/classes from accordion.less.
  *
  * @class UlxAccordion
  * @param {Array<Object>} [model=[]] - Tabs. Each item: { header (string), disabled? (boolean), content? (string) }
@@ -159,8 +159,7 @@ export default class UlxAccordion extends Component {
 		const phase = this.getContentTransitionState(index);
 		const prev = this.getPrevSelected(index);
 
-		// Match PrimeReact unmountOnExit behavior:
-		// keep content in DOM if selected OR currently exiting OR just transitioned from selected->collapsed.
+		// Keep content in DOM if selected OR currently exiting OR just transitioned from selected->collapsed (unmountOnExit behavior).
 		return (
 			selected ||
 			phase === "exit" ||
@@ -179,17 +178,13 @@ export default class UlxAccordion extends Component {
 		const isInitiallyExpanded = prev === undefined && selected && !phase;
 		isInitiallyExpanded && parts.push("initially-expanded");
 
-		// Ensure the *first* render after a state change matches CSSTransition:
-		// - opening mounts with "enter"
-		// - closing keeps mounted with "exit"
+		// Ensure the first render after a state change uses correct phase: opening mounts with "enter", closing keeps mounted with "exit".
 		const effectivePhase =
 			phase ??
 			(selected && prev === false ? "enter" : null) ??
 			(!selected && prev === true ? "exit" : null);
 
-		// Match react-transition-group CSSTransition semantics:
-		// - enter-active includes both "enter" and "enter-active"
-		// - exit-active includes both "exit" and "exit-active"
+		// CSS transition phases: enter-active includes both "enter" and "enter-active"; exit-active includes both "exit" and "exit-active".
 		if (effectivePhase === "enter") parts.push("enter");
 		if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
 		if (effectivePhase === "enter-done") parts.push("enter-done");
@@ -210,7 +205,7 @@ export default class UlxAccordion extends Component {
 		let doneTimer = null;
 		let rafId = null;
 
-		// PrimeReact: initial render does not animate (appear=false).
+		// Initial render does not animate (appear=false).
 		if (prev === undefined) {
 			map.set(index, selected);
 			return () => {};
@@ -236,7 +231,7 @@ export default class UlxAccordion extends Component {
 				rafId = null;
 				this._contentTransition = { ...this._contentTransition, [index]: "exit-active" };
 				exitActiveTimer = setTimeout(() => {
-					// Exit done is momentary in PrimeReact before unmounting.
+					// Exit done is momentary before unmounting.
 					this._contentTransition = { ...this._contentTransition, [index]: "exit-done" };
 					doneTimer = setTimeout(() => {
 						// Clear phase so content can unmount when !selected
@@ -363,15 +358,13 @@ export default class UlxAccordion extends Component {
 			class={{this.rootClasses}}
 			role="region"
 			aria-label={{@ariaLabel}}
+			data-qa="ulx-accordion"
 			{{this.setRootRef}}
 			...attributes
 		>
 			{{#each this.model as |item index|}}
 				<div class={{this.getTabClasses item index}}>
-					<div
-						class={{this.getHeaderClasses item index}}
-						{{on "click" (fn this.changeActiveIndex item index)}}
-					>
+					<div class={{this.getHeaderClasses item index}}>
 						<a
 							id={{this.getHeaderId index}}
 							href="#{{this.getContentId index}}"
@@ -381,6 +374,7 @@ export default class UlxAccordion extends Component {
 							aria-expanded={{this.isTabSelected index}}
 							aria-controls={{this.getContentId index}}
 							aria-disabled={{if item.disabled "true" "false"}}
+							data-qa="ulx-accordion-trigger"
 							{{on "click" (fn this.changeActiveIndex item index)}}
 							{{on "keydown" (fn this.onHeaderKeyDown item index)}}
 						>
@@ -439,6 +433,7 @@ export default class UlxAccordion extends Component {
 							class={{this.getToggleableContentClasses index}}
 							role="region"
 							aria-labelledby={{this.getHeaderId index}}
+							data-qa="ulx-accordion-content"
 							{{this.accordionContentTransition index (this.isTabSelected index)}}
 						>
 							<div class="accordion-content">
