@@ -115,7 +115,7 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	<template>
-		<div class={{this.wrapperClass}}>
+		<div class={{this.wrapperClass}} data-qa="ulx-checkbox-item">
 			<input
 				id={{@id}}
 				class="checkbox-input"

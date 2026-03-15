@@ -71,16 +71,16 @@ export default class UlxBadge extends Component {
 	}
 
 	get ariaHidden() {
-		// Dot badges are always decorative
+		// Dot badges are always decorative (purely visual)
 		if (this.isDot) {
-			return this.hasAriaLabel ? "false" : "true";
+			return "true";
 		}
+		return this.hasAriaLabel ? "false" : "true";
 	}
 
 	get role() {
-		// Only set role when badge is meaningful (has aria-label prop)
-		// Users can override via ...attributes if needed
-		return this.hasAriaLabel ? "status" : undefined;
+		// Only set role when badge is meaningful (has aria-label) and not a dot (dots are always decorative)
+		return this.hasAriaLabel && !this.isDot ? "status" : undefined;
 	}
 
 	get tabindex() {
@@ -93,6 +93,7 @@ export default class UlxBadge extends Component {
 
 	<template>
 		<span
+			data-qa="ulx-badge"
 			class={{this.rootClasses}}
 			aria-hidden={{this.ariaHidden}}
 			role={{this.role}}

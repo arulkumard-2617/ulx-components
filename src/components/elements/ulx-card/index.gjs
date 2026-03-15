@@ -39,8 +39,10 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {boolean} [hoverable] - When true, adds "hoverable" class.
  * @param {string} [customClass] - Extra classes applied to the root.
  * @param {string} [componentClass] - Override base component class; defaults to getComponentClass('card').
+ * @param {string} [dataQa='ulx-card'] - Root data-qa identifier; internal element identifiers are derived from this value.
  * @block default - Main card body content.
  * @block header - Optional custom header block; receives no args.
+ * @block content - Optional custom content block; receives no args.
  * @block footer - Optional custom footer block; receives no args.
  */
 export default class UlxCard extends Component {
@@ -66,24 +68,24 @@ export default class UlxCard extends Component {
 	}
 
 	get shapeClass() {
-		if (this.args.square) {
+		const { square = false, rounded = false } = this.args;
+		if (square) {
 			return "square";
 		}
-		if (this.args.rounded) {
+		if (rounded) {
 			return "rounded";
 		}
 		return undefined;
 	}
 
-	get interactiveClass() {
-		const { interactive, clickable, hoverable } = this.args;
-		if (interactive || clickable) {
-			return "interactive";
-		}
-		if (hoverable) {
-			return "hoverable";
-		}
-		return undefined;
+	get interactionClasses() {
+		const { interactive = false, clickable = false, hoverable = false } = this.args;
+		const classes = [];
+
+		(interactive || clickable) && classes.push("interactive");
+		hoverable && classes.push("hoverable");
+
+		return classes;
 	}
 
 	get rootClasses() {
@@ -96,12 +98,15 @@ export default class UlxCard extends Component {
 		this.shapeClass && parts.push(this.shapeClass);
 		this.toneClass && parts.push(this.toneClass);
 
-		const interactiveClass = this.interactiveClass;
-		interactiveClass && parts.push(interactiveClass);
+		parts.push(...this.interactionClasses);
 
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-card";
 	}
 
 	get headerClass() {
@@ -129,7 +134,7 @@ export default class UlxCard extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}} ...attributes>
+		<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
 			{{#if (or (has-block "header") @header)}}
 				<div class={{this.headerClass}}>
 					{{#if (has-block "header")}}

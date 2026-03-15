@@ -23,6 +23,7 @@ When performing a review, adopt this role and apply the criteria below. Structur
 ## Severity
 
 **Critical**
+
 - Accessibility violation
 - Broken API contract
 - Incorrect Ember pattern
@@ -30,6 +31,7 @@ When performing a review, adopt this role and apply the criteria below. Structur
 - Incorrect ARIA role
 
 **Major**
+
 - Performance issue
 - Missing i18n
 - Incorrect ULX class usage
@@ -37,11 +39,13 @@ When performing a review, adopt this role and apply the criteria below. Structur
 - Missing data-qa attributes
 
 **Minor**
+
 - Style issues
 - Minor code smell
 - Naming improvements
 
 **Suggestion**
+
 - Optional improvements
 
 ---
@@ -51,6 +55,7 @@ When performing a review, adopt this role and apply the criteria below. Structur
 Direct DOM manipulation is not allowed unless absolutely required.
 
 Prefer:
+
 - Template bindings
 - Modifiers
 - Tracked state
@@ -112,7 +117,9 @@ disabled && parts.push('disabled');
 const value = this.args.value ?? defaultValue;
 
 // ❌ WRONG
-if (dot) { parts.push('dot'); }
+if (dot) {
+	parts.push('dot');
+}
 ```
 
 ### Class Building Pattern
@@ -138,18 +145,20 @@ get rootClasses() {
 ## 3. Component Conventions
 
 - **Class prefix:** Use `getComponentClass(componentName)` from `src/utils/component-config.js`. Do not hardcode prefix strings like `ulx-`.
-- **ULX CSS classes:** Use existing ULX styles from `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/`. Do not create custom CSS classes.
+- **ULX CSS classes:** existing ULX styles from `- **Primary**: `uls/node_modules/ulx-v2/src/styles/ulx-master.less`
+- **Component styles**: `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/`. Do not create custom CSS classes.
 - **i18n:** All user-facing strings must use the `t` helper. Import must be present in the component.
 - **Reuse existing components:** Use `UlxButton`, `UlxIcon`, `UlxInput`, etc. instead of raw HTML elements where applicable.
 - **ember-truth-helpers:** Import and use when needed; do not forget the import.
 - **Stateless by default:** Prefer components that derive output from arguments without internal state.
 - **data-qa attributes:** All ULX components must expose data-qa attributes for testing and automation.
   - **Root selector:** `data-qa="ulx-{component}"` on the component’s root element (e.g. `data-qa="ulx-accordion"`).
+  - **External override:** Support an optional argument (e.g. `@dataQa`) so callers can override the root value. Bind the root with a getter such as `data-qa={{this.rootDataQa}}` where `rootDataQa` returns `this.args.dataQa ?? "ulx-{component}"`. Document `@dataQa` in JSDoc.
   - **Internal elements:** `data-qa="ulx-{component}-{element}"` on meaningful internal elements (e.g. `data-qa="ulx-accordion-trigger"`, `data-qa="ulx-accordion-content"`).
 
 **Checklist:**
 
-- [ ] Root element has `data-qa="ulx-{component}"`
+- [ ] Root element has `data-qa="ulx-{component}"` (default), overridable via `@dataQa`
 - [ ] Internal elements have `data-qa="ulx-{component}-{element}"` where applicable
 - [ ] Class names use `getComponentClass()`, not hardcoded prefixes
 - [ ] CSS classes match ULX style system (verified against `.less` files)
@@ -242,7 +251,7 @@ Brief overall assessment (1–2 sentences).
 ## Severity Summary
 
 | Severity   | Count |
-|------------|-------|
+| ---------- | ----- |
 | Critical   |       |
 | Major      |       |
 | Minor      |       |
@@ -250,6 +259,7 @@ Brief overall assessment (1–2 sentences).
 ```
 
 Each finding must include:
+
 - The **severity** label (Critical / Major / Minor / Suggestion)
 - A **file and line reference** where applicable
 - A clear **recommendation**
