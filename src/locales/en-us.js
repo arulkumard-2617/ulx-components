@@ -253,6 +253,10 @@ const enUs = {
 	'lbl.square': 'Square',
 	'lbl.circle': 'Circle',
 	'lbl.amy.elsner': 'Amy Elsner',
+	'lbl.image.avatar': 'Image avatar',
+	'lbl.initials.fallback': 'Initials fallback',
+	'lbl.anonymous.avatar': 'Anonymous avatar',
+	'lbl.anonymous.user': 'Anonymous user',
 
 	// ── Tab labels ───────────────────────────────────────────
 	'lbl.dashboard': 'Dashboard',

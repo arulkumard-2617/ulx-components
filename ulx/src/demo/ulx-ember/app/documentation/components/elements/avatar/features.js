@@ -5,15 +5,17 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
   IconDemo,
   ImageDemo,
-  GroupDemo,// Sources
+  GroupDemo,
+  MemberDemo,
+  // Sources
   ImportSource,
   BasicSource,
   IconSource,
   ImageSource,
-  GroupSource
+  GroupSource,
+  MemberSource
 } from './imports';
 
 export const AvatarFeatureItems = [
@@ -111,6 +113,26 @@ export const AvatarFeatureItems = [
       props: {
         source: GroupSource,
         snippetName: "group",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "member",
+    sectionNav: "Member Avatar",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>MemberAvatar</code> demo shows how to approximate legacy member-avatar behavior (image, initials, and anonymous states) using the unified <code>UlxAvatar</code> component."
+      }
+    },
+    demo: {
+      component: MemberDemo,
+      props: {
+        source: MemberSource,
+        snippetName: "member",
         language: "handlebars"
       }
     }

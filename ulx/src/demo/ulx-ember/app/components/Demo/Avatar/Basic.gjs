@@ -1,3 +1,4 @@
+import { hash } from '@ember/helper';
 import { UlxAvatar, t } from 'ulx-components';
 
 <template>
@@ -6,25 +7,19 @@ import { UlxAvatar, t } from 'ulx-components';
       <h6 class="bold-font mb-3">{{t "lbl.square"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
-          @type="text"
-          @label="UL"
+          @memberProfile={{hash fullName="U L" colorTheme="grey"}}
           @shape="square"
           @size="xl-size"
-          @variant="grey"
         />
         <UlxAvatar
-          @type="text"
-          @label="V"
+          @memberProfile={{hash fullName="Vivek" colorTheme="blue"}}
           @shape="square"
           @size="l-size"
-          @variant="blue"
         />
         <UlxAvatar
-          @type="text"
-          @label="U"
+          @memberProfile={{hash fullName="Uma" colorTheme="purple"}}
           @shape="square"
           @size="m-size"
-          @variant="purple"
         />
       </div>
     </div>
@@ -33,25 +28,19 @@ import { UlxAvatar, t } from 'ulx-components';
       <h6 class="bold-font mb-3">{{t "lbl.circle"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
-          @type="text"
-          @label="P"
+          @memberProfile={{hash fullName="Priya" colorTheme="grey"}}
           @shape="circle"
           @size="xl-size"
-          @variant="grey"
         />
         <UlxAvatar
-          @type="text"
-          @label="V"
+          @memberProfile={{hash fullName="Vivek" colorTheme="blue"}}
           @shape="circle"
           @size="l-size"
-          @variant="blue"
         />
         <UlxAvatar
-          @type="text"
-          @label="U"
+          @memberProfile={{hash fullName="Uma" colorTheme="purple"}}
           @shape="circle"
           @size="m-size"
-          @variant="purple"
         />
       </div>
     </div>
