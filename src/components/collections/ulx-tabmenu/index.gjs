@@ -42,6 +42,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [ariaLabel] - Accessible label for the menubar. Use `aria-labelledby` if referencing an existing label.
  * @param {string} [ariaLabelledBy] - ID of element that labels the menubar.
+ * @param {string} [tabId] - Base id for generated tab item ids. The final id is `${tabId}-item-${index}`. Pass a unique value per TabMenu instance to avoid duplicate ids when multiple menus are rendered on the same page.
  *
  * @example
  * // Default rendering (automatically renders label and icon)
@@ -109,6 +110,10 @@ export default class UlxTabmenu extends Component {
 		return "menubar";
 	}
 
+	get baseId() {
+		return this.args.tabId ?? "ulx-tabmenu";
+	}
+
 	get inkbarStyleString() {
 		return `left: ${this.inkbarStyle.left}; width: ${this.inkbarStyle.width};`;
 	}
@@ -122,7 +127,7 @@ export default class UlxTabmenu extends Component {
 
 	@action
 	getItemId(index) {
-		return `ulx-tabmenu-item-${index}`;
+		return `${this.baseId}-item-${index}`;
 	}
 
 	@action
@@ -236,7 +241,7 @@ export default class UlxTabmenu extends Component {
 				event.preventDefault();
 				newIndex = this.getNextEnabledIndex(index);
 				if (newIndex !== index) {
-					this.focusTab(newIndex);
+					this.focusTab(newIndex, event);
 				}
 				break;
 			}
@@ -244,7 +249,7 @@ export default class UlxTabmenu extends Component {
 				event.preventDefault();
 				newIndex = this.getPreviousEnabledIndex(index);
 				if (newIndex !== index) {
-					this.focusTab(newIndex);
+					this.focusTab(newIndex, event);
 				}
 				break;
 			}
@@ -252,7 +257,7 @@ export default class UlxTabmenu extends Component {
 				event.preventDefault();
 				newIndex = this.getFirstEnabledIndex();
 				if (newIndex !== -1) {
-					this.focusTab(newIndex);
+					this.focusTab(newIndex, event);
 				}
 				break;
 			}
@@ -260,7 +265,7 @@ export default class UlxTabmenu extends Component {
 				event.preventDefault();
 				newIndex = this.getLastEnabledIndex();
 				if (newIndex !== -1) {
-					this.focusTab(newIndex);
+					this.focusTab(newIndex, event);
 				}
 				break;
 			}
@@ -304,10 +309,20 @@ export default class UlxTabmenu extends Component {
 	}
 
 	@action
-	focusTab(index) {
-		const element = document.getElementById(this.getItemId(index));
-		if (element) {
-			element.focus();
+	focusTab(index, event) {
+		const currentElement = event?.currentTarget;
+		if (!currentElement) {
+			return;
+		}
+
+		const navElement = currentElement.closest(".tabmenu-nav");
+		if (!navElement) {
+			return;
+		}
+
+		const target = navElement.querySelector(`#${this.getItemId(index)}`);
+		if (target) {
+			target.focus();
 		}
 	}
 

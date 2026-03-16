@@ -1288,7 +1288,7 @@ export default class UlxDropdown extends Component {
 													{{if (this.isOptionDisabled option) 'disabled' ''}}"
 												aria-selected={{this.isOptionSelected option}}
 												aria-disabled={{this.isOptionDisabled option}}
-												tabindex="-1"
+												tabindex="0"
 												{{on "click" (fn this.selectOption row.entry)}}
 											>
 												{{#if (has-block "item")}}
@@ -1340,7 +1340,7 @@ export default class UlxDropdown extends Component {
 												{{if (this.isOptionDisabled option) 'disabled' ''}}"
 											aria-selected={{this.isOptionSelected option}}
 											aria-disabled={{this.isOptionDisabled option}}
-											tabindex="-1"
+											tabindex="0"
 											{{on "click" (fn this.selectOption entry)}}
 										>
 											{{#if (has-block "item")}}

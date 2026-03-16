@@ -1,30 +1,30 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxTabmenu, UlxTag, UlxBadge, UlxAvatar } from 'ulx-components';
+import { UlxTabmenu, UlxTag, UlxBadge, UlxAvatar, t } from 'ulx-components';
 
 export default class NamedblocksDemoComponent extends Component {
   get items() {
     return [
       {
-        label: 'Overview',
-        avatarLabel: 'OV',
+        label: t('lbl.overview'),
+        avatarLabel: t('lbl.overview'),
         imageUrl:
           'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
       },
       {
-        label: 'Activity',
-        tagLabel: 'NEW',
+        label: t('lbl.activity'),
+        tagLabel: t('lbl.new'),
         tagVariant: 'primary',
       },
       {
-        label: 'Team',
-        avatarLabel: 'TM',
+        label: t('lbl.team'),
+        avatarLabel: t('lbl.team'),
         badgeValue: 5,
         badgeVariant: 'success',
       },
       {
-        label: 'Settings',
-        avatarLabel: 'ST',
+        label: t('lbl.settings'),
+        avatarLabel: t('lbl.settings'),
         badgeValue: null,
         badgeVariant: 'secondary',
       },
@@ -32,7 +32,11 @@ export default class NamedblocksDemoComponent extends Component {
   }
 
   <template>
-    <UlxTabmenu @model={{this.items}}>
+    <UlxTabmenu
+      @model={{this.items}}
+      @tabId="namedblocks-tabmenu"
+      @ariaLabel={{t "lbl.tabmenu.profileNavigation"}}
+    >
       <:item as |item|>
         <div class="flex items-center gap-2">
           {{#if item.imageUrl}}

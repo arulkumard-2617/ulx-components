@@ -14,6 +14,7 @@ export { default as FrozenColumnsDemo }      from '../../../../components/Demo/T
 export { default as ConditionalStyleDemo }   from '../../../../components/Demo/Table/ConditionalStyle';
 export { default as RowReorderDemo }         from '../../../../components/Demo/Table/RowReorder';
 export { default as LoadingDemo }            from '../../../../components/Demo/Table/Loading';
+export { default as EmptyStateDemo }         from '../../../../components/Demo/Table/EmptyState';
 export { default as ExportDemo }             from '../../../../components/Demo/Table/Export';
 export { default as FrozenRowsDemo }         from '../../../../components/Demo/Table/FrozenRows';
 export { default as CellSelectionDemo }      from '../../../../components/Demo/Table/CellSelection';
@@ -24,7 +25,7 @@ export { default as CellEditDemo }           from '../../../../components/Demo/T
 export { default as DynamicColumnsDemo }     from '../../../../components/Demo/Table/DynamicColumns';
 export { default as CardViewDemo }           from '../../../../components/Demo/Table/CardView';
 export { default as AdvancedFilterDemo }     from '../../../../components/Demo/Table/AdvancedFilter';
-export { default as PortalMembersDemo }      from '../../../../components/Demo/Table/PortalMembers';
+export { default as BsTableViewDemo }        from '../../../../components/Demo/Table/BsTableView';
 export { default as VerticalTableDemo }      from '../../../../components/Demo/Table/VerticalTable';
 
 export { default as ImportSource }               from './snippets/Import.gjs';
@@ -36,6 +37,7 @@ export { default as ExpansionSource }            from './snippets/Expansion.gjs'
 export { default as ConditionalStyleSource }     from './snippets/ConditionalStyle.gjs';
 export { default as RowReorderSource }           from './snippets/RowReorder.gjs';
 export { default as LoadingSource }              from './snippets/Loading.gjs';
+export { default as EmptyStateSource }           from './snippets/EmptyState.gjs';
 export { default as ExportSource }               from './snippets/Export.gjs';
 export { default as FrozenRowsSource }           from './snippets/FrozenRows.gjs';
 export { default as CellSelectionSource }        from './snippets/CellSelection.gjs';
@@ -46,5 +48,5 @@ export { default as CellEditSource }             from './snippets/CellEdit.gjs';
 export { default as DynamicColumnsSource }       from './snippets/DynamicColumns.gjs';
 export { default as CardViewSource }             from './snippets/CardView.gjs';
 export { default as AdvancedFilterSource }       from './snippets/AdvancedFilter.gjs';
-export { default as PortalMembersSource }        from './snippets/PortalMembers.gjs';
+export { default as BsTableViewSource }         from './snippets/BsTableView.gjs';
 export { default as VerticalTableSource }        from './snippets/VerticalTable.gjs';

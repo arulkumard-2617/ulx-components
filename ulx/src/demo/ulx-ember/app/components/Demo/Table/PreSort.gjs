@@ -1,4 +1,6 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { UlxTable } from 'ulx-components';
 
 const PRODUCTS = [
@@ -21,6 +23,20 @@ export default class DemoTablePreSort extends Component {
   products = PRODUCTS;
   columns = columns;
 
+  @tracked sortField = 'price';
+  @tracked sortOrder = -1;
+
+  @action
+  handleSort({ field, order }) {
+    if (field != null && order != null) {
+      this.sortField = field;
+      this.sortOrder = order;
+    } else {
+      this.sortField = null;
+      this.sortOrder = 1;
+    }
+  }
+
   <template>
     <p class="text-sm fg-text-secondary mb-2">
       The table starts sorted by
@@ -34,8 +50,9 @@ export default class DemoTablePreSort extends Component {
       @value={{this.products}}
       @columns={{this.columns}}
       @dataKey="id"
-      @sortField="price"
-      @sortOrder={{-1}}
+      @sortField={{this.sortField}}
+      @sortOrder={{this.sortOrder}}
+      @onSort={{this.handleSort}}
     />
   </template>
 }

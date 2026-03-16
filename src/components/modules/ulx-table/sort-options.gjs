@@ -10,6 +10,7 @@ import UlxDivider from "../../elements/ulx-divider/index.gjs";
 
 import { t } from "../../../utils/i18n.js";
 import { fn } from "@ember/helper";
+import { getComponentClass } from "../../../utils/component-config.js";
 
 /**
  * Sort options overlay for UlxTable toolbar: choose sort criterion (radio) and order (asc/desc).
@@ -49,6 +50,10 @@ export default class SortOptions extends Component {
 		}));
 	}
 
+	get ulxSortClass() {
+		return getComponentClass("sort");
+	}
+
 	@action
 	onSortCriterionChange(item, checked, event) {
 		if (!checked || !this.args.onChange) return;
@@ -63,7 +68,7 @@ export default class SortOptions extends Component {
 
 	<template>
 		<div
-			class="ulx-datatable-sort-options flex flex-col gp4 mgt1"
+			class="{{this.ulxSortClass}} flex flex-col gp4 mgt1"
 			role="dialog"
 			aria-label={{t "lbl.sort"}}
 		>

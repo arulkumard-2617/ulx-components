@@ -4,6 +4,8 @@ import { action } from "@ember/object";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import UlxPopupHeader from "./header.gjs";
+import UlxPopupFooter from "./footer.gjs";
 
 /**
  * Popup module component for displaying lightweight, non-modal overlays anchored to a target element.
@@ -30,7 +32,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * - Root element uses `role="dialog"` with `aria-modal="false"` and `aria-hidden` reflecting visibility.
  * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name.
  * - Focus is moved into the popup on open (first focusable element, or the popup container as fallback).
- * - Escape closes the popup (when enabled) and returns focus to the trigger element when possible.
+ * - Escape closes the popup by default (unless @closeOnEscape is false) and returns focus to the trigger.
  *
  * @class UlxPopup
  * @param {boolean} [visible=false] - Controls visibility of the popup.
@@ -39,14 +41,59 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [size='m-size'] - Size class: xs-size | s-size | m-size | l-size | xl-size.
  * @param {string} [variant] - Visual variant: elevated | flat | outlined.
  * @param {boolean} [dismissable=true] - When true, clicking outside or resizing closes the popup.
- * @param {boolean} [closable=false] - When true, shows a close button and enables Escape-to-close.
- * @param {boolean} [closeOnEscape=true] - When true and @closable is not false, Escape closes the popup.
+ * @param {boolean} [closable=false] - When true, shows a close button in the popup.
+ * @param {boolean} [closeOnEscape=true] - When true (default), Escape closes the popup.
  * @param {string} [customClass] - Additional CSS classes applied to the root element.
  * @param {string} [ariaLabel] - Accessible label for the popup; maps to `aria-label` on root.
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
  * @param {function} [onHide] - Callback invoked after exit animation completes and popup is fully hidden.
  * @param {function} [registerRef] - Callback invoked with the component instance when the popup is mounted (for calling show/hide/toggle), and with null on teardown.
- * @block default - Popup content. Rendered inside `.popup-content`.
+ * @param {string} [headerClassName] - Extra class for the header wrapper (when header is shown).
+ * @param {string} [footerClassName] - Extra class for the footer wrapper (when footer is shown).
+ * Default header/footer (same usage as UlxModal): when <:head> / <:footer> are not passed, use these args.
+ * @param {string} [title] - Default header title. When set and no <:head> block, shows default header with this title.
+ * @param {string} [cancelButtonLabel="Cancel"] - Default footer cancel button label.
+ * @param {string} [doneButtonLabel="Confirm"] - Default footer done/confirm button label.
+ * @param {Function} [onCancel] - Callback when default footer cancel button is clicked.
+ * @param {Function} [onDone] - Callback when default footer done button is clicked.
+ * @param {boolean} [hideFooter=false] - When true, hide default footer (when no <:footer> block).
+ * @param {boolean} [hideTertiaryButton=true] - In default footer, hide the tertiary (left) button. Set false with tertiaryButtonLabel to show.
+ * @param {string} [tertiaryButtonLabel] - Default footer tertiary button label (e.g. "Reset"). Shown when hideTertiaryButton is false.
+ * @param {string} [tertiaryButtonIcon] - Icon name for default footer tertiary button (passed to UlxButton @icon).
+ * @param {'left'|'right'} [tertiaryIconPos='left'] - Icon position for tertiary button.
+ * @param {Function} [onTertiary] - Callback when default footer tertiary button is clicked.
+ * @param {boolean} [hideCancelButton=false] - In default footer, hide the cancel button.
+ * @param {boolean} [hideDoneButton=false] - In default footer, hide the done button.
+ *
+ * ## Named blocks (passable, like UlxModal)
+ * - **<:head>** – Custom header content. When omitted and @title is set, default header with title is shown.
+ * - **<:body>** – Custom body content. When provided, replaces default content.
+ * - **<:footer>** – Custom footer content. When omitted and @hideFooter is false, default footer (Cancel/Done) is shown.
+ * - **default** – Popup body when <:body> is not used.
+ *
+ * ## Usage (default header/footer, like UlxModal Basic)
+ * ```gjs
+ * <UlxPopup
+ *   @visible={{this.showPopup}}
+ *   @target={{this.triggerElement}}
+ *   @title="Basic Popup"
+ *   @onHide={{this.closePopup}}
+ *   @cancelButtonLabel="Cancel"
+ *   @doneButtonLabel="Confirm"
+ *   @onDone={{this.handleConfirm}}
+ *   @onCancel={{this.closePopup}}
+ * >
+ *   Body content here (or use <:body> for custom body)
+ * </UlxPopup>
+ * ```
+ *
+ * ## Usage (custom head/footer blocks)
+ * ```gjs
+ * <UlxPopup @visible={{this.showPopup}} @target={{this.triggerElement}} @onHide={{this.closePopup}}>
+ *   <:head>Custom header</:head>
+ *   <:footer>Custom footer buttons</:footer>
+ * </UlxPopup>
+ * ```
  */
 export default class UlxPopup extends Component {
 	@tracked animationState = null; // 'enter', 'enter-active', 'enter-done', 'exit', 'exit-active', 'exit-done', null
@@ -193,11 +240,11 @@ export default class UlxPopup extends Component {
 
 	@action
 	handleRootKeyDown(event) {
-		if (!this.isClosable) return;
 		if (this.args.closeOnEscape === false) return;
 
 		if (event.key === "Escape" || event.key === "Esc") {
 			event.preventDefault();
+			event.stopPropagation();
 			this._handleHideInternal();
 		}
 	}
@@ -229,6 +276,9 @@ export default class UlxPopup extends Component {
 				transitionCompleted = true;
 				this.animationState = "exit-done";
 				this._clearZIndex();
+				if (this.targetElement && typeof this.targetElement.focus === "function") {
+					this.targetElement.focus();
+				}
 				this.args.onHide?.();
 				setTimeout(() => {
 					this.animationState = null;
@@ -591,6 +641,46 @@ export default class UlxPopup extends Component {
 		}
 	});
 
+	get _focusableSelector() {
+		return 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+	}
+
+	focusTrap = modifier((element, [isVisible, animationState]) => {
+		if (!isVisible || animationState !== "enter-done") return;
+
+		const getFocusables = () => {
+			const nodes = element.querySelectorAll(this._focusableSelector);
+			return Array.from(nodes).filter(
+				(el) =>
+					el.offsetParent !== null &&
+					el.disabled !== true &&
+					el.getAttribute("aria-disabled") !== "true"
+			);
+		};
+
+		const handleKeyDown = (e) => {
+			if (e.key !== "Tab") return;
+			const focusables = getFocusables();
+			if (focusables.length === 0) return;
+			const first = focusables[0];
+			const last = focusables[focusables.length - 1];
+			if (e.shiftKey) {
+				if (document.activeElement === first) {
+					e.preventDefault();
+					last.focus();
+				}
+			} else {
+				if (document.activeElement === last) {
+					e.preventDefault();
+					first.focus();
+				}
+			}
+		};
+
+		element.addEventListener("keydown", handleKeyDown);
+		return () => element.removeEventListener("keydown", handleKeyDown);
+	});
+
 	closeOnClickOutside = modifier((element, [isVisible]) => {
 		if (!this.isDismissable) {
 			return;
@@ -635,7 +725,7 @@ export default class UlxPopup extends Component {
 	});
 
 	escapeListener = modifier((_, [isVisible]) => {
-		if (!this.isClosable || this.args.closeOnEscape === false) {
+		if (this.args.closeOnEscape === false) {
 			return;
 		}
 
@@ -643,14 +733,15 @@ export default class UlxPopup extends Component {
 			if (!isVisible || !this.isVisible) return;
 			if (event.key === "Escape" || event.key === "Esc") {
 				event.preventDefault();
+				event.stopPropagation();
 				this._handleHideInternal();
 			}
 		};
 
-		document.addEventListener("keydown", handleKeyDown);
+		document.addEventListener("keydown", handleKeyDown, true);
 
 		return () => {
-			document.removeEventListener("keydown", handleKeyDown);
+			document.removeEventListener("keydown", handleKeyDown, true);
 		};
 	});
 
@@ -667,6 +758,7 @@ export default class UlxPopup extends Component {
 				{{this.registerPopup}}
 				{{this.watchVisibility this.isVisible this.args.target}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}
+				{{this.focusTrap this.isVisible this.animationState}}
 				{{this.closeOnClickOutside this.isVisible}}
 				{{this.handleResize this.isVisible}}
 				{{this.escapeListener this.isVisible}}
@@ -677,6 +769,10 @@ export default class UlxPopup extends Component {
 					{{#if (has-block "head")}}
 						<div class={{this.headerClasses}}>
 							{{yield to="head"}}
+						</div>
+					{{else if @title}}
+						<div class={{this.headerClasses}}>
+							<UlxPopupHeader @title={{@title}} />
 						</div>
 					{{/if}}
 
@@ -694,7 +790,22 @@ export default class UlxPopup extends Component {
 						<div class={{this.footerClasses}}>
 							{{yield to="footer"}}
 						</div>
-					{{/if}}
+					{{else}}{{#unless @hideFooter}}
+							<UlxPopupFooter
+								@footerClassName={{@footerClassName}}
+								@tertiaryButtonLabel={{@tertiaryButtonLabel}}
+								@tertiaryButtonIcon={{@tertiaryButtonIcon}}
+								@tertiaryIconPos={{@tertiaryIconPos}}
+								@onTertiary={{@onTertiary}}
+								@hideTertiaryButton={{@hideTertiaryButton}}
+								@cancelLabel={{@cancelButtonLabel}}
+								@doneLabel={{@doneButtonLabel}}
+								@onCancel={{@onCancel}}
+								@onDone={{@onDone}}
+								@hideCancelButton={{@hideCancelButton}}
+								@hideDoneButton={{@hideDoneButton}}
+							/>
+						{{/unless}}{{/if}}
 				</div>
 				{{#if this.isClosable}}
 					<button

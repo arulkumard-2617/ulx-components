@@ -2,8 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { UlxTable } from 'ulx-components';
+import { UlxTable, UlxInput } from 'ulx-components';
 
 const initProducts = () => [
   {
@@ -43,11 +42,10 @@ class NameEditor extends Component {
     onChange?.({ row, field, value: event.target.value });
   }
   <template>
-    <input
-      type="text"
-      class="uls-input s-size"
-      value={{@value}}
-      {{on "input" this.handleInput}}
+    <UlxInput
+      @value={{@value}}
+      @size="s-size"
+      @onInput={{this.handleInput}}
       aria-label="Edit {{@field}}"
     />
   </template>
@@ -61,13 +59,12 @@ class PriceEditor extends Component {
     onChange?.({ row, field, value });
   }
   <template>
-    <input
-      type="number"
-      class="uls-input s-size"
-      value={{@value}}
-      {{on "input" this.handleInput}}
+    <UlxInput
+      @value={{@value}}
+      @type="number"
+      @size="s-size"
+      @onInput={{this.handleInput}}
       aria-label="Edit price"
-      style="width: 80px"
     />
   </template>
 }

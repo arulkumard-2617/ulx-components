@@ -2651,6 +2651,10 @@ export const utilSchema = {
             "styles": "height: @12px;"
           },
           {
+            "class": "h-14",
+            "styles": "height: @14px;"
+          },
+          {
             "class": "h-16",
             "styles": "height: @16px;"
           },
@@ -4055,6 +4059,142 @@ export const utilSchema = {
           {
             "class": "bg-layer6",
             "styles": "background-color: @bg-layer6;"
+          },
+          {
+            "class": "bg-primaryLayer1",
+            "styles": "background-color: @bg-primaryLayer1;"
+          },
+          {
+            "class": "bg-primaryLayer2",
+            "styles": "background-color: @bg-primaryLayer2;"
+          },
+          {
+            "class": "bg-primaryLayer3",
+            "styles": "background-color: @bg-primaryLayer3;"
+          },
+          {
+            "class": "bg-primaryLayer4",
+            "styles": "background-color: @bg-primaryLayer4;"
+          },
+          {
+            "class": "bg-primaryLayerD1",
+            "styles": "background-color: @bg-primaryLayerD1;"
+          },
+          {
+            "class": "bg-primaryLayerD2",
+            "styles": "background-color: @bg-primaryLayerD2;"
+          },
+          {
+            "class": "bg-blueLayer1",
+            "styles": "background-color: @bg-blueLayer1;"
+          },
+          {
+            "class": "bg-blueLayer2",
+            "styles": "background-color: @bg-blueLayer2;"
+          },
+          {
+            "class": "bg-BlueLayer1",
+            "styles": "background-color: @bg-BlueLayer1;"
+          },
+          {
+            "class": "bg-BlueLayer2",
+            "styles": "background-color: @bg-BlueLayer2;"
+          },
+          {
+            "class": "bg-BlueLayer3",
+            "styles": "background-color: @bg-BlueLayer3;"
+          },
+          {
+            "class": "bg-redLayer1",
+            "styles": "background-color: @bg-redLayer1;"
+          },
+          {
+            "class": "bg-redLayer2",
+            "styles": "background-color: @bg-redLayer2;"
+          },
+          {
+            "class": "bg-redLayer3",
+            "styles": "background-color: @bg-redLayer3;"
+          },
+          {
+            "class": "bg-greenLayer1",
+            "styles": "background-color: @bg-greenLayer1;"
+          },
+          {
+            "class": "bg-greenLayer2",
+            "styles": "background-color: @bg-greenLayer2;"
+          },
+          {
+            "class": "bg-greenLayer3",
+            "styles": "background-color: @bg-greenLayer3;"
+          },
+          {
+            "class": "bg-orangeLayer1",
+            "styles": "background-color: @bg-orangeLayer1;"
+          },
+          {
+            "class": "bg-orangeLayer2",
+            "styles": "background-color: @bg-orangeLayer2;"
+          },
+          {
+            "class": "bg-orangeLayer3",
+            "styles": "background-color: @bg-orangeLayer3;"
+          },
+          {
+            "class": "bg-purpleLayer1",
+            "styles": "background-color: @bg-purpleLayer1;"
+          },
+          {
+            "class": "bg-purpleLayer2",
+            "styles": "background-color: @bg-purpleLayer2;"
+          },
+          {
+            "class": "bg-purpleLayer3",
+            "styles": "background-color: @bg-purpleLayer3;"
+          },
+          {
+            "class": "bg-purpleLayer4",
+            "styles": "background-color: @bg-purpleLayer4;"
+          },
+          {
+            "class": "bg-goldLayer1",
+            "styles": "background-color: @bg-goldLayer1;"
+          },
+          {
+            "class": "bg-goldLayer2",
+            "styles": "background-color: @bg-goldLayer2;"
+          },
+          {
+            "class": "bg-goldLayer3",
+            "styles": "background-color: @bg-goldLayer3;"
+          },
+          {
+            "class": "bg-blackLayer1",
+            "styles": "background-color: @bg-blackLayer1;"
+          },
+          {
+            "class": "bg-blackLayer2",
+            "styles": "background-color: @bg-blackLayer2;"
+          },
+          {
+            "class": "bg-blackLayer3",
+            "styles": "background-color: @bg-blackLayer3;"
+          },
+          {
+            "class": "bg-blackLayer4",
+            "styles": "background-color: @bg-blackLayer4;"
+          },
+          {
+            "class": "bg-magentaLayer2",
+            "styles": "background-color: @bg-magentaLayer2;"
+          },
+          {
+            "class": "bg-brownLayer2",
+            "styles": "background-color: @bg-brownLayer2;"
+          },
+          {
+            "class": "bg-tealLayer3",
+            "styles": "background-color: @bg-tealLayer3;"
           }
         ]
       }
@@ -4080,15 +4220,15 @@ export const utilSchema = {
             "styles": "color: @text-color;"
           },
           {
-            "class": "fg-text-secondary",
+            "class": "fg-secondary",
             "styles": "color: @secondary-text-color;"
           },
           {
-            "class": "fg-text-tertiary",
+            "class": "fg-tertiary",
             "styles": "color: @tertiary-text-color;"
           },
           {
-            "class": "fg-text-light",
+            "class": "fg-light",
             "styles": "color: @light-text-color;"
           },
           {
@@ -4096,7 +4236,7 @@ export const utilSchema = {
             "styles": "color: @static-white;"
           },
           {
-            "class": "fg-text-info",
+            "class": "fg-info",
             "styles": "color: @info-text-color;"
           },
           {
@@ -4154,14 +4294,6 @@ export const utilSchema = {
           {
             "class": "fg-red",
             "styles": "color: @red-fg;"
-          },
-          {
-            "class": "fg-text1",
-            "styles": "color: @secondary-text-color;"
-          },
-          {
-            "class": "fg-text2",
-            "styles": "color: @tertiary-text-color;"
           }
         ]
       }

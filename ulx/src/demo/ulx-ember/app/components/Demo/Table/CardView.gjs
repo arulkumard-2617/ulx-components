@@ -92,17 +92,6 @@ export default class DemoTableCardView extends Component {
   }
 
   <template>
-    <p class="text-sm fg-text-secondary mb-2">
-      Switch between
-      <strong>table</strong>,
-      <strong>detailed</strong>
-      (list), and
-      <strong>card</strong>
-      views. Use
-      <strong>Options</strong>
-      to set card grid columns (passed as
-      <code>@cardViewColumns</code>); same options available in all views.
-    </p>
     <UlxTable
       @value={{this.products}}
       @columns={{this.columns}}
@@ -122,15 +111,11 @@ export default class DemoTableCardView extends Component {
       </:card>
 
       <:detailed as |row|>
-        <div
-          class=""
-          style="padding: 1rem; border-bottom: 1px solid var(--uls-default-border-color, #dee2e6); flex-direction: row; flex-wrap: wrap;"
-        >
+        <div>
           <div class="col-fluid">
             <strong>{{row.name}}</strong>
             <span
-              class="uls-tag {{statusVariant row.status}} s-size"
-              style="margin-inline-start: 0.5rem;"
+              class="ulx-tag {{statusVariant row.status}} s-size"
             >{{row.status}}</span>
           </div>
           <span class="text-sm">{{row.category}}</span>

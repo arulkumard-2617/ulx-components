@@ -1180,10 +1180,6 @@ export default class UlxMultiSelect extends Component {
 								{{/if}}
 							{{/if}}
 						</div>
-						<div
-							class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-							tabindex="-1"
-						></div>
 						{{#if (and @loading)}}
 							<span class="multiselect-loading-icon" aria-hidden="true">
 								<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
@@ -1192,12 +1188,17 @@ export default class UlxMultiSelect extends Component {
 							{{#if (has-block "icon")}}
 								{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 							{{else}}
-								<UlxIcon
-									@iconName="down-stroke-icon-new multiselect-icon"
-									@type="font"
-									@componentClass="bs-icons1"
-									aria-hidden="true"
-								/>
+								<div
+									class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+									tabindex="-1"
+								>
+									<UlxIcon
+										@iconName="down-stroke-icon-new multiselect-icon"
+										@type="font"
+										@componentClass="bs-icons1"
+										aria-hidden="true"
+									/>
+								</div>
 							{{/if}}
 						{{/if}}
 					</div>
@@ -1286,12 +1287,7 @@ export default class UlxMultiSelect extends Component {
 							{{/if}}
 						{{/if}}
 					</div>
-					<div
-						class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-						id={{this.triggerId}}
-						tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-						role="button"
-					></div>
+
 					{{#if (and @loading)}}
 						<span class="multiselect-loading-icon" aria-hidden="true">
 							<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
@@ -1300,12 +1296,19 @@ export default class UlxMultiSelect extends Component {
 						{{#if (has-block "icon")}}
 							{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 						{{else}}
-							<UlxIcon
-								@iconName="down-stroke-icon-new multiselect-icon"
-								@type="font"
-								@componentClass="bs-icons1"
-								aria-hidden="true"
-							/>
+							<div
+								class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+								id={{this.triggerId}}
+								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
+								role="button"
+							>
+								<UlxIcon
+									@iconName="down-stroke-icon-new multiselect-icon"
+									@type="font"
+									@componentClass="bs-icons1"
+									aria-hidden="true"
+								/>
+							</div>
 						{{/if}}
 					{{/if}}
 				</div>
