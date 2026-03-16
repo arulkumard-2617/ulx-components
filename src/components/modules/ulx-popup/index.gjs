@@ -59,6 +59,8 @@ import UlxPopupFooter from "./footer.gjs";
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no <:footer> block).
  * @param {boolean} [hideTertiaryButton=true] - In default footer, hide the tertiary (left) button. Set false with tertiaryButtonLabel to show.
  * @param {string} [tertiaryButtonLabel] - Default footer tertiary button label (e.g. "Reset"). Shown when hideTertiaryButton is false.
+ * @param {string} [tertiaryButtonIcon] - Icon name for default footer tertiary button (passed to UlxButton @icon).
+ * @param {'left'|'right'} [tertiaryIconPos='left'] - Icon position for tertiary button.
  * @param {Function} [onTertiary] - Callback when default footer tertiary button is clicked.
  * @param {boolean} [hideCancelButton=false] - In default footer, hide the cancel button.
  * @param {boolean} [hideDoneButton=false] - In default footer, hide the done button.
@@ -792,6 +794,8 @@ export default class UlxPopup extends Component {
 							<UlxPopupFooter
 								@footerClassName={{@footerClassName}}
 								@tertiaryButtonLabel={{@tertiaryButtonLabel}}
+								@tertiaryButtonIcon={{@tertiaryButtonIcon}}
+								@tertiaryIconPos={{@tertiaryIconPos}}
 								@onTertiary={{@onTertiary}}
 								@hideTertiaryButton={{@hideTertiaryButton}}
 								@cancelLabel={{@cancelButtonLabel}}

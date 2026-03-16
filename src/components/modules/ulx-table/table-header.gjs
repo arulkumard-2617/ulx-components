@@ -239,21 +239,21 @@ export default class TableHeader extends Component {
 													@componentClass="bs-icons1"
 													@type="font"
 													@iconName="ascending-icon"
-													@size="s12"
+													@size="s16"
 												/>
 											{{else if (eq order -1)}}
 												<UlxIcon
 													@componentClass="bs-icons1"
 													@type="font"
 													@iconName="descending-icon"
-													@size="s12"
+													@size="s16"
 												/>
 											{{else}}
 												<UlxIcon
 													@componentClass="bs-icons1"
 													@type="font"
 													@iconName="sort-icon"
-													@size="s12"
+													@size="s16"
 												/>
 											{{/if}}
 										{{/let}}

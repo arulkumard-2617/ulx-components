@@ -270,6 +270,10 @@ const enUs = {
 	'lbl.amy.elsner': 'Amy Elsner',
 	'lbl.user.profile.picture': 'User profile picture',
 	'lbl.user.profile': 'User profile',
+	'lbl.image.avatar': 'Image avatar',
+	'lbl.initials.fallback': 'Initials fallback',
+	'lbl.anonymous.avatar': 'Anonymous avatar',
+	'lbl.anonymous.user': 'Anonymous user',
 
 	// ── Tab labels ───────────────────────────────────────────
 	'lbl.dashboard': 'Dashboard',
