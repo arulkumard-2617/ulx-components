@@ -38,11 +38,16 @@ import UlxButton from "../ulx-button/index.gjs";
  * @param {'secondary'|'success'|'info'|'warning'|'danger'} [variant] - Bar color variant.
  * @param {string} [customClass] - Additional CSS classes
  * @param {string} [componentClass] - Override base component class (default from getComponentClass('progressbar'))
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-progressbar").
  * @block content - Optional. Yields value for custom label (e.g. "{{value}}%" or formatted text).
  */
 export default class UlxProgressBar extends Component {
 	get baseClass() {
 		return this.args.componentClass ?? getComponentClass("progressbar");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-progressbar";
 	}
 
 	get isIndeterminate() {
@@ -95,15 +100,14 @@ export default class UlxProgressBar extends Component {
 	}
 
 	get rootClasses() {
-		const { variant, severity, customClass } = this.args;
-		const variantValue = variant || severity;
+		const { variant, customClass } = this.args;
 		const parts = [this.baseClass];
-		if (this.isIndeterminate) parts.push("indeterminate");
+		this.isIndeterminate && parts.push("indeterminate");
 		parts.push(this.valueVisibilityClass);
-		if (this.sizeClass) parts.push(this.sizeClass);
-		if (variantValue) parts.push(variantValue);
-		if (customClass) parts.push(customClass);
-		return parts.filter(Boolean).join(" ");
+		this.sizeClass && parts.push(this.sizeClass);
+		variant && parts.push(variant);
+		customClass && parts.push(customClass);
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get valueStyle() {
@@ -188,7 +192,7 @@ export default class UlxProgressBar extends Component {
 
 	<template>
 		{{#if this.showControls}}
-			<div class={{this.withControlsWrapperClass}}>
+			<div class={{this.withControlsWrapperClass}} data-qa={{this.rootDataQa}}>
 				<UlxButton
 					@icon="hr-tag-icon"
 					@iconSize={{this.controlsIconSize}}
@@ -243,6 +247,7 @@ export default class UlxProgressBar extends Component {
 				aria-valuenow={{this.ariaValueNow}}
 				aria-valuemin={{if this.isIndeterminate undefined 0}}
 				aria-valuemax={{if this.isIndeterminate undefined 100}}
+				data-qa={{this.rootDataQa}}
 				...attributes
 			>
 				<div class="progressbar-value" style={{this.valueStyle}} aria-hidden="true">

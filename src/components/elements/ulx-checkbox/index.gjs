@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { guidFor } from "@ember/object/internals";
 import { fn } from "@ember/helper";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
 import {
@@ -87,20 +88,25 @@ export default class UlxCheckbox extends Component {
 		return this.items.length > 0;
 	}
 
-	get itemIds() {
+	get itemEntries() {
 		return this.items.map((item, index) => {
 			const id = item?.id;
-			return typeof id === "string" && id.length > 0 ? id : `${this.checkboxId}-item-${index}`;
+			const resolvedId =
+				typeof id === "string" && id.length > 0
+					? id
+					: `${this.checkboxId}-item-${guidFor(item ?? `${index}`)}`;
+
+			return { item, id: resolvedId };
 		});
 	}
 
 	@action
 	getItemId(index) {
-		return this.itemIds?.[index];
+		return this.itemEntries?.[index]?.id;
 	}
 
 	get labelForId() {
-		return this.hasItems ? this.itemIds[0] : this.checkboxId;
+		return this.hasItems ? this.itemEntries[0]?.id : this.checkboxId;
 	}
 
 	get isRequired() {
@@ -183,20 +189,20 @@ export default class UlxCheckbox extends Component {
 
 			{{#if this.hasItems}}
 				<div class={{this.groupClass}} data-qa="ulx-checkbox-group">
-					{{#each this.items key="@index" as |item index|}}
+					{{#each this.itemEntries key="id" as |entry|}}
 						<UlxCheckboxItem
-							@id={{this.getItemId index}}
-							@checked={{item.checked}}
-							@indeterminate={{item.indeterminate}}
-							@disabled={{if @disabled true item.disabled}}
+							@id={{entry.id}}
+							@checked={{entry.item.checked}}
+							@indeterminate={{entry.item.indeterminate}}
+							@disabled={{if @disabled true entry.item.disabled}}
 							@invalid={{this.isInvalid}}
 							@filled={{@filled}}
 							@size={{@size}}
-							@customClass={{item.customClass}}
-							@itemLabel={{item.label}}
+							@customClass={{entry.item.customClass}}
+							@itemLabel={{entry.item.label}}
 							@ariaDescribedBy={{this.ariaDescribedBy}}
 							@ariaErrorMessage={{this.ariaErrorMessage}}
-							@onChange={{fn this.handleItemChange item}}
+							@onChange={{fn this.handleItemChange entry.item}}
 						/>
 					{{/each}}
 				</div>

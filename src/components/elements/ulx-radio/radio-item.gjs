@@ -21,6 +21,9 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [ariaDescribedBy] - `aria-describedby` value.
  * @param {string} [ariaErrorMessage] - `aria-errormessage` value.
  * @param {Function} [onChange] - Fired on input change: (event) => void.
+ * @param {string} [name] - Name for the radio group.
+ * @param {string} [value] - Value for this option.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-radio-item").
  */
 export default class UlxRadioItem extends Component {
 	get isChecked() {
@@ -37,6 +40,10 @@ export default class UlxRadioItem extends Component {
 
 	get baseClass() {
 		return getComponentClass("radiobutton");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-radio-item";
 	}
 
 	get wrapperClass() {
@@ -98,7 +105,7 @@ export default class UlxRadioItem extends Component {
 	}
 
 	<template>
-		<div class={{this.wrapperClass}}>
+		<div class={{this.wrapperClass}} data-qa={{this.rootDataQa}}>
 			<input
 				id={{@id}}
 				class={{this.inputClass}}
@@ -112,23 +119,24 @@ export default class UlxRadioItem extends Component {
 				disabled={{@disabled}}
 				required={{@required}}
 				aria-required={{@required}}
+				data-qa="ulx-radio-item-input"
 				{{on "change" @onChange}}
 				...attributes
 			/>
 
-			<div class={{this.boxClass}}>
+			<div class={{this.boxClass}} data-qa="ulx-radio-item-box">
 				<div class={{this.iconClass}}></div>
 			</div>
 
 			{{#if (has-block "itemLabel")}}
-				<label for={{@id}} class={{this.itemLabelClass}}>
+				<label for={{@id}} class={{this.itemLabelClass}} data-qa="ulx-radio-item-label">
 					{{yield to="itemLabel"}}
 					{{#if @showRequiredStar}}
 						<span class="fg-red" aria-hidden="true">*</span>
 					{{/if}}
 				</label>
 			{{else if this.hasItemLabelText}}
-				<label for={{@id}} class={{this.itemLabelClass}}>
+				<label for={{@id}} class={{this.itemLabelClass}} data-qa="ulx-radio-item-label">
 					{{@itemLabel}}
 					{{#if @showRequiredStar}}
 						<span class="fg-red" aria-hidden="true">*</span>

@@ -19,6 +19,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [animation="wave"] - Animation type: "wave" (default) | "none".
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [componentClass] - Override base component class (defaults to "ulx-skeleton").
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-skeleton").
  */
 export default class UlxSkeleton extends Component {
 	get baseClass() {
@@ -43,6 +44,10 @@ export default class UlxSkeleton extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? this.baseClass;
+	}
+
 	get inlineStyle() {
 		const {
 			size,
@@ -51,16 +56,9 @@ export default class UlxSkeleton extends Component {
 			borderRadius,
 		} = this.args;
 
-		const styleParts = [];
-
-		if (size) {
-			styleParts.push(`width: ${size}`);
-			styleParts.push(`height: ${size}`);
-		} else {
-			styleParts.push(`width: ${width}`);
-			styleParts.push(`height: ${height}`);
-		}
-
+		const w = size ?? width;
+		const h = size ?? height;
+		const styleParts = [`width: ${w}`, `height: ${h}`];
 		borderRadius && styleParts.push(`border-radius: ${borderRadius}`);
 
 		return styleParts.join("; ");
@@ -71,6 +69,7 @@ export default class UlxSkeleton extends Component {
 			class={{this.rootClasses}}
 			style={{this.inlineStyle}}
 			aria-hidden="true"
+			data-qa={{this.rootDataQa}}
 			...attributes
 		></div>
 	</template>

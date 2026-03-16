@@ -34,10 +34,16 @@ import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
  * @param {string} [ariaErrorMessage] - `aria-errormessage` value.
  * @param {string} [uncheckIconName] - When set, unchecked state shows filled box + this icon (e.g. "close-icon"). When unset, unchecked is normal empty box (nothing selected).
  * @param {boolean} [hideLabel=false] - When true, do not render the right-side label (used for control-only usage).
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-tristatecheckbox".
+ * @param {string} [name] - Name attribute for form submissions.
  */
 export default class UlxTristateCheckbox extends Component {
 	get baseTristateClass() {
 		return getComponentClass("tristatecheckbox");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-tristatecheckbox";
 	}
 
 	get mergedCustomClass() {
@@ -50,12 +56,13 @@ export default class UlxTristateCheckbox extends Component {
 	}
 
 	get resolvedSize() {
-		return this.args.size ?? "xxxs-size";
+		const { size = "xxxs-size" } = this.args;
+		return size;
 	}
 
 	get value() {
-		const v = this.args.value;
-		if (v === true || v === false || v === null) return v;
+		const { value = false } = this.args;
+		if (value === true || value === false || value === null) return value;
 		return false;
 	}
 
@@ -78,25 +85,16 @@ export default class UlxTristateCheckbox extends Component {
 	@action
 	handleChange(event) {
 		const current = this.value;
-		let next;
+		const next = current === true ? null : current === null ? false : true;
 
-		if (current === true) {
-			next = null;
-		} else if (current === null) {
-			next = false;
-		} else {
-			next = true;
-		}
-
-		if (typeof this.args.onValueChange === "function") {
-			this.args.onValueChange(next, event);
-		}
+		typeof this.args.onValueChange === "function" && this.args.onValueChange(next, event);
 	}
 
 	<template>
 		{{#if (has-block "itemLabel")}}
 			<UlxCheckboxItem
 				...attributes
+				@dataQa={{this.rootDataQa}}
 				@id={{@id}}
 				@checked={{this.isChecked}}
 				@indeterminate={{this.isIndeterminate}}
@@ -121,6 +119,7 @@ export default class UlxTristateCheckbox extends Component {
 		{{else}}
 			<UlxCheckboxItem
 				...attributes
+				@dataQa={{this.rootDataQa}}
 				@id={{@id}}
 				@checked={{this.isChecked}}
 				@indeterminate={{this.isIndeterminate}}

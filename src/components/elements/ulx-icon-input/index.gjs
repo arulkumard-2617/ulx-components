@@ -12,6 +12,7 @@ import {
 	getRuleValue,
 	isInvalidState,
 	isSpecialKey,
+	matchesKeyFilter,
 	normalizeRules,
 	resolveKey,
 	buildInputId
@@ -197,7 +198,7 @@ export default class UlxIconInput extends Component {
 				newValue = currentValue.slice(0, selectionStart) + key + currentValue.slice(selectionEnd);
 			}
 
-			if (!this.keyFilterPattern.test(newValue)) {
+			if (!matchesKeyFilter(this.keyFilterPattern, newValue)) {
 				event.preventDefault();
 				return false;
 			}

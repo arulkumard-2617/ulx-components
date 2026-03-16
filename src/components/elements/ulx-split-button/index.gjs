@@ -30,8 +30,8 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @param {function} [onClick] - Main button click handler
  * @param {function} [onShow] - Called when dropdown opens
  * @param {function} [onHide] - Called when dropdown closes
- * @param {string} [dropdownIcon] - Dropdown trigger icon (default session-settings-icon)
- * @param {string} [dropdownIconSize] - Dropdown trigger icon size (default s16)
+ * @param {string} [dropdownIcon] - Dropdown trigger icon (default down-arrow-icon)
+ * @param {string} [dropdownIconSize] - Dropdown trigger icon size (default s18)
  * @param {boolean} [disabled=false] - Disables both buttons
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Variant/type
  * @param {boolean} [raised=false] - Raised style
@@ -40,6 +40,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @param {boolean} [outlined=false] - Outlined variant
  * @param {string} [size] - Size class (e.g. s-size, m-size, l-size). Omit for m-size.
  * @param {string} [id] - Root element id (for aria-controls)
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-splitbutton".
  */
 export default class UlxSplitButton extends Component {
 	@tracked menuVisible = false;
@@ -59,6 +60,26 @@ export default class UlxSplitButton extends Component {
 
 	get menuId() {
 		return this.args.id ? `${this.args.id}_overlay` : undefined;
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-splitbutton";
+	}
+
+	get defaultButtonDataQa() {
+		return `${this.rootDataQa}-default`;
+	}
+
+	get dividerDataQa() {
+		return `${this.rootDataQa}-divider`;
+	}
+
+	get dropdownButtonDataQa() {
+		return `${this.rootDataQa}-dropdown`;
+	}
+
+	get menuDataQa() {
+		return `${this.rootDataQa}-menu`;
 	}
 
 	get isDisabled() {
@@ -82,17 +103,23 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get rootClasses() {
+		const {
+			raised = false,
+			rounded = false,
+			text = false,
+			outlined = false,
+			loading = false,
+			disabled = false,
+		} = this.args;
 		const parts = [this.splitButtonRootClass];
 		parts.push(this.variantValue);
 		parts.push(this.buttonSize);
-
-		this.args.raised && parts.push("raised");
-		this.args.rounded && parts.push("rounded");
-		this.args.text && parts.push("text-button");
-		this.args.outlined && parts.push("outlined");
-		this.isDisabled && parts.push("disabled");
-		this.args.loading && parts.push("loading");
-
+		raised && parts.push("raised");
+		rounded && parts.push("rounded");
+		text && parts.push("text-button");
+		outlined && parts.push("outlined");
+		disabled && parts.push("disabled");
+		loading && parts.push("loading");
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
@@ -176,6 +203,7 @@ export default class UlxSplitButton extends Component {
 	hideMenu() {
 		this.menuVisible = false;
 		if (typeof this.args.onHide === "function") this.args.onHide();
+		this.dropdownTarget?.focus({ preventScroll: true });
 	}
 
 	@action
@@ -186,6 +214,7 @@ export default class UlxSplitButton extends Component {
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			{{this.closeOnClickOutside this.menuVisible onClose=this.hideMenu}}
 			{{this.closeOnEscape this.menuVisible onClose=this.hideMenu}}
 			...attributes
@@ -193,6 +222,7 @@ export default class UlxSplitButton extends Component {
 			{{#if (has-block "icon")}}
 				{{#if (has-block "default")}}
 					<UlxButton
+						@dataQa={{this.defaultButtonDataQa}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
@@ -210,6 +240,7 @@ export default class UlxSplitButton extends Component {
 					</UlxButton>
 				{{else}}
 					<UlxButton
+						@dataQa={{this.defaultButtonDataQa}}
 						@label={{@label}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
@@ -229,6 +260,7 @@ export default class UlxSplitButton extends Component {
 			{{else}}
 				{{#if (has-block "default")}}
 					<UlxButton
+						@dataQa={{this.defaultButtonDataQa}}
 						@icon={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
@@ -246,6 +278,7 @@ export default class UlxSplitButton extends Component {
 					</UlxButton>
 				{{else}}
 					<UlxButton
+						@dataQa={{this.defaultButtonDataQa}}
 						@label={{@label}}
 						@icon={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
@@ -263,9 +296,10 @@ export default class UlxSplitButton extends Component {
 				{{/if}}
 			{{/if}}
 
-			<span class="splitbutton-divider" aria-hidden="true"></span>
+			<span class="splitbutton-divider" aria-hidden="true" data-qa={{this.dividerDataQa}}></span>
 
 			<UlxButton
+				@dataQa={{this.dropdownButtonDataQa}}
 				@icon={{this.dropdownIconName}}
 				@iconComponentClass={{this.dropdownIconComponentClass}}
 				@iconSize={{this.dropdownIconSize}}
@@ -288,6 +322,7 @@ export default class UlxSplitButton extends Component {
 			<div
 				class="absolute tpfull lt0 z-1000 mt-2
 					{{if this.menuVisible 'visible transition fade in' 'hidden'}}"
+				data-qa={{this.menuDataQa}}
 			>
 				<UlxTieredmenu
 					id={{this.menuId}}

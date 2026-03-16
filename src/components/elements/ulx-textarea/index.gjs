@@ -12,6 +12,7 @@ import {
 	getRuleValue,
 	isInvalidState,
 	isSpecialKey,
+	matchesKeyFilter,
 	normalizeRules,
 	resolveFloatLabelText,
 	resolveKey,
@@ -26,6 +27,28 @@ import {
  * - float labels
  *
  * @class UlxTextarea
+ * @param {string} [value] - Controlled value.
+ * @param {string} [placeholder] - Placeholder text.
+ * @param {boolean} [disabled=false] - Disables the textarea.
+ * @param {boolean} [readonly=false] - Makes the textarea read-only.
+ * @param {string} [label] - Label text (when not using float label or label block).
+ * @param {string} [floatLabel] - Float label text; when set, uses float-label layout.
+ * @param {string} [helpText] - Help text shown below the textarea.
+ * @param {string} [error] - Error message; sets invalid state and aria-errormessage.
+ * @param {boolean} [invalid=false] - Explicit invalid state.
+ * @param {Object|Array} [rules] - Validation rules (e.g. required, minLength, maxLength).
+ * @param {string} [keyfilter] - Key filter pattern for input.
+ * @param {string} [id] - Id for the textarea. Auto-generated if not provided.
+ * @param {string} [key] - Stable key for auto-generated id.
+ * @param {string} [size] - Size class (e.g. s-size, m-size).
+ * @param {boolean} [filled] - Filled state for styling.
+ * @param {string} [fieldClass] - Extra class(es) on the field wrapper.
+ * @param {Function} [onChange] - Called on change: (event) => void.
+ * @param {Function} [onInput] - Called on input: (event) => void.
+ * @param {Function} [onKeydown] - Called on keydown: (event) => void.
+ * @param {Function} [onFocus] - Called on focus: (event) => void.
+ * @param {Function} [onBlur] - Called on blur: (event) => void.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-textarea").
  */
 export default class UlxTextarea extends Component {
 	get rules() {
@@ -38,6 +61,10 @@ export default class UlxTextarea extends Component {
 
 	get textareaId() {
 		return buildInputId(NAMESPACE, this.args.id, this.key);
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-textarea";
 	}
 
 	get floatLabelText() {
@@ -67,8 +94,8 @@ export default class UlxTextarea extends Component {
 
 	get labelMetaText() {
 		const parts = [];
-		if (this.minLength != null) parts.push(`${this.minLength}`);
-		if (this.maxLength != null) parts.push(`${this.maxLength}`);
+		this.minLength != null && parts.push(`${this.minLength}`);
+		this.maxLength != null && parts.push(`${this.maxLength}`);
 		return parts.join(" / ");
 	}
 
@@ -141,7 +168,7 @@ export default class UlxTextarea extends Component {
 				newValue = currentValue.slice(0, selectionStart) + key + currentValue.slice(selectionEnd);
 			}
 
-			if (!this.keyFilterPattern.test(newValue)) {
+			if (!matchesKeyFilter(this.keyFilterPattern, newValue)) {
 				event.preventDefault();
 				return false;
 			}
@@ -180,13 +207,14 @@ export default class UlxTextarea extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}}>
+		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
 			{{#if @floatLabel}}
 				<span class={{this.floatLabelClass}}>
 					<textarea
 						id={{this.textareaId}}
 						class={{this.textareaClass}}
 						value={{@value}}
+						data-qa="ulx-textarea-input"
 						placeholder={{@placeholder}}
 						disabled={{@disabled}}
 						readonly={{@readonly}}
@@ -253,6 +281,7 @@ export default class UlxTextarea extends Component {
 					aria-invalid={{if this.isInvalid "true" "false"}}
 					aria-describedby={{this.ariaDescribedBy}}
 					aria-errormessage={{this.ariaErrorMessage}}
+					data-qa="ulx-textarea-input"
 					{{on "keydown" this.handleKeydown}}
 					{{on "input" this.handleInput}}
 					{{on "change" this.handleChange}}
@@ -263,7 +292,7 @@ export default class UlxTextarea extends Component {
 			{{/if}}
 
 			{{#if @helpText}}
-				<div id="{{this.textareaId}}-help" class="help-text">{{@helpText}}</div>
+				<div id="{{this.textareaId}}-help" class="help-text" data-qa="ulx-textarea-help">{{@helpText}}</div>
 			{{/if}}
 
 			{{#if @error}}
@@ -272,6 +301,7 @@ export default class UlxTextarea extends Component {
 					class="error-message"
 					role="alert"
 					aria-atomic="true"
+					data-qa="ulx-textarea-error"
 				>{{@error}}</div>
 			{{/if}}
 		</div>

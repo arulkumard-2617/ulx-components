@@ -19,8 +19,6 @@ function normalizeTypeClass(type) {
 /**
  * Tag element component (ULX).
  *
- * PrimeReact reference: https://github.com/primefaces/primereact/tree/master/components/lib/tag
- *
  * ## Notes
  * - Uses existing ULX classes from `ulx-v2` (`elements/tag.less`).
  * - `@invert` is an ULX extension that maps to the existing `.outlined` style.
@@ -29,7 +27,7 @@ function normalizeTypeClass(type) {
  * @param {string} [value] - Label text shown inside the tag.
  * @param {string} [variant] - Tag color variant class (e.g. "primary", "success", "light-salmon-red", "lt-green").
  * @param {boolean} [rounded=false] - Applies fully rounded tag styling.
- * @param {string} [icon] - Icon name passed to `UlxIcon` as `@iconName`. Renders before the label (PrimeReact order).
+ * @param {string} [icon] - Icon name passed to `UlxIcon` as `@iconName`. Renders before the label.
  * @param {string} [iconClass] - Passed to `UlxIcon` as `@componentClass` (e.g. "bs-icons1" for font icons).
  * @param {string} [iconSize] - Passed to `UlxIcon` as `@size` (e.g. "s18").
  *
@@ -45,10 +43,15 @@ function normalizeTypeClass(type) {
  *
  * @param {string} [customClass] - Extra CSS classes appended to the root.
  * @param {string} [componentClass] - Override base component class.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-tag").
  */
 export default class UlxTag extends Component {
 	get baseClass() {
 		return this.args.componentClass ?? getComponentClass("tag");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-tag";
 	}
 
 	get typeClass() {
@@ -106,14 +109,15 @@ export default class UlxTag extends Component {
 			<span
 				class={{buildRootClass this.rootClasses @icon hasIconBlock hasDefaultBlock}}
 				aria-disabled={{if @disabled "true"}}
+				data-qa={{this.rootDataQa}}
 				...attributes
 			>
 				{{#if hasIconBlock}}
-					<span class={{this.iconWrapperClass}}>
+					<span class={{this.iconWrapperClass}} data-qa="ulx-tag-icon">
 						{{yield to="icon"}}
 					</span>
 				{{else if @icon}}
-					<span class={{this.iconWrapperClass}}>
+					<span class={{this.iconWrapperClass}} data-qa="ulx-tag-icon">
 						<UlxIcon
 							@componentClass={{@iconClass}}
 							@iconName={{@icon}}
@@ -125,11 +129,9 @@ export default class UlxTag extends Component {
 				{{/if}}
 
 				{{#if @value}}
-					{{! Match PrimeReact: value is a sibling element. }}
-					<span class="tag-label">{{@value}}</span>
+					<span class="tag-label" data-qa="ulx-tag-label">{{@value}}</span>
 				{{/if}}
 
-				{{! Match PrimeReact: children render after value. }}
 				{{yield}}
 			</span>
 		{{/let}}

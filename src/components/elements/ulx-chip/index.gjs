@@ -10,15 +10,15 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *
  * ## WCAG
  * - Root uses `aria-label` from `@label` when present for meaningful chips.
- * - Remove button receives an accessible name (e.g. aria-label) so screen readers announce it.
- * - Keyboard: Enter, NumpadEnter, Backspace on the remove control trigger removal.
- * - Decorative icons use `aria-hidden="true"`; pass `@removeIconAriaLabel` or rely on default remove label for the remove button.
+ * - Remove button has an accessible name (default from `t("lbl.remove")`) so screen readers announce it.
+ * - Keyboard: Enter and Space activate the remove button (native); Backspace also triggers removal.
+ * - Decorative icons use `aria-hidden="true"`.
  *
  * @class UlxChip
  * @param {string} [label] - Main text shown in the chip.
  * @param {string} [icon] - Icon name/class for UlxIcon (e.g. font class); renders before label.
  * @param {string} [image] - Image URL; when set, renders before label (avatar-style).
- * @param {string} [imageAlt='chip'] - Alt text for the image.
+ * @param {string} [imageAlt] - Alt text for the image; defaults to t("lbl.image") when omitted.
  * @param {boolean} [removable=false] - When true, shows remove control and wires click/keyboard.
  * @param {string} [removeIcon] - Icon name for remove button; defaults to close icon from bs-icons1.
  * @param {Function} [onRemove] - Callback (event, value) when remove is triggered; value is label, image, or icon context.
@@ -26,6 +26,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [size="m-size"] - Size class (e.g. "s-size", "m-size"); applied to root.
  * @param {string} [customClass] - Extra CSS classes appended to the root.
  * @param {string} [componentClass] - Override base component class.
+ * @param {string} [dataQa="ulx-chip"] - data-qa value for root element, useful for automation tests.
  */
 export default class UlxChip extends Component {
 	get baseClass() {
@@ -48,7 +49,7 @@ export default class UlxChip extends Component {
 	}
 
 	get imageAltText() {
-		return this.args.imageAlt ?? "chip";
+		return this.args.imageAlt ?? t("lbl.image");
 	}
 
 	get removeValue() {
@@ -60,6 +61,10 @@ export default class UlxChip extends Component {
 		return t("lbl.remove");
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-chip";
+	}
+
 	@action
 	handleRemove(event) {
 		event.stopPropagation();
@@ -69,7 +74,8 @@ export default class UlxChip extends Component {
 
 	@action
 	handleRemoveKeydown(event) {
-		if (event.code === "Enter" || event.code === "NumpadEnter" || event.code === "Backspace") {
+		if (event.code === "Backspace") {
+			event.preventDefault();
 			this.handleRemove(event);
 		}
 	}
@@ -80,12 +86,13 @@ export default class UlxChip extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}} aria-label={{@label}} ...attributes>
+		<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} aria-label={{@label}} ...attributes>
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
 				{{#if @image}}
 					<img
+						data-qa="ulx-chip-image"
 						class="chip-image"
 						src={{@image}}
 						alt={{this.imageAltText}}
@@ -93,21 +100,22 @@ export default class UlxChip extends Component {
 					/>
 				{{/if}}
 				{{#if (has-block "icon")}}
-					<span class="chip-icon">
+					<span class="chip-icon" data-qa="ulx-chip-icon">
 						{{yield to="icon"}}
 					</span>
 				{{else if @icon}}
-					<span class="chip-icon">
+					<span class="chip-icon" data-qa="ulx-chip-icon">
 						<UlxIcon @iconName={{@icon}} @size="s18" @type="font" aria-hidden="true" />
 					</span>
 				{{/if}}
 				{{#if @label}}
-					<span class="chip-label">{{@label}}</span>
+					<span class="chip-label" data-qa="ulx-chip-label">{{@label}}</span>
 				{{/if}}
 				{{#if @removable}}
 					<button
 						type="button"
 						class="chip-remove-icon"
+						data-qa="ulx-chip-remove"
 						aria-label={{this.removeButtonAriaLabel}}
 						{{on "click" this.handleRemove}}
 						{{on "keydown" this.handleRemoveKeydown}}

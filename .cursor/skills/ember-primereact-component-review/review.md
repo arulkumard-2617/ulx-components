@@ -210,12 +210,12 @@ get rootClasses() {
 - **Demo/documentation locations (either may be used):**
   - **Demo:** `ulx/src/demo/ulx-ember/app/components/Demo/{ComponentName}/`
   - **Documentation:** `ulx/src/demo/ulx-ember/app/documentation/components/{elements|collections|modules}/{component-name}/`
+  - ignore Localization for demo files
 
 **Checklist:**
 
 - [ ] Demo or documentation page exists (check both paths above)
 - [ ] Demo uses "Variant" not "severity" for variant cases
-- [ ] No auto-generated `.md` files for components
 
 ---
 

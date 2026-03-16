@@ -30,10 +30,15 @@ import {
  * @param {string} [size="m-size"] - Size: s-size, m-size, l-size.
  * @param {string} [variant="primary"] - Color variant class (e.g. "primary", "green", etc.).
  * @param {string} [customClass] - Extra classes on root.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-toggle").
  */
 export default class UlxToggle extends Component {
 	get baseClass() {
 		return getComponentClass("inputswitch");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-toggle";
 	}
 
 	get key() {
@@ -81,7 +86,7 @@ export default class UlxToggle extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}}>
+		<div class={{this.rootClasses}} data-qa={{this.rootDataQa}}>
 			<input
 				type="checkbox"
 				id={{this.toggleId}}
@@ -91,10 +96,11 @@ export default class UlxToggle extends Component {
 				aria-invalid={{if this.isInvalid "true" "false"}}
 				aria-checked={{if @checked "true" "false"}}
 				role="switch"
+				data-qa="ulx-toggle-input"
 				{{on "change" this.handleChange}}
 				...attributes
 			/>
-			<div class={{this.sliderClasses}} aria-hidden="true">
+			<div class={{this.sliderClasses}} aria-hidden="true" data-qa="ulx-toggle-slider">
 				{{#if @checked}}
 					<span class="on-lbl">{{t "lbl.toggle.on"}}</span>
 				{{else}}
