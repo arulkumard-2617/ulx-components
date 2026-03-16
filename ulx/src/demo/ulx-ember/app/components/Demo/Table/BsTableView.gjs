@@ -171,12 +171,6 @@ export default class DemoTableBsTableView extends Component {
   }
 
   <template>
-    <p class="text-sm fg-text-secondary mb-2">
-      Portal-members style table: global search, toolbar sort dropdown, filter
-      slide pane (Status / Role), manage columns (some columns use
-      <code>manageable: false</code>), and primary action in
-      <code>&lt;:postRightMenu&gt;</code>.
-    </p>
     <UlxTable
       @value={{this.members}}
       @columns={{this.columns}}
