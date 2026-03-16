@@ -8,6 +8,7 @@ import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
+import UlxMessage from "../../collections/ulx-message/index.gjs";
 import { t } from "../../../utils/i18n.js";
 import { isSpecialColumn } from "./utils.js";
 
@@ -177,11 +178,19 @@ export default class ManageColumns extends Component {
 
 	<template>
 		<div class="datatable-manage-columns-panel" {{this.registerRefModifier}}>
-			<div role="status" aria-live="polite" aria-atomic="true" class="datatable-manage-columns-live">{{this.liveMessage}}</div>
-			<ul class="datatable-manage-columns-list" role="list">
+
+			{{#if this.liveMessage}}
+				<UlxMessage
+					@text={{this.liveMessage}}
+					@variant="success"
+					@customClass="mx-4 mb-2"
+					@size="s-size"
+				/>
+			{{/if}}
+			<ul class="ulx-drag" role="list">
 				{{#each this.orderedColumns as |col index|}}
 					<li
-						class="datatable-manage-columns-item {{if (this.isLocked col) 'locked'}}"
+						class="drag-item {{if (this.isLocked col) 'locked'}}"
 						draggable={{if (not (this.isLocked col)) "true"}}
 						tabindex={{if (not (this.isLocked col)) "0" "-1"}}
 						{{on "dragstart" (fn this.handleDragStart index)}}
@@ -191,7 +200,7 @@ export default class ManageColumns extends Component {
 						{{on "dragend" this.handleDragEnd}}
 						{{on "keydown" (fn this.handleItemKeyDown col index)}}
 					>
-						<span class="datatable-manage-columns-drag-handle" aria-hidden="true">
+						<span class="drag-handle" aria-hidden="true">
 							<UlxIcon
 								@componentClass="bs-icons1"
 								@type="font"
@@ -207,28 +216,33 @@ export default class ManageColumns extends Component {
 							@customClass="datatable-manage-columns-label"
 							aria-label={{t "aria.table.toggle.column" header=col.header}}
 						/>
-						<UlxButton
-							@variant="text"
-							@label={{t "lbl.move.up"}}
-							@disabled={{not (this.canMoveUp col index)}}
-							@onClick={{fn this.handleMoveUp col index}}
-							aria-label={{t "aria.table.move.column.up" header=col.header}}
-						/>
-						<UlxButton
-							@variant="text"
-							@label={{t "lbl.move.down"}}
-							@disabled={{not (this.canMoveDown col index)}}
-							@onClick={{fn this.handleMoveDown col index}}
-							aria-label={{t "aria.table.move.column.down" header=col.header}}
-						/>
-						{{#if (this.isLocked col)}}
-							<span
-								class="datatable-manage-columns-locked-icon"
-								aria-label={{t "aria.table.column.locked"}}
-							>
-								<UlxIcon @componentClass="bs-icons1" @type="font" @iconName="lock" @size="s12" />
-							</span>
-						{{/if}}
+						<div class="drag-controls">
+							{{#if (this.isLocked col)}}
+								<UlxIcon
+									@componentClass="bs-icons1"
+									@type="font"
+									@iconName="	lock-filled-icon"
+									@size="s16"
+									@customClass="me-1"
+								/>
+							{{/if}}
+							<UlxButton
+								@size="xs-size"
+								@variant="primary"
+								@icon="up-stroke-icon-new"
+								@disabled={{not (this.canMoveUp col index)}}
+								@onClick={{fn this.handleMoveUp col index}}
+								aria-label={{t "aria.table.move.column.up" header=col.header}}
+							/>
+							<UlxButton
+								@size="xs-size"
+								@variant="primary"
+								@icon="down-stroke-icon-new"
+								@disabled={{not (this.canMoveDown col index)}}
+								@onClick={{fn this.handleMoveDown col index}}
+								aria-label={{t "aria.table.move.column.down" header=col.header}}
+							/>
+						</div>
 					</li>
 				{{/each}}
 			</ul>

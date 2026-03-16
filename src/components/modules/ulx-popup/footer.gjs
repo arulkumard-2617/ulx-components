@@ -12,6 +12,8 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * @param {boolean} [hideCancelButton=false] - Hide the cancel button
  * @param {boolean} [hideDoneButton=false] - Hide the done/confirm button
  * @param {string} [tertiaryButtonLabel] - Label for tertiary button (e.g. "Reset"). When set, button is shown unless hideTertiaryButton is true.
+ * @param {string} [tertiaryButtonIcon] - Icon name for tertiary button (passed to UlxButton @icon).
+ * @param {'left'|'right'} [tertiaryIconPos='left'] - Icon position for tertiary button.
  * @param {string} [cancelLabel="Cancel"] - Label for cancel button
  * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
  * @param {Function} [onTertiary] - Callback when tertiary button is clicked
@@ -73,6 +75,8 @@ export default class UlxPopupFooter extends Component {
 			{{#if this.showTertiaryButton}}
 				<UlxButton
 					@label={{this.tertiaryLabel}}
+					@icon={{this.args.tertiaryButtonIcon}}
+					@iconPos={{this.args.tertiaryIconPos}}
 					@variant="link"
 					{{on "click" this.handleTertiary}}
 				/>
