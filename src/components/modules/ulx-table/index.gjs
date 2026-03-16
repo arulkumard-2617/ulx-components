@@ -1285,7 +1285,7 @@ export default class UlxTable extends Component {
 					(has-block "postRightMenu")
 				)
 			}}
-				<div class="header-toolbar datatable-toolbar flex justify-between">
+				<div class="header-toolbar datatable-toolbar">
 					<div class="datatable-toolbar-left">
 						{{yield to="preLeftMenu"}}
 						{{#if @showGlobalFilter}}
@@ -1397,13 +1397,9 @@ export default class UlxTable extends Component {
 
 			{{! Filter bubbles bar — shown whenever any filter is active }}
 			{{#if this.showFilterBubblesBar}}
-				<div
-					class="datatable-filter-bubbles-bar flex flex-row flex-wrap items-center gap-3 py-2"
-					role="group"
-					aria-label={{t "lbl.filter"}}
-				>
+				<div class="datatable-filter-bubbles-bar" role="group" aria-label={{t "lbl.filter"}}>
 					{{#each this.activeFilterBubbles as |bubble|}}
-						<div class="datatable-filter-bubble-item flex items-center">
+						<div class="datatable-filter-bubble-item">
 							<UlxButton
 								@variant="outlined"
 								@size="compact"
@@ -1481,7 +1477,7 @@ export default class UlxTable extends Component {
 					<UlxDataView @layout="list" @gridRole="list">
 						<:content>
 							{{#each this.pagedData as |row|}}
-								<div class="ulx-dataview-list-item">
+								<div class="dataview-item">
 									{{yield row to="detailed"}}
 								</div>
 							{{/each}}
@@ -1764,14 +1760,16 @@ export default class UlxTable extends Component {
 					@position="position-bottom-right"
 					@size="l-size"
 					@closable={{true}}
+					@bodyClassName="p-0"
 					@title={{t "lbl.manage.columns"}}
 					@onHide={{this.closeManageColumns}}
 					@ariaLabel={{t "lbl.manage.columns"}}
 					@hideTertiaryButton={{false}}
 					@tertiaryButtonLabel={{t "lbl.reset.to.default"}}
-					@onTertiary={{this.handleManageColumnsReset}}
+					@tertiaryButtonIcon="reset-icon"
 					@cancelButtonLabel={{t "lbl.cancel"}}
 					@doneButtonLabel={{t "lbl.save"}}
+					@onTertiary={{this.handleManageColumnsReset}}
 					@onCancel={{this.closeManageColumns}}
 					@onDone={{this.invokeManageColumnsApply}}
 				>
