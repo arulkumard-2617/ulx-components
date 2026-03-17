@@ -472,7 +472,9 @@ export default class UlxTieredmenu extends Component {
 	 */
 	@action
 	getItemClasses(item, itemId) {
-		const parts = ["tieredmenu-item"];
+		const baseClassName = "tieredmenu-item";
+		const itemContainerClassName = item?.parentClass;
+		const parts = [baseClassName];
 		if (this.hasSubmenu(item)) {
 			parts.push("has-submenu");
 		}

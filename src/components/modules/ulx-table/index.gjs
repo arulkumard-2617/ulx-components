@@ -1471,18 +1471,20 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Detailed view (list view — uses UlxDataView) }}
+			{{! Detailed view (list view — uses UlxDataView when there is data) }}
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
 				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<UlxDataView @layout="list" @gridRole="list">
-						<:content>
-							{{#each this.pagedData as |row|}}
-								<div class="dataview-item">
-									{{yield row to="detailed"}}
-								</div>
-							{{/each}}
-						</:content>
-					</UlxDataView>
+					{{#if (or @loading this.pagedData.length)}}
+						<UlxDataView @layout="list" @gridRole="list">
+							<:content>
+								{{#each this.pagedData as |row|}}
+									<div class="dataview-item">
+										{{yield row to="detailed"}}
+									</div>
+								{{/each}}
+							</:content>
+						</UlxDataView>
+					{{/if}}
 					{{#if (and (not @loading) (not this.pagedData.length))}}
 						<div class="datatable-empty-message">
 							{{#if (has-block "emptyMessage")}}
@@ -1503,7 +1505,7 @@ export default class UlxTable extends Component {
 				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
 					<div class="ulx-grid gap-4 col-{{this.cardViewColumns}}">
 						{{#each this.pagedData as |row|}}
-							<UlxCard>{{yield row to="card"}}</UlxCard>
+							<UlxCard @bodyClass="p-0">{{yield row to="card"}}</UlxCard>
 						{{/each}}
 					</div>
 					{{#if (and (not @loading) (not this.pagedData.length))}}

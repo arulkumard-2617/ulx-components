@@ -267,10 +267,9 @@ export default class TableHeader extends Component {
 
 								{{#if (and col.filter (eq @filterDisplay "menu"))}}
 									<UlxButton
-										@variant="text"
+										@text={{true}}
+										@variant="secondary"
 										@icon="filter-icon"
-										@iconComponentClass="bs-icons1"
-										@iconSize="s12"
 										@customClass={{this.filterButtonClass col}}
 										@onClick={{fn this.handleFilterMenuOpen col}}
 										aria-label={{t "aria.table.filter.column" header=col.header}}
@@ -345,10 +344,9 @@ export default class TableHeader extends Component {
 											{{/if}}
 										</div>
 										<UlxButton
-											@variant="text"
+											@variant="secondary"
+											@text={{true}}
 											@icon="filter-icon"
-											@iconComponentClass="bs-icons1"
-											@iconSize="s12"
 											@customClass="datatable-filter-menu-button"
 											@onClick={{fn this.handleFilterMenuOpen col}}
 											aria-haspopup="true"
@@ -356,10 +354,9 @@ export default class TableHeader extends Component {
 											aria-label={{t "aria.table.show.filter.menu"}}
 										/>
 										<UlxButton
-											@variant="text"
+											@variant="secondary"
+											@text={{true}}
 											@icon="close-icon-01"
-											@iconComponentClass="bs-icons1"
-											@iconSize="s12"
 											@customClass={{this.filterClearButtonClass col}}
 											@onClick={{fn this.handleRowFilterClear col}}
 											aria-label={{t "lbl.clear"}}

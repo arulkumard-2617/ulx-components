@@ -547,10 +547,11 @@ export default class TableBody extends Component {
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
 								>
 									<UlxButton
-										@variant="text"
+										@text={{true}}
+										@variant="secondary"
 										@icon={{if (this.isRowExpanded row) "down-arrow-icon" "right-arrow-icon"}}
 										@iconComponentClass="bs-icons1"
-										@iconSize="s14"
+										@iconSize="s20"
 										@customClass="datatable-row-toggler"
 										@onClick={{fn this.handleRowToggle row}}
 										aria-expanded={{this.isRowExpanded row}}
@@ -572,8 +573,8 @@ export default class TableBody extends Component {
 									<UlxIcon
 										@componentClass="bs-icons1"
 										@type="font"
-										@iconName="grip-vertical"
-										@size="s16"
+										@iconName="dragdrop-icon1"
+										@size="s18"
 										aria-hidden="true"
 									/>
 								</td>
@@ -587,19 +588,19 @@ export default class TableBody extends Component {
 									{{#if (this.isRowEditing row)}}
 										<div class="datatable-row-editor editing" role="group">
 											<UlxButton
-												@variant="text"
-												@icon="check"
-												@iconComponentClass="bs-icons1"
-												@iconSize="s14"
+												@text={{true}}
+												@variant="success"
+												@icon="tick-thick-icon"
+												@iconSize="s20"
 												@customClass="datatable-row-save-button"
 												@onClick={{fn this.handleRowEditSave row}}
 												aria-label={{t "aria.table.save.row"}}
 											/>
 											<UlxButton
-												@variant="text"
-												@icon="x"
-												@iconComponentClass="bs-icons1"
-												@iconSize="s14"
+												@text={{true}}
+												@variant="danger"
+												@icon="close-thick-icon"
+												@iconSize="s18"
 												@customClass="datatable-row-cancel-button"
 												@onClick={{fn this.handleRowEditCancel row}}
 												aria-label={{t "aria.table.cancel.editing"}}
@@ -608,10 +609,11 @@ export default class TableBody extends Component {
 									{{else}}
 										<div class="datatable-row-editor">
 											<UlxButton
-												@variant="text"
-												@icon="pencil"
+												@text={{true}}
+												@variant="secondary"
+												@icon="edit-icon"
 												@iconComponentClass="bs-icons1"
-												@iconSize="s14"
+												@iconSize="s18"
 												@customClass="datatable-row-editor-init-button"
 												@onClick={{fn this.handleRowEditInit row}}
 												aria-label={{t "aria.table.edit.row"}}
