@@ -23890,7 +23890,7 @@ form.ulx-form.xl-size > .field .error-message,
   flex-direction: row;
   flex-wrap: wrap;
 }
-.ulx-option-segments .os-item {
+.ulx-option-segments .option-item {
   display: flex;
   align-items: flex-start;
   gap: 0.85714286rem;
@@ -23905,42 +23905,75 @@ form.ulx-form.xl-size > .field .error-message,
   cursor: var(--ulx-cursor-pointer, pointer);
   transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.ulx-option-segments .os-item.is-selected,
-.ulx-option-segments .os-item.active,
-.ulx-option-segments .os-item.checked {
+.ulx-option-segments .option-item.is-selected,
+.ulx-option-segments .option-item.active,
+.ulx-option-segments .option-item.checked {
   background-color: color-mix(in srgb, var(--ulx-primary-layer1-bg), var(--ulx-primary-color) var(--ulx-contrast-intensity-17));
   border-color: var(--ulx-primary-border-color);
 }
-.ulx-option-segments .os-item.disabled {
+.ulx-option-segments .option-item.disabled {
   background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
   border-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
   color: var(--ulx-disabled-fg-color, var(--ulx-light-text-color));
   cursor: var(--ulx-cursor-not-allowed, not-allowed);
   opacity: 0.7;
 }
-.ulx-option-segments .os-item .os-control {
+.ulx-option-segments.default-options .option-item {
+  position: relative;
+}
+.ulx-option-segments.default-options .option-item.is-selected::before,
+.ulx-option-segments.default-options .option-item.active::before,
+.ulx-option-segments.default-options .option-item.checked::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0.57142857rem;
+  inset-inline-end: 0.57142857rem;
+  inline-size: 1.14285714rem;
+  block-size: 1.14285714rem;
+  border-radius: 50%;
+  background-color: var(--ulx-primary-color);
+  pointer-events: none;
+}
+.ulx-option-segments.default-options .option-item.is-selected::after,
+.ulx-option-segments.default-options .option-item.active::after,
+.ulx-option-segments.default-options .option-item.checked::after {
+  content: "\ebac";
+  position: absolute;
+  inset-block-start: 0.57142857rem;
+  inset-inline-end: 0.57142857rem;
+  inline-size: 1.14285714rem;
+  block-size: 1.14285714rem;
+  line-height: 1.14285714rem;
+  text-align: center;
+  font-family: bs-icons1;
+  font-size: var(--ulx-font-size-tiny);
+  font-weight: bold;
+  color: var(--ulx-static-white, #fff);
+  pointer-events: none;
+}
+.ulx-option-segments .option-item .option-control {
   flex: 0 0 auto;
   margin-block-start: 0.14285714rem;
 }
-.ulx-option-segments .os-item .os-content {
+.ulx-option-segments .option-item .option-content {
   flex: 1 1 auto;
   min-width: 0;
 }
-.ulx-option-segments .os-item .os-title {
+.ulx-option-segments .option-item .option-title {
   font-family: var(--ulx-font-face-semibold, puvisemibold);
   font-size: var(--ulx-font-size-default);
   color: var(--ulx-text-color);
 }
-.ulx-option-segments .os-item .os-description {
+.ulx-option-segments .option-item .option-description {
   margin-block-start: 0.28571429rem;
   font-size: var(--ulx-font-size-tiny);
   color: var(--ulx-secondary-text-color);
 }
-.ulx-option-segments .os-item .os-nested {
+.ulx-option-segments .option-item .option-nested {
   margin-block-start: 0.85714286rem;
   border-top: 1px solid color-mix(in srgb, var(--ulx-light-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
 }
-.ulx-option-segments .os-item .os-nested-item {
+.ulx-option-segments .option-item .option-nested-item {
   display: flex;
   align-items: center;
   gap: 0.57142857rem;
@@ -23948,10 +23981,10 @@ form.ulx-form.xl-size > .field .error-message,
   font-size: var(--ulx-font-size-default);
   color: var(--ulx-text-color);
 }
-.ulx-option-segments .os-item .os-nested-item:first-child {
+.ulx-option-segments .option-item .option-nested-item:first-child {
   margin-block-start: 0;
 }
-.ulx-option-segments .os-item.compact {
+.ulx-option-segments .option-item.compact {
   padding-block: 0.57142857rem;
   padding-inline: 0.85714286rem;
   gap: 0.57142857rem;
