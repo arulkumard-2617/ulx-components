@@ -320,6 +320,20 @@ const enUs = {
 	'demo.selectbutton.choose.options': 'Choose options',
 	'demo.selectbutton.alignment': 'Alignment',
 
+	// ── OptionSegment demo ────────────────────────────────────
+	'demo.optionsegment.navigation.items': 'Navigation Items',
+	'demo.optionsegment.note.fixed.items': 'Home and Profile are fixed',
+	'demo.optionsegment.note.select.up.to.3': 'Select up to 3 items from available options below',
+	'demo.optionsegment.note.preview.first.5': 'Preview shows first 5 items',
+	'demo.optionsegment.selected.preview': 'Selected navigation items preview',
+	'demo.optionsegment.available.items': 'Available Items',
+	'demo.optionsegment.available.items.total.32': '32 total',
+	'demo.optionsegment.home': 'Home',
+	'demo.optionsegment.agenda': 'Agenda',
+	'demo.optionsegment.scan': 'Scan',
+	'demo.optionsegment.messages': 'Messages',
+	'demo.optionsegment.profile': 'Profile',
+
 	// ── Progress labels ──────────────────────────────────────
 	'lbl.icons': 'icons',
 	'lbl.progress.decrease': 'Decrease value',

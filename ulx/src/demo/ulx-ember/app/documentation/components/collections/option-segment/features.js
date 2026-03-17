@@ -5,6 +5,7 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
+  TemplateDemo,
   RadiogroupDemo,
   CheckboxgroupDemo,
   HorizontalDemo,
@@ -13,6 +14,7 @@ import {
   TristateDemo, // Sources
   ImportSource,
   BasicSource,
+  TemplateSource,
   RadiogroupSource,
   CheckboxgroupSource,
   HorizontalSource,
@@ -58,6 +60,26 @@ export const OptionSegmentFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: 'basic',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'template',
+    sectionNav: 'Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Template</code> demo shows a Navigation Items layout using the OptionSegment component.',
+      },
+    },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: 'template',
         language: 'handlebars',
       },
     },

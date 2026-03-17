@@ -84,6 +84,28 @@ export default class UlxOptionSegment extends Component {
 		return this.type === "checkbox";
 	}
 
+	get isTristateType() {
+		return this.type === "tristate";
+	}
+
+	get groupTypeClass() {
+		// If consumer provides a custom `control` block, they are not using the
+		// built-in `UlxRadio` / `UlxCheckbox` control UI.
+		if (this.args.hasControlBlock) {
+			return "default-options";
+		}
+
+		if (this.isRadioType) {
+			return "radio-options";
+		}
+
+		if (this.isCheckboxType || this.isTristateType) {
+			return "checkbox-options";
+		}
+
+		return "default-options";
+	}
+
 	get isSelected() {
 		return Boolean(this.args.selected);
 	}
@@ -105,7 +127,7 @@ export default class UlxOptionSegment extends Component {
 	}
 
 	get rootClasses() {
-		const parts = [this.baseClass, this.args.customClass];
+		const parts = [this.baseClass, this.groupTypeClass, this.args.customClass];
 
 		// boolean API
 		this.args.horizontal && parts.push("horizontal");
@@ -128,7 +150,7 @@ export default class UlxOptionSegment extends Component {
 			return "radiogroup";
 		}
 
-		return "group";
+		return "radiogroup";
 	}
 
 	get title() {
@@ -176,6 +198,7 @@ export default class UlxOptionSegment extends Component {
 						@compact={{this.isCompact}}
 						@onSelect={{this.handleItemSelect}}
 						@hasControlBlock={{has-block "control"}}
+						@hasContentBlock={{has-block "content"}}
 						@hasTitleBlock={{has-block "title"}}
 						@hasDescriptionBlock={{has-block "description"}}
 						@hasNestedBlock={{has-block "nested"}}
@@ -183,6 +206,10 @@ export default class UlxOptionSegment extends Component {
 						<:control as |currentItem|>
 							{{yield currentItem to="control"}}
 						</:control>
+
+						<:content as |currentItem|>
+							{{yield currentItem to="content"}}
+						</:content>
 
 						<:title as |currentItem|>
 							{{yield currentItem to="title"}}
@@ -212,6 +239,7 @@ export default class UlxOptionSegment extends Component {
 					@compact={{this.isCompact}}
 					@onSelect={{this.handleItemSelect}}
 					@hasControlBlock={{has-block "control"}}
+					@hasContentBlock={{has-block "content"}}
 					@hasTitleBlock={{has-block "title"}}
 					@hasDescriptionBlock={{has-block "description"}}
 					@hasNestedBlock={{has-block "nested"}}
@@ -219,6 +247,10 @@ export default class UlxOptionSegment extends Component {
 					<:control as |currentItem|>
 						{{yield currentItem to="control"}}
 					</:control>
+
+					<:content as |currentItem|>
+						{{yield currentItem to="content"}}
+					</:content>
 
 					<:title as |currentItem|>
 						{{yield currentItem to="title"}}
