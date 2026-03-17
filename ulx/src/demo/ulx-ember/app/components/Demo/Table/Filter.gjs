@@ -95,10 +95,10 @@ const menuFilterCols = [
 ];
 
 const globalFilterCols = [
-  { field: 'name',     header: 'Name' },
+  { field: 'name', header: 'Name' },
   { field: 'category', header: 'Category' },
-  { field: 'price',    header: 'Price' },
-  { field: 'status',   header: 'Status' },
+  { field: 'price', header: 'Price' },
+  { field: 'status', header: 'Status' },
 ];
 
 const globalFilterFields = ['name', 'category', 'price', 'status'];
@@ -113,12 +113,7 @@ export default class DemoTableFilter extends Component {
   <template>
     <div>
       <div>
-        <h4 class="h5 mb-2">Global Search</h4>
-        <p class="text-sm fg-text-secondary mb-2">Use
-          <code>@showGlobalFilter</code>
-          for a built-in search bar. Provide
-          <code>@globalFilterFields</code>
-          to scope which fields are searched.</p>
+
         <UlxTable
           @value={{this.products}}
           @columns={{this.globalFilterCols}}
@@ -128,10 +123,8 @@ export default class DemoTableFilter extends Component {
           @globalFilterPlaceholder="Search products…"
         />
       </div>
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Row Filter</h4>
-        <p class="text-sm fg-text-secondary mb-2">Filter inputs appear in
-          flex-col headers.</p>
         <UlxTable
           @value={{this.products}}
           @columns={{this.rowFilterCols}}
@@ -139,10 +132,8 @@ export default class DemoTableFilter extends Component {
           @filterDisplay="row"
         />
       </div>
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Menu Filter</h4>
-        <p class="text-sm fg-text-secondary mb-2">Click the filter icon in
-          flex-col headers to open filter menu.</p>
         <UlxTable
           @value={{this.products}}
           @columns={{this.menuFilterCols}}

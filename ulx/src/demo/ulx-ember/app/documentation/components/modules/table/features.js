@@ -606,26 +606,6 @@ export const TableFeatureItems = [
       },
     },
   },
-  {
-    id: 'context-menu',
-    sectionNav: 'Context Menu',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Handle right-click events with <code>@onContextMenu</code>. The callback receives <code>{ row, index, originalEvent }</code>. Use this to show a custom context menu at the cursor position.',
-      },
-    },
-    demo: {
-      component: ContextMenuDemo,
-      props: {
-        source: ContextMenuSource,
-        snippetName: 'context-menu',
-        language: 'handlebars',
-      },
-    },
-  },
 ];
 
 export default function TableFeatures() {

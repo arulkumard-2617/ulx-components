@@ -1,5 +1,7 @@
 import Component from '@glimmer/component';
-import { UlxTable } from 'ulx-components';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxTable, UlxSelectButton } from 'ulx-components';
 
 const PRODUCTS = [
   { id: 1, name: 'Bamboo Watch', category: 'Accessories', price: 65 },
@@ -16,45 +18,36 @@ const columns = [
 export default class DemoTableSizeVariants extends Component {
   products = PRODUCTS;
   columns = columns;
+  sizeOptions = [
+    { label: 'Extra Small', value: 'xs-size' },
+    { label: 'Small', value: 's-size' },
+    { label: 'Medium', value: 'm-size' },
+    { label: 'Large', value: 'l-size' },
+  ];
+
+  @tracked selectedSize = 's-size';
+
+  @action
+  handleSizeChange(value) {
+    this.selectedSize = value;
+  }
 
   <template>
-    <div>
-      <div>
-        <h4 class="h5 mb-2">Extra Small (xs-size)</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @size="xs-size"
-        />
-      </div>
-      <div>
-        <h4 class="h5 mb-2">Small — default (s-size)</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @size="s-size"
-        />
-      </div>
-      <div>
-        <h4 class="h5 mb-2">Medium (m-size)</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @size="m-size"
-        />
-      </div>
-      <div>
-        <h4 class="h5 mb-2">Large (l-size)</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @size="l-size"
-        />
-      </div>
+    <div class="flex flex-col gap-5">
+      <UlxSelectButton
+        @options={{this.sizeOptions}}
+        @value={{this.selectedSize}}
+        @onChange={{this.handleSizeChange}}
+        @size="m-size"
+        @variant="secondary"
+      />
+
+      <UlxTable
+        @value={{this.products}}
+        @columns={{this.columns}}
+        @dataKey="id"
+        @size={{this.selectedSize}}
+      />
     </div>
   </template>
 }

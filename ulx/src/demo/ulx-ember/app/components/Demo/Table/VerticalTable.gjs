@@ -45,21 +45,6 @@ export default class DemoTableVertical extends Component {
   columns = columns;
 
   <template>
-    <p class="text-sm fg-text-secondary mb-2">
-      Use
-      <code>@layout="vertical"</code>
-      to transpose the table — each row shows a
-      <strong>property</strong>
-      and each column shows a
-      <strong>data record</strong>. Pass
-      <code>@verticalLabelField</code>
-      to use a field value (e.g.
-      <code>name</code>) as column headers.
-    </p>
-
-    <h4 class="text-sm mb-1" style="margin-top: 1.5rem; font-weight: 600;">
-      Vertical table (no column headers)
-    </h4>
     <UlxTable
       @value={{this.products}}
       @columns={{this.columns}}

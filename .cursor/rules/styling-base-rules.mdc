@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # Styling Base Rules
 
 ## Prefix and naming
@@ -15,4 +19,3 @@
   - Use `UlxButton` instead of a bare `<button>` with button classes.
   - Use `UlxChip` (or the relevant tag/badge component) instead of a bare `<span>` with tag classes.
 - Only fall back to raw HTML + utility classes when there is **no ULX component** that fits the use case.
-
