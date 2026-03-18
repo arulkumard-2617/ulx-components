@@ -5,12 +5,60 @@ import { fn } from '@ember/helper';
 import { UlxTable, UlxButton } from 'ulx-components';
 
 const PRODUCTS = [
-  { id: 1, code: 'f230fh0g3', name: 'Bamboo Watch', category: 'Accessories', price: 65, quantity: 24, status: 'INSTOCK' },
-  { id: 2, code: 'nvklal433', name: 'Black Watch', category: 'Accessories', price: 72, quantity: 61, status: 'INSTOCK' },
-  { id: 3, code: 'zz21cz3c1', name: 'Blue Band', category: 'Fitness', price: 79, quantity: 2, status: 'LOWSTOCK' },
-  { id: 4, code: '244wgerg2', name: 'Blue T-Shirt', category: 'Clothing', price: 29, quantity: 25, status: 'INSTOCK' },
-  { id: 5, code: 'h456wer53', name: 'Bracelet', category: 'Accessories', price: 15, quantity: 73, status: 'INSTOCK' },
-  { id: 6, code: 'av2231fwg', name: 'Brown Purse', category: 'Accessories', price: 120, quantity: 0, status: 'OUTOFSTOCK' },
+  {
+    id: 1,
+    code: 'f230fh0g3',
+    name: 'Bamboo Watch',
+    category: 'Accessories',
+    price: 65,
+    quantity: 24,
+    status: 'INSTOCK',
+  },
+  {
+    id: 2,
+    code: 'nvklal433',
+    name: 'Black Watch',
+    category: 'Accessories',
+    price: 72,
+    quantity: 61,
+    status: 'INSTOCK',
+  },
+  {
+    id: 3,
+    code: 'zz21cz3c1',
+    name: 'Blue Band',
+    category: 'Fitness',
+    price: 79,
+    quantity: 2,
+    status: 'LOWSTOCK',
+  },
+  {
+    id: 4,
+    code: '244wgerg2',
+    name: 'Blue T-Shirt',
+    category: 'Clothing',
+    price: 29,
+    quantity: 25,
+    status: 'INSTOCK',
+  },
+  {
+    id: 5,
+    code: 'h456wer53',
+    name: 'Bracelet',
+    category: 'Accessories',
+    price: 15,
+    quantity: 73,
+    status: 'INSTOCK',
+  },
+  {
+    id: 6,
+    code: 'av2231fwg',
+    name: 'Brown Purse',
+    category: 'Accessories',
+    price: 120,
+    quantity: 0,
+    status: 'OUTOFSTOCK',
+  },
 ];
 
 const ALL_COLUMNS = [
@@ -33,7 +81,9 @@ export default class DemoTableDynamicColumns extends Component {
   }
 
   get columns() {
-    return this.allColumns.filter((c) => this.selectedFieldsList.includes(c.field));
+    return this.allColumns.filter((c) =>
+      this.selectedFieldsList.includes(c.field),
+    );
   }
 
   @action
@@ -54,7 +104,7 @@ export default class DemoTableDynamicColumns extends Component {
   }
 
   <template>
-    <div class="uls-column row gp2 mgb2" style="flex-wrap: wrap;">
+    <div class="flex gap-2 mb-4">
       {{#each this.allColumns as |col|}}
         <UlxButton
           @label={{col.header}}

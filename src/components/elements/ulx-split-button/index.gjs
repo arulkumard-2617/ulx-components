@@ -102,6 +102,10 @@ export default class UlxSplitButton extends Component {
 		return this.args.dropdownIconSize ?? "s18";
 	}
 
+	get menuCustomClassName() {
+		return this.args.menuCustomClass;
+	}
+
 	get rootClasses() {
 		const {
 			raised = false,
@@ -330,6 +334,7 @@ export default class UlxSplitButton extends Component {
 					@popup={{true}}
 					@visible={{this.menuVisible}}
 					@target={{this.dropdownTarget}}
+					@customClass={{this.menuCustomClassName}}
 					@onHide={{this.hideMenu}}
 					@onItemSelect={{this.handleItemSelect}}
 				/>

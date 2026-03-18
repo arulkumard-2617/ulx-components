@@ -12,8 +12,8 @@ const ulxRoot = resolve(__dirname, '../../..');
 const addonRoot = resolve(ulxRoot, '..');
 const stylesPath = 'src/styles/ulx';
 const entryFile = resolve(ulxRoot, stylesPath, 'ulx-editor.less');
-// Write CSS to the root addon dist so it is a direct child of ulx-components
-const outDir = resolve(addonRoot, 'dist/css');
+// Write CSS to ulx-components/dev-releases/css
+const outDir = resolve(addonRoot, 'dev-releases/css');
 const outFile = resolve(outDir, 'ulx-editor.css');
 const outMinFile = resolve(outDir, 'ulx-editor.min.css');
 

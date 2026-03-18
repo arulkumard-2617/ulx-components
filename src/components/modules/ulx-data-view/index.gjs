@@ -47,22 +47,19 @@ export default class UlxDataView extends Component {
 					{{yield to="header"}}
 				</div>
 			{{/if}}
-			<div class="dataview-content">
+			<div class="dataview-content" role={{this.args.gridRole}}>
+				{{#if (has-block "left")}}
+					{{yield to="left"}}
+				{{/if}}
 
-				<div class="uls-grid" role={{this.args.gridRole}}>
-					{{#if (has-block "left")}}
-						{{yield to="left"}}
-					{{/if}}
-
-					{{#if (has-block "content")}}
-						{{yield to="content"}}
-					{{else}}
-						{{yield}}
-					{{/if}}
-					{{#if (has-block "right")}}
-						{{yield to="right"}}
-					{{/if}}
-				</div>
+				{{#if (has-block "content")}}
+					{{yield to="content"}}
+				{{else}}
+					{{yield}}
+				{{/if}}
+				{{#if (has-block "right")}}
+					{{yield to="right"}}
+				{{/if}}
 
 				{{#if (has-block "footer")}}
 					<div>

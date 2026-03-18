@@ -35,6 +35,12 @@ export default class UlxTieredmenuMenuItem extends Component {
 		return this.args.size ?? "s20";
 	}
 
+	get linkClass() {
+		const baseClassName = "tieredmenu-item-link";
+		const itemLinkClassName = this.args.item?.linkClass;
+		return itemLinkClassName ? `${baseClassName} ${itemLinkClassName}` : baseClassName;
+	}
+
 	<template>
 		<li
 			class={{@itemClasses}}
@@ -45,7 +51,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 			<button
 				id={{@itemId}}
 				type="button"
-				class="tieredmenu-item-link"
+				class={{this.linkClass}}
 				role="menuitem"
 				aria-label={{@item.label}}
 				aria-disabled={{if @isDisabled "true" "false"}}

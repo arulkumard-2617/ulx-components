@@ -14,7 +14,6 @@ import UlxInput from "../../elements/ulx-input/index.gjs";
 import UlxMultiSelect from "../../elements/ulx-multi-select/index.gjs";
 import { t } from "../../../utils/i18n.js";
 
-
 /**
  * Filter overlay popup for UlxTable menu-display filter mode.
  *
@@ -43,16 +42,16 @@ export default class FilterOverlay extends Component {
 
 	get matchModeOptions() {
 		const textOptions = [
-			{ label: t('lbl.filter.contains'), value: 'contains' },
-			{ label: t('lbl.filter.not.contains'), value: 'notContains' },
-			{ label: t('lbl.filter.starts.with'), value: 'startsWith' },
-			{ label: t('lbl.filter.ends.with'), value: 'endsWith' },
-			{ label: t('lbl.filter.equals'), value: 'equals' },
-			{ label: t('lbl.filter.not.equals'), value: 'notEquals' },
+			{ label: t("lbl.filter.contains"), value: "contains" },
+			{ label: t("lbl.filter.not.contains"), value: "notContains" },
+			{ label: t("lbl.filter.starts.with"), value: "startsWith" },
+			{ label: t("lbl.filter.ends.with"), value: "endsWith" },
+			{ label: t("lbl.filter.equals"), value: "equals" },
+			{ label: t("lbl.filter.not.equals"), value: "notEquals" }
 		];
 		const multiselectOptions = [
-			{ label: t('lbl.filter.in'), value: 'in' },
-			{ label: t('lbl.filter.not.in'), value: 'notIn' },
+			{ label: t("lbl.filter.in"), value: "in" },
+			{ label: t("lbl.filter.not.in"), value: "notIn" }
 		];
 		if (this.isMultiSelect) {
 			return this.args.column?.filterMatchModeOptions ?? multiselectOptions;
@@ -62,8 +61,8 @@ export default class FilterOverlay extends Component {
 
 	get operatorOptions() {
 		return [
-			{ label: t('lbl.filter.and'), value: 'and' },
-			{ label: t('lbl.filter.or'), value: 'or' },
+			{ label: t("lbl.filter.and"), value: "and" },
+			{ label: t("lbl.filter.or"), value: "or" }
 		];
 	}
 
@@ -83,10 +82,12 @@ export default class FilterOverlay extends Component {
 		if (this.localConstraints) return this.localConstraints;
 		const meta = this.args.filterMeta;
 		if (meta?.constraints) return meta.constraints;
-		return [{
-			value: meta?.value ?? this.defaultValue,
-			matchMode: meta?.matchMode ?? this.defaultMatchMode
-		}];
+		return [
+			{
+				value: meta?.value ?? this.defaultValue,
+				matchMode: meta?.matchMode ?? this.defaultMatchMode
+			}
+		];
 	}
 
 	get operator() {
@@ -182,15 +183,16 @@ export default class FilterOverlay extends Component {
 
 	<template>
 		<div
-			class="ulx-datatable-filter-overlay menu-display flex flex-col gap-3"
+			class="ulx-datatable-filter-overlay menu-display"
 			role="dialog"
 			aria-label={{t "aria.table.column.filter"}}
 			{{on "keydown" this.handleOverlayKeydown}}
 		>
-			<div class="datatable-filter-overlay-header flex justify-between items-center">
-				<span class="datatable-filter-overlay-title">{{or @column.header this.field}}</span>
+			<div class="filter-overlay-header">
+				<span class="filter-overlay-title">{{or @column.header this.field}}</span>
 				<UlxButton
-					@variant="text"
+					@variant="secondary"
+					@text={{true}}
 					@size="s-size"
 					@icon="close-icon-01"
 					@iconComponentClass="bs-icons1"
@@ -200,7 +202,7 @@ export default class FilterOverlay extends Component {
 				/>
 			</div>
 			{{#if this.hasMatchModes}}
-				<div class="datatable-filter-operator">
+				<div class="filter-operator">
 					<UlxDropdown
 						@value={{this.operator}}
 						@options={{this.operatorOptions}}
@@ -212,9 +214,9 @@ export default class FilterOverlay extends Component {
 				</div>
 			{{/if}}
 
-			<div class="datatable-filter-constraints flex flex-col gap-2">
+			<div class="filter-constraints">
 				{{#each this.constraints key="@index" as |constraint index|}}
-					<div class="datatable-filter-constraint flex flex-row items-center gap-2 flex-wrap">
+					<div class="filter-constraint">
 						{{#if this.hasMatchModes}}
 							<UlxDropdown
 								@value={{constraint.matchMode}}
@@ -240,9 +242,9 @@ export default class FilterOverlay extends Component {
 								@optionValue="value"
 								@placeholder={{t "msg.table.select.values"}}
 								@filter={{true}}
-							@invalid={{and this.showValidation (not constraint.value.length)}}
-							@onChange={{fn this.updateConstraint index "value"}}
-							aria-label={{t "aria.table.filter.values"}}
+								@invalid={{and this.showValidation (not constraint.value.length)}}
+								@onChange={{fn this.updateConstraint index "value"}}
+								aria-label={{t "aria.table.filter.values"}}
 							/>
 						{{else}}
 							<UlxInput
@@ -261,7 +263,7 @@ export default class FilterOverlay extends Component {
 								@icon="dash-circle"
 								@iconComponentClass="bs-icons1"
 								@iconSize="s14"
-								@customClass="datatable-filter-remove"
+								@customClass="filter-remove"
 								@onClick={{fn this.removeConstraint index}}
 								aria-label={{t "aria.table.remove.filter.rule"}}
 							/>
@@ -271,20 +273,20 @@ export default class FilterOverlay extends Component {
 			</div>
 
 			{{#if this.canAddRule}}
-				<div class="datatable-filter-add-rule">
+				<div class="filter-add-rule">
 					<UlxButton
-						@variant="text"
+						@outlined={{true}}
+						@variant="primary"
 						@label={{t "lbl.add.filter.rule"}}
-						@icon="plus-circle"
-						@iconComponentClass="bs-icons1"
-						@iconSize="s14"
+						@icon="add-icon-01"
+						@size="s-size"
 						@onClick={{this.addConstraint}}
 					/>
 				</div>
 			{{/if}}
 
-			<div class="datatable-filter-buttonbar flex flex-row justify-end gap-2">
-				<UlxButton @variant="outlined" @label={{t "lbl.clear"}} @onClick={{this.handleClear}} />
+			<div class="filter-buttonbar">
+				<UlxButton @variant="basic" @label={{t "lbl.clear"}} @onClick={{this.handleClear}} />
 				<UlxButton
 					@variant="primary"
 					@label={{t "lbl.apply.filter"}}

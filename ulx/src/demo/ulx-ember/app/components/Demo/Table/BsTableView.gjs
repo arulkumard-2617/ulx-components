@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
@@ -99,8 +100,13 @@ const columns = [
     manageable: false,
     body: NameEmailCell,
   },
-  { field: 'role', header: 'Role' },
+  { field: 'role', header: 'Role', sortable: true },
   { field: 'status', header: 'Status', body: StatusCell },
+];
+
+const sortOptions = [
+  { key: 'name', lbl: 'Name' },
+  { key: 'role', lbl: 'Role' },
 ];
 
 const filterGroups = [
@@ -125,7 +131,10 @@ const filterGroups = [
 export default class DemoTableBsTableView extends Component {
   members = MEMBERS;
   columns = columns;
+  sortOptions = sortOptions;
   filterGroups = filterGroups;
+
+  @tracked sortBy = 'name:asc';
 
   @action
   getRowActionModel(member) {
@@ -152,6 +161,11 @@ export default class DemoTableBsTableView extends Component {
   }
 
   @action
+  handleSortByChange(value) {
+    this.sortBy = value;
+  }
+
+  @action
   invitePortalMembers() {
     window.alert?.('Invite Portal Members clicked (demo).');
   }
@@ -171,12 +185,6 @@ export default class DemoTableBsTableView extends Component {
   }
 
   <template>
-    <p class="text-sm fg-text-secondary mb-2">
-      Portal-members style table: global search, toolbar sort dropdown, filter
-      slide pane (Status / Role), manage columns (some columns use
-      <code>manageable: false</code>), and primary action in
-      <code>&lt;:postRightMenu&gt;</code>.
-    </p>
     <UlxTable
       @value={{this.members}}
       @columns={{this.columns}}
@@ -184,6 +192,9 @@ export default class DemoTableBsTableView extends Component {
       @moduleName="portal-members"
       @showGlobalFilter={{true}}
       @globalFilterPlaceholder={{t "lbl.search"}}
+      @sortOptions={{this.sortOptions}}
+      @sortBy={{this.sortBy}}
+      @onSortByChange={{this.handleSortByChange}}
       @filterGroups={{this.filterGroups}}
       @showManageColumns={{true}}
     >

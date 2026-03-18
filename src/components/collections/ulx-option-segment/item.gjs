@@ -8,7 +8,7 @@ import UlxTristateCheckbox from "../../elements/ulx-tristate-checkbox/index.gjs"
 /**
  * Internal building block for `UlxOptionSegment`.
  *
- * Renders a single option card (`.os-item`) inside the
+ * Renders a single option card (`.option-item`) inside the
  * `.ulx-option-segments` group container.
  *
  * @class UlxOptionSegmentItem
@@ -71,7 +71,7 @@ export default class UlxOptionSegmentItem extends Component {
 	get itemClasses() {
 		const { itemClass } = this.item;
 
-		const parts = ["os-item"];
+		const parts = ["option-item"];
 
 		// Visual state on the individual option card
 		this.isSelected && parts.push("is-selected");
@@ -93,7 +93,7 @@ export default class UlxOptionSegmentItem extends Component {
 			return "radio";
 		}
 
-		return "group";
+		return "radio";
 	}
 
 	get isToggleRole() {
@@ -150,6 +150,10 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get hasTitleBlock() {
 		return Boolean(this.args.hasTitleBlock);
+	}
+
+	get hasContentBlock() {
+		return Boolean(this.args.hasContentBlock);
 	}
 
 	get hasDescriptionBlock() {
@@ -261,7 +265,7 @@ export default class UlxOptionSegmentItem extends Component {
 			...attributes
 		>
 			{{#if this.hasControlSection}}
-				<div class="os-control">
+				<div class="option-control">
 					{{#if this.hasControlBlock}}
 						{{yield this.item to="control"}}
 					{{else if this.isRadioType}}
@@ -269,7 +273,7 @@ export default class UlxOptionSegmentItem extends Component {
 							@checked={{this.isSelected}}
 							@disabled={{this.isDisabled}}
 							@itemLabel=""
-							@customClass="os-control-radio"
+							@customClass="option-control-radio"
 							@onCheckedChange={{this.handleControlCheckedChange}}
 						/>
 					{{else if this.isCheckboxType}}
@@ -277,7 +281,7 @@ export default class UlxOptionSegmentItem extends Component {
 							@checked={{this.isSelected}}
 							@disabled={{this.isDisabled}}
 							@itemLabel=""
-							@customClass="os-control-checkbox"
+							@customClass="option-control-checkbox"
 							@onCheckedChange={{this.handleControlCheckedChange}}
 						/>
 					{{else if this.isTristateType}}
@@ -286,7 +290,7 @@ export default class UlxOptionSegmentItem extends Component {
 							@disabled={{this.isDisabled}}
 							@itemLabel=""
 							@hideLabel={{true}}
-							@customClass="os-control-checkbox"
+							@customClass="option-control-checkbox"
 							@onValueChange={{this.handleTristateValueChange}}
 							{{on "click" this.stopNestedClickPropagation}}
 						/>
@@ -294,35 +298,39 @@ export default class UlxOptionSegmentItem extends Component {
 				</div>
 			{{/if}}
 
-			<div class="os-content">
+			<div class="option-content">
+				{{#if this.hasContentBlock}}
+					{{yield this.item to="content"}}
+				{{/if}}
+
 				{{#if this.hasTitleBlock}}
-					<div class="os-title">
+					<div class="option-title">
 						{{yield this.item to="title"}}
 					</div>
 				{{else if this.title}}
-					<div class="os-title">
+					<div class="option-title">
 						{{this.title}}
 					</div>
 				{{/if}}
 
 				{{#if this.hasDescriptionBlock}}
-					<div class="os-description">
+					<div class="option-description">
 						{{yield this.item to="description"}}
 					</div>
 				{{else if this.description}}
-					<div class="os-description">
+					<div class="option-description">
 						{{this.description}}
 					</div>
 				{{/if}}
 
 				{{#if this.hasNestedBlock}}
-					<div class="os-nested" {{on "click" this.stopNestedClickPropagation}}>
+					<div class="option-nested" {{on "click" this.stopNestedClickPropagation}}>
 						{{yield this.item to="nested"}}
 					</div>
 				{{else if this.hasNestedItems}}
-					<div class="os-nested" {{on "click" this.stopNestedClickPropagation}}>
+					<div class="option-nested" {{on "click" this.stopNestedClickPropagation}}>
 						{{#each this.nestedItems as |nestedItem|}}
-							<div class="os-nested-item">
+							<div class="option-nested-item">
 								{{nestedItem.label}}
 							</div>
 						{{/each}}

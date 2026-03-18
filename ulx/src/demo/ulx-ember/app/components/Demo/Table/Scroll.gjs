@@ -4,12 +4,31 @@ import { UlxTable } from 'ulx-components';
 const generateRows = (count) =>
   Array.from({ length: count }, (_, i) => ({
     id: i + 1,
-    name: ['Alice Smith', 'Bob Jones', 'Carol White', 'Dave Brown', 'Eve Davis',
-           'Frank Wilson', 'Grace Lee', 'Hank Moore', 'Iris Chen', 'Jake Turner'][i % 10],
-    country: ['USA', 'UK', 'DE', 'FR', 'JP', 'AU', 'CA', 'BR', 'IN', 'MX'][i % 10],
+    name: [
+      'Alice Smith',
+      'Bob Jones',
+      'Carol White',
+      'Dave Brown',
+      'Eve Davis',
+      'Frank Wilson',
+      'Grace Lee',
+      'Hank Moore',
+      'Iris Chen',
+      'Jake Turner',
+    ][i % 10],
+    country: ['USA', 'UK', 'DE', 'FR', 'JP', 'AU', 'CA', 'BR', 'IN', 'MX'][
+      i % 10
+    ],
     company: `Company ${String.fromCharCode(65 + (i % 26))}`,
-    representative: ['Amy Elsner', 'Anna Fali', 'Asiya Javayant', 'Bernardo Dominic'][i % 4],
-    status: ['Qualified', 'Unqualified', 'New', 'Negotiation', 'Renewal'][i % 5],
+    representative: [
+      'Amy Elsner',
+      'Anna Fali',
+      'Asiya Javayant',
+      'Bernardo Dominic',
+    ][i % 4],
+    status: ['Qualified', 'Unqualified', 'New', 'Negotiation', 'Renewal'][
+      i % 5
+    ],
     col1: `Data A${i + 1}`,
     col2: `Data B${i + 1}`,
     col3: `Data C${i + 1}`,
@@ -29,7 +48,11 @@ const horizontalCols = [
   { field: 'name', header: 'Name', style: 'min-width: 150px' },
   { field: 'country', header: 'Country', style: 'min-width: 120px' },
   { field: 'company', header: 'Company', style: 'min-width: 180px' },
-  { field: 'representative', header: 'Representative', style: 'min-width: 160px' },
+  {
+    field: 'representative',
+    header: 'Representative',
+    style: 'min-width: 160px',
+  },
   { field: 'status', header: 'Status', style: 'min-width: 120px' },
   { field: 'col1', header: 'Extra 1', style: 'min-width: 120px' },
   { field: 'col2', header: 'Extra 2', style: 'min-width: 120px' },
@@ -49,7 +72,7 @@ export default class DemoTableScroll extends Component {
     <div>
       <div>
         <h4 class="h5 mb-2">Vertical Scroll</h4>
-        <p class="text-sm fg-text-secondary mb-2">Set
+        <p class="text-sm fg-text-secondary mb-4">Set
           <code>@scrollable</code>
           and
           <code>@scrollHeight</code>
@@ -63,9 +86,9 @@ export default class DemoTableScroll extends Component {
         />
       </div>
 
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Horizontal Scroll</h4>
-        <p class="text-sm fg-text-secondary mb-2">Use
+        <p class="text-sm fg-text-secondary mb-4">Use
           <code>@scrollable</code>
           with columns that have
           <code>style="min-width: …"</code>
@@ -79,13 +102,13 @@ export default class DemoTableScroll extends Component {
         />
       </div>
 
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Flexible Scroll</h4>
-        <p class="text-sm fg-text-secondary mb-2">Set
+        <p class="text-sm fg-text-secondary mb-4">Set
           <code>@scrollHeight="flex"</code>
           and wrap the table in a fixed-height container to let the table fill
           available space.</p>
-        <div style="height: 300px; display: flex; flex-direction: column;">
+        <div>
           <UlxTable
             @value={{this.flexibleRows}}
             @columns={{this.verticalCols}}

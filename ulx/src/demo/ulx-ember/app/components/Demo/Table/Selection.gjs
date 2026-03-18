@@ -48,15 +48,9 @@ const dataCols = [
   { field: 'price', header: 'Price ($)' },
 ];
 
-const checkboxCols = [
-  { selectionMode: 'multiple' },
-  ...dataCols,
-];
+const checkboxCols = [{ selectionMode: 'multiple' }, ...dataCols];
 
-const radioCols = [
-  { selectionMode: 'single' },
-  ...dataCols,
-];
+const radioCols = [{ selectionMode: 'single' }, ...dataCols];
 
 export default class DemoTableSelection extends Component {
   products = PRODUCTS;
@@ -94,7 +88,6 @@ export default class DemoTableSelection extends Component {
     <div>
       <div>
         <h4 class="h5 mb-2">Single Row Selection</h4>
-        <p class="text-sm fg-text-secondary mb-2">Click a row to select it.</p>
         <UlxTable
           @value={{this.products}}
           @columns={{this.dataCols}}
@@ -109,14 +102,9 @@ export default class DemoTableSelection extends Component {
         {{/if}}
       </div>
 
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Multiple Row Selection</h4>
-        <p class="text-sm fg-text-secondary mb-2">Hold
-          <kbd>Ctrl</kbd>
-          (or
-          <kbd>Cmd</kbd>) and click rows to select multiple. Hold
-          <kbd>Shift</kbd>
-          to range-select.</p>
+
         <UlxTable
           @value={{this.products}}
           @columns={{this.dataCols}}
@@ -130,10 +118,9 @@ export default class DemoTableSelection extends Component {
           row(s)</p>
       </div>
 
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Checkbox Selection</h4>
-        <p class="text-sm fg-text-secondary mb-2">Use checkboxes to select
-          multiple rows. The header checkbox toggles all rows.</p>
+
         <UlxTable
           @value={{this.products}}
           @columns={{this.checkboxCols}}
@@ -147,10 +134,8 @@ export default class DemoTableSelection extends Component {
           row(s)</p>
       </div>
 
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Radio Button Selection</h4>
-        <p class="text-sm fg-text-secondary mb-2">Use the radio column to
-          select a single row at a time.</p>
         <UlxTable
           @value={{this.products}}
           @columns={{this.radioCols}}

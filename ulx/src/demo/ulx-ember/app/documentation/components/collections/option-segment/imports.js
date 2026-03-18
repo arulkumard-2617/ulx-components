@@ -5,6 +5,7 @@
 
 // Demo Components
 export { default as BasicDemo } from '../../../../components/Demo/OptionSegment/Basic';
+export { default as TemplateDemo } from '../../../../components/Demo/OptionSegment/Template';
 export { default as RadiogroupDemo } from '../../../../components/Demo/OptionSegment/Radiogroup';
 export { default as CheckboxgroupDemo } from '../../../../components/Demo/OptionSegment/Checkboxgroup';
 export { default as HorizontalDemo } from '../../../../components/Demo/OptionSegment/Horizontal';
@@ -18,6 +19,7 @@ export { default as ImportSource } from './snippets/Import.gjs';
 // ==========================================================================
 // Centralized exports for all OptionSegment demo source files
 export { default as BasicSource } from './snippets/Basic.gjs';
+export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as RadiogroupSource } from './snippets/Radiogroup.gjs';
 export { default as CheckboxgroupSource } from './snippets/Checkboxgroup.gjs';
 export { default as HorizontalSource } from './snippets/Horizontal.gjs';
