@@ -146,7 +146,7 @@ get rootClasses() {
 
 - **Class prefix:** Use `getComponentClass(componentName)` from `src/utils/component-config.js`. Do not hardcode prefix strings like `ulx-`.
 - **ULX CSS classes:** existing ULX styles from `- **Primary**: `uls/node_modules/ulx-v2/src/styles/ulx-master.less`
-- **Component styles**: `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/`. Do not create custom CSS classes.
+- **Component styles**: `ulx/node_modules/ULS_V2.0/src/styles/ulx-styles/less/`. Do not create custom CSS classes.
 - **i18n:** All user-facing strings must use the `t` helper. Import must be present in the component.
 - **Reuse existing components:** Use `UlxButton`, `UlxIcon`, `UlxInput`, etc. instead of raw HTML elements where applicable.
 - **ember-truth-helpers:** Import and use when needed; do not forget the import.
