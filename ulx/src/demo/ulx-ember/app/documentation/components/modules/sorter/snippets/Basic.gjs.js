@@ -2,13 +2,21 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSorter, UlxSorterItem } from 'ulx-components';
+import {
+  UlxSorter,
+  UlxSorterItem,
+  UlxButton,
+  t,
+  UlxIcon,
+} from 'ulx-components';
 
 export default class BasicSorterDemo extends Component {
   @tracked items = [
-    { id: 1, name: 'Item One' },
-    { id: 2, name: 'Item Two' },
-    { id: 3, name: 'Item Three' },
+    { id: 1, value: 50 },
+    { id: 2, value: 60 },
+    { id: 3, value: 70 },
+    { id: 4, value: 80 },
+    { id: 5, value: 90 },
   ];
 
   @action
@@ -17,15 +25,51 @@ export default class BasicSorterDemo extends Component {
   }
 
   <template>
-    <UlxSorter @onChange={{this.reorderItems}} @customClass="ulx-drag">
+    <UlxSorter
+      @groupName="basic-sorter"
+      @onChange={{this.reorderItems}}
+      @customClass="w-full flex flex-col gap-y-2"
+      as |groupName|
+    >
       {{#each this.items as |item|}}
         <UlxSorterItem
-          @model={{item}}
-          @customClass="drag-item flex items-center gap-2"
+          @groupName={{groupName}}
           @showDragIcon={{true}}
           @useDragIconAsHandle={{true}}
+          @model={{item}}
+          @customClass="w-full"
         >
-          {{item.name}}
+          <div
+            class="w-full flex items-center justify-between bg-default border border-light rounded-md py-4 px-6"
+          >
+            <div class="flex items-center gap-x-4">
+              <UlxIcon
+                @iconName="dragdrop-icon1"
+                @iconComponentClass="bs-icons1"
+                @type="font"
+                @iconSize="s18"
+              />
+              <span class="text-14 fg-text">{{item.id}}</span>
+              <span class="text-14 fg-text">{{item.value}}</span>
+            </div>
+
+            <div class="flex items-center gap-x-2">
+              <UlxButton
+                @variant="text"
+                @icon="edit-icon"
+                @iconComponentClass="bs-icons1"
+                @iconSize="s18"
+                aria-label={{t "lbl.update"}}
+              />
+              <UlxButton
+                @variant="text"
+                @icon="delete-icon-01"
+                @iconComponentClass="bs-icons1"
+                @iconSize="s18"
+                aria-label={{t "lbl.delete"}}
+              />
+            </div>
+          </div>
         </UlxSorterItem>
       {{/each}}
     </UlxSorter>

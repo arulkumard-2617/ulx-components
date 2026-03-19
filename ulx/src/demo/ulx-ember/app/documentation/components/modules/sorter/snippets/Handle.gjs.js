@@ -18,9 +18,18 @@ export default class HandleSorterDemo extends Component {
   }
 
   <template>
-    <UlxSorter @onChange={{this.reorderItems}} @customClass="ulx-drag">
+    <UlxSorter
+      @groupName="handle-sorter"
+      @onChange={{this.reorderItems}}
+      @customClass="ulx-drag"
+    as |groupName|>
       {{#each this.items as |item|}}
-        <UlxSorterItem @model={{item}} @handle=".handle" @customClass="drag-item">
+        <UlxSorterItem
+          @groupName={{groupName}}
+          @model={{item}}
+          @handle=".handle"
+          @customClass="drag-item"
+        >
           <span class="handle" {{SortableHandle}} aria-hidden="true">⋮⋮</span>
           {{item.name}}
         </UlxSorterItem>

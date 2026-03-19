@@ -28,9 +28,15 @@ export default class BasicSorterDemo extends Component {
       @groupName="basic-sorter"
       @onChange={{this.reorderItems}}
       @customClass="w-full flex flex-col gap-y-2"
-    as |groupName|>
+      as |groupName|
+    >
       {{#each this.items as |item|}}
-        <UlxSorterItem @groupName={{groupName}} @model={{item}} @customClass="w-full">
+        <UlxSorterItem
+          @groupName={{groupName}}
+          @useDragIconAsHandle={{true}}
+          @model={{item}}
+          @customClass="w-full"
+        >
           <div
             class="w-full flex items-center justify-between bg-default border border-light rounded-md py-4 px-6"
           >

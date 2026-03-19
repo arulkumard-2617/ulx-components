@@ -21,12 +21,12 @@ export default class HandleSorterDemo extends Component {
       @groupName="handle-sorter"
       @onChange={{this.reorderItems}}
       @customClass="ulx-drag"
-    as |groupName|>
+      as |groupName|
+    >
       {{#each this.items as |item|}}
         <UlxSorterItem
           @groupName={{groupName}}
           @model={{item}}
-          @handle=".handle"
           @customClass="drag-item"
         >
           <span class="handle" {{SortableHandle}} aria-hidden="true">⋮⋮</span>

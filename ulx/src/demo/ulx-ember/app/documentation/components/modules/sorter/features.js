@@ -56,7 +56,7 @@ export const SorterFeatureItems = [
       component: RichText,
       props: {
         as: "span",
-        content: "Use a drag handle so only the handle starts the drag. Pass <code>@handle</code> to UlxSorterItem and attach the sortable-handle modifier to the handle element."
+        content: "Use a <strong>drag handle</strong> when each item has other interactive elements (e.g. buttons, links, inputs). Without a handle, the whole row is draggable and can conflict with clicks on those elements. With a handle, only that element starts the drag, so users can click edit/delete or select text without accidentally reordering. Pass <code>@handle</code> to UlxSorterItem with a CSS selector (e.g. <code>.handle</code>) and attach the <code>SortableHandle</code> modifier from ember-sortable to the handle element."
       }
     },
     demo: {

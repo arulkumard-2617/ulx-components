@@ -19,10 +19,6 @@ export default class UlxSorter extends Component {
 		return getComponentClass("sorter");
 	}
 
-	get groupName() {
-		return this.args.groupName;
-	}
-
 	get direction() {
 		return this.args.direction ?? "y";
 	}
@@ -48,7 +44,7 @@ export default class UlxSorter extends Component {
 				onChange=this.onChange
 				direction=this.direction
 				disabled=@disabled
-				groupName=this.groupName
+				groupName=@groupName
 			}}
 			...attributes
 		>

@@ -31,10 +31,6 @@ export default class UlxSorterItem extends Component {
 		return this.args.showDragIcon ?? false;
 	}
 
-	get useDragIconAsHandle() {
-		return this.args.useDragIconAsHandle ?? false;
-	}
-
 	get baseClass() {
 		return getComponentClass("sorter-item");
 	}
@@ -70,7 +66,7 @@ export default class UlxSorterItem extends Component {
 			dragIconName = "dragdrop-icon1",
 			dragIconComponentClass = "bs-icons1",
 			dragIconType = "font",
-			dragIconSize = "s18",
+			dragIconSize = "s18"
 		} = this.args;
 
 		return { dragIconName, dragIconComponentClass, dragIconType, dragIconSize };
@@ -101,11 +97,12 @@ export default class UlxSorterItem extends Component {
 			}}
 			...attributes
 		>
-			{{#if this.showDragIcon}}
+			//If needed add drag icon back in
+			{{!-- {{#if this.showDragIcon}}
 				<span
 					class="inline-flex items-center"
 					data-ulx-sorter-handle
-					{{if this.useDragIconAsHandle SortableHandle}}
+					{{SortableHandle}}
 					aria-hidden="true"
 				>
 					<UlxIcon
@@ -115,7 +112,7 @@ export default class UlxSorterItem extends Component {
 						@iconSize={{this.dragIconArgs.dragIconSize}}
 					/>
 				</span>
-			{{/if}}
+			{{/if}} --}}
 			{{yield}}
 		</div>
 	</template>
