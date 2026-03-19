@@ -2,6 +2,8 @@
  * Utility functions for overlay components (modal, slide-pane).
  */
 
+import { schedule } from "@ember/runloop";
+
 export const FOCUSABLE_SELECTOR =
 	'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -67,4 +69,75 @@ export function handleTabKey(event, overlayElement) {
 			firstFocusable?.focus();
 		}
 	}
+}
+
+/**
+ * Returns document.body in browser for portal rendering; null in SSR.
+ * @returns {HTMLBodyElement | null}
+ */
+export function getDestinationElement() {
+	return typeof document !== "undefined" ? document.body : null;
+}
+
+/**
+ * Computes whether the overlay block should be shown and schedules shouldRender when visible.
+ * Use in a getter: get shouldRenderOverlay() { return shouldShowOverlay(this.args.visible, this.shouldRender, (v) => { this.shouldRender = v; }); }
+ *
+ * @param {boolean} visible - Current visibility from args
+ * @param {boolean} shouldRender - Current shouldRender state
+ * @param {Function} setShouldRender - Setter for shouldRender
+ * @returns {boolean}
+ */
+export function shouldShowOverlay(visible, shouldRender, setShouldRender) {
+	if (visible && !shouldRender) {
+		schedule("afterRender", () => {
+			setShouldRender(true);
+		});
+		return true;
+	}
+	return shouldRender;
+}
+
+/**
+ * Builds the options object for the overlay-lifecycle modifier.
+ * Shared by modal and slide-pane; pass component and overrides for component-specific values.
+ *
+ * @param {Object} component - Component instance with: handleClose, closeOnEscape, blockScroll, handleTabKey, transitionState, shouldRender, previousVisible, args.visible, previousActiveElement
+ * @param {Object} [overrides] - Optional overrides: onShow, overlaySelector, initialFocusSelector
+ * @returns {Object}
+ */
+export function buildOverlayLifecycleOptions(component, overrides = {}) {
+	const {
+		onShow: onShowOverride,
+		overlaySelector = '[tabindex="-1"]',
+		initialFocusSelector
+	} = overrides;
+
+	return {
+		onShow: onShowOverride ?? (() => component.args.onShow && component.args.onShow()),
+		onHide: component.handleClose,
+		onEscape: component.handleClose,
+		closeOnEscape: component.closeOnEscape,
+		blockScroll: component.blockScroll,
+		overlaySelector,
+		...(initialFocusSelector && { initialFocusSelector }),
+		handleTabKey: component.handleTabKey,
+		getTransitionState: () => component.transitionState,
+		setTransitionState: (value) => {
+			component.transitionState = value;
+		},
+		getShouldRender: () => component.shouldRender,
+		setShouldRender: (value) => {
+			component.shouldRender = value;
+		},
+		getPreviousVisible: () => component.previousVisible,
+		setPreviousVisible: (value) => {
+			component.previousVisible = value;
+		},
+		getVisible: () => component.args.visible,
+		getPreviousActiveElement: () => component.previousActiveElement,
+		setPreviousActiveElement: (value) => {
+			component.previousActiveElement = value;
+		}
+	};
 }

@@ -1,7 +1,7 @@
 import { modifier } from 'ember-modifier';
 import { FOCUSABLE_SELECTOR } from '../utils/overlay-helpers';
 
-const TRANSITION_DURATION = 220;
+const TRANSITION_DURATION = 300;
 // Delay focus to allow enter transition to start and DOM to fully settle
 const FOCUS_DELAY_MS = 100;
 
@@ -89,15 +89,18 @@ export default modifier((maskElement, [componentInstance, options]) => {
 			const overlayElement = maskElement.querySelector(overlaySelector);
 			if (overlayElement) {
 				let firstFocusable = null;
+
 				if (initialFocusSelector) {
 					const focusContainer = overlayElement.querySelector(initialFocusSelector);
 					if (focusContainer) {
 						firstFocusable = focusContainer.querySelector(FOCUSABLE_SELECTOR);
 					}
 				}
+
 				if (!firstFocusable) {
 					firstFocusable = overlayElement.querySelector(FOCUSABLE_SELECTOR);
 				}
+
 				if (firstFocusable) {
 					firstFocusable.focus();
 				} else {
@@ -169,6 +172,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 					}
 				}
 				break;
+
 			case 'Tab':
 				if (handleTabKey) {
 					const modalStack = componentInstance.modalStack;

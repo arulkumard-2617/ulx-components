@@ -6,7 +6,13 @@ import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
+import {
+	handleAsyncAction,
+	handleTabKey,
+	getDestinationElement,
+	shouldShowOverlay,
+	buildOverlayLifecycleOptions
+} from "../../../utils/overlay-helpers";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
 import UlxSlidePaneHeader from "./header.gjs";
 import UlxSlidePaneBody from "./body.gjs";
@@ -93,7 +99,7 @@ export default class UlxSlidePane extends Component {
 	previousActiveElement = null;
 
 	get destinationElement() {
-		return typeof document !== "undefined" ? document.body : null;
+		return getDestinationElement();
 	}
 
 	get baseClass() {
@@ -287,13 +293,9 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get shouldRenderSlidePane() {
-		if (this.args.visible && !this.shouldRender) {
-			schedule("afterRender", () => {
-				this.shouldRender = true;
-			});
-			return true;
-		}
-		return this.shouldRender;
+		return shouldShowOverlay(this.args.visible, this.shouldRender, (v) => {
+			this.shouldRender = v;
+		});
 	}
 
 	overlayStackManagement = modifier(() => {
@@ -317,37 +319,9 @@ export default class UlxSlidePane extends Component {
 	});
 
 	get overlayLifecycleOptions() {
-		return {
-			onShow: () => {
-				if (this.args.onShow) {
-					this.args.onShow();
-				}
-			},
-			onHide: this.handleClose,
-			onEscape: this.handleClose,
-			closeOnEscape: this.closeOnEscape,
-			blockScroll: this.blockScroll,
-			overlaySelector: '[tabindex="-1"]',
-			initialFocusSelector: ".slidepane-content",
-			handleTabKey: this.handleTabKey,
-			getTransitionState: () => this.transitionState,
-			setTransitionState: (value) => {
-				this.transitionState = value;
-			},
-			getShouldRender: () => this.shouldRender,
-			setShouldRender: (value) => {
-				this.shouldRender = value;
-			},
-			getPreviousVisible: () => this.previousVisible,
-			setPreviousVisible: (value) => {
-				this.previousVisible = value;
-			},
-			getVisible: () => this.args.visible,
-			getPreviousActiveElement: () => this.previousActiveElement,
-			setPreviousActiveElement: (value) => {
-				this.previousActiveElement = value;
-			}
-		};
+		return buildOverlayLifecycleOptions(this, {
+			initialFocusSelector: ".slidepane-content"
+		});
 	}
 
 	<template>

@@ -7,7 +7,13 @@ import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
-import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
+import {
+	handleAsyncAction,
+	handleTabKey,
+	getDestinationElement,
+	shouldShowOverlay,
+	buildOverlayLifecycleOptions
+} from "../../../utils/overlay-helpers";
 import UlxModalHeader from "./header.gjs";
 import UlxModalBody from "./body.gjs";
 import UlxModalFooter from "./footer.gjs";
@@ -105,7 +111,7 @@ export default class UlxModal extends Component {
 	previousActiveElement = null;
 
 	get destinationElement() {
-		return typeof document !== "undefined" ? document.body : null;
+		return getDestinationElement();
 	}
 
 	get baseClass() {
@@ -285,34 +291,7 @@ export default class UlxModal extends Component {
 	}
 
 	get overlayLifecycleOptions() {
-		return {
-			onShow: () => {
-				this.args.onShow && this.args.onShow();
-			},
-			onHide: this.handleClose,
-			onEscape: this.handleClose,
-			closeOnEscape: this.closeOnEscape,
-			blockScroll: this.blockScroll,
-			overlaySelector: '[tabindex="-1"]',
-			handleTabKey: this.handleTabKey,
-			getTransitionState: () => this.transitionState,
-			setTransitionState: (value) => {
-				this.transitionState = value;
-			},
-			getShouldRender: () => this.shouldRender,
-			setShouldRender: (value) => {
-				this.shouldRender = value;
-			},
-			getPreviousVisible: () => this.previousVisible,
-			setPreviousVisible: (value) => {
-				this.previousVisible = value;
-			},
-			getVisible: () => this.args.visible,
-			getPreviousActiveElement: () => this.previousActiveElement,
-			setPreviousActiveElement: (value) => {
-				this.previousActiveElement = value;
-			}
-		};
+		return buildOverlayLifecycleOptions(this);
 	}
 
 	// Drag modifier: position fixed + left/top during drag; exclude header icons; optionally keep in viewport
@@ -393,15 +372,10 @@ export default class UlxModal extends Component {
 		handleTabKey(event, dialogElement);
 	}
 
-	// When visible is true, show the block and schedule shouldRender so modifier can run enter sequence
 	get shouldRenderModal() {
-		if (this.args.visible && !this.shouldRender) {
-			schedule("afterRender", () => {
-				this.shouldRender = true;
-			});
-			return true;
-		}
-		return this.shouldRender;
+		return shouldShowOverlay(this.args.visible, this.shouldRender, (v) => {
+			this.shouldRender = v;
+		});
 	}
 
 	modalStackManagement = modifier(() => {
