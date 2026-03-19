@@ -5,6 +5,11 @@ const TRANSITION_DURATION = 220;
 // Delay focus to allow enter transition to start and DOM to fully settle
 const FOCUS_DELAY_MS = 100;
 
+function hasClosableToastInDom() {
+	if (typeof document === "undefined") return false;
+	return document.querySelector(".toast-message.closable:not(.toast-exit)") !== null;
+}
+
 /**
  * Shared overlay lifecycle modifier for modal and slide-pane components.
  * Handles visibility transitions, focus management, and keyboard events.
@@ -146,6 +151,10 @@ export default modifier((maskElement, [componentInstance, options]) => {
 		switch (event.key) {
 			case 'Escape':
 				if (closeOnEscape) {
+					// Toasts must take Escape priority over blocking overlays.
+					// If a closable toast is active, let toast handler close it first.
+					if (hasClosableToastInDom()) return;
+
 					// Only handle Escape if this is the topmost modal in the stack
 					const modalStack = componentInstance.modalStack;
 					const isTopModal = modalStack && modalStack.topModal === componentInstance;
@@ -162,6 +171,10 @@ export default modifier((maskElement, [componentInstance, options]) => {
 				break;
 		case 'Tab':
 			if (handleTabKey) {
+				const modalStack = componentInstance.modalStack;
+				const isTopModal = modalStack && modalStack.topModal === componentInstance;
+				if (modalStack && !isTopModal) break;
+
 				const overlayElement = maskElement.querySelector(overlaySelector);
 				overlayElement && handleTabKey(event, overlayElement);
 			}

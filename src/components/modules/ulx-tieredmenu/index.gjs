@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
@@ -47,6 +48,8 @@ import UlxTieredmenuMenuList from "./menu-list.gjs";
  * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
  */
 export default class UlxTieredmenu extends Component {
+	@service modalStack;
+
 	@tracked openSubmenus = new Set();
 	@tracked activeItemId = null;
 	@tracked focusedSubmenuId = null;
@@ -588,6 +591,8 @@ export default class UlxTieredmenu extends Component {
 			this.animationState = "enter";
 		}
 
+		this.modalStack?.registerModal(this);
+
 		// Position overlay and set z-index
 		this.alignOverlay();
 		this.setZIndex();
@@ -669,6 +674,7 @@ export default class UlxTieredmenu extends Component {
 			if (!transitionCompleted && this.animationState === "exit-active") {
 				transitionCompleted = true;
 				this.animationState = "exit-done";
+				this.modalStack?.unregisterModal(this);
 				this.clearZIndex();
 				this.args.onHide?.();
 				// Reset state after a brief delay
@@ -790,10 +796,9 @@ export default class UlxTieredmenu extends Component {
 	setZIndex() {
 		if (!this.containerElement || !this.isPopup) return;
 
-		// Keep menu above adjacent overlay surfaces.
-		const baseZIndex = 1100;
-		this.zIndex = baseZIndex;
-		this.containerElement.style.zIndex = baseZIndex;
+		const zIndex = this.modalStack?.getZIndexAboveMask(this) ?? 2100;
+		this.zIndex = zIndex;
+		this.containerElement.style.zIndex = zIndex;
 	}
 
 	/**
@@ -847,6 +852,7 @@ export default class UlxTieredmenu extends Component {
 		// This modifier just sets up the reference
 
 		return () => {
+			this.modalStack?.unregisterModal(this);
 			this.containerElement = null;
 		};
 	});
@@ -1063,6 +1069,7 @@ export default class UlxTieredmenu extends Component {
 
 		// For popup mode, close the entire menu when clicking outside
 		const handleClick = (event) => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			const isOutsideContainer = element && !element.contains(event.target);
 			const isOutsideTarget =
 				this.targetElement &&
@@ -1087,6 +1094,7 @@ export default class UlxTieredmenu extends Component {
 		if (!this.isPopup || !this.isVisible) return;
 
 		const handleResize = () => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			if (this.isVisible) {
 				this.handleHide();
 			}

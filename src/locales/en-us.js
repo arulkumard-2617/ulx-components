@@ -117,6 +117,20 @@ const enUs = {
 	'msg.type.message': '{type} message.',
 	'msg.variant.label': 'Variant: {variant}',
 
+	// ── Stacked overlay demo (Modal) ─────────────────────────
+	'lbl.open.stacked.demo': 'Open stacked overlay demo',
+	'lbl.stacked.overlays': 'Stacked overlays',
+	'msg.stacked.overlay.instructions': 'ESC closes the topmost overlay first. Toasts close before modal or slide pane. Open a toast, then press ESC to see toast close first.',
+	'lbl.open.popup': 'Open popup',
+	'lbl.open.menu': 'Open menu',
+	'lbl.dropdown.placeholder': 'Select…',
+	'msg.tooltip.stacked.demo': 'Tooltips layer above their trigger; ESC closes the top overlay.',
+	'lbl.hover.tooltip': 'Hover for tooltip',
+	'lbl.popup': 'Popup',
+	'msg.popup.stacked.demo': 'This popup is stacked above the modal. Press ESC to close this first.',
+	'msg.toast.stacked.demo': 'Stacked overlay demo',
+	'msg.toast.stacked.esc.first': 'Press ESC — this toast closes before the modal.',
+
 	// ── Toast messages ───────────────────────────────────────
 	'msg.basic.toast': 'This is a basic toast message.',
 	'msg.sticky.toast': 'This message stays visible until you close it.',

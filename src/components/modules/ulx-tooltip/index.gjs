@@ -117,8 +117,14 @@ export default class UlxTooltip extends Component {
 			return zIndex;
 		}
 
-		const topOverlay = this.modalStack?.topModal;
-		return topOverlay ? this.modalStack.getZIndex(topOverlay) + 1 : null;
+		const ownerOverlay = this.triggerElement?.closest(
+			".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper"
+		);
+		if (ownerOverlay || this.modalStack?.topModal) {
+			return this.modalStack?.getZIndexAboveMask() ?? 2100;
+		}
+
+		return 1090;
 	}
 
 	_shouldShowForEvent(eventType) {

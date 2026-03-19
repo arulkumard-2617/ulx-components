@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
@@ -73,6 +74,8 @@ import { hash, concat } from "@ember/helper";
  * @param {number} [zIndex] - Overlay panel z-index (e.g. when appended to body).
  */
 export default class UlxDropdown extends Component {
+	@service modalStack;
+
 	@action
 	handleFocus(event) {
 		const onFocusCallback = this.args.onFocus;
@@ -396,17 +399,19 @@ export default class UlxDropdown extends Component {
 			keyListener = (e) => {
 				if (e.key === "Escape") {
 					e.preventDefault();
+					e.stopPropagation();
+					e.stopImmediatePropagation();
 					onClose();
 				}
 			};
 			setTimeout(() => {
 				document.addEventListener("click", clickListener, true);
-				document.addEventListener("keydown", keyListener);
+				document.addEventListener("keydown", keyListener, true);
 			}, 0);
 		}
 		return () => {
 			if (clickListener) document.removeEventListener("click", clickListener, true);
-			if (keyListener) document.removeEventListener("keydown", keyListener);
+			if (keyListener) document.removeEventListener("keydown", keyListener, true);
 		};
 	});
 
@@ -444,7 +449,10 @@ export default class UlxDropdown extends Component {
 			element.style.width = `${targetRect.width}px`;
 			element.style.minWidth = `${targetRect.width}px`;
 			element.style.maxWidth = `${targetRect.width}px`;
-			const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : 5;
+			const zIndex =
+				typeof this.args.zIndex === "number"
+					? this.args.zIndex
+					: this.modalStack?.getZIndexAboveMask() ?? 2100;
 			element.style.zIndex = `${zIndex}`;
 			element.style.margin = "0";
 			element.style.padding = "0";

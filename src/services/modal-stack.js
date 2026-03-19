@@ -32,6 +32,12 @@ export default class ModalStackService extends Service {
 	}
 
 	/**
+	 * Z-index used by the design system for .dialog-mask (must be above this for overlays to show on top of modals).
+	 * @type {number}
+	 */
+	MASK_Z_INDEX = 2000;
+
+	/**
 	 * Get the z-index for a specific modal based on its position in the stack
 	 * @param {Object} modalInstance - The modal component instance
 	 * @returns {number} The calculated z-index
@@ -40,6 +46,18 @@ export default class ModalStackService extends Service {
 		const baseZIndex = modalInstance?.args?.zIndexBase || 1000;
 		const index = this.modals.indexOf(modalInstance);
 		return index === -1 ? baseZIndex : baseZIndex + (index * 10);
+	}
+
+	/**
+	 * Get a z-index guaranteed to be above the dialog mask (e.g. for toast, popup, dropdown panel).
+	 * Use for overlays that are rendered in document.body and must appear on top of open modals/slide panes.
+	 * @param {Object} [modalInstance] - Optional modal instance; if provided, returns getZIndex(instance) + offset above mask. If omitted, uses topModal.
+	 * @returns {number}
+	 */
+	getZIndexAboveMask(modalInstance) {
+		const instance = modalInstance ?? this.topModal;
+		const base = instance ? this.getZIndex(instance) : 1000;
+		return Math.max(base + 1001, this.MASK_Z_INDEX + 1);
 	}
 
 	/**
