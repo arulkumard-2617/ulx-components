@@ -75,8 +75,7 @@ export default class UlxInput extends Component {
 
 	// Type
 	get inputType() {
-		const { type = "text" } = this.args;
-		return type === "textarea" ? "text" : type;
+		return this.args.type ?? "text";
 	}
 
 	// ARIA
@@ -154,7 +153,7 @@ export default class UlxInput extends Component {
 			maxlength={{this.maxLength}}
 			required={{this.isRequired}}
 			aria-required={{this.isRequired}}
-			aria-invalid={{if this.isInvalid "true" "false"}}
+			aria-invalid="{{this.isInvalid}}"
 			aria-describedby={{this.ariaDescribedBy}}
 			aria-errormessage={{this.ariaErrorMessage}}
 			{{on "keydown" this.handleKeydown}}
