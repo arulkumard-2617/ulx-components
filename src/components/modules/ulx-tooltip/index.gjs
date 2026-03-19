@@ -6,6 +6,7 @@ import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 
 const GAP = 8;
 
@@ -121,7 +122,7 @@ export default class UlxTooltip extends Component {
 			".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper"
 		);
 		if (ownerOverlay || this.modalStack?.topModal) {
-			return this.modalStack?.getZIndexAboveMask() ?? 2100;
+			return getOverlayZIndexAboveMask(this.modalStack);
 		}
 
 		return 1090;

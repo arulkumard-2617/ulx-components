@@ -5,6 +5,8 @@ import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxPopupHeader from "./header.gjs";
 import UlxPopupFooter from "./footer.gjs";
 
@@ -521,8 +523,7 @@ export default class UlxPopup extends Component {
 	@action
 	_setZIndex() {
 		if (!this.containerElement) return;
-		const zIndex = this.modalStack?.getZIndexAboveMask(this) ?? 2100;
-		this.containerElement.style.zIndex = String(zIndex);
+		this.containerElement.style.zIndex = String(getOverlayZIndexAboveMask(this.modalStack, this));
 	}
 
 	@action
@@ -531,25 +532,6 @@ export default class UlxPopup extends Component {
 			this.containerElement.style.zIndex = "";
 		}
 	}
-
-	appendToBody = modifier((element, [shouldRender]) => {
-		if (!shouldRender) {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-			return;
-		}
-
-		if (element.parentNode !== document.body) {
-			document.body.appendChild(element);
-		}
-
-		return () => {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-		};
-	});
 
 	registerPopup = modifier((element) => {
 		this.containerElement = element;
@@ -766,7 +748,7 @@ export default class UlxPopup extends Component {
 				aria-hidden={{if this.isVisible "false" "true"}}
 				aria-label={{if this.ariaLabel this.ariaLabel}}
 				tabindex="-1"
-				{{this.appendToBody this.shouldRender}}
+				{{appendToBody this.shouldRender}}
 				{{this.registerPopup}}
 				{{this.watchVisibility this.isVisible this.args.target}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}

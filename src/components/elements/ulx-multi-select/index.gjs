@@ -7,6 +7,7 @@ import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import {
 	buildFieldClass,
 	buildAriaDescribedBy,
@@ -578,7 +579,7 @@ export default class UlxMultiSelect extends Component {
 		const zIndex =
 			typeof this.args.zIndex === "number"
 				? this.args.zIndex
-				: (this.modalStack?.getZIndexAboveMask() ?? 2100);
+				: getOverlayZIndexAboveMask(this.modalStack);
 		panelEl.style.zIndex = `${zIndex}`;
 		panelEl.style.margin = "0";
 		panelEl.style.padding = "0";

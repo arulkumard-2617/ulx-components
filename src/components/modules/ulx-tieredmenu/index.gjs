@@ -5,6 +5,8 @@ import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxTieredmenuMenuList from "./menu-list.gjs";
 
 /**
@@ -117,6 +119,10 @@ export default class UlxTieredmenu extends Component {
 			return false;
 		}
 		return true;
+	}
+
+	get shouldAppendToBody() {
+		return this.isPopup && this.shouldRender;
 	}
 
 	get breakpoint() {
@@ -796,7 +802,7 @@ export default class UlxTieredmenu extends Component {
 	setZIndex() {
 		if (!this.containerElement || !this.isPopup) return;
 
-		const zIndex = this.modalStack?.getZIndexAboveMask(this) ?? 2100;
+		const zIndex = getOverlayZIndexAboveMask(this.modalStack, this);
 		this.zIndex = zIndex;
 		this.containerElement.style.zIndex = zIndex;
 	}
@@ -811,31 +817,6 @@ export default class UlxTieredmenu extends Component {
 		}
 		this.zIndex = null;
 	}
-
-	/**
-	 * Modifier to append popup to body
-	 */
-	appendToBody = modifier((element, [isPopup, shouldRender]) => {
-		if (!isPopup || !shouldRender) {
-			// If not popup or shouldn't render, ensure element is removed from body
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-			return;
-		}
-
-		// Only append if not already in body
-		if (element.parentNode !== document.body) {
-			document.body.appendChild(element);
-		}
-
-		return () => {
-			// Remove from body when component is destroyed or hidden
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-		};
-	});
 
 	/**
 	 * Modifier to handle container element reference and positioning
@@ -1114,7 +1095,7 @@ export default class UlxTieredmenu extends Component {
 				role="menubar"
 				aria-orientation="vertical"
 				data-qa="ulx-tieredmenu"
-				{{this.appendToBody this.isPopup this.shouldRender}}
+				{{appendToBody this.shouldAppendToBody}}
 				{{this.setContainerRef}}
 				{{this.registerRefModifier}}
 				{{this.watchVisibility this.isVisible this.isPopup this.args.target}}

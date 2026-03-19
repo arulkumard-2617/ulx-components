@@ -79,6 +79,22 @@ export function getDestinationElement() {
 	return typeof document !== "undefined" ? document.body : null;
 }
 
+/** Default z-index for overlays when no modal stack or no top modal. */
+const DEFAULT_OVERLAY_Z_INDEX = 2100;
+
+/**
+ * Returns a z-index guaranteed to be above the dialog mask, for use by overlays
+ * (toast, popup, dropdown panel, etc.) that render in body. Centralizes the fallback.
+ *
+ * @param {Object} [modalStack] - Modal stack service (optional)
+ * @param {Object} [instance] - Optional overlay instance; when provided, used for stacking order (e.g. popup, tieredmenu). When omitted, uses topModal (e.g. toast, dropdown panel).
+ * @returns {number}
+ */
+export function getOverlayZIndexAboveMask(modalStack, instance) {
+	//for popup and dropdown the instance will be passed
+	return modalStack?.getZIndexAboveMask?.(instance) ?? DEFAULT_OVERLAY_Z_INDEX;
+}
+
 /**
  * Computes whether the overlay block should be shown and schedules shouldRender when visible.
  * Use in a getter: get shouldRenderOverlay() { return shouldShowOverlay(this.args.visible, this.shouldRender, (v) => { this.shouldRender = v; }); }

@@ -3,10 +3,11 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { fn } from "@ember/helper";
-import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getDestinationElement, getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 // Toast class prefix: must match the prefix used when uls-v2 toast.less is compiled (e.g. ulx- in ulx demo app)
@@ -112,26 +113,16 @@ export default class UlxToast extends Component {
 	}
 
 	get destinationElement() {
-		return typeof document !== "undefined" ? document.body : null;
+		return getDestinationElement();
 	}
 
 	get toastZIndex() {
-		return this.modalStack?.getZIndexAboveMask() ?? 2100;
+		return getOverlayZIndexAboveMask(this.modalStack);
 	}
 
 	get toastContainerStyle() {
 		return `z-index: ${this.toastZIndex}`;
 	}
-
-	appendToBody = modifier((element, [destination]) => {
-		if (!destination || element.parentNode === destination) return;
-		destination.appendChild(element);
-		return () => {
-			if (element.parentNode === destination) {
-				destination.removeChild(element);
-			}
-		};
-	});
 
 	get messages() {
 		const list = this.args.messages ?? [];
@@ -303,7 +294,7 @@ export default class UlxToast extends Component {
 			role="region"
 			aria-label={{t "lbl.notification"}}
 			style={{this.toastContainerStyle}}
-			{{this.appendToBody this.destinationElement}}
+			{{appendToBody this.destinationElement this.destinationElement}}
 			...attributes
 		>
 			{{#each this.messages key="id" as |message|}}

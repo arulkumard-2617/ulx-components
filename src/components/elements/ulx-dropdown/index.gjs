@@ -17,6 +17,8 @@ import {
 } from "../../../utils/input-util";
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
@@ -415,23 +417,6 @@ export default class UlxDropdown extends Component {
 		};
 	});
 
-	appendToBody = modifier((element, [when]) => {
-		if (!when) {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-			return;
-		}
-		if (element.parentNode !== document.body) {
-			document.body.appendChild(element);
-		}
-		return () => {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-		};
-	});
-
 	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
 		if (!when || !element) return;
 
@@ -452,7 +437,7 @@ export default class UlxDropdown extends Component {
 			const zIndex =
 				typeof this.args.zIndex === "number"
 					? this.args.zIndex
-					: this.modalStack?.getZIndexAboveMask() ?? 2100;
+					: getOverlayZIndexAboveMask(this.modalStack);
 			element.style.zIndex = `${zIndex}`;
 			element.style.margin = "0";
 			element.style.padding = "0";
@@ -1213,7 +1198,7 @@ export default class UlxDropdown extends Component {
 					aria-activedescendant={{this.activeDescendantId}}
 					aria-hidden="false"
 					{{this.panelRef}}
-					{{this.appendToBody this.overlayVisible}}
+					{{appendToBody this.overlayVisible}}
 					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
