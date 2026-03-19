@@ -8,10 +8,12 @@ export default class TemplateTieredmenuDemo extends Component {
       {
         label: 'File',
         icon: 'bs-icons1 pdf-stroke-icon',
+        dataQa: 'tieredmenu-item-file',
         items: [
           {
             label: 'New',
             icon: 'bs-icons1 add-icon-01',
+            dataQa: 'tieredmenu-item-new',
             items: [
               { label: 'Project', icon: 'bs-icons1 library-icon' },
               { label: 'File', icon: 'bs-icons1 pdf-stroke-icon' },
@@ -19,6 +21,20 @@ export default class TemplateTieredmenuDemo extends Component {
               {
                 label: 'From Template',
                 icon: 'bs-icons1 copy-icon',
+                items: [
+                  { label: 'Blank', icon: 'bs-icons1 pdf-stroke-icon' },
+                  { label: 'Web App', icon: 'bs-icons1 library-icon' },
+                  { separator: true },
+                  {
+                    label: 'Templates',
+                    icon: 'bs-icons1 copy-icon',
+                    items: [
+                      { label: 'Dashboard', icon: 'bs-icons1 view-icon' },
+                      { label: 'Document', icon: 'bs-icons1 pdf-stroke-icon' },
+                      { label: 'Form', icon: 'bs-icons1 edit-icon' },
+                    ],
+                  },
+                ],
               },
             ],
           },
@@ -27,6 +43,7 @@ export default class TemplateTieredmenuDemo extends Component {
           {
             label: 'Export',
             icon: 'bs-icons1 upload-icon',
+            dataQa: 'tieredmenu-item-export',
             items: [
               { label: 'PDF', icon: 'bs-icons1 pdf-filled-icon' },
               { label: 'Excel', icon: 'bs-icons1 pdf-stroke-icon' },

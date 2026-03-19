@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { guidFor } from "@ember/object/internals";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
@@ -51,7 +52,7 @@ function buildRadioId(namespace, idArg, key) {
  * @param {boolean} [disabled=false] - Whether the radio is disabled (single mode) or disables all items (group mode).
  * @param {boolean} [invalid=false] - Whether the field is in invalid state.
  * @param {boolean} [filled=false] - Whether to use filled variant styling.
- * @param {string} [size="m-size"] - Size variant: ""s-size", "m-size", "l-size".
+ * @param {string} [size="m-size"] - Size variant: s-size, m-size, l-size.
  *
  * @param {string} [fieldClass] - Extra classes for the field wrapper (appended to base `field`).
  * @param {string} [groupClass] - Extra classes for the items wrapper (appended to base `ulx-radio-group`).
@@ -61,6 +62,7 @@ function buildRadioId(namespace, idArg, key) {
  *
  * @param {Function} [onChange] - Callback fired on change event (single/bare): (event) => void.
  * @param {Function} [onCheckedChange] - Callback fired with next checked value (single/bare): (checked, event) => void.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-radio").
  */
 export default class UlxRadio extends Component {
 	get rules() {
@@ -79,6 +81,10 @@ export default class UlxRadio extends Component {
 		return `${this.radioId}-label`;
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-radio";
+	}
+
 	get items() {
 		return Array.isArray(this.args.items) ? this.args.items : [];
 	}
@@ -92,7 +98,9 @@ export default class UlxRadio extends Component {
 		return this.items.map((item, index) => {
 			const id = item?.id;
 			const resolvedId =
-				typeof id === "string" && id.length > 0 ? id : `${this.radioId}-item-${index}`;
+				typeof id === "string" && id.length > 0
+					? id
+					: `${this.radioId}-item-${guidFor(item ?? `${index}`)}`;
 			return { item, id: resolvedId };
 		});
 	}
@@ -205,7 +213,7 @@ export default class UlxRadio extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}}>
+		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
 			{{! Field label (UlxInput pattern) }}
 			{{#if (has-block "label")}}
 				<label id={{this.labelId}} for={{this.labelForId}}>
@@ -238,13 +246,14 @@ export default class UlxRadio extends Component {
 					...attributes
 					class={{this.groupClass}}
 					role="radiogroup"
+					data-qa="ulx-radio-group"
 					aria-labelledby={{if (has-block "label") this.labelId (if @label this.labelId)}}
 					aria-describedby={{this.ariaDescribedBy}}
 					aria-invalid={{if this.isInvalid "true" "false"}}
 					aria-required={{if this.isRequired "true" "false"}}
 					{{on "keydown" this.handleGroupKeyDown}}
 				>
-					{{#each this.itemEntries key="@index" as |entry|}}
+					{{#each this.itemEntries key="id" as |entry|}}
 						<UlxRadioItem
 							@id={{entry.id}}
 							@checked={{entry.item.checked}}
@@ -309,11 +318,11 @@ export default class UlxRadio extends Component {
 			{{/if}}
 
 			{{#if @helpText}}
-				<div id="{{this.radioId}}-help" class="help-text">{{@helpText}}</div>
+				<div id="{{this.radioId}}-help" class="help-text" data-qa="ulx-radio-help">{{@helpText}}</div>
 			{{/if}}
 
 			{{#if @error}}
-				<div id="{{this.radioId}}-error" class="error-message" role="alert" aria-atomic="true">
+				<div id="{{this.radioId}}-error" class="error-message" role="alert" aria-atomic="true" data-qa="ulx-radio-error">
 					{{@error}}
 				</div>
 			{{/if}}

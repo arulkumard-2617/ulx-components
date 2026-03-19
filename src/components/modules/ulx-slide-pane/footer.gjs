@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Slide pane footer subcomponent.
@@ -28,7 +29,7 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  */
 export default class UlxSlidePaneFooter extends Component {
 	get cancelLabel() {
-		return this.args.cancelLabel || "Cancel";
+		return this.args.cancelLabel || t("lbl.cancel");
 	}
 
 	get doneLabel() {
@@ -36,7 +37,7 @@ export default class UlxSlidePaneFooter extends Component {
 		if (submitting && submittingLabel) {
 			return submittingLabel;
 		}
-		return doneLabel || "Confirm";
+		return doneLabel || t("lbl.confirm");
 	}
 
 	get hideCancelButton() {
@@ -52,7 +53,7 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	get backLabel() {
-		return this.args.backLabel || "Back";
+		return this.args.backLabel || t("lbl.back");
 	}
 
 	get submitting() {
@@ -68,8 +69,9 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	get footerClasses() {
+		const { footerClassName } = this.args;
 		const parts = ["slidepane-footer"];
-		this.args.footerClassName && parts.push(this.args.footerClassName);
+		footerClassName && parts.push(footerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -87,16 +89,6 @@ export default class UlxSlidePaneFooter extends Component {
 		if (this.args.onDone) {
 			this.args.onDone();
 		}
-	}
-
-	@action
-	handleKeyDown(callback) {
-		return (event) => {
-			if (event.key === "Enter" || event.key === " ") {
-				event.preventDefault();
-				callback(event);
-			}
-		};
 	}
 
 	@action
@@ -119,7 +111,6 @@ export default class UlxSlidePaneFooter extends Component {
 								@label={{this.backLabel}}
 								@variant="basic"
 								{{on "click" this.handleBack}}
-								{{on "keydown" (this.handleKeyDown this.handleBack)}}
 							/>
 						{{/if}}
 					</div>
@@ -131,7 +122,6 @@ export default class UlxSlidePaneFooter extends Component {
 								@variant="secondary"
 								@disabled={{this.cancelButtonDisabled}}
 								{{on "click" this.handleCancel}}
-								{{on "keydown" (this.handleKeyDown this.handleCancel)}}
 							/>
 						{{/unless}}
 
@@ -141,7 +131,6 @@ export default class UlxSlidePaneFooter extends Component {
 								@variant="primary"
 								@disabled={{this.doneButtonDisabled}}
 								{{on "click" this.handleDone}}
-								{{on "keydown" (this.handleKeyDown this.handleDone)}}
 							/>
 						{{/unless}}
 					</div>

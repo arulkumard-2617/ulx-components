@@ -4,12 +4,12 @@ import { guidFor } from "@ember/object/internals";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import { isInvalidState } from "../../../utils/input-util";
+import { areOptionValuesEqual, isInvalidState } from "../../../utils/input-util";
 import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
  * SelectButton: choose one or more options from a list rendered as buttons.
- * Uses existing ULS select-button styles (sizes, variants, severity, states).
+ * Uses existing ULS select-button styles (sizes, variants, states).
  *
  * ## Sizes
  * xs-size, s-size (default), m-size, l-size, xl-size
@@ -17,7 +17,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * ## Visual variants
  * filled, text, raised, rounded
  *
- * ## Variant (severity)
+ * ## Variant
  * primary (default), secondary, success, info, warning, help, danger
  *
  * ## WCAG
@@ -37,10 +37,11 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {boolean} [invalid=false] - Invalid/error state for validation.
  * @param {boolean} [stretch=false] - Buttons stretch to fill width.
  * @param {string} [size='m-size'] - Size class: xs-size, s-size, m-size, l-size, xl-size.
- * @param {string} [variant='primary'] - Severity variant: primary, secondary, success, info, warning, help, danger.
+ * @param {string} [variant='primary'] - Variant: primary, secondary, success, info, warning, help, danger.
  * @param {string} [styleVariant] - Visual style: filled, text, raised, rounded.
  * @param {string} [ariaLabel] - Accessible name for the group (recommended when no visible label).
  * @param {string} [customClass] - Additional CSS classes for the root.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-selectbutton").
  */
 export default class UlxSelectButton extends Component {
 	get baseClass() {
@@ -57,6 +58,10 @@ export default class UlxSelectButton extends Component {
 
 	get iconClass() {
 		return getComponentClass("selectbutton-icon");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? this.baseClass;
 	}
 
 	get optionsList() {
@@ -106,7 +111,7 @@ export default class UlxSelectButton extends Component {
 	}
 
 	get groupId() {
-		return this.args.id ?? `ulx-selectbutton-${guidFor(this)}`;
+		return this.args.id ?? `${this.baseClass}-${guidFor(this)}`;
 	}
 
 	@action
@@ -161,12 +166,7 @@ export default class UlxSelectButton extends Component {
 	}
 
 	valuesEqual(a, b) {
-		if (a === b) return true;
-		if (a == null || b == null) return false;
-		if (typeof a === "object" && typeof b === "object") {
-			return JSON.stringify(a) === JSON.stringify(b);
-		}
-		return String(a) === String(b);
+		return areOptionValuesEqual(a, b);
 	}
 
 	@action
@@ -242,6 +242,7 @@ export default class UlxSelectButton extends Component {
 			class={{this.rootClasses}}
 			role="group"
 			aria-label={{@ariaLabel}}
+			data-qa={{this.rootDataQa}}
 			...attributes
 		>
 			{{#each this.optionsList as |option index|}}

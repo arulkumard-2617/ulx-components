@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { on } from "@ember/modifier";
 import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
@@ -216,6 +217,8 @@ import { fn } from "@ember/helper";
  * <:detailed as |row|>       - detailed/list view renderer
  */
 export default class UlxTable extends Component {
+	@service modalStack;
+
 	_restoredStateKey = null;
 
 	// ─── Internal sort state (uncontrolled) ──────────────────────────────────
@@ -1052,7 +1055,10 @@ export default class UlxTable extends Component {
 	get filterOverlayWrapperStyle() {
 		const p = this.filterOverlayPosition;
 		if (p == null || typeof p.top !== "number" || typeof p.left !== "number") return undefined;
-		return `position: absolute; top: ${p.top}px; left: ${p.left}px; z-index: 1000;`;
+		const zIndex = this.modalStack?.topModal
+			? this.modalStack.getZIndex(this.modalStack.topModal) + 20
+			: 1100;
+		return `position: absolute; top: ${p.top}px; left: ${p.left}px; z-index: ${zIndex};`;
 	}
 
 	// ─── Pagination actions ───────────────────────────────────────────────────

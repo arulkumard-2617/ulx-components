@@ -23,10 +23,19 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [iconName] - Icon name for UlxIcon component. Used when <:icon> block is not provided.
  * @param {string} [iconSize] - Size class for the icon (e.g. "s18", "m-size"). Defaults to spinner size if not provided.
  * @param {'svg'|'font'} [iconType='svg'] - Icon type for UlxIcon component. "svg" = symbol reference; "font" = font icon.
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-progressspinner").
  */
 export default class UlxProgressSpinner extends Component {
 	get baseClass() {
 		return this.args.componentClass ?? getComponentClass("progressspinner");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-progressspinner";
+	}
+
+	get ariaLabelText() {
+		return this.args.ariaLabel ?? t("lbl.loading");
 	}
 
 	get sizeClass() {
@@ -48,7 +57,7 @@ export default class UlxProgressSpinner extends Component {
 	get spinnerStyle() {
 		const color = this.args.color;
 		if (!color) return undefined;
-		const v = "ulx-progressspinner";
+		const v = this.baseClass;
 		return `--${v}-color: ${color}; --${v}-color1: ${color}; --${v}-color2: ${color}; --${v}-color3: ${color}; --${v}-color4: ${color}`;
 	}
 
@@ -56,8 +65,9 @@ export default class UlxProgressSpinner extends Component {
 		<span
 			class={{this.spinnerClasses}}
 			role="progressbar"
-			aria-label={{t "lbl.loading"}}
+			aria-label={{this.ariaLabelText}}
 			style={{this.spinnerStyle}}
+			data-qa={{this.rootDataQa}}
 			...attributes
 		>
 			{{#if (has-block "icon")}}

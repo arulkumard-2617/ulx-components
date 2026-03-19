@@ -11,7 +11,7 @@ export default {
 
   header: 'Message banner',
   subHeader:
-    'Container for a list of messages with variant, closable, and optional auto-close.',
+    'Single-message banner with variant, closable, and optional one-time dismiss (localStorage).',
 
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },

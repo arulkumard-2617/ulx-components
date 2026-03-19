@@ -6,7 +6,13 @@ import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
+import {
+	handleAsyncAction,
+	handleTabKey,
+	getDestinationElement,
+	shouldShowOverlay,
+	buildOverlayLifecycleOptions
+} from "../../../utils/overlay-helpers";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
 import UlxSlidePaneHeader from "./header.gjs";
 import UlxSlidePaneBody from "./body.gjs";
@@ -85,7 +91,6 @@ import UlxSlidePaneFooter from "./footer.gjs";
 export default class UlxSlidePane extends Component {
 	@service modalStack;
 
-	@tracked destinationElement = null;
 	@tracked isSubmitting = false;
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
@@ -93,14 +98,8 @@ export default class UlxSlidePane extends Component {
 	previousVisible = false;
 	previousActiveElement = null;
 
-	constructor(owner, args) {
-		super(owner, args);
-		if (typeof document !== "undefined") {
-			this.destinationElement = document.body;
-		}
-		this.shouldRender = this.args.visible || false;
-		this.previousVisible = this.args.visible || false;
-		this.isMaximized = this.args.maximized ?? false;
+	get destinationElement() {
+		return getDestinationElement();
 	}
 
 	get baseClass() {
@@ -113,6 +112,7 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get slidePaneClasses() {
+		const { size = "m-size" } = this.args;
 		const parts = [this.baseClass];
 
 		const positionMap = {
@@ -125,18 +125,9 @@ export default class UlxSlidePane extends Component {
 		const dockedClass = positionMap[this.position] || "docked-right";
 		parts.push(dockedClass);
 
-		if (!this.isMaximized) {
-			const size = this.args.size || "m-size";
-			parts.push(size);
-		}
-
-		if (this.transitionState) {
-			parts.push(this.transitionState);
-		}
-
-		if (this.isMaximized) {
-			parts.push("full-screen");
-		}
+		!this.isMaximized && parts.push(size);
+		this.transitionState && parts.push(this.transitionState);
+		this.isMaximized && parts.push("full-screen");
 
 		return parts.filter(Boolean).join(" ");
 	}
@@ -146,36 +137,26 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get maskClasses() {
+		const { maskClassName, visible } = this.args;
 		const parts = ["slidepane-mask"];
 
-		if (this.overlay) {
-			parts.push("overlay");
-		}
-
-		if (this.args.visible) {
-			parts.push("visible");
-		}
-
-		if (this.transitionState) {
-			parts.push(this.transitionState);
-		}
-
-		this.args.maskClassName && parts.push(this.args.maskClassName);
+		this.overlay && parts.push("overlay");
+		visible && parts.push("visible");
+		maskClassName && parts.push(maskClassName);
 
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get slidePaneStyle() {
+		const { visible, width, size } = this.args;
 		const styles = [];
 
-		if (this.args.visible) {
+		if (visible) {
 			const zIndex = this.modalStack.getZIndex(this);
 			styles.push(`z-index: ${zIndex}`);
 		}
 
-		if (!this.isMaximized && this.args.width && !this.args.size) {
-			styles.push(`inline-size: ${this.args.width}`);
-		}
+		!this.isMaximized && width && !size && styles.push(`inline-size: ${width}`);
 
 		return styles.join("; ");
 	}
@@ -197,20 +178,23 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get bodyContentClasses() {
+		const { contentClassName } = this.args;
 		const parts = ["slidepane-content"];
-		this.args.contentClassName && parts.push(this.args.contentClassName);
+		contentClassName && parts.push(contentClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get headerWrapperClasses() {
+		const { headerClassName } = this.args;
 		const parts = ["slidepane-header"];
-		this.args.headerClassName && parts.push(this.args.headerClassName);
+		headerClassName && parts.push(headerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
 	get footerWrapperClasses() {
+		const { footerClassName } = this.args;
 		const parts = ["slidepane-footer"];
-		this.args.footerClassName && parts.push(this.args.footerClassName);
+		footerClassName && parts.push(footerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -308,18 +292,20 @@ export default class UlxSlidePane extends Component {
 		handleTabKey(event, overlayElement);
 	}
 
-	get shouldRenderPane() {
-		if (this.args.visible && !this.shouldRender) {
-			schedule("afterRender", () => {
-				this.shouldRender = true;
-			});
-			return true;
-		}
-		return this.shouldRender;
+	get shouldRenderSlidePane() {
+		return shouldShowOverlay(this.args.visible, this.shouldRender, (v) => {
+			this.shouldRender = v;
+		});
 	}
 
 	overlayStackManagement = modifier(() => {
-		if (this.args.visible) {
+		const { visible, maximized } = this.args;
+
+		if (this.isMaximized !== (maximized ?? false)) {
+			this.isMaximized = maximized ?? false;
+		}
+
+		if (visible) {
 			schedule("actions", () => {
 				this.modalStack.registerModal(this);
 			});
@@ -333,43 +319,15 @@ export default class UlxSlidePane extends Component {
 	});
 
 	get overlayLifecycleOptions() {
-		return {
-			onShow: () => {
-				if (this.args.onShow) {
-					this.args.onShow();
-				}
-			},
-			onHide: this.handleClose,
-			onEscape: this.handleClose,
-			closeOnEscape: this.closeOnEscape,
-			blockScroll: this.blockScroll,
-			role: '[tabindex="-1"]',
-			initialFocusSelector: ".slidepane-content",
-			handleTabKey: this.handleTabKey,
-			getTransitionState: () => this.transitionState,
-			setTransitionState: (value) => {
-				this.transitionState = value;
-			},
-			getShouldRender: () => this.shouldRender,
-			setShouldRender: (value) => {
-				this.shouldRender = value;
-			},
-			getPreviousVisible: () => this.previousVisible,
-			setPreviousVisible: (value) => {
-				this.previousVisible = value;
-			},
-			getVisible: () => this.args.visible,
-			getPreviousActiveElement: () => this.previousActiveElement,
-			setPreviousActiveElement: (value) => {
-				this.previousActiveElement = value;
-			}
-		};
+		return buildOverlayLifecycleOptions(this, {
+			initialFocusSelector: ".slidepane-content"
+		});
 	}
 
 	<template>
 		{{#if this.destinationElement}}
 			{{#in-element this.destinationElement insertBefore=null}}
-				{{#if this.shouldRenderPane}}
+				{{#if this.shouldRenderSlidePane}}
 					<div
 						class={{this.maskClasses}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}

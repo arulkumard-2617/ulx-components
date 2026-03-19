@@ -1,11 +1,13 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import {
 	buildFieldClass,
 	buildAriaDescribedBy,
@@ -89,6 +91,8 @@ import { hash, concat } from "@ember/helper";
  * @param {Object} [virtualScrollerOptions] - When set with <code>itemSize</code> (number, px), the list is virtualized for large datasets. Not used when <code>@optionGroupLabel</code> is set.
  */
 export default class UlxMultiSelect extends Component {
+	@service modalStack;
+
 	@action
 	handleFocus(event) {
 		this.args.onFocus?.(event);
@@ -572,7 +576,10 @@ export default class UlxMultiSelect extends Component {
 		panelEl.style.minWidth = `${triggerRect.width}px`;
 		panelEl.style.maxWidth = `${triggerRect.width}px`;
 
-		const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : 5;
+		const zIndex =
+			typeof this.args.zIndex === "number"
+				? this.args.zIndex
+				: getOverlayZIndexAboveMask(this.modalStack);
 		panelEl.style.zIndex = `${zIndex}`;
 		panelEl.style.margin = "0";
 		panelEl.style.padding = "0";
@@ -701,17 +708,19 @@ export default class UlxMultiSelect extends Component {
 			keyListener = (e) => {
 				if (e.key === "Escape") {
 					e.preventDefault();
+					e.stopPropagation();
+					e.stopImmediatePropagation();
 					onClose();
 				}
 			};
 			setTimeout(() => {
 				document.addEventListener("click", clickListener, true);
-				document.addEventListener("keydown", keyListener);
+				document.addEventListener("keydown", keyListener, true);
 			}, 0);
 		}
 		return () => {
 			if (clickListener) document.removeEventListener("click", clickListener, true);
-			if (keyListener) document.removeEventListener("keydown", keyListener);
+			if (keyListener) document.removeEventListener("keydown", keyListener, true);
 		};
 	});
 
@@ -1583,34 +1592,32 @@ export default class UlxMultiSelect extends Component {
 							</ul>
 						{{/if}}
 					</div>
-					{{#if
-						(or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))
-					}}
-						<div class="multiselect-footer">
-							<div class="multiselect-footer-left">
-								{{#if (has-block "footer")}}
-									{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
-								{{else if (gt this.selectedValueCount 0)}}
-									<span class="multiselect-footer-count">{{t
-											"msg.multiselect.items.selected"
-											count=this.selectedValueCount
-										}}</span>
-								{{/if}}
-							</div>
-							<div class="multiselect-footer-right">
-								{{#if (has-block "footerActions")}}
-									{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
-								{{/if}}
-								{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
-									<UlxButton
-										@label={{t "lbl.clear"}}
-										@variant="link"
-										@onClick={{this.clearSelectionInPanel}}
-									/>
-								{{/if}}
-							</div>
+
+					<div class="multiselect-footer">
+						<div class="multiselect-footer-left">
+							{{#if (has-block "footer")}}
+								{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
+							{{else}}
+								<span class="multiselect-footer-count">{{t
+										"msg.multiselect.items.selected"
+										count=this.selectedValueCount
+									}}</span>
+							{{/if}}
 						</div>
-					{{/if}}
+						<div class="multiselect-footer-right">
+							{{#if (has-block "footerActions")}}
+								{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
+							{{/if}}
+								{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
+								<UlxButton
+									@label={{t "lbl.clear"}}
+									@variant="link"
+									@onClick={{this.clearSelectionInPanel}}
+								/>
+							{{/if}}
+						</div>
+					</div>
+
 				</div>
 			{{/if}}
 

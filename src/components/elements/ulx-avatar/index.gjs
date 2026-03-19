@@ -406,7 +406,7 @@ export default class UlxAvatar extends Component {
 			{{on "click" this.handleClick}}
 			...attributes
 		>
-			{{#if this.isImageType}}
+		{{#if this.isImageType}}
 				<img
 					src={{this.resolvedImage}}
 					alt={{this.imageAlt}}
@@ -414,7 +414,7 @@ export default class UlxAvatar extends Component {
 					{{on "load" this.handleImageLoad}}
 					{{on "error" this.handleImageError}}
 				/>
-			{{else if this.isIconType}}
+		{{else if this.isIconType}}
 				<span class="avatar-icon">
 					<UlxIcon
 						@iconName={{this.resolvedIconName}}

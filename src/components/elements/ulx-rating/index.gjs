@@ -26,10 +26,15 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [variant] - Optional: "filled" or "elevated".
  * @param {string} [customClass] - Extra CSS classes on root.
  * @param {string} [ariaLabel] - Accessible name for the rating group (default from i18n).
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-rating").
  */
 export default class UlxRating extends Component {
 	get baseClass() {
 		return getComponentClass("rating");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? this.baseClass;
 	}
 
 	get iconClass() {
@@ -102,10 +107,14 @@ export default class UlxRating extends Component {
 		if (type === "star") {
 			if (key === "ArrowRight" || key === "ArrowDown") {
 				event.preventDefault();
-				this.setValue(Math.min(value + 1, this.starsCount));
+				const newVal = Math.min(value + 1, this.starsCount);
+				this.setValue(newVal);
+				this.focusStarByValue(event.currentTarget, newVal);
 			} else if (key === "ArrowLeft" || key === "ArrowUp") {
 				event.preventDefault();
-				this.setValue(Math.max(value - 1, 0));
+				const newVal = Math.max(value - 1, 0);
+				this.setValue(newVal);
+				this.focusStarByValue(event.currentTarget, newVal === 0 ? 1 : newVal);
 			} else if (key === " " || key === "Enter") {
 				event.preventDefault();
 				this.setValue(value);
@@ -116,11 +125,19 @@ export default class UlxRating extends Component {
 		}
 	}
 
+	@action
+	focusStarByValue(fromElement, starValue) {
+		const root = fromElement?.closest?.('[role="radiogroup"]');
+		const star = root?.querySelector?.(`[aria-posinset="${starValue}"]`);
+		star?.focus?.();
+	}
+
 	<template>
 		<div
 			class={{this.rootClasses}}
 			role="radiogroup"
 			aria-label={{this.ariaLabelText}}
+			data-qa={{this.rootDataQa}}
 			...attributes
 		>
 			{{#if this.showCancel}}
@@ -130,6 +147,7 @@ export default class UlxRating extends Component {
 						tabindex="0"
 						class="{{this.iconClass}} cancelicon"
 						aria-label={{t "lbl.rating.cancel"}}
+						data-qa="ulx-rating-cancel"
 						{{on "click" this.handleCancelClick}}
 						{{on "keydown" (fn this.handleKeydown "cancel" 0)}}
 					>
@@ -144,6 +162,7 @@ export default class UlxRating extends Component {
 						role="button"
 						tabindex="0"
 						aria-label={{t "lbl.rating.cancel"}}
+						data-qa="ulx-rating-cancel"
 						{{on "click" this.handleCancelClick}}
 						{{on "keydown" (fn this.handleKeydown "cancel" 0)}}
 					/>
@@ -158,7 +177,8 @@ export default class UlxRating extends Component {
 						aria-posinset={{starValue}}
 						aria-setsize={{this.starsCount}}
 						aria-disabled={{not this.isInteractive}}
-						tabindex={{if this.isInteractive "0" null}}
+						tabindex={{if this.isInteractive (if (or (eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))) "0" "-1") null}}
+						data-qa="ulx-rating-star"
 						{{on "click" (fn this.handleStarClick starValue)}}
 						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
 					>
@@ -183,7 +203,8 @@ export default class UlxRating extends Component {
 						aria-posinset={{starValue}}
 						aria-setsize={{this.starsCount}}
 						aria-disabled={{not this.isInteractive}}
-						tabindex={{if this.isInteractive "0" null}}
+						tabindex={{if this.isInteractive (if (or (eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))) "0" "-1") null}}
+						data-qa="ulx-rating-star"
 						{{on "click" (fn this.handleStarClick starValue)}}
 						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
 					/>

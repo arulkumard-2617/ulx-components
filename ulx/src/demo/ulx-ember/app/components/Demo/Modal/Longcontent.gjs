@@ -42,7 +42,7 @@ export default class LongcontentDemoComponent extends Component {
         @onDone={{this.handleConfirm}}
         @onCancel={{this.closeModal}}
       >
-        <p className="mb-8">
+        <p class="mb-8">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -51,7 +51,7 @@ export default class LongcontentDemoComponent extends Component {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
           ab illo inventore veritatis et quasi architecto beatae vitae dicta
@@ -66,7 +66,7 @@ export default class LongcontentDemoComponent extends Component {
           ea voluptate velit esse quam nihil molestiae consequatur, vel illum
           qui dolorem eum fugiat quo voluptas nulla pariatur?
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           At vero eos et accusamus et iusto odio dignissimos ducimus qui
           blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
           et quas molestias excepturi sint occaecati cupiditate non provident,
@@ -81,7 +81,7 @@ export default class LongcontentDemoComponent extends Component {
           voluptatibus maiores alias consequatur aut perferendis doloribus
           asperiores repellat.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -90,7 +90,7 @@ export default class LongcontentDemoComponent extends Component {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
           ab illo inventore veritatis et quasi architecto beatae vitae dicta
@@ -105,7 +105,7 @@ export default class LongcontentDemoComponent extends Component {
           ea voluptate velit esse quam nihil molestiae consequatur, vel illum
           qui dolorem eum fugiat quo voluptas nulla pariatur?
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           At vero eos et accusamus et iusto odio dignissimos ducimus qui
           blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
           et quas molestias excepturi sint occaecati cupiditate non provident,
@@ -120,7 +120,7 @@ export default class LongcontentDemoComponent extends Component {
           voluptatibus maiores alias consequatur aut perferendis doloribus
           asperiores repellat.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -129,7 +129,7 @@ export default class LongcontentDemoComponent extends Component {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
           ab illo inventore veritatis et quasi architecto beatae vitae dicta
@@ -144,7 +144,7 @@ export default class LongcontentDemoComponent extends Component {
           ea voluptate velit esse quam nihil molestiae consequatur, vel illum
           qui dolorem eum fugiat quo voluptas nulla pariatur?
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           At vero eos et accusamus et iusto odio dignissimos ducimus qui
           blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
           et quas molestias excepturi sint occaecati cupiditate non provident,
@@ -159,7 +159,7 @@ export default class LongcontentDemoComponent extends Component {
           voluptatibus maiores alias consequatur aut perferendis doloribus
           asperiores repellat.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -168,7 +168,7 @@ export default class LongcontentDemoComponent extends Component {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           "Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
           ab illo inventore veritatis et quasi architecto beatae vitae dicta
@@ -183,7 +183,7 @@ export default class LongcontentDemoComponent extends Component {
           ea voluptate velit esse quam nihil molestiae consequatur, vel illum
           qui dolorem eum fugiat quo voluptas nulla pariatur?
         </p>
-        <p className="mb-8">
+        <p class="mb-8">
           At vero eos et accusamus et iusto odio dignissimos ducimus qui
           blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
           et quas molestias excepturi sint occaecati cupiditate non provident,

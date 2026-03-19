@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { on } from "@ember/modifier";
+import { registerDestructor } from "@ember/destroyable";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import UlxIcon from "../ulx-icon/index.gjs";
@@ -52,7 +53,7 @@ const RIPPLE_DURATION_MS = 200;
  * ## WCAG
  * - Use semantic <button> element with proper type attribute
  * - Support disabled state with aria-disabled
- * - Loading state shows aria-busy and aria-live for screen readers
+ * - Loading state sets aria-busy for assistive technologies
  * - Icon-only buttons should have aria-label passed via ...attributes
  * - When @href is provided, renders as <a>; otherwise renders as <button> (WCAG).
  *
@@ -77,6 +78,7 @@ const RIPPLE_DURATION_MS = 200;
  * @param {'circle'|'dot'|'square'} [badgeType='circle'] - Badge type (defaults to "circle")
  * @param {string} [badgeCustomClass] - Custom badge CSS classes
  * @param {string} [customClass] - Additional CSS classes
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-button".
  * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute
  * @param {boolean} [loading=false] - When true, button shows loading spinner and is disabled. Use for always-on loading state.
  * @param {function} [onClick] - Click handler; may return a Promise to show loading until it settles
@@ -84,6 +86,13 @@ const RIPPLE_DURATION_MS = 200;
  */
 export default class UlxButton extends Component {
 	@tracked promiseLoading = false;
+	@tracked inkStyle = "";
+	@tracked inkActive = false;
+
+	_rippleTimeout = null;
+	_destructor = registerDestructor(this, () => {
+		clearTimeout(this._rippleTimeout);
+	});
 
 	noOpElementRef = modifier(() => () => {});
 
@@ -93,6 +102,14 @@ export default class UlxButton extends Component {
 
 	get baseClass() {
 		return getComponentClass("button");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-button";
+	}
+
+	get isLink() {
+		return !!this.args.href;
 	}
 
 	get effectiveLoading() {
@@ -112,20 +129,26 @@ export default class UlxButton extends Component {
 			customClass,
 			label
 		} = this.args;
+
 		const parts = [this.baseClass];
+
 		parts.push(variant);
 		text && parts.push("text-button");
 		href && text && parts.push("link");
 		outlined && parts.push("outlined");
 		raised && parts.push("raised");
 		rounded && parts.push("rounded");
+
 		parts.push(size || "m-size");
+
 		this.hasIcon && !label && parts.push("icon-only");
 		fluid && parts.push("fluid");
 		this.effectiveLoading && parts.push("loading");
 		this.isDisabled && parts.push("disabled");
+
 		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+
+		return parts.filter(Boolean).join(" ");
 	}
 
 	get buttonSize() {
@@ -134,11 +157,7 @@ export default class UlxButton extends Component {
 
 	get hasIcon() {
 		const { icon } = this.args;
-		return icon || this.effectiveLoading;
-	}
-
-	get hasCustomIconBlock() {
-		return false; // Will be checked in template with has-block
+		return !!icon || this.effectiveLoading;
 	}
 
 	get iconPosition() {
@@ -153,20 +172,13 @@ export default class UlxButton extends Component {
 		return this.hasIcon && this.iconPosition === "right";
 	}
 
-	get loadingIconName() {
-		// Use loading/spinner icon
-		return "pi-spinner";
-	}
-
 	get iconToDisplay() {
-		const { icon } = this.args;
-		if (this.effectiveLoading) return this.loadingIconName;
-		return icon;
+		if (this.effectiveLoading) return "pi-spinner";
+		return this.args.icon;
 	}
 
 	get buttonType() {
-		const { type } = this.args;
-		return type || "button";
+		return this.args.type || "button";
 	}
 
 	get isDisabled() {
@@ -182,19 +194,30 @@ export default class UlxButton extends Component {
 		return this.args.badgeType ?? "circle";
 	}
 
+	/**
+	 * Handles click interactions for the button/link component.
+	 */
 	@action
 	handleClick(event) {
 		const { onClick, href } = this.args;
-		if (this.isDisabled) {
+
+		if (this.isDisabled || this.effectiveLoading) {
 			event.preventDefault();
 			return;
 		}
+
+		if (href && typeof onClick === "function") {
+			event.preventDefault();
+		}
+
 		if (typeof onClick === "function") {
 			const result = onClick(event);
-			if (href) event.preventDefault();
-			const promise = result != null && typeof result.finally === "function" ? result : null;
+
+			const promise = result && typeof result.then === "function" ? result : null;
+
 			if (promise) {
 				this.promiseLoading = true;
+
 				promise.finally(() => {
 					this.promiseLoading = false;
 				});
@@ -202,11 +225,21 @@ export default class UlxButton extends Component {
 		}
 	}
 
+	@action
+	handleKeyDown(event) {
+		if (!this.isLink || this.isDisabled) return;
+
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			this.handleClickWithRipple(event);
+		}
+	}
+
 	get iconClass() {
 		const { label } = this.args;
 		const parts = ["icon"];
 		if (!(this.hasIcon && !label)) parts.push(this.iconPosition);
-		return parts.filter(Boolean).join(" ");
+		return parts.join(" ");
 	}
 
 	get labelClass() {
@@ -225,23 +258,30 @@ export default class UlxButton extends Component {
 		return this.inkActive ? `${this.inkClass} ${this.inkActiveClass}` : this.inkClass;
 	}
 
-	@tracked inkStyle = "";
-	@tracked inkActive = false;
-
 	@action
 	handleRipple(event) {
 		if (this.isDisabled) return;
+
 		const el = event?.currentTarget;
 		if (!el || typeof el.getBoundingClientRect !== "function") return;
+
 		const rect = el.getBoundingClientRect();
+
 		const x = typeof event.clientX === "number" ? event.clientX : rect.left + rect.width / 2;
+
 		const y = typeof event.clientY === "number" ? event.clientY : rect.top + rect.height / 2;
+
 		const half = RIPPLE_SIZE / 2;
 		const top = y - rect.top - half;
 		const left = x - rect.left - half;
-		this.inkStyle = `height: ${RIPPLE_SIZE}px; width: ${RIPPLE_SIZE}px; top: ${top}px; left: ${left}px;`;
+
+		this.inkStyle = `height:${RIPPLE_SIZE}px;width:${RIPPLE_SIZE}px;top:${top}px;left:${left}px;`;
+
 		this.inkActive = true;
-		setTimeout(() => {
+
+		clearTimeout(this._rippleTimeout);
+
+		this._rippleTimeout = setTimeout(() => {
 			this.inkActive = false;
 		}, RIPPLE_DURATION_MS);
 	}
@@ -253,20 +293,22 @@ export default class UlxButton extends Component {
 	}
 
 	<template>
-		{{#if @href}}
+		{{#if this.isLink}}
 			<a
+				data-qa={{this.rootDataQa}}
 				href={{@href}}
-				class={{this.buttonClasses}}
+				class="{{this.buttonClasses}} {{@class}}"
 				aria-disabled={{if this.isDisabled "true"}}
-				tabindex={{if this.isDisabled "-1" "0"}}
+				tabindex={{if this.isDisabled "-1"}}
 				aria-busy={{if this.effectiveLoading "true"}}
 				{{this.elementRefModifier}}
 				{{on "click" this.handleClickWithRipple}}
+				{{on "keydown" this.handleKeyDown}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
 					{{#if this.effectiveLoading}}
-						<span class="{{this.baseClass}}-loading-icon left">
+						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
 							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
@@ -321,10 +363,6 @@ export default class UlxButton extends Component {
 					/>
 				{{/if}}
 
-				{{#unless (has-block "default")}}
-					{{yield}}
-				{{/unless}}
-
 				<span
 					role="presentation"
 					aria-hidden="true"
@@ -334,12 +372,14 @@ export default class UlxButton extends Component {
 			</a>
 		{{else}}
 			<button
-				class={{this.buttonClasses}}
+				data-qa={{this.rootDataQa}}
+				class="{{this.buttonClasses}} {{@class}}"
 				type={{this.buttonType}}
 				disabled={{this.isDisabled}}
 				aria-busy={{if this.effectiveLoading "true"}}
 				{{this.elementRefModifier}}
 				{{on "click" this.handleClickWithRipple}}
+				{{on "keydown" this.handleKeyDown}}
 				...attributes
 			>
 				{{#if this.showIconLeft}}
@@ -372,7 +412,7 @@ export default class UlxButton extends Component {
 
 				{{#if this.showIconRight}}
 					{{#if this.effectiveLoading}}
-						<span class="{{this.baseClass}}-loading-icon right">
+						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
 							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
 						</span>
 					{{else if (has-block "icon")}}
@@ -398,10 +438,6 @@ export default class UlxButton extends Component {
 						@customClass={{@badgeCustomClass}}
 					/>
 				{{/if}}
-
-				{{#unless (has-block "default")}}
-					{{yield}}
-				{{/unless}}
 
 				<span
 					role="presentation"

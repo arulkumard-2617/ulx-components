@@ -10,6 +10,7 @@ import {
   LongcontentDemo,
   ResponsiveDemo,
   WithoutoverlayDemo,
+  StackedDemo,
   ImportSource,
   BasicSource,
   PositionSource,
@@ -17,7 +18,8 @@ import {
   MaximizableSource,
   LongcontentSource,
   ResponsiveSource,
-  WithoutoverlaySource
+  WithoutoverlaySource,
+  StackedSource
 } from './imports';
 
 export const ModalFeatureItems = [
@@ -178,6 +180,26 @@ export const ModalFeatureItems = [
         language: "handlebars"
       }
     }
+  },
+  {
+    id: 'stacked',
+    sectionNav: 'Stacked',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Stacked</code> demo shows overlays (toast, popup, tiered menu, dropdown, tooltip) opened inside a modal. ESC closes the topmost overlay first; toasts close before the modal.',
+      },
+    },
+    demo: {
+      component: StackedDemo,
+      props: {
+        source: StackedSource,
+        snippetName: 'stacked',
+        language: 'handlebars',
+      },
+    },
   }
 ];
 

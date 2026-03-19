@@ -1,10 +1,13 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getDestinationElement, getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 // Toast class prefix: must match the prefix used when uls-v2 toast.less is compiled (e.g. ulx- in ulx demo app)
@@ -72,6 +75,8 @@ const VARIANT_ICONS = {
  * @block content - Optional. Yields the message object; when provided, replaces default summary/detail with custom content.
  */
 export default class UlxToast extends Component {
+	@service modalStack;
+
 	get iconSize() {
 		return this.args.iconSize ?? "s24";
 	}
@@ -107,6 +112,18 @@ export default class UlxToast extends Component {
 		return classes.filter(Boolean).join(" ");
 	}
 
+	get destinationElement() {
+		return getDestinationElement();
+	}
+
+	get toastZIndex() {
+		return getOverlayZIndexAboveMask(this.modalStack);
+	}
+
+	get toastContainerStyle() {
+		return `z-index: ${this.toastZIndex}`;
+	}
+
 	get messages() {
 		const list = this.args.messages ?? [];
 		// Schedule auto-close for non-sticky messages
@@ -125,9 +142,10 @@ export default class UlxToast extends Component {
 
 		if (hasMessages && !this._boundDocumentKeyHandler) {
 			this._boundDocumentKeyHandler = this._handleDocumentKeyDown.bind(this);
-			document.addEventListener("keydown", this._boundDocumentKeyHandler);
+			// Capture phase ensures toast Escape handling runs before modal/overlay listeners.
+			document.addEventListener("keydown", this._boundDocumentKeyHandler, true);
 		} else if (!hasMessages && this._boundDocumentKeyHandler) {
-			document.removeEventListener("keydown", this._boundDocumentKeyHandler);
+			document.removeEventListener("keydown", this._boundDocumentKeyHandler, true);
 			this._boundDocumentKeyHandler = null;
 		}
 	}
@@ -143,6 +161,8 @@ export default class UlxToast extends Component {
 			if (message?.id && message.closable !== false && !this.exitingIds.has(message.id)) {
 				this.startExitThenClose(message);
 				event.preventDefault();
+				event.stopPropagation();
+				event.stopImmediatePropagation();
 				break;
 			}
 		}
@@ -269,7 +289,14 @@ export default class UlxToast extends Component {
 	}
 
 	<template>
-		<div class={{this.containerClasses}} role="region" aria-label={{t "lbl.notification"}} ...attributes>
+		<div
+			class={{this.containerClasses}}
+			role="region"
+			aria-label={{t "lbl.notification"}}
+			style={{this.toastContainerStyle}}
+			{{appendToBody this.destinationElement this.destinationElement}}
+			...attributes
+		>
 			{{#each this.messages key="id" as |message|}}
 				<div class={{this.getMessageClasses message}} role="alert" aria-live="polite">
 					<div class="toast-content">

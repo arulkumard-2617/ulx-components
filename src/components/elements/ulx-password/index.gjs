@@ -25,6 +25,7 @@ import {
 import { t } from "../../../utils/i18n";
 import { and, not } from "ember-truth-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
+import UlxButton from "../ulx-button/index.gjs";
 import tooltip from "../../../modifiers/tooltip";
 
 const DEFAULT_MEDIUM_REGEX =
@@ -474,24 +475,6 @@ export default class UlxPassword extends Component {
 								{{on "focusin" this.handleIconFieldFocusIn}}
 								{{on "focusout" this.handleIconFieldFocusOut}}
 							>
-								<span class={{this.inputIconClass}} aria-hidden="true">
-									<span
-										class={{this.toggleIconWrapperClass}}
-										role="switch"
-										tabindex="0"
-										aria-label={{this.toggleAriaLabel}}
-										aria-checked={{if this.unmasked "true" "false"}}
-										{{on "click" this.toggleMask}}
-										{{on "keydown" this.handleToggleKeydown}}
-									>
-										<UlxIcon
-											@iconName={{this.toggleIconName}}
-											@type="font"
-											@size="s18"
-											aria-hidden="true"
-										/>
-									</span>
-								</span>
 								<input
 									id={{this.inputId}}
 									type={{this.inputType}}
@@ -513,6 +496,18 @@ export default class UlxPassword extends Component {
 									{{on "blur" this.handleBlur}}
 									...attributes
 								/>
+								<span class={{this.inputIconClass}} aria-hidden="true">
+									<UlxButton
+										@icon={{this.toggleIconName}}
+										@iconSize="s18"
+										@text={{true}}
+										@disabled={{@disabled}}
+										@customClass={{this.toggleIconWrapperClass}}
+										@onClick={{this.toggleMask}}
+										aria-label={{this.toggleAriaLabel}}
+										aria-pressed={{if this.unmasked "true" "false"}}
+									/>
+								</span>
 							</div>
 						{{else}}
 							<input
@@ -561,24 +556,6 @@ export default class UlxPassword extends Component {
 							{{on "focusin" this.handleIconFieldFocusIn}}
 							{{on "focusout" this.handleIconFieldFocusOut}}
 						>
-							<span class={{this.inputIconClass}} aria-hidden="true">
-								<span
-									class={{this.toggleIconWrapperClass}}
-									role="switch"
-									tabindex="0"
-									aria-label={{this.toggleAriaLabel}}
-									aria-checked={{if this.unmasked "true" "false"}}
-									{{on "click" this.toggleMask}}
-									{{on "keydown" this.handleToggleKeydown}}
-								>
-									<UlxIcon
-										@iconName={{this.toggleIconName}}
-										@type="font"
-										@size="s18"
-										aria-hidden="true"
-									/>
-								</span>
-							</span>
 							<input
 								id={{this.inputId}}
 								type={{this.inputType}}
@@ -600,6 +577,18 @@ export default class UlxPassword extends Component {
 								{{on "blur" this.handleBlur}}
 								...attributes
 							/>
+							<span class={{this.inputIconClass}} aria-hidden="true">
+								<UlxButton
+									@icon={{this.toggleIconName}}
+									@iconSize="s18"
+									@text={{true}}
+									@disabled={{@disabled}}
+									@customClass={{this.toggleIconWrapperClass}}
+									@onClick={{this.toggleMask}}
+									aria-label={{this.toggleAriaLabel}}
+									aria-pressed={{if this.unmasked "true" "false"}}
+								/>
+							</span>
 						</div>
 					{{else}}
 						<input

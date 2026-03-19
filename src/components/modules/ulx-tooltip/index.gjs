@@ -2,9 +2,11 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
+import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 
 const GAP = 8;
 
@@ -50,6 +52,7 @@ function ensureFocusableForTooltip(element) {
  * @param {boolean} [autoHide=true] - When true, tooltip hides when pointer leaves trigger. When false, tooltip is interactive (can hover over it)
  * @param {string} [customClass] - Additional CSS class on the tooltip root
  * @param {HTMLElement|string} [appendTo] - Where to mount the tooltip (default document.body)
+ * @param {number} [zIndex] - Overlay z-index. Defaults above the topmost modal/slidepane when one is open.
  * @param {Function} [onShow] - Callback when tooltip is shown
  * @param {Function} [onHide] - Callback when tooltip is hidden
  * @param {Function} [onBeforeShow] - Callback before show; return false to prevent show
@@ -59,6 +62,8 @@ function ensureFocusableForTooltip(element) {
  * @block content - Optional rich tooltip content. When present, @content is ignored.
  */
 export default class UlxTooltip extends Component {
+	@service modalStack;
+
 	@tracked visible = false;
 	@tracked positionState = "bottom";
 	triggerElement = null;
@@ -104,6 +109,23 @@ export default class UlxTooltip extends Component {
 
 	get shouldRenderTooltip() {
 		return this.visible && this.appendTarget;
+	}
+
+	get tooltipZIndex() {
+		const { zIndex } = this.args;
+
+		if (typeof zIndex === "number") {
+			return zIndex;
+		}
+
+		const ownerOverlay = this.triggerElement?.closest(
+			".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper"
+		);
+		if (ownerOverlay || this.modalStack?.topModal) {
+			return getOverlayZIndexAboveMask(this.modalStack);
+		}
+
+		return 1090;
 	}
 
 	_shouldShowForEvent(eventType) {
@@ -195,10 +217,11 @@ export default class UlxTooltip extends Component {
 	}
 
 	_doHide(event) {
+		const target = this.triggerElement;
 		this._setTriggerAriaDescribedBy(null);
 		this.visible = false;
 		this.triggerElement = null;
-		this.args.onHide?.({ originalEvent: event, target: this.triggerElement });
+		this.args.onHide?.({ originalEvent: event, target });
 	}
 
 	_isTriggerDisabled(element) {
@@ -246,6 +269,7 @@ export default class UlxTooltip extends Component {
 	handleEscapeKey(event) {
 		if (event.key === "Escape" && this.args.closeOnEscape) {
 			event.preventDefault();
+			event.stopImmediatePropagation();
 			this.hide(event);
 		}
 	}
@@ -317,6 +341,7 @@ export default class UlxTooltip extends Component {
 			element.style.right = "auto";
 			element.style.bottom = "auto";
 			element.style.margin = "0";
+			this.tooltipZIndex != null && (element.style.zIndex = `${this.tooltipZIndex}`);
 		};
 
 		requestAnimationFrame(() => {

@@ -28,6 +28,13 @@ export function hasText(value) {
 	return typeof value === 'string' && value.length > 0;
 }
 
+export function hasInputValue(value) {
+	if (value === null || value === undefined) return false;
+	if (typeof value === 'string') return value.length > 0;
+	if (Array.isArray(value)) return value.length > 0;
+	return true;
+}
+
 export function getRuleValue(rules, ruleName) {
 	return rules?.[ruleName]?.value;
 }
@@ -73,7 +80,7 @@ export function buildInputClass({
 	if (readonly) parts.push('readonly');
 
 	// Float label: add input-filled class if value exists (for initial render)
-	if (floatLabel && value) {
+	if (floatLabel && hasInputValue(value)) {
 		parts.push('input-filled');
 	}
 
@@ -139,12 +146,26 @@ export function buildAriaDescribedBy(inputId, { helpText, error }) {
 export function getKeyFilterPattern(keyfilter) {
 	if (!keyfilter) return null;
 
+	const buildKeyFilterRegExp = (source, flags = '') => {
+		const safeFlags = flags.replace(/[gy]/g, '');
+		return new RegExp(source, safeFlags);
+	};
+
+	if (keyfilter instanceof RegExp) {
+		try {
+			return buildKeyFilterRegExp(keyfilter.source, keyfilter.flags);
+		} catch (e) {
+			console.warn('Invalid RegExp pattern:', keyfilter);
+			return null;
+		}
+	}
+
 	// If it's a RegExp string (starts with /), parse it
 	if (typeof keyfilter === 'string' && keyfilter.startsWith('/')) {
 		try {
 			const match = keyfilter.match(/^\/(.*)\/([gimuy]*)$/);
 			if (match) {
-				return new RegExp(match[1], match[2] || '');
+				return buildKeyFilterRegExp(match[1], match[2] || '');
 			}
 		} catch (e) {
 			console.warn('Invalid RegExp pattern:', keyfilter);
@@ -174,6 +195,27 @@ export function getKeyFilterPattern(keyfilter) {
 	};
 
 	return patterns[keyfilter] || null;
+}
+
+export function matchesKeyFilter(pattern, value) {
+	if (!(pattern instanceof RegExp)) return true;
+	pattern.lastIndex = 0;
+	return pattern.test(value);
+}
+
+export function areOptionValuesEqual(a, b) {
+	if (a === b) return true;
+	if (a == null || b == null) return false;
+
+	const primitiveTypes = ['string', 'number', 'bigint', 'boolean'];
+	const aType = typeof a;
+	const bType = typeof b;
+
+	if (primitiveTypes.includes(aType) && primitiveTypes.includes(bType)) {
+		return String(a) === String(b);
+	}
+
+	return false;
 }
 
 export function isSpecialKey(event) {

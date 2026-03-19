@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
@@ -16,6 +17,8 @@ import {
 } from "../../../utils/input-util";
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
@@ -73,6 +76,8 @@ import { hash, concat } from "@ember/helper";
  * @param {number} [zIndex] - Overlay panel z-index (e.g. when appended to body).
  */
 export default class UlxDropdown extends Component {
+	@service modalStack;
+
 	@action
 	handleFocus(event) {
 		const onFocusCallback = this.args.onFocus;
@@ -396,34 +401,19 @@ export default class UlxDropdown extends Component {
 			keyListener = (e) => {
 				if (e.key === "Escape") {
 					e.preventDefault();
+					e.stopPropagation();
+					e.stopImmediatePropagation();
 					onClose();
 				}
 			};
 			setTimeout(() => {
 				document.addEventListener("click", clickListener, true);
-				document.addEventListener("keydown", keyListener);
+				document.addEventListener("keydown", keyListener, true);
 			}, 0);
 		}
 		return () => {
 			if (clickListener) document.removeEventListener("click", clickListener, true);
-			if (keyListener) document.removeEventListener("keydown", keyListener);
-		};
-	});
-
-	appendToBody = modifier((element, [when]) => {
-		if (!when) {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-			return;
-		}
-		if (element.parentNode !== document.body) {
-			document.body.appendChild(element);
-		}
-		return () => {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
+			if (keyListener) document.removeEventListener("keydown", keyListener, true);
 		};
 	});
 
@@ -444,7 +434,10 @@ export default class UlxDropdown extends Component {
 			element.style.width = `${targetRect.width}px`;
 			element.style.minWidth = `${targetRect.width}px`;
 			element.style.maxWidth = `${targetRect.width}px`;
-			const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : 5;
+			const zIndex =
+				typeof this.args.zIndex === "number"
+					? this.args.zIndex
+					: getOverlayZIndexAboveMask(this.modalStack);
 			element.style.zIndex = `${zIndex}`;
 			element.style.margin = "0";
 			element.style.padding = "0";
@@ -1205,7 +1198,7 @@ export default class UlxDropdown extends Component {
 					aria-activedescendant={{this.activeDescendantId}}
 					aria-hidden="false"
 					{{this.panelRef}}
-					{{this.appendToBody this.overlayVisible}}
+					{{appendToBody this.overlayVisible}}
 					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}

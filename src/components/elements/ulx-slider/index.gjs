@@ -48,6 +48,7 @@ const toNumber = (value, fallback) => {
  * @param {boolean} [readonly=false] - Prevents changes but keeps the component visible.
  * @param {string} [customClass] - Additional root classes.
  * @param {string} [ariaLabel] - Accessible name override (defaults to i18n).
+ * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-slider").
  */
 export default class UlxSlider extends Component {
 	@tracked isDragging = false;
@@ -76,6 +77,10 @@ export default class UlxSlider extends Component {
 
 	get inputClass() {
 		return getComponentClass("slider-input");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-slider";
 	}
 
 	get key() {
@@ -194,7 +199,6 @@ export default class UlxSlider extends Component {
 		return this.isRange ? this.snappedRange : this.snappedValue;
 	}
 
-	@action
 	valueToPercent(value) {
 		const { min, max } = this.normalizedBounds;
 		const denom = max - min;
@@ -202,7 +206,6 @@ export default class UlxSlider extends Component {
 		return ((value - min) / denom) * 100;
 	}
 
-	@action
 	percentToValue(percent) {
 		const { min, max } = this.normalizedBounds;
 		const denom = max - min;
@@ -293,6 +296,12 @@ export default class UlxSlider extends Component {
 	@action
 	getHandleValue(index) {
 		return this.handleValues[index];
+	}
+
+	@action
+	getHandleAriaLabel(index) {
+		if (!this.isRange) return this.ariaLabelText;
+		return index === 0 ? t("lbl.slider.handleStart") : t("lbl.slider.handleEnd");
 	}
 
 	rootRef = modifier((element) => {
@@ -472,6 +481,7 @@ export default class UlxSlider extends Component {
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			role={{if this.isRange "group" "slider"}}
 			aria-label={{this.ariaLabelText}}
 			aria-orientation={{if this.isRange undefined this.orientation}}
@@ -486,7 +496,7 @@ export default class UlxSlider extends Component {
 			{{this.rootRef}}
 			...attributes
 		>
-			<div class={{this.rangeClass}} style={{this.rangeStyle}} aria-hidden="true"></div>
+			<div class={{this.rangeClass}} style={{this.rangeStyle}} aria-hidden="true" data-qa="ulx-slider-range"></div>
 
 			{{#each this.handleStyles as |handleStyle index|}}
 				<span
@@ -494,7 +504,8 @@ export default class UlxSlider extends Component {
 					style={{handleStyle}}
 					role={{if this.isRange "slider" undefined}}
 					tabindex={{if this.isRange (if this.isInteractive "0" "-1") "-1"}}
-					aria-label={{if this.isRange this.ariaLabelText undefined}}
+					aria-label={{if this.isRange (this.getHandleAriaLabel index) undefined}}
+					data-qa="ulx-slider-handle"
 					aria-orientation={{if this.isRange this.orientation undefined}}
 					aria-disabled={{if this.isRange (if this.isDisabled "true" "false") undefined}}
 					aria-valuemin={{if this.isRange (this.getHandleAriaMin index) undefined}}
@@ -514,6 +525,7 @@ export default class UlxSlider extends Component {
 				class={{this.inputClass}}
 				value={{this.serializedValue}}
 				aria-hidden="true"
+				data-qa="ulx-slider-input"
 			/>
 		</div>
 	</template>

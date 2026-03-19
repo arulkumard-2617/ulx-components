@@ -90,7 +90,7 @@ export const ButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Buttons can be rendered as anchor tags using <code>@link={{true}}</code> for navigation purposes.',
+          'Buttons can be rendered as anchor tags using <code>@href</code> for navigation purposes.',
       },
     },
     demo: {

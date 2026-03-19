@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { guidFor } from "@ember/object/internals";
 import { fn } from "@ember/helper";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
 import {
@@ -54,7 +55,7 @@ function buildCheckboxId(namespace, idArg, key) {
  * @param {boolean} [disabled=false] - Whether the checkbox is disabled (single mode) or disables all items (group mode).
  * @param {boolean} [invalid=false] - Whether the field is in invalid state.
  * @param {boolean} [filled=false] - Whether to use filled variant styling.
- * @param {string} [size="m-size"] - Size variant: ""s-size", "m-size", "l-size".
+ * @param {string} [size="m-size"] - Size variant: "s-size", "m-size", "l-size".
  *
  * @param {string} [fieldClass] - Extra classes for the field wrapper (appended to base `field`).
  * @param {string} [groupClass] - Extra classes for the items wrapper (appended to base `ulx-checkbox-group`).
@@ -64,6 +65,7 @@ function buildCheckboxId(namespace, idArg, key) {
  *
  * @param {Function} [onChange] - Callback fired on change event (single/bare): (event) => void.
  * @param {Function} [onCheckedChange] - Callback fired with next checked value (single/bare): (checked, event) => void.
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-checkbox".
  */
 export default class UlxCheckbox extends Component {
 	get rules() {
@@ -86,15 +88,25 @@ export default class UlxCheckbox extends Component {
 		return this.items.length > 0;
 	}
 
-	get itemIds() {
+	get itemEntries() {
 		return this.items.map((item, index) => {
 			const id = item?.id;
-			return typeof id === "string" && id.length > 0 ? id : `${this.checkboxId}-item-${index}`;
+			const resolvedId =
+				typeof id === "string" && id.length > 0
+					? id
+					: `${this.checkboxId}-item-${guidFor(item ?? `${index}`)}`;
+
+			return { item, id: resolvedId };
 		});
 	}
 
+	@action
+	getItemId(index) {
+		return this.itemEntries?.[index]?.id;
+	}
+
 	get labelForId() {
-		return this.hasItems ? this.itemIds[0] : this.checkboxId;
+		return this.hasItems ? this.itemEntries[0]?.id : this.checkboxId;
 	}
 
 	get isRequired() {
@@ -102,7 +114,8 @@ export default class UlxCheckbox extends Component {
 	}
 
 	get isInvalid() {
-		return isInvalidState(this.args.invalid, this.args.error);
+		const { invalid = false, error } = this.args;
+		return isInvalidState(invalid, error);
 	}
 
 	get fieldClass() {
@@ -110,16 +123,15 @@ export default class UlxCheckbox extends Component {
 	}
 
 	get ariaDescribedBy() {
-		if (this.args.ariaDescribedBy) return this.args.ariaDescribedBy;
-		return buildAriaDescribedBy(this.checkboxId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		const { ariaDescribedBy, helpText, error } = this.args;
+		if (ariaDescribedBy) return ariaDescribedBy;
+		return buildAriaDescribedBy(this.checkboxId, { helpText, error });
 	}
 
 	get ariaErrorMessage() {
-		if (this.args.ariaErrorMessage) return this.args.ariaErrorMessage;
-		return this.args.error ? `${this.checkboxId}-error` : undefined;
+		const { ariaErrorMessage, error } = this.args;
+		if (ariaErrorMessage) return ariaErrorMessage;
+		return error ? `${this.checkboxId}-error` : undefined;
 	}
 
 	get groupClass() {
@@ -129,6 +141,10 @@ export default class UlxCheckbox extends Component {
 		groupClass && parts.push(groupClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-checkbox";
 	}
 
 	@action
@@ -143,7 +159,7 @@ export default class UlxCheckbox extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}}>
+		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
 			{{! Field label (UlxInput pattern) }}
 			{{#if (has-block "label")}}
 				<label for={{this.labelForId}}>
@@ -172,21 +188,21 @@ export default class UlxCheckbox extends Component {
 			{{/if}}
 
 			{{#if this.hasItems}}
-				<div class={{this.groupClass}}>
-					{{#each this.items key="@index" as |item index|}}
+				<div class={{this.groupClass}} data-qa="ulx-checkbox-group">
+					{{#each this.itemEntries key="id" as |entry|}}
 						<UlxCheckboxItem
-							@id={{this.itemIds.index}}
-							@checked={{item.checked}}
-							@indeterminate={{item.indeterminate}}
-							@disabled={{if @disabled true item.disabled}}
+							@id={{entry.id}}
+							@checked={{entry.item.checked}}
+							@indeterminate={{entry.item.indeterminate}}
+							@disabled={{if @disabled true entry.item.disabled}}
 							@invalid={{this.isInvalid}}
 							@filled={{@filled}}
 							@size={{@size}}
-							@customClass={{item.customClass}}
-							@itemLabel={{item.label}}
+							@customClass={{entry.item.customClass}}
+							@itemLabel={{entry.item.label}}
 							@ariaDescribedBy={{this.ariaDescribedBy}}
 							@ariaErrorMessage={{this.ariaErrorMessage}}
-							@onChange={{fn this.handleItemChange item}}
+							@onChange={{fn this.handleItemChange entry.item}}
 						/>
 					{{/each}}
 				</div>

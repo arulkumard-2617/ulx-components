@@ -25,9 +25,14 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [ariaErrorMessage] - `aria-errormessage` value.
  * @param {string} [uncheckIconName] - When set and not checked and not indeterminate, show this icon (e.g. tristate unchecked).
  * @param {boolean} [hideLabel=false] - When true, do not render the right-side label (used for control-only usage).
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-checkbox-item".
  * @param {Function} [onChange] - Fired on input change: (event) => void.
  */
 export default class UlxCheckboxItem extends Component {
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-checkbox-item";
+	}
+
 	get isIndeterminate() {
 		return !!this.args.indeterminate;
 	}
@@ -115,7 +120,7 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	<template>
-		<div class={{this.wrapperClass}}>
+		<div class={{this.wrapperClass}} data-qa={{this.rootDataQa}}>
 			<input
 				id={{@id}}
 				class="checkbox-input"

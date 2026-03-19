@@ -117,6 +117,20 @@ const enUs = {
 	'msg.type.message': '{type} message.',
 	'msg.variant.label': 'Variant: {variant}',
 
+	// ── Stacked overlay demo (Modal) ─────────────────────────
+	'lbl.open.stacked.demo': 'Open stacked overlay demo',
+	'lbl.stacked.overlays': 'Stacked overlays',
+	'msg.stacked.overlay.instructions': 'ESC closes the topmost overlay first. Toasts close before modal or slide pane. Open a toast, then press ESC to see toast close first.',
+	'lbl.open.popup': 'Open popup',
+	'lbl.open.menu': 'Open menu',
+	'lbl.dropdown.placeholder': 'Select…',
+	'msg.tooltip.stacked.demo': 'Tooltips layer above their trigger; ESC closes the top overlay.',
+	'lbl.hover.tooltip': 'Hover for tooltip',
+	'lbl.popup': 'Popup',
+	'msg.popup.stacked.demo': 'This popup is stacked above the modal. Press ESC to close this first.',
+	'msg.toast.stacked.demo': 'Stacked overlay demo',
+	'msg.toast.stacked.esc.first': 'Press ESC — this toast closes before the modal.',
+
 	// ── Toast messages ───────────────────────────────────────
 	'msg.basic.toast': 'This is a basic toast message.',
 	'msg.sticky.toast': 'This message stays visible until you close it.',
@@ -140,6 +154,8 @@ const enUs = {
 
 	// ── Slider ────────────────────────────────────────────────
 	'lbl.slider': 'Slider',
+	'lbl.slider.handleStart': 'Start',
+	'lbl.slider.handleEnd': 'End',
 	'lbl.value': 'Value',
 	'lbl.step': 'Step',
 	'lbl.range': 'Range',
@@ -204,8 +220,21 @@ const enUs = {
 	'lbl.dropdown.template': 'Template',
 	'lbl.dropdown.virtual.scroll': 'Virtual Scroll',
 	'lbl.dropdown.accessible': 'Accessible dropdown',
+	'lbl.dropdown': 'Dropdown',
+	'lbl.dropdown.show.clear': 'Show clear',
+	'lbl.city': 'City',
+	'lbl.country': 'Country',
+	'lbl.placeholder': 'Placeholder',
+	'lbl.field.class': 'Field class',
+	'lbl.category.elements': 'Elements',
+	'lbl.category.form': 'Form',
+	'lbl.doc.tab.features': 'Features',
+	'lbl.doc.tab.theming': 'Theming',
+	'lbl.doc.tab.builder': 'Builder',
+	'lbl.doc.tab.pass.through': 'Pass Through',
 	'msg.dropdown.choose.city': 'Choose a city',
 	'msg.dropdown.search.cities': 'Search cities',
+	'msg.dropdown.filter.placeholder': 'Search...',
 	'msg.dropdown.select.or.type': 'Select or type',
 	'msg.dropdown.select.virtual': 'Select (virtual scroll)',
 	'msg.dropdown.option.n': 'Option {number}',
@@ -253,6 +282,8 @@ const enUs = {
 	'lbl.square': 'Square',
 	'lbl.circle': 'Circle',
 	'lbl.amy.elsner': 'Amy Elsner',
+	'lbl.user.profile.picture': 'User profile picture',
+	'lbl.user.profile': 'User profile',
 	'lbl.image.avatar': 'Image avatar',
 	'lbl.initials.fallback': 'Initials fallback',
 	'lbl.anonymous.avatar': 'Anonymous avatar',
@@ -437,10 +468,15 @@ const enUs = {
 	'aria.table.remove.filter.rule': 'Remove filter rule',
 	'aria.table.toggle.column': 'Toggle column {header}',
 	'aria.table.column.locked': 'Column locked',
+	'aria.table.move.column.up': 'Move column {header} up',
+	'aria.table.move.column.down': 'Move column {header} down',
 	'msg.table.no.records': 'No records found.',
+	'msg.table.column.moved': 'Moved column {header} to position {position}.',
 	'msg.table.enter.filter.value': 'Enter filter value',
 	'msg.table.select.values': 'Select values',
 	'lbl.select': 'Select',
+	'lbl.move.up': 'Move up',
+	'lbl.move.down': 'Move down',
 	'lbl.filter.contains': 'Contains',
 	'lbl.filter.not.contains': 'Not contains',
 	'lbl.filter.starts.with': 'Starts with',
@@ -482,7 +518,12 @@ const enUs = {
 	'msg.password.suggestion.uppercase': 'At least one uppercase',
 	'msg.password.suggestion.numeric': 'At least one numeric',
 	'msg.password.suggestion.length': 'Minimum 8 characters',
-	'lbl.doc.password.title': 'Password - ULS Ember Documentation'
+	'lbl.doc.password.title': 'Password - ULS Ember Documentation',
+
+	// ── SlidePane ────────────────────────────────────────
+	'lbl.back': 'Back',
+	'lbl.maximize': 'Maximize',
+	'lbl.restore': 'Restore'
 };
 
 export default enUs;
