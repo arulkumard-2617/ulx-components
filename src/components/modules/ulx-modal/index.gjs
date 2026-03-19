@@ -5,7 +5,6 @@ import { inject as service } from "@ember/service";
 import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
-import { or } from "ember-truth-helpers";
 import { getComponentClass } from "../../../utils/component-config";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
 import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
@@ -121,6 +120,7 @@ export default class UlxModal extends Component {
 		variant && parts.push(variant);
 		this.isMaximized && parts.push("maximized");
 		this.draggable && parts.push("draggable");
+		// Transition state on the dialog so backdrop shows first, then modal animates
 		this.transitionState && parts.push(this.transitionState);
 
 		return parts.filter(Boolean).join(" ");
@@ -156,6 +156,7 @@ export default class UlxModal extends Component {
 		const parts = ["dialog-mask"];
 
 		this.overlay && parts.push("modal overlay");
+		// Backdrop shows when visible (no transition state on mask so it applies first)
 		visible && parts.push("visible");
 		animationType && parts.push(`animation-${animationType}`);
 		maskClassName && parts.push(maskClassName);
@@ -392,6 +393,17 @@ export default class UlxModal extends Component {
 		handleTabKey(event, dialogElement);
 	}
 
+	// When visible is true, show the block and schedule shouldRender so modifier can run enter sequence
+	get shouldRenderModal() {
+		if (this.args.visible && !this.shouldRender) {
+			schedule("afterRender", () => {
+				this.shouldRender = true;
+			});
+			return true;
+		}
+		return this.shouldRender;
+	}
+
 	modalStackManagement = modifier(() => {
 		const { visible, maximized } = this.args;
 
@@ -415,7 +427,7 @@ export default class UlxModal extends Component {
 	<template>
 		{{#if this.destinationElement}}
 			{{#in-element this.destinationElement insertBefore=null}}
-				{{#if (or this.shouldRender @visible)}}
+				{{#if this.shouldRenderModal}}
 					<div
 						class={{this.maskClasses}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}

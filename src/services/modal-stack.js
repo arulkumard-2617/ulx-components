@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 /**
  * ModalStackService manages z-index stacking for modal components.
  * Ensures modals are properly layered based on the order they are opened.
- * 
+ *
  * @class ModalStackService
  * @extends Service
  */
@@ -28,7 +28,7 @@ export default class ModalStackService extends Service {
 	 * @param {Object} modalInstance - The modal component instance to remove
 	 */
 	unregisterModal(modalInstance) {
-		this.modals = this.modals.filter(m => m !== modalInstance);
+		this.modals = this.modals.filter((m) => m !== modalInstance);
 	}
 
 	/**
@@ -45,7 +45,7 @@ export default class ModalStackService extends Service {
 	getZIndex(modalInstance) {
 		const baseZIndex = modalInstance?.args?.zIndexBase || 1000;
 		const index = this.modals.indexOf(modalInstance);
-		return index === -1 ? baseZIndex : baseZIndex + (index * 10);
+		return index === -1 ? baseZIndex : baseZIndex + index * 10;
 	}
 
 	/**

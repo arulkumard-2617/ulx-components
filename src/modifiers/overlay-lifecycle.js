@@ -6,8 +6,8 @@ const TRANSITION_DURATION = 220;
 const FOCUS_DELAY_MS = 100;
 
 function hasClosableToastInDom() {
-	if (typeof document === "undefined") return false;
-	return document.querySelector(".toast-message.closable:not(.toast-exit)") !== null;
+	if (typeof document === 'undefined') return false;
+	return document.querySelector('.toast-message.closable:not(.toast-exit)') !== null;
 }
 
 /**
@@ -158,7 +158,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 					// Only handle Escape if this is the topmost modal in the stack
 					const modalStack = componentInstance.modalStack;
 					const isTopModal = modalStack && modalStack.topModal === componentInstance;
-					
+
 					if (isTopModal || !modalStack) {
 						event.preventDefault();
 						if (onEscape) {
@@ -169,23 +169,23 @@ export default modifier((maskElement, [componentInstance, options]) => {
 					}
 				}
 				break;
-		case 'Tab':
-			if (handleTabKey) {
-				const modalStack = componentInstance.modalStack;
-				const isTopModal = modalStack && modalStack.topModal === componentInstance;
-				if (modalStack && !isTopModal) break;
+			case 'Tab':
+				if (handleTabKey) {
+					const modalStack = componentInstance.modalStack;
+					const isTopModal = modalStack && modalStack.topModal === componentInstance;
+					if (modalStack && !isTopModal) break;
 
-				const overlayElement = maskElement.querySelector(overlaySelector);
-				overlayElement && handleTabKey(event, overlayElement);
-			}
-			break;
+					const overlayElement = maskElement.querySelector(overlaySelector);
+					overlayElement && handleTabKey(event, overlayElement);
+				}
+				break;
 		}
 	};
 
 	document.addEventListener('keydown', handleKeyDown);
 
 	return () => {
-		if (enterTimer) clearTimeout(enterTimer);
+		if (enterTimer != null) clearTimeout(enterTimer);
 		if (enterActiveTimer) clearTimeout(enterActiveTimer);
 		if (exitTimer) clearTimeout(exitTimer);
 		if (unmountTimer) clearTimeout(unmountTimer);

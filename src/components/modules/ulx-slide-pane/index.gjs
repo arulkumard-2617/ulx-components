@@ -5,7 +5,6 @@ import { inject as service } from "@ember/service";
 import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
-import { or } from "ember-truth-helpers";
 import { getComponentClass } from "../../../utils/component-config";
 import { handleAsyncAction, handleTabKey } from "../../../utils/overlay-helpers";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
@@ -137,7 +136,6 @@ export default class UlxSlidePane extends Component {
 
 		this.overlay && parts.push("overlay");
 		visible && parts.push("visible");
-		this.transitionState && parts.push(this.transitionState);
 		maskClassName && parts.push(maskClassName);
 
 		return parts.filter(Boolean).join(" ");
@@ -288,6 +286,16 @@ export default class UlxSlidePane extends Component {
 		handleTabKey(event, overlayElement);
 	}
 
+	get shouldRenderSlidePane() {
+		if (this.args.visible && !this.shouldRender) {
+			schedule("afterRender", () => {
+				this.shouldRender = true;
+			});
+			return true;
+		}
+		return this.shouldRender;
+	}
+
 	overlayStackManagement = modifier(() => {
 		const { visible, maximized } = this.args;
 
@@ -345,7 +353,7 @@ export default class UlxSlidePane extends Component {
 	<template>
 		{{#if this.destinationElement}}
 			{{#in-element this.destinationElement insertBefore=null}}
-				{{#if (or this.shouldRender @visible)}}
+				{{#if this.shouldRenderSlidePane}}
 					<div
 						class={{this.maskClasses}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}

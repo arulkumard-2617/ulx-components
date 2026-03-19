@@ -578,7 +578,7 @@ export default class UlxMultiSelect extends Component {
 		const zIndex =
 			typeof this.args.zIndex === "number"
 				? this.args.zIndex
-				: this.modalStack?.getZIndexAboveMask() ?? 2100;
+				: (this.modalStack?.getZIndexAboveMask() ?? 2100);
 		panelEl.style.zIndex = `${zIndex}`;
 		panelEl.style.margin = "0";
 		panelEl.style.padding = "0";
@@ -1591,34 +1591,32 @@ export default class UlxMultiSelect extends Component {
 							</ul>
 						{{/if}}
 					</div>
-					{{#if
-						(or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))
-					}}
-						<div class="multiselect-footer">
-							<div class="multiselect-footer-left">
-								{{#if (has-block "footer")}}
-									{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
-								{{else if (gt this.selectedValueCount 0)}}
-									<span class="multiselect-footer-count">{{t
-											"msg.multiselect.items.selected"
-											count=this.selectedValueCount
-										}}</span>
-								{{/if}}
-							</div>
-							<div class="multiselect-footer-right">
-								{{#if (has-block "footerActions")}}
-									{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
-								{{/if}}
-								{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
-									<UlxButton
-										@label={{t "lbl.clear"}}
-										@variant="link"
-										@onClick={{this.clearSelectionInPanel}}
-									/>
-								{{/if}}
-							</div>
+
+					<div class="multiselect-footer">
+						<div class="multiselect-footer-left">
+							{{#if (has-block "footer")}}
+								{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
+							{{else}}
+								<span class="multiselect-footer-count">{{t
+										"msg.multiselect.items.selected"
+										count=this.selectedValueCount
+									}}</span>
+							{{/if}}
 						</div>
-					{{/if}}
+						<div class="multiselect-footer-right">
+							{{#if (has-block "footerActions")}}
+								{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
+							{{/if}}
+								{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
+								<UlxButton
+									@label={{t "lbl.clear"}}
+									@variant="link"
+									@onClick={{this.clearSelectionInPanel}}
+								/>
+							{{/if}}
+						</div>
+					</div>
+
 				</div>
 			{{/if}}
 
