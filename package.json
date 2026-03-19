@@ -108,6 +108,8 @@
       "./components/elements/ulx-divider/index.js": "./dist/_app_/components/elements/ulx-divider/index.js",
       "./components/elements/ulx-dropdown/index.js": "./dist/_app_/components/elements/ulx-dropdown/index.js",
       "./components/elements/ulx-empty-state/index.js": "./dist/_app_/components/elements/ulx-empty-state/index.js",
+      "./components/elements/ulx-field/index.js": "./dist/_app_/components/elements/ulx-field/index.js",
+      "./components/elements/ulx-floatlabel/index.js": "./dist/_app_/components/elements/ulx-floatlabel/index.js",
       "./components/elements/ulx-icon-input/index.js": "./dist/_app_/components/elements/ulx-icon-input/index.js",
       "./components/elements/ulx-icon/index.js": "./dist/_app_/components/elements/ulx-icon/index.js",
       "./components/elements/ulx-input/index.js": "./dist/_app_/components/elements/ulx-input/index.js",

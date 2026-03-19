@@ -14,9 +14,10 @@ export const DocNavItems = [
   },
   ...utilNavSchema,
   {
-    menuTitle: 'Elements',
+    menuTitle: 'Components',
     icon: 'bs-icons1 image-left-right-icon s18',
     children: [
+      // 1. FORM
       {
         category: 'Form',
         items: [
@@ -36,12 +37,12 @@ export const DocNavItems = [
             route: 'components.elements.input-group',
           },
           {
-            menuItem: 'checkbox',
+            menuItem: 'Checkbox',
             to: '/components/elements/checkbox',
             route: 'components.elements.checkbox',
           },
           {
-            menuItem: 'radio',
+            menuItem: 'Radio',
             to: '/components/elements/radio',
             route: 'components.elements.radio',
           },
@@ -66,11 +67,6 @@ export const DocNavItems = [
             route: 'components.collections.multiselect',
           },
           {
-            menuItem: 'Rating',
-            to: '/components/elements/rating',
-            route: 'components.elements.rating',
-          },
-          {
             menuItem: 'Slider',
             to: '/components/elements/slider',
             route: 'components.elements.slider',
@@ -80,8 +76,15 @@ export const DocNavItems = [
             to: '/components/elements/password',
             route: 'components.elements.password',
           },
+          {
+            menuItem: 'Form',
+            to: '/components/collections/form',
+            route: 'components.collections.form',
+          },
         ],
       },
+
+      // 2. BUTTON
       {
         category: 'Button',
         items: [
@@ -95,21 +98,158 @@ export const DocNavItems = [
             to: '/components/elements/select-button',
             route: 'components.elements.select-button',
           },
+          {
+            menuItem: 'SplitButton',
+            to: '/components/collections/split-button',
+            route: 'components.collections.split-button',
+          },
         ],
       },
+
+      // 3. DATA
       {
-        category: 'Icons',
+        category: 'Data',
+        items: [
+          {
+            menuItem: 'DataView',
+            to: '/components/modules/data-view',
+            route: 'components.modules.data-view',
+          },
+          {
+            menuItem: 'Paginator',
+            to: '/components/modules/paginator',
+            route: 'components.modules.paginator',
+          },
+          {
+            menuItem: 'Table',
+            to: '/components/modules/table',
+            route: 'components.modules.table',
+          },
+        ],
+      },
+
+      // 4. PANEL
+      {
+        category: 'Panel',
+        items: [
+          {
+            menuItem: 'Accordion',
+            to: '/components/collections/accordion',
+            route: 'components.collections.accordion',
+          },
+          {
+            menuItem: 'Card',
+            to: '/components/collections/card',
+            route: 'components.collections.card',
+          },
+          {
+            menuItem: 'Timeline',
+            to: '/components/collections/timeline',
+            route: 'components.collections.timeline',
+          },
+          {
+            menuItem: 'Toolbar',
+            to: '/components/collections/toolbar',
+            route: 'components.collections.toolbar',
+          },
+          {
+            menuItem: 'Segment',
+            to: '/components/collections/segment',
+            route: 'components.collections.segment',
+          },
+          {
+            menuItem: 'OptionSegment',
+            to: '/components/collections/option-segment',
+            route: 'components.collections.option-segment',
+          },
+        ],
+      },
+
+      // 5. OVERLAY
+      {
+        category: 'Overlay',
+        items: [
+          {
+            menuItem: 'Modal',
+            to: '/components/modules/modal',
+            route: 'components.modules.modal',
+          },
+          {
+            menuItem: 'Popup',
+            to: '/components/modules/popup',
+            route: 'components.modules.popup',
+          },
+          {
+            menuItem: 'Tooltip',
+            to: '/components/modules/tooltip',
+            route: 'components.modules.tooltip',
+          },
+          {
+            menuItem: 'Slidepane',
+            to: '/components/modules/slidepane',
+            route: 'components.modules.slidepane',
+          },
+        ],
+      },
+
+      // 6. MENU ✅ (UPDATED)
+      {
+        category: 'Menu',
+        items: [
+          {
+            menuItem: 'TabMenu',
+            to: '/components/collections/tab-menu',
+            route: 'components.collections.tab-menu',
+          },
+          {
+            menuItem: 'TieredMenu',
+            to: '/components/modules/tieredmenu',
+            route: 'components.modules.tieredmenu',
+          },
+          {
+            menuItem: 'PanelMenu',
+            to: '/components/modules/panel-menu',
+            route: 'components.modules.panel-menu',
+          }, // ✅ NEW
+          {
+            menuItem: 'Steps',
+            to: '/components/modules/steps',
+            route: 'components.modules.steps',
+          },
+        ],
+      },
+
+      // 7. MESSAGES
+      {
+        category: 'Messages',
+        items: [
+          {
+            menuItem: 'Message',
+            to: '/components/collections/message',
+            route: 'components.collections.message',
+          },
+          {
+            menuItem: 'MessageBanner',
+            to: '/components/collections/messages',
+            route: 'components.collections.messages',
+          },
+          {
+            menuItem: 'Toast',
+            to: '/components/modules/toast',
+            route: 'components.modules.toast',
+          },
+        ],
+      },
+
+      // 8. MISC
+      {
+        category: 'Misc',
         items: [
           {
             menuItem: 'Icon',
             to: '/components/elements/icon',
             route: 'components.elements.icon',
           },
-        ],
-      },
-      {
-        category: 'Misc',
-        items: [
           {
             menuItem: 'Divider',
             to: '/components/elements/divider',
@@ -136,7 +276,7 @@ export const DocNavItems = [
             route: 'components.elements.avatar',
           },
           {
-            menuItem: 'Progress Bar',
+            menuItem: 'ProgressBar',
             to: '/components/elements/progressbar',
             route: 'components.elements.progressbar',
           },
@@ -155,167 +295,10 @@ export const DocNavItems = [
             to: '/components/elements/empty-state',
             route: 'components.elements.empty-state',
           },
-        ],
-      },
-    ],
-  },
-  {
-    menuTitle: 'Collections',
-    icon: 'bs-icons1 list-view-icon s18',
-    children: [
-      {
-        category: 'Menu',
-        items: [
           {
-            menuItem: 'TabMenu',
-            to: '/components/collections/tab-menu',
-            route: 'components.collections.tab-menu',
-          },
-        ],
-      },
-      {
-        category: 'Panel',
-        items: [
-          {
-            menuItem: 'Segment',
-            to: '/components/collections/segment',
-            route: 'components.collections.segment',
-          },
-          {
-            menuItem: 'Toolbar',
-            to: '/components/collections/toolbar',
-            route: 'components.collections.toolbar',
-          },
-          {
-            menuItem: 'OptionSegment',
-            to: '/components/collections/option-segment',
-            route: 'components.collections.option-segment',
-          },
-          {
-            menuItem: 'Accordion',
-            to: '/components/collections/accordion',
-            route: 'components.collections.accordion',
-          },
-          {
-            menuItem: 'Timeline',
-            to: '/components/collections/timeline',
-            route: 'components.collections.timeline',
-          },
-          {
-            menuItem: 'Card',
-            to: '/components/collections/card',
-            route: 'components.collections.card',
-          },
-        ],
-      },
-      {
-        category: 'Button',
-        items: [
-          {
-            menuItem: 'SplitButton',
-            to: '/components/collections/split-button',
-            route: 'components.collections.split-button',
-          },
-        ],
-      },
-      {
-        category: 'Form',
-        items: [
-          {
-            menuItem: 'Form',
-            to: '/components/collections/form',
-            route: 'components.collections.form',
-          },
-        ],
-      },
-      {
-        category: 'Notifications',
-        items: [
-          {
-            menuItem: 'Message',
-            to: '/components/collections/message',
-            route: 'components.collections.message',
-          },
-          {
-            menuItem: 'Message banner',
-            to: '/components/collections/messages',
-            route: 'components.collections.messages',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    menuTitle: 'Modules',
-    icon: 'bs-icons1 bulk-code-icon s18',
-    children: [
-      {
-        category: 'Menu',
-        items: [
-          {
-            menuItem: 'TieredMenu',
-            to: '/components/modules/tieredmenu',
-            route: 'components.modules.tieredmenu',
-          },
-          {
-            menuItem: 'Steps',
-            to: '/components/modules/steps',
-            route: 'components.modules.steps',
-          },
-        ],
-      },
-      {
-        category: 'Message',
-        items: [
-          {
-            menuItem: 'Toast',
-            to: '/components/modules/toast',
-            route: 'components.modules.toast',
-          },
-        ],
-      },
-      {
-        category: 'Data',
-        items: [
-          {
-            menuItem: 'DataView',
-            to: '/components/modules/data-view',
-            route: 'components.modules.data-view',
-          },
-          {
-            menuItem: 'Paginator',
-            to: '/components/modules/paginator',
-            route: 'components.modules.paginator',
-          },
-          {
-            menuItem: 'Table',
-            to: '/components/modules/table',
-            route: 'components.modules.table',
-          },
-        ],
-      },
-      {
-        category: 'Overlay',
-        items: [
-          {
-            menuItem: 'Modal',
-            to: '/components/modules/modal',
-            route: 'components.modules.modal',
-          },
-          {
-            menuItem: 'Popup',
-            to: '/components/modules/popup',
-            route: 'components.modules.popup',
-          },
-          {
-            menuItem: 'Tooltip',
-            to: '/components/modules/tooltip',
-            route: 'components.modules.tooltip',
-          },
-          {
-            menuItem: 'Slidepane',
-            to: '/components/modules/slidepane',
-            route: 'components.modules.slidepane',
+            menuItem: 'Rating',
+            to: '/components/elements/rating',
+            route: 'components.elements.rating',
           },
         ],
       },

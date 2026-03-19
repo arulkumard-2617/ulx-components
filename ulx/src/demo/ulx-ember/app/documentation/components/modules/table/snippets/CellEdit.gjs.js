@@ -115,8 +115,9 @@ export default class DemoTableCellEdit extends Component {
 
   @action
   onCellEditComplete({ row, field, value }) {
-    row[field] = value;
-    this.products = [...this.products];
+    this.products = this.products.map((p) =>
+      p === row ? { ...p, [field]: value } : p
+    );
   }
 
   <template>
