@@ -57,7 +57,6 @@ export default class DemoSplitButtonIcons extends Component {
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"
-        @size="s-size"
         @dropdownIcon="comment-icon"
         @model={{this.items}}
         @onClick={{this.save}}

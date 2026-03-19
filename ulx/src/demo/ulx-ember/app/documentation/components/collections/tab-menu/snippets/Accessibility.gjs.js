@@ -23,5 +23,5 @@ export default class AccessibilityTabMenuDemo extends Component {
   </template>
 }
 
-`;
 
+`;

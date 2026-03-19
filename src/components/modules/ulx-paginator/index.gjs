@@ -260,14 +260,12 @@ export default class UlxPaginator extends Component {
 							}}
 						{{else}}
 							<UlxButton
-								@variant="text"
+								@variant="secondary"
+								@text={{true}}
 								@icon={{this.firstPageLinkIcon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
-								@customClass="paginator-first {{if
-									(or this.isFirstPage this.isEmpty)
-									'disabled'
-								}}"
+								@customClass="paginator-first {{if (or this.isFirstPage this.isEmpty) 'disabled'}}"
 								@disabled={{or this.isFirstPage this.isEmpty}}
 								@onClick={{this.goToFirst}}
 								aria-label={{t "aria.paginator.firstPage"}}
@@ -286,14 +284,12 @@ export default class UlxPaginator extends Component {
 							}}
 						{{else}}
 							<UlxButton
-								@variant="text"
+								@variant="secondary"
+								@text={{true}}
 								@icon={{this.prevPageLinkIcon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
-								@customClass="paginator-prev {{if
-									(or this.isFirstPage this.isEmpty)
-									'disabled'
-								}}"
+								@customClass="paginator-prev {{if (or this.isFirstPage this.isEmpty) 'disabled'}}"
 								@disabled={{or this.isFirstPage this.isEmpty}}
 								@onClick={{this.goToPrev}}
 								aria-label={{t "aria.paginator.prevPage"}}
@@ -312,7 +308,8 @@ export default class UlxPaginator extends Component {
 							}}
 						{{else}}
 							<UlxButton
-								@variant="text"
+								@variant="secondary"
+								@text={{true}}
 								@icon={{this.nextPageLinkIcon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
@@ -335,7 +332,8 @@ export default class UlxPaginator extends Component {
 							}}
 						{{else}}
 							<UlxButton
-								@variant="text"
+								@variant="secondary"
+								@text={{true}}
 								@icon={{this.lastPageLinkIcon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
@@ -364,7 +362,8 @@ export default class UlxPaginator extends Component {
 							>
 								{{#each this.pageLinks as |pageNum|}}
 									<UlxButton
-										@variant="text"
+										@variant="secondary"
+										@text={{true}}
 										@label={{pageNum}}
 										@customClass="paginator-page-button {{if
 											(eq pageNum this.currentPageOneBased)

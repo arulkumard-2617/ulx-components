@@ -13626,11 +13626,6 @@ FEATURES IMPLEMENTED:
   outline: none;
   min-width: 9.28571429rem;
 }
-.ulx-dropdown:focus-within {
-  border-color: var(--ulx-input-focus-bdr, #2196F3);
-  background-color: var(--ulx-input-focus-bg, var(--ulx-input-bg-color));
-  border-color: var(--ulx-primary-color);
-}
 .ulx-dropdown.disabled {
   opacity: 0.6;
   pointer-events: none;
@@ -21457,7 +21452,6 @@ img.flag {
   height: 2.28571429rem;
   padding-inline: 0.57142857rem;
   padding-block: 0.28571429rem;
-  border-radius: 9999px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--ulx-text-color);

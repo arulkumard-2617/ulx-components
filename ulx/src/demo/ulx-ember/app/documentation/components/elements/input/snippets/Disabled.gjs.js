@@ -1,15 +1,24 @@
 export default `
-import { UlxInput, t } from 'ulx-components';
+import { UlxInput, UlxField, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-    <UlxInput
+
+    <UlxField
       @label={{t "lbl.label"}}
-      @size="l-size"
+      @inputId="disabled-input"
       @fieldClass="col-12"
-      aria-label={{t "lbl.label"}}
-      @disabled={{true}}
-    />
+    >
+      <:control as |field|>
+        <UlxInput
+          @inputId={{field.inputId}}
+          @disabled={{true}}
+          @size="l-size"
+          aria-label={{t "lbl.label"}}
+        />
+      </:control>
+    </UlxField>
+
   </div>
 </template>
 

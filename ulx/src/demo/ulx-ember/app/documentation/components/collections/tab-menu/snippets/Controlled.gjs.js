@@ -72,7 +72,7 @@ export default class ControlledTabMenuDemo extends Component {
         {{#each this.buttons as |btn|}}
           <UlxButton
             @label={{btn.label}}
-            @variant={{if (this.isActiveButton btn.index) "primary" "secondary"}}
+            @variant={{if (this.isActiveButton btn.index) "primary" "basic"}}
             @size="s-size"
             aria-label={{t "msg.activate.tab" label=btn.label}}
             aria-pressed={{this.isActiveButton btn.index}}
