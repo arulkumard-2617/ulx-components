@@ -89,10 +89,8 @@ export default class DemoTableSort extends Component {
         />
       </div>
 
-      <div class="mgt3">
+      <div class="mt-8">
         <h4 class="h5 mb-2">Multi Sort</h4>
-        <p class="text-sm fg-text-secondary mb-2">Hold Ctrl/Cmd and click column
-          headers for multi-sort.</p>
         <UlxTable
           @value={{this.products}}
           @columns={{this.multiColumns}}

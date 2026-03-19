@@ -1,5 +1,7 @@
 export default `
-import { UlxInput } from 'ulx-components';
+import Component from '@glimmer/component';
+import { concat } from '@ember/helper';
+import { UlxInput, UlxField } from 'ulx-components';
 
 const keyfilters = [
   { label: 'Integers', keyfilter: 'int', placeholder: 'e.g. -123' },
@@ -38,19 +40,34 @@ const keyfilters = [
   { label: 'Custom RegExp', keyfilter: '/^[A-Z]*$/', placeholder: 'A–Z only' },
 ];
 
-<template>
-  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-    {{#each keyfilters as |item|}}
-      <UlxInput
-        @label={{item.label}}
-        @size="s-size"
-        @fieldClass="col-4"
-        @keyfilter={{item.keyfilter}}
-        placeholder={{item.placeholder}}
-        aria-label={{item.label}}
-      />
-    {{/each}}
-  </div>
-</template>
+export default class DemoKeyFilter extends Component {
+  keyfilters = keyfilters;
+
+  <template>
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
+
+      {{#each this.keyfilters as |item index|}}
+        <UlxField
+          @label={{item.label}}
+          @inputId={{concat "keyfilter-" index}}
+          @fieldClass="col-4"
+        >
+          <:control as |field|>
+            <UlxInput
+              @inputId={{field.inputId}}
+              @ariaDescribedBy={{field.describedBy}}
+              @ariaErrorMessage={{field.errorId}}
+              @keyfilter={{item.keyfilter}}
+              @size="s-size"
+              placeholder={{item.placeholder}}
+              aria-label={{item.label}}
+            />
+          </:control>
+        </UlxField>
+      {{/each}}
+
+    </div>
+  </template>
+}
 
 `;

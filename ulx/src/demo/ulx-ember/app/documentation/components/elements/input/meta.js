@@ -5,8 +5,8 @@
 
 export default {
   // Navigation metadata
-  category: 'Elements',
-  subCategory: 'Form',
+  category: 'Form',
+  subCategory: 'Elements',
   menuItem: 'Input',
   routeBase: '/components/elements/input',
   icon: 'bs-icons1 sp-compass-icon',

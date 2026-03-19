@@ -72,6 +72,7 @@ class PriceEditor extends Component {
 export default class DemoTableRowEdit extends Component {
   @tracked products = initProducts();
   @tracked editingRows = [];
+  @tracked _originals = {};
 
   get columns() {
     return [
@@ -89,6 +90,7 @@ export default class DemoTableRowEdit extends Component {
     this._originals = { ...this._originals, [row.id]: { ...row } };
   }
 
+
   @action
   onRowEditSave({ row }) {
     this.editingRows = this.editingRows.filter((r) => r.id !== row.id);
@@ -97,14 +99,17 @@ export default class DemoTableRowEdit extends Component {
   @action
   onRowEditCancel({ row }) {
     const orig = this._originals?.[row.id];
-    if (orig) Object.assign(row, orig);
+    if (orig) {
+      this.products = this.products.map((p) => (p.id === row.id ? { ...orig } : p));
+    }
     this.editingRows = this.editingRows.filter((r) => r.id !== row.id);
   }
 
   @action
   onCellEditComplete({ row, field, value }) {
-    row[field] = value;
-    this.products = [...this.products];
+    this.products = this.products.map((p) =>
+      p === row ? { ...p, [field]: value } : p
+    );
   }
 
   <template>

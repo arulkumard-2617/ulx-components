@@ -40,27 +40,27 @@ export default class SizesToggleDemo extends Component {
     <div class="flex gap-5 align-items-center flex-wrap flex-col">
       <div class="flex align-items-center gap-2">
         <UlxToggle
-          @size="xs-size"
+          @size="s-size"
           @checked={{this.checkedXs}}
           @onCheckedChange={{this.handleXsChange}}
-        />
-        <span>xs-size</span>
-      </div>
-      <div class="flex align-items-center gap-2">
-        <UlxToggle
-          @size="s-size"
-          @checked={{this.checkedS}}
-          @onCheckedChange={{this.handleSChange}}
         />
         <span>s-size</span>
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle
           @size="m-size"
+          @checked={{this.checkedS}}
+          @onCheckedChange={{this.handleSChange}}
+        />
+        <span>m-size</span>
+      </div>
+      <div class="flex align-items-center gap-2">
+        <UlxToggle
+          @size="l-size"
           @checked={{this.checkedM}}
           @onCheckedChange={{this.handleMChange}}
         />
-        <span>m-size</span>
+        <span>l-size</span>
       </div>
     </div>
   </template>

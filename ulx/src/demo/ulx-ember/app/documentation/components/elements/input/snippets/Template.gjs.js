@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxInput, UlxCheckbox, t } from 'ulx-components';
+import { UlxInput, UlxField, UlxCheckbox, t } from 'ulx-components';
 
 export default class DemoInputTemplate extends Component {
   @tracked isFeatured = false;
@@ -14,27 +14,40 @@ export default class DemoInputTemplate extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-6 mb-14">
-      <UlxInput
-        @label="First Name"
-        @fieldClass="col-6"
-        placeholder="Aaron"
-        aria-label="First Name"
-      >
-        <:footer>
+
+      {{! First Name }}
+      <UlxField @label="First Name" @inputId="firstName" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxInput
+            @inputId={{field.inputId}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            placeholder="Aaron"
+            aria-label="First Name"
+          />
+        </:control>
+
+        <:assistive>
           <UlxCheckbox
             @itemLabel="Feature this speaker"
             @checked={{this.isFeatured}}
             @onCheckedChange={{this.handleFeaturedChange}}
           />
-        </:footer>
-      </UlxInput>
+        </:assistive>
+      </UlxField>
 
-      <UlxInput
-        @label="Last Name"
-        @fieldClass="col-6"
-        placeholder="Victor"
-        aria-label="Last Name"
-      />
+      {{! Last Name }}
+      <UlxField @label="Last Name" @inputId="lastName" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxInput
+            @inputId={{field.inputId}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            placeholder="Victor"
+            aria-label="Last Name"
+          />
+        </:control>
+      </UlxField>
 
     </div>
   </template>

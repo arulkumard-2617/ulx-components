@@ -110,4 +110,3 @@ export default class SizesSlidepaneDemo extends Component {
 }
 
 `;
-

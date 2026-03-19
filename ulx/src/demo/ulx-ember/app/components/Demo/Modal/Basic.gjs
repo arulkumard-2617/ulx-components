@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxModal, UlxButton } from 'ulx-components';
+import { UlxModal, UlxButton, tooltip, UlxIcon } from 'ulx-components';
 
 export default class BasicModalDemo extends Component {
   @tracked isVisible = false;
@@ -41,6 +41,12 @@ export default class BasicModalDemo extends Component {
       >
         <p>This is the default body content. You can pass any content as the
           default block.</p>
+        <UlxIcon
+          {{tooltip "Icon Tooltip" position="top"}}
+          @componentClass="bs-icons1"
+          @type="font"
+          @iconName="info-icon-01"
+        />
       </UlxModal>
     </div>
   </template>
