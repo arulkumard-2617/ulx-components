@@ -1,9 +1,12 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import UlxPopupHeader from "./header.gjs";
 import UlxPopupFooter from "./footer.gjs";
 
@@ -96,6 +99,8 @@ import UlxPopupFooter from "./footer.gjs";
  * ```
  */
 export default class UlxPopup extends Component {
+	@service modalStack;
+
 	@tracked animationState = null; // 'enter', 'enter-active', 'enter-done', 'exit', 'exit-active', 'exit-done', null
 	@tracked containerElement = null;
 	@tracked currentPositionClass = null;
@@ -241,10 +246,12 @@ export default class UlxPopup extends Component {
 	@action
 	handleRootKeyDown(event) {
 		if (this.args.closeOnEscape === false) return;
+		if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 
 		if (event.key === "Escape" || event.key === "Esc") {
 			event.preventDefault();
 			event.stopPropagation();
+			event.stopImmediatePropagation();
 			this._handleHideInternal();
 		}
 	}
@@ -275,6 +282,7 @@ export default class UlxPopup extends Component {
 			if (!transitionCompleted && this.animationState === "exit-active") {
 				transitionCompleted = true;
 				this.animationState = "exit-done";
+				this.modalStack?.unregisterModal(this);
 				this._clearZIndex();
 				if (this.targetElement && typeof this.targetElement.focus === "function") {
 					this.targetElement.focus();
@@ -332,6 +340,7 @@ export default class UlxPopup extends Component {
 		}
 
 		this.animationState = "enter";
+		this.modalStack?.registerModal(this);
 
 		this._alignOverlay();
 		this._setZIndex();
@@ -514,8 +523,7 @@ export default class UlxPopup extends Component {
 	@action
 	_setZIndex() {
 		if (!this.containerElement) return;
-		const baseZIndex = 1100;
-		this.containerElement.style.zIndex = String(baseZIndex);
+		this.containerElement.style.zIndex = String(getOverlayZIndexAboveMask(this.modalStack, this));
 	}
 
 	@action
@@ -524,25 +532,6 @@ export default class UlxPopup extends Component {
 			this.containerElement.style.zIndex = "";
 		}
 	}
-
-	appendToBody = modifier((element, [shouldRender]) => {
-		if (!shouldRender) {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-			return;
-		}
-
-		if (element.parentNode !== document.body) {
-			document.body.appendChild(element);
-		}
-
-		return () => {
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-		};
-	});
 
 	registerPopup = modifier((element) => {
 		this.containerElement = element;
@@ -554,6 +543,7 @@ export default class UlxPopup extends Component {
 		this.args.registerRef?.(this);
 
 		return () => {
+			this.modalStack?.unregisterModal(this);
 			this.containerElement = null;
 			this.args.registerRef?.(null);
 		};
@@ -688,6 +678,7 @@ export default class UlxPopup extends Component {
 
 		const handleClick = (event) => {
 			if (!isVisible) return;
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 
 			const isOutsideContainer = element && !element.contains(event.target);
 			const isOutsideTarget =
@@ -712,6 +703,7 @@ export default class UlxPopup extends Component {
 		}
 
 		const handle = () => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			if (isVisible && this.isVisible && this.isDismissable) {
 				this._handleHideInternal();
 			}
@@ -731,9 +723,11 @@ export default class UlxPopup extends Component {
 
 		const handleKeyDown = (event) => {
 			if (!isVisible || !this.isVisible) return;
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			if (event.key === "Escape" || event.key === "Esc") {
 				event.preventDefault();
 				event.stopPropagation();
+				event.stopImmediatePropagation();
 				this._handleHideInternal();
 			}
 		};
@@ -754,7 +748,7 @@ export default class UlxPopup extends Component {
 				aria-hidden={{if this.isVisible "false" "true"}}
 				aria-label={{if this.ariaLabel this.ariaLabel}}
 				tabindex="-1"
-				{{this.appendToBody this.shouldRender}}
+				{{appendToBody this.shouldRender}}
 				{{this.registerPopup}}
 				{{this.watchVisibility this.isVisible this.args.target}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}

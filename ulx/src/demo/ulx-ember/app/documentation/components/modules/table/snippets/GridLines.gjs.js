@@ -1,6 +1,8 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxTable } from 'ulx-components';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxTable, UlxSelectButton } from 'ulx-components';
 
 const PRODUCTS = [
   {
@@ -44,36 +46,47 @@ export default class DemoTableGridLines extends Component {
   products = PRODUCTS;
   columns = columns;
 
+  viewOptions = [
+    { label: 'Striped rows', value: 'striped' },
+    { label: 'Grid lines', value: 'grid' },
+    { label: 'Striped + Grid lines', value: 'striped-grid' },
+  ];
+
+  @tracked selectedView = 'striped';
+
+  get isStriped() {
+    return this.selectedView === 'striped' || this.selectedView === 'striped-grid';
+  }
+
+  get isGridlines() {
+    return this.selectedView === 'grid' || this.selectedView === 'striped-grid';
+  }
+
+  @action
+  handleViewChange(value) {
+    this.selectedView = value;
+  }
+
   <template>
-    <div>
-      <div>
-        <h4 class="h5 mb-2">Striped Rows</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @stripedRows={{true}}
+    <div class="flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <h4 class="h5 mb-0">Row and gridline styles</h4>
+        <UlxSelectButton
+          @options={{this.viewOptions}}
+          @value={{this.selectedView}}
+          @onChange={{this.handleViewChange}}
+          @size="s-size"
+          @variant="secondary"
         />
       </div>
-      <div class="mgt3">
-        <h4 class="h5 mb-2">Grid Lines</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @showGridlines={{true}}
-        />
-      </div>
-      <div class="mgt3">
-        <h4 class="h5 mb-2">Striped + Grid Lines</h4>
-        <UlxTable
-          @value={{this.products}}
-          @columns={{this.columns}}
-          @dataKey="id"
-          @stripedRows={{true}}
-          @showGridlines={{true}}
-        />
-      </div>
+
+      <UlxTable
+        @value={{this.products}}
+        @columns={{this.columns}}
+        @dataKey="id"
+        @stripedRows={{this.isStriped}}
+        @showGridlines={{this.isGridlines}}
+      />
     </div>
   </template>
 }

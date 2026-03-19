@@ -1,4 +1,6 @@
-import { UlxInput, t } from 'ulx-components';
+import Component from '@glimmer/component';
+import { concat } from '@ember/helper';
+import { UlxInput, UlxField, t } from 'ulx-components';
 
 const sizes = [
   { label: 's-size', size: 's-size' },
@@ -7,18 +9,32 @@ const sizes = [
   { label: 'xl-size', size: 'xl-size' },
 ];
 
-<template>
-  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-    {{#each sizes as |item|}}
-      <UlxInput
-        @label={{item.label}}
-        @size={{item.size}}
-        @fieldClass="col-12"
-        @helpText={{t "msg.input.help"}}
-        @keyfilter={{item.keyfilter}}
-        placeholder={{item.placeholder}}
-        aria-label={{item.label}}
-      />
-    {{/each}}
-  </div>
-</template>
+export default class DemoSizes extends Component {
+  sizes = sizes;
+
+  <template>
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
+
+      {{#each this.sizes as |item index|}}
+        <UlxField
+          @label={{item.label}}
+          @helpText={{t "msg.input.help"}}
+          @inputId={{concat "size-" index}}
+          @fieldClass="col-12"
+        >
+          <:control as |field|>
+            <UlxInput
+              @inputId={{field.inputId}}
+              @ariaDescribedBy={{field.describedBy}}
+              @ariaErrorMessage={{field.errorId}}
+              @size={{item.size}}
+              placeholder={{item.label}}
+              aria-label={{item.label}}
+            />
+          </:control>
+        </UlxField>
+      {{/each}}
+
+    </div>
+  </template>
+}

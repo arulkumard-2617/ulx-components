@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Slide pane header subcomponent.
@@ -32,8 +33,9 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  */
 export default class UlxSlidePaneHeader extends Component {
 	get headerRootClasses() {
+		const { headerClassName } = this.args;
 		const parts = ["slidepane-header"];
-		this.args.headerClassName && parts.push(this.args.headerClassName);
+		headerClassName && parts.push(headerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -46,7 +48,7 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	get backButtonLabel() {
-		return this.args.backButtonLabel ?? "Back";
+		return this.args.backButtonLabel ?? t("lbl.back");
 	}
 
 	get backIconName() {
@@ -98,7 +100,7 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	get maximizeButtonAriaLabel() {
-		return this.args.isMaximized ? "Restore" : "Maximize";
+		return this.args.isMaximized ? t("lbl.restore") : t("lbl.maximize");
 	}
 
 	@action
@@ -120,27 +122,11 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	@action
-	handleKeyDown(event) {
-		if (event.key === "Enter" || event.key === " ") {
-			event.preventDefault();
-			this.handleClose(event);
-		}
-	}
-
-	@action
 	handleBack(event) {
 		event.preventDefault();
 		event.stopPropagation();
 		if (this.args.onBack) {
 			this.args.onBack();
-		}
-	}
-
-	@action
-	handleBackKeyDown(event) {
-		if (event.key === "Enter" || event.key === " ") {
-			event.preventDefault();
-			this.handleBack(event);
 		}
 	}
 
@@ -175,9 +161,8 @@ export default class UlxSlidePaneHeader extends Component {
 						@iconSize={{this.iconSize}}
 						@text={{true}}
 						@customClass="slidepane-close-button"
-						aria-label="Close"
+						aria-label={{t "lbl.close"}}
 						{{on "click" this.handleClose}}
-						{{on "keydown" this.handleKeyDown}}
 					/>
 				{{/if}}
 			</div>

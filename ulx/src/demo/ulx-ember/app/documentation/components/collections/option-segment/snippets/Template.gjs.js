@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { UlxOptionSegment, UlxIcon, t } from 'ulx-components';
 
 export default class DemoOptionSegmentTemplate extends Component {
-  @tracked selectedValues = ['agenda', 'scan', 'messages'];
+  @tracked selectedValues = ['agenda'];
 
   get maxSelectable() {
     return 3;
@@ -32,16 +32,40 @@ export default class DemoOptionSegmentTemplate extends Component {
   }
 
   get fixedValues() {
-    return new Set(this.allItems.filter((item) => item.fixed).map((item) => item.value));
+    return new Set(
+      this.allItems.filter((item) => item.fixed).map((item) => item.value),
+    );
   }
 
   get allItems() {
     return [
-      { value: 'home', label: t('demo.optionsegment.home'), icon: 'home-icon-01', fixed: true },
-      { value: 'agenda', label: t('demo.optionsegment.agenda'), icon: 'agenda-icon' },
-      { value: 'scan', label: t('demo.optionsegment.scan'), icon: 'split_booth' },
-      { value: 'messages', label: t('demo.optionsegment.messages'), icon: 'split_booth' },
-      { value: 'profile', label: t('demo.optionsegment.profile'), icon: 'split_booth', fixed: true },
+      {
+        value: 'home',
+        label: t('demo.optionsegment.home'),
+        icon: 'home-icon-01',
+        fixed: true,
+      },
+      {
+        value: 'agenda',
+        label: t('demo.optionsegment.agenda'),
+        icon: 'agenda-icon',
+      },
+      {
+        value: 'scan',
+        label: t('demo.optionsegment.scan'),
+        icon: 'split_booth',
+      },
+      {
+        value: 'messages',
+        label: t('demo.optionsegment.messages'),
+        icon: 'split_booth',
+      },
+      {
+        value: 'profile',
+        label: t('demo.optionsegment.profile'),
+        icon: 'split_booth',
+        fixed: true,
+      },
     ];
   }
 
@@ -51,7 +75,7 @@ export default class DemoOptionSegmentTemplate extends Component {
     return this.allItems.slice(0, 5).map((item) => ({
       ...item,
       selected: item.fixed || selectedSet.has(item.value),
-      itemClass: 'w-100 h-100',
+      itemClass: 'w-100 h-70',
     }));
   }
 
@@ -69,13 +93,15 @@ export default class DemoOptionSegmentTemplate extends Component {
   <template>
     <div class="flex flex-col gap-6">
       <div class="flex flex-col gap-2">
-        <div class="text-16 fw-600">{{t 'demo.optionsegment.navigation.items'}}</div>
+        <div class="text-16 fw-600">{{t
+            "demo.optionsegment.navigation.items"
+          }}</div>
         <div class="text-13 fg-secondary">
-          {{t 'demo.optionsegment.note.fixed.items'}}
+          {{t "demo.optionsegment.note.fixed.items"}}
           &nbsp;•&nbsp;
-          {{t 'demo.optionsegment.note.select.up.to.3'}}
+          {{t "demo.optionsegment.note.select.up.to.3"}}
           &nbsp;•&nbsp;
-          {{t 'demo.optionsegment.note.preview.first.5'}}
+          {{t "demo.optionsegment.note.preview.first.5"}}
         </div>
       </div>
 
@@ -83,11 +109,11 @@ export default class DemoOptionSegmentTemplate extends Component {
         @type="basic"
         @items={{this.selectedPreviewItems}}
         @onSelect={{this.handleItemClick}}
-        @ariaLabel={{t 'demo.optionsegment.selected.preview'}}
+        @ariaLabel={{t "demo.optionsegment.selected.preview"}}
         @customClass="flex flex-row"
       >
         <:content as |item|>
-          <div class="flex flex-col items-center gap-2 relative w-100 h-100">
+          <div class="flex flex-col items-center gap-2">
             <div class="absolute top-1 left-1">
               {{#if item.fixed}}
                 <UlxIcon
@@ -99,35 +125,18 @@ export default class DemoOptionSegmentTemplate extends Component {
               {{/if}}
             </div>
 
-            <UlxIcon @iconName={{item.icon}} @type="font" aria-hidden="true" @size="s28" />
+            <UlxIcon
+              @iconName={{item.icon}}
+              @type="font"
+              @size="s28"
+              aria-hidden="true"
+            />
             <div class="text-13 fw-600">{{item.label}}</div>
           </div>
         </:content>
       </UlxOptionSegment>
-
-      <div class="flex flex-col gap-3">
-        <div class="text-13 fw-600">
-          {{t 'demo.optionsegment.available.items'}}
-          <span class="fg-secondary">({{t 'demo.optionsegment.available.items.total.32'}})</span>
-        </div>
-
-        <UlxOptionSegment
-          @type="basic"
-          @items={{this.availableItems}}
-          @onSelect={{this.handleItemClick}}
-          @ariaLabel={{t 'demo.optionsegment.available.items'}}
-        >
-          <:title as |item|>
-            <div class="flex flex-col items-center gap-2">
-              <UlxIcon @iconName={{item.icon}} @type="font" aria-hidden="true" />
-              <div class="text-13 fw-600">{{item.label}}</div>
-            </div>
-          </:title>
-        </UlxOptionSegment>
-      </div>
     </div>
   </template>
 }
 
 `;
-

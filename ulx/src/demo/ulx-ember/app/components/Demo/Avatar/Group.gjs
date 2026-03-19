@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxAvatarGroup } from 'ulx-components';
+import { UlxAvatarGroup, t } from 'ulx-components';
 
 export default class GroupDemoComponent extends Component {
   get avatarItems() {
@@ -7,32 +7,32 @@ export default class GroupDemoComponent extends Component {
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/women/90.jpg',
-        imageAlt: 'User profile picture',
-        ariaLabel: 'User profile',
+        imageAlt: t('lbl.user.profile.picture'),
+        ariaLabel: t('lbl.user.profile'),
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/women/91.jpg',
-        imageAlt: 'User profile picture',
-        ariaLabel: 'User profile',
+        imageAlt: t('lbl.user.profile.picture'),
+        ariaLabel: t('lbl.user.profile'),
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/men/32.jpg',
-        imageAlt: 'User profile picture',
-        ariaLabel: 'User profile',
+        imageAlt: t('lbl.user.profile.picture'),
+        ariaLabel: t('lbl.user.profile'),
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/women/44.jpg',
-        imageAlt: 'User profile picture',
-        ariaLabel: 'User profile',
+        imageAlt: t('lbl.user.profile.picture'),
+        ariaLabel: t('lbl.user.profile'),
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/men/75.jpg',
-        imageAlt: 'User profile picture',
-        ariaLabel: 'User profile',
+        imageAlt: t('lbl.user.profile.picture'),
+        ariaLabel: t('lbl.user.profile'),
       },
     ];
   }

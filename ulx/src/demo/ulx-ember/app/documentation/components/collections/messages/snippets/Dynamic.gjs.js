@@ -6,46 +6,40 @@ import { UlxBannerMessage, UlxButton } from 'ulx-components';
 import { t } from 'ulx-components';
 
 export default class DynamicMessagesDemo extends Component {
-  @tracked messages = [];
+  @tracked message = null;
 
   @action
-  showAllMessages() {
-    const variants = [
-      { variant: 'success', type: 'Success' },
-      { variant: 'info', type: 'Info' },
-      { variant: 'warn', type: 'Warning' },
-      { variant: 'error', type: 'Error' },
-    ];
-    this.messages = variants.map(({ variant, type }, index) => ({
-      id: \`msg-\${variant}-\${Date.now()}-\${index}\`,
-      variant,
-      detail: t('msg.type.message', { type }),
+  showMessage() {
+    this.message = {
+      id: \`msg-\${Date.now()}\`,
+      variant: 'info',
+      detail: t('msg.type.message', { type: 'Info' }),
       closable: true,
-    }));
+    };
   }
 
   @action
-  clearMessages() {
-    this.messages = [];
+  clearMessage() {
+    this.message = null;
   }
 
   @action
-  removeMessage(message) {
-    this.messages = this.messages.filter((m) => m.id !== message.id);
+  removeMessage(_message) {
+    this.message = null;
   }
 
   <template>
     <div class="flex flex-column gap-2">
       <div class="flex gap-2">
-        <UlxButton @label={{t "lbl.show"}} @onClick={{this.showAllMessages}} />
+        <UlxButton @label={{t "lbl.show"}} @onClick={{this.showMessage}} />
         <UlxButton
           @label={{t "lbl.clear"}}
           @variant="secondary"
-          @onClick={{this.clearMessages}}
+          @onClick={{this.clearMessage}}
         />
       </div>
     </div>
-    <UlxBannerMessage @messages={{this.messages}} @onRemove={{this.removeMessage}} />
+    <UlxBannerMessage @message={{this.message}} @onRemove={{this.removeMessage}} />
   </template>
 }
 

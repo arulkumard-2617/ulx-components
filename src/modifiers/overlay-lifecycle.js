@@ -1,6 +1,14 @@
 import { modifier } from 'ember-modifier';
+import { FOCUSABLE_SELECTOR } from '../utils/overlay-helpers';
 
-const TRANSITION_DURATION = 220;
+const TRANSITION_DURATION = 300;
+// Delay focus to allow enter transition to start and DOM to fully settle
+const FOCUS_DELAY_MS = 100;
+
+function hasClosableToastInDom() {
+	if (typeof document === 'undefined') return false;
+	return document.querySelector('.toast-message.closable:not(.toast-exit)') !== null;
+}
 
 /**
  * Shared overlay lifecycle modifier for modal and slide-pane components.
@@ -14,7 +22,7 @@ const TRANSITION_DURATION = 220;
  * @param {Function} options.onEscape - Callback when Escape is pressed
  * @param {boolean} options.closeOnEscape - Whether Escape closes overlay
  * @param {boolean} options.blockScroll - When true, set body overflow hidden while open; restored after exit animation completes
- * @param {string} options.role - Selector for the focusable overlay element (e.g., '[tabindex="-1"]')
+ * @param {string} options.overlaySelector - CSS selector for the focusable overlay element (e.g., '[tabindex="-1"]')
  * @param {string} [options.initialFocusSelector] - Optional selector for a container (within overlay) whose first focusable receives initial focus (WCAG: focus main content first)
  * @param {Function} options.handleTabKey - Function to handle Tab key trapping
  * @param {Function} options.getTransitionState - Getter for transition state
@@ -29,16 +37,13 @@ const TRANSITION_DURATION = 220;
  * @returns {Function} Cleanup function
  */
 export default modifier((maskElement, [componentInstance, options]) => {
-	const FOCUSABLE_SELECTOR =
-		'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
 	const {
 		onShow,
 		onHide,
 		onEscape,
 		closeOnEscape = true,
 		blockScroll = true,
-		role = '[tabindex="-1"]',
+		overlaySelector = '[tabindex="-1"]',
 		initialFocusSelector,
 		handleTabKey,
 		getTransitionState,
@@ -81,25 +86,28 @@ export default modifier((maskElement, [componentInstance, options]) => {
 		}
 
 		setTimeout(() => {
-			const overlayElement = maskElement.querySelector(role);
+			const overlayElement = maskElement.querySelector(overlaySelector);
 			if (overlayElement) {
 				let firstFocusable = null;
+
 				if (initialFocusSelector) {
 					const focusContainer = overlayElement.querySelector(initialFocusSelector);
 					if (focusContainer) {
 						firstFocusable = focusContainer.querySelector(FOCUSABLE_SELECTOR);
 					}
 				}
+
 				if (!firstFocusable) {
 					firstFocusable = overlayElement.querySelector(FOCUSABLE_SELECTOR);
 				}
+
 				if (firstFocusable) {
 					firstFocusable.focus();
 				} else {
 					overlayElement.focus();
 				}
 			}
-		}, 100);
+		}, FOCUS_DELAY_MS);
 
 		if (onShow) {
 			onShow();
@@ -146,17 +154,32 @@ export default modifier((maskElement, [componentInstance, options]) => {
 		switch (event.key) {
 			case 'Escape':
 				if (closeOnEscape) {
-					event.preventDefault();
-					if (onEscape) {
-						onEscape();
-					} else if (onHide) {
-						onHide();
+					// Toasts must take Escape priority over blocking overlays.
+					// If a closable toast is active, let toast handler close it first.
+					if (hasClosableToastInDom()) return;
+
+					// Only handle Escape if this is the topmost modal in the stack
+					const modalStack = componentInstance.modalStack;
+					const isTopModal = modalStack && modalStack.topModal === componentInstance;
+
+					if (isTopModal || !modalStack) {
+						event.preventDefault();
+						if (onEscape) {
+							onEscape();
+						} else if (onHide) {
+							onHide();
+						}
 					}
 				}
 				break;
+
 			case 'Tab':
 				if (handleTabKey) {
-					const overlayElement = maskElement.querySelector(role);
+					const modalStack = componentInstance.modalStack;
+					const isTopModal = modalStack && modalStack.topModal === componentInstance;
+					if (modalStack && !isTopModal) break;
+
+					const overlayElement = maskElement.querySelector(overlaySelector);
 					overlayElement && handleTabKey(event, overlayElement);
 				}
 				break;
@@ -166,7 +189,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 	document.addEventListener('keydown', handleKeyDown);
 
 	return () => {
-		if (enterTimer) clearTimeout(enterTimer);
+		if (enterTimer != null) clearTimeout(enterTimer);
 		if (enterActiveTimer) clearTimeout(enterActiveTimer);
 		if (exitTimer) clearTimeout(exitTimer);
 		if (unmountTimer) clearTimeout(unmountTimer);

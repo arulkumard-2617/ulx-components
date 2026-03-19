@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import { t } from "../../../utils/i18n.js";
 
 /**
  * Modal header subcomponent.
@@ -34,8 +35,9 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  */
 export default class UlxModalHeader extends Component {
 	get headerRootClasses() {
+		const { headerClassName } = this.args;
 		const parts = ["dialog-header"];
-		this.args.headerClassName && parts.push(this.args.headerClassName);
+		headerClassName && parts.push(headerClassName);
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -76,7 +78,7 @@ export default class UlxModalHeader extends Component {
 	}
 
 	get maximizeButtonAriaLabel() {
-		return this.args.isMaximized ? "Restore" : "Maximize";
+		return this.args.isMaximized ? t("lbl.restore") : t("lbl.maximize");
 	}
 
 	@action
@@ -94,15 +96,6 @@ export default class UlxModalHeader extends Component {
 		event.stopPropagation();
 		if (this.args.onMaximize) {
 			this.args.onMaximize();
-		}
-	}
-
-	@action
-	handleKeyDown(event) {
-		// Enter or Space triggers the close action
-		if (event.key === "Enter" || event.key === " ") {
-			event.preventDefault();
-			this.handleClose(event);
 		}
 	}
 
@@ -137,9 +130,9 @@ export default class UlxModalHeader extends Component {
 						@variant={{this.iconVariant}}
 						@iconSize={{this.iconSize}}
 						@text={{true}}
-						aria-label="Close"
+						@customClass="dialog-close-button"
+						aria-label={{t "lbl.close"}}
 						{{on "click" this.handleClose}}
-						{{on "keydown" this.handleKeyDown}}
 					/>
 				{{/if}}
 			</div>

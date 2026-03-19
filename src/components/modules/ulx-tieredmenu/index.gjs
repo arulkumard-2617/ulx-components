@@ -1,10 +1,13 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import UlxTieredmenuMenuItem from "./menu-item.gjs";
+import appendToBody from "../../../modifiers/append-to-body";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import UlxTieredmenuMenuList from "./menu-list.gjs";
 
 /**
  * TieredMenu component for displaying hierarchical menus with nested submenus.
@@ -20,6 +23,7 @@ import UlxTieredmenuMenuItem from "./menu-item.gjs";
  * - `command` (function): Callback function executed when item is activated
  * - `url` (string): URL for navigation (used with command for router integration)
  * - `template` (Component): Custom template component for item rendering
+ * - `dataQa` (string): Optional value for the item's `data-qa` attribute (defaults to "ulx-tieredmenu-item")
  *
  * ## Popup Mode
  * When `@popup={{true}}`, the menu is hidden by default and shown when `@visible={{true}}`.
@@ -46,6 +50,8 @@ import UlxTieredmenuMenuItem from "./menu-item.gjs";
  * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
  */
 export default class UlxTieredmenu extends Component {
+	@service modalStack;
+
 	@tracked openSubmenus = new Set();
 	@tracked activeItemId = null;
 	@tracked focusedSubmenuId = null;
@@ -57,6 +63,7 @@ export default class UlxTieredmenu extends Component {
 	@tracked menuElement = null;
 	@tracked zIndex = null;
 	_previousVisible = false; // Track previous visibility state to detect transitions
+	_showEvent = null;
 
 	get baseClass() {
 		return getComponentClass("tieredmenu");
@@ -66,13 +73,8 @@ export default class UlxTieredmenu extends Component {
 		const { popup = false, customClass } = this.args;
 		const parts = [this.baseClass];
 
-		if (popup) {
-			parts.push("popup");
-			// Add animation classes based on state
-			if (this.animationState) {
-				parts.push(this.animationState);
-			}
-		}
+		popup && parts.push("popup");
+		popup && this.animationState && parts.push(this.animationState);
 
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
@@ -117,6 +119,10 @@ export default class UlxTieredmenu extends Component {
 			return false;
 		}
 		return true;
+	}
+
+	get shouldAppendToBody() {
+		return this.isPopup && this.shouldRender;
 	}
 
 	get breakpoint() {
@@ -472,20 +478,12 @@ export default class UlxTieredmenu extends Component {
 	 */
 	@action
 	getItemClasses(item, itemId) {
-		const baseClassName = "tieredmenu-item";
-		const itemContainerClassName = item?.parentClass;
-		const parts = [baseClassName];
-		if (this.hasSubmenu(item)) {
-			parts.push("has-submenu");
-		}
+		const parts = ["tieredmenu-item"];
+		this.hasSubmenu(item) && parts.push("has-submenu");
 		// Only mark as active if this specific item's submenu is open
-		if (this.isSubmenuOpen(itemId) || this.hoveredItemId === itemId) {
-			parts.push("active");
-		}
-		if (this.isDisabled(item)) {
-			parts.push("disabled");
-		}
-		return parts.join(" ");
+		(this.isSubmenuOpen(itemId) || this.hoveredItemId === itemId) && parts.push("active");
+		this.isDisabled(item) && parts.push("disabled");
+		return parts.filter(Boolean).join(" ");
 	}
 
 	/**
@@ -494,10 +492,8 @@ export default class UlxTieredmenu extends Component {
 	@action
 	getSubmenuClasses(itemId) {
 		const parts = ["tieredmenu-submenu"];
-		if (this.isSubmenuOpen(itemId)) {
-			parts.push("open");
-		}
-		return parts.join(" ");
+		this.isSubmenuOpen(itemId) && parts.push("open");
+		return parts.filter(Boolean).join(" ");
 	}
 
 	/**
@@ -601,6 +597,8 @@ export default class UlxTieredmenu extends Component {
 			this.animationState = "enter";
 		}
 
+		this.modalStack?.registerModal(this);
+
 		// Position overlay and set z-index
 		this.alignOverlay();
 		this.setZIndex();
@@ -682,6 +680,7 @@ export default class UlxTieredmenu extends Component {
 			if (!transitionCompleted && this.animationState === "exit-active") {
 				transitionCompleted = true;
 				this.animationState = "exit-done";
+				this.modalStack?.unregisterModal(this);
 				this.clearZIndex();
 				this.args.onHide?.();
 				// Reset state after a brief delay
@@ -803,10 +802,9 @@ export default class UlxTieredmenu extends Component {
 	setZIndex() {
 		if (!this.containerElement || !this.isPopup) return;
 
-		// Use a high z-index for overlays (similar to PrimeReact's default)
-		const baseZIndex = 1100;
-		this.zIndex = baseZIndex;
-		this.containerElement.style.zIndex = baseZIndex;
+		const zIndex = getOverlayZIndexAboveMask(this.modalStack, this);
+		this.zIndex = zIndex;
+		this.containerElement.style.zIndex = zIndex;
 	}
 
 	/**
@@ -819,31 +817,6 @@ export default class UlxTieredmenu extends Component {
 		}
 		this.zIndex = null;
 	}
-
-	/**
-	 * Modifier to append popup to body
-	 */
-	appendToBody = modifier((element, [isPopup, shouldRender]) => {
-		if (!isPopup || !shouldRender) {
-			// If not popup or shouldn't render, ensure element is removed from body
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-			return;
-		}
-
-		// Only append if not already in body
-		if (element.parentNode !== document.body) {
-			document.body.appendChild(element);
-		}
-
-		return () => {
-			// Remove from body when component is destroyed or hidden
-			if (element.parentNode === document.body) {
-				document.body.removeChild(element);
-			}
-		};
-	});
 
 	/**
 	 * Modifier to handle container element reference and positioning
@@ -860,6 +833,7 @@ export default class UlxTieredmenu extends Component {
 		// This modifier just sets up the reference
 
 		return () => {
+			this.modalStack?.unregisterModal(this);
 			this.containerElement = null;
 		};
 	});
@@ -907,8 +881,9 @@ export default class UlxTieredmenu extends Component {
 			this.setTarget(event);
 		}
 		// Visibility is controlled by parent via @visible arg
-		// This method can be used to set target before showing
-		this.args.onShow?.(event);
+		// This method can be used to set target before showing.
+		// onShow is emitted when the popup actually transitions to visible.
+		this._showEvent = event;
 	}
 
 	/**
@@ -963,6 +938,8 @@ export default class UlxTieredmenu extends Component {
 				this.animationState !== "enter-done";
 
 			if (shouldShow) {
+				this.args.onShow?.(this._showEvent);
+				this._showEvent = null;
 				// Ensure we have a target before showing
 				if (this.targetElement || this.args.target) {
 					if (!this.targetElement && this.args.target) {
@@ -1073,6 +1050,7 @@ export default class UlxTieredmenu extends Component {
 
 		// For popup mode, close the entire menu when clicking outside
 		const handleClick = (event) => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			const isOutsideContainer = element && !element.contains(event.target);
 			const isOutsideTarget =
 				this.targetElement &&
@@ -1097,6 +1075,7 @@ export default class UlxTieredmenu extends Component {
 		if (!this.isPopup || !this.isVisible) return;
 
 		const handleResize = () => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			if (this.isVisible) {
 				this.handleHide();
 			}
@@ -1115,7 +1094,8 @@ export default class UlxTieredmenu extends Component {
 				class={{this.rootClasses}}
 				role="menubar"
 				aria-orientation="vertical"
-				{{this.appendToBody this.isPopup this.shouldRender}}
+				data-qa="ulx-tieredmenu"
+				{{appendToBody this.shouldAppendToBody}}
 				{{this.setContainerRef}}
 				{{this.registerRefModifier}}
 				{{this.watchVisibility this.isVisible this.isPopup this.args.target}}
@@ -1124,90 +1104,22 @@ export default class UlxTieredmenu extends Component {
 				{{this.handleResize}}
 				...attributes
 			>
-				<ul class="tieredmenu-list" {{this.setMenuRef}}>
-					{{#each (this.renderItems this.model) as |itemData|}}
-						{{#if (this.isSeparator itemData.item)}}
-							<li class="tieredmenu-separator" role="separator"></li>
-						{{else}}
-							<UlxTieredmenuMenuItem
-								@item={{itemData.item}}
-								@itemId={{itemData.itemId}}
-								@parentId={{itemData.parentId}}
-								@itemClasses={{this.getItemClasses itemData.item itemData.itemId}}
-								@hasSubmenu={{this.hasSubmenu itemData.item}}
-								@isDisabled={{this.isDisabled itemData.item}}
-								@isSubmenuOpen={{this.isSubmenuOpen itemData.itemId}}
-								@submenuClasses={{this.getSubmenuClasses itemData.itemId}}
-								@submenuId={{this.getSubmenuId itemData.itemId}}
-								@tabindex="0"
-								@onMouseEnter={{this.handleItemMouseEnter}}
-								@onMouseLeave={{this.handleItemMouseLeave}}
-								@onClick={{this.handleItemClick}}
-								@onKeyDown={{this.handleKeyDown}}
-							>
-								{{#if (this.hasSubmenu itemData.item)}}
-									{{#each
-										(this.renderItems itemData.item.items itemData.itemId itemData.level)
-										as |subItemData|
-									}}
-										{{#if (this.isSeparator subItemData.item)}}
-											<li class="tieredmenu-separator" role="separator"></li>
-										{{else}}
-											<UlxTieredmenuMenuItem
-												@item={{subItemData.item}}
-												@itemId={{subItemData.itemId}}
-												@parentId={{subItemData.parentId}}
-												@itemClasses={{this.getItemClasses subItemData.item subItemData.itemId}}
-												@hasSubmenu={{this.hasSubmenu subItemData.item}}
-												@isDisabled={{this.isDisabled subItemData.item}}
-												@isSubmenuOpen={{this.isSubmenuOpen subItemData.itemId}}
-												@submenuClasses={{this.getSubmenuClasses subItemData.itemId}}
-												@submenuId={{this.getSubmenuId subItemData.itemId}}
-												@tabindex="0"
-												@onMouseEnter={{this.handleItemMouseEnter}}
-												@onMouseLeave={{this.handleItemMouseLeave}}
-												@onClick={{this.handleItemClick}}
-												@onKeyDown={{this.handleKeyDown}}
-											>
-												{{#if (this.hasSubmenu subItemData.item)}}
-													{{#each
-														(this.renderItems
-															subItemData.item.items subItemData.itemId subItemData.level
-														)
-														as |nestedItemData|
-													}}
-														{{#if (this.isSeparator nestedItemData.item)}}
-															<li class="tieredmenu-separator" role="separator"></li>
-														{{else}}
-															<UlxTieredmenuMenuItem
-																@item={{nestedItemData.item}}
-																@itemId={{nestedItemData.itemId}}
-																@parentId={{nestedItemData.parentId}}
-																@itemClasses={{this.getItemClasses
-																	nestedItemData.item
-																	nestedItemData.itemId
-																}}
-																@hasSubmenu={{this.hasSubmenu nestedItemData.item}}
-																@isDisabled={{this.isDisabled nestedItemData.item}}
-																@isSubmenuOpen={{this.isSubmenuOpen nestedItemData.itemId}}
-																@submenuClasses={{this.getSubmenuClasses nestedItemData.itemId}}
-																@submenuId={{this.getSubmenuId nestedItemData.itemId}}
-																@tabindex="0"
-																@onMouseEnter={{this.handleItemMouseEnter}}
-																@onMouseLeave={{this.handleItemMouseLeave}}
-																@onClick={{this.handleItemClick}}
-																@onKeyDown={{this.handleKeyDown}}
-															/>
-														{{/if}}
-													{{/each}}
-												{{/if}}
-											</UlxTieredmenuMenuItem>
-										{{/if}}
-									{{/each}}
-								{{/if}}
-							</UlxTieredmenuMenuItem>
-						{{/if}}
-					{{/each}}
+				<ul class="tieredmenu-list" data-qa="ulx-tieredmenu-list" {{this.setMenuRef}}>
+					<UlxTieredmenuMenuList
+						@items={{this.model}}
+						@renderItems={{this.renderItems}}
+						@isSeparator={{this.isSeparator}}
+						@getItemClasses={{this.getItemClasses}}
+						@hasSubmenu={{this.hasSubmenu}}
+						@isDisabled={{this.isDisabled}}
+						@isSubmenuOpen={{this.isSubmenuOpen}}
+						@getSubmenuClasses={{this.getSubmenuClasses}}
+						@getSubmenuId={{this.getSubmenuId}}
+						@onMouseEnter={{this.handleItemMouseEnter}}
+						@onMouseLeave={{this.handleItemMouseLeave}}
+						@onClick={{this.handleItemClick}}
+						@onKeyDown={{this.handleKeyDown}}
+					/>
 				</ul>
 			</div>
 		{{/if}}

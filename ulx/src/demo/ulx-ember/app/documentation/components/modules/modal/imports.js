@@ -11,6 +11,7 @@ export { default as MaximizableDemo } from '../../../../components/Demo/Modal/Ma
 export { default as LongcontentDemo } from '../../../../components/Demo/Modal/Longcontent';
 export { default as ResponsiveDemo } from '../../../../components/Demo/Modal/Responsive';
 export { default as WithoutoverlayDemo } from '../../../../components/Demo/Modal/Withoutoverlay';
+export { default as StackedDemo } from '../../../../components/Demo/Modal/Stacked';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -25,3 +26,4 @@ export { default as MaximizableSource } from './snippets/Maximizable.gjs';
 export { default as LongcontentSource } from './snippets/Longcontent.gjs';
 export { default as ResponsiveSource } from './snippets/Responsive.gjs';
 export { default as WithoutoverlaySource } from './snippets/Withoutoverlay.gjs';
+export { default as StackedSource } from './snippets/Stacked.gjs';

@@ -20,17 +20,36 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [ariaLabel] - Accessible name for meaningful icons. When set, aria-hidden becomes "false" and role="img" is applied so screen readers announce it (e.g. close icon in modal).
  * @param {string} [size] - Size class (e.g. "s18", "m-size").
  * @param {string} [customClass] - Extra CSS classes.
- * @param {string} [componentClass="bs-icons1"] - Override base component class.
+ * @param {string} [componentClass] - Additional class for icon styling (e.g. "bs-icons1" for font icons).
  * @param {'svg'|'font'} [type='svg'] - "svg" = symbol reference; "font" = font icon.
+ * @param {string} [dataQa="ulx-icon"] - Root test selector override.
  */
 export default class UlxIcon extends Component {
 	get baseClass() {
-		return this.args.componentClass ?? "bs-icons1";
+		return getComponentClass("icon");
+	}
+
+	get rootDataQa() {
+		const { dataQa } = this.args;
+		return dataQa ?? "ulx-icon";
+	}
+
+	get resolvedAriaLabel() {
+		const { ariaLabel } = this.args;
+		return typeof ariaLabel === "string" ? ariaLabel.trim() : "";
 	}
 
 	get iconClasses() {
-		const { iconName, type, size, customClass } = this.args;
+		const {
+			iconName,
+			type = "svg",
+			size,
+			customClass,
+			componentClass = "bs-icons1",
+		} = this.args;
+
 		const parts = [this.baseClass];
+		componentClass && parts.push(componentClass);
 		iconName && type === "font" && parts.push(iconName);
 		size && parts.push(size);
 		customClass && parts.push(customClass);
@@ -39,20 +58,27 @@ export default class UlxIcon extends Component {
 	}
 
 	get useFontIcon() {
-		return this.args.type === "font";
+		const { type = "svg" } = this.args;
+		return type === "font";
 	}
 
 	get hasAriaLabel() {
-		return typeof this.args.ariaLabel === "string" && this.args.ariaLabel.length > 0;
+		return this.resolvedAriaLabel.length > 0;
+	}
+
+	get symbolHref() {
+		const { iconName } = this.args;
+		return iconName ? `#${iconName}` : null;
 	}
 
 	<template>
 		{{#if (has-block "icon")}}
 			<span
 				class={{this.iconClasses}}
+				data-qa={{this.rootDataQa}}
 				aria-hidden={{if this.hasAriaLabel "false" "true"}}
 				role={{if this.hasAriaLabel "img"}}
-				aria-label={{@ariaLabel}}
+				aria-label={{this.resolvedAriaLabel}}
 				...attributes
 			>
 				{{yield to="icon"}}
@@ -60,22 +86,26 @@ export default class UlxIcon extends Component {
 		{{else if this.useFontIcon}}
 			<i
 				class={{this.iconClasses}}
+				data-qa={{this.rootDataQa}}
 				aria-hidden={{if this.hasAriaLabel "false" "true"}}
 				role={{if this.hasAriaLabel "img"}}
-				aria-label={{@ariaLabel}}
+				aria-label={{this.resolvedAriaLabel}}
 				...attributes
 			></i>
 		{{else}}
 			<svg
 				class={{this.iconClasses}}
+				data-qa={{this.rootDataQa}}
 				aria-hidden={{if this.hasAriaLabel "false" "true"}}
 				role={{if this.hasAriaLabel "img"}}
-				aria-label={{@ariaLabel}}
+				aria-label={{this.resolvedAriaLabel}}
 				focusable="false"
 				...attributes
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<use href="#{{@iconName}}"></use>
+				{{#if this.symbolHref}}
+					<use href={{this.symbolHref}}></use>
+				{{/if}}
 			</svg>
 		{{/if}}
 	</template>

@@ -76,7 +76,7 @@ const StatusCell = <template>
 const ActionsCell = <template>
   <div class="flex items-start gap-2">
     <UlxButton
-      @icon="eye"
+      @icon="view-icon"
       @iconComponentClass="bs-icons1"
       @iconSize="s14"
       @variant="primary"
@@ -85,16 +85,16 @@ const ActionsCell = <template>
       aria-label="View {{@row.name}}"
     />
     <UlxButton
-      @icon="pencil"
+      @icon="edit-icon"
       @iconComponentClass="bs-icons1"
       @iconSize="s14"
-      @variant="warning"
+      @variant="primary"
       @text={{true}}
       @size="xs-size"
       aria-label="Edit {{@row.name}}"
     />
     <UlxButton
-      @icon="trash"
+      @icon="delete-icon"
       @iconComponentClass="bs-icons1"
       @iconSize="s14"
       @variant="danger"

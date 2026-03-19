@@ -10,8 +10,13 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  *
  * @class UlxTieredmenuMenuItem
  * @private
+ * @param {string} [dataQa] - Optional data-qa value from item.dataQa; defaults to "ulx-tieredmenu-item"
  */
 export default class UlxTieredmenuMenuItem extends Component {
+	get itemDataQa() {
+		return this.args.dataQa ?? "ulx-tieredmenu-item";
+	}
+
 	get iconName() {
 		if (!this.args.item?.icon) return null;
 		// Extract icon name from class string (e.g., "bs-icons1 pdf-stroke-icon" -> "pdf-stroke-icon")
@@ -39,6 +44,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 	<template>
 		<li
 			class={{@itemClasses}}
+			data-qa={{this.itemDataQa}}
 			{{on "mouseenter" (fn @onMouseEnter @item @itemId @parentId)}}
 			{{on "mouseleave" (fn @onMouseLeave @itemId)}}
 		>
@@ -51,9 +57,10 @@ export default class UlxTieredmenuMenuItem extends Component {
 				aria-disabled={{if @isDisabled "true" "false"}}
 				aria-haspopup={{if @hasSubmenu "menu" "false"}}
 				aria-expanded={{if @hasSubmenu (if @isSubmenuOpen "true" "false") "false"}}
-				aria-controls={{if @hasSubmenu @submenuId "false"}}
+				aria-controls={{if @hasSubmenu @submenuId}}
 				tabindex={{@tabindex}}
 				data-item-id={{@itemId}}
+				data-qa="ulx-tieredmenu-trigger"
 				disabled={{@isDisabled}}
 				{{on "click" (fn @onClick @item @itemId @parentId)}}
 				{{on "keydown" (fn @onKeyDown @item @itemId @parentId)}}
@@ -89,8 +96,14 @@ export default class UlxTieredmenuMenuItem extends Component {
 				</div>
 			</button>
 			{{#if @hasSubmenu}}
-				<div class={{@submenuClasses}} id={{@submenuId}} role="menu" aria-labelledby={{@itemId}}>
-					<ul class="tieredmenu-list">
+				<div
+					class={{@submenuClasses}}
+					id={{@submenuId}}
+					role="menu"
+					aria-labelledby={{@itemId}}
+					data-qa="ulx-tieredmenu-submenu"
+				>
+					<ul class="tieredmenu-list" data-qa="ulx-tieredmenu-list">
 						{{yield}}
 					</ul>
 				</div>

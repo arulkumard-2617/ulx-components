@@ -97,6 +97,7 @@ export default class PositionsPopupDemo extends Component {
         @ariaLabel="Position demo"
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
+        @hideFooter={{true}}
       >
         <:default>
           <div>

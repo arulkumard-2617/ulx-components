@@ -57,7 +57,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @raised={{true}}
@@ -67,7 +66,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @variant="secondary"
@@ -78,7 +76,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @variant="success"
@@ -89,7 +86,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @variant="info"
@@ -100,7 +96,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @variant="warning"
@@ -111,7 +106,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @variant="help"
@@ -122,7 +116,6 @@ export default class DemoSplitButtonRaised extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @size="s-size"
           @model={{this.items}}
           @onClick={{this.save}}
           @variant="danger"

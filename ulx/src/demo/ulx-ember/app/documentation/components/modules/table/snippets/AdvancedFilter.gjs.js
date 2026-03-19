@@ -179,7 +179,7 @@ const BalanceCell = <template>
 </template>;
 
 const ActivityCell = <template>
-  <UlxProgressBar @value={{@value}} @showValue={{false}} />
+  <UlxProgressBar @size="h-8" @value={{@value}} @showValue={{false}} />
 </template>;
 
 const DateCell = <template>

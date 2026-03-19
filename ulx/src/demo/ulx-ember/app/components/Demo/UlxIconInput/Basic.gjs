@@ -1,16 +1,28 @@
-import { UlxIconInput, t } from 'ulx-components';
+import { UlxInput, UlxField, UlxIconInput, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gap-12 mb-14">
-    <UlxIconInput
-      @iconName="search-icon"
-      @iconType="font"
-      @iconClass="bs-icons1"
-      @iconPosition="left"
-      @iconSize="s18"
-      @fieldClass="col-4"
-      placeholder={{t "lbl.search"}}
-      aria-label={{t "lbl.search"}}
-    />
+
+    <UlxField @inputId="search" @fieldClass="col-4">
+      <:control as |field|>
+
+        <UlxIconInput
+          @iconName="search-icon"
+          @iconType="font"
+          @iconClass="bs-icons1"
+          @iconPosition="left"
+          @iconSize="s18"
+        >
+          <UlxInput
+            @inputId={{field.inputId}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            placeholder={{t "lbl.search"}}
+            aria-label={{t "lbl.search"}}
+          />
+        </UlxIconInput>
+      </:control>
+    </UlxField>
+
   </div>
 </template>

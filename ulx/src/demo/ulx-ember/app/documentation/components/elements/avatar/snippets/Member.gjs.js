@@ -82,4 +82,5 @@ import { UlxAvatar, t } from 'ulx-components';
     </div>
   </div>
 </template>
+
 `;

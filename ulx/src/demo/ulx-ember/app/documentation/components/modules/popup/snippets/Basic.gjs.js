@@ -79,7 +79,7 @@ export default class BasicPopupDemo extends Component {
         </:head>
 
         <:body>
-          <div class="p-5">
+          <div class="p-4">
             <p class="mb-5">Hey there, warm greetings!</p>
             <p class="mb-6">
               We invite you to the Zylker Summit 2027. We expect yourpresence to
@@ -93,7 +93,7 @@ export default class BasicPopupDemo extends Component {
               @label="More Info"
               @variant="link"
               @size="compact"
-              @customClass="text-11 bold-font ms-1"
+              @customClass="text-12 bold-font ms-1"
             />
           </p>
         </:body>
