@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import { t, UlxIconInput } from 'ulx-components';
+import { t, UlxIconInput, UlxInput } from 'ulx-components';
 
 const TABLE_SHOW_MORE_THRESHOLD = 10;
 
@@ -91,18 +91,18 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
       {{#if this.sections.length}}
         <div class="mb-6">
           <UlxIconInput
-            @value={{this.searchQuery}}
-            @onInput={{this.handleSearchInput}}
-            @placeholder={{t "lbl.search"}}
             @iconName="search-icon"
             @iconType="font"
-            @iconClass="bs-icons1"
             @iconPosition="left"
-            @iconSize="s18"
-            @size="l-size"
-            @fieldClass="w-300"
-            aria-label={{t "lbl.search"}}
-          />
+            @iconFieldClass="w-300"
+          >
+            <UlxInput
+              @value={{this.searchQuery}}
+              @onInput={{this.handleSearchInput}}
+              @placeholder={{t "lbl.search"}}
+              aria-label={{t "lbl.search"}}
+            />
+          </UlxIconInput>
         </div>
         {{#if this.filteredSections.length}}
           {{#each this.filteredSections as |section sectionIndex|}}

@@ -14352,8 +14352,9 @@ FEATURES IMPLEMENTED:
   padding-inline-start: 1.14285714rem;
   padding-inline-end: calc(1.14285714rem + 1.14285714rem);
 }
-.ulx-iconfield.xs-size .ulx-input-icon {
-  font-size: var(--ulx-font-size-tiny);
+.ulx-iconfield.xs-size .ulx-input-icon,
+.ulx-iconfield.xs-size .bs-icons1 {
+  font-size: var(--ulx-font-size-h7);
 }
 .ulx-iconfield.xs-size.icon-left .ulx-inputtext,
 .ulx-iconfield.xs-size.icon-left .ulx-input {
@@ -14365,8 +14366,9 @@ FEATURES IMPLEMENTED:
   padding-inline-start: 0.57142857rem;
   padding-inline-end: calc(var(--ulx-font-size-tiny) + 0.57142857rem);
 }
-.ulx-iconfield.s-size .ulx-input-icon {
-  font-size: var(--ulx-font-size-small);
+.ulx-iconfield.s-size .ulx-input-icon,
+.ulx-iconfield.s-size .bs-icons1 {
+  font-size: var(--ulx-font-size-h6);
 }
 .ulx-iconfield.s-size.icon-left .ulx-inputtext,
 .ulx-iconfield.s-size.icon-left .ulx-input {
@@ -14378,8 +14380,9 @@ FEATURES IMPLEMENTED:
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-small) + 0.85714286rem);
 }
-.ulx-iconfield.m-size .ulx-input-icon {
-  font-size: var(--ulx-font-size-default);
+.ulx-iconfield.m-size .ulx-input-icon,
+.ulx-iconfield.m-size .bs-icons1 {
+  font-size: var(--ulx-font-size-h5);
 }
 .ulx-iconfield.m-size.icon-left .ulx-inputtext,
 .ulx-iconfield.m-size.icon-left .ulx-input {
@@ -14391,7 +14394,8 @@ FEATURES IMPLEMENTED:
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-default) + 1.28571429rem);
 }
-.ulx-iconfield.l-size .ulx-input-icon {
+.ulx-iconfield.l-size .ulx-input-icon,
+.ulx-iconfield.l-size .bs-icons1 {
   font-size: var(--ulx-font-size-h6);
 }
 .ulx-iconfield.l-size.icon-left .ulx-inputtext,
@@ -14404,7 +14408,8 @@ FEATURES IMPLEMENTED:
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-h6) + 1.14285714rem);
 }
-.ulx-iconfield.xl-size .ulx-input-icon {
+.ulx-iconfield.xl-size .ulx-input-icon,
+.ulx-iconfield.xl-size .bs-icons1 {
   font-size: var(--ulx-font-size-h5);
 }
 .ulx-iconfield.xl-size.icon-left .ulx-inputtext,

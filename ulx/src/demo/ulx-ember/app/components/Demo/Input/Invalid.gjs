@@ -1,25 +1,89 @@
-import { UlxInput, UlxField, t } from 'ulx-components';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 
-<template>
-  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
+import { UlxInput, UlxField, UlxButton } from 'ulx-components';
 
-    <UlxField
-      @label={{t "lbl.label"}}
-      @error="Fill the proper data"
-      @id="error-input"
-      @fieldClass="col-12"
+export default class DemoInputInvalid extends Component {
+  @tracked value = '';
+  @tracked error = '';
+  @tracked submitted = false;
+
+  // --------------------------
+  // Validation
+  // --------------------------
+
+  validate(value) {
+    if (!value) {
+      return 'This field is required';
+    }
+
+    if (value.length < 3) {
+      return 'Minimum 3 characters required';
+    }
+
+    return '';
+  }
+
+  // --------------------------
+  // Actions
+  // --------------------------
+
+  @action
+  handleInput(event) {
+    this.value = event.target.value;
+
+    // Live validation AFTER submit
+    if (this.submitted) {
+      this.error = this.validate(this.value);
+    }
+  }
+
+  @action
+  handleSubmit(event) {
+    event.preventDefault();
+
+    this.submitted = true;
+    this.error = this.validate(this.value);
+
+    if (!this.error) {
+      console.log('Form Submitted ✅', this.value);
+    }
+  }
+
+  <template>
+    <form
+      class="ulx-form m-size ulx-grid mb-14"
+      {{on "submit" this.handleSubmit}}
     >
-      <:control as |field|>
-        <UlxInput
-          @id={{field.id}}
-          @ariaDescribedBy={{field.describedBy}}
-          @ariaErrorMessage={{field.errorId}}
-          @invalid={{true}}
-          @size="l-size"
-          aria-label={{t "lbl.label"}}
-        />
-      </:control>
-    </UlxField>
 
-  </div>
-</template>
+      <UlxField
+        @label="Username"
+        @id="error-input"
+        @fieldClass="col-4"
+        @error={{this.error}}
+      >
+
+        <:control as |field|>
+          <UlxInput
+            @id={{field.id}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @value={{this.value}}
+            @onInput={{this.handleInput}}
+            @invalid={{this.error}}
+            placeholder="Enter username"
+            aria-label="Username"
+          />
+        </:control>
+
+      </UlxField>
+
+      <div class="col-12">
+        <UlxButton type="submit" @label="Submit" />
+      </div>
+
+    </form>
+  </template>
+}

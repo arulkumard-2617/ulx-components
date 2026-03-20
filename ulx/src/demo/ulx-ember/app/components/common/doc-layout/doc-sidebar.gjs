@@ -7,7 +7,7 @@ import { modifier } from 'ember-modifier';
 import { fn } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { DocNavItems } from '../../../constants/docs';
-import { t, UlxIconInput } from 'ulx-components';
+import { t, UlxIconInput, UlxInput } from 'ulx-components';
 
 export default class DocSidebarComponent extends Component {
   @service router;
@@ -261,17 +261,18 @@ export default class DocSidebarComponent extends Component {
     >
       <div class="mb-6">
         <UlxIconInput
-          @value={{this.searchQuery}}
-          @onInput={{this.handleSearchInput}}
-          @placeholder={{t "lbl.search"}}
           @iconName="search-icon"
           @iconType="font"
-          @iconClass="bs-icons1"
           @iconPosition="left"
-          @iconSize="s18"
-          @fieldClass="w-full"
-          aria-label={{t "lbl.search"}}
-        />
+        >
+          <UlxInput
+            @value={{this.searchQuery}}
+            @onInput={{this.handleSearchInput}}
+            @placeholder={{t "lbl.search"}}
+            aria-label={{t "lbl.search"}}
+            class="w-full"
+          />
+        </UlxIconInput>
       </div>
       <nav class="sidebar-nav grow">
         <ol class="s-nav-list">

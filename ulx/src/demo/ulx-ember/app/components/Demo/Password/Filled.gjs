@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxPassword, t } from 'ulx-components';
+import { UlxPassword, UlxField, t } from 'ulx-components';
 
 export default class DemoPasswordFilled extends Component {
   @tracked value = '';
@@ -13,15 +13,21 @@ export default class DemoPasswordFilled extends Component {
 
   <template>
     <form class="ulx-form m-size ulx-grid gap-12 mb-14">
-      <UlxPassword
-        @value={{this.value}}
-        @onInput={{this.handleInput}}
-        @filled={{true}}
-        @feedback={{false}}
-        @label={{t "lbl.password"}}
-        @fieldClass="col-12"
-        placeholder={{t "lbl.enter.password"}}
-      />
+
+      <UlxField @fieldClass="col-12" @label={{t "lbl.password"}}>
+
+        <:control>
+          <UlxPassword
+            @value={{this.value}}
+            @onInput={{this.handleInput}}
+            @filled={{true}}
+            @feedback={{false}}
+            @placeholder={{t "lbl.enter.password"}}
+          />
+        </:control>
+
+      </UlxField>
+
     </form>
   </template>
 }
