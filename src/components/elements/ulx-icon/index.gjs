@@ -40,15 +40,9 @@ export default class UlxIcon extends Component {
 	}
 
 	get iconClasses() {
-		const {
-			iconName,
-			type = "svg",
-			size,
-			customClass,
-			componentClass = "bs-icons1",
-		} = this.args;
+		const { iconName, type = "svg", size, customClass, componentClass = "bs-icons1" } = this.args;
 
-		const parts = [this.baseClass];
+		const parts = [];
 		componentClass && parts.push(componentClass);
 		iconName && type === "font" && parts.push(iconName);
 		size && parts.push(size);
