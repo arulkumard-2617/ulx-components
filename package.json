@@ -163,6 +163,7 @@
       "./helpers/t-safe.js": "./dist/_app_/helpers/t-safe.js",
       "./helpers/t.js": "./dist/_app_/helpers/t.js",
       "./modifiers/append-to-body.js": "./dist/_app_/modifiers/append-to-body.js",
+      "./modifiers/overlay-dismiss.js": "./dist/_app_/modifiers/overlay-dismiss.js",
       "./modifiers/overlay-lifecycle.js": "./dist/_app_/modifiers/overlay-lifecycle.js",
       "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
       "./services/accessibility.js": "./dist/_app_/services/accessibility.js",
