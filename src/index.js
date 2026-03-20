@@ -57,6 +57,8 @@ export { default as UlxPanelmenu } from './components/modules/ulx-panelmenu/inde
 export { default as UlxPaginator } from './components/modules/ulx-paginator/index.gjs';
 export { default as Steps } from './components/modules/ulx-steps/index.gjs';
 export { default as UlxSteps } from './components/modules/ulx-steps/index.gjs';
+export { default as UlxSorter } from './components/modules/ulx-sorter/index.gjs';
+export { default as UlxSorterItem } from './components/modules/ulx-sorter/item.gjs';
 
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
