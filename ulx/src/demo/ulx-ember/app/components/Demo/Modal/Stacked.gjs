@@ -31,8 +31,8 @@ export default class StackedModalDemo extends Component {
   @tracked messages = [];
   @tracked selectedCity = null;
   @tracked selectedCities = [];
-  popupTriggerElement = null;
-  menuTriggerElement = null;
+  @tracked popupTriggerElement = null;
+  @tracked menuTriggerElement = null;
   popupRef = null;
 
   @action
@@ -55,6 +55,8 @@ export default class StackedModalDemo extends Component {
     this.showModal = false;
     this.showPopup = false;
     this.showMenu = false;
+    this.popupTriggerElement = null;
+    this.menuTriggerElement = null;
   }
 
   @action

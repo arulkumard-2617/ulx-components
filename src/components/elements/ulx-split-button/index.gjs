@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import { t } from "../../../utils/i18n";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
@@ -137,38 +138,6 @@ export default class UlxSplitButton extends Component {
 		};
 	});
 
-	closeOnClickOutside = modifier((element, [when], { onClose }) => {
-		let listener = null;
-		if (when && typeof onClose === "function") {
-			const handler = (e) => {
-				if (!element.contains(e.target)) onClose();
-			};
-			setTimeout(() => {
-				listener = handler;
-				document.addEventListener("click", listener, true);
-			}, 0);
-		}
-		return () => {
-			if (listener) document.removeEventListener("click", listener, true);
-		};
-	});
-
-	closeOnEscape = modifier((_element, [when], { onClose }) => {
-		let listener = null;
-		if (when && typeof onClose === "function") {
-			listener = (e) => {
-				if (e.key === "Escape") {
-					e.preventDefault();
-					onClose();
-				}
-			};
-			document.addEventListener("keydown", listener);
-		}
-		return () => {
-			if (listener) document.removeEventListener("keydown", listener);
-		};
-	});
-
 	@action
 	handleDefaultClick(event) {
 		if (this.isDisabled) {
@@ -219,8 +188,16 @@ export default class UlxSplitButton extends Component {
 		<div
 			class={{this.rootClasses}}
 			data-qa={{this.rootDataQa}}
-			{{this.closeOnClickOutside this.menuVisible onClose=this.hideMenu}}
-			{{this.closeOnEscape this.menuVisible onClose=this.hideMenu}}
+			{{overlayDismiss
+				this.menuVisible
+				onClose=this.hideMenu
+				dismissVariant="rootOnly"
+				deferClick=true
+				deferEscape=false
+				escapeEventMode="minimal"
+				escapeUseCapture=false
+				strictEscapeKey=true
+			}}
 			...attributes
 		>
 			{{#if (has-block "icon")}}

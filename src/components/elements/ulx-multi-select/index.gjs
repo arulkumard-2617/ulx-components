@@ -7,6 +7,7 @@ import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config";
+import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import {
 	buildFieldClass,
@@ -696,34 +697,6 @@ export default class UlxMultiSelect extends Component {
 		return Math.max(0, (this.optionList.length - this.virtualEndIndex) * this.virtualItemSize);
 	}
 
-	closeOverlay = modifier((element, [when], { onClose }) => {
-		let clickListener = null;
-		let keyListener = null;
-		if (when && typeof onClose === "function") {
-			clickListener = (e) => {
-				const insideRoot = element?.contains(e.target);
-				const insidePanel = this.panelElement?.contains(e.target);
-				if (!insideRoot && !insidePanel) onClose();
-			};
-			keyListener = (e) => {
-				if (e.key === "Escape") {
-					e.preventDefault();
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-					onClose();
-				}
-			};
-			setTimeout(() => {
-				document.addEventListener("click", clickListener, true);
-				document.addEventListener("keydown", keyListener, true);
-			}, 0);
-		}
-		return () => {
-			if (clickListener) document.removeEventListener("click", clickListener, true);
-			if (keyListener) document.removeEventListener("keydown", keyListener, true);
-		};
-	});
-
 	appendToBody = modifier((element, [when]) => {
 		const container = this.resolveRenderContainer();
 
@@ -1125,7 +1098,7 @@ export default class UlxMultiSelect extends Component {
 						aria-describedby={{this.ariaDescribedBy}}
 						tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 						{{this.triggerRef}}
-						{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
+						{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
 						{{on "click" this.toggleOverlay}}
 						{{on "keydown" this.onTriggerKeydown}}
 						...attributes
@@ -1230,7 +1203,7 @@ export default class UlxMultiSelect extends Component {
 					aria-required={{this.isRequired}}
 					aria-describedby={{this.ariaDescribedBy}}
 					{{this.triggerRef}}
-					{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
+					{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
 					{{on "click" this.toggleOverlay}}
 					{{on "keydown" this.onTriggerKeydown}}
 					{{on "focus" this.handleFocus}}

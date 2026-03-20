@@ -1,5 +1,6 @@
 import { modifier } from 'ember-modifier';
 import { getComponentClass } from '../utils/component-config';
+import { applyBodyAbsoluteFromViewport } from '../utils/overlay-helpers';
 
 const GAP = 8;
 let idCounter = 0;
@@ -29,8 +30,6 @@ function positionElement(tooltipEl, triggerEl, position) {
 	const tooltipRect = tooltipEl.getBoundingClientRect();
 	const w = tooltipRect.width || tooltipEl.offsetWidth || 1;
 	const h = tooltipRect.height || tooltipEl.offsetHeight || 1;
-	const scrollX = window.pageXOffset ?? window.scrollX ?? 0;
-	const scrollY = window.pageYOffset ?? window.scrollY ?? 0;
 	let top = 0;
 	let left = 0;
 	switch (position) {
@@ -52,12 +51,7 @@ function positionElement(tooltipEl, triggerEl, position) {
 			left = rect.right + GAP;
 			break;
 	}
-	tooltipEl.style.position = 'absolute';
-	tooltipEl.style.top = `${top + scrollY}px`;
-	tooltipEl.style.left = `${left + scrollX}px`;
-	tooltipEl.style.right = 'auto';
-	tooltipEl.style.bottom = 'auto';
-	tooltipEl.style.margin = '0';
+	applyBodyAbsoluteFromViewport(tooltipEl, top, left);
 }
 
 /**

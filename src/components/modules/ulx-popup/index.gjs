@@ -6,7 +6,11 @@ import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import appendToBody from "../../../modifiers/append-to-body";
-import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import {
+	applyBodyAbsoluteFromViewport,
+	getOverlayZIndexAboveMask
+} from "../../../utils/overlay-helpers";
 import UlxPopupHeader from "./header.gjs";
 import UlxPopupFooter from "./footer.gjs";
 
@@ -200,6 +204,14 @@ export default class UlxPopup extends Component {
 
 	get ariaLabel() {
 		return this.args.ariaLabel;
+	}
+
+	get overlayDismissClickActive() {
+		return this.isVisible && this.isDismissable;
+	}
+
+	get overlayDismissEscapeActive() {
+		return this.isVisible && this.args.closeOnEscape !== false;
 	}
 
 	@action
@@ -475,17 +487,7 @@ export default class UlxPopup extends Component {
 			placedAbove = true;
 		}
 
-		// Convert viewport coordinates to document coordinates so that the popup
-		// moves together with the target when the page scrolls.
-		const scrollX = window.pageXOffset ?? window.scrollX ?? 0;
-		const scrollY = window.pageYOffset ?? window.scrollY ?? 0;
-
-		container.style.position = "absolute";
-		container.style.top = `${top + scrollY}px`;
-		container.style.left = `${left + scrollX}px`;
-		container.style.right = "auto";
-		container.style.bottom = "auto";
-		container.style.margin = "0";
+		applyBodyAbsoluteFromViewport(container, top, left);
 
 		// Update position class when we have flipped vertically so that the
 		// pointer arrow direction matches the actual placement.
@@ -549,7 +551,7 @@ export default class UlxPopup extends Component {
 		};
 	});
 
-	watchVisibility = modifier((element, [isVisible, targetElement]) => {
+	watchVisibility = modifier((element, [isVisible, targetElement, _animationState]) => {
 		const previousVisible = this._previousVisible;
 		const isTransitioningToVisible = !previousVisible && isVisible;
 		const isTransitioningToHidden = previousVisible && !isVisible;
@@ -671,32 +673,6 @@ export default class UlxPopup extends Component {
 		return () => element.removeEventListener("keydown", handleKeyDown);
 	});
 
-	closeOnClickOutside = modifier((element, [isVisible]) => {
-		if (!this.isDismissable) {
-			return;
-		}
-
-		const handleClick = (event) => {
-			if (!isVisible) return;
-			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-
-			const isOutsideContainer = element && !element.contains(event.target);
-			const isOutsideTarget =
-				this.targetElement &&
-				!(this.targetElement === event.target || this.targetElement.contains(event.target));
-
-			if (isOutsideContainer && isOutsideTarget && this.isVisible && this.isDismissable) {
-				this._handleHideInternal();
-			}
-		};
-
-		document.addEventListener("click", handleClick, true);
-
-		return () => {
-			document.removeEventListener("click", handleClick, true);
-		};
-	});
-
 	handleResize = modifier((_, [isVisible]) => {
 		if (!this.isDismissable) {
 			return;
@@ -716,29 +692,6 @@ export default class UlxPopup extends Component {
 		};
 	});
 
-	escapeListener = modifier((_, [isVisible]) => {
-		if (this.args.closeOnEscape === false) {
-			return;
-		}
-
-		const handleKeyDown = (event) => {
-			if (!isVisible || !this.isVisible) return;
-			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-			if (event.key === "Escape" || event.key === "Esc") {
-				event.preventDefault();
-				event.stopPropagation();
-				event.stopImmediatePropagation();
-				this._handleHideInternal();
-			}
-		};
-
-		document.addEventListener("keydown", handleKeyDown, true);
-
-		return () => {
-			document.removeEventListener("keydown", handleKeyDown, true);
-		};
-	});
-
 	<template>
 		{{#if this.shouldRender}}
 			<div
@@ -750,12 +703,20 @@ export default class UlxPopup extends Component {
 				tabindex="-1"
 				{{appendToBody this.shouldRender}}
 				{{this.registerPopup}}
-				{{this.watchVisibility this.isVisible this.args.target}}
+				{{this.watchVisibility this.isVisible this.args.target this.animationState}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}
 				{{this.focusTrap this.isVisible this.animationState}}
-				{{this.closeOnClickOutside this.isVisible}}
+				{{overlayDismiss
+					this.isVisible
+					whenClick=this.overlayDismissClickActive
+					whenEscape=this.overlayDismissEscapeActive
+					onClose=this._handleHideInternal
+					dismissVariant="anchored"
+					target=this.targetElement
+					useTopModalGuard=true
+					componentForStack=this
+				}}
 				{{this.handleResize this.isVisible}}
-				{{this.escapeListener this.isVisible}}
 				{{on "keydown" this.handleRootKeyDown}}
 				...attributes
 			>
