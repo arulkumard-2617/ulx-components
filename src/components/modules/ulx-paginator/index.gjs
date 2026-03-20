@@ -284,8 +284,9 @@ export default class UlxPaginator extends Component {
 							}}
 						{{else}}
 							<UlxButton
-								@variant="secondary"
+								@variant="basic"
 								@text={{true}}
+								@label={{t "lbl.paginator.previous"}}
 								@icon={{this.prevPageLinkIcon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
@@ -308,9 +309,11 @@ export default class UlxPaginator extends Component {
 							}}
 						{{else}}
 							<UlxButton
-								@variant="secondary"
+								@variant="basic"
 								@text={{true}}
+								@label={{t "lbl.paginator.next"}}
 								@icon={{this.nextPageLinkIcon}}
+								@iconPos="right"
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass="paginator-next {{if (or this.isLastPage this.isEmpty) 'disabled'}}"

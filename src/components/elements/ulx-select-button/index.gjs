@@ -250,7 +250,7 @@ export default class UlxSelectButton extends Component {
 					type="button"
 					class={{this.getButtonClasses option index}}
 					role="button"
-					aria-pressed={{this.isOptionSelected option}}
+					aria-pressed="{{this.isOptionSelected option}}"
 					aria-label={{this.getOptionLabel option}}
 					disabled={{this.isButtonDisabled option}}
 					tabindex={{if (this.isButtonDisabled option) "-1" "0"}}

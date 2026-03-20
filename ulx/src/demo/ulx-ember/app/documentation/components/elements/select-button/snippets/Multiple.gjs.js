@@ -28,7 +28,7 @@ export default class DemoSelectButtonMultiple extends Component {
       @optionLabel="name"
       @optionValue="value"
       @multiple={{true}}
-      @ariaLabel={{this.options}}
+      @ariaLabel={{t "demo.selectbutton.choose.options"}}
     />
   </template>
 }

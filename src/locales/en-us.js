@@ -19,7 +19,8 @@ const enUs = {
 	'msg.more.members': '{count} more members',
 	'lbl.a11y.empty.state.content': 'Empty state content',
 	'msg.empty.state.title': 'No results found',
-	'msg.empty.state.subtitle': 'Try adjusting your search or filters to find what you are looking for.',
+	'msg.empty.state.subtitle':
+		'Try adjusting your search or filters to find what you are looking for.',
 
 	// ── Doc common strings ───────────────────────────────────
 	'lbl.collapse.code': 'Collapse code',
@@ -61,7 +62,7 @@ const enUs = {
 	'lbl.sort': 'Sort',
 	'lbl.columns': 'Columns',
 	'lbl.ascending': 'Ascending',
-	'lbl.descending':'Descending',
+	'lbl.descending': 'Descending',
 	'lbl.apply.filter': 'Apply Filter',
 	'lbl.invited': 'Invited',
 	'lbl.joined': 'Joined',
@@ -120,7 +121,8 @@ const enUs = {
 	// ── Stacked overlay demo (Modal) ─────────────────────────
 	'lbl.open.stacked.demo': 'Open stacked overlay demo',
 	'lbl.stacked.overlays': 'Stacked overlays',
-	'msg.stacked.overlay.instructions': 'ESC closes the topmost overlay first. Toasts close before modal or slide pane. Open a toast, then press ESC to see toast close first.',
+	'msg.stacked.overlay.instructions':
+		'ESC closes the topmost overlay first. Toasts close before modal or slide pane. Open a toast, then press ESC to see toast close first.',
 	'lbl.open.popup': 'Open popup',
 	'lbl.open.menu': 'Open menu',
 	'lbl.dropdown.placeholder': 'Select…',
@@ -151,6 +153,8 @@ const enUs = {
 	// ── Rating ────────────────────────────────────────────────
 	'lbl.rating': 'Rating',
 	'lbl.rating.cancel': 'Reset rating',
+	'lbl.rating.star.selected': 'Star {star} of {total}, selected',
+	'lbl.rating.star.unselected': 'Star {star} of {total}, not selected',
 
 	// ── Slider ────────────────────────────────────────────────
 	'lbl.slider': 'Slider',
@@ -332,6 +336,13 @@ const enUs = {
 	'msg.danger.toast.b': 'Danger toast B',
 	'lbl.without.toast': 'Without toast',
 
+	// ── Toolbar demo ─────────────────────────────────────────
+	'demo.toolbar.sortBy': 'Sort by',
+	'demo.toolbar.accessibility.history': 'Undo and redo',
+	'demo.toolbar.view.list': 'List view',
+	'demo.toolbar.view.grid': 'Grid view',
+	'demo.toolbar.view.layout': 'Layout',
+
 	// ── Paginator ────────────────────────────────────────────
 	'aria.paginator.firstPage': 'First page',
 	'aria.paginator.prevPage': 'Previous page',
@@ -341,6 +352,8 @@ const enUs = {
 	'aria.paginator.rowsPerPage': 'Rows per page',
 	'aria.paginator.jumpToPage': 'Jump to page',
 	'lbl.paginator.choose': 'Choose',
+	'lbl.paginator.previous': 'Previous',
+	'lbl.paginator.next': 'Next',
 
 	// ── SelectButton demo ────────────────────────────────────
 	'demo.selectbutton.off': 'Off',
@@ -350,6 +363,7 @@ const enUs = {
 	'demo.selectbutton.option3': 'Option 3',
 	'demo.selectbutton.choose.option': 'Choose option',
 	'demo.selectbutton.choose.options': 'Choose options',
+	'demo.selectbutton.aria.secondGroup': 'Second option group',
 	'demo.selectbutton.alignment': 'Alignment',
 
 	// ── OptionSegment demo ────────────────────────────────────
@@ -438,12 +452,16 @@ const enUs = {
 	'lbl.doc.skeleton.rounded': 'Rounded',
 	'lbl.doc.skeleton.square': 'Square',
 	'lbl.doc.skeleton.circle': 'Circle',
-	'msg.doc.skeleton.shapes.desc': 'Various shapes and sizes can be created using shape, width, height, borderRadius, and size arguments.',
+	'msg.doc.skeleton.shapes.desc':
+		'Various shapes and sizes can be created using shape, width, height, borderRadius, and size arguments.',
 	'msg.doc.skeleton.card.desc': 'Sample Card implementation using different Skeleton components.',
 	'msg.doc.skeleton.list.desc': 'Sample List implementation using different Skeleton components.',
-	'msg.doc.skeleton.datatable.desc': 'Sample DataTable implementation using different Skeleton components.',
-	'msg.doc.skeleton.accessibility.desc': 'Skeleton uses aria-hidden="true" so that it gets ignored by screen readers.',
-	'msg.doc.skeleton.import.desc': 'The <code>import</code> section shows how to import and use the <code>UlxSkeleton</code> component.',
+	'msg.doc.skeleton.datatable.desc':
+		'Sample DataTable implementation using different Skeleton components.',
+	'msg.doc.skeleton.accessibility.desc':
+		'Skeleton uses aria-hidden="true" so that it gets ignored by screen readers.',
+	'msg.doc.skeleton.import.desc':
+		'The <code>import</code> section shows how to import and use the <code>UlxSkeleton</code> component.',
 
 	// ── DataTable ARIA / WCAG ────────────────────────────────
 	'aria.table.select.row': 'Select row {index}',

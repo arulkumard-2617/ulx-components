@@ -2,8 +2,15 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { hash } from "@ember/helper";
 import { on } from "@ember/modifier";
-import { getComponentClass } from "../../../utils/component-config";
+import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
+import { optionSegmentRowKey, resolveKey } from "../../../utils/input-util";
 import UlxOptionSegmentItem from "./item.gjs";
+
+function buildOptionSegmentId(namespace, idArg, key) {
+	if (typeof idArg === "string" && idArg.length) return idArg;
+	if (typeof key === "string" && key.length) return key;
+	return `${namespace}-option-segment-${key}`;
+}
 
 /**
  * OptionSegment component for building radio / checkbox style option cards.
@@ -30,10 +37,10 @@ import UlxOptionSegmentItem from "./item.gjs";
  *   - `role="group"` for basic/other types
  *
  * Keyboard and screen reader behavior:
- * - When `@type` is `"radio"` or `"checkbox"`, the root element exposes
- *   a `radiogroup`/`group` container role, and the item exposes
- *   `role="radio"` / `role="checkbox"` with `aria-checked` and `tabindex`.
- * - Space / Enter on the item activate the option and invoke `@onSelect`.
+ * - With the default embedded `UlxRadio` / `UlxCheckbox` / `UlxTristateCheckbox`, the
+ *   native input is the only tab stop; the card still handles clicks outside `.option-control`.
+ * - With a custom `<:control>` block (or non-toggle types), each item card may expose
+ *   `role="radio"` / `role="checkbox"` with `aria-checked` and `tabindex` for Space / Enter.
  *
  * @class UlxOptionSegment
  * @param {"radio"|"checkbox"|null} [type="radio"] - Semantic type of the option, used for ARIA role and `aria-checked`
@@ -47,6 +54,7 @@ import UlxOptionSegmentItem from "./item.gjs";
  *     - {string} [title]
  *     - {string} [description]
  *     - {Array<object>} [nestedItems]
+ *     - {string} [id] - Unique id for the embedded control when items can reorder; otherwise ids use index (stable when toggling selection).
  * @param {boolean} [selected=false] - Single-item selected state (when `@items` is not used)
  * @param {boolean} [disabled=false] - Disable interaction when true (group-level)
  * @param {boolean} [compact=false] - Use the compact visual variant (group-level)
@@ -55,6 +63,8 @@ import UlxOptionSegmentItem from "./item.gjs";
  * @param {string} [title] - Primary label text when no `title` block is provided
  * @param {string} [description] - Helper text when no `description` block is provided
  * @param {string} [customClass] - Extra CSS classes appended to the root element
+ * @param {string} [id] - Base id for embedded controls and title/description ids (first list item). Auto-generated if omitted.
+ * @param {string} [key] - When `@id` is omitted, stable key for auto-generated ids (e.g. `@key={{field.key}}` with `UlxField`).
  * @param {string} [role] - Custom ARIA role for the root element (overrides `@type`-based role)
  * @param {string} [ariaLabel] - Accessible label for the option
  * @param {string} [ariaLabelledBy] - ID of element that labels the option
@@ -122,8 +132,33 @@ export default class UlxOptionSegment extends Component {
 		return Array.isArray(this.args.items) && this.args.items.length > 0;
 	}
 
+	get segmentKey() {
+		return resolveKey(this, this.args.key);
+	}
+
+	get segmentIdBase() {
+		return buildOptionSegmentId(NAMESPACE, this.args.id, this.segmentKey);
+	}
+
 	get items() {
 		return this.hasItems ? this.args.items : [];
+	}
+
+	/**
+	 * Stable row keys for `{{#each}}` so immutable item updates do not recreate
+	 * `UlxOptionSegmentItem` (avoids focus loss on the embedded input).
+	 */
+	get itemEntries() {
+		return this.items.map((item, index) => ({
+			item,
+			index,
+			rowKey: optionSegmentRowKey(item, index, this.segmentIdBase)
+		}));
+	}
+
+	/** Same id as row 0 in `itemEntries` (single-item mode has no `item.id` on the hash). */
+	get singleItemControlId() {
+		return optionSegmentRowKey({}, 0, this.segmentIdBase);
 	}
 
 	get rootClasses() {
@@ -150,7 +185,7 @@ export default class UlxOptionSegment extends Component {
 			return "radiogroup";
 		}
 
-		return "radiogroup";
+		return "group";
 	}
 
 	get title() {
@@ -190,10 +225,13 @@ export default class UlxOptionSegment extends Component {
 			...attributes
 		>
 			{{#if this.hasItems}}
-				{{#each this.items as |item|}}
+				{{#each this.itemEntries key="rowKey" as |entry|}}
 					<UlxOptionSegmentItem
 						@type={{this.type}}
-						@item={{item}}
+						@item={{entry.item}}
+						@itemIndex={{entry.index}}
+						@controlId={{entry.rowKey}}
+						@segmentIdBase={{this.segmentIdBase}}
 						@disabled={{this.isDisabled}}
 						@compact={{this.isCompact}}
 						@onSelect={{this.handleItemSelect}}
@@ -235,6 +273,9 @@ export default class UlxOptionSegment extends Component {
 						title=this.title
 						description=this.description
 					}}
+					@itemIndex={{0}}
+					@controlId={{this.singleItemControlId}}
+					@segmentIdBase={{this.segmentIdBase}}
 					@disabled={{this.isDisabled}}
 					@compact={{this.isCompact}}
 					@onSelect={{this.handleItemSelect}}

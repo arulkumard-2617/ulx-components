@@ -3,7 +3,7 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
-import { eq, lte, and, or, not } from "ember-truth-helpers";
+import { eq, lte, not } from "ember-truth-helpers";
 import { fn } from "@ember/helper";
 import UlxIcon from "../ulx-icon/index.gjs";
 
@@ -42,7 +42,13 @@ export default class UlxRating extends Component {
 	}
 
 	get rootClasses() {
-		const { size = "xxs-size", variant, disabled = false, readOnly = false, customClass } = this.args;
+		const {
+			size = "xxs-size",
+			variant,
+			disabled = false,
+			readOnly = false,
+			customClass
+		} = this.args;
 
 		const parts = [this.baseClass];
 		parts.push(size);
@@ -101,9 +107,9 @@ export default class UlxRating extends Component {
 	}
 
 	@action
-	handleKeydown(event, type, value) {
+	handleKeydown(type, value, event) {
 		if (!this.isInteractive) return;
-		const { key } = event;
+		const { key, code } = event;
 		if (type === "star") {
 			if (key === "ArrowRight" || key === "ArrowDown") {
 				event.preventDefault();
@@ -115,11 +121,11 @@ export default class UlxRating extends Component {
 				const newVal = Math.max(value - 1, 0);
 				this.setValue(newVal);
 				this.focusStarByValue(event.currentTarget, newVal === 0 ? 1 : newVal);
-			} else if (key === " " || key === "Enter") {
+			} else if (key === " " || key === "Enter" || code === "NumpadEnter" || code === "Space") {
 				event.preventDefault();
 				this.setValue(value);
 			}
-		} else if (type === "cancel" && (key === " " || key === "Enter")) {
+		} else if (type === "cancel" && (key === " " || key === "Enter" || code === "NumpadEnter" || code === "Space")) {
 			event.preventDefault();
 			this.setValue(0);
 		}
@@ -177,7 +183,7 @@ export default class UlxRating extends Component {
 						aria-posinset={{starValue}}
 						aria-setsize={{this.starsCount}}
 						aria-disabled={{not this.isInteractive}}
-						tabindex={{if this.isInteractive (if (or (eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))) "0" "-1") null}}
+						tabindex="0"
 						data-qa="ulx-rating-star"
 						{{on "click" (fn this.handleStarClick starValue)}}
 						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
@@ -203,7 +209,7 @@ export default class UlxRating extends Component {
 						aria-posinset={{starValue}}
 						aria-setsize={{this.starsCount}}
 						aria-disabled={{not this.isInteractive}}
-						tabindex={{if this.isInteractive (if (or (eq starValue this.currentValue) (and (eq this.currentValue 0) (eq starValue 1))) "0" "-1") null}}
+						tabindex="0"
 						data-qa="ulx-rating-star"
 						{{on "click" (fn this.handleStarClick starValue)}}
 						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
