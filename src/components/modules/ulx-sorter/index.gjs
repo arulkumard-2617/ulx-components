@@ -23,6 +23,10 @@ export default class UlxSorter extends Component {
 		return this.args.direction ?? "y";
 	}
 
+	get groupName() {
+		return this.args.groupName;
+	}
+
 	get rootClasses() {
 		const { customClass } = this.args;
 
@@ -48,7 +52,7 @@ export default class UlxSorter extends Component {
 			}}
 			...attributes
 		>
-			{{yield this.groupName}}
+			{{yield @groupName}}
 		</div>
 	</template>
 }

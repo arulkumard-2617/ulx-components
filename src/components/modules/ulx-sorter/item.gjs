@@ -97,7 +97,7 @@ export default class UlxSorterItem extends Component {
 			}}
 			...attributes
 		>
-			//If needed add drag icon back in
+			{{! If needed add drag icon back in }}
 			{{!-- {{#if this.showDragIcon}}
 				<span
 					class="inline-flex items-center"
