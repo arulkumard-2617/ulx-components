@@ -34,7 +34,6 @@ export default class BasicSorterDemo extends Component {
       {{#each this.items as |item|}}
         <UlxSorterItem
           @groupName={{groupName}}
-          @showDragIcon={{true}}
           @useDragIconAsHandle={{true}}
           @model={{item}}
           @customClass="w-full"

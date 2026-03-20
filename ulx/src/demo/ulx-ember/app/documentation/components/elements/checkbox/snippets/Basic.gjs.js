@@ -25,7 +25,7 @@ export default class BasicCheckboxDemo extends Component {
       >
         <:control as |field|>
           <UlxCheckbox
-            @id={{field.id}}
+            @key={{field.key}}
             @rules={{this.requiredRules}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}

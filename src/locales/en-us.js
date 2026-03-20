@@ -200,6 +200,7 @@ const enUs = {
 
 	// ── Dropdown ─────────────────────────────────────────────
 	'lbl.clear.selection': 'Clear selection',
+	'aria.dropdown.open': 'Open options',
 	'lbl.dropdown.label.text': 'Label Text',
 	'lbl.dropdown.label.right': 'right item',
 	'msg.dropdown.help.text': 'Help Text',

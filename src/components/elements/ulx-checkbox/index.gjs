@@ -1,6 +1,5 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { guidFor } from "@ember/object/internals";
 import { fn } from "@ember/helper";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
 import {
@@ -12,7 +11,9 @@ import {
 import UlxCheckboxItem from "./checkbox-item.gjs";
 
 function buildCheckboxId(namespace, idArg, key) {
-	return idArg ?? `${namespace}-checkbox-${key}`;
+	if (typeof idArg === "string" && idArg.length) return idArg;
+	if (typeof key === "string" && key.length) return key;
+	return `${namespace}-checkbox-${key}`;
 }
 
 /**
@@ -31,10 +32,11 @@ function buildCheckboxId(namespace, idArg, key) {
  *
  * @class UlxCheckbox
  * @param {string} [id] - Unique ID for the checkbox input. Auto-generated if not provided.
- * @param {string} [key] - Stable key used for auto-generated IDs (when `@id` is not provided).
+ * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids.
  *
  * @param {Array<object>} [items] - Optional list of checkbox items. When provided, the component renders a group.
- *   Each item supports: `{ label, checked, indeterminate, disabled, customClass, id }`
+ *   Each item supports: `{ label, checked, indeterminate, disabled, customClass, id }`.
+ *   Provide a string `id` per item when the list can reorder or grow; otherwise ids are derived from index (stable across checked toggles).
  * @param {Function} [onItemChange] - When `@items` is provided: (item, checked, event) => void.
  *
  * @param {boolean} [checked] - Whether the checkbox is checked (controlled) (single mode).
@@ -89,7 +91,7 @@ export default class UlxCheckbox extends Component {
 					? id
 					: index === 0
 						? this.checkboxId
-						: `${this.checkboxId}-item-${guidFor(item ?? `${index}`)}`;
+						: `${this.checkboxId}-item-${index}`;
 
 			return { item, id: resolvedId };
 		});

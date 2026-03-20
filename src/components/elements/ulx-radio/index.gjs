@@ -1,18 +1,15 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { guidFor } from "@ember/object/internals";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
-import {
-	isInvalidState,
-	normalizeRules,
-	resolveKey
-} from "../../../utils/input-util";
+import { isInvalidState, normalizeRules, resolveKey } from "../../../utils/input-util";
 import UlxRadioItem from "./radio-item.gjs";
 
 function buildRadioId(namespace, idArg, key) {
-	return idArg ?? `${namespace}-radio-${key}`;
+	if (typeof idArg === "string" && idArg.length) return idArg;
+	if (typeof key === "string" && key.length) return key;
+	return `${namespace}-radio-${key}`;
 }
 
 /**
@@ -30,10 +27,10 @@ function buildRadioId(namespace, idArg, key) {
  *
  * @class UlxRadio
  * @param {string} [id] - Unique ID base for the radio(s). Auto-generated if not provided.
- * @param {string} [key] - Stable key used for auto-generated IDs (when `@id` is not provided).
+ * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids.
  *
  * @param {Array<object>} [items] - Optional list of radio items. When provided, the component renders a group.
- *   Each item supports: `{ label, value, checked, disabled, customClass, id }`
+ *   Each item supports: `{ label, value, checked, disabled, customClass, id }`. Pass string `id` when the list can reorder; otherwise ids use the item index (stable when toggling selection).
  * @param {Function} [onItemChange] - When `@items` is provided: (item, checked, event) => void.
  *
  * @param {boolean} [checked] - Whether the radio is checked (controlled) (single mode).
@@ -88,9 +85,7 @@ export default class UlxRadio extends Component {
 		return this.items.map((item, index) => {
 			const id = item?.id;
 			const resolvedId =
-				typeof id === "string" && id.length > 0
-					? id
-					: `${this.radioId}-item-${guidFor(item ?? `${index}`)}`;
+				typeof id === "string" && id.length > 0 ? id : `${this.radioId}-item-${id}`;
 			return { item, id: resolvedId };
 		});
 	}

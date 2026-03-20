@@ -25,7 +25,7 @@ export default class DemoSizes extends Component {
         >
           <:control as |field|>
             <UlxInput
-              @id={{field.id}}
+              @key={{field.key}}
               @ariaDescribedBy={{field.describedBy}}
               @ariaErrorMessage={{field.errorId}}
               @size={{item.size}}

@@ -26,7 +26,7 @@ export default class DemoFloatLabel extends Component {
           <UlxFloatLabel @label={{t "lbl.username"}} @value={{this.username}}>
             <:default as |float|>
               <UlxInput
-                @id={{field.id}}
+                @key={{field.key}}
                 @ariaDescribedBy={{field.describedBy}}
                 @ariaErrorMessage={{field.errorId}}
                 @value={{this.username}}

@@ -20,11 +20,11 @@ export default class BasicCheckboxDemo extends Component {
       <UlxField
         @rules={{this.requiredRules}}
         @fieldClass="col-12"
-        @id="checkbox-basic"
+        @fieldId="checkbox-basic"
       >
         <:control as |field|>
           <UlxCheckbox
-            @id={{field.id}}
+            @key={{field.key}}
             @rules={{this.requiredRules}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}

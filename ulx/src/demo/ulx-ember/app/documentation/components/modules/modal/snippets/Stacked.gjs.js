@@ -10,6 +10,7 @@ import {
   UlxPopup,
   UlxTieredmenu,
   UlxDropdown,
+  UlxField,
   tooltip,
   UlxIcon,
   UlxToast,
@@ -257,14 +258,19 @@ export default class StackedModalDemo extends Component {
               {{on "click" this.openMenu}}
             />
             <div class="ulx-form m-size">
-              <UlxDropdown
-                id="stacked-dropdown"
-                @options={{this.cities}}
-                @value={{this.selectedCity}}
-                @onChange={{this.setSelectedCity}}
-                @placeholder="Select a city"
-                @label="Label Text"
-              />
+              <UlxField @label="Label Text" @key="stacked-dropdown">
+                <:control as |field|>
+                  <UlxDropdown
+                    @key={{field.key}}
+                    @ariaDescribedBy={{field.describedBy}}
+                    @ariaErrorMessage={{field.errorId}}
+                    @options={{this.cities}}
+                    @value={{this.selectedCity}}
+                    @onChange={{this.setSelectedCity}}
+                    @placeholder="Select a city"
+                  />
+                </:control>
+              </UlxField>
             </div>
             <div class="flex gap-3 align-items-center flex-wrap">
               <UlxIcon
@@ -335,4 +341,5 @@ export default class StackedModalDemo extends Component {
     />
   </template>
 }
+
 `;

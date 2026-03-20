@@ -32,11 +32,11 @@ export default class BasicRadioDemo extends Component {
         @rules={{this.requiredRules}}
         @helpText={{t "lbl.help.text"}}
         @fieldClass="col-12"
-        @id="radio-with-label"
+        @key="radio-with-label"
       >
         <:control as |field|>
           <UlxRadio
-            @id={{field.id}}
+            @key={{field.key}}
             @rules={{this.requiredRules}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}

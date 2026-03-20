@@ -10,11 +10,15 @@ export function resolveKey(componentInstance, keyArg) {
 }
 
 export function buildInputId(namespace, idArg, key) {
-	return idArg ?? `${namespace}-input-${key}`;
+	if (typeof idArg === 'string' && idArg.length) return idArg;
+	if (typeof key === 'string' && key.length) return key;
+	return `${namespace}-input-${key}`;
 }
 
 export function buildToggleId(namespace, idArg, key) {
-	return idArg ?? `${namespace}-toggle-${key}`;
+	if (typeof idArg === 'string' && idArg.length) return idArg;
+	if (typeof key === 'string' && key.length) return key;
+	return `${namespace}-toggle-${key}`;
 }
 
 export function resolveFloatLabelText(floatLabelArg, labelArg) {

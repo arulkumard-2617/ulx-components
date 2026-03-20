@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxDropdown, t } from 'ulx-components';
+import { UlxDropdown, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -26,15 +26,23 @@ export default class DemoDropdownBasic extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
-      <UlxDropdown
-        id="city-basic"
-        @options={{this.cities}}
-        @value={{this.selectedCity}}
-        @onChange={{this.setSelectedCity}}
-        @placeholder={{t "msg.dropdown.placeholder.city"}}
+      <UlxField
         @label={{t "lbl.dropdown.label.text"}}
+        @id="city-basic"
         @fieldClass="col-4"
-      />
+      >
+        <:control as |field|>
+          <UlxDropdown
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.cities}}
+            @value={{this.selectedCity}}
+            @onChange={{this.setSelectedCity}}
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

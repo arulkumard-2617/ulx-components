@@ -19,7 +19,8 @@ export default {
     { name: 'Pass Through', route: '/passthrough', id: 'passthrough' },
   ],
 
-  importMsg: "import { UlxDropdown } from 'ulx-components'",
+  importMsg:
+    "import { UlxDropdown, UlxField } from 'ulx-components'  // use UlxFloatLabel for floating labels",
 
   accessibility: {
     description: 'Dropdown uses combobox and listbox roles with keyboard navigation and ARIA attributes.',

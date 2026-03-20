@@ -48,12 +48,12 @@ export default class DemoKeyFilter extends Component {
       {{#each this.keyfilters as |item index|}}
         <UlxField
           @label={{item.label}}
-          @id={{concat "keyfilter-" index}}
+          @fieldId={{concat "keyfilter-" index}}
           @fieldClass="col-4"
         >
           <:control as |field|>
             <UlxInput
-              @id={{field.id}}
+              @key={{field.key}}
               @ariaDescribedBy={{field.describedBy}}
               @ariaErrorMessage={{field.errorId}}
               @keyfilter={{item.keyfilter}}

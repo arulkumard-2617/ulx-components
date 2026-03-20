@@ -15,10 +15,10 @@ export default class DemoInputTemplate extends Component {
     <div class="ulx-form m-size ulx-grid gap-6 mb-14">
 
       {{! First Name }}
-      <UlxField @label="First Name" @id="firstName" @fieldClass="col-6">
+      <UlxField @label="First Name" @fieldId="firstName" @fieldClass="col-6">
         <:control as |field|>
           <UlxInput
-            @id={{field.id}}
+            @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             placeholder="Aaron"
@@ -36,10 +36,10 @@ export default class DemoInputTemplate extends Component {
       </UlxField>
 
       {{! Last Name }}
-      <UlxField @label="Last Name" @id="lastName" @fieldClass="col-6">
+      <UlxField @label="Last Name" @fieldId="lastName" @fieldClass="col-6">
         <:control as |field|>
           <UlxInput
-            @id={{field.id}}
+            @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             placeholder="Victor"

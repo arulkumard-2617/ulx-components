@@ -11,7 +11,7 @@ import { UlxInput, UlxField, t } from 'ulx-components';
     >
       <:control as |field|>
         <UlxInput
-          @id={{field.id}}
+          @key={{field.key}}
           @disabled={{true}}
           @size="l-size"
           aria-label={{t "lbl.label"}}
