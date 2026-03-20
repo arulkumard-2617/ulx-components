@@ -18,7 +18,11 @@ import {
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
 import appendToBody from "../../../modifiers/append-to-body";
-import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import {
+	applyBodyAbsoluteFromViewport,
+	getOverlayZIndexAboveMask
+} from "../../../utils/overlay-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
@@ -420,34 +424,6 @@ export default class UlxDropdown extends Component {
 		return t("lbl.clear.selection");
 	}
 
-	closeOverlay = modifier((element, [when], { onClose }) => {
-		let clickListener = null;
-		let keyListener = null;
-		if (when && typeof onClose === "function") {
-			clickListener = (e) => {
-				const insideRoot = element && element.contains(e.target);
-				const insidePanel = this.panelElement && this.panelElement.contains(e.target);
-				if (!insideRoot && !insidePanel) onClose();
-			};
-			keyListener = (e) => {
-				if (e.key === "Escape") {
-					e.preventDefault();
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-					onClose();
-				}
-			};
-			setTimeout(() => {
-				document.addEventListener("click", clickListener, true);
-				document.addEventListener("keydown", keyListener, true);
-			}, 0);
-		}
-		return () => {
-			if (clickListener) document.removeEventListener("click", clickListener, true);
-			if (keyListener) document.removeEventListener("keydown", keyListener, true);
-		};
-	});
-
 	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
 		if (!when || !element) return;
 
@@ -456,12 +432,8 @@ export default class UlxDropdown extends Component {
 			if (!trigger) return;
 
 			const targetRect = trigger.getBoundingClientRect();
-			const scrollX = window.pageXOffset ?? document.documentElement.scrollLeft ?? 0;
-			const scrollY = window.pageYOffset ?? document.documentElement.scrollTop ?? 0;
 
-			element.style.position = "absolute";
-			element.style.top = `${targetRect.bottom + scrollY + 2}px`;
-			element.style.left = `${targetRect.left + scrollX}px`;
+			applyBodyAbsoluteFromViewport(element, targetRect.bottom + 2, targetRect.left);
 			element.style.width = `${targetRect.width}px`;
 			element.style.minWidth = `${targetRect.width}px`;
 			element.style.maxWidth = `${targetRect.width}px`;
@@ -511,8 +483,7 @@ export default class UlxDropdown extends Component {
 				top = 10;
 			}
 
-			element.style.top = `${top + scrollY}px`;
-			element.style.left = `${left + scrollX}px`;
+			applyBodyAbsoluteFromViewport(element, top, left);
 		};
 
 		schedule("afterRender", () => {
@@ -978,7 +949,7 @@ export default class UlxDropdown extends Component {
 						aria-required={{unless @editable this.isRequired}}
 						aria-describedby={{unless @editable this.ariaDescribedBy}}
 						{{this.triggerRef}}
-						{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
+						{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
 						{{on "pointerdown" this.onTriggerPointerIntent}}
 						{{on "click" this.toggleOverlay}}
 						...attributes
@@ -1132,7 +1103,7 @@ export default class UlxDropdown extends Component {
 					aria-required={{unless @editable this.isRequired}}
 					aria-describedby={{unless @editable this.ariaDescribedBy}}
 					{{this.triggerRef}}
-					{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
+					{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
 					{{on "pointerdown" this.onTriggerPointerIntent}}
 					{{on "click" this.toggleOverlay}}
 					...attributes

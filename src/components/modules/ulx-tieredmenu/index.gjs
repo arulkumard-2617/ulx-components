@@ -6,7 +6,12 @@ import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import appendToBody from "../../../modifiers/append-to-body";
-import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import {
+	applyBodyAbsoluteFromViewport,
+	getOverlayZIndexAboveMask,
+	isPointerOutsideAnchoredOverlay,
+	isPointerOutsideElement
+} from "../../../utils/overlay-helpers";
 import UlxTieredmenuMenuList from "./menu-list.gjs";
 
 /**
@@ -256,6 +261,19 @@ export default class UlxTieredmenu extends Component {
 	closeAllSubmenus() {
 		this.openSubmenus = new Set();
 		this.focusedSubmenuId = null;
+	}
+
+	/**
+	 * Clears expanded submenu / hover state for popup mode so reopening after close
+	 * (e.g. modal dismissed) does not restore nested flyouts.
+	 */
+	@action
+	_resetPopupTieredmenuState() {
+		this.openSubmenus = new Set();
+		this.focusedSubmenuId = null;
+		this.hoveredItemId = null;
+		this.activeItemId = null;
+		this.hasInteracted = false;
 	}
 
 	/**
@@ -580,7 +598,8 @@ export default class UlxTieredmenu extends Component {
 			return;
 		}
 
-		// Ensure we have a target
+		this._resetPopupTieredmenuState();
+
 		if (!this.targetElement && this.args.target) {
 			this.targetElement = this.args.target;
 		}
@@ -656,7 +675,12 @@ export default class UlxTieredmenu extends Component {
 	 */
 	@action
 	handleHide() {
-		if (!this.isPopup || !this.containerElement) return;
+		if (!this.isPopup) return;
+
+		if (!this.containerElement) {
+			this._resetPopupTieredmenuState();
+			return;
+		}
 
 		// Prevent multiple calls - if already animating out or done, don't restart
 		if (
@@ -680,6 +704,7 @@ export default class UlxTieredmenu extends Component {
 			if (!transitionCompleted && this.animationState === "exit-active") {
 				transitionCompleted = true;
 				this.animationState = "exit-done";
+				this._resetPopupTieredmenuState();
 				this.modalStack?.unregisterModal(this);
 				this.clearZIndex();
 				this.args.onHide?.();
@@ -782,17 +807,7 @@ export default class UlxTieredmenu extends Component {
 			top = 10;
 		}
 
-		// Convert viewport coordinates to document coordinates (align with ulx-popup)
-		// so the menu moves with the target when the page scrolls.
-		const scrollX = window.pageXOffset ?? window.scrollX ?? 0;
-		const scrollY = window.pageYOffset ?? window.scrollY ?? 0;
-
-		container.style.position = "absolute";
-		container.style.top = `${top + scrollY}px`;
-		container.style.left = `${left + scrollX}px`;
-		container.style.right = "auto";
-		container.style.bottom = "auto";
-		container.style.margin = "0";
+		applyBodyAbsoluteFromViewport(container, top, left);
 	}
 
 	/**
@@ -824,7 +839,6 @@ export default class UlxTieredmenu extends Component {
 	setContainerRef = modifier((element) => {
 		this.containerElement = element;
 
-		// Set target from args if provided
 		if (this.args.target) {
 			this.targetElement = this.args.target;
 		}
@@ -914,10 +928,9 @@ export default class UlxTieredmenu extends Component {
 	/**
 	 * Modifier to watch visibility changes and trigger animations
 	 */
-	watchVisibility = modifier((element, [isVisible, isPopup, targetElement]) => {
+	watchVisibility = modifier((element, [isVisible, isPopup, targetElement, _animationState]) => {
 		if (!isPopup) return;
 
-		// Update target element if provided
 		if (targetElement && targetElement !== this.targetElement) {
 			this.targetElement = targetElement;
 		}
@@ -940,15 +953,12 @@ export default class UlxTieredmenu extends Component {
 			if (shouldShow) {
 				this.args.onShow?.(this._showEvent);
 				this._showEvent = null;
-				// Ensure we have a target before showing
 				if (this.targetElement || this.args.target) {
 					if (!this.targetElement && this.args.target) {
 						this.targetElement = this.args.target;
 					}
-					// Wait for element to be in body before showing
 					const checkAndShow = () => {
 						if (element.parentNode === document.body || !this.isPopup) {
-							// Double check state hasn't changed before calling handleShow
 							if (
 								this.animationState !== "enter" &&
 								this.animationState !== "enter-active" &&
@@ -1003,8 +1013,6 @@ export default class UlxTieredmenu extends Component {
 			this._previousVisible = isVisible;
 		}
 
-		// Reposition if visible and target changed (for dynamic target updates)
-		// Only reposition if animation is complete
 		if (
 			isVisible &&
 			this.animationState === "enter-done" &&
@@ -1032,9 +1040,8 @@ export default class UlxTieredmenu extends Component {
 	 */
 	closeOnClickOutside = modifier((element) => {
 		if (!this.isPopup) {
-			// For non-popup mode, only close submenus
 			const handleClick = (event) => {
-				if (!element.contains(event.target)) {
+				if (isPointerOutsideElement(element, event)) {
 					if (this.openSubmenus.size > 0) {
 						this.closeAllSubmenus();
 						this.hoveredItemId = null;
@@ -1048,15 +1055,12 @@ export default class UlxTieredmenu extends Component {
 			};
 		}
 
-		// For popup mode, close the entire menu when clicking outside
 		const handleClick = (event) => {
 			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-			const isOutsideContainer = element && !element.contains(event.target);
-			const isOutsideTarget =
-				this.targetElement &&
-				!(this.targetElement === event.target || this.targetElement.contains(event.target));
-
-			if (isOutsideContainer && isOutsideTarget && this.isVisible) {
+			if (
+				isPointerOutsideAnchoredOverlay(element, this.targetElement, event) &&
+				this.isVisible
+			) {
 				this.handleHide();
 			}
 		};
@@ -1098,7 +1102,7 @@ export default class UlxTieredmenu extends Component {
 				{{appendToBody this.shouldAppendToBody}}
 				{{this.setContainerRef}}
 				{{this.registerRefModifier}}
-				{{this.watchVisibility this.isVisible this.isPopup this.args.target}}
+				{{this.watchVisibility this.isVisible this.isPopup this.args.target this.animationState}}
 				{{this.focusFirstItemOnVisible this.isVisible this.animationState}}
 				{{this.closeOnClickOutside}}
 				{{this.handleResize}}

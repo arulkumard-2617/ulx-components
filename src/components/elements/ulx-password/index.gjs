@@ -27,6 +27,7 @@ import { and, not } from "ember-truth-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxButton from "../ulx-button/index.gjs";
 import tooltip from "../../../modifiers/tooltip";
+import { applyBodyAbsoluteFromViewport } from "../../../utils/overlay-helpers";
 
 const DEFAULT_MEDIUM_REGEX =
 	"^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}).";
@@ -338,12 +339,8 @@ export default class UlxPassword extends Component {
 
 			const inputEl = trigger.tagName === "INPUT" ? trigger : trigger.querySelector("input");
 			const targetRect = (inputEl ?? trigger).getBoundingClientRect();
-			const scrollX = window.pageXOffset ?? document.documentElement.scrollLeft ?? 0;
-			const scrollY = window.pageYOffset ?? document.documentElement.scrollTop ?? 0;
 
-			element.style.position = "absolute";
-			element.style.top = `${targetRect.bottom + scrollY + 4}px`;
-			element.style.left = `${targetRect.left + scrollX}px`;
+			applyBodyAbsoluteFromViewport(element, targetRect.bottom + 4, targetRect.left);
 			element.style.width = `${targetRect.width}px`;
 			element.style.minWidth = `${targetRect.width}px`;
 			element.style.maxWidth = `${targetRect.width}px`;
@@ -363,8 +360,7 @@ export default class UlxPassword extends Component {
 				top = 10;
 			}
 
-			element.style.top = `${top + scrollY}px`;
-			element.style.left = `${left + scrollX}px`;
+			applyBodyAbsoluteFromViewport(element, top, left);
 		};
 
 		schedule("afterRender", () => {
