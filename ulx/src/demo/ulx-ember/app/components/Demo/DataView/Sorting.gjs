@@ -6,6 +6,7 @@ import { fn } from '@ember/helper';
 import {
   UlxDataView,
   UlxDropdown,
+  UlxField,
   UlxButton,
   UlxRating,
   UlxTag,
@@ -91,15 +92,23 @@ export default class DemoDataViewSorting extends Component {
     <UlxDataView>
       <:header>
         <div class="ulx-form m-size ulx-grid gap-12 mb-14">
-          <UlxDropdown
-            id="dataview-sorting"
-            @options={{this.sortOptions}}
-            @value={{this.sortConfig}}
-            @onChange={{this.onSortChange}}
-            @placeholder={{t "lbl.doc.dataview.sort.placeholder"}}
+          <UlxField
             @label={{t "lbl.doc.dataview.sort.label"}}
+            @key="dataview-sorting"
             @fieldClass="col-4"
-          />
+          >
+            <:control as |field|>
+              <UlxDropdown
+                @key={{field.key}}
+                @ariaDescribedBy={{field.describedBy}}
+                @ariaErrorMessage={{field.errorId}}
+                @options={{this.sortOptions}}
+                @value={{this.sortConfig}}
+                @onChange={{this.onSortChange}}
+                @placeholder={{t "lbl.doc.dataview.sort.placeholder"}}
+              />
+            </:control>
+          </UlxField>
         </div>
       </:header>
       <:content>

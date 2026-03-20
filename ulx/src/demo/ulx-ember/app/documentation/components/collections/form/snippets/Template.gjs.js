@@ -7,6 +7,7 @@ import {
   UlxForm,
   UlxInput,
   UlxDropdown,
+  UlxField,
   UlxTextarea,
   UlxButton,
   UlxToast,
@@ -314,15 +315,20 @@ export default class DemoFormTemplate extends Component {
           placeholder=" "
         />
 
-        <UlxDropdown
-          @label="Country"
-          @options={{this.countries}}
-          @value={{this.country}}
-          @onChange={{this.setCountry}}
-          @placeholder="Select"
-          @fieldClass="col-12"
-          @size="m-size"
-        />
+        <UlxField @label="Country" @key="form-country" @fieldClass="col-12">
+          <:control as |field|>
+            <UlxDropdown
+              @key={{field.key}}
+              @ariaDescribedBy={{field.describedBy}}
+              @ariaErrorMessage={{field.errorId}}
+              @options={{this.countries}}
+              @value={{this.country}}
+              @onChange={{this.setCountry}}
+              @placeholder="Select"
+              @size="m-size"
+            />
+          </:control>
+        </UlxField>
 
         <UlxInput
           @label="Designation"

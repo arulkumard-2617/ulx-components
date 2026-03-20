@@ -33,7 +33,7 @@ export default class GroupDemoComponent extends Component {
       >
         <:control as |field|>
           <UlxCheckbox
-            @id={{field.id}}
+            @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             @items={{this.items}}

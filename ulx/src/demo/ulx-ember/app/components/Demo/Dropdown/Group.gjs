@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxDropdown, t } from 'ulx-components';
+import { UlxDropdown, UlxField, t } from 'ulx-components';
 
 const DEFAULT_GROUPED_CITIES = [
   {
@@ -52,16 +52,21 @@ export default class DemoDropdownGroup extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxDropdown
-        @options={{this.options}}
-        @optionGroupLabel="label"
-        @optionGroupChildren="items"
-        @value={{this.selectedGroupCity}}
-        @onChange={{this.setSelectedGroupCity}}
-        @placeholder={{t "msg.dropdown.placeholder.city"}}
-        @label={{t "lbl.group"}}
-        @fieldClass="col-4"
-      />
+      <UlxField @label={{t "lbl.group"}} @fieldId="dropdown-group" @fieldClass="col-4">
+        <:control as |field|>
+          <UlxDropdown
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.options}}
+            @optionGroupLabel="label"
+            @optionGroupChildren="items"
+            @value={{this.selectedGroupCity}}
+            @onChange={{this.setSelectedGroupCity}}
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

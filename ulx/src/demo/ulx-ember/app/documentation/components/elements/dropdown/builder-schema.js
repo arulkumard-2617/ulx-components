@@ -26,22 +26,38 @@ const stateToProps = (state) => ({
 
 const stateToSnippet = (state) => {
   const attrs = [];
-  if (state.label) attrs.push(`@label="${state.label}"`);
   if (state.placeholder) attrs.push(`@placeholder="${state.placeholder}"`);
-  if (state.fieldClass) attrs.push(`@fieldClass="${state.fieldClass}"`);
   if (state.showClear) attrs.push('@showClear={{true}}');
   if (state.filter) attrs.push('@filter={{true}}');
   if (state.disabled) attrs.push('@disabled={{true}}');
   if (state.invalid) attrs.push('@invalid={{true}}');
   if (state.filled) attrs.push('@filled={{true}}');
-  if (state.showHelp) attrs.push('@helpText="Help text"');
-  if (state.showError) attrs.push('@error="Error message"');
-  return `<UlxDropdown\n  @options={{this.cities}}\n  @value={{this.selectedCity}}\n  @onChange={{this.setSelectedCity}}\n  ${attrs.join('\n  ')}\n/>`;
+  const fieldParts = ['@key="city-field"'];
+  if (state.label) fieldParts.unshift(`@label="${state.label}"`);
+  if (state.fieldClass) fieldParts.push(`@fieldClass="${state.fieldClass}"`);
+  if (state.showHelp) fieldParts.push('@helpText="Help text"');
+  if (state.showError) fieldParts.push('@error="Error message"');
+  const dropdownAttrs = [
+    '@key={{field.key}}',
+    '@ariaDescribedBy={{field.describedBy}}',
+    '@ariaErrorMessage={{field.errorId}}',
+    '@options={{this.cities}}',
+    '@value={{this.selectedCity}}',
+    '@onChange={{this.setSelectedCity}}',
+    ...attrs,
+  ];
+  return `<UlxField ${fieldParts.join(' ')}>
+  <:control as |field|>
+    <UlxDropdown
+      ${dropdownAttrs.join('\n      ')}
+    />
+  </:control>
+</UlxField>`;
 };
 
 export default {
   componentName: 'UlxDropdown',
-  importLine: "import { UlxDropdown } from 'ulx-components';",
+  importLine: "import { UlxDropdown, UlxField } from 'ulx-components';",
 
   props: [
     {

@@ -19,12 +19,12 @@ export default class DemoSizes extends Component {
         <UlxField
           @label={{item.label}}
           @helpText={{t "msg.input.help"}}
-          @id={{concat "size-" index}}
+          @fieldId={{concat "size-" index}}
           @fieldClass="col-12"
         >
           <:control as |field|>
             <UlxInput
-              @id={{field.id}}
+              @key={{field.key}}
               @ariaDescribedBy={{field.describedBy}}
               @ariaErrorMessage={{field.errorId}}
               @size={{item.size}}

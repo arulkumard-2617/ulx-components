@@ -136,7 +136,7 @@ export const DropdownFeatureItems = [
   section(
     'float-label',
     t('lbl.dropdown.float.label'),
-    'Use <code>@floatLabel</code> for float label styling.',
+    'Wrap the dropdown in <code>UlxFloatLabel</code>; wire <code>@onFocus</code> / <code>@onBlur</code> from the float-label yield.',
     FloatLabelDemo,
     FloatLabelSource,
     'float-label'
@@ -152,7 +152,7 @@ export const DropdownFeatureItems = [
   section(
     'invalid',
     t('lbl.dropdown.invalid'),
-    'Use <code>@invalid</code> or <code>@error</code> to show invalid state.',
+    'Use <code>UlxField</code> for the error message; pass <code>@invalid</code> on the dropdown and <code>@ariaDescribedBy</code> / <code>@ariaErrorMessage</code> from the field control hash.',
     InvalidDemo,
     InvalidSource,
     'invalid'

@@ -3,10 +3,10 @@ import { UlxInput, UlxField, t } from 'ulx-components';
 <template>
   <div class="ulx-form m-size ulx-grid gap-8 mb-14">
 
-    <UlxField @label="User name" @id="filled-input" @fieldClass="col-12">
+    <UlxField @label="User name" @fieldId="filled-input" @fieldClass="col-12">
       <:control as |field|>
         <UlxInput
-          @id={{field.id}}
+          @key={{field.key}}
           @ariaDescribedBy={{field.describedBy}}
           @ariaErrorMessage={{field.errorId}}
           @filled={{true}}

@@ -45,7 +45,7 @@ export default class InvalidRadioDemo extends Component {
       >
         <:control as |field|>
           <UlxRadio
-            @id={{field.id}}
+            @key={{field.key}}
             @rules={{this.requiredRules}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}

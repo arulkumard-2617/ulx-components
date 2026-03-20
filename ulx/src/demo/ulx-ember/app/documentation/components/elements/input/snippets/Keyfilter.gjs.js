@@ -54,7 +54,7 @@ export default class DemoKeyFilter extends Component {
         >
           <:control as |field|>
             <UlxInput
-              @id={{field.id}}
+              @key={{field.key}}
               @ariaDescribedBy={{field.describedBy}}
               @ariaErrorMessage={{field.errorId}}
               @keyfilter={{item.keyfilter}}

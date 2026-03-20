@@ -7,13 +7,25 @@ import { or } from "ember-truth-helpers";
 
 import { buildFieldClass, normalizeRules, getRuleValue } from "../../../utils/input-util";
 
+/**
+ * Field wrapper: label, control yield, help, and error. `@fieldId` sets the field id (label `for`, help/error ids). Control yield: `key` (same value; pass as `@key` on the control), `describedBy`, `errorId`.
+ *
+ * @class UlxField
+ * @param {string} [fieldClass] - Extra classes on the root `.field` wrapper.
+ * @param {string} [fieldId] - Stable id for the control, help, and error nodes. Auto-generated when omitted.
+ * @param {string} [label] - Plain-text label (or use the `label` block).
+ * @param {string} [helpText] - Help copy rendered below the control (linked via `aria-describedby`).
+ * @param {string} [error] - Error copy; when set, invalid region is shown and linked via `aria-errormessage`.
+ * @param {string} [tooltipMessage] - Optional info icon tooltip next to the label.
+ * @param {object} [rules] - e.g. `{ required: true }` for required marker and rule metadata.
+ */
 export default class UlxField extends Component {
 	get fieldClass() {
 		return buildFieldClass(this.args.fieldClass);
 	}
 
 	get fieldId() {
-		return this.args.id ?? `ulx-field-${guidFor(this)}`;
+		return this.args.fieldId ?? `ulx-field-${guidFor(this)}`;
 	}
 
 	// Rules
@@ -108,11 +120,7 @@ export default class UlxField extends Component {
 
 			{{! CONTROL }}
 			{{yield
-				(hash
-					id=this.fieldId
-					describedBy=this.describedBy
-					errorId=this.errorId
-				)
+				(hash key=this.fieldId describedBy=this.describedBy errorId=this.errorId)
 				to="control"
 			}}
 

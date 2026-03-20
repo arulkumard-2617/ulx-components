@@ -28,11 +28,11 @@ export default class GroupDemoComponent extends Component {
         @helpText={{t "lbl.help.text"}}
         @error={{this.error}}
         @fieldClass="col-12"
-        @id="checkbox-group"
+        @fieldId="checkbox-group"
       >
         <:control as |field|>
           <UlxCheckbox
-            @id={{field.id}}
+            @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             @items={{this.items}}

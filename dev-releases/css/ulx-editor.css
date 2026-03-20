@@ -9732,7 +9732,6 @@ summary:focus-visible,
   outline-offset: 2px !important;
   transition: none !important;
 }
-.ulx-focus,
 .ulx-radiobutton:has(.radiobutton-input:focus-visible):not(.disabled) .radiobutton-box,
 .ulx-checkbox:has(.checkbox-input:focus-visible):not(.disabled) .checkbox-box,
 .ulx-inputswitch:has(.inputswitch-input:focus-visible):not(.disabled) .inputswitch-slider {
@@ -11269,7 +11268,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -11282,7 +11281,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -11370,7 +11369,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -11388,7 +11387,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -11423,7 +11422,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -11496,7 +11495,7 @@ FEATURES IMPLEMENTED:
 .ulx-inputswitch.invalid .inputswitch-slider {
   border-color: var(--ulx-red-bg-color, #CF1322);
   background-color: var(--ulx-switch-before-bg, color-mix(in srgb, var(--ulx-layer2-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-10)));
-  box-shadow: 0 0 0 0.15rem var(--ulx-red-layer1-bg, #FFF1F0);
+  box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
 }
 .inputswitch-slider {
   position: absolute;
@@ -11834,7 +11833,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -12081,7 +12080,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -12246,7 +12245,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -12418,7 +12417,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -12430,7 +12429,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -12895,7 +12894,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -13647,7 +13646,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -13841,6 +13840,10 @@ FEATURES IMPLEMENTED:
 .dropdown-panel .p-icon-spin {
   animation: spin 1s linear infinite;
 }
+.dropdown-panel .dropdown-panel-footer-content {
+  padding: 0.57142857rem 0.85714286rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--ulx-default-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
+}
 .dropdown-wrapper {
   max-height: 300px;
   overflow: auto;
@@ -13892,11 +13895,11 @@ FEATURES IMPLEMENTED:
   background-color: var(--ulx-primary-hover-color);
 }
 .dropdown-item.ulx-focus {
-  background-color: color-mix(in srgb, var(--ulx-layer1-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-17));
+  background-color: color-mix(in srgb, var(--ulx-layer3-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-10));
   color: var(--ulx-text-color);
 }
 .dropdown-item.ulx-focus:hover {
-  background-color: color-mix(in srgb, var(--ulx-layer1-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-17));
+  background-color: color-mix(in srgb, var(--ulx-layer3-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-10));
 }
 .dropdown-item.selected.ulx-focus {
   background-color: var(--ulx-primary-color);
@@ -14208,7 +14211,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -14220,7 +14223,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
@@ -14232,7 +14235,7 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-error-border-color, #FFA39E);
   box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
   border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-red-layer1-bg, #FFF1F0) !important;
+  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
   background-color: var(--ulx-input-bg-color) !important;
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);

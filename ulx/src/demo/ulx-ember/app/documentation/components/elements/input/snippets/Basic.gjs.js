@@ -52,7 +52,7 @@ export default class Demo extends Component {
       >
         <:control as |field|>
           <UlxInput
-            @id={{field.id}}
+            @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             @value={{this.username}}

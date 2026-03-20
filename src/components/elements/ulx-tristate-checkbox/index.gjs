@@ -1,7 +1,16 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { getComponentClass } from "../../../utils/component-config";
+import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
+import {
+	isInvalidState,
+	normalizeRules,
+	resolveKey
+} from "../../../utils/input-util";
 import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
+
+function buildTristateCheckboxId(namespace, idArg, key) {
+	return idArg ?? `${namespace}-tristatecheckbox-${key}`;
+}
 
 /**
  * Tri-state checkbox component.
@@ -16,19 +25,25 @@ import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
  * - Exposes indeterminate state via `aria-checked="mixed"` (handled by `UlxCheckboxItem`).
  * - Supports external labelling via `@itemLabel` or `aria-*` attributes through `...attributes`.
  *
+ * With `UlxField`, set `@fieldId` on the field and pass `@key={{field.key}}` on the control plus `aria-describedby` / `aria-errormessage` from the control hash.
+ *
  * @class UlxTristateCheckbox
- * @param {string} [id] - Input id. When provided, used for `<input>` and associated `<label>`.
+ * @param {string} [id] - Unique id for the input and label `for`. Auto-generated if omitted.
+ * @param {string} [key] - Stable key used for auto-generated ids when `@id` is not provided.
+ *
  * @param {boolean|null} [value=false] - Current value: `true` (checked), `false` (unchecked), `null` (indeterminate).
  * @param {Function} [onValueChange] - Callback fired with next value on toggle: (nextValue, event) => void.
  *
+ * @param {object} [rules] - Rules object (aligned with `UlxCheckbox`): `{ required: true }` sets required on the input.
  * @param {boolean} [disabled=false] - Disabled state.
  * @param {boolean} [invalid=false] - Invalid state (aria + styling).
+ * @param {string} [error] - When set, field is treated as invalid (same pattern as `UlxCheckbox` / `UlxField`).
  * @param {boolean} [filled=false] - Filled visual variant.
- * @param {string} [size="xxxs-size"] - Size variant: "xxxs-size", "xs-size", "s-size", "m-size", "l-size", "xl-size".
+ * @param {string} [size="m-size"] - Size variant: "xxxs-size", "xs-size", "s-size", "m-size", "l-size", "xl-size".
  * @param {string} [customClass] - Extra classes applied in addition to `ulx-tristatecheckbox ulx-checkbox`.
  *
  * @param {string} [itemLabel] - Right-side label text.
- * @param {boolean} [required=false] - Adds `required` / `aria-required` to the input.
+ * @param {boolean} [required=false] - Adds `required` / `aria-required` to the input (in addition to `rules.required`).
  * @param {boolean} [showRequiredStar=false] - Appends `*` to the label.
  * @param {string} [ariaDescribedBy] - `aria-describedby` value.
  * @param {string} [ariaErrorMessage] - `aria-errormessage` value.
@@ -38,6 +53,18 @@ import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
  * @param {string} [name] - Name attribute for form submissions.
  */
 export default class UlxTristateCheckbox extends Component {
+	get rules() {
+		return normalizeRules(this.args.rules);
+	}
+
+	get key() {
+		return resolveKey(this, this.args.key);
+	}
+
+	get tristateCheckboxId() {
+		return buildTristateCheckboxId(NAMESPACE, this.args.id, this.key);
+	}
+
 	get baseTristateClass() {
 		return getComponentClass("tristatecheckbox");
 	}
@@ -56,8 +83,22 @@ export default class UlxTristateCheckbox extends Component {
 	}
 
 	get resolvedSize() {
-		const { size = "xxxs-size" } = this.args;
+		const { size = "m-size" } = this.args;
 		return size;
+	}
+
+	get isRequired() {
+		const { required = false } = this.args;
+		return !!this.rules.required || required;
+	}
+
+	get isInvalid() {
+		const { invalid = false, error } = this.args;
+		return isInvalidState(invalid, error);
+	}
+
+	get ariaErrorMessage() {
+		return this.args.ariaErrorMessage;
 	}
 
 	get value() {
@@ -95,20 +136,20 @@ export default class UlxTristateCheckbox extends Component {
 			<UlxCheckboxItem
 				...attributes
 				@dataQa={{this.rootDataQa}}
-				@id={{@id}}
+				@id={{this.tristateCheckboxId}}
 				@checked={{this.isChecked}}
 				@indeterminate={{this.isIndeterminate}}
 				@disabled={{@disabled}}
-				@invalid={{@invalid}}
+				@invalid={{this.isInvalid}}
 				@filled={{@filled}}
 				@size={{this.resolvedSize}}
 				@customClass={{this.mergedCustomClass}}
 				@uncheckIconName={{@uncheckIconName}}
 				@hideLabel={{@hideLabel}}
-				@required={{@required}}
+				@required={{this.isRequired}}
 				@showRequiredStar={{@showRequiredStar}}
 				@ariaDescribedBy={{this.ariaDescribedBy}}
-				@ariaErrorMessage={{@ariaErrorMessage}}
+				@ariaErrorMessage={{this.ariaErrorMessage}}
 				@name={{@name}}
 				@onChange={{this.handleChange}}
 			>
@@ -120,21 +161,21 @@ export default class UlxTristateCheckbox extends Component {
 			<UlxCheckboxItem
 				...attributes
 				@dataQa={{this.rootDataQa}}
-				@id={{@id}}
+				@id={{this.tristateCheckboxId}}
 				@checked={{this.isChecked}}
 				@indeterminate={{this.isIndeterminate}}
 				@disabled={{@disabled}}
-				@invalid={{@invalid}}
+				@invalid={{this.isInvalid}}
 				@filled={{@filled}}
 				@size={{this.resolvedSize}}
 				@customClass={{this.mergedCustomClass}}
 				@uncheckIconName={{@uncheckIconName}}
 				@hideLabel={{@hideLabel}}
 				@itemLabel={{@itemLabel}}
-				@required={{@required}}
+				@required={{this.isRequired}}
 				@showRequiredStar={{@showRequiredStar}}
 				@ariaDescribedBy={{this.ariaDescribedBy}}
-				@ariaErrorMessage={{@ariaErrorMessage}}
+				@ariaErrorMessage={{this.ariaErrorMessage}}
 				@name={{@name}}
 				@onChange={{this.handleChange}}
 			/>

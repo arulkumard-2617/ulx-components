@@ -25,11 +25,11 @@ export default class WithlabelDemoComponent extends Component {
         @rules={{this.requiredRules}}
         @helpText={{t "lbl.help.text"}}
         @fieldClass="col-12"
-        @id="checkbox-disabled"
+        @fieldId="checkbox-disabled"
       >
         <:control as |field|>
           <UlxCheckbox
-            @id={{field.id}}
+            @key={{field.key}}
             @rules={{this.requiredRules}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}

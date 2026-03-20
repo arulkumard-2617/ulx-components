@@ -38,14 +38,15 @@ export default class BasicSorterDemo extends Component {
           @customClass="w-full"
         >
           <div
-            class="w-full flex items-center justify-between bg-default border border-light rounded-md py-4 px-6"
+            class="w-full flex items-center justify-between bg-default border rounded-md py-2 px-4"
           >
             <div class="flex items-center gap-x-4">
               <UlxIcon
                 @iconName="dragdrop-icon1"
                 @iconComponentClass="bs-icons1"
                 @type="font"
-                @iconSize="s18"
+                @size="s18"
+                @customClass="move"
               />
               <span class="text-14 fg-text">{{item.id}}</span>
               <span class="text-14 fg-text">{{item.value}}</span>
