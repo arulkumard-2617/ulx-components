@@ -6,12 +6,12 @@ import { UlxInput, UlxField, t } from 'ulx-components';
     <UlxField
       @label={{t "lbl.label"}}
       @error="Fill the proper data"
-      @inputId="error-input"
+      @id="error-input"
       @fieldClass="col-12"
     >
       <:control as |field|>
         <UlxInput
-          @inputId={{field.inputId}}
+          @id={{field.id}}
           @ariaDescribedBy={{field.describedBy}}
           @ariaErrorMessage={{field.errorId}}
           @invalid={{true}}
