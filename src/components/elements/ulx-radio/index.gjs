@@ -5,8 +5,6 @@ import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
 import {
-	buildAriaDescribedBy,
-	buildFieldClass,
 	isInvalidState,
 	normalizeRules,
 	resolveKey
@@ -41,20 +39,16 @@ function buildRadioId(namespace, idArg, key) {
  * @param {boolean} [checked] - Whether the radio is checked (controlled) (single mode).
  * @param {string} [value] - Value attribute for form submissions (single mode).
  *
- * @param {string} [label] - Field label rendered above the radio/group (UlxInput pattern).
- * @param {string} [labelRight] - Right-side meta text shown in the field label (e.g. "10 / 20").
  * @param {string} [itemLabel] - Single radio label rendered next to the radio (single mode).
  *
  * @param {object} [rules] - Rules object for constraints (old component pattern): { required: true }
- * @param {string} [helpText] - Help text displayed below the field.
- * @param {string} [error] - Error message displayed below the field. Sets invalid state.
+ * @param {string} [error] - Error message string for invalid-state calculation.
  *
  * @param {boolean} [disabled=false] - Whether the radio is disabled (single mode) or disables all items (group mode).
  * @param {boolean} [invalid=false] - Whether the field is in invalid state.
  * @param {boolean} [filled=false] - Whether to use filled variant styling.
  * @param {string} [size="m-size"] - Size variant: s-size, m-size, l-size.
  *
- * @param {string} [fieldClass] - Extra classes for the field wrapper (appended to base `field`).
  * @param {string} [groupClass] - Extra classes for the items wrapper (appended to base `ulx-radio-group`).
  * @param {string} [customClass] - Extra classes for the radio wrapper (single mode or per-item).
  * @param {string} [ariaDescribedBy] - Override `aria-describedby` for the group/inputs.
@@ -75,10 +69,6 @@ export default class UlxRadio extends Component {
 
 	get radioId() {
 		return buildRadioId(NAMESPACE, this.args.id, this.key);
-	}
-
-	get labelId() {
-		return `${this.radioId}-label`;
 	}
 
 	get rootDataQa() {
@@ -105,10 +95,6 @@ export default class UlxRadio extends Component {
 		});
 	}
 
-	get labelForId() {
-		return this.hasItems ? this.itemEntries[0]?.id : this.radioId;
-	}
-
 	get isRequired() {
 		return !!this.rules.required;
 	}
@@ -117,16 +103,8 @@ export default class UlxRadio extends Component {
 		return isInvalidState(this.args.invalid, this.args.error);
 	}
 
-	get fieldClass() {
-		return buildFieldClass(this.args.fieldClass);
-	}
-
 	get ariaDescribedBy() {
-		if (this.args.ariaDescribedBy) return this.args.ariaDescribedBy;
-		return buildAriaDescribedBy(this.radioId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		return this.args.ariaDescribedBy;
 	}
 
 	get ariaErrorMessage() {
@@ -213,119 +191,79 @@ export default class UlxRadio extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
-			{{! Field label (UlxInput pattern) }}
-			{{#if (has-block "label")}}
-				<label id={{this.labelId}} for={{this.labelForId}}>
-					<span class="label-text">
-						{{yield to="label"}}
-						{{#if this.isRequired}}
-							<span class="fg-red" aria-hidden="true">*</span>
-						{{/if}}
-					</span>
-					{{#if @labelRight}}
-						<span class="label-right">{{@labelRight}}</span>
-					{{/if}}
-				</label>
-			{{else if @label}}
-				<label id={{this.labelId}} for={{this.labelForId}}>
-					<span class="label-text">
-						{{@label}}
-						{{#if this.isRequired}}
-							<span class="fg-red" aria-hidden="true">*</span>
-						{{/if}}
-					</span>
-					{{#if @labelRight}}
-						<span class="label-right">{{@labelRight}}</span>
-					{{/if}}
-				</label>
-			{{/if}}
-
-			{{#if this.hasItems}}
-				<div
-					...attributes
-					class={{this.groupClass}}
-					role="radiogroup"
-					data-qa="ulx-radio-group"
-					aria-labelledby={{if (has-block "label") this.labelId (if @label this.labelId)}}
-					aria-describedby={{this.ariaDescribedBy}}
-					aria-invalid={{if this.isInvalid "true" "false"}}
-					aria-required={{if this.isRequired "true" "false"}}
-					{{on "keydown" this.handleGroupKeyDown}}
-				>
-					{{#each this.itemEntries key="id" as |entry|}}
-						<UlxRadioItem
-							@id={{entry.id}}
-							@checked={{entry.item.checked}}
-							@disabled={{if @disabled true entry.item.disabled}}
-							@invalid={{this.isInvalid}}
-							@filled={{@filled}}
-							@size={{@size}}
-							@customClass={{entry.item.customClass}}
-							@itemLabel={{entry.item.label}}
-							@ariaDescribedBy={{this.ariaDescribedBy}}
-							@ariaErrorMessage={{this.ariaErrorMessage}}
-							@name={{this.groupName}}
-							@value={{entry.item.value}}
-							@onChange={{fn this.handleItemChange entry.item}}
-						/>
-					{{/each}}
-				</div>
-			{{else}}
-				{{! NOTE: Named blocks (e.g. <:itemLabel>) must be direct children of a component invocation. }}
-				{{#if (has-block "itemLabel")}}
+		{{#if this.hasItems}}
+			<div
+				...attributes
+				class={{this.groupClass}}
+				role="radiogroup"
+				data-qa={{this.rootDataQa}}
+				aria-describedby={{this.ariaDescribedBy}}
+				aria-invalid={{if this.isInvalid "true" "false"}}
+				aria-required={{if this.isRequired "true" "false"}}
+				{{on "keydown" this.handleGroupKeyDown}}
+			>
+				{{#each this.itemEntries key="id" as |entry|}}
 					<UlxRadioItem
-						...attributes
-						@id={{this.radioId}}
-						@checked={{@checked}}
-						@disabled={{@disabled}}
+						@id={{entry.id}}
+						@checked={{entry.item.checked}}
+						@disabled={{if @disabled true entry.item.disabled}}
 						@invalid={{this.isInvalid}}
 						@filled={{@filled}}
 						@size={{@size}}
-						@customClass={{@customClass}}
-						@required={{this.isRequired}}
-						@showRequiredStar={{if (has-block "label") false (if @label false this.isRequired)}}
+						@customClass={{entry.item.customClass}}
+						@itemLabel={{entry.item.label}}
 						@ariaDescribedBy={{this.ariaDescribedBy}}
 						@ariaErrorMessage={{this.ariaErrorMessage}}
 						@name={{this.groupName}}
-						@value={{@value}}
-						@onChange={{this.handleChange}}
-					>
-						<:itemLabel>
-							{{yield to="itemLabel"}}
-						</:itemLabel>
-					</UlxRadioItem>
-				{{else}}
-					<UlxRadioItem
-						...attributes
-						@id={{this.radioId}}
-						@checked={{@checked}}
-						@disabled={{@disabled}}
-						@invalid={{this.isInvalid}}
-						@filled={{@filled}}
-						@size={{@size}}
-						@customClass={{@customClass}}
-						@itemLabel={{@itemLabel}}
-						@required={{this.isRequired}}
-						@showRequiredStar={{if (has-block "label") false (if @label false this.isRequired)}}
-						@ariaDescribedBy={{this.ariaDescribedBy}}
-						@ariaErrorMessage={{this.ariaErrorMessage}}
-						@name={{this.groupName}}
-						@value={{@value}}
-						@onChange={{this.handleChange}}
+						@value={{entry.item.value}}
+						@onChange={{fn this.handleItemChange entry.item}}
 					/>
-				{{/if}}
+				{{/each}}
+			</div>
+		{{else}}
+			{{! NOTE: Named blocks (e.g. <:itemLabel>) must be direct children of a component invocation. }}
+			{{#if (has-block "itemLabel")}}
+				<UlxRadioItem
+					...attributes
+					@dataQa={{this.rootDataQa}}
+					@id={{this.radioId}}
+					@checked={{@checked}}
+					@disabled={{@disabled}}
+					@invalid={{this.isInvalid}}
+					@filled={{@filled}}
+					@size={{@size}}
+					@customClass={{@customClass}}
+					@required={{this.isRequired}}
+					@ariaDescribedBy={{this.ariaDescribedBy}}
+					@ariaErrorMessage={{this.ariaErrorMessage}}
+					@name={{this.groupName}}
+					@value={{@value}}
+					@onChange={{this.handleChange}}
+				>
+					<:itemLabel>
+						{{yield to="itemLabel"}}
+					</:itemLabel>
+				</UlxRadioItem>
+			{{else}}
+				<UlxRadioItem
+					...attributes
+					@dataQa={{this.rootDataQa}}
+					@id={{this.radioId}}
+					@checked={{@checked}}
+					@disabled={{@disabled}}
+					@invalid={{this.isInvalid}}
+					@filled={{@filled}}
+					@size={{@size}}
+					@customClass={{@customClass}}
+					@itemLabel={{@itemLabel}}
+					@required={{this.isRequired}}
+					@ariaDescribedBy={{this.ariaDescribedBy}}
+					@ariaErrorMessage={{this.ariaErrorMessage}}
+					@name={{this.groupName}}
+					@value={{@value}}
+					@onChange={{this.handleChange}}
+				/>
 			{{/if}}
-
-			{{#if @helpText}}
-				<div id="{{this.radioId}}-help" class="help-text" data-qa="ulx-radio-help">{{@helpText}}</div>
-			{{/if}}
-
-			{{#if @error}}
-				<div id="{{this.radioId}}-error" class="error-message" role="alert" aria-atomic="true" data-qa="ulx-radio-error">
-					{{@error}}
-				</div>
-			{{/if}}
-		</div>
+		{{/if}}
 	</template>
 }

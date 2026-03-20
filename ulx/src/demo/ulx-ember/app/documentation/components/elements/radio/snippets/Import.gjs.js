@@ -1,4 +1,4 @@
 export default `
-import { Radio } from 'ulx-components';
+import { Radio, UlxField } from 'ulx-components';
 
 `;

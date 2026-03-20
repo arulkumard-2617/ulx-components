@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxRadio, t } from 'ulx-components';
+import { UlxField, UlxRadio, t } from 'ulx-components';
 
 export default class InvalidRadioDemo extends Component {
   @tracked items = [
@@ -35,15 +35,26 @@ export default class InvalidRadioDemo extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxRadio
-        @rules={{this.requiredRules}}
+      <UlxField
         @label={{t "lbl.with.label"}}
-        @fieldClass="col-12"
-        @items={{this.items}}
-        @onItemChange={{this.handleItemChange}}
+        @rules={{this.requiredRules}}
         @helpText={{t "lbl.help.text"}}
         @error={{this.error}}
-      />
+        @fieldClass="col-12"
+        @id="radio-invalid"
+      >
+        <:control as |field|>
+          <UlxRadio
+            @id={{field.id}}
+            @rules={{this.requiredRules}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @items={{this.items}}
+            @onItemChange={{this.handleItemChange}}
+            @error={{this.error}}
+          />
+        </:control>
+      </UlxField>
 
       <div class="col-12">
         {{t "lbl.selected"}}:
