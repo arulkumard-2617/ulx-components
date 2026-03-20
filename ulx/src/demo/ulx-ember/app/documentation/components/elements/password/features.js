@@ -8,7 +8,6 @@ import {
   LocaleDemo,
   ToggleMaskDemo,
   TemplateDemo,
-  FloatLabelDemo,
   FilledDemo,
   InvalidDemo,
   DisabledDemo,
@@ -18,7 +17,6 @@ import {
   LocaleSource,
   ToggleMaskSource,
   TemplateSource,
-  FloatLabelSource,
   FilledSource,
   InvalidSource,
   DisabledSource,
@@ -142,26 +140,6 @@ export const PasswordFeatureItems = [
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'float-label',
-    sectionNav: 'Float Label',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'A floating label appears on top of the input field when focused. Use <code>@floatLabel</code> and <code>@label</code> to enable.',
-      },
-    },
-    demo: {
-      component: FloatLabelDemo,
-      props: {
-        source: FloatLabelSource,
-        snippetName: 'float-label',
         language: 'handlebars',
       },
     },
