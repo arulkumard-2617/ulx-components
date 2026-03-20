@@ -72,3 +72,4 @@ export { default as ModalStackService } from './services/modal-stack.js';
 
 // Modifiers
 export { default as tooltip } from './modifiers/tooltip.js';
+export { default as overlayDismiss } from './modifiers/overlay-dismiss.js';

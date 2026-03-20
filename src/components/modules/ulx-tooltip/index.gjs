@@ -6,7 +6,11 @@ import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import {
+	applyBodyAbsoluteFromViewport,
+	getOverlayZIndexAboveMask
+} from "../../../utils/overlay-helpers";
 
 const GAP = 8;
 
@@ -266,12 +270,8 @@ export default class UlxTooltip extends Component {
 	}
 
 	@action
-	handleEscapeKey(event) {
-		if (event.key === "Escape" && this.args.closeOnEscape) {
-			event.preventDefault();
-			event.stopImmediatePropagation();
-			this.hide(event);
-		}
+	dismissTooltipFromOverlay(event) {
+		this._doHide(event);
 	}
 
 	attach = modifier((element) => {
@@ -309,9 +309,6 @@ export default class UlxTooltip extends Component {
 			const tooltipRect = element.getBoundingClientRect();
 			const w = tooltipRect.width || element.offsetWidth || 1;
 			const h = tooltipRect.height || element.offsetHeight || 1;
-			const scrollX = window.pageXOffset ?? window.scrollX ?? 0;
-			const scrollY = window.pageYOffset ?? window.scrollY ?? 0;
-
 			let top = 0;
 			let left = 0;
 
@@ -335,12 +332,7 @@ export default class UlxTooltip extends Component {
 					break;
 			}
 
-			element.style.position = "absolute";
-			element.style.top = `${top + scrollY}px`;
-			element.style.left = `${left + scrollX}px`;
-			element.style.right = "auto";
-			element.style.bottom = "auto";
-			element.style.margin = "0";
+			applyBodyAbsoluteFromViewport(element, top, left);
 			this.tooltipZIndex != null && (element.style.zIndex = `${this.tooltipZIndex}`);
 		};
 
@@ -352,15 +344,6 @@ export default class UlxTooltip extends Component {
 		return () => {
 			if (this.tooltipElement === element) this.tooltipElement = null;
 		};
-	});
-
-	closeOnEscape = modifier((_element, [when]) => {
-		if (!when) return;
-
-		const handler = (e) => this.handleEscapeKey(e);
-		document.addEventListener("keydown", handler);
-
-		return () => document.removeEventListener("keydown", handler);
 	});
 
 	<template>
@@ -378,7 +361,15 @@ export default class UlxTooltip extends Component {
 					class={{this.rootClasses}}
 					aria-hidden="false"
 					{{this.positionTooltip this.visible this.triggerElement this.tooltipPosition}}
-					{{this.closeOnEscape this.shouldCloseOnEscape}}
+					{{overlayDismiss
+						this.shouldCloseOnEscape
+						whenClick=false
+						closeOnClickOutside=false
+						onClose=this.dismissTooltipFromOverlay
+						escapeEventMode="tooltip"
+						escapeUseCapture=false
+						strictEscapeKey=true
+					}}
 					{{on "mouseenter" this.tooltipMouseEnter}}
 					{{on "mouseleave" this.tooltipMouseLeave}}
 				>

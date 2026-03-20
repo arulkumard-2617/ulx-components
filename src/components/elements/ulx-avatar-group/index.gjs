@@ -22,8 +22,10 @@ import UlxPopup from "../../modules/ulx-popup/index.gjs";
  * @param {string} [size] - Default size for all avatars in the group. Can be overridden per item.
  * @param {string} [shape] - Default shape for all avatars in the group. Can be overridden per item.
  * @param {string} [popupSize] - Size for the overflow UlxPopup. Defaults to UlxPopup default when not provided.
+ * @param {string} [groupAriaLabel] - When set, the root uses `role="group"` and this `aria-label` for the collection.
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [componentClass] - Override base component class (defaults to "ulx-avatar-group").
+ * @param {string} [dataQa] - Optional `data-qa` on the root (defaults to `ulx-avatar-group`).
  */
 export default class UlxAvatarGroup extends Component {
 	@tracked isOverflowPopupVisible = false;
@@ -32,6 +34,21 @@ export default class UlxAvatarGroup extends Component {
 	get baseClass() {
 		const { componentClass } = this.args;
 		return componentClass ?? getComponentClass("avatar-group");
+	}
+
+	get rootDataQa() {
+		const { dataQa } = this.args;
+		return dataQa ?? "ulx-avatar-group";
+	}
+
+	get groupRole() {
+		const { groupAriaLabel } = this.args;
+		return typeof groupAriaLabel === "string" && groupAriaLabel.length > 0 ? "group" : undefined;
+	}
+
+	get groupAriaLabelResolved() {
+		const { groupAriaLabel } = this.args;
+		return typeof groupAriaLabel === "string" && groupAriaLabel.length > 0 ? groupAriaLabel : undefined;
 	}
 
 	get rootClasses() {
@@ -60,11 +77,11 @@ export default class UlxAvatarGroup extends Component {
 			items = items.slice(0, maxVisible);
 		}
 
-		// Resolve size and shape for each item (fallback to group defaults)
-		return items.map((item) => ({
+		return items.map((item, index) => ({
 			...item,
 			size: item.size ?? size,
-			shape: item.shape ?? shape
+			shape: item.shape ?? shape,
+			_ulxRowKey: item.id ?? item.key ?? `ulx-avatar-group-${index}`
 		}));
 	}
 
@@ -78,10 +95,11 @@ export default class UlxAvatarGroup extends Component {
 
 		const overflowSlice = items.slice(maxVisible);
 
-		return overflowSlice.map((item) => ({
+		return overflowSlice.map((item, index) => ({
 			...item,
 			size: item.size ?? size,
-			shape: item.shape ?? shape
+			shape: item.shape ?? shape,
+			_ulxRowKey: item.id ?? item.key ?? `ulx-avatar-group-overflow-${maxVisible + index}`
 		}));
 	}
 
@@ -113,11 +131,17 @@ export default class UlxAvatarGroup extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}} ...attributes>
+		<div
+			class={{this.rootClasses}}
+			role={{this.groupRole}}
+			aria-label={{this.groupAriaLabelResolved}}
+			data-qa={{this.rootDataQa}}
+			...attributes
+		>
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
-				{{#each this.visibleItems key="@index" as |item|}}
+				{{#each this.visibleItems key="_ulxRowKey" as |item|}}
 					<UlxAvatar
 						@type={{item.type}}
 						@label={{item.label}}
@@ -138,14 +162,18 @@ export default class UlxAvatarGroup extends Component {
 				{{/each}}
 
 				{{#if this.hasOverflow}}
-					<button type="button" {{on "click" this.handleOverflowClick}}>
+					<button
+						type="button"
+						data-qa="ulx-avatar-group-overflow"
+						aria-label={{t "msg.more.members" count=this.overflowCount}}
+						{{on "click" this.handleOverflowClick}}
+					>
 						<UlxAvatar
 							@type="text"
 							@label={{this.overflowLabel}}
 							@size={{@size}}
 							@shape={{@shape}}
 							@variant="grey"
-							@ariaLabel={{t "msg.more.members" count=this.overflowCount}}
 						/>
 					</button>
 
@@ -159,7 +187,7 @@ export default class UlxAvatarGroup extends Component {
 						@closable={{true}}
 						@onHide={{this.handleOverflowPopupHide}}
 					>
-						{{#each this.overflowItems key="@index" as |item|}}
+						{{#each this.overflowItems key="_ulxRowKey" as |item|}}
 							<UlxAvatar
 								@type={{item.type}}
 								@label={{item.label}}

@@ -12,10 +12,10 @@ import { on } from "@ember/modifier";
  *
  * ## WCAG
  * - **Decorative avatars**: By default, avatars are decorative (`aria-hidden="true"`). For meaningful avatars (e.g., user profile pictures), provide `@ariaLabel` to make them accessible.
- * - **Image avatars**: When using `@type="image"`, ensure the image has an `alt` attribute or provide `@ariaLabel` for accessible name.
+ * - **Image avatars**: Provide `@imageAlt` and/or `@ariaLabel`. When the root has an accessible name (`@ariaLabel` / resolved member name), the inner `img` uses `alt=""` so the name is not announced twice.
  * - **Icon avatars**: Icons within avatars inherit accessibility from UlxIcon component. Provide `@ariaLabel` when the icon conveys meaning.
  * - **Text avatars**: Text labels are decorative by default. Provide `@ariaLabel` when the avatar represents a specific person or entity.
- * - **Interactive avatars**: When `@clickable` is true, automatically makes avatar focusable (`tabindex="0"`). Requires `@ariaLabel` for accessible name.
+ * - **Interactive avatars**: When clickable (`@clickable`, `@onClick`, or `@onShowProfile`), the root is a native `<button type="button">` for keyboard (Enter/Space) and semantics. Provide `@ariaLabel` or meaningful visible content / image `alt` for an accessible name.
  * - **Override via attributes**: You can override accessibility attributes via `...attributes` (e.g., `aria-hidden="false"`, `role="img"`, `aria-label="..."`).
  *
  * @class UlxAvatar
@@ -32,6 +32,7 @@ import { on } from "@ember/modifier";
  * @param {boolean} [clickable=false] - When true, applies clickable styling with hover/active states. Requires `@ariaLabel` for accessibility.
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [componentClass] - Override base component class (defaults to "ulx-avatar").
+ * @param {string} [dataQa] - Optional `data-qa` override (defaults to `ulx-avatar`).
  * @param {Function} [onLoad] - Optional image load handler when `@type="image"`. Receives the native load event.
  * @param {Function} [onError] - Optional image error handler when `@type="image"`. Receives the native error event.
  *
@@ -55,6 +56,11 @@ export default class UlxAvatar extends Component {
 	get baseClass() {
 		const { componentClass } = this.args;
 		return componentClass ?? getComponentClass("avatar");
+	}
+
+	get rootDataQa() {
+		const { dataQa } = this.args;
+		return dataQa ?? "ulx-avatar";
 	}
 
 	get memberProfile() {
@@ -384,7 +390,11 @@ export default class UlxAvatar extends Component {
 
 	@action
 	handleClick(event) {
-		const { onClick, onShowProfile, member, members, index } = this.args;
+		const { disabled = false, onClick, onShowProfile, member, members, index } = this.args;
+
+		if (disabled) {
+			return;
+		}
 
 		if (typeof onClick === "function") {
 			onClick(event);
@@ -396,38 +406,39 @@ export default class UlxAvatar extends Component {
 	}
 
 	<template>
-		<span
-			class={{this.rootClasses}}
-			aria-hidden={{this.ariaHidden}}
-			role={{this.role}}
-			aria-label={{this.ariaLabel}}
-			aria-disabled={{if @disabled "true"}}
-			tabindex={{this.tabindex}}
-			{{on "click" this.handleClick}}
-			...attributes
-		>
-		{{#if this.isImageType}}
-				<img
-					src={{this.resolvedImage}}
+			<span
+				class={{this.rootClasses}}
+				aria-hidden={{this.ariaHidden}}
+				role={{this.role}}
+				aria-label={{this.ariaLabel}}
+				aria-disabled={{if @disabled "true"}}
+				data-qa={{this.rootDataQa}}
+				tabindex={{this.tabindex}}
+				{{on "click" this.handleClick}}
+				...attributes
+			>
+				{{#if this.isImageType}}
+					<img
+						src={{this.resolvedImage}}
 					alt={{this.imageAlt}}
-					class="avatar-image"
-					{{on "load" this.handleImageLoad}}
-					{{on "error" this.handleImageError}}
-				/>
-		{{else if this.isIconType}}
-				<span class="avatar-icon">
-					<UlxIcon
-						@iconName={{this.resolvedIconName}}
-						@type={{this.resolvedIconType}}
-						@componentClass={{@iconComponentClass}}
-						@ariaLabel={{@iconAriaLabel}}
+						class="avatar-image"
+						{{on "load" this.handleImageLoad}}
+						{{on "error" this.handleImageError}}
 					/>
-				</span>
-			{{else if this.isTextType}}
-				<span class="avatar-label">
-					{{this.label}}
-				</span>
-			{{/if}}
-		</span>
+				{{else if this.isIconType}}
+					<span class="avatar-icon">
+						<UlxIcon
+							@iconName={{this.resolvedIconName}}
+							@type={{this.resolvedIconType}}
+							@componentClass={{@iconComponentClass}}
+							@ariaLabel={{@iconAriaLabel}}
+						/>
+					</span>
+				{{else if this.isTextType}}
+					<span class="avatar-label">
+						{{this.label}}
+					</span>
+				{{/if}}
+			</span>
 	</template>
 }

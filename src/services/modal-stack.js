@@ -5,6 +5,9 @@ import { tracked } from '@glimmer/tracking';
  * ModalStackService manages z-index stacking for modal components.
  * Ensures modals are properly layered based on the order they are opened.
  *
+ * Body scroll locking for blocking overlays (`blockScroll`) is handled by
+ * `overlay-lifecycle` (reference counting), not here.
+ *
  * @class ModalStackService
  * @extends Service
  */

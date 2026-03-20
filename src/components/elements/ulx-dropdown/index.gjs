@@ -18,7 +18,11 @@ import {
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
 import appendToBody from "../../../modifiers/append-to-body";
-import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import {
+	applyBodyAbsoluteFromViewport,
+	getOverlayZIndexAboveMask
+} from "../../../utils/overlay-helpers";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
@@ -63,6 +67,7 @@ import { hash, concat } from "@ember/helper";
  * @param {string} [helpText] - Help text below field; rendered inside the component.
  * @param {string} [error] - Error message below field; sets invalid state; rendered inside the component.
  * @param {string} [fieldClass] - Extra class for field wrapper.
+ * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
  * @param {string} [id] - Id for the trigger (for aria-labelledby etc.).
  * @param {string} [key] - Stable key for auto-generated id.
  * @param {boolean} [required=false] - Required field.
@@ -92,6 +97,9 @@ export default class UlxDropdown extends Component {
 
 	@tracked overlayVisible = false;
 	@tracked focusedOptionIndex = -1;
+	@tracked showOptionKeyboardFocusRing = false;
+	/** Cleared next microtask; avoids showing the option keyboard ring when the editable field opens from a click. */
+	@tracked suppressKeyboardOptionRingForFocus = false;
 	@tracked filterValue = "";
 	@tracked triggerElement = null;
 	@tracked panelElement = null;
@@ -104,6 +112,10 @@ export default class UlxDropdown extends Component {
 	get triggerId() {
 		const { id } = this.args;
 		return id ?? `ulx-dropdown-${this.key}`;
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-dropdown";
 	}
 
 	get baseClass() {
@@ -142,6 +154,29 @@ export default class UlxDropdown extends Component {
 
 	get focusItemClass() {
 		return getComponentClass("focus");
+	}
+
+	dismissKeyboardOptionFocusRing() {
+		this.showOptionKeyboardFocusRing = false;
+	}
+
+	@action
+	onTriggerPointerIntent() {
+		if (this.isTriggerDisabled) return;
+		this.dismissKeyboardOptionFocusRing();
+	}
+
+	@action
+	onOptionPanelPointerIntent() {
+		this.dismissKeyboardOptionFocusRing();
+	}
+
+	@action
+	onEditableInputPointerDown() {
+		this.suppressKeyboardOptionRingForFocus = true;
+		queueMicrotask(() => {
+			this.suppressKeyboardOptionRingForFocus = false;
+		});
 	}
 
 	get fieldClass() {
@@ -389,34 +424,6 @@ export default class UlxDropdown extends Component {
 		return t("lbl.clear.selection");
 	}
 
-	closeOverlay = modifier((element, [when], { onClose }) => {
-		let clickListener = null;
-		let keyListener = null;
-		if (when && typeof onClose === "function") {
-			clickListener = (e) => {
-				const insideRoot = element && element.contains(e.target);
-				const insidePanel = this.panelElement && this.panelElement.contains(e.target);
-				if (!insideRoot && !insidePanel) onClose();
-			};
-			keyListener = (e) => {
-				if (e.key === "Escape") {
-					e.preventDefault();
-					e.stopPropagation();
-					e.stopImmediatePropagation();
-					onClose();
-				}
-			};
-			setTimeout(() => {
-				document.addEventListener("click", clickListener, true);
-				document.addEventListener("keydown", keyListener, true);
-			}, 0);
-		}
-		return () => {
-			if (clickListener) document.removeEventListener("click", clickListener, true);
-			if (keyListener) document.removeEventListener("keydown", keyListener, true);
-		};
-	});
-
 	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
 		if (!when || !element) return;
 
@@ -425,12 +432,8 @@ export default class UlxDropdown extends Component {
 			if (!trigger) return;
 
 			const targetRect = trigger.getBoundingClientRect();
-			const scrollX = window.pageXOffset ?? document.documentElement.scrollLeft ?? 0;
-			const scrollY = window.pageYOffset ?? document.documentElement.scrollTop ?? 0;
 
-			element.style.position = "absolute";
-			element.style.top = `${targetRect.bottom + scrollY + 2}px`;
-			element.style.left = `${targetRect.left + scrollX}px`;
+			applyBodyAbsoluteFromViewport(element, targetRect.bottom + 2, targetRect.left);
 			element.style.width = `${targetRect.width}px`;
 			element.style.minWidth = `${targetRect.width}px`;
 			element.style.maxWidth = `${targetRect.width}px`;
@@ -480,8 +483,7 @@ export default class UlxDropdown extends Component {
 				top = 10;
 			}
 
-			element.style.top = `${top + scrollY}px`;
-			element.style.left = `${left + scrollX}px`;
+			applyBodyAbsoluteFromViewport(element, top, left);
 		};
 
 		schedule("afterRender", () => {
@@ -544,6 +546,14 @@ export default class UlxDropdown extends Component {
 		this.panelPosition = position;
 	}
 
+	/** After click-open, focus may still be on `body`; move it to the combobox so Arrow keys do not scroll the page. */
+	ensureComboboxControlFocused() {
+		schedule("afterRender", () => {
+			if (!this.overlayVisible || this.isTriggerDisabled) return;
+			document.getElementById(this.triggerId)?.focus?.({ preventScroll: true });
+		});
+	}
+
 	@action
 	toggleOverlay() {
 		if (this.args.disabled || this.args.loading) return;
@@ -554,8 +564,10 @@ export default class UlxDropdown extends Component {
 			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 			this.panelPosition = "below";
 			this.args.onShow?.();
+			this.ensureComboboxControlFocused();
 		} else {
 			this.panelPosition = "below";
+			this.dismissKeyboardOptionFocusRing();
 			this.args.onHide?.();
 		}
 	}
@@ -582,6 +594,7 @@ export default class UlxDropdown extends Component {
 		if (this.isOptionDisabled(optionItem)) return;
 		const value = this.getOptionValue(optionItem);
 		this.overlayVisible = false;
+		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(value);
 		this.args.onHide?.();
 	}
@@ -592,6 +605,7 @@ export default class UlxDropdown extends Component {
 		event?.preventDefault?.();
 		if (this.args.disabled) return;
 		this.overlayVisible = false;
+		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(undefined);
 		this.args.onFilter?.("");
 		this.filterValue = "";
@@ -617,6 +631,7 @@ export default class UlxDropdown extends Component {
 		const filterInputValue = event.target?.value ?? "";
 		this.filterValue = filterInputValue;
 		this.focusedOptionIndex = 0;
+		this.showOptionKeyboardFocusRing = true;
 		this.args.onFilter?.(filterInputValue);
 	}
 
@@ -661,14 +676,19 @@ export default class UlxDropdown extends Component {
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
-			if (!this.overlayVisible) this.toggleOverlay();
-			else this.moveFocus(1);
+			if (!this.overlayVisible) {
+				this.showOptionKeyboardFocusRing = true;
+				this.toggleOverlay();
+			} else this.moveFocus(1);
 			return;
 		}
 		if (keyPressed === "ArrowUp") {
 			event.preventDefault();
 			if (this.overlayVisible) this.moveFocus(-1);
-			else this.toggleOverlay();
+			else {
+				this.showOptionKeyboardFocusRing = true;
+				this.toggleOverlay();
+			}
 			return;
 		}
 		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
@@ -679,7 +699,10 @@ export default class UlxDropdown extends Component {
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
-			} else if (!this.overlayVisible) this.toggleOverlay();
+			} else if (!this.overlayVisible) {
+				this.showOptionKeyboardFocusRing = true;
+				this.toggleOverlay();
+			}
 			return;
 		}
 		if (keyPressed === "Escape") {
@@ -704,6 +727,7 @@ export default class UlxDropdown extends Component {
 			});
 		}
 		this.focusedOptionIndex = matchIndex >= 0 ? matchIndex : -1;
+		this.showOptionKeyboardFocusRing = true;
 		this.args.onFilter?.(filterInputValue);
 	}
 
@@ -715,6 +739,7 @@ export default class UlxDropdown extends Component {
 			this.overlayVisible = true;
 			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
 			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
+			if (!this.suppressKeyboardOptionRingForFocus) this.showOptionKeyboardFocusRing = true;
 			this.args.onShow?.();
 		}
 		this.handleFocus(event);
@@ -725,11 +750,13 @@ export default class UlxDropdown extends Component {
 		if (this.args.disabled || this.args.loading) return;
 		event.stopPropagation();
 		if (!this.overlayVisible) {
+			this.dismissKeyboardOptionFocusRing();
 			this.filterValue = this.selectedLabel ?? "";
 			this.overlayVisible = true;
 			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
 			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 			this.args.onShow?.();
+			this.ensureComboboxControlFocused();
 		}
 	}
 
@@ -745,6 +772,7 @@ export default class UlxDropdown extends Component {
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			if (!this.overlayVisible) {
+				this.showOptionKeyboardFocusRing = true;
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
@@ -757,6 +785,7 @@ export default class UlxDropdown extends Component {
 			event.preventDefault();
 			if (this.overlayVisible) this.moveFocus(-1);
 			else {
+				this.showOptionKeyboardFocusRing = true;
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.listOptions.length > 0 ? this.listOptions.length - 1 : 0;
@@ -773,6 +802,7 @@ export default class UlxDropdown extends Component {
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
 				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
 			} else if (!this.overlayVisible) {
+				this.showOptionKeyboardFocusRing = true;
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
@@ -789,6 +819,7 @@ export default class UlxDropdown extends Component {
 		if (keyPressed === " " || keyPressed === "Space") {
 			event.preventDefault();
 			if (!this.overlayVisible) {
+				this.showOptionKeyboardFocusRing = true;
 				this.filterValue = this.selectedLabel ?? "";
 				this.overlayVisible = true;
 				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
@@ -809,6 +840,7 @@ export default class UlxDropdown extends Component {
 	moveFocus(delta) {
 		const list = this.listOptions;
 		if (!list.length) return;
+		this.showOptionKeyboardFocusRing = true;
 		let nextFocusedIndex = this.focusedOptionIndex + delta;
 		if (nextFocusedIndex < 0) nextFocusedIndex = 0;
 		if (nextFocusedIndex >= list.length) nextFocusedIndex = list.length - 1;
@@ -874,7 +906,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}}>
+		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
 			{{#unless @floatLabel}}
 				{{#if (has-block "label")}}
 					<label for={{this.triggerId}}>
@@ -917,13 +949,15 @@ export default class UlxDropdown extends Component {
 						aria-required={{unless @editable this.isRequired}}
 						aria-describedby={{unless @editable this.ariaDescribedBy}}
 						{{this.triggerRef}}
-						{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
+						{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
+						{{on "pointerdown" this.onTriggerPointerIntent}}
 						{{on "click" this.toggleOverlay}}
 						...attributes
 					>
 						{{#if @editable}}
 							<input
 								id={{this.triggerId}}
+								data-qa="ulx-dropdown-trigger"
 								class="dropdown-input editable {{this.inputtextClass}}"
 								type="text"
 								autocomplete="off"
@@ -942,6 +976,7 @@ export default class UlxDropdown extends Component {
 								{{on "input" this.onEditableInput}}
 								{{on "keydown" this.onEditableTriggerKeydown}}
 								{{on "focus" this.onEditableFocus}}
+								{{on "pointerdown" this.onEditableInputPointerDown}}
 								{{on "click" this.onEditableClick}}
 								{{on "blur" this.onEditableBlur}}
 							/>
@@ -952,6 +987,7 @@ export default class UlxDropdown extends Component {
 								{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 									<UlxIcon
 										@type="font"
+										@dataQa="ulx-dropdown-clear"
 										@iconName="dropdown-clear-icon close-stroke-icon-new"
 										@componentClass="bs-icons1"
 										aria-hidden="true"
@@ -971,6 +1007,7 @@ export default class UlxDropdown extends Component {
 										{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 									{{else}}
 										<UlxIcon
+											@dataQa="ulx-dropdown-open-icon"
 											@iconName="down-stroke-icon-new dropdown-trigger-icon"
 											@type="font"
 											@componentClass="bs-icons1"
@@ -1007,6 +1044,7 @@ export default class UlxDropdown extends Component {
 							<div
 								class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
 								id={{this.triggerId}}
+								data-qa="ulx-dropdown-trigger"
 								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 								role="button"
 								{{on "keydown" this.onTriggerKeydown}}
@@ -1016,6 +1054,7 @@ export default class UlxDropdown extends Component {
 								{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 									<UlxIcon
 										@type="font"
+										@dataQa="ulx-dropdown-clear"
 										@iconName="close-stroke-icon-new dropdown-clear-icon"
 										@componentClass="bs-icons1"
 										aria-hidden="true"
@@ -1035,6 +1074,7 @@ export default class UlxDropdown extends Component {
 										{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 									{{else}}
 										<UlxIcon
+											@dataQa="ulx-dropdown-open-icon"
 											@iconName="down-stroke-icon-new dropdown-trigger-icon"
 											@type="font"
 											@componentClass="bs-icons1"
@@ -1063,13 +1103,15 @@ export default class UlxDropdown extends Component {
 					aria-required={{unless @editable this.isRequired}}
 					aria-describedby={{unless @editable this.ariaDescribedBy}}
 					{{this.triggerRef}}
-					{{this.closeOverlay this.overlayVisible onClose=this.toggleOverlay}}
+					{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
+					{{on "pointerdown" this.onTriggerPointerIntent}}
 					{{on "click" this.toggleOverlay}}
 					...attributes
 				>
 					{{#if @editable}}
 						<input
 							id={{this.triggerId}}
+							data-qa="ulx-dropdown-trigger"
 							class="dropdown-input editable {{this.inputtextClass}}"
 							type="text"
 							autocomplete="off"
@@ -1088,6 +1130,7 @@ export default class UlxDropdown extends Component {
 							{{on "input" this.onEditableInput}}
 							{{on "keydown" this.onEditableTriggerKeydown}}
 							{{on "focus" this.onEditableFocus}}
+							{{on "pointerdown" this.onEditableInputPointerDown}}
 							{{on "click" this.onEditableClick}}
 							{{on "blur" this.onEditableBlur}}
 						/>
@@ -1095,6 +1138,7 @@ export default class UlxDropdown extends Component {
 							{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 								<UlxIcon
 									@type="font"
+									@dataQa="ulx-dropdown-clear"
 									@iconName="close-stroke-icon-new dropdown-clear-icon"
 									@componentClass="bs-icons1"
 									aria-hidden="true"
@@ -1114,6 +1158,7 @@ export default class UlxDropdown extends Component {
 									{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 								{{else}}
 									<UlxIcon
+										@dataQa="ulx-dropdown-open-icon"
 										@iconName="down-stroke-icon-new dropdown-trigger-icon"
 										@type="font"
 										@componentClass="bs-icons1"
@@ -1150,6 +1195,7 @@ export default class UlxDropdown extends Component {
 						<div
 							class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
 							id={{this.triggerId}}
+							data-qa="ulx-dropdown-trigger"
 							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 							role="button"
 							{{on "keydown" this.onTriggerKeydown}}
@@ -1159,6 +1205,7 @@ export default class UlxDropdown extends Component {
 							{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 								<UlxIcon
 									@type="font"
+									@dataQa="ulx-dropdown-clear"
 									@iconName="close-stroke-icon-new dropdown-clear-icon"
 									@componentClass="bs-icons1"
 									aria-hidden="true"
@@ -1178,6 +1225,7 @@ export default class UlxDropdown extends Component {
 									{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 								{{else}}
 									<UlxIcon
+										@dataQa="ulx-dropdown-open-icon"
 										@iconName="down-stroke-icon-new dropdown-trigger-icon"
 										@type="font"
 										@componentClass="bs-icons1"
@@ -1193,6 +1241,7 @@ export default class UlxDropdown extends Component {
 			{{#if this.overlayVisible}}
 				<div
 					id="{{this.triggerId}}-listbox"
+					data-qa="ulx-dropdown-panel"
 					class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
 					role="listbox"
 					aria-activedescendant={{this.activeDescendantId}}
@@ -1200,6 +1249,7 @@ export default class UlxDropdown extends Component {
 					{{this.panelRef}}
 					{{appendToBody this.overlayVisible}}
 					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
+					{{on "pointerdown" this.onOptionPanelPointerIntent}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
 				>
@@ -1215,6 +1265,7 @@ export default class UlxDropdown extends Component {
 							<input
 								type="text"
 								class="dropdown-filter-input"
+								data-qa="ulx-dropdown-filter"
 								value={{this.filterValue}}
 								placeholder={{@filterPlaceholder}}
 								{{on "input" this.onFilterInput}}
@@ -1224,6 +1275,7 @@ export default class UlxDropdown extends Component {
 					{{/if}}
 					<div
 						class="dropdown-wrapper"
+						data-qa="ulx-dropdown-options-wrapper"
 						style="max-height: {{this.scrollHeightValue}};"
 						{{this.scrollFocusedIntoView
 							this.overlayVisible
@@ -1231,15 +1283,20 @@ export default class UlxDropdown extends Component {
 							this.triggerId
 						}}
 					>
-						<ul class="dropdown-list" role="listbox">
+						<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
 							{{#if (eq this.listOptions.length 0)}}
-								<li class="dropdown-empty-message" role="option">
+								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
 									{{or (and @filter @emptyFilterMessage) @emptyMessage}}
 								</li>
 							{{else if this.hasGroups}}
 								{{#each this.optionListWithGroups as |row|}}
 									{{#if (eq row.type "group")}}
-										<li class="dropdown-item-group" role="presentation" aria-hidden="true">
+										<li
+											class="dropdown-item-group"
+											role="presentation"
+											aria-hidden="true"
+											data-qa="ulx-dropdown-group"
+										>
 											{{#if (has-block "group")}}
 												{{yield (hash label=row.label group=row.group) to="group"}}
 											{{else}}
@@ -1274,8 +1331,9 @@ export default class UlxDropdown extends Component {
 											<li
 												role="option"
 												id="{{this.triggerId}}-item-{{row.flatIndex}}"
+												data-qa={{concat "ulx-dropdown-option-" row.flatIndex}}
 												class="dropdown-item grouped
-													{{if (eq row.flatIndex this.focusedOptionIndex) this.focusItemClass ''}}
+													{{if (and (eq row.flatIndex this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass ''}}
 													{{if (this.isOptionSelected option) 'selected' ''}}
 													{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
 													{{if (this.isOptionDisabled option) 'disabled' ''}}"
@@ -1326,8 +1384,9 @@ export default class UlxDropdown extends Component {
 										<li
 											role="option"
 											id="{{this.triggerId}}-item-{{index}}"
+											data-qa={{concat "ulx-dropdown-option-" index}}
 											class="dropdown-item
-												{{if (eq index this.focusedOptionIndex) this.focusItemClass ''}}
+												{{if (and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass ''}}
 												{{if (this.isOptionSelected option) 'selected' ''}}
 												{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
 												{{if (this.isOptionDisabled option) 'disabled' ''}}"
@@ -1375,7 +1434,7 @@ export default class UlxDropdown extends Component {
 						</ul>
 					</div>
 					{{#if (has-block "footer")}}
-						<div class="dropdown-panel-footer">
+						<div class="dropdown-panel-footer" data-qa="ulx-dropdown-footer">
 							<div class="dropdown-panel-footer-content">
 								{{yield (hash selectedOption=this.selectedOption) to="footer"}}
 							</div>
@@ -1385,12 +1444,13 @@ export default class UlxDropdown extends Component {
 			{{/if}}
 
 			{{#if (and @helpText)}}
-				<div id="{{this.triggerId}}-help" class="help-text">{{@helpText}}</div>
+				<div id="{{this.triggerId}}-help" class="help-text" data-qa="ulx-dropdown-help">{{@helpText}}</div>
 			{{/if}}
 			{{#if (and @error)}}
 				<div
 					id="{{this.triggerId}}-error"
 					class="error-message"
+					data-qa="ulx-dropdown-error"
 					role="alert"
 					aria-atomic="true"
 				>{{@error}}</div>
