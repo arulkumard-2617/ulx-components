@@ -3,7 +3,7 @@ import { UlxInput, UlxField, UlxIconInput, UlxIcon, t } from 'ulx-components';
 <template>
   <div class="ulx-form m-size ulx-grid gap-12 mb-14">
 
-    <UlxField @inputId="calendar" @fieldClass="col-4">
+    <UlxField @id="calendar" @fieldClass="col-4">
 
       <:label>
         <span class="bold-font">{{t "lbl.calendar"}}</span>
@@ -35,7 +35,7 @@ import { UlxInput, UlxField, UlxIconInput, UlxIcon, t } from 'ulx-components';
 
           <:input>
             <UlxInput
-              @inputId={{field.inputId}}
+              @id={{field.id}}
               @ariaDescribedBy={{field.describedBy}}
               @ariaErrorMessage={{field.errorId}}
               placeholder={{t "lbl.search"}}

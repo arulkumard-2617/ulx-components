@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox, t } from 'ulx-components';
+import { UlxCheckbox, UlxField, t } from 'ulx-components';
 
 export default class GroupDemoComponent extends Component {
   @tracked items = [
@@ -23,15 +23,25 @@ export default class GroupDemoComponent extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxCheckbox
+      <UlxField
         @label={{t "lbl.group"}}
-        @items={{this.items}}
-        @onItemChange={{this.handleItemChange}}
         @helpText={{t "lbl.help.text"}}
-        @fieldClass="col-12"
-        @groupClass="horizontal"
         @error={{this.error}}
-      />
+        @fieldClass="col-12"
+        @id="checkbox-group"
+      >
+        <:control as |field|>
+          <UlxCheckbox
+            @id={{field.id}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @items={{this.items}}
+            @onItemChange={{this.handleItemChange}}
+            @groupClass="horizontal"
+            @error={{this.error}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

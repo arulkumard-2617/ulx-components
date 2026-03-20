@@ -6,12 +6,12 @@ import { UlxInput, UlxField, t } from 'ulx-components';
 
     <UlxField
       @label={{t "lbl.label"}}
-      @inputId="disabled-input"
+      @id="disabled-input"
       @fieldClass="col-12"
     >
       <:control as |field|>
         <UlxInput
-          @inputId={{field.inputId}}
+          @id={{field.id}}
           @disabled={{true}}
           @size="l-size"
           aria-label={{t "lbl.label"}}

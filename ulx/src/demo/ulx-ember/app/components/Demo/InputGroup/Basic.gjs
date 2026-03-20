@@ -9,8 +9,7 @@ import {
 <template>
   <div class="ulx-form m-size ulx-grid gap-8 mb-14">
 
-    <UlxField
-      @inputId="start-time"
+    <UlxField @id="start-time"
       @label={{t "lbl.start.time"}}
       @fieldClass="col-3"
     >
@@ -20,7 +19,7 @@ import {
 
           <:input>
             <UlxInput
-              @inputId={{field.inputId}}
+              @id={{field.id}}
               @ariaDescribedBy={{field.describedBy}}
               @ariaErrorMessage={{field.errorId}}
               placeholder={{t "lbl.start.time.placeholder"}}

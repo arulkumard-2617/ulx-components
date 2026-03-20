@@ -1,4 +1,5 @@
 import Component from "@glimmer/component";
+import { guidFor } from "@ember/object/internals";
 import UlxIcon from "../ulx-icon/index.gjs";
 import tooltip from "../../../modifiers/tooltip";
 import { hash } from "@ember/helper";
@@ -9,6 +10,10 @@ import { buildFieldClass, normalizeRules, getRuleValue } from "../../../utils/in
 export default class UlxField extends Component {
 	get fieldClass() {
 		return buildFieldClass(this.args.fieldClass);
+	}
+
+	get fieldId() {
+		return this.args.id ?? `ulx-field-${guidFor(this)}`;
 	}
 
 	// Rules
@@ -41,27 +46,29 @@ export default class UlxField extends Component {
 
 	// ARIA
 	get describedBy() {
-		const { inputId, helpText, error } = this.args;
-		if (!inputId) return;
+		const { helpText, error } = this.args;
+		const id = this.fieldId;
+		if (!id) return;
 
 		const ids = [];
-		helpText && ids.push(`${inputId}-help`);
-		error && ids.push(`${inputId}-error`);
+		helpText && ids.push(`${id}-help`);
+		error && ids.push(`${id}-error`);
 
 		return ids.length ? ids.join(" ") : undefined;
 	}
 
 	get errorId() {
-		const { inputId, error } = this.args;
-		return error && inputId ? `${inputId}-error` : undefined;
+		const { error } = this.args;
+		const id = this.fieldId;
+		return error && id ? `${id}-error` : undefined;
 	}
 
 	get hasHelpText() {
-		return !!(this.args.helpText && this.args.inputId);
+		return !!(this.args.helpText && this.fieldId);
 	}
 
 	get hasError() {
-		return !!(this.args.error && this.args.inputId);
+		return !!(this.args.error && this.fieldId);
 	}
 
 	<template>
@@ -69,7 +76,7 @@ export default class UlxField extends Component {
 
 			{{! LABEL (safe render) }}
 			{{#if (or (has-block "label") @label)}}
-				<label for={{@inputId}}>
+				<label for={{this.fieldId}}>
 					<span class="label-text">
 
 						{{#if (has-block "label")}}
@@ -101,7 +108,11 @@ export default class UlxField extends Component {
 
 			{{! CONTROL }}
 			{{yield
-				(hash inputId=@inputId describedBy=this.describedBy errorId=this.errorId)
+				(hash
+					id=this.fieldId
+					describedBy=this.describedBy
+					errorId=this.errorId
+				)
 				to="control"
 			}}
 
@@ -109,7 +120,7 @@ export default class UlxField extends Component {
 			{{#if (has-block "helptext")}}
 				{{yield to="helptext"}}
 			{{else if this.hasHelpText}}
-				<div id="{{@inputId}}-help" class="help-text">
+				<div id="{{this.fieldId}}-help" class="help-text">
 					{{@helpText}}
 				</div>
 			{{/if}}
@@ -118,7 +129,7 @@ export default class UlxField extends Component {
 			{{#if (has-block "error")}}
 				{{yield to="error"}}
 			{{else if this.hasError}}
-				<div id="{{@inputId}}-error" class="error-message" role="alert" aria-atomic="true">
+				<div id="{{this.fieldId}}-error" class="error-message" role="alert" aria-atomic="true">
 					*{{@error}}
 				</div>
 			{{/if}}

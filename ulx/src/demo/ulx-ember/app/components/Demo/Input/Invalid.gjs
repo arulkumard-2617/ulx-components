@@ -60,14 +60,14 @@ export default class DemoInputInvalid extends Component {
 
       <UlxField
         @label="Username"
-        @inputId="error-input"
+        @id="error-input"
         @fieldClass="col-4"
         @error={{this.error}}
       >
 
         <:control as |field|>
           <UlxInput
-            @inputId={{field.inputId}}
+            @id={{field.id}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             @value={{this.value}}

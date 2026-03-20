@@ -1,4 +1,4 @@
 export default `
-import { Checkbox } from 'ulx-components';
+import { Checkbox, UlxField } from 'ulx-components';
 
 `;
