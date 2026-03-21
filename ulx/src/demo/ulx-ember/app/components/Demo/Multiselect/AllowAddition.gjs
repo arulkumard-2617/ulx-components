@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMultiSelect, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -35,19 +35,28 @@ export default class DemoMultiselectAllowAddition extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxMultiSelect
-        @options={{this.items}}
-        @value={{this.selected}}
-        @onChange={{this.setSelected}}
-        @filter={{true}}
-        @allowAddition={{true}}
-        @onAddItem={{this.handleAddItem}}
-        @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
-        @placeholder={{t "msg.multiselect.filter.placeholder"}}
+      <UlxField
         @label={{t "lbl.multiselect.tags"}}
         @helpText={{t "msg.multiselect.tags.help"}}
+        @fieldId="multiselect-allow-addition"
         @fieldClass="col-8"
-      />
+      >
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selected}}
+            @onChange={{this.setSelected}}
+            @filter={{true}}
+            @allowAddition={{true}}
+            @onAddItem={{this.handleAddItem}}
+            @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
+            @placeholder={{t "msg.multiselect.filter.placeholder"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

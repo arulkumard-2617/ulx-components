@@ -2,17 +2,18 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { fn, hash } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
 import { t } from "../../../utils/i18n";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxDropdown from "../../elements/ulx-dropdown/index.gjs";
-import { eq, or } from "ember-truth-helpers";
+import { eq } from "ember-truth-helpers";
 
 const DEFAULT_TEMPLATE =
 	"FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown";
 const DEFAULT_PAGE_REPORT = "({currentPage} of {totalPages})";
 
 /**
- * Paginator component for paged content. Matches PrimeReact Paginator API and ULS paginator.less.
+ * Paginator component for paged content. Aligns with ULS paginator.less.
  * Uses UlxButton for first/prev/next/last and page number buttons; UlxDropdown for rows per page.
  *
  * @class UlxPaginator
@@ -30,12 +31,13 @@ const DEFAULT_PAGE_REPORT = "({currentPage} of {totalPages})";
  * @param {string} [nextPageLinkIcon] - Icon name for next page button
  * @param {string} [lastPageLinkIcon] - Icon name for last page button
  * @param {string} [customClass] - Extra CSS class for root
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-paginator".
  *
  * Named blocks (lowercase) override default UI when provided:
- * - <:firstPageLink> - yields { onClick, disabled, className, ariaLabel }
- * - <:prevPageLink> - yields { onClick, disabled, className, ariaLabel }
- * - <:nextPageLink> - yields { onClick, disabled, className, ariaLabel }
- * - <:lastPageLink> - yields { onClick, disabled, className, ariaLabel }
+ * - <:firstPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
+ * - <:prevPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
+ * - <:nextPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
+ * - <:lastPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
  * - <:pageLinks> - yields { pageLinks, currentPage, totalPages, goToPageNumber }
  * - <:currentPageReport> - yields { text, first, last, totalRecords, currentPage, totalPages }
  * - <:rowsPerPageDropdown> - yields { value, options, onChange, disabled }
@@ -48,10 +50,19 @@ export default class UlxPaginator extends Component {
 	}
 
 	get rootClasses() {
-		const { customClass } = this.args;
-		const parts = [this.baseClass];
-		customClass && parts.push(customClass);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(this.baseClass, this.args.customClass);
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-paginator";
+	}
+
+	get navFirstPrevDisabled() {
+		return this.isFirstPage || this.isEmpty;
+	}
+
+	get navNextLastDisabled() {
+		return this.isLastPage || this.isEmpty;
 	}
 
 	get totalRecords() {
@@ -123,7 +134,7 @@ export default class UlxPaginator extends Component {
 
 	get rowsPerPageOptions() {
 		const opts = this.args.rowsPerPageOptions;
-		return opts && opts.length ? opts.map((opt) => ({ label: String(opt), value: opt })) : [];
+		return opts?.length ? opts.map((opt) => ({ label: String(opt), value: opt })) : [];
 	}
 
 	get reportFirst() {
@@ -136,7 +147,7 @@ export default class UlxPaginator extends Component {
 
 	get currentPageReportText() {
 		const template = this.args.currentPageReportTemplate ?? DEFAULT_PAGE_REPORT;
-		const report = {
+		const tokens = {
 			currentPage: this.page + 1,
 			totalPages: this.totalPages,
 			first: this.reportFirst,
@@ -144,17 +155,11 @@ export default class UlxPaginator extends Component {
 			rows: this.rows,
 			totalRecords: this.totalRecords
 		};
-		return template
-			.replace(/\{currentPage\}/g, String(report.currentPage))
-			.replace(/\{totalPages\}/g, String(report.totalPages))
-			.replace(/\{first\}/g, String(report.first))
-			.replace(/\{last\}/g, String(report.last))
-			.replace(/\{rows\}/g, String(report.rows))
-			.replace(/\{totalRecords\}/g, String(report.totalRecords));
+		return template.replace(/\{(\w+)\}/g, (_, key) => tokens[key] ?? "");
 	}
 
 	get firstPageLinkIcon() {
-		return this.args.firstPageLinkIcon ?? "double-left-icon";
+		return this.args.firstPageLinkIcon ?? "left-arrow-bounded-icon";
 	}
 
 	get prevPageLinkIcon() {
@@ -166,12 +171,53 @@ export default class UlxPaginator extends Component {
 	}
 
 	get lastPageLinkIcon() {
-		return this.args.lastPageLinkIcon ?? "double-right-icon";
+		return this.args.lastPageLinkIcon ?? "right-arrow-bounded-icon";
+	}
+
+	get firstPageLinkConfig() {
+		return {
+			icon: this.firstPageLinkIcon,
+			onClick: this.goToFirst,
+			disabled: this.navFirstPrevDisabled,
+			className: joinClassNames("paginator-first", this.navFirstPrevDisabled && "disabled"),
+			ariaLabel: t("aria.paginator.firstPage")
+		};
+	}
+
+	get prevPageLinkConfig() {
+		return {
+			icon: this.prevPageLinkIcon,
+			onClick: this.goToPrev,
+			disabled: this.navFirstPrevDisabled,
+			className: joinClassNames("paginator-prev", this.navFirstPrevDisabled && "disabled"),
+			ariaLabel: t("aria.paginator.prevPage")
+		};
+	}
+
+	get nextPageLinkConfig() {
+		return {
+			icon: this.nextPageLinkIcon,
+			onClick: this.goToNext,
+			disabled: this.navNextLastDisabled,
+			className: joinClassNames("paginator-next", this.navNextLastDisabled && "disabled"),
+			ariaLabel: t("aria.paginator.nextPage")
+		};
+	}
+
+	get lastPageLinkConfig() {
+		return {
+			icon: this.lastPageLinkIcon,
+			onClick: this.goToLast,
+			disabled: this.navNextLastDisabled,
+			className: joinClassNames("paginator-last", this.navNextLastDisabled && "disabled"),
+			ariaLabel: t("aria.paginator.lastPage")
+		};
 	}
 
 	@action
 	changePage(first, rows) {
 		const r = rows ?? this.rows;
+		if (r <= 0) return;
 		const totalPages = this.rows > 0 ? Math.ceil(this.totalRecords / r) : 0;
 		const p = Math.floor(first / r);
 		if (p >= 0 && p < totalPages) {
@@ -217,21 +263,9 @@ export default class UlxPaginator extends Component {
 		this.changePage(0, value);
 	}
 
-	@action
-	jumpToPageChange(event) {
-		const val = Number(event?.target?.value);
-		if (Number.isInteger(val) && val >= 1 && val <= this.totalPages) {
-			this.changePage((val - 1) * this.rows, this.rows);
-		}
-	}
-
 	get showPaginator() {
 		const { alwaysShow = true } = this.args;
 		return alwaysShow || this.totalPages > 1;
-	}
-
-	get hasLayout() {
-		return this.templateKeys.length > 0;
 	}
 
 	<template>
@@ -239,108 +273,81 @@ export default class UlxPaginator extends Component {
 			<div
 				class={{this.rootClasses}}
 				role="navigation"
-				aria-label={{t "aria.paginator.rowsPerPage"}}
+				aria-label={{t "aria.paginator.navigation"}}
+				data-qa={{this.rootDataQa}}
 				...attributes
 			>
 				{{#if (has-block "left")}}
-					<div class="paginator-left">{{yield to="left"}}</div>
+					<div class="paginator-left" data-qa="{{this.rootDataQa}}-left">{{yield to="left"}}</div>
 				{{/if}}
 
 				{{#each this.templateKeys as |key|}}
 					{{#if (eq key "FirstPageLink")}}
 						{{#if (has-block "firstPageLink")}}
-							{{yield
-								(hash
-									onClick=this.goToFirst
-									disabled=(or this.isFirstPage this.isEmpty)
-									className="paginator-first"
-									ariaLabel=(t "aria.paginator.firstPage")
-								)
-								to="firstPageLink"
-							}}
+							{{yield this.firstPageLinkConfig to="firstPageLink"}}
 						{{else}}
 							<UlxButton
 								@variant="secondary"
 								@text={{true}}
-								@icon={{this.firstPageLinkIcon}}
+								@icon={{this.firstPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
-								@customClass="paginator-first {{if (or this.isFirstPage this.isEmpty) 'disabled'}}"
-								@disabled={{or this.isFirstPage this.isEmpty}}
-								@onClick={{this.goToFirst}}
-								aria-label={{t "aria.paginator.firstPage"}}
+								@customClass={{this.firstPageLinkConfig.className}}
+								@disabled={{this.firstPageLinkConfig.disabled}}
+								@onClick={{this.firstPageLinkConfig.onClick}}
+								aria-label={{this.firstPageLinkConfig.ariaLabel}}
+								data-qa="{{this.rootDataQa}}-first"
 							/>
 						{{/if}}
 					{{else if (eq key "PrevPageLink")}}
 						{{#if (has-block "prevPageLink")}}
-							{{yield
-								(hash
-									onClick=this.goToPrev
-									disabled=(or this.isFirstPage this.isEmpty)
-									className="paginator-prev"
-									ariaLabel=(t "aria.paginator.prevPage")
-								)
-								to="prevPageLink"
-							}}
+							{{yield this.prevPageLinkConfig to="prevPageLink"}}
 						{{else}}
 							<UlxButton
 								@variant="secondary"
 								@text={{true}}
-								@icon={{this.prevPageLinkIcon}}
+								@icon={{this.prevPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
-								@customClass="paginator-prev {{if (or this.isFirstPage this.isEmpty) 'disabled'}}"
-								@disabled={{or this.isFirstPage this.isEmpty}}
-								@onClick={{this.goToPrev}}
-								aria-label={{t "aria.paginator.prevPage"}}
+								@customClass={{this.prevPageLinkConfig.className}}
+								@disabled={{this.prevPageLinkConfig.disabled}}
+								@onClick={{this.prevPageLinkConfig.onClick}}
+								aria-label={{this.prevPageLinkConfig.ariaLabel}}
+								data-qa="{{this.rootDataQa}}-prev"
 							/>
 						{{/if}}
 					{{else if (eq key "NextPageLink")}}
 						{{#if (has-block "nextPageLink")}}
-							{{yield
-								(hash
-									onClick=this.goToNext
-									disabled=(or this.isLastPage this.isEmpty)
-									className="paginator-next"
-									ariaLabel=(t "aria.paginator.nextPage")
-								)
-								to="nextPageLink"
-							}}
+							{{yield this.nextPageLinkConfig to="nextPageLink"}}
 						{{else}}
 							<UlxButton
 								@variant="secondary"
 								@text={{true}}
-								@icon={{this.nextPageLinkIcon}}
+								@icon={{this.nextPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
-								@customClass="paginator-next {{if (or this.isLastPage this.isEmpty) 'disabled'}}"
-								@disabled={{or this.isLastPage this.isEmpty}}
-								@onClick={{this.goToNext}}
-								aria-label={{t "aria.paginator.nextPage"}}
+								@customClass={{this.nextPageLinkConfig.className}}
+								@disabled={{this.nextPageLinkConfig.disabled}}
+								@onClick={{this.nextPageLinkConfig.onClick}}
+								aria-label={{this.nextPageLinkConfig.ariaLabel}}
+								data-qa="{{this.rootDataQa}}-next"
 							/>
 						{{/if}}
 					{{else if (eq key "LastPageLink")}}
 						{{#if (has-block "lastPageLink")}}
-							{{yield
-								(hash
-									onClick=this.goToLast
-									disabled=(or this.isLastPage this.isEmpty)
-									className="paginator-last"
-									ariaLabel=(t "aria.paginator.lastPage")
-								)
-								to="lastPageLink"
-							}}
+							{{yield this.lastPageLinkConfig to="lastPageLink"}}
 						{{else}}
 							<UlxButton
 								@variant="secondary"
 								@text={{true}}
-								@icon={{this.lastPageLinkIcon}}
+								@icon={{this.lastPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
-								@customClass="paginator-last {{if (or this.isLastPage this.isEmpty) 'disabled'}}"
-								@disabled={{or this.isLastPage this.isEmpty}}
-								@onClick={{this.goToLast}}
-								aria-label={{t "aria.paginator.lastPage"}}
+								@customClass={{this.lastPageLinkConfig.className}}
+								@disabled={{this.lastPageLinkConfig.disabled}}
+								@onClick={{this.lastPageLinkConfig.onClick}}
+								aria-label={{this.lastPageLinkConfig.ariaLabel}}
+								data-qa="{{this.rootDataQa}}-last"
 							/>
 						{{/if}}
 					{{else if (eq key "PageLinks")}}
@@ -359,6 +366,7 @@ export default class UlxPaginator extends Component {
 								class="paginator-page-links"
 								role="group"
 								aria-label={{t "aria.paginator.pageLabel" page=this.currentPageOneBased}}
+								data-qa="{{this.rootDataQa}}-page-links"
 							>
 								{{#each this.pageLinks as |pageNum|}}
 									<UlxButton
@@ -393,6 +401,7 @@ export default class UlxPaginator extends Component {
 							<span
 								class="paginator-current-report"
 								aria-live="polite"
+								data-qa="{{this.rootDataQa}}-current-report"
 							>{{this.currentPageReportText}}</span>
 						{{/if}}
 					{{else if (eq key "RowsPerPageDropdown")}}
@@ -407,7 +416,7 @@ export default class UlxPaginator extends Component {
 								to="rowsPerPageDropdown"
 							}}
 						{{else if this.rowsPerPageOptions.length}}
-							<div class="paginator-rpp">
+							<div class="paginator-rpp" data-qa="{{this.rootDataQa}}-rpp">
 								<UlxDropdown
 									@value={{this.rows}}
 									@options={{this.rowsPerPageOptions}}
@@ -425,7 +434,7 @@ export default class UlxPaginator extends Component {
 				{{/each}}
 
 				{{#if (has-block "right")}}
-					<div class="paginator-end">{{yield to="right"}}</div>
+					<div class="paginator-end" data-qa="{{this.rootDataQa}}-right">{{yield to="right"}}</div>
 				{{/if}}
 			</div>
 		{{/if}}

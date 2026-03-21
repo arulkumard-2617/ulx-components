@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMultiSelect, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField, t } from 'ulx-components';
 
 const GROUPED_CITIES = [
   {
@@ -40,18 +40,23 @@ export default class DemoMultiselectGroup extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxMultiSelect
-        @options={{this.groupedCities}}
-        @optionGroupLabel="label"
-        @optionGroupChildren="items"
-        @value={{this.selected}}
-        @display="chip"
-        @onChange={{this.setSelected}}
-        @selectAll={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label={{t "lbl.group"}}
-        @fieldClass="col-6"
-      />
+      <UlxField @label={{t "lbl.group"}} @fieldId="multiselect-group" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.groupedCities}}
+            @optionGroupLabel="label"
+            @optionGroupChildren="items"
+            @value={{this.selected}}
+            @display="chip"
+            @onChange={{this.setSelected}}
+            @selectAll={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

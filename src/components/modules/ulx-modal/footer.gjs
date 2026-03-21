@@ -2,7 +2,15 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import { joinClassNames } from "../../../utils/class-names";
 import { t } from "../../../utils/i18n.js";
+
+const FOOTER_ALIGNMENT_TO_JUSTIFY = {
+	start: "flex-start",
+	center: "center",
+	end: "flex-end",
+	"space-between": "space-between",
+};
 
 /**
  * Modal footer subcomponent.
@@ -72,21 +80,12 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get footerClasses() {
-		const { footerClassName } = this.args;
-		const parts = ["dialog-footer"];
-		footerClassName && parts.push(footerClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("dialog-footer", this.args.footerClassName);
 	}
 
 	get footerStyle() {
 		const alignment = this.args.alignment || "end";
-		const alignmentMap = {
-			start: "flex-start",
-			center: "center",
-			end: "flex-end",
-			"space-between": "space-between"
-		};
-		return `justify-content: ${alignmentMap[alignment] || alignmentMap.end}`;
+		return `justify-content: ${FOOTER_ALIGNMENT_TO_JUSTIFY[alignment] ?? FOOTER_ALIGNMENT_TO_JUSTIFY.end}`;
 	}
 
 	@action
@@ -107,7 +106,7 @@ export default class UlxModalFooter extends Component {
 
 	<template>
 		{{#unless @hideFooter}}
-			<div class={{this.footerClasses}} style={{this.footerStyle}} ...attributes>
+			<div class={{this.footerClasses}} data-qa="ulx-modal-footer" style={{this.footerStyle}} ...attributes>
 				{{#if (has-block)}}
 					{{yield}}
 				{{else}}
@@ -116,6 +115,7 @@ export default class UlxModalFooter extends Component {
 							@label={{this.cancelLabel}}
 							@variant="secondary"
 							@disabled={{this.cancelButtonDisabled}}
+							data-qa="ulx-modal-cancel"
 							{{on "click" this.handleCancel}}
 						/>
 					{{/unless}}
@@ -125,6 +125,7 @@ export default class UlxModalFooter extends Component {
 							@label={{this.doneLabel}}
 							@variant="primary"
 							@disabled={{this.doneButtonDisabled}}
+							data-qa="ulx-modal-done"
 							{{on "click" this.handleDone}}
 						/>
 					{{/unless}}

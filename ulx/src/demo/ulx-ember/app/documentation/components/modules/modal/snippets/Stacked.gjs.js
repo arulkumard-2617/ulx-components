@@ -294,15 +294,20 @@ export default class StackedModalDemo extends Component {
               />
             </div>
             <div class="ulx-form m-size">
-              <UlxMultiSelect
-                id="stacked-multiselect"
-                @options={{this.cities}}
-                @value={{this.selectedCities}}
-                @onChange={{this.setSelectedCities}}
-                @showClear={{true}}
-                @placeholder="Select cities"
-                @label="Basic"
-              />
+              <UlxField @label="Basic" @fieldId="stacked-multiselect">
+                <:control as |field|>
+                  <UlxMultiSelect
+                    @key={{field.key}}
+                    @ariaDescribedBy={{field.describedBy}}
+                    @ariaErrorMessage={{field.errorId}}
+                    @options={{this.cities}}
+                    @value={{this.selectedCities}}
+                    @onChange={{this.setSelectedCities}}
+                    @showClear={{true}}
+                    @placeholder="Select cities"
+                  />
+                </:control>
+              </UlxField>
             </div>
           </div>
         </div>

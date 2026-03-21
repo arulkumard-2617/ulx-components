@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMultiSelect, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -59,29 +59,41 @@ export default class DemoMultiselectBasic extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
-      <UlxMultiSelect
-        id="multiselect-basic"
-        @options={{this.items}}
-        @value={{this.selected}}
-        @onChange={{this.setSelected}}
-        @showClear={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
+      <UlxField
         @label={{t "lbl.multiselect.basic"}}
+        @fieldId="multiselect-basic"
         @fieldClass="col-6"
-      />
+      >
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selected}}
+            @onChange={{this.setSelected}}
+            @showClear={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
 
-      <UlxMultiSelect
-        id="multiselect-basic-search"
-        @options={{this.items20}}
-        @value={{this.selectedSearch}}
-        @onChange={{this.setSelectedSearch}}
-        @selectAll={{true}}
-        @filter={{true}}
-        @showClear={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label="Basic with Search (20 items)"
-        @fieldClass="col-6"
-      />
+      <UlxField @label="Basic with Search (20 items)" @fieldId="multiselect-basic-search" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items20}}
+            @value={{this.selectedSearch}}
+            @onChange={{this.setSelectedSearch}}
+            @selectAll={{true}}
+            @filter={{true}}
+            @showClear={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

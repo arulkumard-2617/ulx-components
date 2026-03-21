@@ -1,4 +1,10 @@
 import Component from "@glimmer/component";
+import { joinClassNames } from "../../../utils/class-names";
+
+const CONTENT_OVERFLOW_STYLE = {
+	true: "overflow-y: auto",
+	false: "overflow-y: hidden",
+};
 
 /**
  * Modal body subcomponent.
@@ -22,25 +28,15 @@ export default class UlxModalBody extends Component {
 	}
 
 	get contentClasses() {
-		const parts = ["dialog-content"];
-		this.args.contentClassName && parts.push(this.args.contentClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("dialog-content", this.args.contentClassName);
 	}
 
 	get contentStyle() {
-		const styles = [];
-
-		if (this.scrollable) {
-			styles.push("overflow-y: auto");
-		} else {
-			styles.push("overflow-y: hidden");
-		}
-
-		return styles.join("; ");
+		return CONTENT_OVERFLOW_STYLE[this.scrollable];
 	}
 
 	<template>
-		<div class={{this.contentClasses}} style={{this.contentStyle}} ...attributes>
+		<div class={{this.contentClasses}} data-qa="ulx-modal-body" style={{this.contentStyle}} ...attributes>
 			{{yield}}
 		</div>
 	</template>

@@ -23,21 +23,30 @@
     <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
       <:preview as |props|>
         <div class="ulx-form s-size ulx-grid gap-12">
-          <UlxMultiSelect
-            @label={{props.label}}
-            @options={{props.options}}
-            @placeholder={{props.placeholder}}
+          <UlxField
+            @label={{props.fieldLabel}}
             @fieldClass={{props.fieldClass}}
-            @display={{props.display}}
-            @showClear={{props.showClear}}
-            @filter={{props.filter}}
-            @selectAll={{props.selectAll}}
-            @disabled={{props.disabled}}
-            @invalid={{props.invalid}}
-            @filled={{props.filled}}
-            @helpText={{props.helpText}}
-            @error={{props.error}}
-          />
+            @helpText={{props.fieldHelpText}}
+            @error={{props.fieldError}}
+            @fieldId="multiselect-doc-builder"
+          >
+            <:control as |field|>
+              <UlxMultiSelect
+                @key={{field.key}}
+                @ariaDescribedBy={{field.describedBy}}
+                @ariaErrorMessage={{field.errorId}}
+                @options={{props.options}}
+                @placeholder={{props.placeholder}}
+                @display={{props.display}}
+                @showClear={{props.showClear}}
+                @filter={{props.filter}}
+                @selectAll={{props.selectAll}}
+                @disabled={{props.disabled}}
+                @invalid={{props.invalid}}
+                @filled={{props.filled}}
+              />
+            </:control>
+          </UlxField>
         </div>
       </:preview>
     </Common::DocMain::ComponentBuilder>

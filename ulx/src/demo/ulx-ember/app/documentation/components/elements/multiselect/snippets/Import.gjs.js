@@ -1,4 +1,4 @@
 export default `
-import { UlxMultiSelect } from 'ulx-components';
+import { UlxMultiSelect, UlxField } from 'ulx-components';
 
 `;
