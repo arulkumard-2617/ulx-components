@@ -36,11 +36,22 @@ export default class UlxInputGroup extends Component {
 
 	<template>
 		<div class={{this.rootClass}}>
+
 			{{! START }}
-			{{yield}}
-			<span class="inputgroup-addon">
-				{{yield to start}}
-			</span>
+			{{#if (has-block "start")}}
+				{{yield to="start"}}
+			{{/if}}
+
+			{{! INPUT (required) }}
+			{{#if (has-block "input")}}
+				{{yield to="input"}}
+			{{/if}}
+
+			{{! END }}
+			{{#if (has-block "end")}}
+				{{yield to="end"}}
+			{{/if}}
+
 		</div>
 	</template>
 }
