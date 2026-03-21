@@ -90,7 +90,7 @@ export default class UlxPanelmenu extends Component {
 	}
 
 	get expandedKeysState() {
-		return this.isControlled ? this.args.expandedKeys ?? {} : this._expandedKeys ?? {};
+		return this.isControlled ? (this.args.expandedKeys ?? {}) : (this._expandedKeys ?? {});
 	}
 
 	get multiple() {
@@ -443,7 +443,8 @@ export default class UlxPanelmenu extends Component {
 	focusNextHeader(fromIndex) {
 		for (let i = fromIndex + 1; i < this.model.length; i++) {
 			const item = this.model[i];
-			if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) return this.focusHeader(i);
+			if (item && this.isItemVisible(item) && !this.isItemDisabled(item))
+				return this.focusHeader(i);
 		}
 		return this.focusHeader(0);
 	}
@@ -451,7 +452,8 @@ export default class UlxPanelmenu extends Component {
 	focusPrevHeader(fromIndex) {
 		for (let i = fromIndex - 1; i >= 0; i--) {
 			const item = this.model[i];
-			if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) return this.focusHeader(i);
+			if (item && this.isItemVisible(item) && !this.isItemDisabled(item))
+				return this.focusHeader(i);
 		}
 		return this.focusHeader(this.model.length - 1);
 	}
@@ -462,12 +464,7 @@ export default class UlxPanelmenu extends Component {
 	}
 
 	<template>
-		<div
-			id={{this.rootId}}
-			class={{this.rootClasses}}
-			{{this.setRootRef}}
-			...attributes
-		>
+		<div id={{this.rootId}} class={{this.rootClasses}} {{this.setRootRef}} ...attributes>
 			{{#each this.model as |item index|}}
 				{{#if (this.isItemVisible item)}}
 					<div id={{this.getPanelId item index}} class="panelmenu-panel">
@@ -480,19 +477,13 @@ export default class UlxPanelmenu extends Component {
 							aria-disabled={{if item.disabled "true" "false"}}
 							aria-controls={{this.getContentId item index}}
 							tabindex={{if item.disabled "-1" "0"}}
-							data-p-disabled={{if item.disabled "true" "false"}}
-							data-p-highlight={{if (this.isPanelActive item index) "true" "false"}}
 							{{on "click" (fn this.onHeaderClick item index)}}
 							{{on "keydown" (fn this.onHeaderKeyDown item index)}}
 							{{on "focusin" (fn this.onHeaderFocus item index)}}
 							{{on "focusout" (fn this.onHeaderBlur item index)}}
 						>
 							<div class="panelmenu-header-content">
-								<a
-									href={{if item.url item.url "#"}}
-									tabindex="-1"
-									class="panelmenu-header-action"
-								>
+								<a href={{if item.url item.url "#"}} tabindex="-1" class="panelmenu-header-action">
 									{{#if item.template}}
 										{{component
 											item.template
@@ -506,7 +497,11 @@ export default class UlxPanelmenu extends Component {
 											<span class="panelmenu-header-toggle-icon" aria-hidden="true">
 												<UlxIcon
 													@type="font"
-													@iconName={{if (this.isPanelActive item index) this.collapseIconName this.expandIconName}}
+													@iconName={{if
+														(this.isPanelActive item index)
+														this.collapseIconName
+														this.expandIconName
+													}}
 													@componentClass="bs-icons1"
 													@size={{this.toggleIconSize}}
 												/>
@@ -539,7 +534,10 @@ export default class UlxPanelmenu extends Component {
 									class={{this.getPanelToggleableContentClasses item index}}
 									role="region"
 									aria-labelledby={{this.getHeaderId item index}}
-									{{this.panelContentTransition (this.getPanelKeyFor item index) (this.isPanelActive item index)}}
+									{{this.panelContentTransition
+										(this.getPanelKeyFor item index)
+										(this.isPanelActive item index)
+									}}
 								>
 									<div class="panelmenu-content">
 										<UlxPanelmenuSub
@@ -563,4 +561,3 @@ export default class UlxPanelmenu extends Component {
 		</div>
 	</template>
 }
-

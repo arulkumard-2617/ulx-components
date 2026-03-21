@@ -41,7 +41,7 @@ export default class DemoSelectButtonDisabled extends Component {
         @optionLabel="label"
         @optionValue="value"
         @disabled={{true}}
-        @ariaLabel={{this.options1}}
+        @ariaLabel={{t "demo.selectbutton.choose.option"}}
       />
       <UlxSelectButton
         @options={{this.options2}}
@@ -50,7 +50,7 @@ export default class DemoSelectButtonDisabled extends Component {
         @optionLabel="name"
         @optionValue="value"
         @optionDisabled="constant"
-        @ariaLabel={{this.options2}}
+        @ariaLabel={{t "demo.selectbutton.aria.secondGroup"}}
       />
     </div>
   </template>

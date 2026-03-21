@@ -304,9 +304,11 @@ export default class UlxPaginator extends Component {
 							{{yield this.prevPageLinkConfig to="prevPageLink"}}
 						{{else}}
 							<UlxButton
-								@variant="secondary"
+								@variant="basic"
 								@text={{true}}
 								@icon={{this.prevPageLinkConfig.icon}}
+								@label={{t "lbl.paginator.previous"}}
+								@icon={{this.prevPageLinkIcon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass={{this.prevPageLinkConfig.className}}
@@ -321,9 +323,12 @@ export default class UlxPaginator extends Component {
 							{{yield this.nextPageLinkConfig to="nextPageLink"}}
 						{{else}}
 							<UlxButton
-								@variant="secondary"
+								@variant="basic"
 								@text={{true}}
 								@icon={{this.nextPageLinkConfig.icon}}
+								@label={{t "lbl.paginator.next"}}
+								@icon={{this.nextPageLinkIcon}}
+								@iconPos="right"
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass={{this.nextPageLinkConfig.className}}

@@ -137,7 +137,13 @@ export default class UlxPanelmenuSub extends Component {
 		}
 
 		// Only toggle when children exist (matches PanelMenuSub behavior).
-		this.hasChildren(item) && this.args.onToggle?.({ item, key, expanded: !expanded, parentKey: this.args.parentKey ?? "" });
+		this.hasChildren(item) &&
+			this.args.onToggle?.({
+				item,
+				key,
+				expanded: !expanded,
+				parentKey: this.args.parentKey ?? ""
+			});
 
 		if (!item?.url) {
 			originalEvent?.preventDefault?.();
@@ -337,9 +343,11 @@ export default class UlxPanelmenuSub extends Component {
 							role="treeitem"
 							aria-label={{item.label}}
 							aria-disabled={{if item.disabled "true" "false"}}
-							aria-expanded={{if (this.hasChildren item) (if (this.isExpanded item index) "true" "false")}}
+							aria-expanded={{if
+								(this.hasChildren item)
+								(if (this.isExpanded item index) "true" "false")
+							}}
 							aria-level={{this.ariaLevel}}
-							data-p-disabled={{if item.disabled "true" "false"}}
 						>
 							<div class={{this.getItemContentClasses item index}}>
 								<a
@@ -364,7 +372,11 @@ export default class UlxPanelmenuSub extends Component {
 											<span class="panelmenu-submenu-icon" aria-hidden="true">
 												<UlxIcon
 													@type="font"
-													@iconName={{if (this.isExpanded item index) this.collapseIconName this.expandIconName}}
+													@iconName={{if
+														(this.isExpanded item index)
+														this.collapseIconName
+														this.expandIconName
+													}}
 													@componentClass="bs-icons1"
 													@size={{this.toggleIconSize}}
 												/>
@@ -393,7 +405,10 @@ export default class UlxPanelmenuSub extends Component {
 								{{#if (this.shouldRenderSubmenu item index)}}
 									<div
 										class={{this.getToggleableContentClasses item index}}
-										{{this.toggleableContentTransition (this.getKeyFor item index) (this.isExpanded item index)}}
+										{{this.toggleableContentTransition
+											(this.getKeyFor item index)
+											(this.isExpanded item index)
+										}}
 									>
 										<UlxPanelmenuSub
 											@panelId={{@panelId}}
@@ -417,4 +432,3 @@ export default class UlxPanelmenuSub extends Component {
 		</ul>
 	</template>
 }
-

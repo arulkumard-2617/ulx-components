@@ -138,10 +138,8 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
-	setFocusToMenuitem(target, focusableItem) {
-		if (!target || !focusableItem) return;
-		target.tabIndex = "-1";
-		focusableItem.tabIndex = "0";
+	setFocusToMenuitem(focusableItem) {
+		if (!focusableItem) return;
 		setTimeout(() => focusableItem.focus({ preventScroll: true }), 0);
 	}
 
@@ -172,7 +170,6 @@ export default class UlxSteps extends Component {
 	setFocusToFirstItem() {
 		const firstItem = this.findFirstItem();
 		if (firstItem) {
-			firstItem.tabIndex = "0";
 			firstItem.focus({ preventScroll: true });
 		}
 	}
@@ -208,25 +205,25 @@ export default class UlxSteps extends Component {
 		switch (originalEvent.code) {
 			case "ArrowRight": {
 				const nextItem = this.findNextItem(originalEvent.target);
-				nextItem && this.setFocusToMenuitem(originalEvent.target, nextItem);
+				nextItem && this.setFocusToMenuitem(nextItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "ArrowLeft": {
 				const prevItem = this.findPrevItem(originalEvent.target);
-				prevItem && this.setFocusToMenuitem(originalEvent.target, prevItem);
+				prevItem && this.setFocusToMenuitem(prevItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "Home": {
 				const firstItem = this.findFirstItem();
-				firstItem && this.setFocusToMenuitem(originalEvent.target, firstItem);
+				firstItem && this.setFocusToMenuitem(firstItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "End": {
 				const lastItem = this.findLastItem();
-				lastItem && this.setFocusToMenuitem(originalEvent.target, lastItem);
+				lastItem && this.setFocusToMenuitem(lastItem);
 				originalEvent.preventDefault();
 				break;
 			}
@@ -264,7 +261,6 @@ export default class UlxSteps extends Component {
 							class="steps-link"
 							href={{this.getItemHref item}}
 							target={{item.target}}
-							tabindex="-1"
 							aria-current={{if (this.isStepActive index) "step"}}
 							aria-disabled={{if (this.isStepDisabled item index) "true"}}
 							{{on "keydown" (fn this.onItemKeyDown item index)}}

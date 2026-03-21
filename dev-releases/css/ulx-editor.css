@@ -17536,6 +17536,10 @@ FEATURES IMPLEMENTED:
   align-self: stretch;
   min-block-size: 0;
 }
+.ulx-progressbar-with-controls > .ulx-button:focus-visible {
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.14285714rem var(--ulx-focus-default-color, #cd9747) inset !important;
+}
 .ulx-progressbar-with-controls:has( > .ulx-progressbar.xxxs-size) {
   block-size: 2rem;
 }
@@ -21449,8 +21453,6 @@ img.flag {
   padding: 0.57142857rem;
 }
 .ulx-paginator .paginator-first,
-.ulx-paginator .paginator-prev,
-.ulx-paginator .paginator-next,
 .ulx-paginator .paginator-last,
 .ulx-paginator .paginator-page-button {
   display: inline-flex;
@@ -21467,8 +21469,6 @@ img.flag {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .ulx-paginator .paginator-first:hover,
-.ulx-paginator .paginator-prev:hover,
-.ulx-paginator .paginator-next:hover,
 .ulx-paginator .paginator-last:hover,
 .ulx-paginator .paginator-page-button:hover {
   background-color: color-mix(in srgb, var(--ulx-layer2-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-10));
@@ -21479,8 +21479,6 @@ img.flag {
   border-color: var(--ulx-primary-border-color);
 }
 .ulx-paginator .paginator-first.disabled,
-.ulx-paginator .paginator-prev.disabled,
-.ulx-paginator .paginator-next.disabled,
 .ulx-paginator .paginator-last.disabled,
 .ulx-paginator .paginator-page-button.disabled {
   color: var(--ulx-disabled-fg-color, var(--ulx-light-text-color));
@@ -24345,9 +24343,6 @@ form.ulx-form.xl-size > .field .error-message,
 }
 .ulx-panelmenu .panelmenu-header {
   outline: none;
-}
-.ulx-panelmenu .panelmenu-header:not(.disabled):focus-visible .panelmenu-header-content {
-  box-shadow: inset 0 0 0 0.28571429rem var(--ulx-focus-default-color, #cd9747);
 }
 .ulx-panelmenu .panelmenu-header-content {
   border: 1px solid color-mix(in srgb, var(--ulx-light-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));

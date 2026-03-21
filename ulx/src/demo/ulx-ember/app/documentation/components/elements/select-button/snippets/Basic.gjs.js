@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSelectButton } from 'ulx-components';
+import { UlxSelectButton, t } from 'ulx-components';
 
 export default class DemoSelectButtonBasic extends Component {
   @tracked value = null;
@@ -26,7 +26,7 @@ export default class DemoSelectButtonBasic extends Component {
       @onChange={{this.onChange}}
       @optionLabel="label"
       @optionValue="value"
-      @ariaLabel={{this.options}}
+      @ariaLabel={{t "demo.selectbutton.choose.option"}}
     />
   </template>
 }

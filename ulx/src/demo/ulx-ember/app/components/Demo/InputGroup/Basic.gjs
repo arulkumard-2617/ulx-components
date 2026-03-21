@@ -9,7 +9,8 @@ import {
 <template>
   <div class="ulx-form m-size ulx-grid gap-8 mb-14">
 
-    <UlxField @fieldId="start-time"
+    <UlxField
+      @fieldId="start-time"
       @label={{t "lbl.start.time"}}
       @fieldClass="col-3"
     >
