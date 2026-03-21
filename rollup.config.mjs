@@ -1,6 +1,10 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const addon = new Addon({
 	srcDir: 'src',
@@ -39,6 +43,32 @@ export default {
 		]),
 
 		addon.dependencies(),
+
+		// Resolve ember-sortable so it gets bundled (addon.dependencies doesn't externalize devDeps)
+		{
+			name: 'resolve-ember-sortable',
+			resolveId(source) {
+				if (source === 'ember-sortable/modifiers/sortable-group') {
+					return path.resolve(
+						__dirname,
+						'node_modules/ember-sortable/dist/modifiers/sortable-group.js'
+					);
+				}
+				if (source === 'ember-sortable/modifiers/sortable-item') {
+					return path.resolve(
+						__dirname,
+						'node_modules/ember-sortable/dist/modifiers/sortable-item.js'
+					);
+				}
+				if (source === 'ember-sortable/modifiers/sortable-handle') {
+					return path.resolve(
+						__dirname,
+						'node_modules/ember-sortable/dist/modifiers/sortable-handle.js'
+					);
+				}
+				return null;
+			},
+		},
 
 		babel({
 			babelHelpers: 'bundled',

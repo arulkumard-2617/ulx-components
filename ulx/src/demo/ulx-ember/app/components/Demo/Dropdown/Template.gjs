@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { concat } from '@ember/helper';
-import { UlxDropdown, UlxIcon, t } from 'ulx-components';
+import { UlxDropdown, UlxField, UlxIcon, t } from 'ulx-components';
 
 const IMAGE_PLACEHOLDER =
   'https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png';
@@ -34,17 +34,24 @@ export default class DemoDropdownTemplate extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxDropdown
-        @options={{this.options}}
-        @value={{this.selectedItem}}
-        @onChange={{this.setSelectedItem}}
-        @optionLabel="label"
-        @optionValue="value"
-        @optionImageUrl="imageUrl"
-        @placeholder={{t "msg.dropdown.placeholder.city"}}
+      <UlxField
         @label={{t "lbl.dropdown.template"}}
+        @fieldId="dropdown-template"
         @fieldClass="col-4"
       >
+        <:control as |field|>
+          <UlxDropdown
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.options}}
+            @value={{this.selectedItem}}
+            @onChange={{this.setSelectedItem}}
+            @optionLabel="label"
+            @optionValue="value"
+            @optionImageUrl="imageUrl"
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
+          >
         <:value as |ctx|>
           {{#if ctx.selectedOption}}
             {{#if ctx.imageUrl}}
@@ -105,7 +112,9 @@ export default class DemoDropdownTemplate extends Component {
             />
           {{/if}}
         </:icon>
-      </UlxDropdown>
+          </UlxDropdown>
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

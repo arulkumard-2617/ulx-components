@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxDropdown, t } from 'ulx-components';
+import { UlxDropdown, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -25,15 +25,25 @@ export default class DemoDropdownEditable extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxDropdown
-        @options={{this.cities}}
-        @value={{this.selectedCity}}
-        @onChange={{this.setSelectedCity}}
-        @editable={{true}}
-        @placeholder={{t "msg.dropdown.select.or.type"}}
+      <UlxField
         @label={{t "lbl.dropdown.editable"}}
+        @fieldId="dropdown-editable"
         @fieldClass="col-4"
-      />
+      >
+        <:control as |field|>
+          <UlxDropdown
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.cities}}
+            @value={{this.selectedCity}}
+            @onChange={{this.setSelectedCity}}
+            @editable={{true}}
+            @placeholder={{t "msg.dropdown.select.or.type"}}
+          />
+
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

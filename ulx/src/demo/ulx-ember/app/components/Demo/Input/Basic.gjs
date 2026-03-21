@@ -46,12 +46,12 @@ export default class Demo extends Component {
         @helpText={{t "msg.input.help"}}
         @rules={{this.rules}}
         @error={{this.usernameError}}
-        @inputId="username"
+        @fieldId="username"
         @fieldClass="col-6"
       >
         <:control as |field|>
           <UlxInput
-            @inputId={{field.inputId}}
+            @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
             @ariaErrorMessage={{field.errorId}}
             @value={{this.username}}

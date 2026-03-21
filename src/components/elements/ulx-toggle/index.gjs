@@ -26,7 +26,7 @@ import {
  * @param {boolean} [invalid=false] - Error/invalid state.
  * @param {string} [error] - Error message or flag; sets invalid state when present (with @invalid).
  * @param {string} [inputId] - Id for the hidden input; use with <label for=""> for a11y.
- * @param {string} [key] - Stable key for auto-generated id when inputId not provided.
+ * @param {string} [key] - When `inputId` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated id.
  * @param {string} [size="m-size"] - Size: s-size, m-size, l-size.
  * @param {string} [variant="primary"] - Color variant class (e.g. "primary", "green", etc.).
  * @param {string} [customClass] - Extra classes on root.

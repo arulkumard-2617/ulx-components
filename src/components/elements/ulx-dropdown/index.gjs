@@ -7,14 +7,7 @@ import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config";
-import {
-	buildFieldClass,
-	buildAriaDescribedBy,
-	isInvalidState,
-	buildFloatLabelClass,
-	getFloatLabelLabelClass,
-	resolveFloatLabelText
-} from "../../../utils/input-util";
+import { isInvalidState } from "../../../utils/input-util";
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
 import appendToBody from "../../../modifiers/append-to-body";
@@ -31,8 +24,9 @@ import { hash, concat } from "@ember/helper";
 /**
  * Dropdown select: single selection from a list with optional filter, groups, templates.
  * Imports and uses ember-truth-helpers (eq, and, not, or) in templates. Supports: basic, checkmark,
- * editable, group, template, filter, clear icon, loading, float label, filled, invalid,
- * disabled. Accessible: listbox role, keyboard nav, ARIA.
+ * editable, group, template, filter, clear icon, loading, filled, invalid, disabled.
+ * Use `UlxField` for labels, help, and errors; use `UlxFloatLabel` for floating labels.
+ * Accessible: listbox role, keyboard nav, ARIA.
  *
  * @class UlxDropdown
  * @param {any} [value] - Selected value (controlled).
@@ -52,25 +46,22 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [disabled=false] - Disables the dropdown.
  * @param {boolean} [loading=false] - Shows progress spinner instead of dropdown icon.
  * @param {boolean} [invalid=false] - Invalid state styling.
+ * @param {unknown} [error] - When truthy, treated like invalid for styling (same as `UlxInput`); message is not rendered here.
  * @param {boolean} [editable=false] - Trigger is editable input; type to filter.
  * @param {boolean} [filter=false] - Show filter input in panel.
  * @param {boolean} [showClear=false] - Show clear icon when value is set.
  * @param {boolean} [checkmark=false] - Show checkmark on selected item.
  * @param {boolean} [filled=false] - Filled variant styling.
- * @param {boolean|string} [floatLabel=false] - Float label mode.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
- * @param {string} [label] - Label text; rendered inside the component (UlxInput-style).
- * @param {string} [labelRight] - Optional right-side label text (e.g. meta); rendered inside the component.
- * @param {string} [helpText] - Help text below field; rendered inside the component.
- * @param {string} [error] - Error message below field; sets invalid state; rendered inside the component.
- * @param {string} [fieldClass] - Extra class for field wrapper.
  * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
- * @param {string} [id] - Id for the trigger (for aria-labelledby etc.).
- * @param {string} [key] - Stable key for auto-generated id.
- * @param {boolean} [required=false] - Required field.
+ * @param {string} [id] - Id for the trigger (for label `for` / ARIA).
+ * @param {string} [key] - When `@id` is omitted, used as the trigger id (e.g. `@key={{field.key}}` with `UlxField`).
+ * @param {string} [ariaDescribedBy] - `aria-describedby` ids (e.g. from `UlxField` control hash).
+ * @param {string} [ariaErrorMessage] - `aria-errormessage` id (e.g. `field.errorId`).
+ * @param {boolean} [required=false] - `aria-required` on the combobox.
  * @param {Function} [onChange] - (value) => void when selection changes.
  * @param {Function} [onFocus] - Focus callback.
  * @param {Function} [onBlur] - Blur callback.
@@ -105,13 +96,11 @@ export default class UlxDropdown extends Component {
 	@tracked panelElement = null;
 	@tracked panelPosition = "below";
 
-	get key() {
-		return this.args.key ?? guidFor(this);
-	}
-
 	get triggerId() {
-		const { id } = this.args;
-		return id ?? `ulx-dropdown-${this.key}`;
+		const { id, key } = this.args;
+		if (typeof id === 'string' && id.length) return id;
+		if (typeof key === 'string' && key.length) return key;
+		return `ulx-dropdown-${guidFor(this)}`;
 	}
 
 	get rootDataQa() {
@@ -177,38 +166,6 @@ export default class UlxDropdown extends Component {
 		queueMicrotask(() => {
 			this.suppressKeyboardOptionRingForFocus = false;
 		});
-	}
-
-	get fieldClass() {
-		return buildFieldClass(this.args.fieldClass);
-	}
-
-	get floatLabelText() {
-		const { floatLabel, label } = this.args;
-		return resolveFloatLabelText(floatLabel, label);
-	}
-
-	get floatLabelClass() {
-		const { size = "m-size", filled } = this.args;
-		return buildFloatLabelClass({
-			size,
-			filled,
-			invalid: this.isInvalid,
-			disabled: this.isTriggerDisabled
-		});
-	}
-
-	get floatLabelLabelClass() {
-		return getFloatLabelLabelClass();
-	}
-
-	get floatLabelRootClasses() {
-		const rootClassesBase = this.rootClasses;
-		const parts = rootClassesBase ? [rootClassesBase] : [];
-		parts.push(getComponentClass("inputtext"));
-		this.overlayVisible && parts.push("focus");
-		this.selectedOption != null && parts.push("input-filled");
-		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get isInvalid() {
@@ -394,7 +351,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	get triggerPlaceholderDisplay() {
-		return this.args.floatLabel ? "" : this.placeholderLabel;
+		return this.placeholderLabel;
 	}
 
 	get contentPlaceholderClass() {
@@ -410,10 +367,11 @@ export default class UlxDropdown extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return buildAriaDescribedBy(this.triggerId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		return this.args.ariaDescribedBy;
+	}
+
+	get ariaErrorMessage() {
+		return this.args.ariaErrorMessage;
 	}
 
 	get isRequired() {
@@ -422,6 +380,10 @@ export default class UlxDropdown extends Component {
 
 	get clearButtonAriaLabel() {
 		return t("lbl.clear.selection");
+	}
+
+	get openTriggerAriaLabel() {
+		return t("aria.dropdown.open");
 	}
 
 	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
@@ -906,494 +868,278 @@ export default class UlxDropdown extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
-			{{#unless @floatLabel}}
-				{{#if (has-block "label")}}
-					<label for={{this.triggerId}}>
-						<span class="label-text">
-							{{yield to="label"}}
-							{{#if this.isRequired}}
-								<span class="fg-red" aria-hidden="true">*</span>
-							{{/if}}
+		<div
+			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
+			role={{unless @editable "combobox"}}
+			aria-haspopup={{unless @editable "listbox"}}
+			aria-expanded={{unless @editable this.overlayVisible}}
+			aria-controls={{unless @editable (concat this.triggerId "-listbox")}}
+			aria-invalid={{unless @editable (if (eq this.isInvalid true) "true" "false")}}
+			aria-required={{unless @editable this.isRequired}}
+			aria-describedby={{unless @editable this.ariaDescribedBy}}
+			aria-errormessage={{unless @editable this.ariaErrorMessage}}
+			{{this.triggerRef}}
+			{{overlayDismiss
+				this.overlayVisible
+				onClose=this.toggleOverlay
+				panel=this.panelElement
+				dismissVariant="rootPanel"
+				defer=true
+			}}
+			{{on "pointerdown" this.onTriggerPointerIntent}}
+			{{on "click" this.toggleOverlay}}
+			...attributes
+		>
+			{{#if @editable}}
+				<input
+					id={{this.triggerId}}
+					data-qa="ulx-dropdown-trigger"
+					class="dropdown-input editable {{this.inputtextClass}}"
+					type="text"
+					autocomplete="off"
+					value={{this.editableInputValue}}
+					placeholder={{this.triggerPlaceholderDisplay}}
+					readonly={{this.isTriggerDisabled}}
+					role="combobox"
+					aria-haspopup="listbox"
+					aria-expanded={{this.overlayVisible}}
+					aria-controls="{{this.triggerId}}-listbox"
+					aria-autocomplete="list"
+					aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
+					aria-required={{this.isRequired}}
+					aria-describedby={{this.ariaDescribedBy}}
+					aria-errormessage={{this.ariaErrorMessage}}
+					aria-activedescendant={{this.activeDescendantId}}
+					{{on "input" this.onEditableInput}}
+					{{on "keydown" this.onEditableTriggerKeydown}}
+					{{on "focus" this.onEditableFocus}}
+					{{on "pointerdown" this.onEditableInputPointerDown}}
+					{{on "click" this.onEditableClick}}
+					{{on "blur" this.onEditableBlur}}
+				/>
+				<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}" tabindex="-1">
+					{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
+						<UlxIcon
+							@type="font"
+							@dataQa="ulx-dropdown-clear"
+							@iconName="close-stroke-icon-new dropdown-clear-icon"
+							@componentClass="bs-icons1"
+							@ariaLabel={{this.clearButtonAriaLabel}}
+							role="button"
+							tabindex="0"
+							{{on "click" this.clearSelection}}
+							{{on "keydown" this.onClearIconKeydown}}
+						/>
+					{{/if}}
+					{{#if (and @loading)}}
+						<span class="dropdown-loading-icon" aria-hidden="true">
+							<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 						</span>
-						{{#if (has-block "labelRight")}}
-							<span class="label-right">{{yield to="labelRight"}}</span>
-						{{else if @labelRight}}
-							<span class="label-right">{{@labelRight}}</span>
-						{{/if}}
-					</label>
-				{{else if @label}}
-					<label for={{this.triggerId}}>
-						<span class="label-text">
-							{{@label}}
-							{{#if this.isRequired}}
-								<span class="fg-red" aria-hidden="true">*</span>
-							{{/if}}
-						</span>
-						{{#if @labelRight}}
-							<span class="label-right">{{@labelRight}}</span>
-						{{/if}}
-					</label>
-				{{/if}}
-			{{/unless}}
-
-			{{#if @floatLabel}}
-				<span class={{this.floatLabelClass}}>
-					<div
-						class={{this.floatLabelRootClasses}}
-						role={{unless @editable "combobox"}}
-						aria-haspopup={{unless @editable "listbox"}}
-						aria-expanded={{unless @editable this.overlayVisible}}
-						aria-controls={{unless @editable (concat this.triggerId "-listbox")}}
-						aria-invalid={{unless @editable (if (eq this.isInvalid true) "true" "false")}}
-						aria-required={{unless @editable this.isRequired}}
-						aria-describedby={{unless @editable this.ariaDescribedBy}}
-						{{this.triggerRef}}
-						{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
-						{{on "pointerdown" this.onTriggerPointerIntent}}
-						{{on "click" this.toggleOverlay}}
-						...attributes
-					>
-						{{#if @editable}}
-							<input
-								id={{this.triggerId}}
-								data-qa="ulx-dropdown-trigger"
-								class="dropdown-input editable {{this.inputtextClass}}"
-								type="text"
-								autocomplete="off"
-								value={{this.editableInputValue}}
-								placeholder={{this.triggerPlaceholderDisplay}}
-								readonly={{this.isTriggerDisabled}}
-								role="combobox"
-								aria-haspopup="listbox"
-								aria-expanded={{this.overlayVisible}}
-								aria-controls="{{this.triggerId}}-listbox"
-								aria-autocomplete="list"
-								aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
-								aria-required={{this.isRequired}}
-								aria-describedby={{this.ariaDescribedBy}}
-								aria-activedescendant={{this.activeDescendantId}}
-								{{on "input" this.onEditableInput}}
-								{{on "keydown" this.onEditableTriggerKeydown}}
-								{{on "focus" this.onEditableFocus}}
-								{{on "pointerdown" this.onEditableInputPointerDown}}
-								{{on "click" this.onEditableClick}}
-								{{on "blur" this.onEditableBlur}}
-							/>
-							<div
-								class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-								tabindex="-1"
-							>
-								{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
-									<UlxIcon
-										@type="font"
-										@dataQa="ulx-dropdown-clear"
-										@iconName="dropdown-clear-icon close-stroke-icon-new"
-										@componentClass="bs-icons1"
-										aria-hidden="true"
-										role="button"
-										tabindex="0"
-										aria-label={{this.clearButtonAriaLabel}}
-										{{on "click" this.clearSelection}}
-										{{on "keydown" this.onClearIconKeydown}}
-									/>
-								{{/if}}
-								{{#if (and @loading)}}
-									<span class="dropdown-loading-icon" aria-hidden="true">
-										<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
-									</span>
-								{{else}}
-									{{#if (has-block "icon")}}
-										{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-									{{else}}
-										<UlxIcon
-											@dataQa="ulx-dropdown-open-icon"
-											@iconName="down-stroke-icon-new dropdown-trigger-icon"
-											@type="font"
-											@componentClass="bs-icons1"
-											aria-hidden="true"
-										/>
-									{{/if}}
-								{{/if}}
-							</div>
+					{{else}}
+						{{#if (has-block "icon")}}
+							{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 						{{else}}
-							<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
-								{{#if (has-block "value")}}
-									<div class="flex items-center">
-										{{yield
-											(hash
-												selectedOption=this.selectedOption
-												selectedLabel=this.selectedLabel
-												placeholder=this.triggerPlaceholderDisplay
-												imageUrl=this.selectedOptionImageUrl
-											)
-											to="value"
-										}}
-									</div>
-								{{else}}
-									{{#if (and this.selectedLabel)}}
-										<span class="dropdown-item-label">{{this.selectedLabel}}</span>
-										{{#if (has-block "subtext")}}
-											<span>{{yield this.selectedOption to="subtext"}}</span>
-										{{/if}}
-									{{else}}
-										<span class="dropdown-item-label">{{this.triggerPlaceholderDisplay}}</span>
-									{{/if}}
-								{{/if}}
-							</div>
-							<div
-								class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+							<UlxIcon
+								@dataQa="ulx-dropdown-open-icon"
+								@iconName="down-stroke-icon-new dropdown-trigger-icon"
+								@type="font"
+								@componentClass="bs-icons1"
+								@ariaLabel={{this.openTriggerAriaLabel}}
+							/>
+						{{/if}}
+					{{/if}}
+				</div>
+			{{else}}
+				<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
+					{{#if (has-block "value")}}
+						<div class="flex items-center">
+							{{yield
+								(hash
+									selectedOption=this.selectedOption
+									selectedLabel=this.selectedLabel
+									placeholder=this.triggerPlaceholderDisplay
+									imageUrl=this.selectedOptionImageUrl
+								)
+								to="value"
+							}}
+						</div>
+					{{else}}
+						{{#if (and this.selectedLabel)}}
+							<span class="dropdown-item-label">{{this.selectedLabel}}</span>
+							{{#if (has-block "subtext")}}
+								<span>{{yield this.selectedOption to="subtext"}}</span>
+							{{/if}}
+						{{else}}
+							<span class="dropdown-item-label">{{this.triggerPlaceholderDisplay}}</span>
+						{{/if}}
+					{{/if}}
+				</div>
+				<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}">
+					{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
+						<UlxIcon
+							@type="font"
+							@dataQa="ulx-dropdown-clear"
+							@iconName="close-stroke-icon-new dropdown-clear-icon"
+							@componentClass="bs-icons1"
+							@ariaLabel={{this.clearButtonAriaLabel}}
+							role="button"
+							tabindex="0"
+							{{on "click" this.clearSelection}}
+							{{on "keydown" this.onClearIconKeydown}}
+						/>
+					{{/if}}
+					{{#if (and @loading)}}
+						<span
+							class="dropdown-loading-icon"
+							id={{this.triggerId}}
+							data-qa="ulx-dropdown-trigger"
+							role="button"
+							aria-disabled="true"
+							tabindex="-1"
+							aria-busy="true"
+						>
+							<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
+						</span>
+					{{else}}
+						{{#if (has-block "icon")}}
+							<span
 								id={{this.triggerId}}
 								data-qa="ulx-dropdown-trigger"
-								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 								role="button"
+								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 								{{on "keydown" this.onTriggerKeydown}}
 								{{on "focus" this.handleFocus}}
 								{{on "blur" this.handleBlur}}
 							>
-								{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
-									<UlxIcon
-										@type="font"
-										@dataQa="ulx-dropdown-clear"
-										@iconName="close-stroke-icon-new dropdown-clear-icon"
-										@componentClass="bs-icons1"
-										aria-hidden="true"
-										role="button"
-										tabindex="0"
-										aria-label={{this.clearButtonAriaLabel}}
-										{{on "click" this.clearSelection}}
-										{{on "keydown" this.onClearIconKeydown}}
-									/>
-								{{/if}}
-								{{#if (and @loading)}}
-									<span class="dropdown-loading-icon" aria-hidden="true">
-										<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
-									</span>
-								{{else}}
-									{{#if (has-block "icon")}}
-										{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-									{{else}}
-										<UlxIcon
-											@dataQa="ulx-dropdown-open-icon"
-											@iconName="down-stroke-icon-new dropdown-trigger-icon"
-											@type="font"
-											@componentClass="bs-icons1"
-											aria-hidden="true"
-										/>
-									{{/if}}
-								{{/if}}
-							</div>
+								{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
+							</span>
+						{{else}}
+							<UlxIcon
+								id={{this.triggerId}}
+								@dataQa="ulx-dropdown-trigger"
+								@iconName="down-stroke-icon-new dropdown-trigger-icon"
+								@type="font"
+								@componentClass="bs-icons1"
+								@ariaLabel={{this.openTriggerAriaLabel}}
+								role="button"
+								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
+								{{on "keydown" this.onTriggerKeydown}}
+								{{on "focus" this.handleFocus}}
+								{{on "blur" this.handleBlur}}
+							/>
 						{{/if}}
-					</div>
-					<label for={{this.triggerId}} class={{this.floatLabelLabelClass}}>
-						{{this.floatLabelText}}
-						{{#if this.isRequired}}
-							<span class="fg-red" aria-hidden="true">*</span>
-						{{/if}}
-					</label>
-				</span>
-			{{else}}
-				<div
-					class={{this.rootClasses}}
-					role={{unless @editable "combobox"}}
-					aria-haspopup={{unless @editable "listbox"}}
-					aria-expanded={{unless @editable this.overlayVisible}}
-					aria-controls={{unless @editable (concat this.triggerId "-listbox")}}
-					aria-invalid={{unless @editable (if (eq this.isInvalid true) "true" "false")}}
-					aria-required={{unless @editable this.isRequired}}
-					aria-describedby={{unless @editable this.ariaDescribedBy}}
-					{{this.triggerRef}}
-					{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
-					{{on "pointerdown" this.onTriggerPointerIntent}}
-					{{on "click" this.toggleOverlay}}
-					...attributes
-				>
-					{{#if @editable}}
-						<input
-							id={{this.triggerId}}
-							data-qa="ulx-dropdown-trigger"
-							class="dropdown-input editable {{this.inputtextClass}}"
-							type="text"
-							autocomplete="off"
-							value={{this.editableInputValue}}
-							placeholder={{this.triggerPlaceholderDisplay}}
-							readonly={{this.isTriggerDisabled}}
-							role="combobox"
-							aria-haspopup="listbox"
-							aria-expanded={{this.overlayVisible}}
-							aria-controls="{{this.triggerId}}-listbox"
-							aria-autocomplete="list"
-							aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
-							aria-required={{this.isRequired}}
-							aria-describedby={{this.ariaDescribedBy}}
-							aria-activedescendant={{this.activeDescendantId}}
-							{{on "input" this.onEditableInput}}
-							{{on "keydown" this.onEditableTriggerKeydown}}
-							{{on "focus" this.onEditableFocus}}
-							{{on "pointerdown" this.onEditableInputPointerDown}}
-							{{on "click" this.onEditableClick}}
-							{{on "blur" this.onEditableBlur}}
-						/>
-						<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}" tabindex="-1">
-							{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
-								<UlxIcon
-									@type="font"
-									@dataQa="ulx-dropdown-clear"
-									@iconName="close-stroke-icon-new dropdown-clear-icon"
-									@componentClass="bs-icons1"
-									aria-hidden="true"
-									role="button"
-									tabindex="0"
-									aria-label={{this.clearButtonAriaLabel}}
-									{{on "click" this.clearSelection}}
-									{{on "keydown" this.onClearIconKeydown}}
-								/>
-							{{/if}}
-							{{#if (and @loading)}}
-								<span class="dropdown-loading-icon" aria-hidden="true">
-									<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
-								</span>
-							{{else}}
-								{{#if (has-block "icon")}}
-									{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-								{{else}}
-									<UlxIcon
-										@dataQa="ulx-dropdown-open-icon"
-										@iconName="down-stroke-icon-new dropdown-trigger-icon"
-										@type="font"
-										@componentClass="bs-icons1"
-										aria-hidden="true"
-									/>
-								{{/if}}
-							{{/if}}
-						</div>
-					{{else}}
-						<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
-							{{#if (has-block "value")}}
-								<div class="flex items-center">
-									{{yield
-										(hash
-											selectedOption=this.selectedOption
-											selectedLabel=this.selectedLabel
-											placeholder=this.triggerPlaceholderDisplay
-											imageUrl=this.selectedOptionImageUrl
-										)
-										to="value"
-									}}
-								</div>
-							{{else}}
-								{{#if (and this.selectedLabel)}}
-									<span class="dropdown-item-label">{{this.selectedLabel}}</span>
-									{{#if (has-block "subtext")}}
-										<span>{{yield this.selectedOption to="subtext"}}</span>
-									{{/if}}
-								{{else}}
-									<span class="dropdown-item-label">{{this.triggerPlaceholderDisplay}}</span>
-								{{/if}}
-							{{/if}}
-						</div>
-						<div
-							class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-							id={{this.triggerId}}
-							data-qa="ulx-dropdown-trigger"
-							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-							role="button"
-							{{on "keydown" this.onTriggerKeydown}}
-							{{on "focus" this.handleFocus}}
-							{{on "blur" this.handleBlur}}
-						>
-							{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
-								<UlxIcon
-									@type="font"
-									@dataQa="ulx-dropdown-clear"
-									@iconName="close-stroke-icon-new dropdown-clear-icon"
-									@componentClass="bs-icons1"
-									aria-hidden="true"
-									role="button"
-									tabindex="0"
-									aria-label={{this.clearButtonAriaLabel}}
-									{{on "click" this.clearSelection}}
-									{{on "keydown" this.onClearIconKeydown}}
-								/>
-							{{/if}}
-							{{#if (and @loading)}}
-								<span class="dropdown-loading-icon" aria-hidden="true">
-									<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
-								</span>
-							{{else}}
-								{{#if (has-block "icon")}}
-									{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-								{{else}}
-									<UlxIcon
-										@dataQa="ulx-dropdown-open-icon"
-										@iconName="down-stroke-icon-new dropdown-trigger-icon"
-										@type="font"
-										@componentClass="bs-icons1"
-										aria-hidden="true"
-									/>
-								{{/if}}
-							{{/if}}
-						</div>
 					{{/if}}
 				</div>
 			{{/if}}
+		</div>
 
-			{{#if this.overlayVisible}}
+		{{#if this.overlayVisible}}
+			<div
+				id="{{this.triggerId}}-listbox"
+				data-qa="ulx-dropdown-panel"
+				class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
+				role="listbox"
+				aria-activedescendant={{this.activeDescendantId}}
+				aria-hidden="false"
+				{{this.panelRef}}
+				{{appendToBody this.overlayVisible}}
+				{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
+				{{on "pointerdown" this.onOptionPanelPointerIntent}}
+				{{on "keydown" this.onPanelKeydown}}
+				{{on "click" this.stopPanelClick}}
+			>
+				{{#if (and @filter)}}
+					<div class="dropdown-filter-container">
+						<UlxIcon
+							@type="font"
+							@iconName="search-icon dropdown-filter-icon"
+							@componentClass="bs-icons1"
+							@size="s18"
+							aria-hidden="true"
+						/>
+						<input
+							type="text"
+							class="dropdown-filter-input"
+							data-qa="ulx-dropdown-filter"
+							value={{this.filterValue}}
+							placeholder={{@filterPlaceholder}}
+							{{on "input" this.onFilterInput}}
+							{{on "keydown" this.onFilterKeydown}}
+						/>
+					</div>
+				{{/if}}
 				<div
-					id="{{this.triggerId}}-listbox"
-					data-qa="ulx-dropdown-panel"
-					class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
-					role="listbox"
-					aria-activedescendant={{this.activeDescendantId}}
-					aria-hidden="false"
-					{{this.panelRef}}
-					{{appendToBody this.overlayVisible}}
-					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
-					{{on "pointerdown" this.onOptionPanelPointerIntent}}
-					{{on "keydown" this.onPanelKeydown}}
-					{{on "click" this.stopPanelClick}}
+					class="dropdown-wrapper"
+					data-qa="ulx-dropdown-options-wrapper"
+					style="max-height: {{this.scrollHeightValue}};"
+					{{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId}}
 				>
-					{{#if (and @filter)}}
-						<div class="dropdown-filter-container">
-							<UlxIcon
-								@type="font"
-								@iconName="search-icon dropdown-filter-icon"
-								@componentClass="bs-icons1"
-								@size="s18"
-								aria-hidden="true"
-							/>
-							<input
-								type="text"
-								class="dropdown-filter-input"
-								data-qa="ulx-dropdown-filter"
-								value={{this.filterValue}}
-								placeholder={{@filterPlaceholder}}
-								{{on "input" this.onFilterInput}}
-								{{on "keydown" this.onFilterKeydown}}
-							/>
-						</div>
-					{{/if}}
-					<div
-						class="dropdown-wrapper"
-						data-qa="ulx-dropdown-options-wrapper"
-						style="max-height: {{this.scrollHeightValue}};"
-						{{this.scrollFocusedIntoView
-							this.overlayVisible
-							this.focusedOptionIndex
-							this.triggerId
-						}}
-					>
-						<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
-							{{#if (eq this.listOptions.length 0)}}
-								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
-									{{or (and @filter @emptyFilterMessage) @emptyMessage}}
-								</li>
-							{{else if this.hasGroups}}
-								{{#each this.optionListWithGroups as |row|}}
-									{{#if (eq row.type "group")}}
-										<li
-											class="dropdown-item-group"
-											role="presentation"
-											aria-hidden="true"
-											data-qa="ulx-dropdown-group"
-										>
-											{{#if (has-block "group")}}
-												{{yield (hash label=row.label group=row.group) to="group"}}
-											{{else}}
-												<span>
-													<div class="flex items-center">
-														{{#if row.group.imageUrl}}
-															<img
-																src={{row.group.imageUrl}}
-																alt={{row.label}}
-																class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
-																style="width: 18px;"
-																aria-hidden="true"
-															/>
-														{{/if}}
-														{{#if row.group.icon}}
-															<span aria-hidden="true">
-																<UlxIcon
-																	@type="font"
-																	@iconName={{row.group.icon}}
-																	@componentClass="bs-icons1"
-																	@size="s24"
-																/>
-															</span>
-														{{/if}}
-														<div>{{row.label}}</div>
-													</div>
-												</span>
-											{{/if}}
-										</li>
-									{{else}}
-										{{#let row.entry.item as |option|}}
-											<li
-												role="option"
-												id="{{this.triggerId}}-item-{{row.flatIndex}}"
-												data-qa={{concat "ulx-dropdown-option-" row.flatIndex}}
-												class="dropdown-item grouped
-													{{if (and (eq row.flatIndex this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass ''}}
-													{{if (this.isOptionSelected option) 'selected' ''}}
-													{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
-													{{if (this.isOptionDisabled option) 'disabled' ''}}"
-												aria-selected={{this.isOptionSelected option}}
-												aria-disabled={{this.isOptionDisabled option}}
-												tabindex="0"
-												{{on "click" (fn this.selectOption row.entry)}}
-											>
-												{{#if (has-block "item")}}
-													<span>
-														<div class="flex items-center">
-															{{yield
-																(hash
-																	option=option
-																	label=(this.getOptionLabel option)
-																	index=row.flatIndex
-																	imageUrl=(this.getOptionImageUrl option)
-																)
-																to="item"
-															}}
-														</div>
-													</span>
-												{{else}}
-													{{#if (and @checkmark (this.isOptionSelected option))}}
-														<UlxIcon
-															@componentClass="bs-icons1"
-															@type="font"
-															@iconName="tick-icon-01 dropdown-checkmark"
-															@componentClass="bs-icons1"
+					<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
+						{{#if (eq this.listOptions.length 0)}}
+							<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
+								{{or (and @filter @emptyFilterMessage) @emptyMessage}}
+							</li>
+						{{else if this.hasGroups}}
+							{{#each this.optionListWithGroups as |row|}}
+								{{#if (eq row.type "group")}}
+									<li
+										class="dropdown-item-group"
+										role="presentation"
+										aria-hidden="true"
+										data-qa="ulx-dropdown-group"
+									>
+										{{#if (has-block "group")}}
+											{{yield (hash label=row.label group=row.group) to="group"}}
+										{{else}}
+											<span>
+												<div class="flex items-center">
+													{{#if row.group.imageUrl}}
+														<img
+															src={{row.group.imageUrl}}
+															alt={{row.label}}
+															class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
+															style="width: 18px;"
 															aria-hidden="true"
 														/>
 													{{/if}}
-													<span
-														class="dropdown-item-label
-															{{if (this.isOptionSelected option) 'selected' ''}}
-															{{if (this.isOptionDisabled option) 'disabled' ''}}"
-													>
-														{{this.getOptionLabel option}}
-													</span>
-												{{/if}}
-											</li>
-										{{/let}}
-									{{/if}}
-								{{/each}}
-							{{else}}
-								{{#each this.optionList as |entry index|}}
-									{{#let entry.item as |option|}}
+													{{#if row.group.icon}}
+														<span aria-hidden="true">
+															<UlxIcon
+																@type="font"
+																@iconName={{row.group.icon}}
+																@componentClass="bs-icons1"
+																@size="s24"
+															/>
+														</span>
+													{{/if}}
+													<div>{{row.label}}</div>
+												</div>
+											</span>
+										{{/if}}
+									</li>
+								{{else}}
+									{{#let row.entry.item as |option|}}
 										<li
 											role="option"
-											id="{{this.triggerId}}-item-{{index}}"
-											data-qa={{concat "ulx-dropdown-option-" index}}
-											class="dropdown-item
-												{{if (and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass ''}}
+											id="{{this.triggerId}}-item-{{row.flatIndex}}"
+											data-qa={{concat "ulx-dropdown-option-" row.flatIndex}}
+											class="dropdown-item grouped
+												{{if
+													(and
+														(eq row.flatIndex this.focusedOptionIndex)
+														this.showOptionKeyboardFocusRing
+													)
+													this.focusItemClass
+													''
+												}}
 												{{if (this.isOptionSelected option) 'selected' ''}}
 												{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
 												{{if (this.isOptionDisabled option) 'disabled' ''}}"
 											aria-selected={{this.isOptionSelected option}}
 											aria-disabled={{this.isOptionDisabled option}}
 											tabindex="0"
-											{{on "click" (fn this.selectOption entry)}}
+											{{on "click" (fn this.selectOption row.entry)}}
 										>
 											{{#if (has-block "item")}}
 												<span>
@@ -1402,7 +1148,7 @@ export default class UlxDropdown extends Component {
 															(hash
 																option=option
 																label=(this.getOptionLabel option)
-																index=index
+																index=row.flatIndex
 																imageUrl=(this.getOptionImageUrl option)
 															)
 															to="item"
@@ -1429,32 +1175,75 @@ export default class UlxDropdown extends Component {
 											{{/if}}
 										</li>
 									{{/let}}
-								{{/each}}
-							{{/if}}
-						</ul>
-					</div>
-					{{#if (has-block "footer")}}
-						<div class="dropdown-panel-footer" data-qa="ulx-dropdown-footer">
-							<div class="dropdown-panel-footer-content">
-								{{yield (hash selectedOption=this.selectedOption) to="footer"}}
-							</div>
-						</div>
-					{{/if}}
+								{{/if}}
+							{{/each}}
+						{{else}}
+							{{#each this.optionList as |entry index|}}
+								{{#let entry.item as |option|}}
+									<li
+										role="option"
+										id="{{this.triggerId}}-item-{{index}}"
+										data-qa={{concat "ulx-dropdown-option-" index}}
+										class="dropdown-item
+											{{if
+												(and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing)
+												this.focusItemClass
+												''
+											}}
+											{{if (this.isOptionSelected option) 'selected' ''}}
+											{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
+											{{if (this.isOptionDisabled option) 'disabled' ''}}"
+										aria-selected={{this.isOptionSelected option}}
+										aria-disabled={{this.isOptionDisabled option}}
+										tabindex="0"
+										{{on "click" (fn this.selectOption entry)}}
+									>
+										{{#if (has-block "item")}}
+											<span>
+												<div class="flex items-center">
+													{{yield
+														(hash
+															option=option
+															label=(this.getOptionLabel option)
+															index=index
+															imageUrl=(this.getOptionImageUrl option)
+														)
+														to="item"
+													}}
+												</div>
+											</span>
+										{{else}}
+											{{#if (and @checkmark (this.isOptionSelected option))}}
+												<UlxIcon
+													@componentClass="bs-icons1"
+													@type="font"
+													@iconName="tick-icon-01 dropdown-checkmark"
+													@componentClass="bs-icons1"
+													aria-hidden="true"
+												/>
+											{{/if}}
+											<span
+												class="dropdown-item-label
+													{{if (this.isOptionSelected option) 'selected' ''}}
+													{{if (this.isOptionDisabled option) 'disabled' ''}}"
+											>
+												{{this.getOptionLabel option}}
+											</span>
+										{{/if}}
+									</li>
+								{{/let}}
+							{{/each}}
+						{{/if}}
+					</ul>
 				</div>
-			{{/if}}
-
-			{{#if (and @helpText)}}
-				<div id="{{this.triggerId}}-help" class="help-text" data-qa="ulx-dropdown-help">{{@helpText}}</div>
-			{{/if}}
-			{{#if (and @error)}}
-				<div
-					id="{{this.triggerId}}-error"
-					class="error-message"
-					data-qa="ulx-dropdown-error"
-					role="alert"
-					aria-atomic="true"
-				>{{@error}}</div>
-			{{/if}}
-		</div>
+				{{#if (has-block "footer")}}
+					<div class="dropdown-panel-footer" data-qa="ulx-dropdown-footer">
+						<div class="dropdown-panel-footer-content">
+							{{yield (hash selectedOption=this.selectedOption) to="footer"}}
+						</div>
+					</div>
+				{{/if}}
+			</div>
+		{{/if}}
 	</template>
 }

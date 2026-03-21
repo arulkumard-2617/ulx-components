@@ -116,6 +116,11 @@ export const DocNavItems = [
             route: 'components.modules.data-view',
           },
           {
+            menuItem: 'Sorter',
+            to: '/components/modules/sorter',
+            route: 'components.modules.sorter',
+          },
+          {
             menuItem: 'Paginator',
             to: '/components/modules/paginator',
             route: 'components.modules.paginator',

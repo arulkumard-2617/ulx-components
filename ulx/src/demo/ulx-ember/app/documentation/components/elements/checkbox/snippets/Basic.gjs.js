@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxCheckbox } from 'ulx-components';
+import { UlxCheckbox, UlxField } from 'ulx-components';
 
 export default class BasicCheckboxDemo extends Component {
   @tracked items = [{ label: 'All Event Days', checked: true }];
@@ -18,12 +18,22 @@ export default class BasicCheckboxDemo extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxCheckbox
+      <UlxField
         @rules={{this.requiredRules}}
         @fieldClass="col-12"
-        @items={{this.items}}
-        @onItemChange={{this.handleItemChange}}
-      />
+        @id="checkbox-basic"
+      >
+        <:control as |field|>
+          <UlxCheckbox
+            @key={{field.key}}
+            @rules={{this.requiredRules}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @items={{this.items}}
+            @onItemChange={{this.handleItemChange}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxDropdown, t } from 'ulx-components';
+import { UlxDropdown, UlxFloatLabel, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -25,15 +25,23 @@ export default class DemoDropdownFloatLabel extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxDropdown
-        @options={{this.cities}}
-        @value={{this.selectedCity}}
-        @onChange={{this.setSelectedCity}}
-        @floatLabel={{true}}
-        @placeholder={{t "msg.dropdown.placeholder.city"}}
+      <UlxFloatLabel
+        @customClass="col-4"
         @label={{t "lbl.dropdown.float.label.city"}}
-        @fieldClass="col-4"
-      />
+        @value={{this.selectedCity}}
+      >
+        <:default as |fl|>
+          <UlxDropdown
+            @id="city-float"
+            @options={{this.cities}}
+            @value={{this.selectedCity}}
+            @onChange={{this.setSelectedCity}}
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
+            @onFocus={{fl.onFocus}}
+            @onBlur={{fl.onBlur}}
+          />
+        </:default>
+      </UlxFloatLabel>
     </div>
   </template>
 }

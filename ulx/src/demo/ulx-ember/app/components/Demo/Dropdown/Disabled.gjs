@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxDropdown, t } from 'ulx-components';
+import { UlxDropdown, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -14,14 +14,23 @@ export default class DemoDropdownDisabled extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxDropdown
-        @options={{this.cities}}
-        @value="NY"
-        @disabled={{true}}
-        @placeholder={{t "msg.dropdown.placeholder.city"}}
+      <UlxField
         @label={{t "lbl.dropdown.disabled"}}
+        @fieldId="dropdown-disabled"
         @fieldClass="col-4"
-      />
+      >
+        <:control as |field|>
+          <UlxDropdown
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.cities}}
+            @value="NY"
+            @disabled={{true}}
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

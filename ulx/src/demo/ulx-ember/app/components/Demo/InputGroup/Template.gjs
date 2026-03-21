@@ -78,7 +78,7 @@ export default class DemoInputGroupTemplate extends Component {
       {{! START TIME }}
       <UlxField
         @label={{t "lbl.start.time"}}
-        @inputId="start-time"
+        @fieldId="start-time"
         @fieldClass="col-3"
       >
 
@@ -87,7 +87,7 @@ export default class DemoInputGroupTemplate extends Component {
 
             <:input>
               <UlxInput
-                @inputId={{field.inputId}}
+                @key={{field.key}}
                 @disabled={{this.isDisabled}}
                 placeholder={{t "lbl.start.time.placeholder"}}
                 aria-label={{t "lbl.start.time"}}

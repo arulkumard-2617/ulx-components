@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { fn } from '@ember/helper';
-import { UlxCheckbox } from 'ulx-components';
+import { UlxCheckbox, UlxField } from 'ulx-components';
 
 export default class SizesCheckboxDemo extends Component {
   @tracked sizeItems = [
@@ -26,12 +26,19 @@ export default class SizesCheckboxDemo extends Component {
       <div class="flex flex-column gap-4">
         {{#each this.sizeItems as |item|}}
           <div class="flex align-items-center gap-2">
-            <UlxCheckbox
-              @size={{item.size}}
-              @checked={{item.checked}}
-              @onCheckedChange={{fn this.handleSizeChange item}}
-              @itemLabel={{item.size}}
-            />
+            <UlxField @fieldId={{item.size}}>
+              <:control as |field|>
+                <UlxCheckbox
+                  @key={{field.key}}
+                  @size={{item.size}}
+                  @checked={{item.checked}}
+                  @onCheckedChange={{fn this.handleSizeChange item}}
+                  @itemLabel={{item.size}}
+                  @ariaDescribedBy={{field.describedBy}}
+                  @ariaErrorMessage={{field.errorId}}
+                />
+              </:control>
+            </UlxField>
           </div>
         {{/each}}
       </div>
