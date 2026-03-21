@@ -103,6 +103,7 @@ export default class UlxMultiSelect extends Component {
 
 	@tracked overlayVisible = false;
 	@tracked focusedOptionIndex = -1;
+	@tracked keyboardNavigationMode = "header";
 	@tracked filterValue = "";
 	@tracked triggerElement = null;
 	@tracked panelElement = null;
@@ -335,6 +336,26 @@ export default class UlxMultiSelect extends Component {
 		);
 	}
 
+	get firstEnabledVisibleOptionIndex() {
+		const list = this.visibleOptions;
+		for (let i = 0; i < list.length; i++) {
+			const entry = list[i];
+			const item = this.hasGroups && entry?.item != null ? entry.item : entry;
+			if (!this.isOptionDisabled(item)) return i;
+		}
+		return list.length > 0 ? 0 : -1;
+	}
+
+	get lastEnabledVisibleOptionIndex() {
+		const list = this.visibleOptions;
+		for (let i = list.length - 1; i >= 0; i--) {
+			const entry = list[i];
+			const item = this.hasGroups && entry?.item != null ? entry.item : entry;
+			if (!this.isOptionDisabled(item)) return i;
+		}
+		return list.length > 0 ? list.length - 1 : -1;
+	}
+
 	get selectedOptions() {
 		const value = this.args.value ?? [];
 		const options = this.args.options ?? [];
@@ -397,7 +418,23 @@ export default class UlxMultiSelect extends Component {
 		event?.stopPropagation?.();
 		event?.preventDefault?.();
 		if (this.isTriggerDisabled) return;
+		this.keyboardNavigationMode = "header";
 		this.args.onChange?.([]);
+		this.focusedOptionIndex = this.firstEnabledVisibleOptionIndex;
+		this.focusPanelInputOnOpen();
+	}
+
+	@action
+	onClearButtonKeydown(event) {
+		const keyPressed = event.code || event.key;
+		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
+			event.preventDefault();
+			event.stopPropagation();
+		} else if (keyPressed === " " || keyPressed === "Space") {
+			event.preventDefault();
+			event.stopPropagation();
+			this.clearSelectionInPanel(event);
+		}
 	}
 
 	get selectAllItemLabel() {
@@ -421,10 +458,22 @@ export default class UlxMultiSelect extends Component {
 		if (!allowAddition) return false;
 		const filterValue = (this.filterValue ?? "").trim();
 		if (!filterValue) return false;
+		const normalizedFilterValue = filterValue.toLowerCase();
+		const options = this.hasGroups
+			? this.flatOptions.map(({ item }) => item)
+			: (this.args.options ?? []);
+		const hasExistingOption = options.some(
+			(option) => this.getOptionLabel(option).trim().toLowerCase() === normalizedFilterValue
+		);
+		if (hasExistingOption) return false;
 		const { selectionLimit, value } = this.args;
 		const currentLength = Array.isArray(value) ? value.length : 0;
 		if (typeof selectionLimit === "number" && currentLength >= selectionLimit) return false;
 		return true;
+	}
+
+	get hasHeaderFocusableControls() {
+		return this.getPanelHeaderFocusableElements().length > 0;
 	}
 
 	get headerSelectableCount() {
@@ -795,6 +844,7 @@ export default class UlxMultiSelect extends Component {
 
 	panelRef = modifier((element) => {
 		this.panelElement = element;
+		if (this.overlayVisible) this.focusPanelInputOnOpen();
 		return () => {
 			if (this.panelElement === element) this.panelElement = null;
 		};
@@ -825,8 +875,11 @@ export default class UlxMultiSelect extends Component {
 				return this.isOptionSelected(opt);
 			});
 			this.focusedOptionIndex = firstSelected >= 0 ? firstSelected : visible.length > 0 ? 0 : -1;
+			this.keyboardNavigationMode = "header";
 			this.args.onShow?.();
+			this.focusPanelInputOnOpen();
 		} else {
+			this.keyboardNavigationMode = "header";
 			if (this.args.resetFilterOnHide !== false) {
 				this.filterValue = "";
 				this.args.onFilter?.("");
@@ -852,11 +905,20 @@ export default class UlxMultiSelect extends Component {
 		event?.stopPropagation?.();
 		event?.preventDefault?.();
 		this.overlayVisible = false;
+		this.keyboardNavigationMode = "header";
 		if (this.args.resetFilterOnHide !== false) {
 			this.filterValue = "";
 			this.args.onFilter?.("");
 		}
 		this.args.onHide?.();
+	}
+
+	@action
+	closePanelAndRestoreTriggerFocus(event) {
+		this.closePanel(event);
+		schedule("afterRender", () => {
+			this.triggerElement?.focus?.({ preventScroll: true });
+		});
 	}
 
 	@action
@@ -869,10 +931,20 @@ export default class UlxMultiSelect extends Component {
 		this.filterValue = "";
 		this.args.onFilter?.("");
 		if (result != null && typeof result.then === "function") {
-			result.then(() => this.closePanel());
-		} else {
-			this.closePanel();
+			Promise.resolve(result).finally(() => {
+				this.enterHeaderMode();
+				this.focusFilterInput();
+			});
+			return;
 		}
+		this.enterHeaderMode();
+		this.focusFilterInput();
+	}
+
+	@action
+	onCloseButtonInteract(event) {
+		event?.stopPropagation?.();
+		event?.preventDefault?.();
 	}
 
 	@action
@@ -942,26 +1014,36 @@ export default class UlxMultiSelect extends Component {
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
-			this.moveFocus(1);
+			if (this.keyboardNavigationMode !== "list") {
+				this.enterListMode({ startFromFirst: true });
+			} else {
+				this.moveFocus(1);
+			}
+			this.focusFocusedItem();
 		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
-			this.moveFocus(-1);
+			if (this.keyboardNavigationMode !== "list") {
+				this.enterListMode({ startFromLast: true });
+			} else {
+				this.moveFocus(-1);
+			}
+			this.focusFocusedItem();
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
-			if (this.args.allowAddition && this.canAddItem) {
-				this.addItem();
-				return;
-			}
+			this.enterListMode({ startFromFirst: true });
 			if (this.focusedOptionIndex >= 0) {
 				const visibleOptionsList = this.visibleOptions;
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) {
+					this.selectOption(focusedEntry);
+				}
 			}
+			this.focusFocusedItem();
 		} else if (keyPressed === "Escape") {
 			event.preventDefault();
-			this.toggleOverlay();
+			this.closePanelAndRestoreTriggerFocus(event);
 		}
 	}
 
@@ -972,29 +1054,51 @@ export default class UlxMultiSelect extends Component {
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			if (!this.overlayVisible) this.toggleOverlay();
-			else this.moveFocus(1);
+			else {
+				this.moveFocus(1);
+				this.focusFocusedItem();
+			}
 			return;
 		}
 		if (keyPressed === "ArrowUp") {
 			event.preventDefault();
-			if (this.overlayVisible) this.moveFocus(-1);
-			else this.toggleOverlay();
+			if (this.overlayVisible) {
+				this.moveFocus(-1);
+				this.focusFocusedItem();
+			} else this.toggleOverlay();
 			return;
 		}
 		if (keyPressed === "Enter" || keyPressed === "NumpadEnter" || keyPressed === " ") {
 			event.preventDefault();
-			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
-				const optionItem =
-					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
-			} else if (!this.overlayVisible) this.toggleOverlay();
+			if (!this.overlayVisible) {
+				this.toggleOverlay();
+			} else {
+				if (this.focusedOptionIndex < 0) {
+					this.enterListMode({ startFromFirst: true });
+				}
+				if (this.focusedOptionIndex >= 0) {
+					const visibleOptionsList = this.visibleOptions;
+					const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
+					const optionItem =
+						this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
+					if (optionItem && !this.isOptionDisabled(optionItem)) {
+						this.keyboardNavigationMode = "list";
+						this.selectOption(focusedEntry);
+					}
+				}
+				this.focusFocusedItem();
+			}
 			return;
 		}
 		if (keyPressed === "Escape") {
 			event.preventDefault();
-			if (this.overlayVisible) this.toggleOverlay();
+			if (this.overlayVisible) this.closePanelAndRestoreTriggerFocus(event);
+			return;
+		}
+		if (keyPressed === "Tab" && this.overlayVisible) {
+			event.preventDefault();
+			if (this.hasHeaderFocusableControls) this.enterHeaderMode({ focusFirst: !event.shiftKey });
+			else this.triggerElement?.focus?.({ preventScroll: true });
 			return;
 		}
 	}
@@ -1003,6 +1107,7 @@ export default class UlxMultiSelect extends Component {
 	moveFocus(delta) {
 		const visibleOptionsList = this.visibleOptions;
 		if (!visibleOptionsList.length) return;
+		this.keyboardNavigationMode = "list";
 		let next = this.focusedOptionIndex + delta;
 		if (next < 0) next = 0;
 		if (next >= visibleOptionsList.length) next = visibleOptionsList.length - 1;
@@ -1012,22 +1117,160 @@ export default class UlxMultiSelect extends Component {
 	@action
 	onPanelKeydown(event) {
 		const keyPressed = event.code || event.key;
+		if (keyPressed === "Tab") {
+			event.preventDefault();
+			this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
+			return;
+		}
+		if (keyPressed === "Escape") {
+			event.preventDefault();
+			this.closePanelAndRestoreTriggerFocus(event);
+			return;
+		}
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
-			this.moveFocus(1);
+			if (this.keyboardNavigationMode !== "list") {
+				this.enterListMode({ startFromFirst: true });
+			} else {
+				this.moveFocus(1);
+			}
+			this.focusFocusedItem();
 		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
-			this.moveFocus(-1);
+			if (this.keyboardNavigationMode !== "list") {
+				this.enterListMode({ startFromLast: true });
+			} else {
+				this.moveFocus(-1);
+			}
+			this.focusFocusedItem();
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
+			if (this.isHeaderControlFocused()) return;
 			event.preventDefault();
 			if (this.focusedOptionIndex >= 0) {
 				const visibleOptionsList = this.visibleOptions;
 				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
 				const optionItem =
 					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
+				if (optionItem && !this.isOptionDisabled(optionItem)) {
+					this.keyboardNavigationMode = "list";
+					this.selectOption(focusedEntry);
+				}
 			}
 		}
+	}
+
+	@action
+	enterHeaderMode(options = {}) {
+		const { focusFirst = true } = options;
+		this.keyboardNavigationMode = "header";
+		const controls = this.getPanelHeaderFocusableElements();
+		if (!controls.length) return;
+		const targetControl = focusFirst ? controls[0] : controls[controls.length - 1];
+		targetControl?.focus?.({ preventScroll: true });
+	}
+
+	@action
+	enterListMode(options = {}) {
+		const { startFromFirst = false, startFromLast = false } = options;
+		this.keyboardNavigationMode = "list";
+		const visibleOptionsList = this.visibleOptions;
+		if (!visibleOptionsList.length) {
+			this.focusedOptionIndex = -1;
+			return;
+		}
+		if (startFromLast) {
+			this.focusedOptionIndex = this.lastEnabledVisibleOptionIndex;
+		} else if (startFromFirst || this.focusedOptionIndex < 0) {
+			this.focusedOptionIndex = this.firstEnabledVisibleOptionIndex;
+		}
+	}
+
+	getPanelHeaderFocusableElements() {
+		const panelRoot = this.panelElement;
+		if (!panelRoot) return [];
+		const selector =
+			"[data-qa='ulx-multiselect-select-all'] .checkbox-input:not([disabled]), " +
+			"[data-qa='ulx-multiselect-filter']:not([disabled]), " +
+			"[data-qa='ulx-multiselect-add']:not([disabled]), " +
+			"[data-qa='ulx-multiselect-close']:not([disabled]), " +
+			"[data-qa='ulx-multiselect-clear']:not([disabled])";
+		return Array.from(panelRoot.querySelectorAll(selector)).filter(
+			(element) => element.offsetParent !== null
+		);
+	}
+
+	@action
+	cycleHeaderFocus(direction = 1) {
+		const controls = this.getPanelHeaderFocusableElements();
+		if (!controls.length) {
+			this.triggerElement?.focus?.({ preventScroll: true });
+			return;
+		}
+		this.keyboardNavigationMode = "header";
+		const activeElement = document.activeElement;
+		const currentIndex = controls.indexOf(activeElement);
+		if (currentIndex === -1) {
+			const fallbackIndex = direction < 0 ? controls.length - 1 : 0;
+			controls[fallbackIndex]?.focus?.({ preventScroll: true });
+			return;
+		}
+		const nextIndex = (currentIndex + direction + controls.length) % controls.length;
+		controls[nextIndex]?.focus?.({ preventScroll: true });
+	}
+
+	focusFilterInput() {
+		const filterInput = this.panelElement?.querySelector("[data-qa='ulx-multiselect-filter']");
+		if (!filterInput || filterInput.disabled) return false;
+		filterInput.focus?.({ preventScroll: true });
+		return true;
+	}
+
+	focusFirstAvailablePanelControl() {
+		const controls = this.getPanelHeaderFocusableElements();
+		if (controls.length <= 0) return false;
+		controls[0]?.focus?.({ preventScroll: true });
+		return true;
+	}
+
+	focusPanelInputOnOpen() {
+		schedule("afterRender", () => {
+			if (!this.overlayVisible) return;
+			const tryFocus = (attempt = 0) => {
+				if (!this.overlayVisible) return;
+				if (this.focusFilterInput()) return;
+				if (this.focusFirstAvailablePanelControl()) return;
+				if (attempt < 2) {
+					requestAnimationFrame(() => tryFocus(attempt + 1));
+					return;
+				}
+				this.triggerElement?.focus?.({ preventScroll: true });
+			};
+			requestAnimationFrame(() => tryFocus(0));
+		});
+	}
+
+	isHeaderControlFocused() {
+		const active = document.activeElement;
+		if (!active || !this.panelElement) return false;
+		const headerSelector =
+			"[data-qa='ulx-multiselect-select-all'] .checkbox-input, " +
+			"[data-qa='ulx-multiselect-filter'], " +
+			"[data-qa='ulx-multiselect-add'], " +
+			"[data-qa='ulx-multiselect-close'], " +
+			"[data-qa='ulx-multiselect-clear']";
+		return Array.from(this.panelElement.querySelectorAll(headerSelector)).includes(active);
+	}
+
+	focusFocusedItem() {
+		if (this.focusedOptionIndex < 0) return;
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				const focusedOptionElement = document.getElementById(
+					`${this.triggerId}-item-${this.focusedOptionIndex}`
+				);
+				focusedOptionElement?.focus?.({ preventScroll: true });
+			});
+		});
 	}
 
 	@action
@@ -1041,118 +1284,11 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	<template>
-			{{#if @floatLabel}}
-				<span class={{this.floatLabelClass}}>
-					<div
-						id={{this.triggerId}}
-						class={{this.floatLabelRootClasses}}
-						role="combobox"
-						aria-haspopup="listbox"
-						aria-expanded={{this.overlayVisible}}
-						aria-controls={{this.listboxId}}
-						aria-multiselectable="true"
-						aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
-						aria-required={{this.isRequired}}
-						aria-describedby={{this.ariaDescribedBy}}
-						aria-errormessage={{this.ariaErrorMessage}}
-						tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-						{{this.triggerRef}}
-						{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
-						{{on "click" this.toggleOverlay}}
-						{{on "keydown" this.onTriggerKeydown}}
-						...attributes
-					>
-						<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
-							{{#if (has-block "value")}}
-								<div class="flex items-center">
-									{{yield
-										(hash
-											selectedOptions=this.selectedOptions
-											selectedLabels=this.selectedLabelsComma
-											placeholder=this.placeholderDisplay
-										)
-										to="value"
-									}}
-								</div>
-							{{else}}
-								{{#if this.displayChips}}
-									{{#if this.hasValue}}
-										<div class="multiselect-label">
-											{{#each this.selectedOptions as |option|}}
-												{{#if (has-block "chip")}}
-													{{yield
-														(hash
-															option=option
-															label=(this.getOptionLabel option)
-															value=(this.getOptionValue option)
-														)
-														to="chip"
-													}}
-												{{else}}
-													<span class="multiselect-token">
-														<span class="multiselect-token-label">
-															{{this.getOptionLabel option}}
-														</span>
-														<UlxIcon
-															@type="font"
-															@iconName="close-stroke-icon"
-															@componentClass="bs-icons1"
-															@size="s16"
-															class="multiselect-token-icon"
-															role="button"
-															tabindex="0"
-															aria-label={{t "lbl.remove"}}
-															{{on "click" (fn this.removeChipOption option)}}
-															{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
-														/>
-													</span>
-												{{/if}}
-											{{/each}}
-										</div>
-									{{else}}
-										<span class="multiselect-token">{{this.placeholderDisplay}}</span>
-									{{/if}}
-								{{else}}
-									{{#if this.hasValue}}
-										<span class="multiselect-label">{{this.selectedLabelsComma}}</span>
-									{{else}}
-										<span class="multiselect-label">{{this.placeholderDisplay}}</span>
-									{{/if}}
-								{{/if}}
-							{{/if}}
-						</div>
-						{{#if (and @loading)}}
-							<span class="multiselect-loading-icon" aria-hidden="true">
-								<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
-							</span>
-						{{else}}
-							{{#if (has-block "icon")}}
-								{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-							{{else}}
-								<div
-									class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-									tabindex="-1"
-								>
-									<UlxIcon
-										@iconName="down-stroke-icon-new multiselect-icon"
-										@type="font"
-										@componentClass="bs-icons1"
-										aria-hidden="true"
-									/>
-								</div>
-							{{/if}}
-						{{/if}}
-					</div>
-					<label for={{this.triggerId}} class={{this.floatLabelLabelClass}}>
-						{{this.floatLabelText}}
-						{{#if this.isRequired}}
-							<span class="fg-red" aria-hidden="true">*</span>
-						{{/if}}
-					</label>
-				</span>
-			{{else}}
+		{{#if @floatLabel}}
+			<span class={{this.floatLabelClass}}>
 				<div
-					class={{this.rootClasses}}
+					id={{this.triggerId}}
+					class={{this.floatLabelRootClasses}}
 					role="combobox"
 					aria-haspopup="listbox"
 					aria-expanded={{this.overlayVisible}}
@@ -1162,25 +1298,30 @@ export default class UlxMultiSelect extends Component {
 					aria-required={{this.isRequired}}
 					aria-describedby={{this.ariaDescribedBy}}
 					aria-errormessage={{this.ariaErrorMessage}}
+					tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 					{{this.triggerRef}}
-					{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
-					{{on "click" this.toggleOverlay}}
-					{{on "keydown" this.onTriggerKeydown}}
-					{{on "focus" this.handleFocus}}
-					{{on "blur" this.handleBlur}}
-					...attributes
-				>
-					<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
-						{{#if (has-block "value")}}
-							<div class="flex items-center">
-								{{yield
-									(hash
-										selectedOptions=this.selectedOptions
-										selectedLabels=this.selectedLabelsComma
-										placeholder=this.placeholderDisplay
-									)
-									to="value"
-								}}
+				{{overlayDismiss
+					this.overlayVisible
+					onClose=this.closePanelAndRestoreTriggerFocus
+					panel=this.panelElement
+					dismissVariant="rootPanel"
+					defer=true
+				}}
+				{{on "click" this.toggleOverlay}}
+				{{on "keydown" this.onTriggerKeydown}}
+				...attributes
+			>
+				<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
+					{{#if (has-block "value")}}
+						<div class="flex items-center">
+							{{yield
+								(hash
+									selectedOptions=this.selectedOptions
+									selectedLabels=this.selectedLabelsComma
+									placeholder=this.placeholderDisplay
+								)
+								to="value"
+							}}
 							</div>
 						{{else}}
 							{{#if this.displayChips}}
@@ -1218,7 +1359,7 @@ export default class UlxMultiSelect extends Component {
 										{{/each}}
 									</div>
 								{{else}}
-									<span class="multiselect-label">{{this.placeholderDisplay}}</span>
+									<span class="multiselect-token">{{this.placeholderDisplay}}</span>
 								{{/if}}
 							{{else}}
 								{{#if this.hasValue}}
@@ -1229,7 +1370,6 @@ export default class UlxMultiSelect extends Component {
 							{{/if}}
 						{{/if}}
 					</div>
-
 					{{#if (and @loading)}}
 						<span class="multiselect-loading-icon" aria-hidden="true">
 							<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
@@ -1240,9 +1380,7 @@ export default class UlxMultiSelect extends Component {
 						{{else}}
 							<div
 								class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-								id={{this.triggerId}}
-								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-								role="button"
+								tabindex="-1"
 							>
 								<UlxIcon
 									@iconName="down-stroke-icon-new multiselect-icon"
@@ -1254,164 +1392,218 @@ export default class UlxMultiSelect extends Component {
 						{{/if}}
 					{{/if}}
 				</div>
-			{{/if}}
+				<label for={{this.triggerId}} class={{this.floatLabelLabelClass}}>
+					{{this.floatLabelText}}
+					{{#if this.isRequired}}
+						<span class="fg-red" aria-hidden="true">*</span>
+					{{/if}}
+				</label>
+			</span>
+		{{else}}
+			<div
+				id={{this.triggerId}}
+				class={{this.rootClasses}}
+				role="combobox"
+				aria-haspopup="listbox"
+				aria-expanded={{this.overlayVisible}}
+				aria-controls={{this.listboxId}}
+				aria-multiselectable="true"
+				aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
+				aria-required={{this.isRequired}}
+				aria-describedby={{this.ariaDescribedBy}}
+				aria-errormessage={{this.ariaErrorMessage}}
+				tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
+			{{this.triggerRef}}
+			{{overlayDismiss
+				this.overlayVisible
+				onClose=this.closePanelAndRestoreTriggerFocus
+				panel=this.panelElement
+				dismissVariant="rootPanel"
+				defer=true
+			}}
+			{{on "click" this.toggleOverlay}}
+			{{on "keydown" this.onTriggerKeydown}}
+			{{on "focus" this.handleFocus}}
+				{{on "blur" this.handleBlur}}
+				...attributes
+			>
+				<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
+					{{#if (has-block "value")}}
+						<div class="flex items-center">
+							{{yield
+								(hash
+									selectedOptions=this.selectedOptions
+									selectedLabels=this.selectedLabelsComma
+									placeholder=this.placeholderDisplay
+								)
+								to="value"
+							}}
+						</div>
+					{{else}}
+						{{#if this.displayChips}}
+							{{#if this.hasValue}}
+								<div class="multiselect-label">
+									{{#each this.selectedOptions as |option|}}
+										{{#if (has-block "chip")}}
+											{{yield
+												(hash
+													option=option
+													label=(this.getOptionLabel option)
+													value=(this.getOptionValue option)
+												)
+												to="chip"
+											}}
+										{{else}}
+											<span class="multiselect-token">
+												<span class="multiselect-token-label">
+													{{this.getOptionLabel option}}
+												</span>
+												<UlxIcon
+													@type="font"
+													@iconName="close-stroke-icon"
+													@componentClass="bs-icons1"
+													@size="s16"
+													class="multiselect-token-icon"
+													role="button"
+													tabindex="0"
+													aria-label={{t "lbl.remove"}}
+													{{on "click" (fn this.removeChipOption option)}}
+													{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
+												/>
+											</span>
+										{{/if}}
+									{{/each}}
+								</div>
+							{{else}}
+								<span class="multiselect-label">{{this.placeholderDisplay}}</span>
+							{{/if}}
+						{{else}}
+							{{#if this.hasValue}}
+								<span class="multiselect-label">{{this.selectedLabelsComma}}</span>
+							{{else}}
+								<span class="multiselect-label">{{this.placeholderDisplay}}</span>
+							{{/if}}
+						{{/if}}
+					{{/if}}
+				</div>
 
-			{{#if this.overlayVisible}}
-				<div
-					id={{this.listboxId}}
-					class="ulx-multiselect-panel"
-					role="listbox"
-					aria-multiselectable="true"
-					aria-activedescendant={{this.activeDescendantId}}
-					aria-hidden="false"
-					{{this.panelRef}}
-					{{this.appendToBody this.overlayVisible}}
-					{{this.positionPanel this.overlayVisible this.triggerElement}}
-					{{this.repositionOnLayoutChange
-						this.overlayVisible
-						this.selectedValueCount
-						this.shouldRenderPanelHeader
-						(or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))
-					}}
-					{{on "keydown" this.onPanelKeydown}}
-					{{on "click" this.stopPanelClick}}
-				>
-					{{#if this.shouldRenderPanelHeader}}
-						<div class="multiselect-header">
-							{{#if (and @selectAll this.allowOptionSelect)}}
-								<div class="multiselect-header-checkbox-container">
-									<UlxTristateCheckbox
-										@value={{this.headerTristateValue}}
-										@itemLabel={{this.selectAllHeaderLabel}}
-										@onValueChange={{this.onHeaderTristateChange}}
-									/>
-								</div>
-							{{/if}}
-							{{#if this.isFilterEnabled}}
-								<div class="multiselect-filter-container">
-									<input
-										type="text"
-										class="multiselect-filter-input"
-										value={{this.filterValue}}
-										placeholder={{or @filterPlaceholder (t "msg.multiselect.filter.placeholder")}}
-										{{on "input" this.onFilterInput}}
-										{{on "keydown" this.onFilterKeydown}}
-									/>
-								</div>
-								{{#if @allowAddition}}
-									<UlxButton
-										@label={{t "label.add"}}
-										@variant="primary"
-										@onClick={{this.addItem}}
-										@disabled={{not this.canAddItem}}
-									/>
-								{{/if}}
-							{{/if}}
-							{{#if @showClose}}
-								<button
-									type="button"
-									class="multiselect-close-button"
-									aria-label={{t "lbl.close"}}
-									{{on "click" this.closePanel}}
-								>
-									<UlxIcon
-										@iconName="close-icon-01"
-										@type="font"
-										@size="s22"
-										@componentClass="bs-icons1"
-										aria-hidden="true"
-									/>
-								</button>
-							{{/if}}
+				{{#if (and @loading)}}
+					<span class="multiselect-loading-icon" aria-hidden="true">
+						<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
+					</span>
+				{{else}}
+					{{#if (has-block "icon")}}
+						{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
+					{{else}}
+						<div
+							class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+							tabindex="-1"
+						>
+							<UlxIcon
+								@iconName="down-stroke-icon-new multiselect-icon"
+								@type="font"
+								@componentClass="bs-icons1"
+								aria-hidden="true"
+							/>
 						</div>
 					{{/if}}
-					<div
-						class="multiselect-wrapper"
-						style="max-height: {{this.scrollHeightValue}};"
-						{{this.scrollFocusedIntoView
-							this.overlayVisible
-							this.focusedOptionIndex
-							this.triggerId
-							this.useVirtualScroll
-							this.virtualItemSize
-						}}
-						{{this.virtualScrollSync this.overlayVisible this.useVirtualScroll}}
-					>
-						{{#if this.useVirtualScroll}}
-							<div style="height: {{this.virtualTotalHeight}}px;">
-								<div
-									style="height: {{this.virtualStartIndexTimesItemSize}}px;"
-									aria-hidden="true"
-								></div>
-								<ul class="multiselect-list" role="listbox" aria-multiselectable="true">
-									{{#if (eq this.optionList.length 0)}}
-										<li class="multiselect-empty-message" role="option">
-											{{or
-												(and this.isFilterEnabled @emptyFilterMessage)
-												@emptyMessage
-												(t "msg.multiselect.empty")
-											}}
-										</li>
-									{{else}}
-										{{#each this.virtualOptionList as |entry|}}
-											{{#let entry.item as |option|}}
-												<li
-													role="option"
-													id="{{this.triggerId}}-item-{{entry.virtualIndex}}"
-													class="multiselect-item
-														{{if
-															(eq entry.virtualIndex this.focusedOptionIndex)
-															this.focusItemClass
-															''
-														}}
-														{{if (this.isOptionSelected option) 'selected' ''}}
-														{{if (this.isOptionDisabled option) 'disabled' ''}}"
-													aria-selected={{this.isOptionSelected option}}
-													aria-disabled={{this.isOptionDisabled option}}
-													tabindex="-1"
-													style="height: {{this.virtualItemSize}}px;"
-													{{on "click" (fn this.selectOption entry)}}
-												>
-													<span
-														class="multiselect-item-checkbox"
-														{{on "click" this.stopItemCheckboxClick}}
-													>
-														<UlxCheckbox
-															@checked={{this.isOptionSelected option}}
-															@onCheckedChange={{fn this.onItemCheckboxChange entry}}
-															@fieldClass="flex"
-														/>
-													</span>
-													{{#if (has-block "item")}}
-														<span class="multiselect-item-content">
-															{{yield
-																(hash
-																	option=option
-																	label=(this.getOptionLabel option)
-																	index=entry.virtualIndex
-																)
-																to="item"
-															}}
-														</span>
-													{{else}}
-														<span
-															class="multiselect-item-label
-																{{if (this.isOptionSelected option) 'selected' ''}}
-																{{if (this.isOptionDisabled option) 'disabled' ''}}"
-														>
-															{{this.getOptionLabel option}}
-														</span>
-													{{/if}}
-												</li>
-											{{/let}}
-										{{/each}}
-									{{/if}}
-								</ul>
-								<div style="height: {{this.virtualBottomSpacerHeight}}px;" aria-hidden="true"></div>
+				{{/if}}
+			</div>
+		{{/if}}
+
+		{{#if this.overlayVisible}}
+			<div
+				id={{this.listboxId}}
+				class="ulx-multiselect-panel"
+				role="listbox"
+				aria-multiselectable="true"
+				aria-activedescendant={{this.activeDescendantId}}
+				aria-hidden="false"
+				{{this.panelRef}}
+				{{this.appendToBody this.overlayVisible}}
+				{{this.positionPanel this.overlayVisible this.triggerElement}}
+				{{this.repositionOnLayoutChange
+					this.overlayVisible
+					this.selectedValueCount
+					this.shouldRenderPanelHeader
+					(or (has-block "footer") (has-block "footerActions") (gt this.selectedValueCount 0))
+				}}
+				{{on "keydown" this.onPanelKeydown}}
+				{{on "click" this.stopPanelClick}}
+			>
+				{{#if this.shouldRenderPanelHeader}}
+					<div class="multiselect-header">
+						{{#if (and @selectAll this.allowOptionSelect)}}
+							<div class="multiselect-header-checkbox-container">
+								<UlxTristateCheckbox
+									@dataQa="ulx-multiselect-select-all"
+									@value={{this.headerTristateValue}}
+									@itemLabel={{this.selectAllHeaderLabel}}
+									@onValueChange={{this.onHeaderTristateChange}}
+								/>
 							</div>
-						{{else}}
+						{{/if}}
+						{{#if this.isFilterEnabled}}
+							<div class="multiselect-filter-container">
+								<input
+									type="text"
+									class="multiselect-filter-input"
+									data-qa="ulx-multiselect-filter"
+									value={{this.filterValue}}
+									placeholder={{or @filterPlaceholder (t "msg.multiselect.filter.placeholder")}}
+									{{on "input" this.onFilterInput}}
+									{{on "keydown" this.onFilterKeydown}}
+								/>
+							</div>
+							{{#if @allowAddition}}
+								<UlxButton
+									@dataQa="ulx-multiselect-add"
+									@label={{t "label.add"}}
+									@variant="primary"
+									@onClick={{this.addItem}}
+									@disabled={{not this.canAddItem}}
+								/>
+							{{/if}}
+						{{/if}}
+						{{#if @showClose}}
+							<button
+								type="button"
+								class="multiselect-close-button"
+								data-qa="ulx-multiselect-close"
+								aria-label={{t "lbl.close"}}
+								{{on "click" this.onCloseButtonInteract}}
+							>
+								<UlxIcon
+									@iconName="close-icon-01"
+									@type="font"
+									@size="s22"
+									@componentClass="bs-icons1"
+									aria-hidden="true"
+								/>
+							</button>
+						{{/if}}
+					</div>
+				{{/if}}
+				<div
+					class="multiselect-wrapper"
+					style="max-height: {{this.scrollHeightValue}};"
+					{{this.scrollFocusedIntoView
+						this.overlayVisible
+						this.focusedOptionIndex
+						this.triggerId
+						this.useVirtualScroll
+						this.virtualItemSize
+					}}
+					{{this.virtualScrollSync this.overlayVisible this.useVirtualScroll}}
+				>
+					{{#if this.useVirtualScroll}}
+						<div style="height: {{this.virtualTotalHeight}}px;">
+							<div
+								style="height: {{this.virtualStartIndexTimesItemSize}}px;"
+								aria-hidden="true"
+							></div>
 							<ul class="multiselect-list" role="listbox" aria-multiselectable="true">
-								{{#if (eq this.visibleOptions.length 0)}}
+								{{#if (eq this.optionList.length 0)}}
 									<li class="multiselect-empty-message" role="option">
 										{{or
 											(and this.isFilterEnabled @emptyFilterMessage)
@@ -1419,77 +1611,24 @@ export default class UlxMultiSelect extends Component {
 											(t "msg.multiselect.empty")
 										}}
 									</li>
-								{{else if this.hasGroups}}
-									{{#each this.optionListWithGroups as |row|}}
-										{{#if (eq row.type "group")}}
-											<li class="multiselect-item-group" role="presentation" aria-hidden="true">
-												{{#if (has-block "group")}}
-													{{yield (hash label=row.label group=row.group) to="group"}}
-												{{else}}
-													<span>{{row.label}}</span>
-												{{/if}}
-											</li>
-										{{else}}
-											{{#let row.entry.item as |option|}}
-												<li
-													role="option"
-													id="{{this.triggerId}}-item-{{row.flatIndex}}"
-													class="multiselect-item
-														{{if (eq row.flatIndex this.focusedOptionIndex) this.focusItemClass ''}}
-														{{if (this.isOptionSelected option) 'selected' ''}}
-														{{if (this.isOptionDisabled option) 'disabled' ''}}"
-													aria-selected={{this.isOptionSelected option}}
-													aria-disabled={{this.isOptionDisabled option}}
-													tabindex="-1"
-													{{on "click" (fn this.selectOption row.entry)}}
-												>
-													<span
-														class="multiselect-item-checkbox"
-														{{on "click" this.stopItemCheckboxClick}}
-													>
-														<UlxCheckbox
-															@checked={{this.isOptionSelected option}}
-															@onCheckedChange={{fn this.onItemCheckboxChange row.entry}}
-															@fieldClass="flex"
-														/>
-													</span>
-													{{#if (has-block "item")}}
-														<span class="multiselect-item-content">
-															{{yield
-																(hash
-																	option=option
-																	label=(this.getOptionLabel option)
-																	index=row.flatIndex
-																)
-																to="item"
-															}}
-														</span>
-													{{else}}
-														<span
-															class="multiselect-item-label
-																{{if (this.isOptionSelected option) 'selected' ''}}
-																{{if (this.isOptionDisabled option) 'disabled' ''}}"
-														>
-															{{this.getOptionLabel option}}
-														</span>
-													{{/if}}
-												</li>
-											{{/let}}
-										{{/if}}
-									{{/each}}
 								{{else}}
-									{{#each this.optionList as |entry index|}}
+									{{#each this.virtualOptionList as |entry|}}
 										{{#let entry.item as |option|}}
 											<li
 												role="option"
-												id="{{this.triggerId}}-item-{{index}}"
+												id="{{this.triggerId}}-item-{{entry.virtualIndex}}"
 												class="multiselect-item
-													{{if (eq index this.focusedOptionIndex) this.focusItemClass ''}}
+													{{if
+														(eq entry.virtualIndex this.focusedOptionIndex)
+														this.focusItemClass
+														''
+													}}
 													{{if (this.isOptionSelected option) 'selected' ''}}
 													{{if (this.isOptionDisabled option) 'disabled' ''}}"
 												aria-selected={{this.isOptionSelected option}}
 												aria-disabled={{this.isOptionDisabled option}}
 												tabindex="-1"
+												style="height: {{this.virtualItemSize}}px;"
 												{{on "click" (fn this.selectOption entry)}}
 											>
 												<span
@@ -1505,7 +1644,11 @@ export default class UlxMultiSelect extends Component {
 												{{#if (has-block "item")}}
 													<span class="multiselect-item-content">
 														{{yield
-															(hash option=option label=(this.getOptionLabel option) index=index)
+															(hash
+																option=option
+																label=(this.getOptionLabel option)
+																index=entry.virtualIndex
+															)
 															to="item"
 														}}
 													</span>
@@ -1523,35 +1666,151 @@ export default class UlxMultiSelect extends Component {
 									{{/each}}
 								{{/if}}
 							</ul>
+							<div style="height: {{this.virtualBottomSpacerHeight}}px;" aria-hidden="true"></div>
+						</div>
+					{{else}}
+						<ul class="multiselect-list" role="listbox" aria-multiselectable="true">
+							{{#if (eq this.visibleOptions.length 0)}}
+								<li class="multiselect-empty-message" role="option">
+									{{or
+										(and this.isFilterEnabled @emptyFilterMessage)
+										@emptyMessage
+										(t "msg.multiselect.empty")
+									}}
+								</li>
+							{{else if this.hasGroups}}
+								{{#each this.optionListWithGroups as |row|}}
+									{{#if (eq row.type "group")}}
+										<li class="multiselect-item-group" role="presentation" aria-hidden="true">
+											{{#if (has-block "group")}}
+												{{yield (hash label=row.label group=row.group) to="group"}}
+											{{else}}
+												<span>{{row.label}}</span>
+											{{/if}}
+										</li>
+									{{else}}
+										{{#let row.entry.item as |option|}}
+											<li
+												role="option"
+												id="{{this.triggerId}}-item-{{row.flatIndex}}"
+												class="multiselect-item
+													{{if (eq row.flatIndex this.focusedOptionIndex) this.focusItemClass ''}}
+													{{if (this.isOptionSelected option) 'selected' ''}}
+													{{if (this.isOptionDisabled option) 'disabled' ''}}"
+												aria-selected={{this.isOptionSelected option}}
+												aria-disabled={{this.isOptionDisabled option}}
+												tabindex="-1"
+												{{on "click" (fn this.selectOption row.entry)}}
+											>
+												<span
+													class="multiselect-item-checkbox"
+													{{on "click" this.stopItemCheckboxClick}}
+												>
+													<UlxCheckbox
+														@checked={{this.isOptionSelected option}}
+														@onCheckedChange={{fn this.onItemCheckboxChange row.entry}}
+														@fieldClass="flex"
+													/>
+												</span>
+												{{#if (has-block "item")}}
+													<span class="multiselect-item-content">
+														{{yield
+															(hash
+																option=option label=(this.getOptionLabel option) index=row.flatIndex
+															)
+															to="item"
+														}}
+													</span>
+												{{else}}
+													<span
+														class="multiselect-item-label
+															{{if (this.isOptionSelected option) 'selected' ''}}
+															{{if (this.isOptionDisabled option) 'disabled' ''}}"
+													>
+														{{this.getOptionLabel option}}
+													</span>
+												{{/if}}
+											</li>
+										{{/let}}
+									{{/if}}
+								{{/each}}
+							{{else}}
+								{{#each this.optionList as |entry index|}}
+									{{#let entry.item as |option|}}
+										<li
+											role="option"
+											id="{{this.triggerId}}-item-{{index}}"
+											class="multiselect-item
+												{{if (eq index this.focusedOptionIndex) this.focusItemClass ''}}
+												{{if (this.isOptionSelected option) 'selected' ''}}
+												{{if (this.isOptionDisabled option) 'disabled' ''}}"
+											aria-selected={{this.isOptionSelected option}}
+											aria-disabled={{this.isOptionDisabled option}}
+											tabindex="-1"
+											{{on "click" (fn this.selectOption entry)}}
+										>
+											<span
+												class="multiselect-item-checkbox"
+												{{on "click" this.stopItemCheckboxClick}}
+											>
+												<UlxCheckbox
+													@checked={{this.isOptionSelected option}}
+													@onCheckedChange={{fn this.onItemCheckboxChange entry}}
+													@fieldClass="flex"
+												/>
+											</span>
+											{{#if (has-block "item")}}
+												<span class="multiselect-item-content">
+													{{yield
+														(hash option=option label=(this.getOptionLabel option) index=index)
+														to="item"
+													}}
+												</span>
+											{{else}}
+												<span
+													class="multiselect-item-label
+														{{if (this.isOptionSelected option) 'selected' ''}}
+														{{if (this.isOptionDisabled option) 'disabled' ''}}"
+												>
+													{{this.getOptionLabel option}}
+												</span>
+											{{/if}}
+										</li>
+									{{/let}}
+								{{/each}}
+							{{/if}}
+						</ul>
+					{{/if}}
+				</div>
+
+				<div class="multiselect-footer">
+					<div class="multiselect-footer-left">
+						{{#if (has-block "footer")}}
+							{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
+						{{else}}
+							<span class="multiselect-footer-count">{{t
+									"msg.multiselect.items.selected"
+									count=this.selectedValueCount
+								}}</span>
 						{{/if}}
 					</div>
-
-					<div class="multiselect-footer">
-						<div class="multiselect-footer-left">
-							{{#if (has-block "footer")}}
-								{{yield (hash selectedOptions=this.selectedOptions) to="footer"}}
-							{{else}}
-								<span class="multiselect-footer-count">{{t
-										"msg.multiselect.items.selected"
-										count=this.selectedValueCount
-									}}</span>
-							{{/if}}
-						</div>
-						<div class="multiselect-footer-right">
-							{{#if (has-block "footerActions")}}
-								{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
-							{{/if}}
-								{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
-								<UlxButton
-									@label={{t "lbl.clear"}}
-									@variant="link"
-									@onClick={{this.clearSelectionInPanel}}
-								/>
-							{{/if}}
-						</div>
+					<div class="multiselect-footer-right">
+						{{#if (has-block "footerActions")}}
+							{{yield (hash selectedOptions=this.selectedOptions) to="footerActions"}}
+						{{/if}}
+						{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}
+							<UlxButton
+								@dataQa="ulx-multiselect-clear"
+								@label={{t "lbl.clear"}}
+								@variant="link"
+								@onClick={{this.clearSelectionInPanel}}
+								{{on "keydown" this.onClearButtonKeydown}}
+							/>
+						{{/if}}
 					</div>
-
 				</div>
-			{{/if}}
+
+			</div>
+		{{/if}}
 	</template>
 }
