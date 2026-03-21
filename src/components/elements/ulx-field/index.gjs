@@ -8,7 +8,9 @@ import { or } from "ember-truth-helpers";
 import { buildFieldClass, normalizeRules, getRuleValue } from "../../../utils/input-util";
 
 /**
- * Field wrapper: label, control yield, help, and error. `@fieldId` sets the field id (label `for`, help/error ids). Control yield: `key` (same value; pass as `@key` on the control), `describedBy`, `errorId`.
+ * Field wrapper: label, control yield, help, and error. `@fieldId` sets the field id (label `for`, help/error ids).
+ *
+ * **Control slot (field hash: `key`, `describedBy`, `errorId`):** Prefer the **default block** — `<UlxField ... as |field|>…</UlxField>` — and pass `@key={{field.key}}` (etc.) on the control. The named `<:control>` block is still supported for the same hash.
  *
  * @class UlxField
  * @param {string} [fieldClass] - Extra classes on the root `.field` wrapper.
@@ -118,11 +120,7 @@ export default class UlxField extends Component {
 				</label>
 			{{/if}}
 
-			{{! CONTROL }}
-			{{yield
-				(hash key=this.fieldId describedBy=this.describedBy errorId=this.errorId)
-				to="control"
-			}}
+			{{yield (hash key=this.fieldId describedBy=this.describedBy errorId=this.errorId)}}
 
 			{{! HELP }}
 			{{#if (has-block "helptext")}}

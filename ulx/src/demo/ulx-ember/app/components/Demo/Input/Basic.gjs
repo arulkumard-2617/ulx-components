@@ -48,21 +48,21 @@ export default class Demo extends Component {
         @error={{this.usernameError}}
         @fieldId="username"
         @fieldClass="col-6"
+        as |field|
       >
-        <:control as |field|>
-          <UlxInput
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @value={{this.username}}
-            @onInput={{this.updateUsername}}
-            minlength={{this.rules.minLength.value}}
-            maxlength={{this.rules.maxLength.value}}
-            required={{this.rules.required}}
-            placeholder={{t "lbl.enter.username"}}
-            aria-label={{t "lbl.username"}}
-          />
-        </:control>
+        <UlxInput
+          @field={{field}}
+          @key={{field.key}}
+          @ariaDescribedBy={{field.describedBy}}
+          @ariaErrorMessage={{field.errorId}}
+          @value={{this.username}}
+          @onInput={{this.updateUsername}}
+          minlength={{this.rules.minLength.value}}
+          maxlength={{this.rules.maxLength.value}}
+          required={{this.rules.required}}
+          placeholder={{t "lbl.enter.username"}}
+          aria-label={{t "lbl.username"}}
+        />
       </UlxField>
 
     </div>
