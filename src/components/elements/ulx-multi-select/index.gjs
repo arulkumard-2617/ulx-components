@@ -10,9 +10,6 @@ import { getComponentClass } from "../../../utils/component-config";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import {
-	buildFieldClass,
-	buildAriaDescribedBy,
-	isInvalidState,
 	buildFloatLabelClass,
 	getFloatLabelLabelClass,
 	resolveFloatLabelText
@@ -31,6 +28,8 @@ import { hash, concat } from "@ember/helper";
  * MultiSelect: multiple selection from a list with optional chips, filter, groups, templates.
  * Supports: basic, chips, group, template, filter, select-all, loading, float label, filled,
  * invalid, disabled. Accessible: listbox aria-multiselectable, keyboard nav, ARIA.
+ * Label, help, error, and field layout: use UlxField wrapping the control; pass
+ * `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` from the field control hash.
  *
  * @class UlxMultiSelect
  * @param {Array} [value=[]] - Selected values array (controlled).
@@ -71,13 +70,11 @@ import { hash, concat } from "@ember/helper";
  *   - `Function`: called to resolve the container element.
  *   - `string`: a CSS selector resolved via `document.querySelector()`.
  * @param {boolean} [resetFilterOnHide=true] - Reset filter when overlay closes.
- * @param {string} [label] - Label text.
- * @param {string} [labelRight] - Optional right-side label text.
- * @param {string} [helpText] - Help text below field.
- * @param {string} [error] - Error message; sets invalid state.
- * @param {string} [fieldClass] - Extra class for field wrapper.
- * @param {string} [id] - Id for the trigger.
- * @param {string} [key] - Stable key for auto-generated id.
+ * @param {string} [label] - When `@floatLabel` is set: text for the floating label (or use string `@floatLabel`).
+ * @param {string} [id] - Id for the trigger (or use `@key` with UlxField).
+ * @param {string} [key] - Stable id when `@id` is omitted (e.g. `field.key` from UlxField).
+ * @param {string} [ariaDescribedBy] - `aria-describedby` ids (e.g. from UlxField control hash).
+ * @param {string} [ariaErrorMessage] - `aria-errormessage` id (e.g. `field.errorId`).
  * @param {boolean} [required=false] - Required field.
  * @param {Function} [onChange] - (value) => void when selection changes.
  * @param {Function} [onFocus] - Focus callback.
@@ -112,13 +109,11 @@ export default class UlxMultiSelect extends Component {
 	@tracked wrapperScrollTop = 0;
 	@tracked wrapperClientHeight = 0;
 
-	get key() {
-		return this.args.key ?? guidFor(this);
-	}
-
 	get triggerId() {
-		const { id } = this.args;
-		return id ?? `ulx-multiselect-${this.key}`;
+		const { id, key } = this.args;
+		if (typeof id === "string" && id.length) return id;
+		if (typeof key === "string" && key.length) return key;
+		return `ulx-multiselect-${guidFor(this)}`;
 	}
 
 	get listboxId() {
@@ -132,18 +127,16 @@ export default class UlxMultiSelect extends Component {
 	get rootClasses() {
 		const {
 			disabled = false,
-			invalid: invalidArg = false,
-			error,
+			invalid = false,
 			filled = false,
 			loading = false,
 			size = "m-size",
 			customClass
 		} = this.args;
-		const invalid = isInvalidState(invalidArg, error);
 		const parts = [this.baseClass];
 		size && parts.push(size);
 		(disabled || loading) && parts.push("disabled");
-		invalid && parts.push("invalid");
+		!!invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		filled && parts.push("filled");
 		this.overlayVisible && parts.push("open");
@@ -161,10 +154,6 @@ export default class UlxMultiSelect extends Component {
 
 	get focusItemClass() {
 		return getComponentClass("focus");
-	}
-
-	get fieldClass() {
-		return buildFieldClass(this.args.fieldClass);
 	}
 
 	get floatLabelText() {
@@ -205,8 +194,7 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get isInvalid() {
-		const { invalid, error } = this.args;
-		return isInvalidState(invalid, error);
+		return !!this.args.invalid;
 	}
 
 	get optionLabelKey() {
@@ -393,10 +381,11 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return buildAriaDescribedBy(this.triggerId, {
-			helpText: this.args.helpText,
-			error: this.args.error
-		});
+		return this.args.ariaDescribedBy;
+	}
+
+	get ariaErrorMessage() {
+		return this.args.ariaErrorMessage;
 	}
 
 	get isRequired() {
@@ -1052,37 +1041,6 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}}>
-			{{#unless @floatLabel}}
-				{{#if (has-block "label")}}
-					<label for={{this.triggerId}}>
-						<span class="label-text">
-							{{yield to="label"}}
-							{{#if this.isRequired}}
-								<span class="fg-red" aria-hidden="true">*</span>
-							{{/if}}
-						</span>
-						{{#if (has-block "labelRight")}}
-							<span class="label-right">{{yield to="labelRight"}}</span>
-						{{else if @labelRight}}
-							<span class="label-right">{{@labelRight}}</span>
-						{{/if}}
-					</label>
-				{{else if @label}}
-					<label for={{this.triggerId}}>
-						<span class="label-text">
-							{{@label}}
-							{{#if this.isRequired}}
-								<span class="fg-red" aria-hidden="true">*</span>
-							{{/if}}
-						</span>
-						{{#if @labelRight}}
-							<span class="label-right">{{@labelRight}}</span>
-						{{/if}}
-					</label>
-				{{/if}}
-			{{/unless}}
-
 			{{#if @floatLabel}}
 				<span class={{this.floatLabelClass}}>
 					<div
@@ -1096,6 +1054,7 @@ export default class UlxMultiSelect extends Component {
 						aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
 						aria-required={{this.isRequired}}
 						aria-describedby={{this.ariaDescribedBy}}
+						aria-errormessage={{this.ariaErrorMessage}}
 						tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 						{{this.triggerRef}}
 						{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
@@ -1202,6 +1161,7 @@ export default class UlxMultiSelect extends Component {
 					aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
 					aria-required={{this.isRequired}}
 					aria-describedby={{this.ariaDescribedBy}}
+					aria-errormessage={{this.ariaErrorMessage}}
 					{{this.triggerRef}}
 					{{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant="rootPanel" defer=true}}
 					{{on "click" this.toggleOverlay}}
@@ -1593,18 +1553,5 @@ export default class UlxMultiSelect extends Component {
 
 				</div>
 			{{/if}}
-
-			{{#if (and @helpText)}}
-				<div id="{{this.triggerId}}-help" class="help-text">{{@helpText}}</div>
-			{{/if}}
-			{{#if (and @error)}}
-				<div
-					id="{{this.triggerId}}-error"
-					class="error-message"
-					role="alert"
-					aria-atomic="true"
-				>{{@error}}</div>
-			{{/if}}
-		</div>
 	</template>
 }

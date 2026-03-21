@@ -11,10 +11,12 @@ const CITIES = [
 ];
 
 const stateToProps = (state) => ({
-  label: state.label,
+  fieldLabel: state.label,
+  fieldClass: state.fieldClass,
+  fieldHelpText: state.showHelp ? 'Help text' : undefined,
+  fieldError: state.showError ? 'Error message' : undefined,
   options: state.options ?? CITIES,
   placeholder: state.placeholder || undefined,
-  fieldClass: state.fieldClass,
   display: state.display,
   showClear: state.showClear,
   filter: state.filter,
@@ -22,30 +24,35 @@ const stateToProps = (state) => ({
   disabled: state.disabled,
   invalid: state.invalid,
   filled: state.filled,
-  helpText: state.showHelp ? 'Help text' : undefined,
-  error: state.showError ? 'Error message' : undefined,
 });
 
 const stateToSnippet = (state) => {
-  const attrs = [];
-  if (state.label) attrs.push(`@label="${state.label}"`);
-  if (state.placeholder) attrs.push(`@placeholder="${state.placeholder}"`);
-  if (state.fieldClass) attrs.push(`@fieldClass="${state.fieldClass}"`);
-  if (state.display === 'chip') attrs.push('@display="chip"');
-  if (state.showClear) attrs.push('@showClear={{true}}');
-  if (state.filter) attrs.push('@filter={{true}}');
-  if (state.selectAll) attrs.push('@selectAll={{true}}');
-  if (state.disabled) attrs.push('@disabled={{true}}');
-  if (state.invalid) attrs.push('@invalid={{true}}');
-  if (state.filled) attrs.push('@filled={{true}}');
-  if (state.showHelp) attrs.push('@helpText="Help text"');
-  if (state.showError) attrs.push('@error="Error message"');
-  return `<UlxMultiSelect\n  @options={{this.items}}\n  @value={{this.selected}}\n  @onChange={{this.setSelected}}\n  ${attrs.join('\n  ')}\n/>`;
+  const fieldAttrs = [];
+  if (state.label) fieldAttrs.push(`@label="${state.label}"`);
+  if (state.fieldClass) fieldAttrs.push(`@fieldClass="${state.fieldClass}"`);
+  if (state.showHelp) fieldAttrs.push('@helpText="Help text"');
+  if (state.showError) fieldAttrs.push('@error="Error message"');
+  fieldAttrs.push('@fieldId="multiselect-example"');
+
+  const msAttrs = [];
+  if (state.placeholder) msAttrs.push(`@placeholder="${state.placeholder}"`);
+  if (state.display === 'chip') msAttrs.push('@display="chip"');
+  if (state.showClear) msAttrs.push('@showClear={{true}}');
+  if (state.filter) msAttrs.push('@filter={{true}}');
+  if (state.selectAll) msAttrs.push('@selectAll={{true}}');
+  if (state.disabled) msAttrs.push('@disabled={{true}}');
+  if (state.invalid) msAttrs.push('@invalid={{true}}');
+  if (state.filled) msAttrs.push('@filled={{true}}');
+
+  const fieldBlock = fieldAttrs.length ? `  ${fieldAttrs.join('\n  ')}\n` : '';
+  const msBlock = msAttrs.length ? `    ${msAttrs.join('\n    ')}\n` : '';
+
+  return `<UlxField\n${fieldBlock}>\n  <:control as |field|>\n    <UlxMultiSelect\n      @key={{field.key}}\n      @ariaDescribedBy={{field.describedBy}}\n      @ariaErrorMessage={{field.errorId}}\n      @options={{this.items}}\n      @value={{this.selected}}\n      @onChange={{this.setSelected}}\n${msBlock}    />\n  </:control>\n</UlxField>`;
 };
 
 export default {
   componentName: 'UlxMultiSelect',
-  importLine: "import { UlxMultiSelect } from 'ulx-components';",
+  importLine: "import { UlxMultiSelect, UlxField } from 'ulx-components';",
 
   props: [
     {

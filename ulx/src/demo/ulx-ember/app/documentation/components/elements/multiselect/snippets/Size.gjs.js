@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMultiSelect, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -50,68 +50,87 @@ export default class DemoMultiselectSize extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
-      <UlxMultiSelect
-        id="multiselect-xs"
-        @options={{this.items}}
-        @value={{this.selectedXs}}
-        @onChange={{this.setSelectedXs}}
-        @selectAll={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label="xs-size"
-        @size="xs-size"
-        @fieldClass="col-6"
-      />
+      <UlxField @label="xs-size" @fieldId="multiselect-xs" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selectedXs}}
+            @onChange={{this.setSelectedXs}}
+            @selectAll={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+            @size="xs-size"
+          />
+        </:control>
+      </UlxField>
 
-      <UlxMultiSelect
-        id="multiselect-s"
-        @options={{this.items}}
-        @value={{this.selectedS}}
-        @onChange={{this.setSelectedS}}
-        @selectAll={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label="s-size (default)"
-        @size="s-size"
-        @fieldClass="col-6"
-      />
+      <UlxField @label="s-size (default)" @fieldId="multiselect-s" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selectedS}}
+            @onChange={{this.setSelectedS}}
+            @selectAll={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+            @size="s-size"
+          />
+        </:control>
+      </UlxField>
 
-      <UlxMultiSelect
-        id="multiselect-m"
-        @options={{this.items}}
-        @value={{this.selectedM}}
-        @onChange={{this.setSelectedM}}
-        @selectAll={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label="m-size"
-        @size="m-size"
-        @fieldClass="col-6"
-      />
+      <UlxField @label="m-size" @fieldId="multiselect-m" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selectedM}}
+            @onChange={{this.setSelectedM}}
+            @selectAll={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+            @size="m-size"
+          />
+        </:control>
+      </UlxField>
 
-      <UlxMultiSelect
-        id="multiselect-l"
-        @options={{this.items}}
-        @value={{this.selectedL}}
-        @onChange={{this.setSelectedL}}
-        @selectAll={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label="l-size"
-        @size="l-size"
-        @fieldClass="col-6"
-      />
+      <UlxField @label="l-size" @fieldId="multiselect-l" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selectedL}}
+            @onChange={{this.setSelectedL}}
+            @selectAll={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+            @size="l-size"
+          />
+        </:control>
+      </UlxField>
 
-      <UlxMultiSelect
-        id="multiselect-xl"
-        @options={{this.items}}
-        @value={{this.selectedXl}}
-        @onChange={{this.setSelectedXl}}
-        @selectAll={{true}}
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
-        @label="xl-size"
-        @size="xl-size"
-        @fieldClass="col-6"
-      />
+      <UlxField @label="xl-size" @fieldId="multiselect-xl" @fieldClass="col-6">
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selectedXl}}
+            @onChange={{this.setSelectedXl}}
+            @selectAll={{true}}
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+            @size="xl-size"
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }
-
 
 `;
