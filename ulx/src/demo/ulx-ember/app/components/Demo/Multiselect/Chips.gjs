@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMultiSelect, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField, t } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -25,16 +25,25 @@ export default class DemoMultiselectChips extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxMultiSelect
-        @options={{this.items}}
-        @value={{this.selected}}
-        @onChange={{this.setSelected}}
-        @selectAll={{true}}
-        @display="chip"
-        @placeholder={{t "msg.multiselect.placeholder.city"}}
+      <UlxField
         @label={{t "lbl.multiselect.chips"}}
+        @fieldId="multiselect-chips"
         @fieldClass="col-6"
-      />
+      >
+        <:control as |field|>
+          <UlxMultiSelect
+            @key={{field.key}}
+            @ariaDescribedBy={{field.describedBy}}
+            @ariaErrorMessage={{field.errorId}}
+            @options={{this.items}}
+            @value={{this.selected}}
+            @onChange={{this.setSelected}}
+            @selectAll={{true}}
+            @display="chip"
+            @placeholder={{t "msg.multiselect.placeholder.city"}}
+          />
+        </:control>
+      </UlxField>
     </div>
   </template>
 }

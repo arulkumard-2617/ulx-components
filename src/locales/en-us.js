@@ -271,6 +271,8 @@ const enUs = {
 	'msg.multiselect.empty': 'No options',
 	'msg.multiselect.empty.filter': 'No results found',
 	'msg.multiselect.filter.placeholder': 'Search',
+	'msg.multiselect.filter.aria': 'Filter the list of options',
+	'msg.multiselect.list.region': 'List of options',
 	'msg.multiselect.choose.items': 'Choose items',
 	'msg.multiselect.items.selected': '{count} items selected',
 	'msg.multiselect.tags.help':
@@ -349,6 +351,8 @@ const enUs = {
 	'aria.paginator.nextPage': 'Next page',
 	'aria.paginator.lastPage': 'Last page',
 	'aria.paginator.pageLabel': 'Page {page}',
+	'aria.paginator.pageLinks': 'Pagination pages',
+	'aria.paginator.navigation': 'Pagination navigation',
 	'aria.paginator.rowsPerPage': 'Rows per page',
 	'aria.paginator.jumpToPage': 'Jump to page',
 	'lbl.paginator.choose': 'Choose',

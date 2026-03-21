@@ -1,6 +1,14 @@
 import Component from "@glimmer/component";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
 import { t } from "../../../utils/i18n";
+
+const LAYOUT_TO_CLASS = {
+	list: "layout-list",
+	grid: "layout-grid",
+};
+
+const DEFAULT_LAYOUT = "list";
 
 /**
  * DataView is a layout wrapper with left, content, and right sections inside a dataview grid.
@@ -10,6 +18,7 @@ import { t } from "../../../utils/i18n";
  * @param {string} [layout="list"] - Layout variant: "list" or "grid". Adds layout-list or layout-grid class to root.
  * @param {string} [gridRole] - Optional ARIA role for the main content container (e.g. "list" for list semantics).
  * @param {string} [customClass] - Extra CSS class for root.
+ * @param {string} [dataQa] - Optional root `data-qa` override (defaults to `ulx-dataview`).
  *
  * Named blocks (lowercase):
  * - <:header> - Optional content above the grid (e.g. toolbar, filters).
@@ -24,15 +33,16 @@ export default class UlxDataView extends Component {
 	}
 
 	get layoutClass() {
-		const { layout = "list" } = this.args;
-		return layout === "grid" ? "layout-grid" : "layout-list";
+		const { layout = DEFAULT_LAYOUT } = this.args;
+		return LAYOUT_TO_CLASS[layout] ?? LAYOUT_TO_CLASS[DEFAULT_LAYOUT];
 	}
 
 	get rootClasses() {
-		const { customClass } = this.args;
-		const parts = [this.baseClass, this.layoutClass];
-		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(this.baseClass, this.layoutClass, this.args.customClass);
+	}
+
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-dataview";
 	}
 
 	<template>
@@ -40,29 +50,27 @@ export default class UlxDataView extends Component {
 			class={{this.rootClasses}}
 			role="region"
 			aria-label={{t "aria.dataview.region"}}
+			data-qa={{this.rootDataQa}}
 			...attributes
 		>
 			{{#if (has-block "header")}}
-				<div class="dataview-header">
+				<div class="dataview-header" data-qa="ulx-dataview-header">
 					{{yield to="header"}}
 				</div>
 			{{/if}}
-			<div class="dataview-content" role={{this.args.gridRole}}>
-				{{#if (has-block "left")}}
-					{{yield to="left"}}
-				{{/if}}
+			<div class="dataview-content" data-qa="ulx-dataview-content" role={{this.args.gridRole}}>
+				{{yield to="left"}}
 
 				{{#if (has-block "content")}}
 					{{yield to="content"}}
 				{{else}}
 					{{yield}}
 				{{/if}}
-				{{#if (has-block "right")}}
-					{{yield to="right"}}
-				{{/if}}
+
+				{{yield to="right"}}
 
 				{{#if (has-block "footer")}}
-					<div>
+					<div data-qa="ulx-dataview-footer">
 						{{yield to="footer"}}
 					</div>
 				{{/if}}
