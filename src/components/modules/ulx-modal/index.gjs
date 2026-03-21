@@ -6,6 +6,7 @@ import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
 import overlayLifecycle from "../../../modifiers/overlay-lifecycle";
 import {
 	handleAsyncAction,
@@ -17,6 +18,11 @@ import {
 import UlxModalHeader from "./header.gjs";
 import UlxModalBody from "./body.gjs";
 import UlxModalFooter from "./footer.gjs";
+
+const BODY_OVERFLOW_STYLE = {
+	true: "overflow-y: auto",
+	false: "overflow-y: hidden",
+};
 
 /**
  * Modal component for displaying content in an overlay dialog.
@@ -98,6 +104,7 @@ import UlxModalFooter from "./footer.gjs";
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
  * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {number} [zIndexBase=1000] - Base z-index for modal stacking
+ * @param {string} [dataQa] - Optional root `data-qa` on the mask (defaults to `ulx-modal`).
  */
 export default class UlxModal extends Component {
 	@service modalStack;
@@ -120,54 +127,47 @@ export default class UlxModal extends Component {
 
 	get modalClasses() {
 		const { size = "m-size", position = "center", variant } = this.args;
-		const parts = [this.baseClass];
-
-		!this.isMaximized && parts.push(size, `position-${position}`);
-		variant && parts.push(variant);
-		this.isMaximized && parts.push("maximized");
-		this.draggable && parts.push("draggable");
-		// Transition state on the dialog so backdrop shows first, then modal animates
-		this.transitionState && parts.push(this.transitionState);
-
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(
+			this.baseClass,
+			!this.isMaximized && size,
+			!this.isMaximized && `position-${position}`,
+			variant,
+			this.isMaximized && "maximized",
+			this.draggable && "draggable",
+			// Transition state on the dialog so backdrop shows first, then modal animates
+			this.transitionState
+		);
 	}
 
 	get headerWrapperClasses() {
-		const { headerClassName } = this.args;
-		const parts = ["dialog-header"];
-		headerClassName && parts.push(headerClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("dialog-header", this.args.headerClassName);
 	}
 
 	get bodyContentClasses() {
-		const { contentClassName } = this.args;
-		const parts = ["dialog-content"];
-		contentClassName && parts.push(contentClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("dialog-content", this.args.contentClassName);
 	}
 
 	get bodyContentStyle() {
-		return this.scrollable ? "overflow-y: auto" : "overflow-y: hidden";
+		return BODY_OVERFLOW_STYLE[this.scrollable];
 	}
 
 	get footerWrapperClasses() {
-		const { footerClassName } = this.args;
-		const parts = ["dialog-footer"];
-		footerClassName && parts.push(footerClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("dialog-footer", this.args.footerClassName);
 	}
 
 	get maskClasses() {
-		const { visible, animationType, maskClassName } = this.args;
-		const parts = ["dialog-mask"];
+		const { visible, animationType } = this.args;
+		return joinClassNames(
+			"dialog-mask",
+			this.overlay && "modal overlay",
+			visible && "visible",
+			animationType && `animation-${animationType}`,
+			this.args.maskClassName
+		);
+	}
 
-		this.overlay && parts.push("modal overlay");
-		// Backdrop shows when visible (no transition state on mask so it applies first)
-		visible && parts.push("visible");
-		animationType && parts.push(`animation-${animationType}`);
-		maskClassName && parts.push(maskClassName);
-
-		return parts.filter(Boolean).join(" ");
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-modal";
 	}
 
 	get modalStyle() {
@@ -404,12 +404,14 @@ export default class UlxModal extends Component {
 				{{#if this.shouldRenderModal}}
 					<div
 						class={{this.maskClasses}}
+						data-qa={{this.rootDataQa}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}
 						{{on "click" this.handleBackdropClick}}
 						role="presentation"
 					>
 						<div
 							class={{this.modalClasses}}
+							data-qa="ulx-modal-dialog"
 							style={{this.modalStyle}}
 							role="dialog"
 							aria-modal={{this.overlay}}
@@ -420,7 +422,7 @@ export default class UlxModal extends Component {
 							...attributes
 						>
 							{{#if (has-block "head")}}
-								<div class={{this.headerWrapperClasses}}>
+								<div class={{this.headerWrapperClasses}} data-qa="ulx-modal-header">
 									{{yield to="head"}}
 								</div>
 							{{else}}{{#unless @hideHeader}}
@@ -442,7 +444,11 @@ export default class UlxModal extends Component {
 								{{/unless}}{{/if}}
 
 							{{#if (has-block "body")}}
-								<div class={{this.bodyContentClasses}} style={{this.bodyContentStyle}}>
+								<div
+									class={{this.bodyContentClasses}}
+									data-qa="ulx-modal-body"
+									style={{this.bodyContentStyle}}
+								>
 									{{yield to="body"}}
 								</div>
 							{{else}}
@@ -455,7 +461,11 @@ export default class UlxModal extends Component {
 							{{/if}}
 
 							{{#if (has-block "footer")}}
-								<div class={{this.footerWrapperClasses}} style="justify-content: flex-end;">
+								<div
+									class={{this.footerWrapperClasses}}
+									data-qa="ulx-modal-footer"
+									style="justify-content: flex-end;"
+								>
 									{{yield to="footer"}}
 								</div>
 							{{else}}{{#unless @hideFooter}}

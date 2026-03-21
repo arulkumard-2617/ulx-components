@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import { joinClassNames } from "../../../utils/class-names";
 import { t } from "../../../utils/i18n.js";
 
 /**
@@ -35,10 +36,7 @@ import { t } from "../../../utils/i18n.js";
  */
 export default class UlxModalHeader extends Component {
 	get headerRootClasses() {
-		const { headerClassName } = this.args;
-		const parts = ["dialog-header"];
-		headerClassName && parts.push(headerClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("dialog-header", this.args.headerClassName);
 	}
 
 	get showCloseButton() {
@@ -100,7 +98,7 @@ export default class UlxModalHeader extends Component {
 	}
 
 	<template>
-		<div class={{this.headerRootClasses}} ...attributes>
+		<div class={{this.headerRootClasses}} data-qa="ulx-modal-header" ...attributes>
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
@@ -119,6 +117,7 @@ export default class UlxModalHeader extends Component {
 						@iconSize={{this.iconSize}}
 						@customClass="dialog-maximizable-button"
 						aria-label={{this.maximizeButtonAriaLabel}}
+						data-qa="ulx-modal-maximize"
 						{{on "click" this.handleMaximize}}
 					/>
 				{{/if}}
@@ -132,6 +131,7 @@ export default class UlxModalHeader extends Component {
 						@text={{true}}
 						@customClass="dialog-close-button"
 						aria-label={{t "lbl.close"}}
+						data-qa="ulx-modal-close"
 						{{on "click" this.handleClose}}
 					/>
 				{{/if}}

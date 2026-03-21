@@ -22,7 +22,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "dev-releases"
   ],
   "scripts": {
     "build": "rollup --config && node ulx/src/scripts/less/ulx-editor-build.js",
@@ -30,7 +31,7 @@
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
-    "prepack": "rollup --config",
+    "prepack": "rollup --config && node ulx/src/scripts/less/ulx-editor-build.js",
     "start": "rollup --config --watch",
     "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
   },
@@ -132,7 +133,6 @@
       "./components/elements/ulx-tristate-checkbox/index.js": "./dist/_app_/components/elements/ulx-tristate-checkbox/index.js",
       "./components/modules/ulx-data-view/index.js": "./dist/_app_/components/modules/ulx-data-view/index.js",
       "./components/modules/ulx-modal/body.js": "./dist/_app_/components/modules/ulx-modal/body.js",
-      "./components/modules/ulx-modal/example.js": "./dist/_app_/components/modules/ulx-modal/example.js",
       "./components/modules/ulx-modal/footer.js": "./dist/_app_/components/modules/ulx-modal/footer.js",
       "./components/modules/ulx-modal/header.js": "./dist/_app_/components/modules/ulx-modal/header.js",
       "./components/modules/ulx-modal/index.js": "./dist/_app_/components/modules/ulx-modal/index.js",
