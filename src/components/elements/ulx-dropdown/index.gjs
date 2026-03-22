@@ -16,6 +16,7 @@ import {
 	applyBodyAbsoluteFromViewport,
 	getOverlayZIndexAboveMask
 } from "../../../utils/overlay-helpers";
+import { getFocusableElements } from "../../../utils/focus-util";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
@@ -24,7 +25,7 @@ import { hash, concat } from "@ember/helper";
 /**
  * Dropdown select: single selection from a list with optional filter, groups, templates.
  * Imports and uses ember-truth-helpers (eq, and, not, or) in templates. Supports: basic, checkmark,
- * editable, group, template, filter, clear icon, loading, filled, invalid, disabled.
+ * group, template, filter, clear icon, loading, filled, invalid, disabled.
  * Use `UlxField` for labels, help, and errors; use `UlxFloatLabel` for floating labels.
  * Accessible: listbox role, keyboard nav, ARIA.
  *
@@ -47,7 +48,6 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [loading=false] - Shows progress spinner instead of dropdown icon.
  * @param {boolean} [invalid=false] - Invalid state styling.
  * @param {unknown} [error] - When truthy, treated like invalid for styling (same as `UlxInput`); message is not rendered here.
- * @param {boolean} [editable=false] - Trigger is editable input; type to filter.
  * @param {boolean} [filter=false] - Show filter input in panel.
  * @param {boolean} [showClear=false] - Show clear icon when value is set.
  * @param {boolean} [checkmark=false] - Show checkmark on selected item.
@@ -89,8 +89,6 @@ export default class UlxDropdown extends Component {
 	@tracked overlayVisible = false;
 	@tracked focusedOptionIndex = -1;
 	@tracked showOptionKeyboardFocusRing = false;
-	/** Cleared next microtask; avoids showing the option keyboard ring when the editable field opens from a click. */
-	@tracked suppressKeyboardOptionRingForFocus = false;
 	@tracked filterValue = "";
 	@tracked triggerElement = null;
 	@tracked panelElement = null;
@@ -158,14 +156,6 @@ export default class UlxDropdown extends Component {
 	@action
 	onOptionPanelPointerIntent() {
 		this.dismissKeyboardOptionFocusRing();
-	}
-
-	@action
-	onEditableInputPointerDown() {
-		this.suppressKeyboardOptionRingForFocus = true;
-		queueMicrotask(() => {
-			this.suppressKeyboardOptionRingForFocus = false;
-		});
 	}
 
 	get isInvalid() {
@@ -299,7 +289,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	get listOptions() {
-		return this.args.editable ? this.unfilteredOptions : this.visibleOptions;
+		return this.visibleOptions;
 	}
 
 	get selectedOption() {
@@ -356,14 +346,6 @@ export default class UlxDropdown extends Component {
 
 	get contentPlaceholderClass() {
 		return this.selectedLabel == null ? "place-holder" : "";
-	}
-
-	get editableInputValue() {
-		return this.overlayVisible ? this.filterValue : (this.selectedLabel ?? "");
-	}
-
-	get inputtextClass() {
-		return getComponentClass("inputtext");
 	}
 
 	get ariaDescribedBy() {
@@ -516,17 +498,114 @@ export default class UlxDropdown extends Component {
 		});
 	}
 
+	get shouldFocusPanelFilterOnOpen() {
+		return !!this.args.filter;
+	}
+
+	get hasHeaderFocusableControls() {
+		return this.getPanelHeaderFocusableElements().length > 0;
+	}
+
+	getPanelHeaderFocusableElements() {
+		const panelRoot = this.panelElement;
+		if (!panelRoot) return [];
+		const acc = [];
+		const filterInput = panelRoot.querySelector("[data-qa='ulx-dropdown-filter']");
+		if (filterInput && !filterInput.disabled && filterInput.offsetParent !== null) {
+			acc.push(filterInput);
+		}
+		const footer = panelRoot.querySelector("[data-qa='ulx-dropdown-footer']");
+		if (footer) {
+			for (const el of getFocusableElements(footer)) {
+				if (!acc.includes(el)) acc.push(el);
+			}
+		}
+		return acc;
+	}
+
+	focusFilterInput() {
+		const filterInput = this.panelElement?.querySelector("[data-qa='ulx-dropdown-filter']");
+		if (!filterInput || filterInput.disabled) return false;
+		filterInput.focus?.({ preventScroll: true });
+		return true;
+	}
+
+	focusFirstAvailablePanelControl() {
+		const controls = this.getPanelHeaderFocusableElements();
+		if (controls.length <= 0) return false;
+		controls[0]?.focus?.({ preventScroll: true });
+		return true;
+	}
+
+	focusTriggerFallback() {
+		if (!this.overlayVisible || this.isTriggerDisabled) return;
+		document.getElementById(this.triggerId)?.focus?.({ preventScroll: true });
+	}
+
+	focusPanelInputOnOpen() {
+		schedule("afterRender", () => {
+			if (!this.overlayVisible) return;
+			const tryFocus = (attempt = 0) => {
+				if (!this.overlayVisible) return;
+				if (this.focusFilterInput()) return;
+				if (this.focusFirstAvailablePanelControl()) return;
+				if (attempt < 2) {
+					requestAnimationFrame(() => tryFocus(attempt + 1));
+					return;
+				}
+				this.focusTriggerFallback();
+			};
+			requestAnimationFrame(() => tryFocus(0));
+		});
+	}
+
+	/** When the panel filter should receive focus (portaled panel), or else the combobox trigger. */
+	focusAppropriateControlOnOpen() {
+		if (this.shouldFocusPanelFilterOnOpen) {
+			this.focusPanelInputOnOpen();
+			return;
+		}
+		this.ensureComboboxControlFocused();
+	}
+
+	@action
+	enterHeaderMode(options = {}) {
+		const { focusFirst = true } = options;
+		const controls = this.getPanelHeaderFocusableElements();
+		if (!controls.length) return;
+		const target = focusFirst ? controls[0] : controls[controls.length - 1];
+		target?.focus?.({ preventScroll: true });
+	}
+
+	@action
+	cycleHeaderFocus(direction = 1) {
+		const controls = this.getPanelHeaderFocusableElements();
+		if (!controls.length) {
+			this.focusTriggerFallback();
+			return;
+		}
+		const activeElement = document.activeElement;
+		const currentIndex = controls.indexOf(activeElement);
+		if (currentIndex === -1) {
+			const fallbackIndex = direction < 0 ? controls.length - 1 : 0;
+			controls[fallbackIndex]?.focus?.({ preventScroll: true });
+			return;
+		}
+		const nextIndex = (currentIndex + direction + controls.length) % controls.length;
+		controls[nextIndex]?.focus?.({ preventScroll: true });
+	}
+
 	@action
 	toggleOverlay() {
 		if (this.args.disabled || this.args.loading) return;
 		this.overlayVisible = !this.overlayVisible;
 		if (this.overlayVisible) {
-			this.filterValue = this.args.editable ? (this.selectedLabel ?? "") : "";
+			this.filterValue = "";
 			this.focusedOptionIndex = this.selectedOptionIndex;
 			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
 			this.panelPosition = "below";
 			this.args.onShow?.();
-			this.ensureComboboxControlFocused();
+			this.focusAppropriateControlOnOpen();
 		} else {
 			this.panelPosition = "below";
 			this.dismissKeyboardOptionFocusRing();
@@ -620,6 +699,9 @@ export default class UlxDropdown extends Component {
 		} else if (keyPressed === "Escape") {
 			event.preventDefault();
 			this.toggleOverlay();
+		} else if (keyPressed === "Tab") {
+			event.preventDefault();
+			this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
 		}
 	}
 
@@ -672,128 +754,10 @@ export default class UlxDropdown extends Component {
 			if (this.overlayVisible) this.toggleOverlay();
 			return;
 		}
-	}
-
-	@action
-	onEditableInput(event) {
-		const filterInputValue = event.target?.value ?? "";
-		this.filterValue = filterInputValue;
-		if (!this.overlayVisible) this.overlayVisible = true;
-		const list = this.listOptions;
-		const normalized = (filterInputValue ?? "").trim().toLowerCase();
-		let matchIndex = -1;
-		if (normalized && list.length > 0) {
-			matchIndex = list.findIndex((entry) => {
-				const option = entry?.item != null ? entry.item : entry;
-				return this.getOptionLabel(option).toLowerCase().includes(normalized);
-			});
-		}
-		this.focusedOptionIndex = matchIndex >= 0 ? matchIndex : -1;
-		this.showOptionKeyboardFocusRing = true;
-		this.args.onFilter?.(filterInputValue);
-	}
-
-	@action
-	onEditableFocus(event) {
-		if (this.args.disabled) return;
-		if (!this.overlayVisible) {
-			this.filterValue = this.selectedLabel ?? "";
-			this.overlayVisible = true;
-			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
-			if (!this.suppressKeyboardOptionRingForFocus) this.showOptionKeyboardFocusRing = true;
-			this.args.onShow?.();
-		}
-		this.handleFocus(event);
-	}
-
-	@action
-	onEditableClick(event) {
-		if (this.args.disabled || this.args.loading) return;
-		event.stopPropagation();
-		if (!this.overlayVisible) {
-			this.dismissKeyboardOptionFocusRing();
-			this.filterValue = this.selectedLabel ?? "";
-			this.overlayVisible = true;
-			this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-			if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
-			this.args.onShow?.();
-			this.ensureComboboxControlFocused();
-		}
-	}
-
-	@action
-	onEditableBlur(event) {
-		this.handleBlur(event);
-	}
-
-	@action
-	onEditableTriggerKeydown(event) {
-		if (this.args.disabled) return;
-		const keyPressed = event.code || event.key;
-		if (keyPressed === "ArrowDown") {
+		if (keyPressed === "Tab" && this.overlayVisible) {
 			event.preventDefault();
-			if (!this.overlayVisible) {
-				this.showOptionKeyboardFocusRing = true;
-				this.filterValue = this.selectedLabel ?? "";
-				this.overlayVisible = true;
-				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
-				this.args.onShow?.();
-			} else this.moveFocus(1);
-			return;
-		}
-		if (keyPressed === "ArrowUp") {
-			event.preventDefault();
-			if (this.overlayVisible) this.moveFocus(-1);
-			else {
-				this.showOptionKeyboardFocusRing = true;
-				this.filterValue = this.selectedLabel ?? "";
-				this.overlayVisible = true;
-				this.focusedOptionIndex = this.listOptions.length > 0 ? this.listOptions.length - 1 : 0;
-				this.args.onShow?.();
-			}
-			return;
-		}
-		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
-			event.preventDefault();
-			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
-				const list = this.listOptions;
-				const focusedEntry = list[this.focusedOptionIndex];
-				const optionItem =
-					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
-			} else if (!this.overlayVisible) {
-				this.showOptionKeyboardFocusRing = true;
-				this.filterValue = this.selectedLabel ?? "";
-				this.overlayVisible = true;
-				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
-				this.args.onShow?.();
-			}
-			return;
-		}
-		if (keyPressed === "Escape") {
-			event.preventDefault();
-			if (this.overlayVisible) this.toggleOverlay();
-			return;
-		}
-		if (keyPressed === " " || keyPressed === "Space") {
-			event.preventDefault();
-			if (!this.overlayVisible) {
-				this.showOptionKeyboardFocusRing = true;
-				this.filterValue = this.selectedLabel ?? "";
-				this.overlayVisible = true;
-				this.focusedOptionIndex = this.selectedOptionIndex >= 0 ? this.selectedOptionIndex : 0;
-				if (this.focusedOptionIndex < 0 && this.listOptions.length > 0) this.focusedOptionIndex = 0;
-				this.args.onShow?.();
-			} else if (this.focusedOptionIndex >= 0) {
-				const list = this.listOptions;
-				const focusedEntry = list[this.focusedOptionIndex];
-				const optionItem =
-					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) this.selectOption(focusedEntry);
-			}
+			if (this.hasHeaderFocusableControls) this.enterHeaderMode({ focusFirst: !event.shiftKey });
+			else this.focusTriggerFallback();
 			return;
 		}
 	}
@@ -812,6 +776,11 @@ export default class UlxDropdown extends Component {
 	@action
 	onPanelKeydown(event) {
 		const keyPressed = event.code || event.key;
+		if (keyPressed === "Tab") {
+			event.preventDefault();
+			this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
+			return;
+		}
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			this.moveFocus(1);
@@ -871,14 +840,14 @@ export default class UlxDropdown extends Component {
 		<div
 			class={{this.rootClasses}}
 			data-qa={{this.rootDataQa}}
-			role={{unless @editable "combobox"}}
-			aria-haspopup={{unless @editable "listbox"}}
-			aria-expanded={{unless @editable this.overlayVisible}}
-			aria-controls={{unless @editable (concat this.triggerId "-listbox")}}
-			aria-invalid={{unless @editable (if (eq this.isInvalid true) "true" "false")}}
-			aria-required={{unless @editable this.isRequired}}
-			aria-describedby={{unless @editable this.ariaDescribedBy}}
-			aria-errormessage={{unless @editable this.ariaErrorMessage}}
+			role="combobox"
+			aria-haspopup="listbox"
+			aria-expanded={{this.overlayVisible}}
+			aria-controls="{{this.triggerId}}-listbox"
+			aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
+			aria-required={{this.isRequired}}
+			aria-describedby={{this.ariaDescribedBy}}
+			aria-errormessage={{this.ariaErrorMessage}}
 			{{this.triggerRef}}
 			{{overlayDismiss
 				this.overlayVisible
@@ -891,147 +860,86 @@ export default class UlxDropdown extends Component {
 			{{on "click" this.toggleOverlay}}
 			...attributes
 		>
-			{{#if @editable}}
-				<input
-					id={{this.triggerId}}
-					data-qa="ulx-dropdown-trigger"
-					class="dropdown-input editable {{this.inputtextClass}}"
-					type="text"
-					autocomplete="off"
-					value={{this.editableInputValue}}
-					placeholder={{this.triggerPlaceholderDisplay}}
-					readonly={{this.isTriggerDisabled}}
-					role="combobox"
-					aria-haspopup="listbox"
-					aria-expanded={{this.overlayVisible}}
-					aria-controls="{{this.triggerId}}-listbox"
-					aria-autocomplete="list"
-					aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
-					aria-required={{this.isRequired}}
-					aria-describedby={{this.ariaDescribedBy}}
-					aria-errormessage={{this.ariaErrorMessage}}
-					aria-activedescendant={{this.activeDescendantId}}
-					{{on "input" this.onEditableInput}}
-					{{on "keydown" this.onEditableTriggerKeydown}}
-					{{on "focus" this.onEditableFocus}}
-					{{on "pointerdown" this.onEditableInputPointerDown}}
-					{{on "click" this.onEditableClick}}
-					{{on "blur" this.onEditableBlur}}
-				/>
-				<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}" tabindex="-1">
-					{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
-						<UlxIcon
-							@type="font"
-							@dataQa="ulx-dropdown-clear"
-							@iconName="close-stroke-icon-new dropdown-clear-icon"
-							@componentClass="bs-icons1"
-							@ariaLabel={{this.clearButtonAriaLabel}}
-							role="button"
-							tabindex="0"
-							{{on "click" this.clearSelection}}
-							{{on "keydown" this.onClearIconKeydown}}
-						/>
-					{{/if}}
-					{{#if (and @loading)}}
-						<span class="dropdown-loading-icon" aria-hidden="true">
-							<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
-						</span>
-					{{else}}
-						{{#if (has-block "icon")}}
-							{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-						{{else}}
-							<UlxIcon
-								@dataQa="ulx-dropdown-open-icon"
-								@iconName="down-stroke-icon-new dropdown-trigger-icon"
-								@type="font"
-								@componentClass="bs-icons1"
-								@ariaLabel={{this.openTriggerAriaLabel}}
-							/>
+			<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
+				{{#if (has-block "value")}}
+					<div class="flex items-center">
+						{{yield
+							(hash
+								selectedOption=this.selectedOption
+								selectedLabel=this.selectedLabel
+								placeholder=this.triggerPlaceholderDisplay
+								imageUrl=this.selectedOptionImageUrl
+							)
+							to="value"
+						}}
+					</div>
+				{{else}}
+					{{#if (and this.selectedLabel)}}
+						<span class="dropdown-item-label">{{this.selectedLabel}}</span>
+						{{#if (has-block "subtext")}}
+							<span>{{yield this.selectedOption to="subtext"}}</span>
 						{{/if}}
-					{{/if}}
-				</div>
-			{{else}}
-				<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
-					{{#if (has-block "value")}}
-						<div class="flex items-center">
-							{{yield
-								(hash
-									selectedOption=this.selectedOption
-									selectedLabel=this.selectedLabel
-									placeholder=this.triggerPlaceholderDisplay
-									imageUrl=this.selectedOptionImageUrl
-								)
-								to="value"
-							}}
-						</div>
 					{{else}}
-						{{#if (and this.selectedLabel)}}
-							<span class="dropdown-item-label">{{this.selectedLabel}}</span>
-							{{#if (has-block "subtext")}}
-								<span>{{yield this.selectedOption to="subtext"}}</span>
-							{{/if}}
-						{{else}}
-							<span class="dropdown-item-label">{{this.triggerPlaceholderDisplay}}</span>
-						{{/if}}
+						<span class="dropdown-item-label">{{this.triggerPlaceholderDisplay}}</span>
 					{{/if}}
-				</div>
-				<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}">
-					{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
-						<UlxIcon
-							@type="font"
-							@dataQa="ulx-dropdown-clear"
-							@iconName="close-stroke-icon-new dropdown-clear-icon"
-							@componentClass="bs-icons1"
-							@ariaLabel={{this.clearButtonAriaLabel}}
-							role="button"
-							tabindex="0"
-							{{on "click" this.clearSelection}}
-							{{on "keydown" this.onClearIconKeydown}}
-						/>
-					{{/if}}
-					{{#if (and @loading)}}
+				{{/if}}
+			</div>
+			<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}">
+				{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
+					<UlxIcon
+						@type="font"
+						@dataQa="ulx-dropdown-clear"
+						@iconName="close-stroke-icon-new dropdown-clear-icon"
+						@componentClass="bs-icons1"
+						@ariaLabel={{this.clearButtonAriaLabel}}
+						role="button"
+						tabindex="0"
+						{{on "click" this.clearSelection}}
+						{{on "keydown" this.onClearIconKeydown}}
+					/>
+				{{/if}}
+				{{#if (and @loading)}}
+					<span
+						class="dropdown-loading-icon"
+						id={{this.triggerId}}
+						data-qa="ulx-dropdown-trigger"
+						role="button"
+						aria-disabled="true"
+						tabindex="-1"
+						aria-busy="true"
+					>
+						<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
+					</span>
+				{{else}}
+					{{#if (has-block "icon")}}
 						<span
-							class="dropdown-loading-icon"
 							id={{this.triggerId}}
 							data-qa="ulx-dropdown-trigger"
 							role="button"
-							aria-disabled="true"
-							tabindex="-1"
-							aria-busy="true"
+							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
+							{{on "keydown" this.onTriggerKeydown}}
+							{{on "focus" this.handleFocus}}
+							{{on "blur" this.handleBlur}}
 						>
-							<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
+							{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 						</span>
 					{{else}}
-						{{#if (has-block "icon")}}
-							<span
-								id={{this.triggerId}}
-								data-qa="ulx-dropdown-trigger"
-								role="button"
-								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-								{{on "keydown" this.onTriggerKeydown}}
-								{{on "focus" this.handleFocus}}
-								{{on "blur" this.handleBlur}}
-							>
-								{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
-							</span>
-						{{else}}
-							<UlxIcon
-								id={{this.triggerId}}
-								@dataQa="ulx-dropdown-trigger"
-								@iconName="down-stroke-icon-new dropdown-trigger-icon"
-								@type="font"
-								@componentClass="bs-icons1"
-								@ariaLabel={{this.openTriggerAriaLabel}}
-								role="button"
-								tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-								{{on "keydown" this.onTriggerKeydown}}
-								{{on "focus" this.handleFocus}}
-								{{on "blur" this.handleBlur}}
-							/>
-						{{/if}}
+						<UlxIcon
+							id={{this.triggerId}}
+							@dataQa="ulx-dropdown-trigger"
+							@iconName="down-stroke-icon-new dropdown-trigger-icon"
+							@type="font"
+							@componentClass="bs-icons1"
+							@ariaLabel={{this.openTriggerAriaLabel}}
+							role="button"
+							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
+							{{on "keydown" this.onTriggerKeydown}}
+							{{on "focus" this.handleFocus}}
+							{{on "blur" this.handleBlur}}
+						/>
 					{{/if}}
-				</div>
-			{{/if}}
+				{{/if}}
+			</div>
 		</div>
 
 		{{#if this.overlayVisible}}
