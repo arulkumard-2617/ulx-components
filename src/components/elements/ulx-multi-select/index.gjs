@@ -24,6 +24,20 @@ import UlxButton from "../ulx-button/index.gjs";
 import { eq, and, not, or, gt } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
+const MULTISELECT_HEADER_FOCUSABLE_SELECTOR =
+	"[data-qa='ulx-multiselect-select-all'] .checkbox-input:not([disabled]), " +
+	"[data-qa='ulx-multiselect-filter']:not([disabled]), " +
+	"[data-qa='ulx-multiselect-add']:not([disabled]), " +
+	"[data-qa='ulx-multiselect-close']:not([disabled]), " +
+	"[data-qa='ulx-multiselect-clear']:not([disabled])";
+
+const MULTISELECT_HEADER_ACTIVE_SELECTOR =
+	"[data-qa='ulx-multiselect-select-all'] .checkbox-input, " +
+	"[data-qa='ulx-multiselect-filter'], " +
+	"[data-qa='ulx-multiselect-add'], " +
+	"[data-qa='ulx-multiselect-close'], " +
+	"[data-qa='ulx-multiselect-clear']";
+
 /**
  * MultiSelect: multiple selection from a list with optional chips, filter, groups, templates.
  * Supports: basic, chips, group, template, filter, select-all, loading, float label, filled,
@@ -336,12 +350,14 @@ export default class UlxMultiSelect extends Component {
 		);
 	}
 
+	visibleEntryToOption(entry) {
+		return this.hasGroups && entry?.item != null ? entry.item : entry;
+	}
+
 	get firstEnabledVisibleOptionIndex() {
 		const list = this.visibleOptions;
 		for (let i = 0; i < list.length; i++) {
-			const entry = list[i];
-			const item = this.hasGroups && entry?.item != null ? entry.item : entry;
-			if (!this.isOptionDisabled(item)) return i;
+			if (!this.isOptionDisabled(this.visibleEntryToOption(list[i]))) return i;
 		}
 		return list.length > 0 ? 0 : -1;
 	}
@@ -349,9 +365,7 @@ export default class UlxMultiSelect extends Component {
 	get lastEnabledVisibleOptionIndex() {
 		const list = this.visibleOptions;
 		for (let i = list.length - 1; i >= 0; i--) {
-			const entry = list[i];
-			const item = this.hasGroups && entry?.item != null ? entry.item : entry;
-			if (!this.isOptionDisabled(item)) return i;
+			if (!this.isOptionDisabled(this.visibleEntryToOption(list[i]))) return i;
 		}
 		return list.length > 0 ? list.length - 1 : -1;
 	}
@@ -393,8 +407,7 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get displayClass() {
-		const displayMode = this.args.display === "chip" ? "chip-display" : "comma-display";
-		return displayMode;
+		return this.args.display === "chip" ? "chip-display" : "comma-display";
 	}
 
 	get inputtextClass() {
@@ -479,22 +492,14 @@ export default class UlxMultiSelect extends Component {
 	get headerSelectableCount() {
 		const visible = this.visibleOptions;
 		if (!visible.length) return 0;
-		if (this.hasGroups) {
-			return visible.filter(({ item }) => !this.isOptionDisabled(item)).length;
-		}
-		return visible.filter((option) => !this.isOptionDisabled(option)).length;
+		return visible.filter((entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry))).length;
 	}
 
 	get headerSelectedCount() {
 		const visible = this.visibleOptions;
 		if (!visible.length) return 0;
-		if (this.hasGroups) {
-			return visible.reduce((count, { item }) => {
-				if (this.isOptionDisabled(item)) return count;
-				return this.isOptionSelected(item) ? count + 1 : count;
-			}, 0);
-		}
-		return visible.reduce((count, option) => {
+		return visible.reduce((count, entry) => {
+			const option = this.visibleEntryToOption(entry);
 			if (this.isOptionDisabled(option)) return count;
 			return this.isOptionSelected(option) ? count + 1 : count;
 		}, 0);
@@ -516,13 +521,8 @@ export default class UlxMultiSelect extends Component {
 		}
 		const visible = this.visibleOptions;
 		if (!visible.length) return false;
-		const selectable = this.hasGroups
-			? visible.filter(({ item }) => !this.isOptionDisabled(item))
-			: visible.filter((opt) => !this.isOptionDisabled(opt));
-		return selectable.every((entry) => {
-			const option = this.hasGroups ? entry.item : entry;
-			return this.isOptionSelected(option);
-		});
+		const selectable = visible.filter((entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry)));
+		return selectable.every((entry) => this.isOptionSelected(this.visibleEntryToOption(entry)));
 	}
 
 	get optionList() {
@@ -532,11 +532,11 @@ export default class UlxMultiSelect extends Component {
 
 	get optionListWithGroups() {
 		if (!this.hasGroups) return [];
-		const visibleOptionsList = this.visibleOptions;
+		const list = this.visibleOptions;
 		const rows = [];
 		let lastGroupLabel = null;
-		for (let flatIndex = 0; flatIndex < visibleOptionsList.length; flatIndex++) {
-			const entry = visibleOptionsList[flatIndex];
+		for (let flatIndex = 0; flatIndex < list.length; flatIndex++) {
+			const entry = list[flatIndex];
 			const groupLabel = entry?.groupLabel ?? "";
 			if (groupLabel !== lastGroupLabel) {
 				rows.push({ type: "group", label: groupLabel, group: entry?.group ?? null });
@@ -705,16 +705,17 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get virtualEndIndex() {
-		if (!this.useVirtualScroll) return this.optionList.length;
+		const list = this.optionList;
+		if (!this.useVirtualScroll) return list.length;
 		const itemSize = this.virtualItemSize;
 		const effectiveHeight = this.wrapperClientHeight || 232;
 		const end = Math.ceil((this.wrapperScrollTop + effectiveHeight) / itemSize) + 5;
-		return Math.min(this.optionList.length, end);
+		return Math.min(list.length, end);
 	}
 
 	get virtualOptionList() {
-		if (!this.useVirtualScroll) return this.optionList;
 		const list = this.optionList;
+		if (!this.useVirtualScroll) return list;
 		const start = this.virtualStartIndex;
 		const end = this.virtualEndIndex;
 		return list.slice(start, end).map((entry, i) => ({ ...entry, virtualIndex: start + i }));
@@ -722,7 +723,8 @@ export default class UlxMultiSelect extends Component {
 
 	get virtualTotalHeight() {
 		if (!this.useVirtualScroll) return 0;
-		return this.optionList.length * this.virtualItemSize;
+		const list = this.optionList;
+		return list.length * this.virtualItemSize;
 	}
 
 	get virtualStartIndexTimesItemSize() {
@@ -732,7 +734,8 @@ export default class UlxMultiSelect extends Component {
 
 	get virtualBottomSpacerHeight() {
 		if (!this.useVirtualScroll) return 0;
-		return Math.max(0, (this.optionList.length - this.virtualEndIndex) * this.virtualItemSize);
+		const listLength = this.optionList.length;
+		return Math.max(0, (listLength - this.virtualEndIndex) * this.virtualItemSize);
 	}
 
 	appendToBody = modifier((element, [when]) => {
@@ -870,10 +873,9 @@ export default class UlxMultiSelect extends Component {
 		if (this.overlayVisible) {
 			this.filterValue = "";
 			const visible = this.visibleOptions;
-			const firstSelected = visible.findIndex((entry) => {
-				const opt = this.hasGroups ? entry.item : entry;
-				return this.isOptionSelected(opt);
-			});
+			const firstSelected = visible.findIndex((entry) =>
+				this.isOptionSelected(this.visibleEntryToOption(entry))
+			);
 			this.focusedOptionIndex = firstSelected >= 0 ? firstSelected : visible.length > 0 ? 0 : -1;
 			this.keyboardNavigationMode = "header";
 			this.args.onShow?.();
@@ -898,6 +900,16 @@ export default class UlxMultiSelect extends Component {
 			? value.filter((v) => !this.valueEquals(v, optionVal))
 			: [...value, optionVal];
 		this.args.onChange?.(next);
+	}
+
+	selectFocusedVisibleOption(options = {}) {
+		const { syncListMode = false } = options;
+		if (this.focusedOptionIndex < 0) return;
+		const focusedEntry = this.visibleOptions[this.focusedOptionIndex];
+		const optionItem = this.visibleEntryToOption(focusedEntry);
+		if (!optionItem || this.isOptionDisabled(optionItem)) return;
+		syncListMode && (this.keyboardNavigationMode = "list");
+		this.selectOption(focusedEntry);
 	}
 
 	@action
@@ -984,11 +996,9 @@ export default class UlxMultiSelect extends Component {
 			return;
 		}
 		const visible = this.visibleOptions;
-		const validOptions = this.hasGroups
-			? visible
-					.filter(({ item }) => !this.isOptionDisabled(item))
-					.map(({ item }) => this.getOptionValue(item))
-			: visible.filter((opt) => !this.isOptionDisabled(opt)).map((opt) => this.getOptionValue(opt));
+		const validOptions = visible
+			.filter((entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry)))
+			.map((entry) => this.getOptionValue(this.visibleEntryToOption(entry)));
 		const limit = this.args.selectionLimit;
 		const value = checked ? (limit ? validOptions.slice(0, limit) : validOptions) : [];
 		this.args.onChange?.(value);
@@ -1031,15 +1041,7 @@ export default class UlxMultiSelect extends Component {
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			this.enterListMode({ startFromFirst: true });
-			if (this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
-				const optionItem =
-					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) {
-					this.selectOption(focusedEntry);
-				}
-			}
+			this.selectFocusedVisibleOption();
 			this.focusFocusedItem();
 		} else if (keyPressed === "Escape") {
 			event.preventDefault();
@@ -1077,14 +1079,7 @@ export default class UlxMultiSelect extends Component {
 					this.enterListMode({ startFromFirst: true });
 				}
 				if (this.focusedOptionIndex >= 0) {
-					const visibleOptionsList = this.visibleOptions;
-					const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
-					const optionItem =
-						this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-					if (optionItem && !this.isOptionDisabled(optionItem)) {
-						this.keyboardNavigationMode = "list";
-						this.selectOption(focusedEntry);
-					}
+					this.selectFocusedVisibleOption({ syncListMode: true });
 				}
 				this.focusFocusedItem();
 			}
@@ -1105,12 +1100,12 @@ export default class UlxMultiSelect extends Component {
 
 	@action
 	moveFocus(delta) {
-		const visibleOptionsList = this.visibleOptions;
-		if (!visibleOptionsList.length) return;
+		const list = this.visibleOptions;
+		if (!list.length) return;
 		this.keyboardNavigationMode = "list";
 		let next = this.focusedOptionIndex + delta;
 		if (next < 0) next = 0;
-		if (next >= visibleOptionsList.length) next = visibleOptionsList.length - 1;
+		if (next >= list.length) next = list.length - 1;
 		this.focusedOptionIndex = next;
 	}
 
@@ -1147,14 +1142,7 @@ export default class UlxMultiSelect extends Component {
 			if (this.isHeaderControlFocused()) return;
 			event.preventDefault();
 			if (this.focusedOptionIndex >= 0) {
-				const visibleOptionsList = this.visibleOptions;
-				const focusedEntry = visibleOptionsList[this.focusedOptionIndex];
-				const optionItem =
-					this.hasGroups && focusedEntry?.item != null ? focusedEntry.item : focusedEntry;
-				if (optionItem && !this.isOptionDisabled(optionItem)) {
-					this.keyboardNavigationMode = "list";
-					this.selectOption(focusedEntry);
-				}
+				this.selectFocusedVisibleOption({ syncListMode: true });
 			}
 		}
 	}
@@ -1173,8 +1161,8 @@ export default class UlxMultiSelect extends Component {
 	enterListMode(options = {}) {
 		const { startFromFirst = false, startFromLast = false } = options;
 		this.keyboardNavigationMode = "list";
-		const visibleOptionsList = this.visibleOptions;
-		if (!visibleOptionsList.length) {
+		const list = this.visibleOptions;
+		if (!list.length) {
 			this.focusedOptionIndex = -1;
 			return;
 		}
@@ -1188,13 +1176,7 @@ export default class UlxMultiSelect extends Component {
 	getPanelHeaderFocusableElements() {
 		const panelRoot = this.panelElement;
 		if (!panelRoot) return [];
-		const selector =
-			"[data-qa='ulx-multiselect-select-all'] .checkbox-input:not([disabled]), " +
-			"[data-qa='ulx-multiselect-filter']:not([disabled]), " +
-			"[data-qa='ulx-multiselect-add']:not([disabled]), " +
-			"[data-qa='ulx-multiselect-close']:not([disabled]), " +
-			"[data-qa='ulx-multiselect-clear']:not([disabled])";
-		return Array.from(panelRoot.querySelectorAll(selector)).filter(
+		return Array.from(panelRoot.querySelectorAll(MULTISELECT_HEADER_FOCUSABLE_SELECTOR)).filter(
 			(element) => element.offsetParent !== null
 		);
 	}
@@ -1252,13 +1234,9 @@ export default class UlxMultiSelect extends Component {
 	isHeaderControlFocused() {
 		const active = document.activeElement;
 		if (!active || !this.panelElement) return false;
-		const headerSelector =
-			"[data-qa='ulx-multiselect-select-all'] .checkbox-input, " +
-			"[data-qa='ulx-multiselect-filter'], " +
-			"[data-qa='ulx-multiselect-add'], " +
-			"[data-qa='ulx-multiselect-close'], " +
-			"[data-qa='ulx-multiselect-clear']";
-		return Array.from(this.panelElement.querySelectorAll(headerSelector)).includes(active);
+		return Array.from(
+			this.panelElement.querySelectorAll(MULTISELECT_HEADER_ACTIVE_SELECTOR)
+		).includes(active);
 	}
 
 	focusFocusedItem() {
@@ -1322,8 +1300,8 @@ export default class UlxMultiSelect extends Component {
 								)
 								to="value"
 							}}
-							</div>
-						{{else}}
+						</div>
+					{{else}}
 							{{#if this.displayChips}}
 								{{#if this.hasValue}}
 									<div class="multiselect-label">
@@ -1424,8 +1402,8 @@ export default class UlxMultiSelect extends Component {
 			{{on "click" this.toggleOverlay}}
 			{{on "keydown" this.onTriggerKeydown}}
 			{{on "focus" this.handleFocus}}
-				{{on "blur" this.handleBlur}}
-				...attributes
+			{{on "blur" this.handleBlur}}
+			...attributes
 			>
 				<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
 					{{#if (has-block "value")}}
