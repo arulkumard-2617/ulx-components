@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import { t } from "../../../utils/i18n";
 
 /**
  * Popup footer subcomponent for default footer when no <:footer> block is passed.
@@ -14,8 +15,8 @@ import UlxButton from "../../elements/ulx-button/index.gjs";
  * @param {string} [tertiaryButtonLabel] - Label for tertiary button (e.g. "Reset"). When set, button is shown unless hideTertiaryButton is true.
  * @param {string} [tertiaryButtonIcon] - Icon name for tertiary button (passed to UlxButton @icon).
  * @param {'left'|'right'} [tertiaryIconPos='left'] - Icon position for tertiary button.
- * @param {string} [cancelLabel="Cancel"] - Label for cancel button
- * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
+ * @param {string} [cancelLabel] - Cancel label (defaults to i18n cancel)
+ * @param {string} [doneLabel] - Done/confirm label (defaults to i18n confirm)
  * @param {Function} [onTertiary] - Callback when tertiary button is clicked
  * @param {Function} [onCancel] - Callback when cancel button is clicked
  * @param {Function} [onDone] - Callback when done button is clicked
@@ -33,11 +34,11 @@ export default class UlxPopupFooter extends Component {
 	}
 
 	get cancelLabel() {
-		return this.args.cancelLabel ?? "Cancel";
+		return this.args.cancelLabel || t("lbl.cancel");
 	}
 
 	get doneLabel() {
-		return this.args.doneLabel ?? "Confirm";
+		return this.args.doneLabel || t("lbl.confirm");
 	}
 
 	get showTertiaryButton() {

@@ -24,6 +24,7 @@ import UlxButton from "../ulx-button/index.gjs";
 import { eq, and, not, or, gt } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
+/** Focus order for Tab cycling in the panel header (must match `data-qa` on real controls). */
 const MULTISELECT_HEADER_FOCUSABLE_SELECTOR =
 	"[data-qa='ulx-multiselect-select-all'] .checkbox-input:not([disabled]), " +
 	"[data-qa='ulx-multiselect-filter']:not([disabled]), " +
@@ -31,6 +32,7 @@ const MULTISELECT_HEADER_FOCUSABLE_SELECTOR =
 	"[data-qa='ulx-multiselect-close']:not([disabled]), " +
 	"[data-qa='ulx-multiselect-clear']:not([disabled])";
 
+/** Broader set (includes disabled nodes) to detect when focus is still “in” the header strip. */
 const MULTISELECT_HEADER_ACTIVE_SELECTOR =
 	"[data-qa='ulx-multiselect-select-all'] .checkbox-input, " +
 	"[data-qa='ulx-multiselect-filter'], " +
@@ -350,6 +352,7 @@ export default class UlxMultiSelect extends Component {
 		);
 	}
 
+	/** One row from `visibleOptions`: grouped rows are `{ item, groupLabel, … }`, flat list is the option itself. */
 	visibleEntryToOption(entry) {
 		return this.hasGroups && entry?.item != null ? entry.item : entry;
 	}
@@ -902,6 +905,7 @@ export default class UlxMultiSelect extends Component {
 		this.args.onChange?.(next);
 	}
 
+	/** Enter on the focused row: `syncListMode` keeps keyboard mode aligned after selection from trigger/panel. */
 	selectFocusedVisibleOption(options = {}) {
 		const { syncListMode = false } = options;
 		if (this.focusedOptionIndex < 0) return;

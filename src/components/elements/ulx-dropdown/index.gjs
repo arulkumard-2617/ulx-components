@@ -625,6 +625,7 @@ export default class UlxDropdown extends Component {
 		this.args.onHide?.();
 	}
 
+	/** Applies Enter/Space selection for the current `focusedOptionIndex` (flat vs grouped row). */
 	selectFocusedOptionIfEnabled() {
 		const list = this.visibleOptions;
 		if (this.focusedOptionIndex < 0) return;

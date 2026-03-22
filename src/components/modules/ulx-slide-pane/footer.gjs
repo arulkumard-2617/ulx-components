@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
-import { t } from "../../../utils/i18n.js";
+import { t } from "../../../utils/i18n";
 
 /**
  * Slide pane footer subcomponent.
@@ -78,25 +78,19 @@ export default class UlxSlidePaneFooter extends Component {
 	@action
 	handleCancel(event) {
 		event.preventDefault();
-		if (this.args.onCancel) {
-			this.args.onCancel();
-		}
+		this.args.onCancel?.();
 	}
 
 	@action
 	handleDone(event) {
 		event.preventDefault();
-		if (this.args.onDone) {
-			this.args.onDone();
-		}
+		this.args.onDone?.();
 	}
 
 	@action
 	handleBack(event) {
 		event.preventDefault();
-		if (this.args.onBack) {
-			this.args.onBack();
-		}
+		this.args.onBack?.();
 	}
 
 	<template>

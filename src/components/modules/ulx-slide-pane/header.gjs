@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
-import { t } from "../../../utils/i18n.js";
+import { t } from "../../../utils/i18n";
 
 /**
  * Slide pane header subcomponent.
@@ -107,27 +107,21 @@ export default class UlxSlidePaneHeader extends Component {
 	handleClose(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (this.args.onClose) {
-			this.args.onClose();
-		}
+		this.args.onClose?.();
 	}
 
 	@action
 	handleMaximize(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (this.args.onMaximize) {
-			this.args.onMaximize();
-		}
+		this.args.onMaximize?.();
 	}
 
 	@action
 	handleBack(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (this.args.onBack) {
-			this.args.onBack();
-		}
+		this.args.onBack?.();
 	}
 
 	<template>

@@ -19,6 +19,8 @@ import UlxModalHeader from "./header.gjs";
 import UlxModalBody from "./body.gjs";
 import UlxModalFooter from "./footer.gjs";
 
+const DEFAULT_MODAL_POSITION = "center";
+
 const BODY_OVERFLOW_STYLE = {
 	true: "overflow-y: auto",
 	false: "overflow-y: hidden",
@@ -79,7 +81,7 @@ const BODY_OVERFLOW_STYLE = {
  * @param {string} [variant] - Visual variant: "elevated", "flat"
  * @param {boolean} [draggable=false] - Enable dragging dialog by header
  * @param {boolean} [resizable=false] - Enable resizing dialog
- * @param {boolean} [overlay=true] - When false, no overlay/backdrop; dialog is non-blocking (uses dialog-mask:not(.modal) from uls-v2)
+ * @param {boolean} [overlay=true] - When false, no overlay/backdrop; dialog is non-blocking (non-modal mask styling)
  * @param {boolean} [blockScroll=true] - Block body scroll when modal is visible
  * @param {boolean} [keepInViewport=true] - Keep dialog within viewport bounds
  * @param {boolean} [maximizable=false] - Show maximize/minimize button
@@ -98,8 +100,8 @@ const BODY_OVERFLOW_STYLE = {
  * @param {Function} [onError] - Callback when onDone/onCancel promise rejects (receives error as argument)
  * @param {boolean} [autoCloseOnDone=true] - Auto-close modal after onDone promise resolves successfully
  * @param {boolean} [autoCloseOnCancel=false] - Auto-close modal after onCancel completes
- * @param {string} [cancelButtonLabel="Cancel"] - Label for default cancel button
- * @param {string} [doneButtonLabel="Confirm"] - Label for default done button
+ * @param {string} [cancelButtonLabel] - Cancel label (defaults to i18n cancel)
+ * @param {string} [doneButtonLabel] - Confirm label (defaults to i18n confirm)
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
  * @param {boolean} [hideHeader=false] - When true, hide the header
@@ -114,7 +116,9 @@ export default class UlxModal extends Component {
 	@tracked isSubmitting = false;
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
+	/** Read/written by `overlayLifecycle` (visibility edges and focus return). */
 	previousVisible = false;
+	/** Read/written by `overlayLifecycle` when saving/restoring document focus. */
 	previousActiveElement = null;
 
 	get destinationElement() {
@@ -126,7 +130,8 @@ export default class UlxModal extends Component {
 	}
 
 	get modalClasses() {
-		const { size = "m-size", position = "center", variant } = this.args;
+		const { size = "m-size", variant } = this.args;
+		const position = this.args.position ?? DEFAULT_MODAL_POSITION;
 		return joinClassNames(
 			this.baseClass,
 			!this.isMaximized && size,
@@ -232,12 +237,8 @@ export default class UlxModal extends Component {
 
 	@action
 	handleBackdropClick(event) {
-		// Call onMaskClick callback if provided
-		if (this.args.onMaskClick) {
-			this.args.onMaskClick(event);
-		}
+		this.args.onMaskClick?.(event);
 
-		// Only close if clicking directly on the mask (not on dialog content)
 		if (this.closeOnBackdrop && event.target.classList.contains("dialog-mask")) {
 			this.handleClose();
 		}
@@ -245,49 +246,38 @@ export default class UlxModal extends Component {
 
 	@action
 	handleClose() {
-		if (this.args.onHide) {
-			this.args.onHide();
-		}
+		this.args.onHide?.();
+	}
+
+	_invokeAsyncFooterAction(action, autoCloseArgKey, autoCloseDefault) {
+		handleAsyncAction(action, {
+			setSubmitting: (value) => {
+				this.isSubmitting = value;
+			},
+			onSuccess: () => {
+				const shouldClose = this.args[autoCloseArgKey] ?? autoCloseDefault;
+				if (shouldClose) this.handleClose();
+			},
+			onError: (error) => {
+				this.args.onError?.(error);
+			}
+		});
 	}
 
 	@action
 	handleCancel() {
-		handleAsyncAction(this.args.onCancel, {
-			setSubmitting: (value) => {
-				this.isSubmitting = value;
-			},
-			onSuccess: () => {
-				const autoCloseOnCancel = this.args.autoCloseOnCancel ?? false;
-				autoCloseOnCancel && this.handleClose();
-			},
-			onError: (error) => {
-				this.args.onError && this.args.onError(error);
-			}
-		});
+		this._invokeAsyncFooterAction(this.args.onCancel, "autoCloseOnCancel", false);
 	}
 
 	@action
 	handleDone() {
-		handleAsyncAction(this.args.onDone, {
-			setSubmitting: (value) => {
-				this.isSubmitting = value;
-			},
-			onSuccess: () => {
-				const autoCloseOnDone = this.args.autoCloseOnDone ?? true;
-				autoCloseOnDone && this.handleClose();
-			},
-			onError: (error) => {
-				this.args.onError && this.args.onError(error);
-			}
-		});
+		this._invokeAsyncFooterAction(this.args.onDone, "autoCloseOnDone", true);
 	}
 
 	@action
 	handleMaximize() {
 		this.isMaximized = !this.isMaximized;
-		if (this.args.onMaximize) {
-			this.args.onMaximize({ maximized: this.isMaximized });
-		}
+		this.args.onMaximize?.({ maximized: this.isMaximized });
 	}
 
 	get overlayLifecycleOptions() {
@@ -378,6 +368,7 @@ export default class UlxModal extends Component {
 		});
 	}
 
+	/** Register with modal stack for z-index and top-overlay behavior while the dialog node is mounted. */
 	modalStackManagement = modifier(() => {
 		const { visible, maximized } = this.args;
 
@@ -425,7 +416,8 @@ export default class UlxModal extends Component {
 								<div class={{this.headerWrapperClasses}} data-qa="ulx-modal-header">
 									{{yield to="head"}}
 								</div>
-							{{else}}{{#unless @hideHeader}}
+							{{else}}
+								{{#unless @hideHeader}}
 									<UlxModalHeader
 										@title={{@title}}
 										@showCloseButton={{this.showCloseButton}}
@@ -441,7 +433,8 @@ export default class UlxModal extends Component {
 										@minimizeIconName={{@minimizeIconName}}
 										@headerClassName={{@headerClassName}}
 									/>
-								{{/unless}}{{/if}}
+								{{/unless}}
+							{{/if}}
 
 							{{#if (has-block "body")}}
 								<div
@@ -468,7 +461,8 @@ export default class UlxModal extends Component {
 								>
 									{{yield to="footer"}}
 								</div>
-							{{else}}{{#unless @hideFooter}}
+							{{else}}
+								{{#unless @hideFooter}}
 									<UlxModalFooter
 										@hideFooter={{@hideFooter}}
 										@hideCancelButton={{@hideCancelButton}}
@@ -481,7 +475,8 @@ export default class UlxModal extends Component {
 										@onDone={{this.handleDone}}
 										@footerClassName={{@footerClassName}}
 									/>
-								{{/unless}}{{/if}}
+								{{/unless}}
+							{{/if}}
 						</div>
 					</div>
 				{{/if}}
