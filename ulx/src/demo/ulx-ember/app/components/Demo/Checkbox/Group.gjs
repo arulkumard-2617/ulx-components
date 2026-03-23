@@ -30,7 +30,7 @@ export default class GroupDemoComponent extends Component {
         @fieldClass="col-12"
         @fieldId="checkbox-group"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxCheckbox
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -40,7 +40,7 @@ export default class GroupDemoComponent extends Component {
             @groupClass="horizontal"
             @error={{this.error}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

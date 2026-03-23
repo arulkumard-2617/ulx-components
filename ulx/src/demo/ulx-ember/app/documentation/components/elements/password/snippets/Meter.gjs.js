@@ -16,7 +16,7 @@ export default class DemoPasswordMeter extends Component {
     <form class="ulx-form m-size ulx-grid gap-12 mb-14">
 
       <UlxField @fieldClass="col-4" @label={{t "lbl.password"}}>
-        <:control as |field|>
+        <:default as |field|>
           <UlxPassword
             @id={{field.inputId}}
             @ariaDescribedBy={{field.ariaDescribedBy}}
@@ -27,7 +27,7 @@ export default class DemoPasswordMeter extends Component {
             {{! 🔥 meter enabled }}
             @placeholder={{t "lbl.enter.password"}}
           />
-        </:control>
+        </:default>
       </UlxField>
 
     </form>

@@ -41,7 +41,7 @@ export default class DemoMultiselectAllowAddition extends Component {
         @fieldId="multiselect-allow-addition"
         @fieldClass="col-8"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -55,7 +55,7 @@ export default class DemoMultiselectAllowAddition extends Component {
             @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
             @placeholder={{t "msg.multiselect.filter.placeholder"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

@@ -11,7 +11,8 @@ import { applyBodyAbsoluteFromViewport } from "../../../utils/overlay-helpers";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
 import {
 	normalizeRules,
-	getRuleValue,
+	getConstraintValue,
+	isRulesRequired,
 	resolveKey,
 	buildInputId,
 	buildInputClass,
@@ -59,15 +60,15 @@ export default class UlxPassword extends Component {
 	}
 
 	get isRequired() {
-		return !!this.rules.required;
+		return isRulesRequired(this.rules);
 	}
 
 	get minLength() {
-		return getRuleValue(this.rules, "minLength");
+		return getConstraintValue(this.rules, "minLength");
 	}
 
 	get maxLength() {
-		return getRuleValue(this.rules, "maxLength");
+		return getConstraintValue(this.rules, "maxLength");
 	}
 
 	get isInvalid() {
@@ -326,7 +327,7 @@ export default class UlxPassword extends Component {
 	<template>
 		<div class={{this.rootClass}} {{this.triggerRef}}>
 
-			<UlxIconInput @iconPosition="right" @disabled={{@disabled}}>
+			<UlxIconInput @iconRight={{true}} @disabled={{@disabled}}>
 
 				<:input>
 					<input
@@ -352,7 +353,7 @@ export default class UlxPassword extends Component {
 				<:icon>
 					{{#if this.hasToggleMask}}
 						<UlxIconButton
-							@icon={{this.toggleIconName}}
+							@iconLeft={{this.toggleIconName}}
 							@iconSize="s18"
 							@text={{true}}
 							@disabled={{@disabled}}

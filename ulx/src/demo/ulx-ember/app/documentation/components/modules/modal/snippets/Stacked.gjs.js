@@ -259,7 +259,7 @@ export default class StackedModalDemo extends Component {
             />
             <div class="ulx-form m-size">
               <UlxField @label="Label Text" @key="stacked-dropdown">
-                <:control as |field|>
+                <:default as |field|>
                   <UlxDropdown
                     @key={{field.key}}
                     @ariaDescribedBy={{field.describedBy}}
@@ -269,7 +269,7 @@ export default class StackedModalDemo extends Component {
                     @onChange={{this.setSelectedCity}}
                     @placeholder="Select a city"
                   />
-                </:control>
+                </:default>
               </UlxField>
             </div>
             <div class="flex gap-3 align-items-center flex-wrap">
@@ -295,7 +295,7 @@ export default class StackedModalDemo extends Component {
             </div>
             <div class="ulx-form m-size">
               <UlxField @label="Basic" @fieldId="stacked-multiselect">
-                <:control as |field|>
+                <:default as |field|>
                   <UlxMultiSelect
                     @key={{field.key}}
                     @ariaDescribedBy={{field.describedBy}}
@@ -306,7 +306,7 @@ export default class StackedModalDemo extends Component {
                     @showClear={{true}}
                     @placeholder="Select cities"
                   />
-                </:control>
+                </:default>
               </UlxField>
             </div>
           </div>

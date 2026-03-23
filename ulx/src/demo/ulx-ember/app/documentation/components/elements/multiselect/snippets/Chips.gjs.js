@@ -31,7 +31,7 @@ export default class DemoMultiselectChips extends Component {
         @fieldId="multiselect-chips"
         @fieldClass="col-6"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -43,7 +43,7 @@ export default class DemoMultiselectChips extends Component {
             @display="chip"
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

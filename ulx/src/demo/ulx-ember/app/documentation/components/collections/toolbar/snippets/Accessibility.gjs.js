@@ -33,14 +33,14 @@ import { UlxToolbar, UlxButton, t } from 'ulx-components';
       <:end>
         <div class="flex items-center gap-2">
           <UlxButton
-            @variant="text"
+            @variant="link"
             @icon="undo-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             aria-label={{t "lbl.undo"}}
           />
           <UlxButton
-            @variant="text"
+            @variant="link"
             @icon="redo-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"

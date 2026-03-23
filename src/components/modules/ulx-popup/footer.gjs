@@ -14,7 +14,7 @@ import { t } from "../../../utils/i18n";
  * @param {boolean} [hideCancelButton=false] - Hide the cancel button
  * @param {boolean} [hideDoneButton=false] - Hide the done/confirm button
  * @param {string} [tertiaryButtonLabel] - Label for tertiary button (e.g. "Reset"). When set, button is shown unless hideTertiaryButton is true.
- * @param {string} [tertiaryButtonIcon] - Icon name for tertiary button (passed to UlxButton @icon).
+ * @param {string} [tertiaryButtonIcon] - Icon name for tertiary button (UlxIconButton via @iconLeft / @iconRight from @tertiaryIconPos).
  * @param {'left'|'right'} [tertiaryIconPos='left'] - Icon position for tertiary button.
  * @param {string} [cancelLabel] - Cancel label (defaults to i18n cancel)
  * @param {string} [doneLabel] - Done/confirm label (defaults to i18n confirm)
@@ -44,6 +44,16 @@ export default class UlxPopupFooter extends Component {
 
 	get showTertiaryButton() {
 		return !(this.args.hideTertiaryButton ?? true) && this.tertiaryLabel;
+	}
+
+	get tertiaryIconLeft() {
+		const { tertiaryButtonIcon, tertiaryIconPos = "left" } = this.args;
+		return tertiaryIconPos === "right" ? undefined : tertiaryButtonIcon;
+	}
+
+	get tertiaryIconRight() {
+		const { tertiaryButtonIcon, tertiaryIconPos = "left" } = this.args;
+		return tertiaryIconPos === "right" ? tertiaryButtonIcon : undefined;
 	}
 
 	get hideCancelButton() {
@@ -77,8 +87,8 @@ export default class UlxPopupFooter extends Component {
 			{{#if this.showTertiaryButton}}
 				<UlxIconButton
 					@label={{this.tertiaryLabel}}
-					@icon={{this.args.tertiaryButtonIcon}}
-					@iconPos={{this.args.tertiaryIconPos}}
+					@iconLeft={{this.tertiaryIconLeft}}
+					@iconRight={{this.tertiaryIconRight}}
 					@variant="link"
 					{{on "click" this.handleTertiary}}
 				/>

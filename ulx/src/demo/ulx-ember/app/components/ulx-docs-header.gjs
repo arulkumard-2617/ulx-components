@@ -244,13 +244,13 @@ export default class UlxDocsHeaderComponent extends Component {
           </UlxDropdown>
 
           <UlxIconButton
-            @icon={{if this.isDarkMode "light-mode-icon" "dark-mode-icon"}}
+            @iconLeft={{if this.isDarkMode "light-mode-icon" "dark-mode-icon"}}
             @variant="basic"
             @onClick={{this.toggleDarkMode}}
           />
 
           <UlxIconButton
-            @icon="accessibility-icon"
+            @iconLeft="accessibility-icon"
             @variant="basic"
             @onClick={{this.openAccessibilityPane}}
           />

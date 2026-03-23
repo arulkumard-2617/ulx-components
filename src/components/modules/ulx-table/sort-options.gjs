@@ -78,7 +78,7 @@ export default class SortOptions extends Component {
 			<div class="flex flex-col items-start gap-3">
 				<UlxIconButton
 					@label={{t "lbl.ascending"}}
-					@icon="ascending-icon"
+					@iconLeft="ascending-icon"
 					@iconComponentClass="bs-icons1"
 					@iconSize="s14"
 					@size="compact"
@@ -95,7 +95,7 @@ export default class SortOptions extends Component {
 
 				<UlxIconButton
 					@label={{t "lbl.descending"}}
-					@icon="descending-icon"
+					@iconLeft="descending-icon"
 					@iconComponentClass="bs-icons1"
 					@iconSize="s14"
 					@text={{true}}

@@ -28,10 +28,10 @@ export default class DemoDropdownCheckmark extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
         @label={{t "lbl.dropdown.checkmark"}}
-        @id="dropdown-checkmark"
+        @fieldId="dropdown-checkmark"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -42,7 +42,7 @@ export default class DemoDropdownCheckmark extends Component {
             @placeholder={{t "msg.dropdown.placeholder.city"}}
             @checkmark={{true}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

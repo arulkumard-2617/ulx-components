@@ -261,9 +261,8 @@ export default class DocSidebarComponent extends Component {
     >
       <div class="mb-6">
         <UlxIconInput
-          @iconName="search-icon"
+          @iconLeft="search-icon"
           @iconType="font"
-          @iconPosition="left"
         >
           <UlxInput
             @value={{this.searchQuery}}

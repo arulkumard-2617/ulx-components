@@ -1,22 +1,23 @@
 import Component from "@glimmer/component";
+
 import { getComponentClass } from "../../../utils/component-config";
 
 /**
  * Icon element component. Three modes:
  * 1. **Symbol (default)** – @iconName points to an SVG symbol: <svg><use href="#id"></use></svg>
  * 2. **Font** – @iconName is the font-icon class: <i> with that class
- * 3. **Custom / inline** – <:icon> block: user pastes full SVG (or any markup). Use for one-off SVGs.
+ * 3. **Custom / inline** – default block: paste full SVG (or any markup) inside `<UlxIcon>…</UlxIcon>`.
  *
  * ## WCAG
  * - **aria-hidden**: "true" by default (decorative). When @ariaLabel is passed, set to "false" so screen readers can focus and announce the icon (e.g. close icon in modals, slide panes).
  * - **aria-label**: Pass @ariaLabel to make the icon meaningful. The component then sets aria-hidden="false", aria-label, and role="img" so the icon is announced (e.g. `<UlxIcon @ariaLabel="Close" />`).
- * - **Suggestions**: (1) For pasted SVG in <:icon>, add `focusable="false"` on the <svg>. (2) When the icon is the only content of a button/link, the control must have an accessible name (e.g. aria-label on the button).
+ * - **Suggestions**: (1) For pasted SVG in the default block, add `focusable="false"` on the <svg>. (2) When the icon is the only content of a button/link, the control must have an accessible name (e.g. aria-label on the button).
  *
  * Font CDN (include in app as needed):
  * - https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css
  *
  * @class UlxIcon
- * @param {string} [iconName] - Symbol id or font class. Not used when <:icon> block is provided.
+ * @param {string} [iconName] - Symbol id or font class. Not used when a custom block is provided.
  * @param {string} [ariaLabel] - Accessible name for meaningful icons. When set, aria-hidden becomes "false" and role="img" is applied so screen readers announce it (e.g. close icon in modal).
  * @param {string} [size] - Size class (e.g. "s18", "m-size").
  * @param {string} [customClass] - Extra CSS classes.
@@ -66,7 +67,7 @@ export default class UlxIcon extends Component {
 	}
 
 	<template>
-		{{#if (has-block "icon")}}
+		{{#if (has-block)}}
 			<span
 				class={{this.iconClasses}}
 				data-qa={{this.rootDataQa}}
@@ -75,7 +76,7 @@ export default class UlxIcon extends Component {
 				aria-label={{this.resolvedAriaLabel}}
 				...attributes
 			>
-				{{yield to="icon"}}
+				{{yield}}
 			</span>
 		{{else if this.useFontIcon}}
 			<i

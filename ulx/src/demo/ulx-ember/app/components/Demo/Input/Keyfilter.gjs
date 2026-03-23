@@ -50,18 +50,15 @@ export default class DemoKeyFilter extends Component {
           @label={{item.label}}
           @fieldId={{concat "keyfilter-" index}}
           @fieldClass="col-4"
+          as |field|
         >
-          <:control as |field|>
-            <UlxInput
-              @key={{field.key}}
-              @ariaDescribedBy={{field.describedBy}}
-              @ariaErrorMessage={{field.errorId}}
-              @keyfilter={{item.keyfilter}}
-              @size="s-size"
-              placeholder={{item.placeholder}}
-              aria-label={{item.label}}
-            />
-          </:control>
+          <UlxInput
+            @field={{field}}
+            @keyfilter={{item.keyfilter}}
+            @size="s-size"
+            placeholder={{item.placeholder}}
+            aria-label={{item.label}}
+          />
         </UlxField>
       {{/each}}
 

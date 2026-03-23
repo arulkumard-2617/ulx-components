@@ -195,7 +195,7 @@ export default class UlxProgressBar extends Component {
 		{{#if this.showControls}}
 			<div class={{this.withControlsWrapperClass}} data-qa={{this.rootDataQa}}>
 				<UlxIconButton
-					@icon="hr-tag-icon"
+					@iconLeft="hr-tag-icon"
 					@iconSize={{this.controlsIconSize}}
 					@variant="outlined"
 					@iconComponentClass="bs-icons1"
@@ -230,7 +230,7 @@ export default class UlxProgressBar extends Component {
 					</div>
 				</div>
 				<UlxIconButton
-					@icon="add-icon-01"
+					@iconLeft="add-icon-01"
 					@iconSize={{this.controlsIconSize}}
 					@iconComponentClass="bs-icons1"
 					@variant="outlined"

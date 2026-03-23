@@ -55,8 +55,36 @@ export function hasInputValue(value) {
 	return true;
 }
 
+/**
+ * Numeric constraint from ULX `{ maxLength: { value: n } }` or editor-style `{ maxLength: { value: n, msg } }`.
+ *
+ * @param {object} [rules]
+ * @param {'minLength'|'maxLength'} ruleName
+ * @returns {number|undefined}
+ */
+export function getConstraintValue(rules, ruleName) {
+	const block = rules?.[ruleName];
+	if (block == null) return undefined;
+	if (typeof block === 'number') return block;
+	if (typeof block.value === 'number') return block.value;
+	if (ruleName === 'maxLength' && typeof block.max === 'number') return block.max;
+	if (ruleName === 'minLength' && typeof block.min === 'number') return block.min;
+	return undefined;
+}
+
 export function getRuleValue(rules, ruleName) {
 	return rules?.[ruleName]?.value;
+}
+
+/**
+ * @param {object} [rules]
+ * @returns {boolean}
+ */
+export function isRulesRequired(rules) {
+	const { required } = rules ?? {};
+	if (required == null || required === false) return false;
+	if (typeof required === 'string') return required.length > 0;
+	return !!required;
 }
 
 export function isInvalidState(invalidArg, errorArg) {
@@ -120,23 +148,11 @@ export function getFloatLabelLabelClass() {
 	return 'floatlabel-label';
 }
 
-export function buildIconFieldClass({
-	iconPosition,
-	size,
-	filled,
-	invalid,
-	disabled,
-	iconFieldClass
-}) {
+export function buildIconFieldClass({ iconPosition, size, disabled, iconFieldClass }) {
 	const position = iconPosition === 'right' ? 'right' : 'left';
-	const parts = [
-		getComponentClass('iconfield'),
-		`icon-${position}`,
-		filled ? 'filled' : 'outlined'
-	];
+	const parts = [getComponentClass('iconfield'), `icon-${position}`, 'outlined'];
 
 	if (size) parts.push(size);
-	if (invalid) parts.push('invalid');
 	if (disabled) parts.push('disabled');
 	if (iconFieldClass) parts.push(iconFieldClass);
 

@@ -2,7 +2,7 @@ import {
   UlxInput,
   UlxField,
   UlxInputGroup,
-  UlxButton,
+  UlxIconButton,
   t,
 } from 'ulx-components';
 
@@ -13,36 +13,30 @@ import {
       @fieldId="start-time"
       @label={{t "lbl.start.time"}}
       @fieldClass="col-3"
+      as |field|
     >
-      <:control as |field|>
+      <UlxInputGroup @endAddonClass="icon-addon">
 
-        <UlxInputGroup>
+        <:input>
+          <UlxInput
+            @field={{field}}
+            placeholder={{t "lbl.start.time.placeholder"}}
+            aria-label={{t "lbl.start.time"}}
+          />
+        </:input>
 
-          <:input>
-            <UlxInput
-              @key={{field.key}}
-              @ariaDescribedBy={{field.describedBy}}
-              @ariaErrorMessage={{field.errorId}}
-              placeholder={{t "lbl.start.time.placeholder"}}
-              aria-label={{t "lbl.start.time"}}
-            />
-          </:input>
+        <:end>
+          <UlxIconButton
+            @variant="basic"
+            @size="compact"
+            @iconLeft="time-icon"
+            @iconComponentClass="bs-icons1"
+            @iconSize="s18"
+            aria-label={{t "lbl.start.time"}}
+          />
+        </:end>
 
-          <:end>
-            <UlxButton
-              @variant="basic"
-              @size="compact"
-              @icon="time-icon"
-              @iconComponentClass="bs-icons1"
-              @iconSize="s18"
-              @customClass="inputgroup-addon icon-addon"
-              aria-label={{t "lbl.start.time"}}
-            />
-          </:end>
-
-        </UlxInputGroup>
-
-      </:control>
+      </UlxInputGroup>
     </UlxField>
 
   </div>

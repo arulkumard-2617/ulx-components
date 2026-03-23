@@ -19,7 +19,7 @@ export default class DemoDropdownDisabled extends Component {
         @fieldId="dropdown-disabled"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -29,7 +29,7 @@ export default class DemoDropdownDisabled extends Component {
             @disabled={{true}}
             @placeholder={{t "msg.dropdown.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

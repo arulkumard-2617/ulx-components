@@ -64,7 +64,7 @@ export default class DemoMultiselectBasic extends Component {
         @fieldId="multiselect-basic"
         @fieldClass="col-6"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -75,11 +75,11 @@ export default class DemoMultiselectBasic extends Component {
             @showClear={{true}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <UlxField @label="Basic with Search (20 items)" @fieldId="multiselect-basic-search" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -92,7 +92,7 @@ export default class DemoMultiselectBasic extends Component {
             @showClear={{true}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

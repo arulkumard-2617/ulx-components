@@ -270,7 +270,7 @@ export default class TableHeader extends Component {
 									<UlxIconButton
 										@text={{true}}
 										@variant="secondary"
-										@icon="filter-icon"
+										@iconLeft="filter-icon"
 										@customClass={{this.filterButtonClass col}}
 										@onClick={{fn this.handleFilterMenuOpen col}}
 										aria-label={{t "aria.table.filter.column" header=col.header}}
@@ -347,7 +347,7 @@ export default class TableHeader extends Component {
 										<UlxIconButton
 											@variant="secondary"
 											@text={{true}}
-											@icon="filter-icon"
+											@iconLeft="filter-icon"
 											@customClass="datatable-filter-menu-button"
 											@onClick={{fn this.handleFilterMenuOpen col}}
 											aria-haspopup="true"
@@ -357,7 +357,7 @@ export default class TableHeader extends Component {
 										<UlxIconButton
 											@variant="secondary"
 											@text={{true}}
-											@icon="close-icon-01"
+											@iconLeft="close-icon-01"
 											@customClass={{this.filterClearButtonClass col}}
 											@onClick={{fn this.handleRowFilterClear col}}
 											aria-label={{t "lbl.clear"}}

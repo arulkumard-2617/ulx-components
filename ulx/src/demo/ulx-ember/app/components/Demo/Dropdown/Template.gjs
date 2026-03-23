@@ -39,7 +39,7 @@ export default class DemoDropdownTemplate extends Component {
         @fieldId="dropdown-template"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -113,7 +113,7 @@ export default class DemoDropdownTemplate extends Component {
           {{/if}}
         </:icon>
           </UlxDropdown>
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

@@ -3,23 +3,17 @@
 // ==========================================================================
 import RichText from '../../../../components/common/doc-main/rich-text';
 import {
-  // Demos
   BasicDemo,
   TemplateDemo,
   KeyfilterDemo,
   SizesDemo,
-  FloatlabelDemo,
-  FilledDemo,
   InvalidDemo,
   DisabledDemo,
-  // Sources
   ImportSource,
   BasicSource,
   TemplateSource,
   KeyfilterSource,
   SizesSource,
-  FloatlabelSource,
-  FilledSource,
   InvalidSource,
   DisabledSource
 } from './imports';
@@ -36,7 +30,7 @@ export const InputFeatureItems = [
       }
     },
     demo: {
-      component: null, // Import section doesn't need demo
+      component: null,
       props: {
         source: ImportSource,
         snippetName: "import",
@@ -62,8 +56,7 @@ export const InputFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
   {
     id: "template",
     sectionNav: "Template",
@@ -83,8 +76,7 @@ export const InputFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
   {
     id: "key-filter",
     sectionNav: "Keyfilter",
@@ -103,8 +95,7 @@ export const InputFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
   {
     id: "sizes",
     sectionNav: "Sizes",
@@ -123,48 +114,7 @@ export const InputFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
-  {
-    id: "float-label",
-    sectionNav: "Floatlabel",
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: "span",
-        content: "The <code>Floatlabel</code> demo shows FloatLabel usage of the Input component."
-      }
-    },
-    demo: {
-      component: FloatlabelDemo,
-      props: {
-        source: FloatlabelSource,
-        snippetName: "float-label",
-        language: "handlebars"
-      }
-    }
-  }
-,
-  {
-    id: "filled",
-    sectionNav: "Filled",
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: "span",
-        content: "The <code>Filled</code> demo shows Filled usage of the Input component."
-      }
-    },
-    demo: {
-      component: FilledDemo,
-      props: {
-        source: FilledSource,
-        snippetName: "filled",
-        language: "handlebars"
-      }
-    }
-  }
-,
+  },
   {
     id: "invalid",
     sectionNav: "Invalid",
@@ -183,8 +133,7 @@ export const InputFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
   {
     id: "disabled",
     sectionNav: "Disabled",

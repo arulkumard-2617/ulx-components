@@ -17,14 +17,14 @@ export default class DemoPasswordToggleMask extends Component {
 
       <UlxField @fieldClass="col-4" @label={{t "lbl.password"}}>
 
-        <:control>
+        <:default>
           <UlxPassword
             @value={{this.value}}
             @onInput={{this.handleInput}}
             @toggleMask={{true}}
             @placeholder={{t "lbl.enter.password"}}
           />
-        </:control>
+        </:default>
 
       </UlxField>
 

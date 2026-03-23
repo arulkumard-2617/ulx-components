@@ -30,7 +30,7 @@ export default class DemoDropdownFilter extends Component {
         @fieldId="dropdown-filter"
         @fieldClass="col-6"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -42,7 +42,7 @@ export default class DemoDropdownFilter extends Component {
             @filterPlaceholder={{t "msg.dropdown.search.cities"}}
             @placeholder={{t "msg.dropdown.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

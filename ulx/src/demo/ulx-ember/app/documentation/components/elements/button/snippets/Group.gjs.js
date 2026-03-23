@@ -8,19 +8,19 @@ export default class DemoButtonGroup extends Component {
       <UlxButtonGroup @orientation="horizontal" @size="m-size">
         <UlxIconButton
           @label="Save"
-          @icon="ls-tick-icon"
+          @iconLeft="ls-tick-icon"
           @iconSize="s18"
           @iconComponentClass="bs-icons1"
         />
         <UlxIconButton
           @label="Delete"
-          @icon="delete-icon"
+          @iconLeft="delete-icon"
           @iconSize="s18"
           @iconComponentClass="bs-icons1"
         />
         <UlxIconButton
           @label="Cancel"
-          @icon="close-icon-01"
+          @iconLeft="close-icon-01"
           @iconSize="s18"
           @iconComponentClass="bs-icons1"
         />

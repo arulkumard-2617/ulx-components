@@ -195,7 +195,7 @@ export default class FilterOverlay extends Component {
 					@variant="secondary"
 					@text={{true}}
 					@size="s-size"
-					@icon="close-icon-01"
+					@iconLeft="close-icon-01"
 					@iconComponentClass="bs-icons1"
 					@iconSize="s18"
 					@onClick={{@onClose}}
@@ -261,7 +261,7 @@ export default class FilterOverlay extends Component {
 						{{#if (gt index 0)}}
 							<UlxIconButton
 								@variant="text"
-								@icon="dash-circle"
+								@iconLeft="dash-circle"
 								@iconComponentClass="bs-icons1"
 								@iconSize="s14"
 								@customClass="filter-remove"
@@ -279,7 +279,7 @@ export default class FilterOverlay extends Component {
 						@outlined={{true}}
 						@variant="primary"
 						@label={{t "lbl.add.filter.rule"}}
-						@icon="add-icon-01"
+						@iconLeft="add-icon-01"
 						@size="s-size"
 						@onClick={{this.addConstraint}}
 					/>

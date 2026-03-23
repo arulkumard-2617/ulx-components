@@ -95,10 +95,10 @@ export default class DemoDataViewSorting extends Component {
         <div class="ulx-form m-size ulx-grid gap-12 mb-14">
           <UlxField
             @label={{t "lbl.doc.dataview.sort.label"}}
-            @id="dataview-sorting"
+            @key="dataview-sorting"
             @fieldClass="col-4"
           >
-            <:control as |field|>
+            <:default as |field|>
               <UlxDropdown
                 @key={{field.key}}
                 @ariaDescribedBy={{field.describedBy}}
@@ -108,7 +108,7 @@ export default class DemoDataViewSorting extends Component {
                 @onChange={{this.onSortChange}}
                 @placeholder={{t "lbl.doc.dataview.sort.placeholder"}}
               />
-            </:control>
+            </:default>
           </UlxField>
         </div>
       </:header>

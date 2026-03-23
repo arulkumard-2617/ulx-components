@@ -10,7 +10,7 @@ import { UlxPassword, UlxField, t } from 'ulx-components';
       @inputId="password-disabled"
     >
 
-      <:control as |field|>
+      <:default as |field|>
         <UlxPassword
           @disabled={{true}}
           @feedback={{false}}
@@ -20,7 +20,7 @@ import { UlxPassword, UlxField, t } from 'ulx-components';
           @ariaErrorMessage={{field.errorId}}
           @placeholder={{t "lbl.enter.password"}}
         />
-      </:control>
+      </:default>
 
     </UlxField>
 

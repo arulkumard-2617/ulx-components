@@ -23,7 +23,7 @@ export default class DemoButtonIconOnly extends Component {
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
-            @icon={{item.icon}}
+            @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
             @variant={{item.type}}
@@ -36,7 +36,7 @@ export default class DemoButtonIconOnly extends Component {
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
-            @icon={{item.icon}}
+            @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
             @rounded={{true}}
@@ -50,7 +50,7 @@ export default class DemoButtonIconOnly extends Component {
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
-            @icon={{item.icon}}
+            @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
             @rounded={{true}}
@@ -65,7 +65,7 @@ export default class DemoButtonIconOnly extends Component {
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
-            @icon={{item.icon}}
+            @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
             @rounded={{true}}
@@ -81,7 +81,7 @@ export default class DemoButtonIconOnly extends Component {
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
-            @icon={{item.icon}}
+            @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
             @rounded={{true}}

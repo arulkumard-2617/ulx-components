@@ -29,7 +29,7 @@ export default class DemoMultiselectDisabled extends Component {
         @fieldId="multiselect-disabled"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -41,7 +41,7 @@ export default class DemoMultiselectDisabled extends Component {
             @disabled={{true}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

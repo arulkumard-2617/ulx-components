@@ -5,23 +5,41 @@ import { NAMESPACE } from "../../../utils/component-config";
 
 import {
 	buildInputClass,
+	getConstraintValue,
 	getKeyFilterPattern,
 	getRuleValue,
 	isInvalidState,
+	isRulesRequired,
 	isSpecialKey,
 	normalizeRules,
 	resolveKey,
 	buildInputId
 } from "../../../utils/input-util";
 
+/**
+ * Text-like input with ULX classes and optional rule-driven constraints.
+ *
+ * @class UlxInput
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
+ * @param {string} [key] - Stable key or id; overrides `field.key` when set.
+ * @param {string} [ariaDescribedBy] - Overrides `field.describedBy`.
+ * @param {string} [ariaErrorMessage] - Overrides `field.errorId`.
+ */
 export default class UlxInput extends Component {
 	// Rules
 	get rules() {
-		return normalizeRules(this.args.rules);
+		const { rules: rulesArg } = this.args;
+		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
+	}
+
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
 	}
 
 	get key() {
-		return resolveKey(this, this.args.key);
+		const { key: keyArg } = this.args;
+		return resolveKey(this, keyArg ?? this.fieldContext?.key);
 	}
 
 	get inputId() {
@@ -29,15 +47,15 @@ export default class UlxInput extends Component {
 	}
 
 	get isRequired() {
-		return !!this.rules.required;
+		return isRulesRequired(this.rules);
 	}
 
 	get minLength() {
-		return getRuleValue(this.rules, "minLength");
+		return getConstraintValue(this.rules, "minLength");
 	}
 
 	get maxLength() {
-		return getRuleValue(this.rules, "maxLength");
+		return getConstraintValue(this.rules, "maxLength");
 	}
 
 	get min() {
@@ -49,19 +67,19 @@ export default class UlxInput extends Component {
 	}
 
 	get isInvalid() {
-		const { invalid, error } = this.args;
+		const { invalid, error: errorArg } = this.args;
+		const error = errorArg ?? this.fieldContext?.error;
 		return isInvalidState(invalid, error);
 	}
 
 	// Classes
 	get inputClass() {
-		const { size = "m-size", filled, disabled, readonly, customClass } = this.args;
+		const { size = "m-size", disabled, readonly, customClass } = this.args;
 
 		const parts = [
 			buildInputClass({
 				isTextarea: false,
 				size,
-				filled,
 				invalid: this.isInvalid,
 				disabled,
 				readonly
@@ -80,11 +98,13 @@ export default class UlxInput extends Component {
 
 	// ARIA
 	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
+		const { ariaDescribedBy } = this.args;
+		return ariaDescribedBy ?? this.fieldContext?.describedBy;
 	}
 
 	get ariaErrorMessage() {
-		return this.args.ariaErrorMessage;
+		const { ariaErrorMessage } = this.args;
+		return ariaErrorMessage ?? this.fieldContext?.errorId;
 	}
 
 	// Key filter

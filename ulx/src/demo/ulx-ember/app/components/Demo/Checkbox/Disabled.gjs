@@ -27,7 +27,7 @@ export default class WithlabelDemoComponent extends Component {
         @fieldClass="col-12"
         @fieldId="checkbox-disabled"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxCheckbox
             @key={{field.key}}
             @rules={{this.requiredRules}}
@@ -36,7 +36,7 @@ export default class WithlabelDemoComponent extends Component {
             @items={{this.items}}
             @onItemChange={{this.handleItemChange}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

@@ -28,7 +28,7 @@ export default class DemoDropdownAccessibility extends Component {
         @fieldId="a11y-dropdown"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -39,7 +39,7 @@ export default class DemoDropdownAccessibility extends Component {
             @placeholder={{t "msg.dropdown.placeholder.city"}}
             aria-label={{t "msg.dropdown.choose.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

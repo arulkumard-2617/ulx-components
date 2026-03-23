@@ -51,7 +51,7 @@ export default class DemoMultiselectSize extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxField @label="xs-size" @fieldId="multiselect-xs" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -63,11 +63,11 @@ export default class DemoMultiselectSize extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             @size="xs-size"
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <UlxField @label="s-size (default)" @fieldId="multiselect-s" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -79,11 +79,11 @@ export default class DemoMultiselectSize extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             @size="s-size"
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <UlxField @label="m-size" @fieldId="multiselect-m" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -95,11 +95,11 @@ export default class DemoMultiselectSize extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             @size="m-size"
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <UlxField @label="l-size" @fieldId="multiselect-l" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -111,11 +111,11 @@ export default class DemoMultiselectSize extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             @size="l-size"
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <UlxField @label="xl-size" @fieldId="multiselect-xl" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -127,7 +127,7 @@ export default class DemoMultiselectSize extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             @size="xl-size"
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

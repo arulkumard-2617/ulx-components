@@ -26,7 +26,7 @@ export default class DemoMultiselectVirtualScroll extends Component {
         @fieldId="multiselect-virtual-scroll"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -38,7 +38,7 @@ export default class DemoMultiselectVirtualScroll extends Component {
             @selectAll={{true}}
             @placeholder={{t "msg.dropdown.select.virtual"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>
