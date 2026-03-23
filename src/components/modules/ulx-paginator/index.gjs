@@ -300,7 +300,7 @@ export default class UlxPaginator extends Component {
 							<UlxIconButton
 								@variant="secondary"
 								@text={{true}}
-								@icon={{this.firstPageLinkConfig.icon}}
+								@iconLeft={{this.firstPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass={{this.firstPageLinkConfig.className}}
@@ -317,9 +317,8 @@ export default class UlxPaginator extends Component {
 							<UlxIconButton
 								@variant="basic"
 								@text={{true}}
-								@icon={{this.prevPageLinkConfig.icon}}
 								@label={{t "lbl.paginator.previous"}}
-								@icon={{this.prevPageLinkIcon}}
+								@iconLeft={{this.prevPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass={{this.prevPageLinkConfig.className}}
@@ -336,10 +335,8 @@ export default class UlxPaginator extends Component {
 							<UlxIconButton
 								@variant="basic"
 								@text={{true}}
-								@icon={{this.nextPageLinkConfig.icon}}
 								@label={{t "lbl.paginator.next"}}
-								@icon={{this.nextPageLinkIcon}}
-								@iconPos="right"
+								@iconRight={{this.nextPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass={{this.nextPageLinkConfig.className}}
@@ -356,7 +353,7 @@ export default class UlxPaginator extends Component {
 							<UlxIconButton
 								@variant="secondary"
 								@text={{true}}
-								@icon={{this.lastPageLinkConfig.icon}}
+								@iconLeft={{this.lastPageLinkConfig.icon}}
 								@iconComponentClass="bs-icons1"
 								@iconSize="s18"
 								@customClass={{this.lastPageLinkConfig.className}}

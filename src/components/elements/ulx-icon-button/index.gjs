@@ -1,4 +1,5 @@
 import Component from "@glimmer/component";
+import { action } from "@ember/object";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
@@ -33,21 +34,27 @@ class IconButtonAffixGraphic extends Component {
 /**
  * Icon button wrapper built on top of UlxButton.
  * Icon/spinner content is passed into UlxButton via its prefix/suffix slots only.
- * Callers use `@icon` and optional `<:icon>`; prefix/suffix blocks are not supported.
+ * Callers use `@iconLeft` or `@iconRight` (icon name) and optional `<:icon>`; prefix/suffix blocks are not supported.
  *
  * @class UlxIconButton
  * @param {string} [label] - Button label text
- * @param {string} [icon] - Icon name (font icon class), passed to UlxIcon
+ * @param {string} [iconLeft] - Icon name; renders in the prefix (left of label)
+ * @param {string} [iconRight] - Icon name; renders in the suffix (right of label). If both are set, `iconRight` wins.
  * @param {string} [iconComponentClass] - UlxIcon base class (e.g. "bs-icons1")
  * @param {string} [iconSize] - Icon size class (e.g. s13, s16, s18)
- * @param {'left'|'right'} [iconPos='left'] - Icon position relative to label/content
  * @param {boolean} [loading=false] - Shows explicit spinner state
  * @param {string} [size] - Button size class from parent
  * @param {string} [customClass] - Additional CSS classes for root button
  */
 export default class UlxIconButton extends Component {
 	get iconPosition() {
-		return this.args.iconPos || "left";
+		const { iconRight } = this.args;
+		return iconRight ? "right" : "left";
+	}
+
+	get resolvedIconName() {
+		const { iconLeft, iconRight } = this.args;
+		return iconRight ?? iconLeft;
 	}
 
 	get isLoading() {
@@ -55,7 +62,8 @@ export default class UlxIconButton extends Component {
 	}
 
 	get hasIconContent() {
-		return this.isLoading || !!this.args.icon;
+		const { iconLeft, iconRight } = this.args;
+		return this.isLoading || !!(iconLeft || iconRight);
 	}
 
 	get showIconLeft() {
@@ -89,62 +97,74 @@ export default class UlxIconButton extends Component {
 	}
 
 	get affixGraphicProps() {
-		const { icon, iconComponentClass, iconSize } = this.args;
+		const { iconComponentClass, iconSize } = this.args;
 		return {
 			isLoading: this.isLoading,
 			buttonSize: this.buttonSize,
-			icon,
+			icon: this.resolvedIconName,
 			iconComponentClass,
 			iconSize,
 			iconClass: this.iconClass
 		};
 	}
 
-	<template>
-		<UlxButton
-			@label={{@label}}
-			@href={{@href}}
-			@variant={{@variant}}
-			@raised={{@raised}}
-			@rounded={{@rounded}}
-			@text={{@text}}
-			@outlined={{@outlined}}
-			@size={{@size}}
-			@fluid={{@fluid}}
-			@disabled={{@disabled}}
-			@dataQa={{@dataQa}}
-			@type={{@type}}
-			@loading={{@loading}}
-			@onClick={{@onClick}}
-			@elementRef={{@elementRef}}
-			@dropdownTargetRef={{@dropdownTargetRef}}
-			@class={{@class}}
-			@customClass={{this.buttonCustomClass}}
-			...attributes
-		>
-			<:prefix>
-				{{#if this.showIconLeft}}
-					<IconButtonAffixGraphic
-						@affix={{this.affixGraphicProps}}
-						@hasCustomIcon={{has-block "icon"}}
-						@side="left"
-					>
-						{{yield to="icon"}}
-					</IconButtonAffixGraphic>
-				{{/if}}
-			</:prefix>
+	@action
+	shouldShowPrefixAffix(hasIconBlock) {
+		return this.showIconLeft || (!!hasIconBlock && this.iconPosition === "left");
+	}
 
-			<:suffix>
-				{{#if this.showIconRight}}
-					<IconButtonAffixGraphic
-						@affix={{this.affixGraphicProps}}
-						@hasCustomIcon={{has-block "icon"}}
-						@side="right"
-					>
-						{{yield to="icon"}}
-					</IconButtonAffixGraphic>
-				{{/if}}
-			</:suffix>
-		</UlxButton>
+	@action
+	shouldShowSuffixAffix(hasIconBlock) {
+		return this.showIconRight || (!!hasIconBlock && this.iconPosition === "right");
+	}
+
+	<template>
+		{{#let (has-block "icon") as |hasIconBlock|}}
+			<UlxButton
+				@label={{@label}}
+				@href={{@href}}
+				@variant={{@variant}}
+				@raised={{@raised}}
+				@rounded={{@rounded}}
+				@text={{@text}}
+				@outlined={{@outlined}}
+				@size={{@size}}
+				@fluid={{@fluid}}
+				@disabled={{@disabled}}
+				@dataQa={{@dataQa}}
+				@type={{@type}}
+				@loading={{@loading}}
+				@onClick={{@onClick}}
+				@elementRef={{@elementRef}}
+				@dropdownTargetRef={{@dropdownTargetRef}}
+				@class={{@class}}
+				@customClass={{this.buttonCustomClass}}
+				...attributes
+			>
+				<:prefix>
+					{{#if (this.shouldShowPrefixAffix hasIconBlock)}}
+						<IconButtonAffixGraphic
+							@affix={{this.affixGraphicProps}}
+							@hasCustomIcon={{hasIconBlock}}
+							@side="left"
+						>
+							{{yield to="icon"}}
+						</IconButtonAffixGraphic>
+					{{/if}}
+				</:prefix>
+
+				<:suffix>
+					{{#if (this.shouldShowSuffixAffix hasIconBlock)}}
+						<IconButtonAffixGraphic
+							@affix={{this.affixGraphicProps}}
+							@hasCustomIcon={{hasIconBlock}}
+							@side="right"
+						>
+							{{yield to="icon"}}
+						</IconButtonAffixGraphic>
+					{{/if}}
+				</:suffix>
+			</UlxButton>
+		{{/let}}
 	</template>
 }

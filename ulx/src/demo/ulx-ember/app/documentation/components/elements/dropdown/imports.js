@@ -10,8 +10,6 @@ export { default as FilterDemo } from '../../../../components/Demo/Dropdown/Filt
 export { default as ClearIconDemo } from '../../../../components/Demo/Dropdown/ClearIcon';
 export { default as LoadingStateDemo } from '../../../../components/Demo/Dropdown/LoadingState';
 export { default as VirtualScrollDemo } from '../../../../components/Demo/Dropdown/VirtualScroll';
-export { default as FloatLabelDemo } from '../../../../components/Demo/Dropdown/FloatLabel';
-export { default as FilledDemo } from '../../../../components/Demo/Dropdown/Filled';
 export { default as InvalidDemo } from '../../../../components/Demo/Dropdown/Invalid';
 export { default as DisabledDemo } from '../../../../components/Demo/Dropdown/Disabled';
 export { default as AccessibilityDemo } from '../../../../components/Demo/Dropdown/Accessibility';
@@ -25,8 +23,6 @@ export { default as FilterSource } from './snippets/Filter.gjs';
 export { default as ClearIconSource } from './snippets/ClearIcon.gjs';
 export { default as LoadingStateSource } from './snippets/LoadingState.gjs';
 export { default as VirtualScrollSource } from './snippets/VirtualScroll.gjs';
-export { default as FloatLabelSource } from './snippets/FloatLabel.gjs';
-export { default as FilledSource } from './snippets/Filled.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';
 export { default as AccessibilitySource } from './snippets/Accessibility.gjs';

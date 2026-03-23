@@ -52,9 +52,8 @@ export default class DemoToolbarBasic extends Component {
         <:center>
           <div class="w-full max-w-xs">
             <UlxIconInput
-              @iconName="search-icon"
+              @iconLeft="search-icon"
               @iconType="font"
-              @iconPosition="left"
               @iconSize="s18"
               @iconClass="bs-icons1"
             >

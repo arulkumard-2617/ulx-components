@@ -101,9 +101,8 @@ export default class ToolbarCustomDemo extends Component {
           <div class="flex items-center gap-2">
             <div class="w-100p md-max-w-320">
               <UlxIconInput
-                @iconName="search-icon"
+                @iconLeft="search-icon"
                 @iconType="font"
-                @iconPosition="left"
                 @iconSize="s18"
                 @iconClass="bs-icons1"
                 @size="m-size"

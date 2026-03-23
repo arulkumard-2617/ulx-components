@@ -20,7 +20,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [customClass] - Additional CSS classes (applied only to parent element)
  * @param {string} [componentClass] - Override base component class (default: ulx-progressspinner)
  * @param {string} [ariaLabel] - Accessible name when spinner is the main loading indicator (e.g. "Loading")
- * @param {string} [iconName] - Icon name for UlxIcon component. Used when <:icon> block is not provided.
+ * @param {string} [iconName] - Icon name for UlxIcon component. Used when the custom icon block is not provided.
  * @param {string} [iconSize] - Size class for the icon (e.g. "s18", "m-size"). Defaults to spinner size if not provided.
  * @param {'svg'|'font'} [iconType='svg'] - Icon type for UlxIcon component. "svg" = symbol reference; "font" = font icon.
  * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-progressspinner").
@@ -72,9 +72,7 @@ export default class UlxProgressSpinner extends Component {
 		>
 			{{#if (has-block "icon")}}
 				<UlxIcon @componentClass="bs-icons1" @size={{this.iconSize}} aria-hidden="true">
-					<:icon>
-						{{yield to="icon"}}
-					</:icon>
+					{{yield to="icon"}}
 				</UlxIcon>
 			{{else if @iconName}}
 				<UlxIcon
@@ -86,32 +84,30 @@ export default class UlxProgressSpinner extends Component {
 				/>
 			{{else}}
 				<UlxIcon @componentClass="bs-icons1" @size={{this.iconSize}} aria-hidden="true">
-					<:icon>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							class="progressspinner-svg"
-							focusable="false"
-						>
-							<circle cx="12" cy="12" r="10" opacity="0.25" />
-							<circle cx="12" cy="12" r="10" stroke-dasharray="38 25">
-								<animateTransform
-									attributeName="transform"
-									type="rotate"
-									dur="1s"
-									repeatCount="indefinite"
-									from="0 12 12"
-									to="360 12 12"
-								/>
-							</circle>
-						</svg>
-					</:icon>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						class="progressspinner-svg"
+						focusable="false"
+					>
+						<circle cx="12" cy="12" r="10" opacity="0.25" />
+						<circle cx="12" cy="12" r="10" stroke-dasharray="38 25">
+							<animateTransform
+								attributeName="transform"
+								type="rotate"
+								dur="1s"
+								repeatCount="indefinite"
+								from="0 12 12"
+								to="360 12 12"
+							/>
+						</circle>
+					</svg>
 				</UlxIcon>
 			{{/if}}
 		</span>

@@ -44,7 +44,6 @@ const stateToProps = (state) => {
     type: state.type,
     keyfilter: state.keyfilter || undefined,
 
-    filled: state.filled,
     disabled: state.disabled,
     readonly: state.readonly,
 
@@ -74,7 +73,6 @@ const stateToSnippet = (state) => {
   if (state.placeholder) attrs.push(`placeholder="${state.placeholder}"`);
   if (state.type && state.type !== 'text') attrs.push(`@type="${state.type}"`);
   if (state.keyfilter) attrs.push(`@keyfilter="${state.keyfilter}"`);
-  if (state.filled) attrs.push(`@filled={{true}}`);
   if (state.disabled) attrs.push(`@disabled={{true}}`);
   if (state.readonly) attrs.push(`@readonly={{true}}`);
   if (state.showHelp) attrs.push(`@helpText="Help text"`);
@@ -219,12 +217,6 @@ export default {
         { value: '10', label: '10' },
         { value: '100', label: '100' },
       ],
-    },
-    {
-      key: 'filled',
-      label: 'Filled',
-      type: 'checkbox',
-      default: false,
     },
     {
       key: 'disabled',

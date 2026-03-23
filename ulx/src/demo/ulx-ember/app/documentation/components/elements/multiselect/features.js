@@ -13,8 +13,6 @@ import {
   AllowAdditionDemo,
   VirtualScrollDemo,
   LoadingStateDemo,
-  FloatLabelDemo,
-  FilledDemo,
   InvalidDemo,
   DisabledDemo,
   AccessibilityDemo,
@@ -28,8 +26,6 @@ import {
   AllowAdditionSource,
   VirtualScrollSource,
   LoadingStateSource,
-  FloatLabelSource,
-  FilledSource,
   InvalidSource,
   DisabledSource,
   AccessibilitySource,
@@ -132,22 +128,6 @@ export const MultiselectFeatureItems = [
     LoadingStateDemo,
     LoadingStateSource,
     'loading-state'
-  ),
-  section(
-    'float-label',
-    t('lbl.dropdown.float.label'),
-    'Use <code>@floatLabel</code> for float label styling.',
-    FloatLabelDemo,
-    FloatLabelSource,
-    'float-label'
-  ),
-  section(
-    'filled',
-    t('lbl.dropdown.filled'),
-    'Use <code>@filled</code> for filled variant styling.',
-    FilledDemo,
-    FilledSource,
-    'filled'
   ),
   section(
     'invalid',

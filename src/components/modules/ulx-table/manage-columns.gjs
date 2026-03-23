@@ -230,7 +230,7 @@ export default class ManageColumns extends Component {
 							<UlxIconButton
 								@size="xs-size"
 								@variant="primary"
-								@icon="up-stroke-icon-new"
+								@iconLeft="up-stroke-icon-new"
 								@disabled={{not (this.canMoveUp col index)}}
 								@onClick={{fn this.handleMoveUp col index}}
 								aria-label={{t "aria.table.move.column.up" header=col.header}}
@@ -238,7 +238,7 @@ export default class ManageColumns extends Component {
 							<UlxIconButton
 								@size="xs-size"
 								@variant="primary"
-								@icon="down-stroke-icon-new"
+								@iconLeft="down-stroke-icon-new"
 								@disabled={{not (this.canMoveDown col index)}}
 								@onClick={{fn this.handleMoveDown col index}}
 								aria-label={{t "aria.table.move.column.down" header=col.header}}

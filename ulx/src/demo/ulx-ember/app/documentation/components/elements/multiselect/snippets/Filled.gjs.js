@@ -29,7 +29,7 @@ export default class DemoMultiselectFilled extends Component {
         @fieldId="multiselect-filled"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -41,7 +41,7 @@ export default class DemoMultiselectFilled extends Component {
             @filled={{true}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

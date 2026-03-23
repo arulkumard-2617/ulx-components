@@ -188,7 +188,7 @@ export default class UlxBannerMessage extends Component {
 								{{yield this.displayMessage to="action"}}
 							{{else if (this.showClose this.displayMessage)}}
 								<UlxIconButton
-									@icon="close-stroke-icon"
+									@iconLeft="close-stroke-icon"
 									@iconComponentClass="bs-icons1"
 									@iconSize="s22"
 									@text={{true}}

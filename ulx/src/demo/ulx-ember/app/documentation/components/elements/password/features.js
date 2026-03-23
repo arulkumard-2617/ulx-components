@@ -8,7 +8,6 @@ import {
   LocaleDemo,
   ToggleMaskDemo,
   TemplateDemo,
-  FilledDemo,
   InvalidDemo,
   DisabledDemo,
   ImportSource,
@@ -17,7 +16,6 @@ import {
   LocaleSource,
   ToggleMaskSource,
   TemplateSource,
-  FilledSource,
   InvalidSource,
   DisabledSource,
   AccessibilitySource,
@@ -140,26 +138,6 @@ export const PasswordFeatureItems = [
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'filled',
-    sectionNav: 'Filled',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Specify the <code>@filled</code> property to display the component with a higher visual emphasis than the default outlined style.',
-      },
-    },
-    demo: {
-      component: FilledDemo,
-      props: {
-        source: FilledSource,
-        snippetName: 'filled',
         language: 'handlebars',
       },
     },

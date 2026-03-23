@@ -91,9 +91,8 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
       {{#if this.sections.length}}
         <div class="mb-6">
           <UlxIconInput
-            @iconName="search-icon"
+            @iconLeft="search-icon"
             @iconType="font"
-            @iconPosition="left"
             @iconFieldClass="w-300"
           >
             <UlxInput

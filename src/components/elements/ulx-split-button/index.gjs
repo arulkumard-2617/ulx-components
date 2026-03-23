@@ -242,7 +242,7 @@ export default class UlxSplitButton extends Component {
 				{{#if (has-block "default")}}
 					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
-						@icon={{@icon}}
+						@iconLeft={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
@@ -261,7 +261,7 @@ export default class UlxSplitButton extends Component {
 					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@label={{@label}}
-						@icon={{@icon}}
+						@iconLeft={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
@@ -281,7 +281,7 @@ export default class UlxSplitButton extends Component {
 
 			<UlxIconButton
 				@dataQa={{this.dropdownButtonDataQa}}
-				@icon={{this.dropdownIconName}}
+				@iconLeft={{this.dropdownIconName}}
 				@iconComponentClass={{this.dropdownIconComponentClass}}
 				@iconSize={{this.dropdownIconSize}}
 				@disabled={{this.isDisabled}}

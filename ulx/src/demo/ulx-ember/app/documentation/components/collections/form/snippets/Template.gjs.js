@@ -315,8 +315,8 @@ export default class DemoFormTemplate extends Component {
           placeholder=" "
         />
 
-        <UlxField @label="Country" @key="form-country" @fieldClass="col-12">
-          <:control as |field|>
+        <UlxField @label="Country" @fieldId="form-country" @fieldClass="col-12">
+          <:default as |field|>
             <UlxDropdown
               @key={{field.key}}
               @ariaDescribedBy={{field.describedBy}}
@@ -327,7 +327,7 @@ export default class DemoFormTemplate extends Component {
               @placeholder="Select"
               @size="m-size"
             />
-          </:control>
+          </:default>
         </UlxField>
 
         <UlxInput

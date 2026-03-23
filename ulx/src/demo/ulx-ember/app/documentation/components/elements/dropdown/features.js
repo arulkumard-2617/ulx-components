@@ -12,8 +12,6 @@ import {
   ClearIconDemo,
   LoadingStateDemo,
   VirtualScrollDemo,
-  FloatLabelDemo,
-  FilledDemo,
   InvalidDemo,
   DisabledDemo,
   AccessibilityDemo,
@@ -26,8 +24,6 @@ import {
   ClearIconSource,
   LoadingStateSource,
   VirtualScrollSource,
-  FloatLabelSource,
-  FilledSource,
   InvalidSource,
   DisabledSource,
   AccessibilitySource,
@@ -122,22 +118,6 @@ export const DropdownFeatureItems = [
     VirtualScrollDemo,
     VirtualScrollSource,
     'virtual-scroll'
-  ),
-  section(
-    'float-label',
-    t('lbl.dropdown.float.label'),
-    'Wrap the dropdown in <code>UlxFloatLabel</code>; wire <code>@onFocus</code> / <code>@onBlur</code> from the float-label yield.',
-    FloatLabelDemo,
-    FloatLabelSource,
-    'float-label'
-  ),
-  section(
-    'filled',
-    t('lbl.dropdown.filled'),
-    'Use <code>@filled</code> for filled variant styling.',
-    FilledDemo,
-    FilledSource,
-    'filled'
   ),
   section(
     'invalid',

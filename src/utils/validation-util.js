@@ -1,98 +1,83 @@
-import Namespace from '@ember/application/namespace';
-import { get } from '@ember/object';
-import { isBlank } from '@ember/utils';
+import { getConstraintValue } from './input-util.js';
 
-const validators = {
-	required(value, rule) {
-		if (typeof value === 'number' && !value) {
-			return rule;
-		} else if (isBlank(value)) {
-			return rule;
-		}
-	},
+/**
+ * @param {unknown} value
+ * @param {{ with?: RegExp, allowBlank?: boolean, msg?: string }} [formatRule]
+ * @returns {string|undefined}
+ */
+function validateFormat(value, formatRule) {
+	if (!formatRule?.with || !(formatRule.with instanceof RegExp)) return;
 
-	format(value, rule) {
-		if (rule.allowEmpty && !value) {
-			return;
-		}
-		if (!rule.with.test(value)) {
-			return rule.msg;
-		}
-	},
-	custom(value, rule, model) {
-		return rule(value, model);
-	},
-	maxLength(value, rule) {
-		if (!value) {
-			return;
-		}
+	const str = value == null ? '' : String(value);
+	const trimmed = str.trim();
+	const allowBlank = formatRule.allowBlank !== false;
 
-		if (value.length > rule.value) {
-			return rule.msg;
-		}
-	},
-	minLength(value, rule) {
-		if (rule.allowEmpty && !value) {
-			return;
-		}
-		if (value.length < rule.value) {
-			return rule.msg;
-		}
-	},
-	min(value, rule) {
-		if (value < rule.value) {
-			return rule.msg;
-		}
-	},
+	if (allowBlank && trimmed === '') return;
 
-	max(value, rule) {
-		if (value > rule.value) {
-			return rule.msg;
-		}
-	},
-	isSameOrBeforeNow(value, rule) {
-		if (value && value.isSameOrBefore(moment.tz(value.tz()))) {
-			return rule;
-		}
-	},
-	isAfter(value, rule, model) {
-		if (!value) {
-			return;
-		}
-		const valueToCheck = get(model, rule.prop);
-		if (!valueToCheck) {
-			//TODO: Decide what to do with if value is undefined
-			return;
+	if (!formatRule.with.test(str)) {
+		return typeof formatRule.msg === 'string' && formatRule.msg.length > 0
+			? formatRule.msg
+			: 'Invalid value';
+	}
+}
+
+/**
+ * Validates `context` properties against editor-style rules (see `primary-contact-selection` / BsInput).
+ *
+ * @param {object} context - Object with keys matching `validations` (e.g. component with `@tracked` fields).
+ * @param {object} validations - Map of field key → `{ required?, format?, maxLength?, minLength? }`.
+ * @returns {{ isValid: boolean, errors: Record<string, string> }}
+ *
+ * Use **`novalidate` on `<form>`** when inputs use the native `required` attribute but you show
+ * messages from this helper; otherwise the browser may block submit and show its own tooltip first.
+ */
+export function validate(context, validations) {
+	const errors = {};
+
+	for (const key of Object.keys(validations ?? {})) {
+		const rules = validations[key];
+		if (!rules || typeof rules !== 'object') continue;
+
+		const raw = context[key];
+		const str = raw == null ? '' : String(raw);
+		const trimmed = str.trim();
+
+		if (rules.required != null && rules.required !== false) {
+			if (trimmed === '') {
+				errors[key] =
+					typeof rules.required === 'string' && rules.required.length > 0
+						? rules.required
+						: 'Required';
+				continue;
+			}
 		}
 
-		if (!value.isAfter(valueToCheck)) {
-			return rule.msg;
+		const formatMsg = validateFormat(raw, rules.format);
+		if (formatMsg) {
+			errors[key] = formatMsg;
+			continue;
+		}
+
+		const maxLen = getConstraintValue(rules, 'maxLength');
+		if (typeof maxLen === 'number' && str.length > maxLen) {
+			errors[key] =
+				typeof rules.maxLength?.msg === 'string' && rules.maxLength.msg.length > 0
+					? rules.maxLength.msg
+					: `Maximum ${maxLen} characters allowed`;
+			continue;
+		}
+
+		const minLen = getConstraintValue(rules, 'minLength');
+		if (typeof minLen === 'number' && str.length < minLen) {
+			errors[key] =
+				typeof rules.minLength?.msg === 'string' && rules.minLength.msg.length > 0
+					? rules.minLength.msg
+					: `Minimum ${minLen} characters required`;
 		}
 	}
-};
 
-export default Namespace.create({
-	validate(model, rules) {
-		let errors = {};
-
-		Object.keys(rules).forEach((modelKey) => {
-			const rule = rules[modelKey],
-				value = get(model, modelKey);
-
-			Object.keys(rule).some((ruleKey) => {
-				const errorMessage = validators[ruleKey](value, rule[ruleKey], model);
-
-				if (errorMessage) {
-					errors[modelKey] = errorMessage;
-				}
-
-				return !!errorMessage;
-			});
-		});
-
-		return {
-			isValid: !Object.keys(errors).length,
-			errors
-		};
-	}
-});
+	return {
+		isValid: Object.keys(errors).length === 0,
+		errors
+	};
+}

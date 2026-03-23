@@ -16,7 +16,7 @@ export default class DemoPasswordTemplate extends Component {
 
       <UlxField @fieldClass="col-4" @label={{t "lbl.password"}}>
 
-        <:control>
+        <:default>
           <UlxPassword
             @value={{this.value}}
             @onInput={{this.handleInput}}
@@ -40,7 +40,7 @@ export default class DemoPasswordTemplate extends Component {
               </ul>
             </:panel-footer>
           </UlxPassword>
-        </:control>
+        </:default>
 
       </UlxField>
 

@@ -31,7 +31,7 @@ export default class DemoMultiselectFilter extends Component {
         @fieldId="multiselect-filter"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -45,7 +45,7 @@ export default class DemoMultiselectFilter extends Component {
             @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

@@ -26,10 +26,10 @@ export default class DemoDropdownLoadingState extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
         @label={{t "lbl.dropdown.loading.state"}}
-        @id="dropdown-loading"
+        @fieldId="dropdown-loading"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -40,7 +40,7 @@ export default class DemoDropdownLoadingState extends Component {
             @loading={{true}}
             @placeholder={{t "lbl.loading"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

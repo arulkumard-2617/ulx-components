@@ -137,7 +137,7 @@ export default class UlxSlidePaneHeader extends Component {
 			<div class="slidepane-header-icons">
 				{{#if this.showMaximizeButton}}
 					<UlxIconButton
-						@icon={{this.currentMaximizeIconName}}
+						@iconLeft={{this.currentMaximizeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
 						@text={{true}}
@@ -149,7 +149,7 @@ export default class UlxSlidePaneHeader extends Component {
 				{{/if}}
 				{{#if this.showCloseButton}}
 					<UlxIconButton
-						@icon={{this.closeIconName}}
+						@iconLeft={{this.closeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
 						@iconSize={{this.iconSize}}

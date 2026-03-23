@@ -53,8 +53,8 @@ export default class DemoDropdownGroup extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxField @label={{t "lbl.group"}} @key="dropdown-group" @fieldClass="col-4">
-        <:control as |field|>
+      <UlxField @label={{t "lbl.group"}} @fieldId="dropdown-group" @fieldClass="col-4">
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -66,7 +66,7 @@ export default class DemoDropdownGroup extends Component {
             @onChange={{this.setSelectedGroupCity}}
             @placeholder={{t "msg.dropdown.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

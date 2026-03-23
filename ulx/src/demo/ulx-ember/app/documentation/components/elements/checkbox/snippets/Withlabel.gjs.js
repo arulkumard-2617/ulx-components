@@ -8,6 +8,7 @@ export default class WithlabelDemoComponent extends Component {
   @tracked items = [
     { label: 'All Event Days', checked: true },
     { label: 'Single Event Days', checked: true },
+    { label: 'Multi Event Days', checked: true },
   ];
 
   get requiredRules() {
@@ -33,9 +34,9 @@ export default class WithlabelDemoComponent extends Component {
         @rules={{this.requiredRules}}
         @helpText={{t "lbl.help.text"}}
         @fieldClass="col-12"
-        @id="checkbox-with-label"
+        @fieldId="checkbox-with-label"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxCheckbox
             @key={{field.key}}
             @rules={{this.requiredRules}}
@@ -44,7 +45,7 @@ export default class WithlabelDemoComponent extends Component {
             @items={{this.items}}
             @onItemChange={{this.handleItemChange}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

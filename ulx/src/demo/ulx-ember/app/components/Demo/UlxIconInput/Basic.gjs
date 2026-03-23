@@ -1,28 +1,39 @@
-import { UlxInput, UlxField, UlxIconInput, t } from 'ulx-components';
+import { UlxInput, UlxIconInput, t } from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gap-12 mb-14">
 
-    <UlxField @fieldId="search" @fieldClass="col-4">
-      <:control as |field|>
+    <div class="col-6">
+      <UlxIconInput
+        @iconLeft="search-icon"
+        @iconType="font"
+        @iconSize="s18"
+        @size="m-size"
+      >
+        <UlxInput
+          @key="demo-icon-input-search"
+          placeholder={{t "lbl.search"}}
+          aria-label={{t "lbl.search"}}
+        />
+      </UlxIconInput>
+    </div>
 
-        <UlxIconInput
-          @iconName="search-icon"
-          @iconType="font"
-          @iconClass="bs-icons1"
-          @iconPosition="left"
-          @iconSize="s18"
-        >
-          <UlxInput
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            placeholder={{t "lbl.search"}}
-            aria-label={{t "lbl.search"}}
-          />
-        </UlxIconInput>
-      </:control>
-    </UlxField>
+    <div class="col-6">
+      <UlxIconInput
+        @iconRight="calendar-icon02"
+        @iconType="font"
+        @iconClass="bs-icons1"
+        @iconSize="s18"
+        @size="m-size"
+      >
+        <UlxInput
+          @key="demo-icon-input-email"
+          type="email"
+          placeholder={{t "lbl.enter.email"}}
+          aria-label={{t "lbl.email"}}
+        />
+      </UlxIconInput>
+    </div>
 
   </div>
 </template>

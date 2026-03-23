@@ -21,17 +21,14 @@ export default class DemoSizes extends Component {
           @helpText={{t "msg.input.help"}}
           @fieldId={{concat "size-" index}}
           @fieldClass="col-12"
+          as |field|
         >
-          <:control as |field|>
-            <UlxInput
-              @key={{field.key}}
-              @ariaDescribedBy={{field.describedBy}}
-              @ariaErrorMessage={{field.errorId}}
-              @size={{item.size}}
-              placeholder={{item.label}}
-              aria-label={{item.label}}
-            />
-          </:control>
+          <UlxInput
+            @field={{field}}
+            @size={{item.size}}
+            placeholder={{item.label}}
+            aria-label={{item.label}}
+          />
         </UlxField>
       {{/each}}
 

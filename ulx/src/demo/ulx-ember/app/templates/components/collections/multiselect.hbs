@@ -30,7 +30,7 @@
             @error={{props.fieldError}}
             @fieldId="multiselect-doc-builder"
           >
-            <:control as |field|>
+            <:default as |field|>
               <UlxMultiSelect
                 @key={{field.key}}
                 @ariaDescribedBy={{field.describedBy}}
@@ -43,9 +43,8 @@
                 @selectAll={{props.selectAll}}
                 @disabled={{props.disabled}}
                 @invalid={{props.invalid}}
-                @filled={{props.filled}}
               />
-            </:control>
+            </:default>
           </UlxField>
         </div>
       </:preview>

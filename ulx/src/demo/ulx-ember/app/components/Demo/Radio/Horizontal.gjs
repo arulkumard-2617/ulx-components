@@ -42,7 +42,7 @@ export default class HorizontalDemoComponent extends Component {
         @fieldClass="col-12"
         @key="radio-horizontal"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxRadio
             @key={{field.key}}
             @rules={{this.requiredRules}}
@@ -53,7 +53,7 @@ export default class HorizontalDemoComponent extends Component {
             @groupClass="horizontal"
             @error={{this.error}}
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <div class="col-12">

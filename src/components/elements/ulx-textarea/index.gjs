@@ -8,9 +8,10 @@ import {
 	buildFloatLabelClass,
 	buildInputClass,
 	getFloatLabelLabelClass,
+	getConstraintValue,
 	getKeyFilterPattern,
-	getRuleValue,
 	isInvalidState,
+	isRulesRequired,
 	isSpecialKey,
 	matchesKeyFilter,
 	normalizeRules,
@@ -77,15 +78,15 @@ export default class UlxTextarea extends Component {
 	}
 
 	get isRequired() {
-		return !!this.rules.required;
+		return isRulesRequired(this.rules);
 	}
 
 	get minLength() {
-		return getRuleValue(this.rules, "minLength");
+		return getConstraintValue(this.rules, "minLength");
 	}
 
 	get maxLength() {
-		return getRuleValue(this.rules, "maxLength");
+		return getConstraintValue(this.rules, "maxLength");
 	}
 
 	get hasLabelMeta() {
@@ -292,7 +293,11 @@ export default class UlxTextarea extends Component {
 			{{/if}}
 
 			{{#if @helpText}}
-				<div id="{{this.textareaId}}-help" class="help-text" data-qa="ulx-textarea-help">{{@helpText}}</div>
+				<div
+					id="{{this.textareaId}}-help"
+					class="help-text"
+					data-qa="ulx-textarea-help"
+				>{{@helpText}}</div>
 			{{/if}}
 
 			{{#if @error}}

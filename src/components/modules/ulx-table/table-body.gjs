@@ -550,7 +550,7 @@ export default class TableBody extends Component {
 									<UlxIconButton
 										@text={{true}}
 										@variant="secondary"
-										@icon={{if (this.isRowExpanded row) "down-arrow-icon" "right-arrow-icon"}}
+										@iconLeft={{if (this.isRowExpanded row) "down-arrow-icon" "right-arrow-icon"}}
 										@iconComponentClass="bs-icons1"
 										@iconSize="s20"
 										@customClass="datatable-row-toggler"
@@ -591,7 +591,7 @@ export default class TableBody extends Component {
 											<UlxIconButton
 												@text={{true}}
 												@variant="success"
-												@icon="tick-thick-icon"
+												@iconLeft="tick-thick-icon"
 												@iconSize="s20"
 												@customClass="datatable-row-save-button"
 												@onClick={{fn this.handleRowEditSave row}}
@@ -600,7 +600,7 @@ export default class TableBody extends Component {
 											<UlxIconButton
 												@text={{true}}
 												@variant="danger"
-												@icon="close-thick-icon"
+												@iconLeft="close-thick-icon"
 												@iconSize="s18"
 												@customClass="datatable-row-cancel-button"
 												@onClick={{fn this.handleRowEditCancel row}}
@@ -612,7 +612,7 @@ export default class TableBody extends Component {
 											<UlxIconButton
 												@text={{true}}
 												@variant="secondary"
-												@icon="edit-icon"
+												@iconLeft="edit-icon"
 												@iconComponentClass="bs-icons1"
 												@iconSize="s18"
 												@customClass="datatable-row-editor-init-button"
