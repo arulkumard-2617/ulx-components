@@ -6,6 +6,7 @@ import not from "ember-truth-helpers/helpers/not";
 import UlxRadio from "../../elements/ulx-radio/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxDivider from "../../elements/ulx-divider/index.gjs";
 
 import { t } from "../../../utils/i18n.js";
@@ -79,7 +80,7 @@ export default class SortOptions extends Component {
 			/>
 			<UlxDivider />
 			<div class="flex flex-col items-start gap-3">
-				<UlxButton
+				<UlxIconButton
 					@label={{t "lbl.ascending"}}
 					@icon="ascending-icon"
 					@iconComponentClass="bs-icons1"
@@ -96,7 +97,7 @@ export default class SortOptions extends Component {
 					@onClick={{fn this.updateOrderBy "asc"}}
 				/>
 
-				<UlxButton
+				<UlxIconButton
 					@label={{t "lbl.descending"}}
 					@icon="descending-icon"
 					@iconComponentClass="bs-icons1"

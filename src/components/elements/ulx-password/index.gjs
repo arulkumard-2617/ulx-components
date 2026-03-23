@@ -20,7 +20,7 @@ import {
 } from "../../../utils/input-util";
 
 import { t } from "../../../utils/i18n";
-import UlxButton from "../ulx-button/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxIconInput from "../ulx-icon-input/index.gjs";
 
 const DEFAULT_MEDIUM_REGEX =
@@ -351,7 +351,7 @@ export default class UlxPassword extends Component {
 
 				<:icon>
 					{{#if this.hasToggleMask}}
-						<UlxButton
+						<UlxIconButton
 							@icon={{this.toggleIconName}}
 							@iconSize="s18"
 							@text={{true}}

@@ -13,6 +13,24 @@ import {
 } from "../../../utils/overlay-helpers";
 import UlxPopupHeader from "./header.gjs";
 import UlxPopupFooter from "./footer.gjs";
+import { t } from "../../../utils/i18n";
+
+/** Aligns with LESS transition duration; fallback covers missing `transitionend`. */
+const POPUP_TRANSITION_MS = 200;
+const POPUP_TRANSITION_FALLBACK_MS = POPUP_TRANSITION_MS + 100;
+const POPUP_FOCUSABLE_SELECTOR =
+	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+/** Bottom variants that may auto-flip to a top-* class when there is no room below. */
+const POPUP_BOTTOM_POSITIONS = new Set([
+	"position-bottom",
+	"position-bottom-left",
+	"position-bottom-right",
+	"position-bottom-center"
+]);
+
+const POPUP_ENTER_ANIMATION_STATES = new Set(["enter", "enter-active", "enter-done"]);
+const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]);
 
 /**
  * Popup module component for displaying lightweight, non-modal overlays anchored to a target element.
@@ -31,8 +49,8 @@ import UlxPopupFooter from "./footer.gjs";
  *
  * ## Close behavior
  * - **@dismissable** (default true): when true, clicking outside or resizing the window requests close.
- * - **@closable** (default true): when false, close button and Escape key do not close the popup.
- * - **@closeOnEscape** (default true): when true and @closable is not false, Escape closes the popup.
+ * - **@closable** (default false): when true, shows the close button on the popup chrome.
+ * - **@closeOnEscape** (default true): when false, the root Escape handler does not request close.
  * - Parent controls `@visible`; this component never mutates it. It calls `@onHide` when it finishes exit.
  *
  * ## WCAG
@@ -59,8 +77,8 @@ import UlxPopupFooter from "./footer.gjs";
  * @param {string} [footerClassName] - Extra class for the footer wrapper (when footer is shown).
  * Default header/footer (same usage as UlxModal): when <:head> / <:footer> are not passed, use these args.
  * @param {string} [title] - Default header title. When set and no <:head> block, shows default header with this title.
- * @param {string} [cancelButtonLabel="Cancel"] - Default footer cancel button label.
- * @param {string} [doneButtonLabel="Confirm"] - Default footer done/confirm button label.
+ * @param {string} [cancelButtonLabel] - Default footer cancel label (falls back to i18n cancel).
+ * @param {string} [doneButtonLabel] - Default footer confirm label (falls back to i18n confirm).
  * @param {Function} [onCancel] - Callback when default footer cancel button is clicked.
  * @param {Function} [onDone] - Callback when default footer done button is clicked.
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no <:footer> block).
@@ -112,6 +130,7 @@ export default class UlxPopup extends Component {
 	// to avoid mutating tracked state during the same computation that reads it.
 	targetElement = null;
 
+	/** Compared each `watchVisibility` run to detect `@visible` false→true / true→false edges. */
 	_previousVisible = false;
 
 	get baseClass() {
@@ -132,22 +151,10 @@ export default class UlxPopup extends Component {
 	}
 
 	get shouldRender() {
-		// Render while visible or while exit animation is playing
-		if (this.isVisible) {
-			return true;
-		}
-		if (this.animationState?.startsWith("exit")) {
-			return true;
-		}
-		if (
-			!this.isVisible &&
-			(this.animationState === "enter-done" ||
-				this.animationState === "enter-active" ||
-				this.animationState === "enter")
-		) {
-			return true;
-		}
-		return false;
+		if (this.isVisible) return true;
+		if (this.animationState?.startsWith("exit")) return true;
+		// Stay in DOM briefly after `@visible` becomes false so exit transition can start.
+		return !this.isVisible && POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
 	}
 
 	get rootClasses() {
@@ -167,13 +174,7 @@ export default class UlxPopup extends Component {
 
 		// Only add visible once enter animation has started to avoid showing
 		// the popup fully before transition classes are applied.
-		if (
-			this.animationState === "enter" ||
-			this.animationState === "enter-active" ||
-			this.animationState === "enter-done"
-		) {
-			parts.push("visible");
-		}
+		POPUP_ENTER_ANIMATION_STATES.has(this.animationState) && parts.push("visible");
 
 		this.animationState && parts.push(this.animationState);
 		customClass && parts.push(customClass);
@@ -181,25 +182,22 @@ export default class UlxPopup extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
-	get headerClasses() {
-		const { headerClassName } = this.args;
-		const parts = ["popup-header"];
-		headerClassName && parts.push(headerClassName);
+	buildSectionClass(base, extraClass) {
+		const parts = [base];
+		extraClass && parts.push(extraClass);
 		return parts.filter(Boolean).join(" ");
+	}
+
+	get headerClasses() {
+		return this.buildSectionClass("popup-header", this.args.headerClassName);
 	}
 
 	get bodyClasses() {
-		const { bodyClassName } = this.args;
-		const parts = ["popup-body"];
-		bodyClassName && parts.push(bodyClassName);
-		return parts.filter(Boolean).join(" ");
+		return this.buildSectionClass("popup-body", this.args.bodyClassName);
 	}
 
 	get footerClasses() {
-		const { footerClassName } = this.args;
-		const parts = ["popup-footer"];
-		footerClassName && parts.push(footerClassName);
-		return parts.filter(Boolean).join(" ");
+		return this.buildSectionClass("popup-footer", this.args.footerClassName);
 	}
 
 	get ariaLabel() {
@@ -234,7 +232,7 @@ export default class UlxPopup extends Component {
 	}
 
 	@action
-	hide(event) {
+	hide() {
 		if (!this.isVisible) return;
 		this._handleHideInternal();
 	}
@@ -242,7 +240,7 @@ export default class UlxPopup extends Component {
 	@action
 	toggle(event) {
 		if (this.isVisible) {
-			this.hide(event);
+			this.hide();
 		} else {
 			this.show(event);
 		}
@@ -260,9 +258,10 @@ export default class UlxPopup extends Component {
 		if (this.args.closeOnEscape === false) return;
 		if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 
-		if (event.key === "Escape" || event.key === "Esc") {
+		if (event.key === "Escape" || event.key === "Esc" || event.code === "Escape") {
 			event.preventDefault();
 			event.stopPropagation();
+			// Avoid parent menus/dialogs also handling the same Escape in one dispatch.
 			event.stopImmediatePropagation();
 			this._handleHideInternal();
 		}
@@ -276,18 +275,14 @@ export default class UlxPopup extends Component {
 			return;
 		}
 
-		if (
-			this.animationState === "exit" ||
-			this.animationState === "exit-active" ||
-			this.animationState === "exit-done"
-		) {
+		if (POPUP_EXIT_ANIMATION_STATES.has(this.animationState)) {
 			return;
 		}
 
+		// exit → exit-active (next rAF) drives CSS; complete on transitionend or timeout.
 		this.animationState = "exit";
 
 		let transitionCompleted = false;
-		const transitionDuration = 200;
 		let transitionEndTimeout = null;
 
 		const completeExitAnimation = () => {
@@ -326,7 +321,7 @@ export default class UlxPopup extends Component {
 					this.animationState = "exit-active";
 					transitionEndTimeout = setTimeout(() => {
 						completeExitAnimation();
-					}, transitionDuration + 100);
+					}, POPUP_TRANSITION_FALLBACK_MS);
 				}
 			});
 		});
@@ -339,11 +334,7 @@ export default class UlxPopup extends Component {
 			return;
 		}
 
-		if (
-			this.animationState === "enter" ||
-			this.animationState === "enter-active" ||
-			this.animationState === "enter-done"
-		) {
+		if (POPUP_ENTER_ANIMATION_STATES.has(this.animationState)) {
 			return;
 		}
 
@@ -358,7 +349,6 @@ export default class UlxPopup extends Component {
 		this._setZIndex();
 
 		let transitionCompleted = false;
-		const transitionDuration = 200;
 		let transitionEndTimeout = null;
 
 		const completeEnterAnimation = () => {
@@ -382,13 +372,14 @@ export default class UlxPopup extends Component {
 
 		this.containerElement.addEventListener("transitionend", handleTransitionEnd);
 
+		// Two frames between `enter` and `enter-active` so the first paint picks up the initial state.
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				if (this.animationState === "enter") {
 					this.animationState = "enter-active";
 					transitionEndTimeout = setTimeout(() => {
 						completeEnterAnimation();
-					}, transitionDuration + 100);
+					}, POPUP_TRANSITION_FALLBACK_MS);
 				}
 			});
 		});
@@ -416,10 +407,6 @@ export default class UlxPopup extends Component {
 		let top;
 		let left;
 		let placedAbove = false;
-
-		const viewportWidth = window.innerWidth;
-		const viewportHeight = window.innerHeight;
-		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
 		// Initial placement based on requested position
 		switch (basePosition) {
@@ -472,11 +459,8 @@ export default class UlxPopup extends Component {
 
 		// Automatic vertical flip only for "bottom" variants when there is not
 		// enough space below but there is space above.
-		const isBottomVariant =
-			basePosition === "position-bottom" ||
-			basePosition === "position-bottom-left" ||
-			basePosition === "position-bottom-right" ||
-			basePosition === "position-bottom-center";
+		const viewportHeight = window.innerHeight;
+		const isBottomVariant = POPUP_BOTTOM_POSITIONS.has(basePosition);
 
 		if (
 			isBottomVariant &&
@@ -530,9 +514,7 @@ export default class UlxPopup extends Component {
 
 	@action
 	_clearZIndex() {
-		if (this.containerElement) {
-			this.containerElement.style.zIndex = "";
-		}
+		if (this.containerElement) this.containerElement.style.zIndex = "";
 	}
 
 	registerPopup = modifier((element) => {
@@ -551,6 +533,7 @@ export default class UlxPopup extends Component {
 		};
 	});
 
+	/** Parent owns `@visible`; we react to edges and run show/hide animations (see `shouldRender`). */
 	watchVisibility = modifier((element, [isVisible, targetElement, _animationState]) => {
 		const previousVisible = this._previousVisible;
 		const isTransitioningToVisible = !previousVisible && isVisible;
@@ -562,19 +545,13 @@ export default class UlxPopup extends Component {
 
 		if (isVisible) {
 			const shouldShow =
-				isTransitioningToVisible &&
-				this.animationState !== "enter" &&
-				this.animationState !== "enter-active" &&
-				this.animationState !== "enter-done";
+				isTransitioningToVisible && !POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
 
 			if (shouldShow) {
+				// `appendToBody` can lag one tick; measure only once the root is under `document.body`.
 				const checkAndShow = () => {
 					if (element.parentNode === document.body) {
-						if (
-							this.animationState !== "enter" &&
-							this.animationState !== "enter-active" &&
-							this.animationState !== "enter-done"
-						) {
+						if (!POPUP_ENTER_ANIMATION_STATES.has(this.animationState)) {
 							requestAnimationFrame(() => {
 								this._handleShowInternal();
 							});
@@ -585,12 +562,9 @@ export default class UlxPopup extends Component {
 				};
 				checkAndShow();
 			}
-			this._previousVisible = isVisible;
-		} else if (!isVisible) {
-			const isPopupShown =
-				this.animationState === "enter-done" ||
-				this.animationState === "enter-active" ||
-				this.animationState === "enter";
+		} else {
+			// If still in enter-* when `@visible` flips false, we must still run exit.
+			const isPopupShown = POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
 			const wasVisible = isTransitioningToHidden || isPopupShown;
 
 			if (
@@ -604,9 +578,6 @@ export default class UlxPopup extends Component {
 					}
 				});
 			}
-			this._previousVisible = isVisible;
-		} else {
-			this._previousVisible = isVisible;
 		}
 
 		if (
@@ -617,14 +588,14 @@ export default class UlxPopup extends Component {
 		) {
 			this._alignOverlay();
 		}
+
+		this._previousVisible = isVisible;
 	});
 
 	focusFirstOnVisible = modifier((element, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
 
-		const focusableSelector =
-			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-		const firstFocusable = element.querySelector(focusableSelector);
+		const firstFocusable = element.querySelector(POPUP_FOCUSABLE_SELECTOR);
 
 		if (firstFocusable) {
 			setTimeout(() => firstFocusable.focus(), 0);
@@ -633,15 +604,11 @@ export default class UlxPopup extends Component {
 		}
 	});
 
-	get _focusableSelector() {
-		return 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-	}
-
 	focusTrap = modifier((element, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
 
 		const getFocusables = () => {
-			const nodes = element.querySelectorAll(this._focusableSelector);
+			const nodes = element.querySelectorAll(POPUP_FOCUSABLE_SELECTOR);
 			return Array.from(nodes).filter(
 				(el) =>
 					el.offsetParent !== null &&
@@ -745,7 +712,8 @@ export default class UlxPopup extends Component {
 						<div class={{this.footerClasses}}>
 							{{yield to="footer"}}
 						</div>
-					{{else}}{{#unless @hideFooter}}
+					{{else}}
+						{{#unless @hideFooter}}
 							<UlxPopupFooter
 								@footerClassName={{@footerClassName}}
 								@tertiaryButtonLabel={{@tertiaryButtonLabel}}
@@ -760,13 +728,14 @@ export default class UlxPopup extends Component {
 								@hideCancelButton={{@hideCancelButton}}
 								@hideDoneButton={{@hideDoneButton}}
 							/>
-						{{/unless}}{{/if}}
+						{{/unless}}
+					{{/if}}
 				</div>
 				{{#if this.isClosable}}
 					<button
 						type="button"
 						class="popup-close-button"
-						aria-label="Close"
+						aria-label={{t "lbl.close"}}
 						{{on "click" this.handleCloseClick}}
 					>
 						<span class="popup-close-icon" aria-hidden="true"></span>

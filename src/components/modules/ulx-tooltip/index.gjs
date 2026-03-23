@@ -12,10 +12,18 @@ import {
 	getOverlayZIndexAboveMask
 } from "../../../utils/overlay-helpers";
 
+/** Pixel gap between trigger and tooltip (matches tooltip arrow offset in styles). */
 const GAP = 8;
+
+/** When the trigger sits inside a floating overlay, stack above modals/slidepanes. */
+const TOOLTIP_STACKING_ANCESTOR_SELECTOR =
+	".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper";
+
+const DEFAULT_POSITION = "bottom";
 
 const NATIVELY_FOCUSABLE = /^(BUTTON|INPUT|SELECT|TEXTAREA|A|SUMMARY)$/;
 
+/** True if the element can receive focus (native controls or tabindex >= 0). */
 function isFocusable(el) {
 	if (!el || typeof el.tabIndex !== "number") return false;
 	if (el.tabIndex >= 0) return true;
@@ -27,6 +35,7 @@ function isFocusable(el) {
 	return false;
 }
 
+/** Adds tabindex="0" so focus/both modes can open the tooltip from the keyboard. */
 function ensureFocusableForTooltip(element) {
 	if (element.hasAttribute("tabindex")) return false;
 	if (isFocusable(element)) return false;
@@ -36,7 +45,7 @@ function ensureFocusableForTooltip(element) {
 
 /**
  * Tooltip module component. Wraps a trigger element and shows a tooltip on hover or focus.
- * Uses existing classes from ULS_V2.0 tooltip.less. Renders tooltip in appendTo (default body).
+ * Uses design-system tooltip classes. Renders the tooltip in `appendTo` (default `document.body`).
  *
  * ## WCAG
  * - Trigger receives aria-describedby when tooltip is visible, pointing to the tooltip id.
@@ -74,6 +83,7 @@ export default class UlxTooltip extends Component {
 	tooltipElement = null;
 	_showTimeout = null;
 	_hideTimeout = null;
+	/** When `autoHide` is false, moving onto the tooltip sets this false so trigger `mouseleave` does not hide prematurely. */
 	_allowHide = true;
 
 	get tooltipId() {
@@ -104,7 +114,11 @@ export default class UlxTooltip extends Component {
 	}
 
 	get tooltipPosition() {
-		return this.args.position ?? "bottom";
+		return this.args.position ?? DEFAULT_POSITION;
+	}
+
+	get eventMode() {
+		return this.args.event ?? "both";
 	}
 
 	get shouldCloseOnEscape() {
@@ -122,9 +136,7 @@ export default class UlxTooltip extends Component {
 			return zIndex;
 		}
 
-		const ownerOverlay = this.triggerElement?.closest(
-			".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper"
-		);
+		const ownerOverlay = this.triggerElement?.closest(TOOLTIP_STACKING_ANCESTOR_SELECTOR);
 		if (ownerOverlay || this.modalStack?.topModal) {
 			return getOverlayZIndexAboveMask(this.modalStack);
 		}
@@ -133,16 +145,16 @@ export default class UlxTooltip extends Component {
 	}
 
 	_shouldShowForEvent(eventType) {
-		const event = this.args.event ?? "both";
-		if (event === "hover") return eventType === "mouseenter";
-		if (event === "focus") return eventType === "focus" || eventType === "focusin";
+		const mode = this.eventMode;
+		if (mode === "hover") return eventType === "mouseenter";
+		if (mode === "focus") return eventType === "focus" || eventType === "focusin";
 		return eventType === "mouseenter" || eventType === "focus" || eventType === "focusin";
 	}
 
 	_shouldHideForEvent(eventType) {
-		const event = this.args.event ?? "both";
-		if (event === "hover") return eventType === "mouseleave";
-		if (event === "focus") return eventType === "blur" || eventType === "focusout";
+		const mode = this.eventMode;
+		if (mode === "hover") return eventType === "mouseleave";
+		if (mode === "focus") return eventType === "blur" || eventType === "focusout";
 		return eventType === "mouseleave" || eventType === "blur" || eventType === "focusout";
 	}
 
@@ -157,11 +169,9 @@ export default class UlxTooltip extends Component {
 		if (disabled) return;
 
 		const onBeforeShow = this.args.onBeforeShow;
-		if (
-			typeof onBeforeShow === "function" &&
-			onBeforeShow({ originalEvent: event, target }) === false
-		)
-			return;
+		if (typeof onBeforeShow === "function") {
+			if (onBeforeShow({ originalEvent: event, target }) === false) return;
+		}
 
 		this.triggerElement = target ?? this.triggerElement;
 
@@ -179,7 +189,7 @@ export default class UlxTooltip extends Component {
 	}
 
 	_doShow(event) {
-		this.positionState = this.args.position ?? "bottom";
+		this.positionState = this.args.position ?? DEFAULT_POSITION;
 		this.visible = true;
 		this._allowHide = true;
 		this.args.onShow?.({ originalEvent: event, target: this.triggerElement });
@@ -200,11 +210,9 @@ export default class UlxTooltip extends Component {
 		this._clearTimeouts();
 
 		const onBeforeHide = this.args.onBeforeHide;
-		if (
-			typeof onBeforeHide === "function" &&
-			onBeforeHide({ originalEvent: event, target: this.triggerElement }) === false
-		)
-			return;
+		if (typeof onBeforeHide === "function") {
+			if (onBeforeHide({ originalEvent: event, target: this.triggerElement }) === false) return;
+		}
 
 		const hideDelay = this.args.hideDelay ?? 0;
 
@@ -234,14 +242,10 @@ export default class UlxTooltip extends Component {
 	}
 
 	_clearTimeouts() {
-		if (this._showTimeout) {
-			clearTimeout(this._showTimeout);
-			this._showTimeout = null;
-		}
-		if (this._hideTimeout) {
-			clearTimeout(this._hideTimeout);
-			this._hideTimeout = null;
-		}
+		if (this._showTimeout) clearTimeout(this._showTimeout);
+		if (this._hideTimeout) clearTimeout(this._hideTimeout);
+		this._showTimeout = null;
+		this._hideTimeout = null;
 	}
 
 	_setTriggerAriaDescribedBy(id) {
@@ -276,9 +280,9 @@ export default class UlxTooltip extends Component {
 
 	attach = modifier((element) => {
 		this.triggerElement = element;
-		const event = this.args.event ?? "both";
+		const mode = this.eventMode;
 		const addedTabindex =
-			event === "both" || event === "focus" ? ensureFocusableForTooltip(element) : false;
+			mode === "both" || mode === "focus" ? ensureFocusableForTooltip(element) : false;
 		const show = (e) => this.show(e);
 		const hide = (e) => this.hide(e);
 		element.addEventListener("mouseenter", show);
@@ -326,16 +330,20 @@ export default class UlxTooltip extends Component {
 					left = rect.left - w - GAP;
 					break;
 				case "right":
-				default:
 					top = rect.top + (rect.height - h) / 2;
 					left = rect.right + GAP;
 					break;
+				default:
+					// Unknown @position values align with the "right" branch (legacy behavior).
+					top = rect.top + (rect.height - h) / 2;
+					left = rect.right + GAP;
 			}
 
 			applyBodyAbsoluteFromViewport(element, top, left);
-			this.tooltipZIndex != null && (element.style.zIndex = `${this.tooltipZIndex}`);
+			element.style.zIndex = String(this.tooltipZIndex);
 		};
 
+		// Wait one frame so layout has tooltip dimensions; then wire aria-describedby while visible.
 		requestAnimationFrame(() => {
 			run();
 			this._setTriggerAriaDescribedBy(this.tooltipId);

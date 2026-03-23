@@ -31,6 +31,7 @@ import SortOptions from "./sort-options.gjs";
 import UlxPaginator from "../ulx-paginator/index.gjs";
 import UlxProgressSpinner from "../../elements/ulx-progressspinner/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxButtonGroup from "../../collections/ulx-button-group/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import UlxSelectButton from "../../elements/ulx-select-button/index.gjs";
@@ -1326,7 +1327,7 @@ export default class UlxTable extends Component {
 						}}
 							<UlxButtonGroup @size="m-size" @customClass="uls-inline-popup">
 								{{#if this.hasFilterGroups}}
-									<UlxButton
+									<UlxIconButton
 										@variant="outlined"
 										@size="m-size"
 										@icon="filter-icon"
@@ -1336,7 +1337,7 @@ export default class UlxTable extends Component {
 									/>
 								{{/if}}
 								{{#if (and @sortOptions (gt @sortOptions.length 0))}}
-									<UlxButton
+									<UlxIconButton
 										@variant="outlined"
 										@size="m-size"
 										@icon="sort-icon"
@@ -1347,7 +1348,7 @@ export default class UlxTable extends Component {
 									/>
 								{{/if}}
 								{{#if @showManageColumns}}
-									<UlxButton
+									<UlxIconButton
 										@variant="outlined"
 										@size="m-size"
 										@icon="columns-icon"
@@ -1437,7 +1438,7 @@ export default class UlxTable extends Component {
 									</UlxChip>
 								</:default>
 							</UlxButton>
-							<UlxButton
+							<UlxIconButton
 								@variant="link"
 								@size="s-size"
 								@iconSize="s18"
@@ -1448,7 +1449,7 @@ export default class UlxTable extends Component {
 							/>
 						</div>
 					{{/each}}
-					<UlxButton
+					<UlxIconButton
 						@variant="danger"
 						@text={{true}}
 						@size="compact"
@@ -1816,7 +1817,7 @@ export default class UlxTable extends Component {
 						<div class="flex flex-col gap-3">
 							<div class="flex justify-between items-center">
 								<span class="popup-title">{{this.activeBubble.label}}</span>
-								<UlxButton
+								<UlxIconButton
 									@variant="danger"
 									@text={{true}}
 									@size="s-size"

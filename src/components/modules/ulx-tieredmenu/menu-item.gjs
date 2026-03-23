@@ -17,18 +17,22 @@ export default class UlxTieredmenuMenuItem extends Component {
 		return this.args.dataQa ?? "ulx-tieredmenu-item";
 	}
 
+	/** Model passes a single class string, e.g. `"bs-icons1 pdf-stroke-icon"` (font kit + glyph). */
+	get iconClassParts() {
+		const raw = this.args.item?.icon?.trim();
+		if (!raw) return null;
+		const parts = raw.split(/\s+/).filter(Boolean);
+		return parts.length ? parts : null;
+	}
+
 	get iconName() {
-		if (!this.args.item?.icon) return null;
-		// Extract icon name from class string (e.g., "bs-icons1 pdf-stroke-icon" -> "pdf-stroke-icon")
-		const parts = this.args.item.icon.trim().split(/\s+/);
-		return parts[parts.length - 1];
+		const parts = this.iconClassParts;
+		return parts ? parts[parts.length - 1] : null;
 	}
 
 	get iconCustomClass() {
-		if (!this.args.item?.icon) return null;
-		// Extract base class from icon string (e.g., "bs-icons1 pdf-stroke-icon" -> "bs-icons1")
-		const parts = this.args.item.icon.trim().split(/\s+/);
-		return parts.length > 1 ? parts[0] : null;
+		const parts = this.iconClassParts;
+		return parts && parts.length > 1 ? parts[0] : null;
 	}
 
 	get iconSize() {
@@ -69,8 +73,8 @@ export default class UlxTieredmenuMenuItem extends Component {
 					{{#if @item.icon}}
 						<span class="tieredmenu-item-icon" aria-hidden="true">
 							<UlxIcon
-								@iconName={{this.iconName}}
 								@type="font"
+								@iconName={{this.iconName}}
 								@customClass={{this.iconCustomClass}}
 								@size={{this.iconSize}}
 							/>
@@ -85,12 +89,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 					{{/if}}
 					{{#if @hasSubmenu}}
 						<span class="tieredmenu-item-icon" aria-hidden="true">
-							<UlxIcon
-								@iconName="right-arrow-icon"
-								@type="font"
-								@customClass="bs-icons1"
-								@size="s16"
-							/>
+							<UlxIcon @type="font" @iconName="right-arrow-icon" @size="s16" />
 						</span>
 					{{/if}}
 				</div>

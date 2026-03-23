@@ -1,9 +1,9 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
-import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import { joinClassNames } from "../../../utils/class-names";
-import { t } from "../../../utils/i18n.js";
+import { t } from "../../../utils/i18n";
 
 /**
  * Modal header subcomponent.
@@ -83,18 +83,14 @@ export default class UlxModalHeader extends Component {
 	handleClose(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (this.args.onClose) {
-			this.args.onClose();
-		}
+		this.args.onClose?.();
 	}
 
 	@action
 	handleMaximize(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (this.args.onMaximize) {
-			this.args.onMaximize();
-		}
+		this.args.onMaximize?.();
 	}
 
 	<template>
@@ -109,7 +105,7 @@ export default class UlxModalHeader extends Component {
 
 			<div class="dialog-header-icons">
 				{{#if this.showMaximizeButton}}
-					<UlxButton
+					<UlxIconButton
 						@icon={{this.currentMaximizeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
@@ -123,7 +119,7 @@ export default class UlxModalHeader extends Component {
 				{{/if}}
 
 				{{#if this.showCloseButton}}
-					<UlxButton
+					<UlxIconButton
 						@icon={{this.closeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}

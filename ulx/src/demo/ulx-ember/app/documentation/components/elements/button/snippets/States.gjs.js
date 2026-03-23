@@ -1,9 +1,9 @@
 export default `
-import { UlxButton, t } from 'ulx-components';
+import { UlxIconButton, t } from 'ulx-components';
 
 <template>
   <div class="flex items-center wrap gap-md">
-    <UlxButton
+    <UlxIconButton
       @label={{t "lbl.submit"}}
       @icon="ls-tick-icon"
       @iconSize="s18"

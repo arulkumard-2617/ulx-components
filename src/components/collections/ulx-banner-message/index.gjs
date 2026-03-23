@@ -7,6 +7,7 @@ import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 
 const ENTER_DONE_CLASS = "enter-done";
 
@@ -186,7 +187,7 @@ export default class UlxBannerMessage extends Component {
 							{{#if (has-block "action")}}
 								{{yield this.displayMessage to="action"}}
 							{{else if (this.showClose this.displayMessage)}}
-								<UlxButton
+								<UlxIconButton
 									@icon="close-stroke-icon"
 									@iconComponentClass="bs-icons1"
 									@iconSize="s22"

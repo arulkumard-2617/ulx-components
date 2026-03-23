@@ -5,6 +5,7 @@ import { getComponentClass } from "../../../utils/component-config";
 import { joinClassNames } from "../../../utils/class-names";
 import { t } from "../../../utils/i18n";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxDropdown from "../../elements/ulx-dropdown/index.gjs";
 import { eq } from "ember-truth-helpers";
 
@@ -50,7 +51,8 @@ export default class UlxPaginator extends Component {
 	}
 
 	get rootClasses() {
-		return joinClassNames(this.baseClass, this.args.customClass);
+		const { customClass } = this.args;
+		return joinClassNames(this.baseClass, customClass);
 	}
 
 	get rootDataQa() {
@@ -114,10 +116,9 @@ export default class UlxPaginator extends Component {
 
 	get pageLinkBoundaries() {
 		const { totalPages, pageLinkSize, page } = this;
-		const numberOfPages = totalPages;
-		const visiblePages = Math.min(pageLinkSize, numberOfPages);
+		const visiblePages = Math.min(pageLinkSize, totalPages);
 		let start = Math.max(0, Math.ceil(page - visiblePages / 2));
-		let end = Math.min(numberOfPages - 1, start + visiblePages - 1);
+		let end = Math.min(totalPages - 1, start + visiblePages - 1);
 		const delta = pageLinkSize - (end - start + 1);
 		start = Math.max(0, start - delta);
 		return [start, end];
@@ -148,7 +149,7 @@ export default class UlxPaginator extends Component {
 	get currentPageReportText() {
 		const template = this.args.currentPageReportTemplate ?? DEFAULT_PAGE_REPORT;
 		const tokens = {
-			currentPage: this.page + 1,
+			currentPage: this.currentPageOneBased,
 			totalPages: this.totalPages,
 			first: this.reportFirst,
 			last: this.reportLast,
@@ -174,56 +175,66 @@ export default class UlxPaginator extends Component {
 		return this.args.lastPageLinkIcon ?? "right-arrow-bounded-icon";
 	}
 
-	get firstPageLinkConfig() {
+	_navLinkConfig(suffix, icon, onClick, disabled, ariaKey) {
 		return {
-			icon: this.firstPageLinkIcon,
-			onClick: this.goToFirst,
-			disabled: this.navFirstPrevDisabled,
-			className: joinClassNames("paginator-first", this.navFirstPrevDisabled && "disabled"),
-			ariaLabel: t("aria.paginator.firstPage")
+			icon,
+			onClick,
+			disabled,
+			className: joinClassNames(`paginator-${suffix}`, disabled && "disabled"),
+			ariaLabel: t(ariaKey)
 		};
+	}
+
+	get firstPageLinkConfig() {
+		return this._navLinkConfig(
+			"first",
+			this.firstPageLinkIcon,
+			this.goToFirst,
+			this.navFirstPrevDisabled,
+			"aria.paginator.firstPage"
+		);
 	}
 
 	get prevPageLinkConfig() {
-		return {
-			icon: this.prevPageLinkIcon,
-			onClick: this.goToPrev,
-			disabled: this.navFirstPrevDisabled,
-			className: joinClassNames("paginator-prev", this.navFirstPrevDisabled && "disabled"),
-			ariaLabel: t("aria.paginator.prevPage")
-		};
+		return this._navLinkConfig(
+			"prev",
+			this.prevPageLinkIcon,
+			this.goToPrev,
+			this.navFirstPrevDisabled,
+			"aria.paginator.prevPage"
+		);
 	}
 
 	get nextPageLinkConfig() {
-		return {
-			icon: this.nextPageLinkIcon,
-			onClick: this.goToNext,
-			disabled: this.navNextLastDisabled,
-			className: joinClassNames("paginator-next", this.navNextLastDisabled && "disabled"),
-			ariaLabel: t("aria.paginator.nextPage")
-		};
+		return this._navLinkConfig(
+			"next",
+			this.nextPageLinkIcon,
+			this.goToNext,
+			this.navNextLastDisabled,
+			"aria.paginator.nextPage"
+		);
 	}
 
 	get lastPageLinkConfig() {
-		return {
-			icon: this.lastPageLinkIcon,
-			onClick: this.goToLast,
-			disabled: this.navNextLastDisabled,
-			className: joinClassNames("paginator-last", this.navNextLastDisabled && "disabled"),
-			ariaLabel: t("aria.paginator.lastPage")
-		};
+		return this._navLinkConfig(
+			"last",
+			this.lastPageLinkIcon,
+			this.goToLast,
+			this.navNextLastDisabled,
+			"aria.paginator.lastPage"
+		);
 	}
 
 	@action
 	changePage(first, rows) {
 		const r = rows ?? this.rows;
 		if (r <= 0) return;
-		const totalPages = this.rows > 0 ? Math.ceil(this.totalRecords / r) : 0;
+		const totalPages = Math.ceil(this.totalRecords / r);
 		const p = Math.floor(first / r);
 		if (p >= 0 && p < totalPages) {
-			const fn = this.args.onPageChange;
-			if (typeof fn === "function") {
-				fn({ first, rows: r, page: p, totalPages });
+			const onPageChange = this.args.onPageChange;
+			if (typeof onPageChange === "function") {
+				onPageChange({ first, rows: r, page: p, totalPages });
 			}
 		}
 	}
@@ -286,7 +297,7 @@ export default class UlxPaginator extends Component {
 						{{#if (has-block "firstPageLink")}}
 							{{yield this.firstPageLinkConfig to="firstPageLink"}}
 						{{else}}
-							<UlxButton
+							<UlxIconButton
 								@variant="secondary"
 								@text={{true}}
 								@icon={{this.firstPageLinkConfig.icon}}
@@ -303,7 +314,7 @@ export default class UlxPaginator extends Component {
 						{{#if (has-block "prevPageLink")}}
 							{{yield this.prevPageLinkConfig to="prevPageLink"}}
 						{{else}}
-							<UlxButton
+							<UlxIconButton
 								@variant="basic"
 								@text={{true}}
 								@icon={{this.prevPageLinkConfig.icon}}
@@ -322,7 +333,7 @@ export default class UlxPaginator extends Component {
 						{{#if (has-block "nextPageLink")}}
 							{{yield this.nextPageLinkConfig to="nextPageLink"}}
 						{{else}}
-							<UlxButton
+							<UlxIconButton
 								@variant="basic"
 								@text={{true}}
 								@icon={{this.nextPageLinkConfig.icon}}
@@ -342,7 +353,7 @@ export default class UlxPaginator extends Component {
 						{{#if (has-block "lastPageLink")}}
 							{{yield this.lastPageLinkConfig to="lastPageLink"}}
 						{{else}}
-							<UlxButton
+							<UlxIconButton
 								@variant="secondary"
 								@text={{true}}
 								@icon={{this.lastPageLinkConfig.icon}}
