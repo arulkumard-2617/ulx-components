@@ -153,6 +153,8 @@ const enUs = {
 	// ── Rating ────────────────────────────────────────────────
 	'lbl.rating': 'Rating',
 	'lbl.rating.cancel': 'Reset rating',
+	'lbl.rating.star.selected': 'Star {star} of {total}, selected',
+	'lbl.rating.star.unselected': 'Star {star} of {total}, not selected',
 
 	// ── Slider ────────────────────────────────────────────────
 	'lbl.slider': 'Slider',
@@ -335,6 +337,13 @@ const enUs = {
 	'msg.danger.toast.b': 'Danger toast B',
 	'lbl.without.toast': 'Without toast',
 
+	// ── Toolbar demo ─────────────────────────────────────────
+	'demo.toolbar.sortBy': 'Sort by',
+	'demo.toolbar.accessibility.history': 'Undo and redo',
+	'demo.toolbar.view.list': 'List view',
+	'demo.toolbar.view.grid': 'Grid view',
+	'demo.toolbar.view.layout': 'Layout',
+
 	// ── Paginator ────────────────────────────────────────────
 	'aria.paginator.firstPage': 'First page',
 	'aria.paginator.prevPage': 'Previous page',
@@ -346,6 +355,8 @@ const enUs = {
 	'aria.paginator.rowsPerPage': 'Rows per page',
 	'aria.paginator.jumpToPage': 'Jump to page',
 	'lbl.paginator.choose': 'Choose',
+	'lbl.paginator.previous': 'Previous',
+	'lbl.paginator.next': 'Next',
 
 	// ── SelectButton demo ────────────────────────────────────
 	'demo.selectbutton.off': 'Off',
@@ -355,6 +366,7 @@ const enUs = {
 	'demo.selectbutton.option3': 'Option 3',
 	'demo.selectbutton.choose.option': 'Choose option',
 	'demo.selectbutton.choose.options': 'Choose options',
+	'demo.selectbutton.aria.secondGroup': 'Second option group',
 	'demo.selectbutton.alignment': 'Alignment',
 
 	// ── OptionSegment demo ────────────────────────────────────

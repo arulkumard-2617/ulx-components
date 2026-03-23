@@ -154,7 +154,7 @@ export default class UlxInput extends Component {
 			required={{this.isRequired}}
 			aria-required={{this.isRequired}}
 			aria-invalid="{{this.isInvalid}}"
-			aria-describedby={{this.ariaDescribedBy}}
+			aria-describedby="{{this.ariaDescribedBy}}"
 			aria-errormessage={{this.ariaErrorMessage}}
 			{{on "keydown" this.handleKeydown}}
 			{{on "input" this.handleInput}}

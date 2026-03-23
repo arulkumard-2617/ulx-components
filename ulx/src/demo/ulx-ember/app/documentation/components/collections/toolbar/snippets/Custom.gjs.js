@@ -2,7 +2,16 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxToolbar, UlxButton, UlxButtonGroup, UlxDropdown, UlxIconInput, t } from 'ulx-components';
+import {
+  UlxToolbar,
+  UlxButton,
+  UlxDropdown,
+  UlxIcon,
+  UlxIconInput,
+  UlxInput,
+  UlxSelectButton,
+  t,
+} from 'ulx-components';
 
 export default class ToolbarCustomDemo extends Component {
   @tracked search = '';
@@ -55,39 +64,34 @@ export default class ToolbarCustomDemo extends Component {
     this.imageType = value;
   }
 
-  @action
-  setViewMode(mode) {
-    this.viewMode = mode;
+  get viewModeOptions() {
+    return [
+      {
+        value: 'list',
+        icon: 'list-view-icon',
+        label: t('demo.toolbar.view.list'),
+      },
+      {
+        value: 'grid',
+        icon: 'grid-view-icon',
+        label: t('demo.toolbar.view.grid'),
+      },
+    ];
   }
 
   @action
-  setListView() {
-    this.viewMode = 'list';
-  }
-
-  @action
-  setGridView() {
-    this.viewMode = 'grid';
-  }
-
-  get isListView() {
-    return this.viewMode === 'list';
-  }
-
-  get isGridView() {
-    return this.viewMode === 'grid';
+  onViewModeChange(value) {
+    this.viewMode = value;
   }
 
   @action
   onUpload() {
     // demo-only: hook up to real upload flow in app
-    // eslint-disable-next-line no-console
     console.log('Upload clicked');
   }
 
   @action
   onInfo() {
-    // eslint-disable-next-line no-console
     console.log('Info clicked');
   }
 
@@ -98,31 +102,39 @@ export default class ToolbarCustomDemo extends Component {
           <div class="flex items-center gap-2">
             <div class="w-100p md-max-w-320">
               <UlxIconInput
-                @value={{this.search}}
-                @placeholder={{t "lbl.search"}}
                 @iconName="search-icon"
                 @iconType="font"
+                @iconPosition="left"
                 @iconSize="s18"
                 @iconClass="bs-icons1"
-                @onInput={{this.onSearchInput}}
-                aria-label={{t "lbl.search"}}
                 @size="m-size"
-              />
+              >
+                <UlxInput
+                  @value={{this.search}}
+                  @onInput={{this.onSearchInput}}
+                  @placeholder={{t "lbl.search"}}
+                  aria-label={{t "lbl.search"}}
+                  class="w-full"
+                />
+              </UlxIconInput>
             </div>
             <UlxDropdown
+              @key="toolbar-custom-sort-by"
               @value={{this.sortBy}}
               @options={{this.sortByOptions}}
+              @optionLabel="label"
+              @optionValue="value"
+              @placeholder={{t "demo.toolbar.sortBy"}}
               @onChange={{this.onSortByChange}}
               @size="s-size"
+              aria-label={{t "demo.toolbar.sortBy"}}
             />
           </div>
         </:start>
 
-       
-
         <:end>
           <div class="flex items-center gap-2">
-            
+
             <div class="flex items-center gap-1">
               <UlxButton
                 @variant="link"
@@ -132,9 +144,14 @@ export default class ToolbarCustomDemo extends Component {
                 @iconSize="s18"
                 @onClick={{this.onUpload}}
               />
-              <i class="bs-icons1 info-icon s18"></i>
+              <UlxIcon
+                @iconName="info-icon"
+                @type="font"
+                @componentClass="bs-icons1"
+                @size="s18"
+                aria-hidden="true"
+              />
             </div>
-            
 
             <UlxButton
               @variant="basic"
@@ -145,25 +162,26 @@ export default class ToolbarCustomDemo extends Component {
               aria-label="Info"
             />
 
-            <UlxButtonGroup @size="m-size">
-              <UlxButton
-                @variant={{if this.isListView "primary" "secondary"}}
-                @icon="list-view-icon"
-                @iconComponentClass="bs-icons1"
-                @iconSize="s18"
-                @onClick={{this.setListView}}
-                aria-label="List view"
-              />
-              <UlxButton
-                @variant={{if this.isGridView "primary" "secondary"}}
-                @icon="grid-view-icon"
-                @iconComponentClass="bs-icons1"
-                @iconSize="s18"
-                @onClick={{this.setGridView}}
-                aria-label="Grid view"
-                @customClass="active"
-              />
-            </UlxButtonGroup>
+            <UlxSelectButton
+              @options={{this.viewModeOptions}}
+              @value={{this.viewMode}}
+              @onChange={{this.onViewModeChange}}
+              @optionLabel="label"
+              @optionValue="value"
+              @variant="secondary"
+              @size="m-size"
+              @ariaLabel={{t "demo.toolbar.view.layout"}}
+            >
+              <:item as |option|>
+                <UlxIcon
+                  @iconName={{option.icon}}
+                  @type="font"
+                  @componentClass="bs-icons1"
+                  aria-hidden="true"
+                  @size="s18"
+                />
+              </:item>
+            </UlxSelectButton>
           </div>
         </:end>
       </UlxToolbar>

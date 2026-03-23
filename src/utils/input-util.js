@@ -21,6 +21,22 @@ export function buildToggleId(namespace, idArg, key) {
 	return `${namespace}-toggle-${key}`;
 }
 
+/**
+ * Stable row key and native input id for `UlxOptionSegment` items (aligned with UlxCheckbox group ids).
+ * Use the same value for `{{#each key=}}` and for the embedded control `@id`.
+ *
+ * @param {object} [item] - May include string `id` when the list can reorder.
+ * @param {number} index - Zero-based row index.
+ * @param {string} segmentIdBase - Base id from the segment (`@id` / `@key` / auto).
+ * @returns {string|undefined}
+ */
+export function optionSegmentRowKey(item, index, segmentIdBase) {
+	const rowId = item?.id;
+	if (typeof rowId === 'string' && rowId.length > 0) return rowId;
+	if (typeof segmentIdBase !== 'string' || segmentIdBase.length === 0) return undefined;
+	return index === 0 ? segmentIdBase : `${segmentIdBase}-item-${index}`;
+}
+
 export function resolveFloatLabelText(floatLabelArg, labelArg) {
 	if (typeof floatLabelArg === 'string') {
 		return floatLabelArg;

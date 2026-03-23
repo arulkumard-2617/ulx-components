@@ -5,7 +5,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * Badge component for displaying status indicators, labels, and small text badges.
  *
  * ## WCAG
- * - **Dot badges**: Always decorative (`aria-hidden="true"`) as they are purely visual indicators. Cannot be made accessible.
+ * - **Dot badges**: Decorative (`aria-hidden="true"`) when no `@ariaLabel`. With `@ariaLabel`, exposed for assistive tech like other meaningful badges.
  * - **Badges with content**: Decorative by default (`aria-hidden="true"`). For meaningful badges, provide `@ariaLabel` prop to make them accessible (automatically sets `aria-hidden="false"` and `role="status"`).
  * - **Interactive badges**: When `@clickable` or `@interactive` is true, automatically makes badge focusable (`tabindex="0"`). Requires `@ariaLabel` for accessible name.
  * - **Override via attributes**: You can override accessibility attributes via `...attributes` (e.g., `aria-hidden="false"`, `role="status"`, `aria-label="..."`).
@@ -14,7 +14,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string|number} [value] - Content to display inside the badge. If not provided, children will be rendered.
  * @param {string} [variant] - Color variant: "primary" | "secondary" | "success" | "info" | "warning" | "danger" | "contrast" | "light-grey". Defaults to "primary".
  * @param {string} [size] - Size variant: "xs-size" | "s-size" | "m-size" | "l-size" | "xl-size". Defaults to "s-size".
- * @param {string} [type] - Badge type: "circle" | "dot" | "square" (default). "dot" renders as a dot indicator without text content. "circle" applies fully rounded shape.
+ * @param {string} [type] - Badge type: "circle" | "dot" | "square" (default). "dot" renders as a dot indicator without text content; use `@ariaLabel` for a meaningful dot. "circle" applies fully rounded shape.
  * @param {string} [ariaLabel] - Accessible name for meaningful badges. When provided, automatically sets `aria-hidden="false"` and `role="status"`.
  * @param {boolean} [disabled=false] - When true, applies disabled styling and prevents interaction.
  * @param {boolean} [clickable=false] - When true, applies clickable styling with hover/active states. Requires `@ariaLabel` for accessibility.
@@ -71,16 +71,14 @@ export default class UlxBadge extends Component {
 	}
 
 	get ariaHidden() {
-		// Dot badges are always decorative (purely visual)
-		if (this.isDot) {
+		if (this.isDot && !this.hasAriaLabel) {
 			return "true";
 		}
 		return this.hasAriaLabel ? "false" : "true";
 	}
 
 	get role() {
-		// Only set role when badge is meaningful (has aria-label) and not a dot (dots are always decorative)
-		return this.hasAriaLabel && !this.isDot ? "status" : undefined;
+		return this.hasAriaLabel ? "status" : undefined;
 	}
 
 	get tabindex() {
