@@ -457,7 +457,8 @@ export default class UlxMultiSelect extends Component {
 	get headerSelectableCount() {
 		const visible = this.visibleOptions;
 		if (!visible.length) return 0;
-		return visible.filter((entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry))).length;
+		return visible.filter((entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry)))
+			.length;
 	}
 
 	get headerSelectedCount() {
@@ -486,7 +487,9 @@ export default class UlxMultiSelect extends Component {
 		}
 		const visible = this.visibleOptions;
 		if (!visible.length) return false;
-		const selectable = visible.filter((entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry)));
+		const selectable = visible.filter(
+			(entry) => !this.isOptionDisabled(this.visibleEntryToOption(entry))
+		);
 		return selectable.every((entry) => this.isOptionSelected(this.visibleEntryToOption(entry)));
 	}
 
@@ -1229,18 +1232,18 @@ export default class UlxMultiSelect extends Component {
 
 	<template>
 		<div
-				id={{this.triggerId}}
-				class={{this.rootClasses}}
-				role="combobox"
-				aria-haspopup="listbox"
-				aria-expanded={{this.overlayVisible}}
-				aria-controls={{this.listboxId}}
-				aria-multiselectable="true"
-				aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
-				aria-required={{this.isRequired}}
-				aria-describedby={{this.ariaDescribedBy}}
-				aria-errormessage={{this.ariaErrorMessage}}
-				tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
+			id={{this.triggerId}}
+			class={{this.rootClasses}}
+			role="combobox"
+			aria-haspopup="listbox"
+			aria-expanded={{this.overlayVisible}}
+			aria-controls={{this.listboxId}}
+			aria-multiselectable="true"
+			aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
+			aria-required={{this.isRequired}}
+			aria-describedby={{this.ariaDescribedBy}}
+			aria-errormessage={{this.ariaErrorMessage}}
+			tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 			{{this.triggerRef}}
 			{{overlayDismiss
 				this.overlayVisible
@@ -1254,89 +1257,89 @@ export default class UlxMultiSelect extends Component {
 			{{on "focus" this.handleFocus}}
 			{{on "blur" this.handleBlur}}
 			...attributes
-			>
-				<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
-					{{#if (has-block "value")}}
-						<div class="flex items-center">
-							{{yield
-								(hash
-									selectedOptions=this.selectedOptions
-									selectedLabels=this.selectedLabelsComma
-									placeholder=this.placeholderDisplay
-								)
-								to="value"
-							}}
-						</div>
-					{{else}}
-						{{#if this.displayChips}}
-							{{#if this.hasValue}}
-								<div class="multiselect-label">
-									{{#each this.selectedOptions as |option|}}
-										{{#if (has-block "chip")}}
-											{{yield
-												(hash
-													option=option
-													label=(this.getOptionLabel option)
-													value=(this.getOptionValue option)
-												)
-												to="chip"
-											}}
-										{{else}}
-											<span class="multiselect-token">
-												<span class="multiselect-token-label">
-													{{this.getOptionLabel option}}
-												</span>
-												<UlxIcon
-													@type="font"
-													@iconName="close-stroke-icon"
-													@componentClass="bs-icons1"
-													@size="s16"
-													class="multiselect-token-icon"
-													role="button"
-													tabindex="0"
-													aria-label={{t "lbl.remove"}}
-													{{on "click" (fn this.removeChipOption option)}}
-													{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
-												/>
-											</span>
-										{{/if}}
-									{{/each}}
-								</div>
-							{{else}}
-								<span class="multiselect-label">{{this.placeholderDisplay}}</span>
-							{{/if}}
-						{{else}}
-							{{#if this.hasValue}}
-								<span class="multiselect-label">{{this.selectedLabelsComma}}</span>
-							{{else}}
-								<span class="multiselect-label">{{this.placeholderDisplay}}</span>
-							{{/if}}
-						{{/if}}
-					{{/if}}
-				</div>
-
-				{{#if (and @loading)}}
-					<span class="multiselect-loading-icon" aria-hidden="true">
-						<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
-					</span>
+		>
+			<div class="multiselect-label-container {{this.displayClass}}" tabindex="-1">
+				{{#if (has-block "value")}}
+					<div class="flex items-center">
+						{{yield
+							(hash
+								selectedOptions=this.selectedOptions
+								selectedLabels=this.selectedLabelsComma
+								placeholder=this.placeholderDisplay
+							)
+							to="value"
+						}}
+					</div>
 				{{else}}
-					{{#if (has-block "icon")}}
-						{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
+					{{#if this.displayChips}}
+						{{#if this.hasValue}}
+							<div class="multiselect-label">
+								{{#each this.selectedOptions as |option|}}
+									{{#if (has-block "chip")}}
+										{{yield
+											(hash
+												option=option
+												label=(this.getOptionLabel option)
+												value=(this.getOptionValue option)
+											)
+											to="chip"
+										}}
+									{{else}}
+										<span class="multiselect-token">
+											<span class="multiselect-token-label">
+												{{this.getOptionLabel option}}
+											</span>
+											<UlxIcon
+												@type="font"
+												@iconName="close-stroke-icon"
+												@componentClass="bs-icons1"
+												@size="s16"
+												class="multiselect-token-icon"
+												role="button"
+												tabindex="0"
+												aria-label={{t "lbl.remove"}}
+												{{on "click" (fn this.removeChipOption option)}}
+												{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
+											/>
+										</span>
+									{{/if}}
+								{{/each}}
+							</div>
+						{{else}}
+							<span class="multiselect-label">{{this.placeholderDisplay}}</span>
+						{{/if}}
 					{{else}}
-						<div
-							class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
-							tabindex="-1"
-						>
-							<UlxIcon
-								@iconName="down-stroke-icon-new multiselect-icon"
-								@type="font"
-								@componentClass="bs-icons1"
-								aria-hidden="true"
-							/>
-						</div>
+						{{#if this.hasValue}}
+							<span class="multiselect-label">{{this.selectedLabelsComma}}</span>
+						{{else}}
+							<span class="multiselect-label">{{this.placeholderDisplay}}</span>
+						{{/if}}
 					{{/if}}
 				{{/if}}
 			</div>
+
+			{{#if (and @loading)}}
+				<span class="multiselect-loading-icon" aria-hidden="true">
+					<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden="true" />
+				</span>
+			{{else}}
+				{{#if (has-block "icon")}}
+					{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
+				{{else}}
+					<div
+						class="multiselect-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+						tabindex="-1"
+					>
+						<UlxIcon
+							@iconName="down-stroke-icon-new multiselect-icon"
+							@type="font"
+							@componentClass="bs-icons1"
+							aria-hidden="true"
+						/>
+					</div>
+				{{/if}}
+			{{/if}}
+		</div>
 
 		{{#if this.overlayVisible}}
 			<div
@@ -1452,8 +1455,8 @@ export default class UlxMultiSelect extends Component {
 													}}
 													{{if (this.isOptionSelected option) 'selected' ''}}
 													{{if (this.isOptionDisabled option) 'disabled' ''}}"
-												aria-selected={{this.isOptionSelected option}}
-												aria-disabled={{this.isOptionDisabled option}}
+												aria-selected="{{this.isOptionSelected option}}"
+												aria-disabled="{{this.isOptionDisabled option}}"
 												tabindex="-1"
 												style="height: {{this.virtualItemSize}}px;"
 												{{on "click" (fn this.selectOption entry)}}

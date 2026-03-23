@@ -26,7 +26,6 @@ export default class DemoSelectButtonTemplate extends Component {
       @value={{this.value}}
       @onChange={{this.onChange}}
       @optionLabel="value"
-      @optionValue="value"
       @ariaLabel={{t "demo.selectbutton.alignment"}}
     >
       <:item as |option|>
