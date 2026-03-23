@@ -9734,7 +9734,9 @@ summary:focus-visible,
 }
 .ulx-radiobutton:has(.radiobutton-input:focus-visible):not(.disabled) .radiobutton-box,
 .ulx-checkbox:has(.checkbox-input:focus-visible):not(.disabled) .checkbox-box,
-.ulx-inputswitch:has(.inputswitch-input:focus-visible):not(.disabled) .inputswitch-slider {
+.ulx-inputswitch:has(.inputswitch-input:focus-visible):not(.disabled) .inputswitch-slider,
+.ulx-multiselect-panel .multiselect-item:not(.disabled):focus-visible,
+.ulx-multiselect-panel .multiselect-item:not(.disabled):has(:focus-visible) {
   outline: 2px solid var(--ulx-focus-default-color, #cd9747) !important;
   outline-offset: 2px !important;
   transition: none !important;
@@ -14135,25 +14137,7 @@ FEATURES IMPLEMENTED:
 .ulx-dropdown:hover:not(.disabled) {
   border-color: var(--ulx-primary-hover-color);
 }
-.ulx-dropdown.outlined {
-  background-color: var(--ulx-input-bg-color);
-  border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-dropdown.outlined:hover:not(.disabled) {
-  border-color: var(--ulx-primary-hover-color);
-}
-.ulx-dropdown.filled {
-  background-color: var(--ulx-secondary-bg);
-  border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-dropdown.filled:hover:not(.disabled) {
-  background-color: color-mix(in srgb, var(--ulx-layer1-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-17));
-}
-.ulx-dropdown.filled.disabled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
-}
-.ulx-dropdown.invalid:not(.outlined):not(.filled) {
+.ulx-dropdown.invalid:not(.filled) {
   border-color: var(--ulx-red-bg-color, #CF1322);
   box-shadow: 0 0 0 0.15rem var(--ulx-red-layer1-bg, #FFF1F0);
   background-color: var(--ulx-input-bg-color);
@@ -14165,42 +14149,9 @@ FEATURES IMPLEMENTED:
   border-color: var(--ulx-red-border, #CF1322);
   box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
 }
-.ulx-dropdown.invalid.outlined {
-  border-color: var(--ulx-red-bg-color, #CF1322);
-  box-shadow: 0 0 0 0.15rem var(--ulx-red-layer1-bg, #FFF1F0);
-  background-color: var(--ulx-input-bg-color);
-  border-color: var(--ulx-error-border-color, #FFA39E);
-  box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
-  border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
-  background-color: var(--ulx-input-bg-color) !important;
-  border-color: var(--ulx-red-border, #CF1322);
-  box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
-}
-.ulx-dropdown.invalid.filled {
-  border-color: var(--ulx-red-bg-color, #CF1322);
-  box-shadow: 0 0 0 0.15rem var(--ulx-red-layer1-bg, #FFF1F0);
-  background-color: var(--ulx-input-bg-color);
-  border-color: var(--ulx-error-border-color, #FFA39E);
-  box-shadow: 0 0 0 0.15rem var(--ulx-error-border-color, #FFA39E);
-  border-color: var(--ulx-error-border-color, #FFA39E) !important;
-  box-shadow: 0 0 0 0.07142857rem var(--ulx-error-border-color, #FFA39E) !important;
-  background-color: var(--ulx-input-bg-color) !important;
-  border-color: var(--ulx-red-border, #CF1322);
-  box-shadow: 0 0 0 0.2rem var(--ulx-red-border, #CF1322);
-  background-color: var(--ulx-red-layer1-bg, #FFF1F0);
-}
-.ulx-dropdown.disabled:not(.outlined):not(.filled) {
+.ulx-dropdown.disabled:not(.filled) {
   background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
   border-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-}
-.ulx-dropdown.disabled.outlined {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-}
-.ulx-dropdown.disabled.filled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
 }
 @media only screen and (max-width: 767px) {
   .ulx-dropdown {
@@ -22414,24 +22365,6 @@ img.flag {
 .ulx-multiselect:not(.filled):hover:not(.disabled) {
   border-color: var(--ulx-primary-hover-color);
 }
-.ulx-multiselect.outlined {
-  background-color: var(--ulx-input-bg-color);
-  border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-multiselect.outlined:hover:not(.disabled) {
-  border-color: var(--ulx-primary-hover-color);
-}
-.ulx-multiselect.filled {
-  background-color: var(--ulx-secondary-bg);
-  border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-multiselect.filled:hover:not(.disabled) {
-  background-color: color-mix(in srgb, var(--ulx-layer1-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-17));
-}
-.ulx-multiselect.filled.disabled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
-}
 .ulx-multiselect.chip-display .ulx-multiselect .multiselect-label-container {
   gap: 0.28571429rem;
 }
@@ -22441,16 +22374,9 @@ img.flag {
 .ulx-multiselect.invalid:not(.filled) {
   border-color: var(--ulx-red-border, #CF1322);
 }
-.ulx-multiselect.invalid.filled {
-  background-color: var(--ulx-red-layer1-bg, #FFF1F0);
-}
 .ulx-multiselect.disabled:not(.filled) {
   background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
   border-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-}
-.ulx-multiselect.disabled.filled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
 }
 @media only screen and (max-width: 767px) {
   .ulx-multiselect {

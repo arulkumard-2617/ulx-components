@@ -24,7 +24,7 @@ import { hash, concat } from "@ember/helper";
 
 /**
  * Dropdown select: single selection from a list with optional filter, groups, templates.
- * Supports: basic, checkmark, group, template, filter, clear icon, loading, filled, invalid, disabled.
+ * Supports: basic, checkmark, group, template, filter, clear icon, loading, invalid, disabled.
  * Use `UlxField` for labels, help, and errors; use `UlxFloatLabel` for floating labels.
  * Accessible: listbox role, keyboard nav, ARIA.
  *
@@ -50,7 +50,6 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [filter=false] - Show filter input in panel.
  * @param {boolean} [showClear=false] - Show clear icon when value is set.
  * @param {boolean} [checkmark=false] - Show checkmark on selected item.
- * @param {boolean} [filled=false] - Filled variant styling.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
@@ -113,7 +112,6 @@ export default class UlxDropdown extends Component {
 			disabled = false,
 			invalid: invalidArg = false,
 			error,
-			filled = false,
 			loading = false,
 			size = "m-size",
 			customClass
@@ -124,7 +122,6 @@ export default class UlxDropdown extends Component {
 		(disabled || loading) && parts.push("disabled");
 		invalid && parts.push("invalid");
 		loading && parts.push("loading");
-		filled && parts.push("filled");
 		this.overlayVisible && parts.push("open");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");

@@ -23,7 +23,6 @@ const stateToProps = (state) => ({
   selectAll: state.selectAll,
   disabled: state.disabled,
   invalid: state.invalid,
-  filled: state.filled,
 });
 
 const stateToSnippet = (state) => {
@@ -42,7 +41,6 @@ const stateToSnippet = (state) => {
   if (state.selectAll) msAttrs.push('@selectAll={{true}}');
   if (state.disabled) msAttrs.push('@disabled={{true}}');
   if (state.invalid) msAttrs.push('@invalid={{true}}');
-  if (state.filled) msAttrs.push('@filled={{true}}');
 
   const fieldBlock = fieldAttrs.length ? `  ${fieldAttrs.join('\n  ')}\n` : '';
   const msBlock = msAttrs.length ? `    ${msAttrs.join('\n    ')}\n` : '';
@@ -123,12 +121,6 @@ export default {
     {
       key: 'invalid',
       label: 'Invalid',
-      type: 'checkbox',
-      default: false,
-    },
-    {
-      key: 'filled',
-      label: 'Filled',
       type: 'checkbox',
       default: false,
     },

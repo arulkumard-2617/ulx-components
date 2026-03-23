@@ -2,7 +2,7 @@ import {
   UlxInput,
   UlxField,
   UlxInputGroup,
-  UlxButton,
+  UlxIconButton,
   t,
 } from 'ulx-components';
 
@@ -26,10 +26,10 @@ import {
         </:input>
 
         <:end>
-          <UlxButton
+          <UlxIconButton
             @variant="basic"
             @size="compact"
-            @icon="time-icon"
+            @iconLeft="time-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             aria-label={{t "lbl.start.time"}}

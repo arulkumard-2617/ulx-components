@@ -20,7 +20,7 @@ export default {
   ],
 
   importMsg:
-    "import { UlxDropdown, UlxField } from 'ulx-components'  // use UlxFloatLabel for floating labels",
+    "import { UlxDropdown, UlxField } from 'ulx-components'",
 
   accessibility: {
     description: 'Dropdown uses combobox and listbox roles with keyboard navigation and ARIA attributes.',

@@ -106,7 +106,7 @@ export default class UlxModalHeader extends Component {
 			<div class="dialog-header-icons">
 				{{#if this.showMaximizeButton}}
 					<UlxIconButton
-						@icon={{this.currentMaximizeIconName}}
+						@iconLeft={{this.currentMaximizeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
 						@text={{true}}
@@ -120,7 +120,7 @@ export default class UlxModalHeader extends Component {
 
 				{{#if this.showCloseButton}}
 					<UlxIconButton
-						@icon={{this.closeIconName}}
+						@iconLeft={{this.closeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
 						@iconSize={{this.iconSize}}

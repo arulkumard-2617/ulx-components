@@ -11,8 +11,6 @@ export { default as FilterDemo } from '../../../../components/Demo/Multiselect/F
 export { default as AllowAdditionDemo } from '../../../../components/Demo/Multiselect/AllowAddition';
 export { default as VirtualScrollDemo } from '../../../../components/Demo/Multiselect/VirtualScroll';
 export { default as LoadingStateDemo } from '../../../../components/Demo/Multiselect/LoadingState';
-export { default as FloatLabelDemo } from '../../../../components/Demo/Multiselect/FloatLabel';
-export { default as FilledDemo } from '../../../../components/Demo/Multiselect/Filled';
 export { default as InvalidDemo } from '../../../../components/Demo/Multiselect/Invalid';
 export { default as DisabledDemo } from '../../../../components/Demo/Multiselect/Disabled';
 export { default as AccessibilityDemo } from '../../../../components/Demo/Multiselect/Accessibility';
@@ -27,8 +25,6 @@ export { default as FilterSource } from './snippets/Filter.gjs';
 export { default as AllowAdditionSource } from './snippets/AllowAddition.gjs';
 export { default as VirtualScrollSource } from './snippets/VirtualScroll.gjs';
 export { default as LoadingStateSource } from './snippets/LoadingState.gjs';
-export { default as FloatLabelSource } from './snippets/FloatLabel.gjs';
-export { default as FilledSource } from './snippets/Filled.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';
 export { default as AccessibilitySource } from './snippets/Accessibility.gjs';

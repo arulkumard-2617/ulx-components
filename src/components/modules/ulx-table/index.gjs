@@ -1329,7 +1329,7 @@ export default class UlxTable extends Component {
 									<UlxIconButton
 										@variant="outlined"
 										@size="m-size"
-										@icon="filter-icon"
+										@iconLeft="filter-icon"
 										@iconComponentClass="bs-icons1"
 										aria-label={{t "lbl.filter"}}
 										{{on "click" this.openFilterPane}}
@@ -1339,7 +1339,7 @@ export default class UlxTable extends Component {
 									<UlxIconButton
 										@variant="outlined"
 										@size="m-size"
-										@icon="sort-icon"
+										@iconLeft="sort-icon"
 										@iconComponentClass="bs-icons1"
 										aria-label={{t "lbl.sort"}}
 										aria-expanded={{this.showSortPopover}}
@@ -1350,7 +1350,7 @@ export default class UlxTable extends Component {
 									<UlxIconButton
 										@variant="outlined"
 										@size="m-size"
-										@icon="columns-icon"
+										@iconLeft="columns-icon"
 										@iconComponentClass="bs-icons1"
 										aria-label={{t "lbl.columns"}}
 										{{on "click" this.openManageColumns}}
@@ -1441,7 +1441,7 @@ export default class UlxTable extends Component {
 								@variant="link"
 								@size="s-size"
 								@iconSize="s18"
-								@icon="remove-icon"
+								@iconLeft="remove-icon"
 								@customClass="filter-bubble-remove-btn"
 								@onClick={{fn this.deleteFilterFromBubble bubble.field}}
 								aria-label={{t "lbl.delete.filter"}}
@@ -1452,7 +1452,7 @@ export default class UlxTable extends Component {
 						@variant="danger"
 						@text={{true}}
 						@size="compact"
-						@icon="delete-icon-02"
+						@iconLeft="delete-icon-02"
 						@label={{t "lbl.clear.filters"}}
 						@onClick={{this.handleClearAllFilters}}
 					/>
@@ -1820,7 +1820,7 @@ export default class UlxTable extends Component {
 									@variant="danger"
 									@text={{true}}
 									@size="s-size"
-									@icon="delete-icon-02"
+									@iconLeft="delete-icon-02"
 									@iconComponentClass="bs-icons1"
 									@label={{t "lbl.delete.filter"}}
 									@onClick={{fn this.deleteFilterFromBubble this.activeBubble.field}}

@@ -19,7 +19,6 @@ const stateToProps = (state) => ({
   filter: state.filter,
   disabled: state.disabled,
   invalid: state.invalid,
-  filled: state.filled,
   helpText: state.showHelp ? 'Help text' : undefined,
   error: state.showError ? 'Error message' : undefined,
 });
@@ -31,7 +30,6 @@ const stateToSnippet = (state) => {
   if (state.filter) attrs.push('@filter={{true}}');
   if (state.disabled) attrs.push('@disabled={{true}}');
   if (state.invalid) attrs.push('@invalid={{true}}');
-  if (state.filled) attrs.push('@filled={{true}}');
   const fieldParts = ['@key="city-field"'];
   if (state.label) fieldParts.unshift(`@label="${state.label}"`);
   if (state.fieldClass) fieldParts.push(`@fieldClass="${state.fieldClass}"`);
@@ -112,12 +110,6 @@ export default {
     {
       key: 'invalid',
       label: 'Invalid',
-      type: 'checkbox',
-      default: false,
-    },
-    {
-      key: 'filled',
-      label: 'Filled',
       type: 'checkbox',
       default: false,
     },
