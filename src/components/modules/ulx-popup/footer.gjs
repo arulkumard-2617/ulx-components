@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import { t } from "../../../utils/i18n";
 
 /**
@@ -74,7 +75,7 @@ export default class UlxPopupFooter extends Component {
 	<template>
 		<div class={{this.footerWrapperClass}}>
 			{{#if this.showTertiaryButton}}
-				<UlxButton
+				<UlxIconButton
 					@label={{this.tertiaryLabel}}
 					@icon={{this.args.tertiaryButtonIcon}}
 					@iconPos={{this.args.tertiaryIconPos}}

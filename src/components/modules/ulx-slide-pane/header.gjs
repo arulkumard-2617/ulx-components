@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
-import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import { t } from "../../../utils/i18n";
 
 /**
@@ -136,7 +136,7 @@ export default class UlxSlidePaneHeader extends Component {
 
 			<div class="slidepane-header-icons">
 				{{#if this.showMaximizeButton}}
-					<UlxButton
+					<UlxIconButton
 						@icon={{this.currentMaximizeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
@@ -148,7 +148,7 @@ export default class UlxSlidePaneHeader extends Component {
 					/>
 				{{/if}}
 				{{#if this.showCloseButton}}
-					<UlxButton
+					<UlxIconButton
 						@icon={{this.closeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}

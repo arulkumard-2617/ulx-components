@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import {
   UlxButton,
+  UlxIconButton,
   UlxDropdown,
   UlxBadge,
   UlxSlidePane,
@@ -242,13 +243,13 @@ export default class UlxDocsHeaderComponent extends Component {
             </:value>
           </UlxDropdown>
 
-          <UlxButton
+          <UlxIconButton
             @icon={{if this.isDarkMode "light-mode-icon" "dark-mode-icon"}}
             @variant="basic"
             @onClick={{this.toggleDarkMode}}
           />
 
-          <UlxButton
+          <UlxIconButton
             @icon="accessibility-icon"
             @variant="basic"
             @onClick={{this.openAccessibilityPane}}
