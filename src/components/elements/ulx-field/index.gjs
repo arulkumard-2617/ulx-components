@@ -2,15 +2,19 @@ import Component from "@glimmer/component";
 import { guidFor } from "@ember/object/internals";
 import UlxIcon from "../ulx-icon/index.gjs";
 import tooltip from "../../../modifiers/tooltip";
-import { hash } from "@ember/helper";
 import { or } from "ember-truth-helpers";
 
-import { buildFieldClass, normalizeRules, getRuleValue } from "../../../utils/input-util";
+import {
+	buildFieldClass,
+	getConstraintValue,
+	isRulesRequired,
+	normalizeRules
+} from "../../../utils/input-util";
 
 /**
  * Field wrapper: label, control yield, help, and error. `@fieldId` sets the field id (label `for`, help/error ids).
  *
- * **Control slot (field hash: `key`, `describedBy`, `errorId`):** Prefer the **default block** — `<UlxField ... as |field|>…</UlxField>` — and pass `@key={{field.key}}` (etc.) on the control. The named `<:control>` block is still supported for the same hash.
+ * **Control wiring (yield hash: `key`, `describedBy`, `errorId`, `rules`, `error`):** Use `<UlxField ... as |field|>…</UlxField>` and pass `@field={{field}}` on the control. With other named blocks (`assistive`, etc.), use `<:default as |field|>…</:default>`—Ember does not allow mixing an implicit default block with other named blocks on the same invocation.
  *
  * @class UlxField
  * @param {string} [fieldClass] - Extra classes on the root `.field` wrapper.
@@ -19,7 +23,7 @@ import { buildFieldClass, normalizeRules, getRuleValue } from "../../../utils/in
  * @param {string} [helpText] - Help copy rendered below the control (linked via `aria-describedby`).
  * @param {string} [error] - Error copy; when set, invalid region is shown and linked via `aria-errormessage`.
  * @param {string} [tooltipMessage] - Optional info icon tooltip next to the label.
- * @param {object} [rules] - e.g. `{ required: true }` for required marker and rule metadata.
+ * @param {object} [rules] - `{ required: true }` or editor-style `{ required: t('…'), format: { with, allowBlank, msg }, maxLength: { value?, msg } }`.
  */
 export default class UlxField extends Component {
 	get fieldClass() {
@@ -36,15 +40,15 @@ export default class UlxField extends Component {
 	}
 
 	get isRequired() {
-		return !!this.rules.required;
+		return isRulesRequired(this.rules);
 	}
 
 	get minLength() {
-		return getRuleValue(this.rules, "minLength");
+		return getConstraintValue(this.rules, "minLength");
 	}
 
 	get maxLength() {
-		return getRuleValue(this.rules, "maxLength");
+		return getConstraintValue(this.rules, "maxLength");
 	}
 
 	get hasMeta() {
@@ -85,6 +89,18 @@ export default class UlxField extends Component {
 		return !!(this.args.error && this.fieldId);
 	}
 
+	get controlYieldHash() {
+		const { rules, error } = this.args;
+
+		return {
+			key: this.fieldId,
+			describedBy: this.describedBy,
+			errorId: this.errorId,
+			rules,
+			error
+		};
+	}
+
 	<template>
 		<div class={{this.fieldClass}}>
 
@@ -120,7 +136,7 @@ export default class UlxField extends Component {
 				</label>
 			{{/if}}
 
-			{{yield (hash key=this.fieldId describedBy=this.describedBy errorId=this.errorId)}}
+			{{yield this.controlYieldHash}}
 
 			{{! HELP }}
 			{{#if (has-block "helptext")}}
@@ -135,7 +151,12 @@ export default class UlxField extends Component {
 			{{#if (has-block "error")}}
 				{{yield to="error"}}
 			{{else if this.hasError}}
-				<div id="{{this.fieldId}}-error" class="error-message" role="alert" aria-atomic="true">
+				<div
+					id="{{this.fieldId}}-error"
+					class="error-message fg-red"
+					role="alert"
+					aria-atomic="true"
+				>
 					*{{@error}}
 				</div>
 			{{/if}}

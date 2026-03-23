@@ -24,7 +24,7 @@ export default class DemoMultiselectFloatLabel extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField @fieldId="multiselect-float-label" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -37,7 +37,7 @@ export default class DemoMultiselectFloatLabel extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             @label={{t "lbl.dropdown.float.label.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

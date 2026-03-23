@@ -17,7 +17,7 @@ export default class DemoPasswordLocale extends Component {
 
       <UlxField @fieldClass="col-4" @label={{t "lbl.password"}}>
 
-        <:control>
+        <:default>
           <UlxPassword
             @value={{this.value}}
             @onInput={{this.handleInput}}
@@ -28,7 +28,7 @@ export default class DemoPasswordLocale extends Component {
             @toggleMask={{true}}
             @placeholder={{t "lbl.enter.password"}}
           />
-        </:control>
+        </:default>
 
       </UlxField>
 

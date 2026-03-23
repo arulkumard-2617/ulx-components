@@ -30,7 +30,7 @@ export default class DemoMultiselectTemplate extends Component {
         @fieldId="multiselect-template"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -52,7 +52,7 @@ export default class DemoMultiselectTemplate extends Component {
               <span>{{ctx.label}}</span>
             </:item>
           </UlxMultiSelect>
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

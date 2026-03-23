@@ -7,8 +7,6 @@ export { default as MeterDemo } from '../../../../components/Demo/Password/Meter
 export { default as LocaleDemo } from '../../../../components/Demo/Password/Locale';
 export { default as ToggleMaskDemo } from '../../../../components/Demo/Password/ToggleMask';
 export { default as TemplateDemo } from '../../../../components/Demo/Password/Template';
-export { default as FloatLabelDemo } from '../../../../components/Demo/Password/FloatLabel';
-export { default as FilledDemo } from '../../../../components/Demo/Password/Filled';
 export { default as InvalidDemo } from '../../../../components/Demo/Password/Invalid';
 export { default as DisabledDemo } from '../../../../components/Demo/Password/Disabled';
 
@@ -18,8 +16,6 @@ export { default as MeterSource } from './snippets/Meter.gjs';
 export { default as LocaleSource } from './snippets/Locale.gjs';
 export { default as ToggleMaskSource } from './snippets/ToggleMask.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as FloatLabelSource } from './snippets/FloatLabel.gjs';
-export { default as FilledSource } from './snippets/Filled.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';
 export { default as AccessibilitySource } from './snippets/Accessibility.gjs';

@@ -5,7 +5,6 @@ import { action } from '@ember/object';
 import {
   UlxInput,
   UlxButton,
-  UlxField,
   UlxInputGroup,
   t,
 } from 'ulx-components';
@@ -66,7 +65,7 @@ export default class DemoInputGroupVerticalStack extends Component {
 
       <div class="field col-12">
         <label>
-          <span class="label-text">Duration</span>
+          <span class="label-text">{{t "lbl.duration"}}</span>
         </label>
 
         <div class="ulx-grid gap-3">
@@ -81,12 +80,12 @@ export default class DemoInputGroupVerticalStack extends Component {
                   @rules={{this.hourRules}}
                   @onChange={{this.updateHours}}
                   type="number"
-                  aria-label="Hours"
+                  aria-label={{t "lbl.duration.hours"}}
                 />
               </:input>
 
               <:end>
-                <span class="inputgroup-addon text-addon">Hr</span>
+                <span class="inputgroup-addon text-addon">{{t "lbl.hr"}}</span>
 
                 <span class="inputgroup-addon vertical-stack-addon">
                   <UlxButton
@@ -96,7 +95,7 @@ export default class DemoInputGroupVerticalStack extends Component {
                     @iconSize="s14"
                     @onClick={{this.incrementHours}}
                     @disabled={{eq this.hours this.hourMax}}
-                    aria-label="Increment"
+                    aria-label={{t "lbl.increment"}}
                   />
 
                   <UlxButton
@@ -106,7 +105,7 @@ export default class DemoInputGroupVerticalStack extends Component {
                     @iconSize="s14"
                     @onClick={{this.decrementHours}}
                     @disabled={{eq this.hours this.hourMin}}
-                    aria-label="Decrement"
+                    aria-label={{t "lbl.decrement"}}
                   />
                 </span>
               </:end>
@@ -124,12 +123,12 @@ export default class DemoInputGroupVerticalStack extends Component {
                   @rules={{this.minuteRules}}
                   @onChange={{this.updateMinutes}}
                   type="number"
-                  aria-label="Minutes"
+                  aria-label={{t "lbl.duration.minutes"}}
                 />
               </:input>
 
               <:end>
-                <span class="inputgroup-addon text-addon">Mins</span>
+                <span class="inputgroup-addon text-addon">{{t "lbl.min"}}</span>
 
                 <span class="inputgroup-addon vertical-stack-addon">
                   <UlxButton
@@ -139,7 +138,7 @@ export default class DemoInputGroupVerticalStack extends Component {
                     @iconSize="s14"
                     @onClick={{this.incrementMinutes}}
                     @disabled={{eq this.minutes this.minuteMax}}
-                    aria-label="Increment"
+                    aria-label={{t "lbl.increment"}}
                   />
 
                   <UlxButton
@@ -149,7 +148,7 @@ export default class DemoInputGroupVerticalStack extends Component {
                     @iconSize="s14"
                     @onClick={{this.decrementMinutes}}
                     @disabled={{eq this.minutes this.minuteMin}}
-                    aria-label="Decrement"
+                    aria-label={{t "lbl.decrement"}}
                   />
                 </span>
               </:end>

@@ -30,7 +30,7 @@ export default class DemoDropdownEditable extends Component {
         @fieldId="dropdown-editable"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -42,7 +42,7 @@ export default class DemoDropdownEditable extends Component {
             @placeholder={{t "msg.dropdown.select.or.type"}}
           />
 
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

@@ -28,10 +28,10 @@ export default class DemoDropdownEditable extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
         @label={{t "lbl.dropdown.editable"}}
-        @id="dropdown-editable"
+        @fieldId="dropdown-editable"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -42,7 +42,8 @@ export default class DemoDropdownEditable extends Component {
             @editable={{true}}
             @placeholder={{t "msg.dropdown.select.or.type"}}
           />
-        </:control>
+
+        </:default>
       </UlxField>
     </div>
   </template>

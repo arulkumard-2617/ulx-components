@@ -42,7 +42,7 @@ export default class DemoMultiselectGroup extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField @label={{t "lbl.group"}} @fieldId="multiselect-group" @fieldClass="col-6">
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -56,7 +56,7 @@ export default class DemoMultiselectGroup extends Component {
             @selectAll={{true}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

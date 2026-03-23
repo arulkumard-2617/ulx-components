@@ -30,7 +30,7 @@
             @error={{props.error}}
             @key="doc-builder-dropdown"
           >
-            <:control as |field|>
+            <:default as |field|>
               <UlxDropdown
                 @key={{field.key}}
                 @ariaDescribedBy={{field.describedBy}}
@@ -43,7 +43,7 @@
                 @invalid={{props.invalid}}
                 @filled={{props.filled}}
               />
-            </:control>
+            </:default>
           </UlxField>
         </div>
       </:preview>

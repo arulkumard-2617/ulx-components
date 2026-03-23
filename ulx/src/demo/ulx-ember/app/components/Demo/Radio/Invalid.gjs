@@ -42,7 +42,7 @@ export default class InvalidRadioDemo extends Component {
         @fieldClass="col-12"
         @key="radio-invalid"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxRadio
             @key={{field.key}}
             @rules={{this.requiredRules}}
@@ -52,7 +52,7 @@ export default class InvalidRadioDemo extends Component {
             @onItemChange={{this.handleItemChange}}
             @error={{this.error}}
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <div class="col-12">

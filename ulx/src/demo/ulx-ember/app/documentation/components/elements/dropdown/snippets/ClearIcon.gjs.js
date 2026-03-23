@@ -26,10 +26,10 @@ export default class DemoDropdownClearIcon extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
         @label={{t "lbl.dropdown.clear.icon"}}
-        @id="dropdown-clear"
+        @fieldId="dropdown-clear"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxDropdown
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -40,7 +40,7 @@ export default class DemoDropdownClearIcon extends Component {
             @showClear={{true}}
             @placeholder={{t "msg.dropdown.placeholder.city"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

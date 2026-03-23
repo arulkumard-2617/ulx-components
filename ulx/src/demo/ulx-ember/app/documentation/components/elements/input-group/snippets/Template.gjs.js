@@ -76,19 +76,20 @@ export default class DemoInputGroupTemplate extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-x-4 gap-y-2">
 
-      {{! START TIME }}
       <UlxField
         @label={{t "lbl.start.time"}}
-        @id="start-time"
+        @fieldId="start-time"
         @fieldClass="col-3"
       >
-
-        <:control as |field|>
-          <UlxInputGroup @disabled={{this.isDisabled}}>
+        <:default as |field|>
+          <UlxInputGroup
+            @disabled={{this.isDisabled}}
+            @endAddonClass="icon-addon"
+          >
 
             <:input>
               <UlxInput
-                @key={{field.key}}
+                @field={{field}}
                 @disabled={{this.isDisabled}}
                 placeholder={{t "lbl.start.time.placeholder"}}
                 aria-label={{t "lbl.start.time"}}
@@ -102,14 +103,13 @@ export default class DemoInputGroupTemplate extends Component {
                 @icon="time-icon"
                 @iconComponentClass="bs-icons1"
                 @iconSize="s18"
-                @customClass="inputgroup-addon icon-addon"
                 @disabled={{this.isDisabled}}
                 aria-label={{t "lbl.start.time"}}
               />
             </:end>
 
           </UlxInputGroup>
-        </:control>
+        </:default>
 
         <:assistive>
           <UlxCheckbox
@@ -118,119 +118,116 @@ export default class DemoInputGroupTemplate extends Component {
             @onCheckedChange={{this.handleToBeAnnouncedChange}}
           />
         </:assistive>
-
       </UlxField>
 
       {{! DURATION }}
       <UlxField @label={{t "lbl.duration"}} @fieldClass="col-8">
 
-        <:control>
-          <div class="ulx-grid gap-3">
+        <div class="ulx-grid gap-3">
 
-            {{! HOURS }}
-            <div class="field col-3">
-              <UlxInputGroup @disabled={{this.isDisabled}}>
+          {{! HOURS }}
+          <div class="field col-3">
+            <UlxInputGroup @disabled={{this.isDisabled}}>
 
-                <:input>
-                  <UlxInput
-                    @value={{this.hours}}
-                    @rules={{this.hourRules}}
-                    @onChange={{this.updateHours}}
-                    type="number"
-                    @disabled={{this.isDisabled}}
-                    aria-label={{t "lbl.duration.hours"}}
+              <:input>
+                <UlxInput
+                  @value={{this.hours}}
+                  @rules={{this.hourRules}}
+                  @onChange={{this.updateHours}}
+                  type="number"
+                  @disabled={{this.isDisabled}}
+                  aria-label={{t "lbl.duration.hours"}}
+                />
+              </:input>
+
+              <:end>
+                <span class="inputgroup-addon text-addon">
+                  {{t "lbl.hr"}}
+                </span>
+
+                <span class="inputgroup-addon vertical-stack-addon">
+                  <UlxButton
+                    @variant="basic"
+                    @size="compact"
+                    @icon="up-arrow-icon"
+                    @iconSize="s14"
+                    @onClick={{this.incrementHours}}
+                    @disabled={{or
+                      this.isDisabled
+                      (eq this.hours this.hourMax)
+                    }}
+                    aria-label={{t "lbl.increment"}}
                   />
-                </:input>
-
-                <:end>
-                  <span class="inputgroup-addon text-addon">
-                    {{t "lbl.hr"}}
-                  </span>
-
-                  <span class="inputgroup-addon vertical-stack-addon">
-                    <UlxButton
-                      @variant="basic"
-                      @size="compact"
-                      @icon="up-arrow-icon"
-                      @iconSize="s14"
-                      @onClick={{this.incrementHours}}
-                      @disabled={{or
-                        this.isDisabled
-                        (eq this.hours this.hourMax)
-                      }}
-                      aria-label={{t "lbl.increment"}}
-                    />
-                    <UlxButton
-                      @variant="basic"
-                      @size="compact"
-                      @icon="down-arrow-icon"
-                      @iconSize="s14"
-                      @onClick={{this.decrementHours}}
-                      @disabled={{or
-                        this.isDisabled
-                        (eq this.hours this.hourMin)
-                      }}
-                      aria-label={{t "lbl.decrement"}}
-                    />
-                  </span>
-                </:end>
-
-              </UlxInputGroup>
-            </div>
-
-            {{! MINUTES }}
-            <div class="field col-3">
-              <UlxInputGroup @disabled={{this.isDisabled}}>
-
-                <:input>
-                  <UlxInput
-                    @value={{this.minutes}}
-                    @rules={{this.minuteRules}}
-                    @onChange={{this.updateMinutes}}
-                    type="number"
-                    @disabled={{this.isDisabled}}
-                    aria-label={{t "lbl.duration.minutes"}}
+                  <UlxButton
+                    @variant="basic"
+                    @size="compact"
+                    @icon="down-arrow-icon"
+                    @iconSize="s14"
+                    @onClick={{this.decrementHours}}
+                    @disabled={{or
+                      this.isDisabled
+                      (eq this.hours this.hourMin)
+                    }}
+                    aria-label={{t "lbl.decrement"}}
                   />
-                </:input>
+                </span>
+              </:end>
 
-                <:end>
-                  <span class="inputgroup-addon text-addon">
-                    {{t "lbl.min"}}
-                  </span>
-
-                  <span class="inputgroup-addon vertical-stack-addon">
-                    <UlxButton
-                      @variant="basic"
-                      @size="compact"
-                      @icon="up-arrow-icon"
-                      @iconSize="s14"
-                      @onClick={{this.incrementMinutes}}
-                      @disabled={{or
-                        this.isDisabled
-                        (eq this.minutes this.minuteMax)
-                      }}
-                      aria-label={{t "lbl.increment"}}
-                    />
-                    <UlxButton
-                      @variant="basic"
-                      @size="compact"
-                      @icon="down-arrow-icon"
-                      @iconSize="s14"
-                      @onClick={{this.decrementMinutes}}
-                      @disabled={{or
-                        this.isDisabled
-                        (eq this.minutes this.minuteMin)
-                      }}
-                      aria-label={{t "lbl.decrement"}}
-                    />
-                  </span>
-                </:end>
-
-              </UlxInputGroup>
-            </div>
-
+            </UlxInputGroup>
           </div>
-        </:control>
+
+          {{! MINUTES }}
+          <div class="field col-3">
+            <UlxInputGroup @disabled={{this.isDisabled}}>
+
+              <:input>
+                <UlxInput
+                  @value={{this.minutes}}
+                  @rules={{this.minuteRules}}
+                  @onChange={{this.updateMinutes}}
+                  type="number"
+                  @disabled={{this.isDisabled}}
+                  aria-label={{t "lbl.duration.minutes"}}
+                />
+              </:input>
+
+              <:end>
+                <span class="inputgroup-addon text-addon">
+                  {{t "lbl.min"}}
+                </span>
+
+                <span class="inputgroup-addon vertical-stack-addon">
+                  <UlxButton
+                    @variant="basic"
+                    @size="compact"
+                    @icon="up-arrow-icon"
+                    @iconSize="s14"
+                    @onClick={{this.incrementMinutes}}
+                    @disabled={{or
+                      this.isDisabled
+                      (eq this.minutes this.minuteMax)
+                    }}
+                    aria-label={{t "lbl.increment"}}
+                  />
+                  <UlxButton
+                    @variant="basic"
+                    @size="compact"
+                    @icon="down-arrow-icon"
+                    @iconSize="s14"
+                    @onClick={{this.decrementMinutes}}
+                    @disabled={{or
+                      this.isDisabled
+                      (eq this.minutes this.minuteMin)
+                    }}
+                    aria-label={{t "lbl.decrement"}}
+                  />
+                </span>
+              </:end>
+
+            </UlxInputGroup>
+          </div>
+
+        </div>
 
       </UlxField>
 

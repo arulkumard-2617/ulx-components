@@ -47,11 +47,11 @@ const stateToSnippet = (state) => {
     ...attrs,
   ];
   return `<UlxField ${fieldParts.join(' ')}>
-  <:control as |field|>
+  <:default as |field|>
     <UlxDropdown
       ${dropdownAttrs.join('\n      ')}
     />
-  </:control>
+  </:default>
 </UlxField>`;
 };
 

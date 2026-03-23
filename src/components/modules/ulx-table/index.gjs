@@ -1298,10 +1298,9 @@ export default class UlxTable extends Component {
 							<div class="datatable-globalfilter" role="search">
 								<UlxIconInput
 									@value={{this.globalFilterValue}}
-									@iconName="search-icon"
+									@iconLeft="search-icon"
 									@iconType="font"
 									@iconClass="bs-icons1"
-									@iconPosition="left"
 									@iconSize="s14"
 									@onInput={{this.handleGlobalFilterInput}}
 									placeholder={{or

@@ -47,7 +47,7 @@ export default class DemoPasswordInvalid extends Component {
         @error={{this.error}}
       >
 
-        <:control as |field|>
+        <:default as |field|>
           <UlxPassword
             @value={{this.value}}
             @onInput={{this.handleInput}}
@@ -60,7 +60,7 @@ export default class DemoPasswordInvalid extends Component {
             {{! for red border }}
             @placeholder={{t "lbl.enter.password"}}
           />
-        </:control>
+        </:default>
 
       </UlxField>
 

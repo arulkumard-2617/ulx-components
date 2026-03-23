@@ -10,10 +10,6 @@ export default class DemoInputInvalid extends Component {
   @tracked error = '';
   @tracked submitted = false;
 
-  // --------------------------
-  // Validation
-  // --------------------------
-
   validate(value) {
     if (!value) {
       return 'This field is required';
@@ -26,15 +22,10 @@ export default class DemoInputInvalid extends Component {
     return '';
   }
 
-  // --------------------------
-  // Actions
-  // --------------------------
-
   @action
   handleInput(event) {
     this.value = event.target.value;
 
-    // Live validation AFTER submit
     if (this.submitted) {
       this.error = this.validate(this.value);
     }
@@ -54,6 +45,7 @@ export default class DemoInputInvalid extends Component {
 
   <template>
     <form
+      novalidate
       class="ulx-form m-size ulx-grid mb-14"
       {{on "submit" this.handleSubmit}}
     >
@@ -63,25 +55,19 @@ export default class DemoInputInvalid extends Component {
         @fieldId="error-input"
         @fieldClass="col-4"
         @error={{this.error}}
+        as |field|
       >
-
-        <:control as |field|>
-          <UlxInput
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @value={{this.value}}
-            @onInput={{this.handleInput}}
-            @invalid={{this.error}}
-            placeholder="Enter username"
-            aria-label="Username"
-          />
-        </:control>
-
+        <UlxInput
+          @field={{field}}
+          @value={{this.value}}
+          @onInput={{this.handleInput}}
+          placeholder="Enter username"
+          aria-label="Username"
+        />
       </UlxField>
 
       <div class="col-12">
-        <UlxButton type="submit" @label="Submit" />
+        <UlxButton @type="submit" @label="Submit" />
       </div>
 
     </form>

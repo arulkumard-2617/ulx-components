@@ -28,7 +28,7 @@ export default class DemoMultiselectAccessibility extends Component {
         @fieldId="a11y-multiselect"
         @fieldClass="col-4"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxMultiSelect
             @key={{field.key}}
             @ariaDescribedBy={{field.describedBy}}
@@ -40,7 +40,7 @@ export default class DemoMultiselectAccessibility extends Component {
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             aria-label={{t "msg.multiselect.choose.items"}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

@@ -22,7 +22,7 @@ export default class BasicCheckboxDemo extends Component {
         @fieldClass="col-12"
         @fieldId="checkbox-basic"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxCheckbox
             @key={{field.key}}
             @rules={{this.requiredRules}}
@@ -31,7 +31,7 @@ export default class BasicCheckboxDemo extends Component {
             @items={{this.items}}
             @onItemChange={{this.handleItemChange}}
           />
-        </:control>
+        </:default>
       </UlxField>
     </div>
   </template>

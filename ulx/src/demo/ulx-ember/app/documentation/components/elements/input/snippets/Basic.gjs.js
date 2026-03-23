@@ -1,72 +1,138 @@
 export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { UlxInput, UlxField, t } from 'ulx-components';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
+import { UlxInput, UlxField, UlxButton, t, validate } from 'ulx-components';
 
-const rules = {
-  required: true,
-  minLength: { value: 0 },
-  maxLength: { value: 10 },
+const TEXT_PATTERN_ALT = /^[a-zA-Z0-9\\s\\-_'.,]+$/;
+const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
+const validations = {
+  newContactName: {
+    required: t('msg.error.name.required'),
+
+    format: {
+      with: TEXT_PATTERN_ALT,
+      allowBlank: false,
+      msg: t('msg.error.enter.valid.contact.name'),
+    },
+
+    maxLength: {
+      value: 120,
+      allowBlank: true,
+      msg: t('msg.validation.max.length', { max: 120 }),
+    },
+  },
+
+  newContactEmail: {
+    required: t('msg.email.list.empty'),
+
+    format: {
+      with: EMAIL_PATTERN,
+      allowBlank: false,
+      msg: t('msg.enter.valid.email'),
+    },
+  },
 };
 
 export default class Demo extends Component {
-  @tracked username = '';
+  validations = validations;
 
-  rules = rules;
+  @tracked newContactName = '';
+  @tracked newContactEmail = '';
+  @tracked errors = {};
 
-  updateUsername = (event) => {
-    this.username = event.target.value;
-  };
+  @action
+  updateNewContactName(event) {
+    this.newContactName = event.target.value;
+    this.clearErrorFor('newContactName');
+  }
 
-  get usernameError() {
-    const value = this.username;
+  @action
+  updateNewContactEmail(event) {
+    this.newContactEmail = event.target.value;
+    this.clearErrorFor('newContactEmail');
+  }
 
-    if (
-      this.rules.minLength?.value &&
-      value.length < this.rules.minLength.value
-    ) {
-      return \`Minimum \${this.rules.minLength.value} characters required\`;
+  @action
+  clearErrorFor(fieldKey) {
+    if (!this.errors[fieldKey]) return;
+    const next = { ...this.errors };
+    delete next[fieldKey];
+    this.errors = next;
+  }
+
+  @action
+  suppressNativeSubmit(event) {
+    event.preventDefault();
+  }
+
+  @action
+  handleSubmit() {
+    const { isValid, errors } = validate(this, this.validations);
+
+    if (isValid) {
+      this.errors = {};
+    } else {
+      this.errors = errors;
     }
-
-    if (
-      this.rules.maxLength?.value &&
-      value.length > this.rules.maxLength.value
-    ) {
-      return \`Maximum \${this.rules.maxLength.value} characters allowed\`;
-    }
-
-    return null;
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+    <form
+      novalidate
+      class="ulx-form m-size ulx-grid mb-14"
+      {{on "submit" this.suppressNativeSubmit}}
+    >
 
       <UlxField
-        @label={{t "lbl.input"}}
+        @label={{t "lbl.name"}}
         @tooltipMessage="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout"
         @helpText={{t "msg.input.help"}}
-        @rules={{this.rules}}
-        @error={{this.usernameError}}
-        @id="username"
+        @rules={{this.validations.newContactName}}
+        @error={{this.errors.newContactName}}
+        @fieldId="newContactName"
         @fieldClass="col-6"
+        as |field|
       >
-        <:control as |field|>
-          <UlxInput
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @value={{this.username}}
-            @onInput={{this.updateUsername}}
-            minlength={{this.rules.minLength.value}}
-            maxlength={{this.rules.maxLength.value}}
-            required={{this.rules.required}}
-            placeholder={{t "lbl.enter.username"}}
-            aria-label={{t "lbl.username"}}
-          />
-        </:control>
+        <UlxInput
+          @field={{field}}
+          @value={{this.newContactName}}
+          @onInput={{this.updateNewContactName}}
+          placeholder={{t "lbl.enter.name"}}
+          aria-label={{t "lbl.name"}}
+        />
       </UlxField>
 
-    </div>
+      <UlxField
+        @label={{t "lbl.email"}}
+        @helpText={{t "msg.input.help"}}
+        @rules={{this.validations.newContactEmail}}
+        @error={{this.errors.newContactEmail}}
+        @fieldId="newContactEmail"
+        @fieldClass="col-6"
+        as |field|
+      >
+        <UlxInput
+          @field={{field}}
+          @value={{this.newContactEmail}}
+          @onInput={{this.updateNewContactEmail}}
+          placeholder={{t "lbl.enter.email"}}
+          aria-label={{t "lbl.email"}}
+        />
+      </UlxField>
+
+      <div class="col-12">
+        <UlxButton
+          @type="button"
+          @label={{t "lbl.submit"}}
+          @variant="primary"
+          @onClick={{this.handleSubmit}}
+        />
+      </div>
+
+    </form>
   </template>
 }
 

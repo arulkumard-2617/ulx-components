@@ -41,9 +41,9 @@ export default class DisabledDemoComponent extends Component {
         @helpText={{t "lbl.help.text"}}
         @error={{this.error}}
         @fieldClass="col-12"
-        @id="radio-disabled"
+        @key="radio-disabled"
       >
-        <:control as |field|>
+        <:default as |field|>
           <UlxRadio
             @key={{field.key}}
             @rules={{this.requiredRules}}
@@ -53,7 +53,7 @@ export default class DisabledDemoComponent extends Component {
             @onItemChange={{this.handleItemChange}}
             @error={{this.error}}
           />
-        </:control>
+        </:default>
       </UlxField>
 
       <div class="col-12">

@@ -8,8 +8,6 @@ export { default as BasicDemo } from '../../../../components/Demo/Input/Basic';
 export { default as TemplateDemo } from '../../../../components/Demo/Input/Template';
 export { default as KeyfilterDemo } from '../../../../components/Demo/Input/Keyfilter';
 export { default as SizesDemo } from '../../../../components/Demo/Input/Sizes';
-export { default as FloatlabelDemo } from '../../../../components/Demo/Input/Floatlabel';
-export { default as FilledDemo } from '../../../../components/Demo/Input/Filled';
 export { default as InvalidDemo } from '../../../../components/Demo/Input/Invalid';
 export { default as DisabledDemo } from '../../../../components/Demo/Input/Disabled';
 
@@ -23,7 +21,5 @@ export { default as BasicSource } from './snippets/Basic.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as KeyfilterSource } from './snippets/Keyfilter.gjs';
 export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as FloatlabelSource } from './snippets/Floatlabel.gjs';
-export { default as FilledSource } from './snippets/Filled.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';

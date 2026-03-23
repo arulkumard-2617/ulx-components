@@ -150,24 +150,22 @@ export default class UlxCheckboxItem extends Component {
 					/>
 				{{else if this.isIndeterminate}}
 					<UlxIcon @customClass={{this.checkboxIconClass}} @size={{this.checkboxIconSize}}>
-						<:icon>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 24 24"
-								fill="none"
-								focusable="false"
-							>
-								<line
-									x1="6"
-									y1="12"
-									x2="18"
-									y2="12"
-									stroke="currentColor"
-									stroke-width="1"
-									stroke-linecap="round"
-								/>
-							</svg>
-						</:icon>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							focusable="false"
+						>
+							<line
+								x1="6"
+								y1="12"
+								x2="18"
+								y2="12"
+								stroke="currentColor"
+								stroke-width="1"
+								stroke-linecap="round"
+							/>
+						</svg>
 					</UlxIcon>
 				{{/if}}
 			</div>

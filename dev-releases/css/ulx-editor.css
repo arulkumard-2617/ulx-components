@@ -9739,8 +9739,8 @@ summary:focus-visible,
   outline-offset: 2px !important;
   transition: none !important;
 }
-.inputgroup-addon button:focus-visible,
-.inputgroup-addon .ulx-button:focus-visible,
+.inputgroup-addon.vertical-stack-addon button:focus-visible,
+.inputgroup-addon.vertical-stack-addon .ulx-button:focus-visible,
 .inputgroup-addon [tabindex]:not([tabindex="-1"]):focus-visible,
 .inputgroup-addon .ulx-radiobutton:has(.radiobutton-input:focus-visible):not(.disabled) .radiobutton-box,
 .inputgroup-addon .ulx-checkbox:has(.checkbox-input:focus-visible):not(.disabled) .checkbox-box,
@@ -10951,186 +10951,6 @@ html.ulx-acc-feature .ulx-hang .ulx-notification body {
   min-height: 2.85714286rem;
   line-height: 1.4em;
 }
-.ulx-input.filled {
-  background-color: var(--ulx-secondary-bg);
-  border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-input.filled:focus,
-.ulx-input.filled:focus-visible {
-  border-color: var(--ulx-primary-color);
-}
-.ulx-input.filled:hover:not(:disabled):not(:read-only) {
-  background-color: color-mix(in srgb, var(--ulx-layer1-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-17));
-}
-.ulx-input.filled:disabled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
-}
-.ulx-input.filled.invalid {
-  background-color: var(--ulx-red-layer1-bg, #FFF1F0);
-  border-color: var(--ulx-error-border-color, #FFA39E);
-}
-.ulx-input.filled.invalid:focus,
-.ulx-input.filled.invalid:focus-visible {
-  background-color: var(--ulx-input-focus-bg, var(--ulx-input-bg-color));
-  border-color: var(--ulx-error-border-color, #FFA39E);
-}
-.ulx-input.invalid.outlined {
-  border-color: var(--ulx-error-border-color, #FFA39E);
-}
-.ulx-input.invalid.outlined:hover:not(:disabled):not(:read-only) {
-  border-color: var(--ulx-error-border-color, #FFA39E);
-}
-.ulx-input.invalid.outlined:focus,
-.ulx-input.invalid.outlined:focus-visible {
-  border-color: var(--ulx-error-border-color, #FFA39E);
-}
-.ulx-input.disabled.outlined {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-  color: var(--ulx-disabled-fg-color, var(--ulx-light-text-color));
-}
-.ulx-input.disabled.filled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
-  color: var(--ulx-disabled-fg-color, var(--ulx-light-text-color));
-}
-.ulx-input.readonly.outlined {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-}
-.ulx-input.readonly.filled {
-  background-color: color-mix(in srgb, var(--ulx-input-disable-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-25));
-  border-color: transparent;
-}
-.ulx-floatlabel {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-.ulx-floatlabel.xs-size .floatlabel-label {
-  font-size: var(--ulx-font-size-xs);
-}
-.ulx-floatlabel.s-size .floatlabel-label {
-  font-size: var(--ulx-font-size-small);
-}
-.ulx-floatlabel.m-size .floatlabel-label {
-  font-size: var(--ulx-font-size-default);
-}
-.ulx-floatlabel.l-size .floatlabel-label {
-  font-size: var(--ulx-font-size-h7);
-}
-.ulx-floatlabel.xl-size .floatlabel-label {
-  font-size: var(--ulx-font-size-h6);
-}
-.ulx-floatlabel.outlined .floatlabel-label {
-  background-color: var(--ulx-input-bg-color);
-}
-.ulx-floatlabel.filled .floatlabel-label {
-  background-color: var(--ulx-secondary-bg);
-  color: var(--ulx-input-fg-color);
-}
-.ulx-floatlabel.disabled .floatlabel-label {
-  color: var(--ulx-light-text-color);
-  cursor: var(--ulx-cursor-not-allowed, not-allowed);
-}
-.ulx-floatlabel.invalid .floatlabel-label {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel:has(input.p-filled, textarea.p-filled) label {
-  top: 0;
-  transform: translateY(-50%);
-}
-.ulx-floatlabel label {
-  position: absolute;
-  top: 50%;
-  left: 0.57142857rem;
-  transform: translateY(-50%);
-  font-family: var(--ulx-font-face-regular, puviregular);
-  font-size: var(--ulx-font-size-small);
-  color: var(--ulx-light-text-color);
-  background-color: var(--ulx-input-bg-color);
-  padding: 0 0.57142857rem;
-  transition: all 0.6s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-.ulx-floatlabel label.disabled {
-  color: var(--ulx-light-text-color);
-  cursor: var(--ulx-cursor-not-allowed, not-allowed);
-}
-.ulx-floatlabel label.invalid {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel:focus-within label {
-  top: 0;
-  font-size: var(--ulx-font-size-tiny);
-  color: var(--ulx-primary-color);
-  transform: translateY(-50%);
-}
-.ulx-floatlabel .focus ~ label,
-.ulx-floatlabel .open ~ label,
-.ulx-floatlabel .input-filled ~ label {
-  top: 0;
-  font-size: var(--ulx-font-size-tiny);
-  color: var(--ulx-primary-color);
-  transform: translateY(-50%);
-}
-.ulx-floatlabel .input-filled ~ .ulx--floatlabel-label {
-  background-color: var(--ulx-secondary-bg);
-}
-.ulx-floatlabel:focus-visible-within label {
-  top: 0;
-  font-size: var(--ulx-font-size-tiny);
-  color: var(--ulx-primary-color);
-  transform: translateY(-50%);
-}
-.ulx-floatlabel:has(textarea) label {
-  top: 0.5rem;
-  transform: translateY(0);
-}
-.ulx-floatlabel:has(textarea):focus-within label,
-.ulx-floatlabel:has(textarea):focus-visible-within label,
-.ulx-floatlabel:has(textarea).focus label,
-.ulx-floatlabel:has(textarea).has-value label {
-  top: 0;
-  font-size: var(--ulx-font-size-tiny);
-  color: var(--ulx-primary-color);
-  transform: translateY(-50%);
-}
-.ulx-floatlabel.invalid:focus-within label {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel.invalid.focus label,
-.ulx-floatlabel.invalid.open label,
-.ulx-floatlabel.invalid.input-filled label {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel.invalid:focus-visible-within label {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel.disabled:focus-within label {
-  color: var(--ulx-light-text-color);
-}
-.ulx-floatlabel.disabled.focus label,
-.ulx-floatlabel.disabled.open label {
-  color: var(--ulx-light-text-color);
-}
-.ulx-floatlabel.disabled:focus-visible-within label {
-  color: var(--ulx-light-text-color);
-}
-.ulx-floatlabel.invalid input:not(:placeholder-shown) + label {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel.disabled input:not(:placeholder-shown) + label {
-  color: var(--ulx-light-text-color);
-}
-.ulx-floatlabel:has(textarea).invalid textarea:not(:placeholder-shown) + label {
-  color: var(--ulx-red-bg-color, #CF1322);
-}
-.ulx-floatlabel:has(textarea).disabled textarea:not(:placeholder-shown) + label {
-  color: var(--ulx-light-text-color);
-}
 @media only screen and (max-width: 767px) {
   .ulx-input {
     font-size: var(--ulx-font-size-h6);
@@ -11150,9 +10970,6 @@ html.ulx-acc-feature .ulx-hang .ulx-notification body {
   .ulx-input.xl-size {
     padding: 0.28571429rem 0.85714286rem;
   }
-  .ulx-floatlabel-label {
-    font-size: var(--ulx-font-size-small);
-  }
 }
 @media (prefers-contrast: high) {
   .ulx-input {
@@ -11162,15 +10979,9 @@ html.ulx-acc-feature .ulx-hang .ulx-notification body {
   .ulx-input:focus-visible {
     border-width: 3px;
   }
-  .ulx-floatlabel-label {
-    border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .ulx-input {
-    transition: none;
-  }
-  .ulx-floatlabel-label {
     transition: none;
   }
 }
@@ -11180,11 +10991,6 @@ html.ulx-acc-feature .ulx-hang .ulx-notification body {
     border: 1px solid #000 !important;
     color: #000 !important;
     box-shadow: none !important;
-  }
-  .ulx-floatlabel-label {
-    background-color: transparent !important;
-    color: #000 !important;
-    border: none !important;
   }
 }
 /*
@@ -11196,7 +11002,7 @@ USAGE EXAMPLES:
 2. With Size Variant:
    <input class="uls-input m-size" type="text" />
 
-3. With Visual Variant:
+3. With Visual Variant (filled — import uls-primereact/uls-overrides after uls):
    <input class="uls-input filled" type="text" />
 
 4. With State:
@@ -11204,6 +11010,8 @@ USAGE EXAMPLES:
 
 5. Combined Classes:
    <input class="uls-input l-size filled invalid" type="text" />
+
+6. FloatLabel: styles live in uls-primereact/elements/input.overrides.less
 
 FEATURES IMPLEMENTED:
 - ✅ Consistent sizing with dropdown component
@@ -11215,12 +11023,11 @@ FEATURES IMPLEMENTED:
 - ✅ Print optimization
 - ✅ High contrast mode support
 - ✅ Reduced motion support
-- ✅ Visual variants (outlined, filled)
+- ✅ Filled variant & FloatLabel via uls-primereact input.overrides.less
 - ✅ State management (disabled, readonly, invalid)
 - ✅ Size variants (xs, s, m, l, xl) matching dropdown
 - ✅ Consistent with ULS design system
 - ✅ Uses ULS color variables and spacing tokens
-- ✅ Proper state combinations
 - ✅ Mobile-first responsive design
 */
 .ulx-inputtextarea {
@@ -11855,7 +11662,8 @@ FEATURES IMPLEMENTED:
   transition: all 0.6s ease;
 }
 .inputgroup-addon.ulx-dropdown.primary,
-.inputgroup-addon.ulx-button.primary {
+.inputgroup-addon.ulx-button.primary,
+.inputgroup-addon:has(.ulx-button.primary) {
   border: 0;
 }
 .inputgroup-addon.label {
@@ -11870,13 +11678,15 @@ FEATURES IMPLEMENTED:
   white-space: nowrap;
 }
 .inputgroup-addon.left.ulx-dropdown,
-.inputgroup-addon.left.ulx-button {
+.inputgroup-addon.left.ulx-button,
+.inputgroup-addon.left .ulx-button {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
   border-inline-end-color: transparent;
 }
 .inputgroup-addon.right.ulx-dropdown,
-.inputgroup-addon.right.ulx-button {
+.inputgroup-addon.right.ulx-button,
+.inputgroup-addon.right .ulx-button {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
   border-inline-start-color: transparent;
@@ -11885,12 +11695,38 @@ FEATURES IMPLEMENTED:
   font-size: 1em;
   color: var(--ulx-secondary-text-color);
 }
+.inputgroup-addon .ulx-button .ulx-icon,
+.inputgroup-addon .ulx-button .icon {
+  font-size: 1em;
+  color: inherit;
+}
 .inputgroup-addon:not(:empty) {
   min-width: auto;
+}
+.ulx-inputgroup > .inputgroup-addon.contents {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 .ulx-inputgroup .ulx-input {
   border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
   flex: 1;
+}
+.ulx-inputgroup > .ulx-input:not(:only-child) {
+  border-radius: 0;
+}
+.ulx-inputgroup > .ulx-input:first-child:not(:only-child) {
+  border-start-start-radius: var(--border-radius-md, 0.42857143rem);
+  border-end-start-radius: var(--border-radius-md, 0.42857143rem);
+}
+.ulx-inputgroup > .ulx-input:last-child:not(:only-child) {
+  border-start-end-radius: var(--border-radius-md, 0.42857143rem);
+  border-end-end-radius: var(--border-radius-md, 0.42857143rem);
 }
 .ulx-inputgroup .ulx-button {
   flex-shrink: 0;
@@ -11904,20 +11740,52 @@ FEATURES IMPLEMENTED:
 .ulx-inputgroup > .ulx-button:not(.ulx-input ~ .ulx-button) {
   border-inline-end: none;
 }
-.ulx-inputgroup > .ulx-input ~ .inputgroup-addon,
+.ulx-inputgroup > .ulx-input ~ .inputgroup-addon:not(.contents),
+.ulx-inputgroup > .ulx-input ~ .inputgroup-addon.contents > .inputgroup-addon:first-child,
 .ulx-inputgroup > .ulx-input ~ .ulx-button {
   border-inline-start: none;
+}
+.ulx-inputgroup .inputgroup-addon.text-addon + .inputgroup-addon.vertical-stack-addon {
+  border-inline-start: none;
+}
+.ulx-inputgroup > .inputgroup-addon.contents > .inputgroup-addon.vertical-stack-addon:last-child,
+.ulx-inputgroup > .ulx-input ~ .inputgroup-addon.vertical-stack-addon:last-child {
+  border-start-end-radius: var(--border-radius-md, 0.42857143rem);
+  border-end-end-radius: var(--border-radius-md, 0.42857143rem);
+}
+.ulx-inputgroup > .inputgroup-addon:not(.vertical-stack-addon):has(.ulx-button) .ulx-button {
+  border-radius: 0;
+}
+.ulx-inputgroup > *:first-child.inputgroup-addon:not(.vertical-stack-addon):has(.ulx-button) .ulx-button {
+  border-start-start-radius: var(--border-radius-md, 0.42857143rem);
+  border-end-start-radius: var(--border-radius-md, 0.42857143rem);
+}
+.ulx-inputgroup > *:last-child.inputgroup-addon:not(.vertical-stack-addon):has(.ulx-button) .ulx-button {
+  border-start-end-radius: var(--border-radius-md, 0.42857143rem);
+  border-end-end-radius: var(--border-radius-md, 0.42857143rem);
 }
 .ulx-inputgroup.xs-size {
   font-size: var(--ulx-font-size-small);
 }
-.ulx-inputgroup.xs-size .inputgroup-addon {
+.ulx-inputgroup.xs-size .inputgroup-addon:not(.button-addon) {
   height: 1.71428571rem;
   min-height: 1.71428571rem;
   padding: 0.28571429rem 0.57142857rem;
   font-size: var(--ulx-font-size-small);
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.ulx-inputgroup.xs-size .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button) {
+  padding: 0;
+}
+.ulx-inputgroup.xs-size .inputgroup-addon.button-addon {
+  height: 1.71428571rem;
+  min-height: 1.71428571rem;
+  padding: 0;
+  font-size: var(--ulx-font-size-small);
+  display: flex;
+  align-items: stretch;
   justify-content: center;
 }
 .ulx-inputgroup.xs-size .ulx-input,
@@ -11931,7 +11799,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-inputgroup.xs-size .inputgroup-addon.vertical-stack-addon .ulx-button {
   height: auto;
-  min-height: 0;
+  min-block-size: 0;
   padding-block: 0;
   padding-inline: calc(0.57142857rem - 0.28571429rem);
   box-shadow: none;
@@ -11943,14 +11811,28 @@ FEATURES IMPLEMENTED:
 .ulx-inputgroup.s-size {
   font-size: var(--ulx-font-size-small);
 }
-.ulx-inputgroup .inputgroup-addon,
-.ulx-inputgroup.s-size .inputgroup-addon {
+.ulx-inputgroup .inputgroup-addon:not(.button-addon),
+.ulx-inputgroup.s-size .inputgroup-addon:not(.button-addon) {
   height: 2rem;
   min-height: 2rem;
   padding: 0.28571429rem 0.57142857rem;
   font-size: var(--ulx-font-size-small);
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.ulx-inputgroup .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button),
+.ulx-inputgroup.s-size .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button) {
+  padding: 0;
+}
+.ulx-inputgroup .inputgroup-addon.button-addon,
+.ulx-inputgroup.s-size .inputgroup-addon.button-addon {
+  height: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  font-size: var(--ulx-font-size-small);
+  display: flex;
+  align-items: stretch;
   justify-content: center;
 }
 .ulx-inputgroup .ulx-input,
@@ -11968,7 +11850,7 @@ FEATURES IMPLEMENTED:
 .ulx-inputgroup .inputgroup-addon.vertical-stack-addon .ulx-button,
 .ulx-inputgroup.s-size .inputgroup-addon.vertical-stack-addon .ulx-button {
   height: auto;
-  min-height: 0;
+  min-block-size: 0;
   padding-block: 0;
   padding-inline: calc(0.57142857rem - 0.28571429rem);
   box-shadow: none;
@@ -11980,13 +11862,25 @@ FEATURES IMPLEMENTED:
 .ulx-inputgroup.m-size {
   font-size: var(--ulx-font-size-default);
 }
-.ulx-inputgroup.m-size .inputgroup-addon {
+.ulx-inputgroup.m-size .inputgroup-addon:not(.button-addon) {
   height: 2.28571429rem;
   min-height: 2.28571429rem;
   padding: 0.28571429rem 0.57142857rem;
   font-size: var(--ulx-font-size-default);
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.ulx-inputgroup.m-size .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button) {
+  padding: 0;
+}
+.ulx-inputgroup.m-size .inputgroup-addon.button-addon {
+  height: 2.28571429rem;
+  min-height: 2.28571429rem;
+  padding: 0;
+  font-size: var(--ulx-font-size-default);
+  display: flex;
+  align-items: stretch;
   justify-content: center;
 }
 .ulx-inputgroup.m-size .ulx-input,
@@ -12000,7 +11894,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-inputgroup.m-size .inputgroup-addon.vertical-stack-addon .ulx-button {
   height: auto;
-  min-height: 0;
+  min-block-size: 0;
   padding-block: 0;
   padding-inline: calc(0.57142857rem - 0.28571429rem);
   box-shadow: none;
@@ -12011,13 +11905,25 @@ FEATURES IMPLEMENTED:
 .ulx-inputgroup.l-size {
   font-size: var(--ulx-font-size-h7);
 }
-.ulx-inputgroup.l-size .inputgroup-addon {
+.ulx-inputgroup.l-size .inputgroup-addon:not(.button-addon) {
   height: 2.57142857rem;
   min-height: 2.57142857rem;
   padding: 0.28571429rem 0.85714286rem;
   font-size: var(--ulx-font-size-h7);
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.ulx-inputgroup.l-size .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button) {
+  padding: 0;
+}
+.ulx-inputgroup.l-size .inputgroup-addon.button-addon {
+  height: 2.57142857rem;
+  min-height: 2.57142857rem;
+  padding: 0;
+  font-size: var(--ulx-font-size-h7);
+  display: flex;
+  align-items: stretch;
   justify-content: center;
 }
 .ulx-inputgroup.l-size .ulx-input,
@@ -12031,7 +11937,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-inputgroup.l-size .inputgroup-addon.vertical-stack-addon .ulx-button {
   height: auto;
-  min-height: 0;
+  min-block-size: 0;
   padding-block: 0;
   padding-inline: calc(0.85714286rem - 0.28571429rem);
   box-shadow: none;
@@ -12042,13 +11948,25 @@ FEATURES IMPLEMENTED:
 .ulx-inputgroup.xl-size {
   font-size: var(--ulx-font-size-h6);
 }
-.ulx-inputgroup.xl-size .inputgroup-addon {
+.ulx-inputgroup.xl-size .inputgroup-addon:not(.button-addon) {
   height: 2.85714286rem;
   min-height: 2.85714286rem;
   padding: 0.28571429rem 0.85714286rem;
   font-size: var(--ulx-font-size-h6);
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+.ulx-inputgroup.xl-size .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button) {
+  padding: 0;
+}
+.ulx-inputgroup.xl-size .inputgroup-addon.button-addon {
+  height: 2.85714286rem;
+  min-height: 2.85714286rem;
+  padding: 0;
+  font-size: var(--ulx-font-size-h6);
+  display: flex;
+  align-items: stretch;
   justify-content: center;
 }
 .ulx-inputgroup.xl-size .ulx-input,
@@ -12062,7 +11980,7 @@ FEATURES IMPLEMENTED:
 }
 .ulx-inputgroup.xl-size .inputgroup-addon.vertical-stack-addon .ulx-button {
   height: auto;
-  min-height: 0;
+  min-block-size: 0;
   padding-block: 0;
   padding-inline: calc(0.85714286rem - 0.28571429rem);
   box-shadow: none;
@@ -12116,13 +12034,25 @@ FEATURES IMPLEMENTED:
   .ulx-inputgroup.compact-mobile {
     font-size: var(--ulx-font-size-small);
   }
-  .ulx-inputgroup.compact-mobile .inputgroup-addon {
+  .ulx-inputgroup.compact-mobile .inputgroup-addon:not(.button-addon) {
     height: 2rem;
     min-height: 2rem;
     padding: 0.28571429rem 0.57142857rem;
     font-size: var(--ulx-font-size-small);
     display: flex;
     align-items: center;
+    justify-content: center;
+  }
+  .ulx-inputgroup.compact-mobile .inputgroup-addon:not(.button-addon).icon-addon:has(.ulx-button) {
+    padding: 0;
+  }
+  .ulx-inputgroup.compact-mobile .inputgroup-addon.button-addon {
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0;
+    font-size: var(--ulx-font-size-small);
+    display: flex;
+    align-items: stretch;
     justify-content: center;
   }
   .ulx-inputgroup.compact-mobile .ulx-input,
@@ -12136,7 +12066,7 @@ FEATURES IMPLEMENTED:
   }
   .ulx-inputgroup.compact-mobile .inputgroup-addon.vertical-stack-addon .ulx-button {
     height: auto;
-    min-height: 0;
+    min-block-size: 0;
     padding-block: 0;
     padding-inline: calc(0.57142857rem - 0.28571429rem);
     box-shadow: none;
@@ -12161,7 +12091,8 @@ FEATURES IMPLEMENTED:
     transition: none;
   }
 }
-.ulx-inputgroup > *:focus-visible {
+.ulx-inputgroup > *:focus-visible,
+.ulx-inputgroup > .inputgroup-addon:focus-within:has(.ulx-button:focus-visible) {
   border-color: var(--ulx-primary-color);
 }
 .inputgroup-addon.icon-addon,
@@ -12176,16 +12107,34 @@ FEATURES IMPLEMENTED:
 }
 .inputgroup-addon.icon-addon {
   padding: 0.85714286rem;
-  min-width: 2.85714286rem;
+  min-inline-size: 2.85714286rem;
+}
+.inputgroup-addon.icon-addon:has(.ulx-button) {
+  padding: 0;
+  min-inline-size: 0;
+  align-items: stretch;
+}
+.inputgroup-addon.icon-addon:has(.ulx-button) .ulx-button {
+  block-size: 100%;
+  min-block-size: 100%;
+  min-inline-size: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
+  border: none;
+  box-shadow: none;
 }
 .inputgroup-addon.button-addon {
   padding: 0;
   background-color: transparent;
   border: 1px solid color-mix(in srgb, var(--ulx-input-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
+  align-items: stretch;
 }
 .inputgroup-addon.button-addon .ulx-button {
-  border-radius: 0;
-  height: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
+  margin-inline: 0;
   border: none;
   box-shadow: none;
 }
@@ -12202,7 +12151,7 @@ FEATURES IMPLEMENTED:
 }
 .inputgroup-addon.vertical-stack-addon .ulx-button {
   flex: 1;
-  min-height: 0;
+  min-block-size: 0;
   border: none;
   border-radius: 0;
   cursor: pointer;
@@ -14325,7 +14274,9 @@ FEATURES IMPLEMENTED:
   border-radius: var(--ulx-border-radius-md, var(--border-radius-md, 0.42857142857142855rem));
   transition: all 0.2s ease-in-out;
 }
-.ulx-iconfield .ulx-inputtext,
+.ulx-iconfield .ulx-input-icon {
+  color: var(--ulx-text-color-secondary, var(--ulx-secondary-text-color));
+}
 .ulx-iconfield .ulx-input {
   width: 100%;
   position: relative;
@@ -14338,19 +14289,17 @@ FEATURES IMPLEMENTED:
   transform: translateY(-50%);
   z-index: 1;
 }
-.ulx-iconfield.icon-left .ulx-inputtext,
 .ulx-iconfield.icon-left .ulx-input {
   padding-inline-start: calc(1.14285714rem + 1.14285714rem);
   padding-inline-end: 1.14285714rem;
 }
 .ulx-iconfield.icon-right .ulx-input-icon {
   position: absolute;
-  right: 1.14285714rem;
+  right: 0.85714286rem;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
 }
-.ulx-iconfield.icon-right .ulx-inputtext,
 .ulx-iconfield.icon-right .ulx-input {
   padding-inline-start: 1.14285714rem;
   padding-inline-end: calc(1.14285714rem + 1.14285714rem);
@@ -14359,12 +14308,10 @@ FEATURES IMPLEMENTED:
 .ulx-iconfield.xs-size .bs-icons1 {
   font-size: var(--ulx-font-size-h7);
 }
-.ulx-iconfield.xs-size.icon-left .ulx-inputtext,
 .ulx-iconfield.xs-size.icon-left .ulx-input {
   padding-inline-start: calc(var(--ulx-font-size-tiny) + 0.57142857rem);
   padding-inline-end: 0.57142857rem;
 }
-.ulx-iconfield.xs-size.icon-right .ulx-inputtext,
 .ulx-iconfield.xs-size.icon-right .ulx-input {
   padding-inline-start: 0.57142857rem;
   padding-inline-end: calc(var(--ulx-font-size-tiny) + 0.57142857rem);
@@ -14373,12 +14320,10 @@ FEATURES IMPLEMENTED:
 .ulx-iconfield.s-size .bs-icons1 {
   font-size: var(--ulx-font-size-h6);
 }
-.ulx-iconfield.s-size.icon-left .ulx-inputtext,
 .ulx-iconfield.s-size.icon-left .ulx-input {
   padding-inline-start: calc(var(--ulx-font-size-small) + 0.85714286rem);
   padding-inline-end: 0.85714286rem;
 }
-.ulx-iconfield.s-size.icon-right .ulx-inputtext,
 .ulx-iconfield.s-size.icon-right .ulx-input {
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-small) + 0.85714286rem);
@@ -14387,12 +14332,10 @@ FEATURES IMPLEMENTED:
 .ulx-iconfield.m-size .bs-icons1 {
   font-size: var(--ulx-font-size-h5);
 }
-.ulx-iconfield.m-size.icon-left .ulx-inputtext,
 .ulx-iconfield.m-size.icon-left .ulx-input {
   padding-inline-start: calc(var(--ulx-font-size-default) + 1.28571429rem);
   padding-inline-end: 0.85714286rem;
 }
-.ulx-iconfield.m-size.icon-right .ulx-inputtext,
 .ulx-iconfield.m-size.icon-right .ulx-input {
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-default) + 1.28571429rem);
@@ -14401,12 +14344,10 @@ FEATURES IMPLEMENTED:
 .ulx-iconfield.l-size .bs-icons1 {
   font-size: var(--ulx-font-size-h6);
 }
-.ulx-iconfield.l-size.icon-left .ulx-inputtext,
 .ulx-iconfield.l-size.icon-left .ulx-input {
   padding-inline-start: calc(var(--ulx-font-size-h6) + 1.14285714rem);
   padding-inline-end: 0.85714286rem;
 }
-.ulx-iconfield.l-size.icon-right .ulx-inputtext,
 .ulx-iconfield.l-size.icon-right .ulx-input {
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-h6) + 1.14285714rem);
@@ -14415,26 +14356,13 @@ FEATURES IMPLEMENTED:
 .ulx-iconfield.xl-size .bs-icons1 {
   font-size: var(--ulx-font-size-h5);
 }
-.ulx-iconfield.xl-size.icon-left .ulx-inputtext,
 .ulx-iconfield.xl-size.icon-left .ulx-input {
   padding-inline-start: calc(var(--ulx-font-size-h5) + 1.14285714rem);
   padding-inline-end: 0.85714286rem;
 }
-.ulx-iconfield.xl-size.icon-right .ulx-inputtext,
 .ulx-iconfield.xl-size.icon-right .ulx-input {
   padding-inline-start: 0.85714286rem;
   padding-inline-end: calc(var(--ulx-font-size-h5) + 1.14285714rem);
-}
-.ulx-iconfield.outlined .ulx-input-icon {
-  color: var(--ulx-text-color-secondary, var(--ulx-secondary-text-color));
-}
-.ulx-iconfield.filled {
-  background-color: var(--ulx-surface-100, color-mix(in srgb, var(--ulx-layer1-bg), var(--ulx-contrast-color) var(--ulx-contrast-intensity-17)));
-  border-radius: var(--ulx-border-radius-md, var(--border-radius-md, 0.42857142857142855rem));
-  padding: 0.57142857rem;
-}
-.ulx-iconfield.filled .ulx-input-icon {
-  color: var(--ulx-text-color-secondary, var(--ulx-secondary-text-color));
 }
 .ulx-iconfield.disabled {
   opacity: 0.6;
@@ -14449,9 +14377,6 @@ FEATURES IMPLEMENTED:
 .ulx-iconfield.loading .ulx-input-icon {
   animation: spin 1s linear infinite;
 }
-.ulx-input-icon.pi-spinner {
-  margin-top: -0.4rem;
-}
 .ulx-iconfield.clickable-icon .ulx-input-icon {
   cursor: var(--ulx-cursor-pointer, pointer);
   transition: color 0.2s ease-in-out;
@@ -14463,12 +14388,10 @@ FEATURES IMPLEMENTED:
   .ulx-iconfield .ulx-input-icon {
     font-size: var(--ulx-font-size-small);
   }
-  .ulx-iconfield.icon-left .ulx-inputtext,
   .ulx-iconfield.icon-left .ulx-input {
     padding-inline-start: calc(var(--ulx-font-size-small) + 0.85714286rem + 0.42857143rem);
     padding-inline-end: 0.85714286rem;
   }
-  .ulx-iconfield.icon-right .ulx-inputtext,
   .ulx-iconfield.icon-right .ulx-input {
     padding-inline-start: 0.85714286rem;
     padding-inline-end: calc(var(--ulx-font-size-small) + 0.85714286rem + 0.42857143rem);
@@ -14478,12 +14401,10 @@ FEATURES IMPLEMENTED:
   .ulx-iconfield .ulx-input-icon {
     font-size: var(--ulx-font-size-tiny);
   }
-  .ulx-iconfield.icon-left .ulx-inputtext,
   .ulx-iconfield.icon-left .ulx-input {
     padding-inline-start: calc(var(--ulx-font-size-tiny) + 0.57142857rem + 0.28571429rem);
     padding-inline-end: 0.57142857rem;
   }
-  .ulx-iconfield.icon-right .ulx-inputtext,
   .ulx-iconfield.icon-right .ulx-input {
     padding-inline-start: 0.57142857rem;
     padding-inline-end: calc(var(--ulx-font-size-tiny) + 0.57142857rem + 0.28571429rem);

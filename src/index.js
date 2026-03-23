@@ -63,6 +63,9 @@ export { default as UlxSorterItem } from './components/modules/ulx-sorter/item.g
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
 
+export { validate } from './utils/validation-util.js';
+export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
+
 // ── i18n template helpers ───────────────────────────────────
 export { default as tHelper } from './helpers/t.js';
 export { default as tSafeHelper } from './helpers/t-safe.js';
