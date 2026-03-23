@@ -14,6 +14,22 @@ import {
 } from "../../../utils/overlay-helpers";
 import UlxTieredmenuMenuList from "./menu-list.gjs";
 
+/** Durations match popup/tieredmenu CSS (e.g. 0.2s); fallback timeout covers missing `transitionend`. */
+const TIEREDMENU_TRANSITION_MS = 200;
+const TIEREDMENU_TRANSITION_FALLBACK_MS = TIEREDMENU_TRANSITION_MS + 100;
+/** Popup open/close state machine: used to avoid restarting animations and to keep the root in DOM during exit. */
+const TIEREDMENU_ENTER_STATES = new Set(["enter", "enter-active", "enter-done"]);
+const TIEREDMENU_EXIT_STATES = new Set(["exit", "exit-active", "exit-done"]);
+
+/** Direct children of a list only — arrow keys stay within one menu level. */
+const TIEREDMENU_DIRECT_LINK_SELECTOR =
+	":scope > li > .tieredmenu-item-link:not([aria-disabled='true'])";
+/** First actionable row inside a submenu panel (after opening via keyboard). */
+const TIEREDMENU_SUBMENU_FIRST_LINK_SELECTOR =
+	".tieredmenu-list > li > .tieredmenu-item-link:not([aria-disabled='true'])";
+/** First focusable item in the whole menubar (popup open focus). */
+const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled='true'])";
+
 /**
  * TieredMenu component for displaying hierarchical menus with nested submenus.
  * Displays submenus in nested overlays positioned to the right of parent items.
@@ -101,29 +117,15 @@ export default class UlxTieredmenu extends Component {
 	}
 
 	get shouldRender() {
-		// In popup mode, render if visible or animating out
-		if (this.isPopup) {
-			// Render if visible
-			if (this.args.visible === true) {
-				return true;
-			}
-			// Render if already animating out
-			if (this.animationState?.startsWith("exit")) {
-				return true;
-			}
-			// Render if menu was shown (enter states) but visible just became false
-			// This ensures the element stays in DOM long enough for exit animation to start
-			if (
-				!this.args.visible &&
-				(this.animationState === "enter-done" ||
-					this.animationState === "enter-active" ||
-					this.animationState === "enter")
-			) {
-				return true;
-			}
-			return false;
-		}
-		return true;
+		if (!this.isPopup) return true;
+		if (this.args.visible === true) return true;
+		// Keep mounted while exit runs so CSS transition can finish.
+		if (this.animationState?.startsWith("exit")) return true;
+		// `@visible` may flip false before exit starts; stay mounted if we were mid enter.
+		return (
+			!this.args.visible &&
+			TIEREDMENU_ENTER_STATES.has(this.animationState)
+		);
 	}
 
 	get shouldAppendToBody() {
@@ -322,20 +324,26 @@ export default class UlxTieredmenu extends Component {
 			return;
 		}
 
-		const { key } = event;
+		const { key, code } = event;
 		const hasSubmenu = this.hasSubmenu(item);
 
-		switch (key) {
-			case "Enter":
-			case " ":
-				event.preventDefault();
-				if (hasSubmenu) {
-					this.toggleSubmenu(itemId, parentId, event);
-				} else {
-					this.handleItemClick(item, itemId, parentId, event);
-				}
-				break;
+		// Activation: `key` + `code` so Space/NumpadEnter behave across browsers.
+		if (
+			key === "Enter" ||
+			key === " " ||
+			code === "Space" ||
+			code === "NumpadEnter"
+		) {
+			event.preventDefault();
+			if (hasSubmenu) {
+				this.toggleSubmenu(itemId, parentId, event);
+			} else {
+				this.handleItemClick(item, itemId, parentId, event);
+			}
+			return;
+		}
 
+		switch (key) {
 			case "ArrowRight":
 				if (hasSubmenu) {
 					event.preventDefault();
@@ -418,11 +426,7 @@ export default class UlxTieredmenu extends Component {
 	 */
 	_getFocusableLinksInList(listElement) {
 		if (!listElement) return [];
-		return Array.from(
-			listElement.querySelectorAll(
-				":scope > li > .tieredmenu-item-link:not([aria-disabled='true'])"
-			) ?? []
-		);
+		return Array.from(listElement.querySelectorAll(TIEREDMENU_DIRECT_LINK_SELECTOR));
 	}
 
 	/**
@@ -483,9 +487,7 @@ export default class UlxTieredmenu extends Component {
 			)
 				? triggerButton.nextElementSibling
 				: triggerButton?.closest("li")?.querySelector(".tieredmenu-submenu");
-			const firstLink = submenuDiv?.querySelector(
-				".tieredmenu-list > li > .tieredmenu-item-link:not([aria-disabled='true'])"
-			);
+			const firstLink = submenuDiv?.querySelector(TIEREDMENU_SUBMENU_FIRST_LINK_SELECTOR);
 			firstLink?.focus({ preventScroll: true });
 		};
 		schedule("afterRender", run);
@@ -565,36 +567,14 @@ export default class UlxTieredmenu extends Component {
 	}
 
 	/**
-	 * Renders a menu item with its submenu (recursive)
-	 */
-	@action
-	renderMenuItem(itemData) {
-		return {
-			...itemData,
-			hasSubmenu: this.hasSubmenu(itemData.item),
-			isDisabled: this.isDisabled(itemData.item),
-			isSeparator: this.isSeparator(itemData.item),
-			isSubmenuOpen: this.isSubmenuOpen(itemData.itemId),
-			itemClasses: this.getItemClasses(itemData.item, itemData.itemId),
-			submenuClasses: this.getSubmenuClasses(itemData.itemId),
-			submenuId: this.getSubmenuId(itemData.itemId),
-			tabindex: "0"
-		};
-	}
-
-	/**
 	 * Handles popup show animation
 	 */
 	@action
 	handleShow() {
 		if (!this.isPopup || !this.containerElement) return;
 
-		// Prevent multiple calls - if already animating or done, don't restart
-		if (
-			this.animationState === "enter" ||
-			this.animationState === "enter-active" ||
-			this.animationState === "enter-done"
-		) {
+		// Do not restart enter if already entering or fully shown.
+		if (TIEREDMENU_ENTER_STATES.has(this.animationState)) {
 			return;
 		}
 
@@ -622,12 +602,9 @@ export default class UlxTieredmenu extends Component {
 		this.alignOverlay();
 		this.setZIndex();
 
-		// Track transition completion
 		let transitionCompleted = false;
-		const transitionDuration = 200; // Match CSS transition duration (0.2s from LESS file)
 		let transitionEndTimeout = null;
 
-		// Function to complete the enter animation
 		const completeEnterAnimation = () => {
 			if (!transitionCompleted && this.animationState === "enter-active") {
 				transitionCompleted = true;
@@ -640,13 +617,9 @@ export default class UlxTieredmenu extends Component {
 			}
 		};
 
-		// Listen for transition end - CSS transitions both opacity and transform
 		const handleTransitionEnd = (event) => {
-			// Only process events from the container element
 			if (event.target !== this.containerElement) return;
-
-			// The transition affects both opacity and transform
-			// We want to complete when either finishes (they should finish together)
+			// Popup animates opacity/transform; ignore bubbled events from descendants.
 			if (event.propertyName === "opacity" || event.propertyName === "transform") {
 				completeEnterAnimation();
 			}
@@ -654,17 +627,14 @@ export default class UlxTieredmenu extends Component {
 
 		this.containerElement.addEventListener("transitionend", handleTransitionEnd);
 
-		// Trigger enter-active after frames to allow browser to apply initial styles and start transition
+		// Double rAF: first frame applies `enter`, next frame toggles to `enter-active` so the transition runs.
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				if (this.animationState === "enter") {
 					this.animationState = "enter-active";
-
-					// Fallback timeout - ensure we complete even if transitionend doesn't fire
-					// Use slightly longer than transition duration to account for any delays
 					transitionEndTimeout = setTimeout(() => {
 						completeEnterAnimation();
-					}, transitionDuration + 100); // 300ms total to be safe
+					}, TIEREDMENU_TRANSITION_FALLBACK_MS);
 				}
 			});
 		});
@@ -682,24 +652,16 @@ export default class UlxTieredmenu extends Component {
 			return;
 		}
 
-		// Prevent multiple calls - if already animating out or done, don't restart
-		if (
-			this.animationState === "exit" ||
-			this.animationState === "exit-active" ||
-			this.animationState === "exit-done"
-		) {
+		if (TIEREDMENU_EXIT_STATES.has(this.animationState)) {
 			return;
 		}
 
-		// Set exit state
 		this.animationState = "exit";
 
-		// Track transition completion
 		let transitionCompleted = false;
-		const transitionDuration = 200; // Match CSS transition duration (0.2s from LESS file)
 		let transitionEndTimeout = null;
 
-		// Function to complete the exit animation
+		// Mirror enter: transitionend + timeout fallback, then reset state and notify parent.
 		const completeExitAnimation = () => {
 			if (!transitionCompleted && this.animationState === "exit-active") {
 				transitionCompleted = true;
@@ -708,7 +670,6 @@ export default class UlxTieredmenu extends Component {
 				this.modalStack?.unregisterModal(this);
 				this.clearZIndex();
 				this.args.onHide?.();
-				// Reset state after a brief delay
 				setTimeout(() => {
 					this.animationState = null;
 				}, 50);
@@ -720,13 +681,8 @@ export default class UlxTieredmenu extends Component {
 			}
 		};
 
-		// Listen for transition end - CSS transitions both opacity and transform
 		const handleTransitionEnd = (event) => {
-			// Only process events from the container element
 			if (event.target !== this.containerElement) return;
-
-			// The transition affects both opacity and transform
-			// We want to complete when either finishes (they should finish together)
 			if (event.propertyName === "opacity" || event.propertyName === "transform") {
 				completeExitAnimation();
 			}
@@ -734,17 +690,14 @@ export default class UlxTieredmenu extends Component {
 
 		this.containerElement.addEventListener("transitionend", handleTransitionEnd);
 
-		// Trigger exit-active after frames to allow browser to apply initial styles and start transition
+		// Same double-rAF pattern as enter so `exit` → `exit-active` triggers CSS.
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				if (this.animationState === "exit") {
 					this.animationState = "exit-active";
-
-					// Fallback timeout - ensure we complete even if transitionend doesn't fire
-					// Use slightly longer than transition duration to account for any delays
 					transitionEndTimeout = setTimeout(() => {
 						completeExitAnimation();
-					}, transitionDuration + 100); // 300ms total to be safe
+					}, TIEREDMENU_TRANSITION_FALLBACK_MS);
 				}
 			});
 		});
@@ -827,9 +780,7 @@ export default class UlxTieredmenu extends Component {
 	 */
 	@action
 	clearZIndex() {
-		if (this.containerElement) {
-			this.containerElement.style.zIndex = "";
-		}
+		if (this.containerElement) this.containerElement.style.zIndex = "";
 		this.zIndex = null;
 	}
 
@@ -868,7 +819,8 @@ export default class UlxTieredmenu extends Component {
 	 */
 	registerRefModifier = modifier(() => {
 		this.args.registerRef?.(this);
-		return () => {};
+		// Clear so parents do not keep a stale instance after teardown.
+		return () => this.args.registerRef?.(null);
 	});
 
 	/**
@@ -904,7 +856,7 @@ export default class UlxTieredmenu extends Component {
 	 * Public API: Hide the popup menu
 	 */
 	@action
-	hide(event) {
+	hide() {
 		if (!this.isPopup) return;
 		this.handleHide();
 	}
@@ -919,14 +871,15 @@ export default class UlxTieredmenu extends Component {
 			this.setTarget(event);
 		}
 		if (this.isVisible) {
-			this.hide(event);
+			this.hide();
 		} else {
 			this.show(event);
 		}
 	}
 
 	/**
-	 * Modifier to watch visibility changes and trigger animations
+	 * Syncs `@visible` with enter/exit animations. Parent owns `visible`; we only drive `animationState`
+	 * and call `handleShow` / `handleHide` when edges are detected.
 	 */
 	watchVisibility = modifier((element, [isVisible, isPopup, targetElement, _animationState]) => {
 		if (!isPopup) return;
@@ -935,20 +888,13 @@ export default class UlxTieredmenu extends Component {
 			this.targetElement = targetElement;
 		}
 
-		// Track transition from hidden to visible
 		const previousVisible = this._previousVisible;
 		const isTransitioningToVisible = !previousVisible && isVisible;
 		const isTransitioningToHidden = previousVisible && !isVisible;
 
 		if (isVisible) {
-			// Only trigger show if:
-			// 1. We're transitioning from not visible to visible (or first time visible)
-			// 2. Animation is not already in progress or completed
 			const shouldShow =
-				isTransitioningToVisible &&
-				this.animationState !== "enter" &&
-				this.animationState !== "enter-active" &&
-				this.animationState !== "enter-done";
+				isTransitioningToVisible && !TIEREDMENU_ENTER_STATES.has(this.animationState);
 
 			if (shouldShow) {
 				this.args.onShow?.(this._showEvent);
@@ -957,13 +903,10 @@ export default class UlxTieredmenu extends Component {
 					if (!this.targetElement && this.args.target) {
 						this.targetElement = this.args.target;
 					}
+					// appendToBody may run after this modifier; wait until the node is under `document.body` before measuring/positioning.
 					const checkAndShow = () => {
 						if (element.parentNode === document.body || !this.isPopup) {
-							if (
-								this.animationState !== "enter" &&
-								this.animationState !== "enter-active" &&
-								this.animationState !== "enter-done"
-							) {
+							if (!TIEREDMENU_ENTER_STATES.has(this.animationState)) {
 								requestAnimationFrame(() => {
 									this.handleShow();
 								});
@@ -975,44 +918,25 @@ export default class UlxTieredmenu extends Component {
 					checkAndShow();
 				}
 			}
-			// Update previous visible state AFTER handling show
-			this._previousVisible = isVisible;
-		} else if (!isVisible) {
-			// Handle hide - check if menu was visible (either from previousVisible or animationState)
-			// Menu is considered visible if:
-			// 1. previousVisible was true (tracked state) - indicates transition from visible to hidden
-			// 2. OR animationState indicates it was shown (enter states) - fallback if tracking is off
-			const isMenuCurrentlyShown =
-				this.animationState === "enter-done" ||
-				this.animationState === "enter-active" ||
-				this.animationState === "enter";
+		} else {
+			// Treat as "was open" if we were entering/entered, so `@visible` false still runs exit from a steady state.
+			const isMenuCurrentlyShown = TIEREDMENU_ENTER_STATES.has(this.animationState);
 			const wasVisible = isTransitioningToHidden || isMenuCurrentlyShown;
 
-			// Only trigger hide if:
-			// 1. Menu was visible (wasVisible is true)
-			// 2. Not already hiding (animationState doesn't start with "exit")
-			// 3. Animation state exists (not null) OR we're transitioning from visible (fallback)
 			if (
 				wasVisible &&
 				(this.animationState !== null || isTransitioningToHidden) &&
 				!this.animationState?.startsWith("exit")
 			) {
-				// Use requestAnimationFrame to ensure DOM is ready for animation
-				// This ensures the element is still in the DOM and classes can be applied
 				requestAnimationFrame(() => {
-					// Double-check state hasn't changed and container still exists
 					if (this.containerElement && !this.animationState?.startsWith("exit")) {
 						this.handleHide();
 					}
 				});
 			}
-			// Update previous visible state AFTER handling hide
-			this._previousVisible = isVisible;
-		} else {
-			// No change, just update the tracking
-			this._previousVisible = isVisible;
 		}
 
+		// While open, keep the panel pinned to the trigger (scroll/resize/layout).
 		if (
 			isVisible &&
 			this.animationState === "enter-done" &&
@@ -1021,6 +945,8 @@ export default class UlxTieredmenu extends Component {
 		) {
 			this.alignOverlay();
 		}
+
+		this._previousVisible = isVisible;
 	});
 
 	/**
@@ -1028,7 +954,7 @@ export default class UlxTieredmenu extends Component {
 	 */
 	focusFirstItemOnVisible = modifier((element, [isVisible, animationState]) => {
 		if (isVisible && this.isPopup && animationState === "enter-done") {
-			const firstLink = element?.querySelector(".tieredmenu-item-link:not([aria-disabled='true'])");
+			const firstLink = element?.querySelector(TIEREDMENU_ANY_FOCUSABLE_LINK);
 			if (firstLink) {
 				setTimeout(() => firstLink.focus({ preventScroll: true }), 0);
 			}
@@ -1039,6 +965,7 @@ export default class UlxTieredmenu extends Component {
 	 * Modifier to handle click outside for popup mode
 	 */
 	closeOnClickOutside = modifier((element) => {
+		// Inline menubar: outside click collapses open submenus only (root stays in document flow).
 		if (!this.isPopup) {
 			const handleClick = (event) => {
 				if (isPointerOutsideElement(element, event)) {
@@ -1055,6 +982,7 @@ export default class UlxTieredmenu extends Component {
 			};
 		}
 
+		// Popup: dismiss when click is outside both the panel and the anchor; respect modal stack top.
 		const handleClick = (event) => {
 			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 			if (
@@ -1078,17 +1006,15 @@ export default class UlxTieredmenu extends Component {
 	handleResize = modifier(() => {
 		if (!this.isPopup || !this.isVisible) return;
 
-		const handleResize = () => {
+		const onWindowResize = () => {
 			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-			if (this.isVisible) {
-				this.handleHide();
-			}
+			if (this.isVisible) this.handleHide();
 		};
 
-		window.addEventListener("resize", handleResize);
+		window.addEventListener("resize", onWindowResize);
 
 		return () => {
-			window.removeEventListener("resize", handleResize);
+			window.removeEventListener("resize", onWindowResize);
 		};
 	});
 

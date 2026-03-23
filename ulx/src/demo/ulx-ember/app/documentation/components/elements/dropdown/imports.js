@@ -4,7 +4,6 @@
 
 export { default as BasicDemo } from '../../../../components/Demo/Dropdown/Basic';
 export { default as CheckmarkDemo } from '../../../../components/Demo/Dropdown/Checkmark';
-export { default as EditableDemo } from '../../../../components/Demo/Dropdown/Editable';
 export { default as GroupDemo } from '../../../../components/Demo/Dropdown/Group';
 export { default as TemplateDemo } from '../../../../components/Demo/Dropdown/Template';
 export { default as FilterDemo } from '../../../../components/Demo/Dropdown/Filter';
@@ -20,7 +19,6 @@ export { default as AccessibilityDemo } from '../../../../components/Demo/Dropdo
 export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
 export { default as CheckmarkSource } from './snippets/Checkmark.gjs';
-export { default as EditableSource } from './snippets/Editable.gjs';
 export { default as GroupSource } from './snippets/Group.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as FilterSource } from './snippets/Filter.gjs';

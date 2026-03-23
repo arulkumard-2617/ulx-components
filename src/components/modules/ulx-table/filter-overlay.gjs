@@ -9,6 +9,7 @@ import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
 import gt from "ember-truth-helpers/helpers/gt";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxDropdown from "../../elements/ulx-dropdown/index.gjs";
 import UlxInput from "../../elements/ulx-input/index.gjs";
 import UlxMultiSelect from "../../elements/ulx-multi-select/index.gjs";
@@ -190,7 +191,7 @@ export default class FilterOverlay extends Component {
 		>
 			<div class="filter-overlay-header">
 				<span class="filter-overlay-title">{{or @column.header this.field}}</span>
-				<UlxButton
+				<UlxIconButton
 					@variant="secondary"
 					@text={{true}}
 					@size="s-size"
@@ -258,7 +259,7 @@ export default class FilterOverlay extends Component {
 						{{/if}}
 
 						{{#if (gt index 0)}}
-							<UlxButton
+							<UlxIconButton
 								@variant="text"
 								@icon="dash-circle"
 								@iconComponentClass="bs-icons1"
@@ -274,7 +275,7 @@ export default class FilterOverlay extends Component {
 
 			{{#if this.canAddRule}}
 				<div class="filter-add-rule">
-					<UlxButton
+					<UlxIconButton
 						@outlined={{true}}
 						@variant="primary"
 						@label={{t "lbl.add.filter.rule"}}

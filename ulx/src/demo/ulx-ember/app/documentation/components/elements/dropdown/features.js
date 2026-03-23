@@ -6,7 +6,6 @@ import RichText from '../../../../components/common/doc-main/rich-text';
 import {
   BasicDemo,
   CheckmarkDemo,
-  EditableDemo,
   GroupDemo,
   TemplateDemo,
   FilterDemo,
@@ -21,7 +20,6 @@ import {
   ImportSource,
   BasicSource,
   CheckmarkSource,
-  EditableSource,
   GroupSource,
   TemplateSource,
   FilterSource,
@@ -76,14 +74,6 @@ export const DropdownFeatureItems = [
     CheckmarkDemo,
     CheckmarkSource,
     'checkmark'
-  ),
-  section(
-    'editable',
-    t('lbl.dropdown.editable'),
-    'The <code>Editable</code> demo allows typing in the trigger to filter options.',
-    EditableDemo,
-    EditableSource,
-    'editable'
   ),
   section(
     'group',

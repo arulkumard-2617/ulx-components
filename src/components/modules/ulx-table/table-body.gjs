@@ -9,6 +9,7 @@ import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxRadio from "../../elements/ulx-radio/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import { getFieldValue } from "./utils.js";
 import { t } from "../../../utils/i18n.js";
@@ -546,7 +547,7 @@ export default class TableBody extends Component {
 									style="width: 3rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
 								>
-									<UlxButton
+									<UlxIconButton
 										@text={{true}}
 										@variant="secondary"
 										@icon={{if (this.isRowExpanded row) "down-arrow-icon" "right-arrow-icon"}}
@@ -587,7 +588,7 @@ export default class TableBody extends Component {
 								>
 									{{#if (this.isRowEditing row)}}
 										<div class="datatable-row-editor editing" role="group">
-											<UlxButton
+											<UlxIconButton
 												@text={{true}}
 												@variant="success"
 												@icon="tick-thick-icon"
@@ -596,7 +597,7 @@ export default class TableBody extends Component {
 												@onClick={{fn this.handleRowEditSave row}}
 												aria-label={{t "aria.table.save.row"}}
 											/>
-											<UlxButton
+											<UlxIconButton
 												@text={{true}}
 												@variant="danger"
 												@icon="close-thick-icon"
@@ -608,7 +609,7 @@ export default class TableBody extends Component {
 										</div>
 									{{else}}
 										<div class="datatable-row-editor">
-											<UlxButton
+											<UlxIconButton
 												@text={{true}}
 												@variant="secondary"
 												@icon="edit-icon"

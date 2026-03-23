@@ -18,10 +18,19 @@ import UlxSlidePaneHeader from "./header.gjs";
 import UlxSlidePaneBody from "./body.gjs";
 import UlxSlidePaneFooter from "./footer.gjs";
 
+const DEFAULT_POSITION = "right";
+
+const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
+	left: "docked-left",
+	right: "docked-right",
+	top: "docked-top",
+	bottom: "docked-bottom"
+};
+
 /**
  * Slide pane (drawer) component that displays content in an overlay from the left or right edge.
  * Uses shared overlay lifecycle modifier and utilities for focus management, transitions, and async close.
- * Styled via uls-v2 slidepane.less (class ulx-slidepane and position variants).
+ * Styled with design-system slidepane classes (`ulx-slidepane` and docked position variants).
  *
  * ## Usage
  * ```gjs
@@ -95,7 +104,9 @@ export default class UlxSlidePane extends Component {
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
 	@tracked isMaximized = false;
+	/** Read/written by `overlayLifecycle` (focus return and open/close edge tracking). */
 	previousVisible = false;
+	/** Read/written by `overlayLifecycle` when saving/restoring document focus. */
 	previousActiveElement = null;
 
 	get destinationElement() {
@@ -107,22 +118,22 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get position() {
-		const { position = "right" } = this.args;
-		return position;
+		return this.args.position ?? DEFAULT_POSITION;
+	}
+
+	buildSectionClass(base, extraClass) {
+		const parts = [base];
+		extraClass && parts.push(extraClass);
+		return parts.filter(Boolean).join(" ");
 	}
 
 	get slidePaneClasses() {
 		const { size = "m-size" } = this.args;
 		const parts = [this.baseClass];
 
-		const positionMap = {
-			left: "docked-left",
-			right: "docked-right",
-			top: "docked-top",
-			bottom: "docked-bottom"
-		};
-
-		const dockedClass = positionMap[this.position] || "docked-right";
+		const dockedClass =
+			SLIDEPANE_DOCKED_CLASS_BY_POSITION[this.position] ??
+			SLIDEPANE_DOCKED_CLASS_BY_POSITION[DEFAULT_POSITION];
 		parts.push(dockedClass);
 
 		!this.isMaximized && parts.push(size);
@@ -178,24 +189,15 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get bodyContentClasses() {
-		const { contentClassName } = this.args;
-		const parts = ["slidepane-content"];
-		contentClassName && parts.push(contentClassName);
-		return parts.filter(Boolean).join(" ");
+		return this.buildSectionClass("slidepane-content", this.args.contentClassName);
 	}
 
 	get headerWrapperClasses() {
-		const { headerClassName } = this.args;
-		const parts = ["slidepane-header"];
-		headerClassName && parts.push(headerClassName);
-		return parts.filter(Boolean).join(" ");
+		return this.buildSectionClass("slidepane-header", this.args.headerClassName);
 	}
 
 	get footerWrapperClasses() {
-		const { footerClassName } = this.args;
-		const parts = ["slidepane-footer"];
-		footerClassName && parts.push(footerClassName);
-		return parts.filter(Boolean).join(" ");
+		return this.buildSectionClass("slidepane-footer", this.args.footerClassName);
 	}
 
 	get showCloseButton() {
@@ -208,9 +210,7 @@ export default class UlxSlidePane extends Component {
 
 	@action
 	handleBack() {
-		if (this.args.onBack) {
-			this.args.onBack();
-		}
+		this.args.onBack?.();
 	}
 
 	get blockScroll() {
@@ -224,16 +224,12 @@ export default class UlxSlidePane extends Component {
 	@action
 	handleMaximize() {
 		this.isMaximized = !this.isMaximized;
-		if (this.args.onMaximize) {
-			this.args.onMaximize({ maximized: this.isMaximized });
-		}
+		this.args.onMaximize?.({ maximized: this.isMaximized });
 	}
 
 	@action
 	handleBackdropClick(event) {
-		if (this.args.onMaskClick) {
-			this.args.onMaskClick(event);
-		}
+		this.args.onMaskClick?.(event);
 
 		if (this.closeOnBackdrop && event.target.classList.contains("slidepane-mask")) {
 			this.handleClose();
@@ -242,49 +238,32 @@ export default class UlxSlidePane extends Component {
 
 	@action
 	handleClose() {
-		if (this.args.onHide) {
-			this.args.onHide();
-		}
+		this.args.onHide?.();
+	}
+
+	_invokeAsyncFooterAction(action, autoCloseArgKey, autoCloseDefault) {
+		handleAsyncAction(action, {
+			setSubmitting: (value) => {
+				this.isSubmitting = value;
+			},
+			onSuccess: () => {
+				const shouldClose = this.args[autoCloseArgKey] ?? autoCloseDefault;
+				if (shouldClose) this.handleClose();
+			},
+			onError: (error) => {
+				this.args.onError?.(error);
+			}
+		});
 	}
 
 	@action
 	handleCancel() {
-		handleAsyncAction(this.args.onCancel, {
-			setSubmitting: (value) => {
-				this.isSubmitting = value;
-			},
-			onSuccess: () => {
-				const autoCloseOnCancel = this.args.autoCloseOnCancel ?? false;
-				if (autoCloseOnCancel) {
-					this.handleClose();
-				}
-			},
-			onError: (error) => {
-				if (this.args.onError) {
-					this.args.onError(error);
-				}
-			}
-		});
+		this._invokeAsyncFooterAction(this.args.onCancel, "autoCloseOnCancel", false);
 	}
 
 	@action
 	handleDone() {
-		handleAsyncAction(this.args.onDone, {
-			setSubmitting: (value) => {
-				this.isSubmitting = value;
-			},
-			onSuccess: () => {
-				const autoCloseOnDone = this.args.autoCloseOnDone ?? true;
-				if (autoCloseOnDone) {
-					this.handleClose();
-				}
-			},
-			onError: (error) => {
-				if (this.args.onError) {
-					this.args.onError(error);
-				}
-			}
-		});
+		this._invokeAsyncFooterAction(this.args.onDone, "autoCloseOnDone", true);
 	}
 
 	@action
@@ -298,6 +277,7 @@ export default class UlxSlidePane extends Component {
 		});
 	}
 
+	/** Register with modal stack for z-index and top-overlay behavior while the pane element is mounted. */
 	overlayStackManagement = modifier(() => {
 		const { visible, maximized } = this.args;
 
@@ -349,28 +329,28 @@ export default class UlxSlidePane extends Component {
 									{{yield to="head"}}
 								</div>
 							{{else unless @hideHeader}}
-									<UlxSlidePaneHeader
-										@title={{@title}}
-										@showCloseButton={{this.showCloseButton}}
-										@showBackButton={{this.showBackInHeader}}
-										@onBack={{this.handleBack}}
-										@backButtonLabel={{@backButtonLabel}}
-										@backIconName={{@backIconName}}
-										@backButtonVariant={{@backButtonVariant}}
-										@backIconSize={{@backIconSize}}
-										@backIconComponentClass={{@backIconComponentClass}}
-										@showMaximizeButton={{this.maximizable}}
-										@isMaximized={{this.isMaximized}}
-										@onClose={{this.handleClose}}
-										@onMaximize={{this.handleMaximize}}
-										@closeIconName={{@closeIconName}}
-										@iconComponentClass={{@iconComponentClass}}
-										@iconVariant={{@iconVariant}}
-										@iconSize={{@iconSize}}
-										@maximizeIconName={{@maximizeIconName}}
-										@minimizeIconName={{@minimizeIconName}}
-										@headerClassName={{@headerClassName}}
-									/>
+								<UlxSlidePaneHeader
+									@title={{@title}}
+									@showCloseButton={{this.showCloseButton}}
+									@showBackButton={{this.showBackInHeader}}
+									@onBack={{this.handleBack}}
+									@backButtonLabel={{@backButtonLabel}}
+									@backIconName={{@backIconName}}
+									@backButtonVariant={{@backButtonVariant}}
+									@backIconSize={{@backIconSize}}
+									@backIconComponentClass={{@backIconComponentClass}}
+									@showMaximizeButton={{this.maximizable}}
+									@isMaximized={{this.isMaximized}}
+									@onClose={{this.handleClose}}
+									@onMaximize={{this.handleMaximize}}
+									@closeIconName={{@closeIconName}}
+									@iconComponentClass={{@iconComponentClass}}
+									@iconVariant={{@iconVariant}}
+									@iconSize={{@iconSize}}
+									@maximizeIconName={{@maximizeIconName}}
+									@minimizeIconName={{@minimizeIconName}}
+									@headerClassName={{@headerClassName}}
+								/>
 							{{/if}}
 
 							{{#if (has-block "body")}}
@@ -391,20 +371,20 @@ export default class UlxSlidePane extends Component {
 									{{yield to="footer"}}
 								</div>
 							{{else unless @hideFooter}}
-									<UlxSlidePaneFooter
-										@hideFooter={{@hideFooter}}
-										@hideCancelButton={{@hideCancelButton}}
-										@hideDoneButton={{@hideDoneButton}}
-										@showBackButton={{this.showBackInHeader}}
-										@cancelLabel={{@cancelButtonLabel}}
-										@doneLabel={{@doneButtonLabel}}
-										@submittingLabel={{@submittingLabel}}
-										@submitting={{this.isSubmitting}}
-										@onCancel={{this.handleCancel}}
-										@onDone={{this.handleDone}}
-										@onBack={{this.handleBack}}
-										@footerClassName={{@footerClassName}}
-									/>
+								<UlxSlidePaneFooter
+									@hideFooter={{@hideFooter}}
+									@hideCancelButton={{@hideCancelButton}}
+									@hideDoneButton={{@hideDoneButton}}
+									@showBackButton={{this.showBackInHeader}}
+									@cancelLabel={{@cancelButtonLabel}}
+									@doneLabel={{@doneButtonLabel}}
+									@submittingLabel={{@submittingLabel}}
+									@submitting={{this.isSubmitting}}
+									@onCancel={{this.handleCancel}}
+									@onDone={{this.handleDone}}
+									@onBack={{this.handleBack}}
+									@footerClassName={{@footerClassName}}
+								/>
 							{{/if}}
 						</div>
 					</div>

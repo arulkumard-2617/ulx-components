@@ -5,16 +5,13 @@ import { on } from "@ember/modifier";
 import { registerDestructor } from "@ember/destroyable";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
-import UlxIcon from "../ulx-icon/index.gjs";
-import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
-import UlxBadge from "../ulx-badge/index.gjs";
 
 const RIPPLE_SIZE = 80;
 const RIPPLE_DURATION_MS = 200;
 
 /**
  * Button element component. Supports multiple variants, sizes, styles (text, outlined, raised, rounded),
- * icons, loading state, badges, and link rendering.
+ * loading state, link rendering, and external content slots via named blocks.
  *
  * ## Variants
  * - primary (default)
@@ -35,20 +32,13 @@ const RIPPLE_DURATION_MS = 200;
  * ## Sizes
  * Pass size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Default m-size.
  *
- * ## Icon Support
- * - @icon - Icon name (font icon class) passed to UlxIcon as @iconName; UlxIcon is used with type "font"
- * - @iconComponentClass - Base class for UlxIcon (e.g. "bs-icons1" for font icons); passed as componentClass to UlxIcon
- * - @iconSize - uls-v2 icon size class (e.g. s13, s16, s18) passed to UlxIcon as @size
- * - @iconPos - "left" (default) or "right"
- * - <:icon> block for custom icon markup
- * - <:default> block for custom main content (when used with <:icon>, avoids mixing named blocks with default content)
+ * ## Content Blocks
+ * - <:prefix> Render content before the main label/default content
+ * - <:default> Render main button content
+ * - <:suffix> Render content after the main label/default content
  *
- * ## Badge Support
- * - @badge - Badge value/text (passed to UlxBadge as @value)
- * - @badgeVariant - Badge variant (primary, secondary, success, info, warning, danger). Defaults to "primary"
- * - @badgeSize - Badge size (xs-size, s-size, m-size, l-size, xl-size). Defaults to "s-size"
- * - @badgeType - Badge type (circle, dot, square). Defaults to "square"
- * - @badgeCustomClass - Custom badge CSS classes (passed to UlxBadge as @customClass)
+ * This component no longer renders icon/loading/badge internals directly.
+ * Those should be passed from the outside through named blocks.
  *
  * ## WCAG
  * - Use semantic <button> element with proper type attribute
@@ -59,10 +49,6 @@ const RIPPLE_DURATION_MS = 200;
  *
  * @class UlxButton
  * @param {string} [label] - Button label text
- * @param {string} [icon] - Icon name (font icon class), passed to UlxIcon
- * @param {string} [iconComponentClass] - UlxIcon base class (e.g. "bs-icons1" for font icons)
- * @param {string} [iconSize] - uls-v2 icon size class (e.g. s13, s16, s18) passed to UlxIcon as @size
- * @param {'left'|'right'} [iconPos='left'] - Icon position relative to label
  * @param {boolean} [disabled=false] - Disables the button
  * @param {string} [href] - When set, renders as <a href="{{href}}">; otherwise <button>
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Button variant/type
@@ -72,11 +58,6 @@ const RIPPLE_DURATION_MS = 200;
  * @param {boolean} [outlined=false] - Outlined variant (transparent background with border)
  * @param {string} [size] - Button size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Omit for m-size.
  * @param {boolean} [fluid=false] - Full width button
- * @param {string|number} [badge] - Badge value to display (passed to UlxBadge)
- * @param {'primary'|'secondary'|'success'|'info'|'warning'|'danger'} [badgeVariant='primary'] - Badge variant
- * @param {string} [badgeSize] - Badge size (xs-size, s-size, m-size, l-size, xl-size)
- * @param {'circle'|'dot'|'square'} [badgeType='circle'] - Badge type (defaults to "circle")
- * @param {string} [badgeCustomClass] - Custom badge CSS classes
  * @param {string} [customClass] - Additional CSS classes
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-button".
  * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute
@@ -126,8 +107,7 @@ export default class UlxButton extends Component {
 			rounded,
 			size,
 			fluid,
-			customClass,
-			label
+			customClass
 		} = this.args;
 
 		const parts = [this.baseClass];
@@ -141,7 +121,6 @@ export default class UlxButton extends Component {
 
 		parts.push(size || "m-size");
 
-		this.hasIcon && !label && parts.push("icon-only");
 		fluid && parts.push("fluid");
 		this.effectiveLoading && parts.push("loading");
 		this.isDisabled && parts.push("disabled");
@@ -151,32 +130,6 @@ export default class UlxButton extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
-	get buttonSize() {
-		return this.args.size || "m-size";
-	}
-
-	get hasIcon() {
-		const { icon } = this.args;
-		return !!icon || this.effectiveLoading;
-	}
-
-	get iconPosition() {
-		return this.args.iconPos || "left";
-	}
-
-	get showIconLeft() {
-		return this.hasIcon && this.iconPosition === "left";
-	}
-
-	get showIconRight() {
-		return this.hasIcon && this.iconPosition === "right";
-	}
-
-	get iconToDisplay() {
-		if (this.effectiveLoading) return "pi-spinner";
-		return this.args.icon;
-	}
-
 	get buttonType() {
 		return this.args.type || "button";
 	}
@@ -184,14 +137,6 @@ export default class UlxButton extends Component {
 	get isDisabled() {
 		const { disabled } = this.args;
 		return disabled || this.effectiveLoading;
-	}
-
-	get showBadge() {
-		return this.args.badge !== undefined && this.args.badge !== null;
-	}
-
-	get badgeType() {
-		return this.args.badgeType ?? "circle";
 	}
 
 	/**
@@ -233,13 +178,6 @@ export default class UlxButton extends Component {
 			event.preventDefault();
 			this.handleClickWithRipple(event);
 		}
-	}
-
-	get iconClass() {
-		const { label } = this.args;
-		const parts = ["icon"];
-		if (!(this.hasIcon && !label)) parts.push(this.iconPosition);
-		return parts.join(" ");
 	}
 
 	get labelClass() {
@@ -306,23 +244,8 @@ export default class UlxButton extends Component {
 				{{on "keydown" this.handleKeyDown}}
 				...attributes
 			>
-				{{#if this.showIconLeft}}
-					{{#if this.effectiveLoading}}
-						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
-							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
-						</span>
-					{{else if (has-block "icon")}}
-						{{yield to="icon"}}
-					{{else}}
-						<UlxIcon
-							@iconName={{this.iconToDisplay}}
-							@type="font"
-							@componentClass={{@iconComponentClass}}
-							@size={{@iconSize}}
-							@customClass={{this.iconClass}}
-							aria-hidden="true"
-						/>
-					{{/if}}
+				{{#if (has-block "prefix")}}
+					{{yield to="prefix"}}
 				{{/if}}
 
 				{{#if (has-block "default")}}
@@ -334,33 +257,8 @@ export default class UlxButton extends Component {
 					{{yield}}
 				{{/if}}
 
-				{{#if this.showIconRight}}
-					{{#if this.effectiveLoading}}
-						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
-							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
-						</span>
-					{{else if (has-block "icon")}}
-						{{yield to="icon"}}
-					{{else}}
-						<UlxIcon
-							@iconName={{this.iconToDisplay}}
-							@type="font"
-							@componentClass={{@iconComponentClass}}
-							@size={{@iconSize}}
-							@customClass={{this.iconClass}}
-							aria-hidden="true"
-						/>
-					{{/if}}
-				{{/if}}
-
-				{{#if this.showBadge}}
-					<UlxBadge
-						@value={{@badge}}
-						@variant={{@badgeVariant}}
-						@size={{@badgeSize}}
-						@type={{this.badgeType}}
-						@customClass={{@badgeCustomClass}}
-					/>
+				{{#if (has-block "suffix")}}
+					{{yield to="suffix"}}
 				{{/if}}
 
 				<span
@@ -382,23 +280,8 @@ export default class UlxButton extends Component {
 				{{on "keydown" this.handleKeyDown}}
 				...attributes
 			>
-				{{#if this.showIconLeft}}
-					{{#if this.effectiveLoading}}
-						<span class="{{this.baseClass}}-loading-icon left" aria-hidden="true">
-							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
-						</span>
-					{{else if (has-block "icon")}}
-						{{yield to="icon"}}
-					{{else}}
-						<UlxIcon
-							@iconName={{this.iconToDisplay}}
-							@type="font"
-							@componentClass={{@iconComponentClass}}
-							@size={{@iconSize}}
-							@customClass={{this.iconClass}}
-							aria-hidden="true"
-						/>
-					{{/if}}
+				{{#if (has-block "prefix")}}
+					{{yield to="prefix"}}
 				{{/if}}
 
 				{{#if (has-block "default")}}
@@ -410,33 +293,8 @@ export default class UlxButton extends Component {
 					{{yield}}
 				{{/if}}
 
-				{{#if this.showIconRight}}
-					{{#if this.effectiveLoading}}
-						<span class="{{this.baseClass}}-loading-icon right" aria-hidden="true">
-							<UlxProgressSpinner @size={{this.buttonSize}} @color="white" aria-hidden="true" />
-						</span>
-					{{else if (has-block "icon")}}
-						{{yield to="icon"}}
-					{{else}}
-						<UlxIcon
-							@iconName={{this.iconToDisplay}}
-							@type="font"
-							@componentClass={{@iconComponentClass}}
-							@size={{@iconSize}}
-							@customClass={{this.iconClass}}
-							aria-hidden="true"
-						/>
-					{{/if}}
-				{{/if}}
-
-				{{#if this.showBadge}}
-					<UlxBadge
-						@value={{@badge}}
-						@variant={{@badgeVariant}}
-						@size={{@badgeSize}}
-						@type={{this.badgeType}}
-						@customClass={{@badgeCustomClass}}
-					/>
+				{{#if (has-block "suffix")}}
+					{{yield to="suffix"}}
 				{{/if}}
 
 				<span

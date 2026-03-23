@@ -6,7 +6,7 @@ import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import { t } from "../../../utils/i18n";
-import UlxButton from "../ulx-button/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
 
 /**
@@ -202,7 +202,7 @@ export default class UlxSplitButton extends Component {
 		>
 			{{#if (has-block "icon")}}
 				{{#if (has-block "default")}}
-					<UlxButton
+					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
@@ -218,9 +218,9 @@ export default class UlxSplitButton extends Component {
 					>
 						<:icon>{{yield to="icon"}}</:icon>
 						<:default>{{yield}}</:default>
-					</UlxButton>
+					</UlxIconButton>
 				{{else}}
-					<UlxButton
+					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@label={{@label}}
 						@iconComponentClass={{@iconComponentClass}}
@@ -236,11 +236,11 @@ export default class UlxSplitButton extends Component {
 						@onClick={{this.handleDefaultClick}}
 					>
 						<:icon>{{yield to="icon"}}</:icon>
-					</UlxButton>
+					</UlxIconButton>
 				{{/if}}
 			{{else}}
 				{{#if (has-block "default")}}
-					<UlxButton
+					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@icon={{@icon}}
 						@iconComponentClass={{@iconComponentClass}}
@@ -256,9 +256,9 @@ export default class UlxSplitButton extends Component {
 						@onClick={{this.handleDefaultClick}}
 					>
 						{{yield}}
-					</UlxButton>
+					</UlxIconButton>
 				{{else}}
-					<UlxButton
+					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@label={{@label}}
 						@icon={{@icon}}
@@ -279,7 +279,7 @@ export default class UlxSplitButton extends Component {
 
 			<span class="splitbutton-divider" aria-hidden="true" data-qa={{this.dividerDataQa}}></span>
 
-			<UlxButton
+			<UlxIconButton
 				@dataQa={{this.dropdownButtonDataQa}}
 				@icon={{this.dropdownIconName}}
 				@iconComponentClass={{this.dropdownIconComponentClass}}

@@ -4,6 +4,7 @@ import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { t } from "../../../utils/i18n";
 import UlxButton from "../ulx-button/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 
 /**
  * Progress bar element. Uses existing classes from uls-v2 progress-bar.less. Determinate shows a fill
@@ -193,7 +194,7 @@ export default class UlxProgressBar extends Component {
 	<template>
 		{{#if this.showControls}}
 			<div class={{this.withControlsWrapperClass}} data-qa={{this.rootDataQa}}>
-				<UlxButton
+				<UlxIconButton
 					@icon="hr-tag-icon"
 					@iconSize={{this.controlsIconSize}}
 					@variant="outlined"
@@ -228,7 +229,7 @@ export default class UlxProgressBar extends Component {
 						{{/if}}
 					</div>
 				</div>
-				<UlxButton
+				<UlxIconButton
 					@icon="add-icon-01"
 					@iconSize={{this.controlsIconSize}}
 					@iconComponentClass="bs-icons1"

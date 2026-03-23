@@ -11,14 +11,26 @@ const CITIES = [
 
 export default class DemoMultiselectAccessibility extends Component {
   @tracked selected = [];
+  @tracked cities = CITIES;
 
   get items() {
-    return CITIES;
+    return this.cities;
   }
 
   @action
   setSelected(value) {
     this.selected = value;
+  }
+
+  @action
+  addCity(label) {
+    const nextLabel = (label ?? "").trim();
+    if (!nextLabel) return;
+    const normalized = nextLabel.toLowerCase();
+    const exists = this.cities.some((city) => city.label.toLowerCase() === normalized);
+    if (exists) return;
+    const nextValue = nextLabel.toUpperCase().replace(/\s+/g, "_");
+    this.cities = [...this.cities, { label: nextLabel, value: nextValue }];
   }
 
   <template>
@@ -36,7 +48,11 @@ export default class DemoMultiselectAccessibility extends Component {
             @options={{this.items}}
             @value={{this.selected}}
             @onChange={{this.setSelected}}
+            @filter={{true}}
             @selectAll={{true}}
+            @allowAddition={{true}}
+            @showClose={{true}}
+            @onAddItem={{this.addCity}}
             @placeholder={{t "msg.multiselect.placeholder.city"}}
             aria-label={{t "msg.multiselect.choose.items"}}
           />

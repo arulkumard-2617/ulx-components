@@ -7,6 +7,7 @@ import { on } from "@ember/modifier";
 import not from "ember-truth-helpers/helpers/not";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import UlxMessage from "../../collections/ulx-message/index.gjs";
 import { t } from "../../../utils/i18n.js";
@@ -226,7 +227,7 @@ export default class ManageColumns extends Component {
 									@customClass="me-1"
 								/>
 							{{/if}}
-							<UlxButton
+							<UlxIconButton
 								@size="xs-size"
 								@variant="primary"
 								@icon="up-stroke-icon-new"
@@ -234,7 +235,7 @@ export default class ManageColumns extends Component {
 								@onClick={{fn this.handleMoveUp col index}}
 								aria-label={{t "aria.table.move.column.up" header=col.header}}
 							/>
-							<UlxButton
+							<UlxIconButton
 								@size="xs-size"
 								@variant="primary"
 								@icon="down-stroke-icon-new"

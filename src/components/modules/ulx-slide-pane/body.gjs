@@ -29,13 +29,11 @@ export default class UlxSlidePaneBody extends Component {
 
 	get contentStyle() {
 		const styles = [];
-		
 		if (this.scrollable) {
 			styles.push("overflow-y: auto");
 		} else {
 			styles.push("overflow-y: hidden");
 		}
-		
 		return styles.join("; ");
 	}
 

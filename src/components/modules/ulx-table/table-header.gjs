@@ -10,6 +10,7 @@ import UlxTristateCheckbox from "../../elements/ulx-tristate-checkbox/index.gjs"
 import UlxInput from "../../elements/ulx-input/index.gjs";
 import UlxMultiSelect from "../../elements/ulx-multi-select/index.gjs";
 import UlxButton from "../../elements/ulx-button/index.gjs";
+import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import { t } from "../../../utils/i18n.js";
 
@@ -266,7 +267,7 @@ export default class TableHeader extends Component {
 								{{/if}}
 
 								{{#if (and col.filter (eq @filterDisplay "menu"))}}
-									<UlxButton
+									<UlxIconButton
 										@text={{true}}
 										@variant="secondary"
 										@icon="filter-icon"
@@ -343,7 +344,7 @@ export default class TableHeader extends Component {
 												/>
 											{{/if}}
 										</div>
-										<UlxButton
+										<UlxIconButton
 											@variant="secondary"
 											@text={{true}}
 											@icon="filter-icon"
@@ -353,7 +354,7 @@ export default class TableHeader extends Component {
 											aria-expanded={{this.isFilterMenuOpen col}}
 											aria-label={{t "aria.table.show.filter.menu"}}
 										/>
-										<UlxButton
+										<UlxIconButton
 											@variant="secondary"
 											@text={{true}}
 											@icon="close-icon-01"

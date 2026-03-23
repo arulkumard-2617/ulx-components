@@ -3,7 +3,7 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import { joinClassNames } from "../../../utils/class-names";
-import { t } from "../../../utils/i18n.js";
+import { t } from "../../../utils/i18n";
 
 const FOOTER_ALIGNMENT_TO_JUSTIFY = {
 	start: "flex-start",
@@ -35,8 +35,8 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
  * @param {boolean} [hideFooter=false] - Hide the footer entirely
  * @param {boolean} [hideCancelButton=false] - Hide the cancel button
  * @param {boolean} [hideDoneButton=false] - Hide the done/confirm button
- * @param {string} [cancelLabel="Cancel"] - Label for cancel button
- * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
+ * @param {string} [cancelLabel] - Cancel label (defaults to i18n cancel)
+ * @param {string} [doneLabel] - Done/confirm label (defaults to i18n confirm)
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneLabel)
  * @param {Function} [onCancel] - Callback when cancel button is clicked
  * @param {Function} [onDone] - Callback when done button is clicked
@@ -91,17 +91,13 @@ export default class UlxModalFooter extends Component {
 	@action
 	handleCancel(event) {
 		event.preventDefault();
-		if (this.args.onCancel) {
-			this.args.onCancel();
-		}
+		this.args.onCancel?.();
 	}
 
 	@action
 	handleDone(event) {
 		event.preventDefault();
-		if (this.args.onDone) {
-			this.args.onDone();
-		}
+		this.args.onDone?.();
 	}
 
 	<template>

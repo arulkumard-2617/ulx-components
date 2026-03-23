@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxButton } from 'ulx-components';
+import { UlxIconButton } from 'ulx-components';
 
 const ICON_ONLY_ROW = [
   { icon: 'ls-tick-icon', type: 'primary', ariaLabel: 'Filter' },
@@ -21,7 +21,7 @@ export default class DemoButtonIconOnly extends Component {
       {{! Row 1: Square filled icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
-          <UlxButton
+          <UlxIconButton
             @icon={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
@@ -34,7 +34,7 @@ export default class DemoButtonIconOnly extends Component {
       {{! Row 2: Rounded filled icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
-          <UlxButton
+          <UlxIconButton
             @icon={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
@@ -48,7 +48,7 @@ export default class DemoButtonIconOnly extends Component {
       {{! Row 3: Rounded outlined icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
-          <UlxButton
+          <UlxIconButton
             @icon={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
@@ -63,7 +63,7 @@ export default class DemoButtonIconOnly extends Component {
       {{! Row 4: Rounded text raised icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
-          <UlxButton
+          <UlxIconButton
             @icon={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
@@ -79,7 +79,7 @@ export default class DemoButtonIconOnly extends Component {
       {{! Row 5: Rounded text icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
-          <UlxButton
+          <UlxIconButton
             @icon={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"

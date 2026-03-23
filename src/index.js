@@ -4,6 +4,8 @@
 // Elements
 export { default as UlxIcon } from './components/elements/ulx-icon/index.gjs';
 export { default as UlxButton } from './components/elements/ulx-button/index.gjs';
+export { default as UlxIconButton } from './components/elements/ulx-icon-button/index.gjs';
+export { default as UlxBadgeButton } from './components/elements/ulx-badge-button/index.gjs';
 export { default as UlxInput } from './components/elements/ulx-input/index.gjs';
 export { default as UlxField } from './components/elements/ulx-field/index.gjs';
 export { default as UlxFloatLabel } from './components/elements/ulx-floatlabel/index.gjs';

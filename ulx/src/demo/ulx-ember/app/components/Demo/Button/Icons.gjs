@@ -1,22 +1,22 @@
 import Component from '@glimmer/component';
-import { UlxButton } from 'ulx-components';
+import { UlxButton, UlxIconButton } from 'ulx-components';
 
 export default class DemoButtonIcons extends Component {
   <template>
     <div class="flex gap-3 align-items-center flex-wrap">
-      <UlxButton
+      <UlxIconButton
         @icon="ls-tick-icon"
         @iconSize="s22"
         @iconComponentClass="bs-icons1"
         aria-label="Submit"
       />
-      <UlxButton
+      <UlxIconButton
         @label="Submit"
         @icon="ls-tick-icon"
         @iconSize="s22"
         @iconComponentClass="bs-icons1"
       />
-      <UlxButton
+      <UlxIconButton
         @label="Submit"
         @icon="ls-tick-icon"
         @iconPos="right"

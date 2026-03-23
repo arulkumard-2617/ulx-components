@@ -225,7 +225,6 @@ const enUs = {
 	'lbl.dropdown.clear.icon': 'Clear Icon',
 	'lbl.dropdown.checkmark': 'Checkmark',
 	'lbl.dropdown.disabled': 'Disabled',
-	'lbl.dropdown.editable': 'Editable',
 	'lbl.dropdown.filter': 'Filter',
 	'lbl.dropdown.filled': 'Filled',
 	'lbl.dropdown.float.label': 'Float Label',
