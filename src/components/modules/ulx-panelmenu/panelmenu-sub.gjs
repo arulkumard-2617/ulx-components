@@ -270,7 +270,7 @@ export default class UlxPanelmenuSub extends Component {
 			element.style.transition = "";
 		};
 
-		// No "appear" animation on first render (PrimeReact default).
+		// No "appear" animation on first render.
 		if (prev === undefined) {
 			map.set(key, expanded);
 			return () => {};
@@ -310,7 +310,7 @@ export default class UlxPanelmenuSub extends Component {
 				this._transitionByKey = { ...this._transitionByKey, [key]: "exit-active" };
 				activeTimer = setTimeout(() => {
 					this._transitionByKey = { ...this._transitionByKey, [key]: "exit-done" };
-					// Unmount on exit (like PrimeReact) after the final state is applied.
+					// Unmount on exit after the final state is applied.
 					doneTimer = setTimeout(() => {
 						this._transitionByKey = { ...this._transitionByKey, [key]: null };
 					}, 0);

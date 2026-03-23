@@ -1,16 +1,12 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { on } from "@ember/modifier";
-import eq from "ember-truth-helpers/helpers/eq";
+import { fn } from "@ember/helper";
 import not from "ember-truth-helpers/helpers/not";
 import UlxRadio from "../../elements/ulx-radio/index.gjs";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
-import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 import UlxDivider from "../../elements/ulx-divider/index.gjs";
-
 import { t } from "../../../utils/i18n.js";
-import { fn } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config.js";
 
 /**
@@ -56,7 +52,7 @@ export default class SortOptions extends Component {
 	}
 
 	@action
-	onSortCriterionChange(item, checked, event) {
+	onSortCriterionChange(item, checked) {
 		if (!checked || !this.args.onChange) return;
 		this.args.onChange(`${item.value}:${this.sortByOrder}`);
 	}

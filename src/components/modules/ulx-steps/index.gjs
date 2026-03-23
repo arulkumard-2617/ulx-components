@@ -11,7 +11,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  *
  * Matches ULS markup/classes from `ULS_V2.0/src/styles/uls-styles/less/modules/steps.less`.
  *
- * ## PrimeReact parity (variations)
+ * ## Variations
  * - Basic: provide `@model`
  * - Controlled: provide `@activeIndex`
  * - Linear/read-only (default): `@readOnly={{true}}` (default) blocks selection

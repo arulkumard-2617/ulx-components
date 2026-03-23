@@ -1,6 +1,5 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { getFieldValue } from "./utils.js";
 
 /**
  * Internal tfoot for UlxTable.

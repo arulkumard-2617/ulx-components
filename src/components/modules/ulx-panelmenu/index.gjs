@@ -301,7 +301,7 @@ export default class UlxPanelmenu extends Component {
 				this._panelTransitionByKey = { ...this._panelTransitionByKey, [key]: "exit-active" };
 				activeTimer = setTimeout(() => {
 					this._panelTransitionByKey = { ...this._panelTransitionByKey, [key]: "exit-done" };
-					// Unmount on exit (like PrimeReact) after the final state is applied.
+					// Unmount on exit after the final state is applied.
 					doneTimer = setTimeout(() => {
 						this._panelTransitionByKey = { ...this._panelTransitionByKey, [key]: null };
 					}, 0);
@@ -366,7 +366,7 @@ export default class UlxPanelmenu extends Component {
 		if (this.multiple) {
 			willExpand ? (next[key] = true) : delete next[key];
 		} else {
-			// PrimeReact behavior: when multiple=false, collapse other *root* panels,
+			// When multiple=false, collapse other *root* panels,
 			// but keep nested expandedKeys so their state is preserved when reopening.
 			const rootKeys = new Set(this.model.map((rootItem, i) => this.getPanelKeyFor(rootItem, i)));
 			for (const rootKey of rootKeys) {

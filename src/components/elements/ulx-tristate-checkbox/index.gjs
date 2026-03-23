@@ -9,7 +9,9 @@ import {
 import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
 
 function buildTristateCheckboxId(namespace, idArg, key) {
-	return idArg ?? `${namespace}-tristatecheckbox-${key}`;
+	if (typeof idArg === "string" && idArg.length) return idArg;
+	if (typeof key === "string" && key.length) return key;
+	return `${namespace}-tristatecheckbox-${key}`;
 }
 
 /**
@@ -73,7 +75,7 @@ export default class UlxTristateCheckbox extends Component {
 		return this.args.dataQa ?? "ulx-tristatecheckbox";
 	}
 
-	get mergedCustomClass() {
+	get rootClasses() {
 		const { customClass } = this.args;
 
 		const parts = [this.baseTristateClass];
@@ -97,14 +99,9 @@ export default class UlxTristateCheckbox extends Component {
 		return isInvalidState(invalid, error);
 	}
 
-	get ariaErrorMessage() {
-		return this.args.ariaErrorMessage;
-	}
-
 	get value() {
 		const { value = false } = this.args;
-		if (value === true || value === false || value === null) return value;
-		return false;
+		return value === true || value === false || value === null ? value : false;
 	}
 
 	get isChecked() {
@@ -115,70 +112,41 @@ export default class UlxTristateCheckbox extends Component {
 		return this.value === null;
 	}
 
-	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
-	}
-
-	get uncheckIconName() {
-		return this.args.uncheckIconName;
-	}
-
 	@action
 	handleChange(event) {
 		const current = this.value;
 		const next = current === true ? null : current === null ? false : true;
 
-		typeof this.args.onValueChange === "function" && this.args.onValueChange(next, event);
+		this.args.onValueChange?.(next, event);
 	}
 
 	<template>
-		{{#if (has-block "itemLabel")}}
-			<UlxCheckboxItem
-				...attributes
-				@dataQa={{this.rootDataQa}}
-				@id={{this.tristateCheckboxId}}
-				@checked={{this.isChecked}}
-				@indeterminate={{this.isIndeterminate}}
-				@disabled={{@disabled}}
-				@invalid={{this.isInvalid}}
-				@filled={{@filled}}
-				@size={{this.resolvedSize}}
-				@customClass={{this.mergedCustomClass}}
-				@uncheckIconName={{@uncheckIconName}}
-				@hideLabel={{@hideLabel}}
-				@required={{this.isRequired}}
-				@showRequiredStar={{@showRequiredStar}}
-				@ariaDescribedBy={{this.ariaDescribedBy}}
-				@ariaErrorMessage={{this.ariaErrorMessage}}
-				@name={{@name}}
-				@onChange={{this.handleChange}}
-			>
+		<UlxCheckboxItem
+			...attributes
+			@dataQa={{this.rootDataQa}}
+			@id={{this.tristateCheckboxId}}
+			@checked={{this.isChecked}}
+			@indeterminate={{this.isIndeterminate}}
+			@disabled={{@disabled}}
+			@invalid={{this.isInvalid}}
+			@filled={{@filled}}
+			@size={{this.resolvedSize}}
+			@customClass={{this.rootClasses}}
+			@uncheckIconName={{@uncheckIconName}}
+			@hideLabel={{@hideLabel}}
+			@itemLabel={{@itemLabel}}
+			@required={{this.isRequired}}
+			@showRequiredStar={{@showRequiredStar}}
+			@ariaDescribedBy={{@ariaDescribedBy}}
+			@ariaErrorMessage={{@ariaErrorMessage}}
+			@name={{@name}}
+			@onChange={{this.handleChange}}
+		>
+			{{#if (has-block "itemLabel")}}
 				<:itemLabel>
 					{{yield to="itemLabel"}}
 				</:itemLabel>
-			</UlxCheckboxItem>
-		{{else}}
-			<UlxCheckboxItem
-				...attributes
-				@dataQa={{this.rootDataQa}}
-				@id={{this.tristateCheckboxId}}
-				@checked={{this.isChecked}}
-				@indeterminate={{this.isIndeterminate}}
-				@disabled={{@disabled}}
-				@invalid={{this.isInvalid}}
-				@filled={{@filled}}
-				@size={{this.resolvedSize}}
-				@customClass={{this.mergedCustomClass}}
-				@uncheckIconName={{@uncheckIconName}}
-				@hideLabel={{@hideLabel}}
-				@itemLabel={{@itemLabel}}
-				@required={{this.isRequired}}
-				@showRequiredStar={{@showRequiredStar}}
-				@ariaDescribedBy={{this.ariaDescribedBy}}
-				@ariaErrorMessage={{this.ariaErrorMessage}}
-				@name={{@name}}
-				@onChange={{this.handleChange}}
-			/>
-		{{/if}}
+			{{/if}}
+		</UlxCheckboxItem>
 	</template>
 }
