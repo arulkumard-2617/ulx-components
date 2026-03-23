@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
+import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
@@ -47,10 +48,9 @@ import UlxChip from "../../elements/ulx-chip/index.gjs";
 import UlxDataView from "../../modules/ulx-data-view/index.gjs";
 import UlxEmptyState from "../../elements/ulx-empty-state/index.gjs";
 import { t } from "../../../utils/i18n.js";
-import { fn } from "@ember/helper";
 
 /**
- * UlxTable — Full-featured data table component matching PrimeReact DataTable.
+ * UlxTable — Full-featured data table component.
  *
  * ## Basic usage
  * ```hbs
@@ -1858,7 +1858,7 @@ export default class UlxTable extends Component {
 				</UlxPopup>
 			{{/if}}
 
-			{{! Filter overlay (menu mode) – portaled to body, position: absolute in document like PrimeReact }}
+			{{! Filter overlay (menu mode) – portaled to body, position: absolute in document }}
 			{{#if (and this.filterOverlayColumn this.filterOverlayPortalTarget)}}
 				{{#in-element this.filterOverlayPortalTarget insertBefore=null}}
 					<div

@@ -97,7 +97,7 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * @param {Function} [onBlur] - Blur callback.
  * @param {Function} [onFilter] - (filterValue) => void when filter input changes.
  * @param {boolean} [allowAddition=false] - When true, show an Add button in the panel header tied to the filter input.
- * @param {Function} [onAddItem] - (filterValue) => void | Promise<void>; called when the Add button is clicked.
+ * @param {Function} [onAddItem] - (filterValue) => void | Promise<void>; when the Add button is clicked; only invoked if the trimmed filter does not match an existing option label or value.
  * @param {Function} [onShow] - When overlay opens.
  * @param {Function} [onHide] - When overlay closes.
  * @param {Function} [onSelectAll] - Optional (event, checked) => void; when provided overrides default select-all.
@@ -311,6 +311,16 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	@action
+	isAdditionFilterDuplicateOfOption(option, trimmedFilter, normalizedFilter) {
+		if (this.getOptionLabel(option).trim().toLowerCase() === normalizedFilter) return true;
+		const optionVal = this.getOptionValue(option);
+		if (optionVal == null) return false;
+		if (this.valueEquals(optionVal, trimmedFilter)) return true;
+		if (typeof optionVal === "object" && optionVal !== null) return false;
+		return String(optionVal).trim().toLowerCase() === normalizedFilter;
+	}
+
+	@action
 	isOptionSelected(option) {
 		if (option == null) return false;
 		const value = this.args.value ?? [];
@@ -478,10 +488,10 @@ export default class UlxMultiSelect extends Component {
 		const options = this.hasGroups
 			? this.flatOptions.map(({ item }) => item)
 			: (this.args.options ?? []);
-		const hasExistingOption = options.some(
-			(option) => this.getOptionLabel(option).trim().toLowerCase() === normalizedFilterValue
+		const hasDuplicate = options.some((option) =>
+			this.isAdditionFilterDuplicateOfOption(option, filterValue, normalizedFilterValue)
 		);
-		if (hasExistingOption) return false;
+		if (hasDuplicate) return false;
 		const { selectionLimit, value } = this.args;
 		const currentLength = Array.isArray(value) ? value.length : 0;
 		if (typeof selectionLimit === "number" && currentLength >= selectionLimit) return false;
