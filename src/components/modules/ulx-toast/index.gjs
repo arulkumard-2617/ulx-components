@@ -4,16 +4,19 @@ import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
-import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
+import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import { t } from "../../../utils/i18n";
 import appendToBody from "../../../modifiers/append-to-body";
-import { getDestinationElement, getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import {
+	getDestinationElement,
+	getOverlayZIndexAboveMask,
+	isEscapeKey
+} from "../../../utils/overlay-helpers";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
-// Toast class prefix: must match the prefix used when uls-v2 toast.less is compiled (e.g. ulx- in ulx demo app)
-const TOAST_PREFIX = `${NAMESPACE}-`;
-
-/** Default auto-close delay in ms (20 seconds). Sticky messages are not auto-closed. */
+/** Default auto-close delay in ms when `@life` is omitted. Sticky messages are not auto-closed. */
 const DEFAULT_LIFE_MS = 2000;
 
 /** Exit animation duration in ms (must match toast.less toast-slide-out). */
@@ -28,6 +31,11 @@ const VARIANT_ICONS = {
 	error: "sp-danger-icon",
 	secondary: "info-icon",
 	contrast: "info-icon"
+};
+
+/** CSS class segment for `toast-message` (warning shares `warn` styles). */
+const MESSAGE_VARIANT_CLASS = {
+	warning: "warn"
 };
 
 /**
@@ -66,12 +74,13 @@ const VARIANT_ICONS = {
  * @param {function} [onClose] - Callback when a message is closed; receives the message object
  * @param {boolean} [autoClose=true] - When false, no message auto-closes unless the message has autoClose:true or life set
  * @param {boolean} [closable=true] - When false, close buttons are hidden and ESC does not close toasts
- * @param {number} [life=20000] - Default auto-close delay in ms when auto-close is enabled; can be overridden per message via message.life
+ * @param {number} [life=2000] - Default auto-close delay in ms when auto-close is enabled; can be overridden per message via message.life
  * @param {boolean} [stacked=false] - When true, displays messages in a stacked layout
- * @param {string} [iconSize='s18'] - Size class for toast icons (message icon and close button)
+ * @param {string} [iconSize='s24'] - Size class for the variant message icon (UlxIcon); close control stays `s18`
  * @param {string} [closeIconName='close-icon-01'] - Icon name for the close button
  * @param {Object} [variantIcons] - Override icon names per variant. Keys: info, success, warn, warning, error, secondary, contrast. Merged with defaults.
  * @param {string} [iconComponentClass='bs-icons1'] - Component class for the message icon (UlxIcon)
+ * @param {string} [dataQa] - Override root data-qa attribute
  * @block content - Optional. Yields the message object; when provided, replaces default summary/detail with custom content.
  */
 export default class UlxToast extends Component {
@@ -94,6 +103,15 @@ export default class UlxToast extends Component {
 		return this.args.iconComponentClass ?? "bs-icons1";
 	}
 
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "toast");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
+	}
+
 	/** Message ids currently playing the exit animation (toast-exit class). */
 	@tracked exitingIds = new Set();
 
@@ -105,17 +123,17 @@ export default class UlxToast extends Component {
 
 	get containerClasses() {
 		const position = this.args.position || "top-center";
-		const classes = [TOAST_PREFIX + "toast", position];
-		if (this.args.stacked) {
-			classes.push("stacked");
-		}
-		return classes.filter(Boolean).join(" ");
+		const parts = [getComponentClass("toast"), position];
+		this.args.stacked && parts.push("stacked");
+		return joinClassNames(...parts);
 	}
 
+	/** Portal parent for `appendToBody` (e.g. demo app toast mount). */
 	get destinationElement() {
 		return getDestinationElement();
 	}
 
+	/** Stacks above modal mask when a stack service is present. */
 	get toastZIndex() {
 		return getOverlayZIndexAboveMask(this.modalStack);
 	}
@@ -124,25 +142,24 @@ export default class UlxToast extends Component {
 		return `z-index: ${this.toastZIndex}`;
 	}
 
+	/**
+	 * Drives side effects from `@messages`: auto-close timers and document Escape listener.
+	 * (Invoked on every read so the list and timeouts stay in sync with the parent.)
+	 */
 	get messages() {
 		const list = this.args.messages ?? [];
-		// Schedule auto-close for non-sticky messages
 		this._scheduleCloseTimers(list);
-		// Manage document-level ESC key listener
 		this._manageDocumentKeyListener(list);
 		return list;
 	}
 
-	/**
-	 * Manages the document-level keydown listener for ESC key.
-	 * Adds listener when there are messages, removes when empty.
-	 */
+	/** Registers capture-phase `keydown` while any message exists; removes when the list is empty. */
 	_manageDocumentKeyListener(messages) {
 		const hasMessages = messages.length > 0;
 
 		if (hasMessages && !this._boundDocumentKeyHandler) {
 			this._boundDocumentKeyHandler = this._handleDocumentKeyDown.bind(this);
-			// Capture phase ensures toast Escape handling runs before modal/overlay listeners.
+			/* Capture: Escape is handled before bubble listeners on modals/overlays. */
 			document.addEventListener("keydown", this._boundDocumentKeyHandler, true);
 		} else if (!hasMessages && this._boundDocumentKeyHandler) {
 			document.removeEventListener("keydown", this._boundDocumentKeyHandler, true);
@@ -151,17 +168,18 @@ export default class UlxToast extends Component {
 	}
 
 	/**
-	 * Handles document-level keydown events.
-	 * ESC key closes the first (oldest) closable toast. No-op when @closable is false.
+	 * Document Escape: close the first message in array order that is closable and not exiting.
+	 * No-op when `@closable={{false}}`.
 	 */
 	_handleDocumentKeyDown(event) {
-		if (event.key !== "Escape" || this.args.closable === false) return;
+		if (!isEscapeKey(event.key) || this.args.closable === false) return;
 		const messages = this.args.messages ?? [];
 		for (const message of messages) {
 			if (message?.id && message.closable !== false && !this.exitingIds.has(message.id)) {
 				this.startExitThenClose(message);
 				event.preventDefault();
 				event.stopPropagation();
+				/* Same-tick Escape: do not let modals/menus handle after us. */
 				event.stopImmediatePropagation();
 				break;
 			}
@@ -169,9 +187,8 @@ export default class UlxToast extends Component {
 	}
 
 	/**
-	 * Determines if a message should auto-close.
-	 * Parent @autoClose=false disables auto-close globally unless message opts in (autoClose:true or life set).
-	 * When @autoClose is true, per-message sticky or autoClose:false disables for that message.
+	 * Global `@autoClose={{false}}` disables timers unless a message opts in (`autoClose` or positive `life`).
+	 * When global auto-close is on, `sticky` or per-message `autoClose={{false}}` disables that row.
 	 */
 	_shouldAutoClose(message) {
 		const componentAutoClose = this.args.autoClose !== false;
@@ -183,10 +200,7 @@ export default class UlxToast extends Component {
 		return true;
 	}
 
-	/**
-	 * Gets the life duration for a message.
-	 * Priority: message.life > @life > DEFAULT_LIFE_MS
-	 */
+	/** Duration for the timer: positive `message.life`, else `@life`, else `DEFAULT_LIFE_MS`. */
 	_getMessageLife(message) {
 		if (typeof message.life === "number" && message.life > 0) {
 			return message.life;
@@ -194,10 +208,13 @@ export default class UlxToast extends Component {
 		return this.args.life ?? DEFAULT_LIFE_MS;
 	}
 
+	/**
+	 * Clears timers for removed ids, then schedules one timeout per new eligible message.
+	 * Skips ids that already have a pending timer.
+	 */
 	_scheduleCloseTimers(list) {
 		const currentIds = new Set(list.map((m) => m?.id).filter(Boolean));
 
-		// Clean up timers for messages no longer in the list
 		for (const [id, timerId] of this._closeTimeouts) {
 			if (!currentIds.has(id)) {
 				clearTimeout(timerId);
@@ -205,11 +222,10 @@ export default class UlxToast extends Component {
 			}
 		}
 
-		// Schedule timers for new messages that should auto-close
 		for (const message of list) {
 			if (!message?.id) continue;
 			if (!this._shouldAutoClose(message)) continue;
-			if (this._closeTimeouts.has(message.id)) continue; // already scheduled
+			if (this._closeTimeouts.has(message.id)) continue;
 
 			const life = this._getMessageLife(message);
 			const timerId = setTimeout(() => {
@@ -220,20 +236,24 @@ export default class UlxToast extends Component {
 		}
 	}
 
+	/**
+	 * Row classes: variant (`warning`→`warn` CSS), optional `type`, `closable`, `without-icon` when
+	 * no variant icon, `toast-sticky`, `toast-exit` while id is in `exitingIds` (or `message.exit`).
+	 */
 	@action
 	getMessageClasses(message) {
-		const parts = ["toast-message"];
-		const variant = message.variant || "info";
-		parts.push(variant === "warning" ? "warn" : variant);
-		if (message.type) parts.push(message.type);
-		if (this.args.closable !== false && message.closable !== false) parts.push("closable");
-		if (message.showIcon !== true) parts.push("without-icon");
-		if (message.sticky) parts.push("toast-sticky");
-		if (message.exit || (message?.id && this?.exitingIds?.has(message.id)))
-			parts.push("toast-exit");
-		return parts.filter(Boolean).join(" ");
+		const rawVariant = message.variant || "info";
+		const variant = MESSAGE_VARIANT_CLASS[rawVariant] ?? rawVariant;
+		const parts = ["toast-message", variant];
+		message.type && parts.push(message.type);
+		this.args.closable !== false && message.closable !== false && parts.push("closable");
+		message.showIcon !== true && parts.push("without-icon");
+		message.sticky && parts.push("toast-sticky");
+		(message.exit || (message?.id && this.exitingIds.has(message.id))) && parts.push("toast-exit");
+		return joinClassNames(...parts);
 	}
 
+	/** Icon glyph from `severityIconMap` (merged defaults + `@variantIcons`); falls back to `info`. */
 	@action
 	getIconName(message) {
 		const severity = message.variant || "info";
@@ -241,24 +261,27 @@ export default class UlxToast extends Component {
 		return map[severity] ?? map.info;
 	}
 
-	/** Returns true when the message should show an icon (default false; set message.showIcon to true to show). */
+	/** Variant icon is off unless `message.showIcon === true`. */
 	@action
 	showMessageIcon(message) {
 		return message.showIcon === true;
 	}
 
-	/** Returns true when the message should show a close button. Respects @closable and per-message closable. */
+	/** Close control hidden when `@closable={{false}}`; else respects per-message `closable`. */
 	@action
 	showMessageClose(message) {
 		if (this.args.closable === false) return false;
 		return message.closable !== false;
 	}
 
+	/**
+	 * Adds id to `exitingIds` (applies `toast-exit`), clears any auto-close timer, then after
+	 * `EXIT_ANIMATION_MS` calls `onClose` and drops the id from `exitingIds`.
+	 */
 	startExitThenClose(message) {
 		if (!message?.id) return;
 		if (this.exitingIds.has(message.id)) return;
 
-		// Clear any pending auto-close timer for this message
 		if (this._closeTimeouts.has(message.id)) {
 			clearTimeout(this._closeTimeouts.get(message.id));
 			this._closeTimeouts.delete(message.id);
@@ -271,15 +294,13 @@ export default class UlxToast extends Component {
 		}, EXIT_ANIMATION_MS);
 	}
 
+	/** Imperative / click path into the same exit+`onClose` flow as auto-close and Escape. */
 	@action
 	closeMessage(message) {
 		this.startExitThenClose(message);
 	}
 
-	/**
-	 * Handles keyboard events on the close button.
-	 * Enter and Space keys trigger close action.
-	 */
+	/** Close icon: Enter / Space activate like click (for keyboard users). */
 	@action
 	handleCloseKeyDown(message, event) {
 		if (event.key === "Enter" || event.key === " ") {
@@ -291,6 +312,7 @@ export default class UlxToast extends Component {
 	<template>
 		<div
 			class={{this.containerClasses}}
+			data-qa={{this.rootDataQa}}
 			role="region"
 			aria-label={{t "lbl.notification"}}
 			style={{this.toastContainerStyle}}
@@ -298,8 +320,13 @@ export default class UlxToast extends Component {
 			...attributes
 		>
 			{{#each this.messages key="id" as |message|}}
-				<div class={{this.getMessageClasses message}} role="alert" aria-live="polite">
-					<div class="toast-content">
+				<div
+					class={{this.getMessageClasses message}}
+					data-qa={{this.getDataQa "message"}}
+					role="alert"
+					aria-live="polite"
+				>
+					<div class="toast-content" data-qa={{this.getDataQa "content"}}>
 						{{#if (this.showMessageIcon message)}}
 							<span class="toast-icon" aria-hidden="true">
 								<UlxIcon
@@ -311,7 +338,7 @@ export default class UlxToast extends Component {
 								/>
 							</span>
 						{{/if}}
-						<div class="toast-text">
+						<div class="toast-text" data-qa={{this.getDataQa "text"}}>
 							{{#if (has-block "content")}}
 								{{yield message to="content"}}
 							{{else}}
@@ -333,6 +360,7 @@ export default class UlxToast extends Component {
 								role="button"
 								tabindex="0"
 								aria-label={{t "lbl.close.notification"}}
+								data-qa={{this.getDataQa "close"}}
 								{{on "click" (fn this.closeMessage message)}}
 								{{on "keydown" (fn this.handleCloseKeyDown message)}}
 							/>

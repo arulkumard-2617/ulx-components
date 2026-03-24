@@ -1,5 +1,10 @@
 import Component from "@glimmer/component";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
+import { resolveRootDataQa } from "../../../utils/data-qa";
+
+/** Size tokens that add a class on the root (`s-size` is the default in CSS and is not emitted). */
+const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
 
 /**
  * Form container that provides layout and typography for form fields.
@@ -15,6 +20,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {2|3} [cols] - flex-col layout: 2 or 3 columns for direct .field children
  * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class)
  * @param {string} [customClass] - Extra CSS classes on the form root
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-form`).
  *
  * @example
  * <UlxForm @cols={{2}} @size="m-size">
@@ -33,20 +39,26 @@ export default class UlxForm extends Component {
 		return getComponentClass("form");
 	}
 
+	/** Grid column count (`cols-2` / `cols-3`), optional size from `FORM_SIZE_CLASSES`, then `customClass`. */
 	get rootClasses() {
 		const { cols, size, customClass } = this.args;
 
 		const parts = [this.baseClass];
 		cols === 2 && parts.push("cols-2");
 		cols === 3 && parts.push("cols-3");
-		(size === "m-size" || size === "l-size" || size === "xl-size") && parts.push(size);
+		size && FORM_SIZE_CLASSES.has(size) && parts.push(size);
 		customClass && parts.push(customClass);
 
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(...parts);
+	}
+
+	/** Default root `data-qa` is `ulx-form`; optional `@dataQa` replaces it. */
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "form");
 	}
 
 	<template>
-		<form class={{this.rootClasses}} ...attributes>
+		<form class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
 			{{yield}}
 		</form>
 	</template>

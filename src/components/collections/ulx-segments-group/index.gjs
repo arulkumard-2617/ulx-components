@@ -20,6 +20,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [ariaLabel] - Accessible label for the segments group
  * @param {string} [ariaLabelledBy] - ID of element that labels the segments group
  * @param {string} [ariaDescribedBy] - ID of element that describes the segments group
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @example
  * // Vertical segments group (default)
@@ -84,9 +85,14 @@ export default class UlxSegmentsGroup extends Component {
 		return this.args.ariaDescribedBy;
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-segments-group";
+	}
+
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			role={{this.role}}
 			aria-label={{this.ariaLabel}}
 			aria-labelledby={{this.ariaLabelledBy}}

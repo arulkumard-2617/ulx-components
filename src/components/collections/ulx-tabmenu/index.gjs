@@ -6,6 +6,7 @@ import { fn } from "@ember/helper";
 import { modifier } from "ember-modifier";
 import { LinkTo } from "@ember/routing";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 /**
@@ -43,6 +44,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * @param {string} [ariaLabel] - Accessible label for the menubar. Use `aria-labelledby` if referencing an existing label.
  * @param {string} [ariaLabelledBy] - ID of element that labels the menubar.
  * @param {string} [tabId] - Base id for generated tab item ids. The final id is `${tabId}-item-${index}`. Pass a unique value per TabMenu instance to avoid duplicate ids when multiple menus are rendered on the same page.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @example
  * // Default rendering (automatically renders label and icon)
@@ -112,6 +114,15 @@ export default class UlxTabmenu extends Component {
 
 	get baseId() {
 		return this.args.tabId ?? "ulx-tabmenu";
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "tabmenu");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	get inkbarStyleString() {
@@ -405,16 +416,21 @@ export default class UlxTabmenu extends Component {
 	);
 
 	<template>
-		<div class={{this.rootClasses}}>
+		<div class={{this.rootClasses}} data-qa={{this.rootDataQa}}>
 			<ul
 				class="tabmenu-nav"
+				data-qa={{this.getDataQa "nav"}}
 				role={{this.role}}
 				aria-label={{this.ariaLabel}}
 				aria-labelledby={{this.ariaLabelledBy}}
 				...attributes
 			>
 				{{#each this.model as |item index|}}
-					<li class={{this.getItemClasses index}} role="presentation">
+					<li
+						class={{this.getItemClasses index}}
+						data-qa={{this.getDataQa "item"}}
+						role="presentation"
+					>
 						{{#if item.route}}
 							{{#if item.disabled}}
 								{{! Disabled LinkTo - render as span }}
@@ -653,6 +669,7 @@ export default class UlxTabmenu extends Component {
 				{{/each}}
 				<span
 					class="tabmenu-inkbar"
+					data-qa={{this.getDataQa "inkbar"}}
 					role="presentation"
 					aria-hidden="true"
 					style={{this.inkbarStyleString}}

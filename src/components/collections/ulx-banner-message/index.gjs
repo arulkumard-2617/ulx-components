@@ -4,11 +4,13 @@ import { action } from "@ember/object";
 import { fn } from "@ember/helper";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
-import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
 
+/** Applied after first paint so CSS enter transition can run (see messages.less). */
 const ENTER_DONE_CLASS = "enter-done";
 
 const DEFAULT_ICON_BY_VARIANT = {
@@ -34,6 +36,7 @@ const DEFAULT_ICON_BY_VARIANT = {
  * @param {string} [size="m-size"] - Size class for container and message (e.g. xs-size, s-size, m-size, l-size, xl-size)
  * @param {string} [iconType="svg"] - Icon type for message icon (e.g. "svg", "font"). Default "svg".
  * @param {string} [iconSize] - Optional icon size for message icon (e.g. s18). No default; only applied when provided.
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-banner-message`).
  * @block content - Optional. Yields (message); when provided, replaces default summary/detail with custom content.
  * @block leftItem - Optional. Yields (message); custom left-side content (icon, avatar, image). When not provided, shows message.icon or default icon by variant.
  * @block action - Optional. Yields (message); custom right-side action area. Falls back to default close button when not provided.
@@ -41,6 +44,7 @@ const DEFAULT_ICON_BY_VARIANT = {
 export default class UlxBannerMessage extends Component {
 	@tracked _dismissed = false;
 
+	/** One rAF: add `enter-done` after layout so transition from initial state is visible. */
 	addEnterDoneAfterRender = modifier((element) => {
 		const rafId = requestAnimationFrame(() => {
 			element.classList.add(ENTER_DONE_CLASS);
@@ -56,11 +60,21 @@ export default class UlxBannerMessage extends Component {
 		return getComponentClass("message");
 	}
 
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "banner-message");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
+	}
+
+	/** In-session flag or localStorage hit for `@dismissStorageKey`. */
 	get isDismissed() {
 		if (this._dismissed) return true;
 		const key = this.args.dismissStorageKey;
 		if (!key || typeof window === "undefined" || !window.localStorage) return false;
-		return !!window.localStorage.getItem(key);
+		return Boolean(window.localStorage.getItem(key));
 	}
 
 	get displayMessage() {
@@ -72,8 +86,7 @@ export default class UlxBannerMessage extends Component {
 	get displayMessageIconName() {
 		const msg = this.displayMessage;
 		if (!msg) return null;
-		const icon = msg.icon;
-		if (icon) return icon;
+		if (msg.icon) return msg.icon;
 		const variant = msg.variant ?? "info";
 		return DEFAULT_ICON_BY_VARIANT[variant] ?? DEFAULT_ICON_BY_VARIANT.info;
 	}
@@ -85,7 +98,7 @@ export default class UlxBannerMessage extends Component {
 		const parts = [this.messagesBaseClass, variant];
 		size && parts.push(size);
 		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(...parts);
 	}
 
 	get wrapperClass() {
@@ -100,12 +113,12 @@ export default class UlxBannerMessage extends Component {
 		return "message-content";
 	}
 
-	/** Wrapper for summary + detail (aligns with message.less .message-text) */
+	/** Summary + detail stack (message.less `.message-text`). */
 	get contentTextClass() {
 		return "message-text";
 	}
 
-	/** Wrapper for action block or close button */
+	/** Custom action block or default close affordance. */
 	get contentActionClass() {
 		return "message-actions";
 	}
@@ -132,9 +145,10 @@ export default class UlxBannerMessage extends Component {
 
 	@action
 	showClose(message) {
-		return !!message?.closable;
+		return Boolean(message?.closable);
 	}
 
+	/** Persists `@dismissStorageKey` when set, then delegates to `@onRemove`. */
 	@action
 	handleRemove(message) {
 		const key = this.args.dismissStorageKey;
@@ -153,15 +167,15 @@ export default class UlxBannerMessage extends Component {
 				role="alert"
 				aria-live="assertive"
 				aria-atomic="true"
-				data-qa="ulx-banner-message"
+				data-qa={{this.rootDataQa}}
 				{{this.addEnterDoneAfterRender}}
 				...attributes
 			>
-				<div class={{this.wrapperClass}} data-qa="ulx-banner-message-wrapper">
+				<div class={{this.wrapperClass}} data-qa={{this.getDataQa "wrapper"}}>
 					{{#if (has-block "leftItem")}}
 						{{yield this.displayMessage to="leftItem"}}
 					{{else if this.displayMessageIconName}}
-						<span class={{this.iconClass}} aria-hidden="true" data-qa="ulx-banner-message-icon">
+						<span class={{this.iconClass}} aria-hidden="true" data-qa={{this.getDataQa "icon"}}>
 							<UlxIcon
 								@componentClass="bs-icons1"
 								@type={{this.resolvedIconType}}
@@ -170,7 +184,7 @@ export default class UlxBannerMessage extends Component {
 							/>
 						</span>
 					{{/if}}
-					<div class={{this.contentClass}} data-qa="ulx-banner-message-content">
+					<div class={{this.contentClass}} data-qa={{this.getDataQa "content"}}>
 						{{#if (has-block "content")}}
 							{{yield this.displayMessage to="content"}}
 						{{else}}
@@ -183,7 +197,7 @@ export default class UlxBannerMessage extends Component {
 								{{/if}}
 							</div>
 						{{/if}}
-						<div class={{this.contentActionClass}} data-qa="ulx-banner-message-actions">
+						<div class={{this.contentActionClass}} data-qa={{this.getDataQa "actions"}}>
 							{{#if (has-block "action")}}
 								{{yield this.displayMessage to="action"}}
 							{{else if (this.showClose this.displayMessage)}}
@@ -197,7 +211,7 @@ export default class UlxBannerMessage extends Component {
 									@customClass={{this.closeButtonClass}}
 									@onClick={{fn this.handleRemove this.displayMessage}}
 									aria-label={{t "lbl.close.notification"}}
-									data-qa="ulx-banner-message-close"
+									data-qa={{this.getDataQa "close"}}
 								/>
 							{{/if}}
 						</div>

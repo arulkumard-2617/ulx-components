@@ -24,6 +24,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {string} [ariaLabel] - Accessible label for the segment
  * @param {string} [ariaLabelledBy] - ID of element that labels the segment
  * @param {string} [ariaDescribedBy] - ID of element that describes the segment
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @example
  * // Basic segment
@@ -128,9 +129,22 @@ export default class UlxSegment extends Component {
 		return this.args.disabled === true;
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-segment";
+	}
+
+	get headerDataQa() {
+		return `${this.rootDataQa}-header`;
+	}
+
+	get contentDataQa() {
+		return `${this.rootDataQa}-content`;
+	}
+
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			role={{this.role}}
 			aria-label={{this.ariaLabel}}
 			aria-labelledby={{this.ariaLabelledBy}}
@@ -139,13 +153,13 @@ export default class UlxSegment extends Component {
 			...attributes
 		>
 			{{#if (has-block "header")}}
-				<div class="segment-header">
+				<div class="segment-header" data-qa={{this.headerDataQa}}>
 					{{yield to="header"}}
 				</div>
 			{{/if}}
 
 			{{#if (has-block "default")}}
-				<div class="segment-content">
+				<div class="segment-content" data-qa={{this.contentDataQa}}>
 					{{yield}}
 				</div>
 			{{else}}

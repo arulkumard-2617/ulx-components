@@ -6,13 +6,14 @@ import Component from "@glimmer/component";
  *
  * @class UlxPopupHeader
  * @param {string} [title] - Header title text
+ * @param {string} [titleId] - DOM id for the title element (e.g. from parent for `aria-labelledby` on the dialog)
  */
 export default class UlxPopupHeader extends Component {
 	<template>
 		{{#if (has-block)}}
 			{{yield}}
 		{{else}}
-			<h6 class="popup-title" id="popup-title">{{@title}}</h6>
+			<h6 class="popup-title" id={{@titleId}}>{{@title}}</h6>
 		{{/if}}
 	</template>
 }

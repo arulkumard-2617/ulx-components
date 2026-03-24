@@ -5,6 +5,8 @@ import { inject as service } from "@ember/service";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import appendToBody from "../../../modifiers/append-to-body";
 import {
 	applyBodyAbsoluteFromViewport,
@@ -44,7 +46,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * - `command` (function): Callback function executed when item is activated
  * - `url` (string): URL for navigation (used with command for router integration)
  * - `template` (Component): Custom template component for item rendering
- * - `dataQa` (string): Optional value for the item's `data-qa` attribute (defaults to "ulx-tieredmenu-item")
+ * - `dataQa` (string): Optional full `data-qa` override for the row; default is `ulx-tieredmenu-item` (or `{root}-item` when `@dataQa` is set on the menu)
  *
  * ## Popup Mode
  * When `@popup={{true}}`, the menu is hidden by default and shown when `@visible={{true}}`.
@@ -69,6 +71,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * @param {HTMLElement} [target] - Target element for popup positioning (button that triggers menu)
  * @param {string} [customClass] - Additional CSS classes
  * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-tieredmenu`).
  */
 export default class UlxTieredmenu extends Component {
 	@service modalStack;
@@ -90,6 +93,15 @@ export default class UlxTieredmenu extends Component {
 		return getComponentClass("tieredmenu");
 	}
 
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "tieredmenu");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
+	}
+
 	get rootClasses() {
 		const { popup = false, customClass } = this.args;
 		const parts = [this.baseClass];
@@ -98,7 +110,7 @@ export default class UlxTieredmenu extends Component {
 		popup && this.animationState && parts.push(this.animationState);
 
 		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(...parts);
 	}
 
 	get model() {
@@ -500,20 +512,16 @@ export default class UlxTieredmenu extends Component {
 	getItemClasses(item, itemId) {
 		const parts = ["tieredmenu-item"];
 		this.hasSubmenu(item) && parts.push("has-submenu");
-		// Only mark as active if this specific item's submenu is open
 		(this.isSubmenuOpen(itemId) || this.hoveredItemId === itemId) && parts.push("active");
 		this.isDisabled(item) && parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
-	/**
-	 * Gets classes for a submenu
-	 */
 	@action
 	getSubmenuClasses(itemId) {
 		const parts = ["tieredmenu-submenu"];
 		this.isSubmenuOpen(itemId) && parts.push("open");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	/**
@@ -1024,7 +1032,7 @@ export default class UlxTieredmenu extends Component {
 				class={{this.rootClasses}}
 				role="menubar"
 				aria-orientation="vertical"
-				data-qa="ulx-tieredmenu"
+				data-qa={{this.rootDataQa}}
 				{{appendToBody this.shouldAppendToBody}}
 				{{this.setContainerRef}}
 				{{this.registerRefModifier}}
@@ -1034,9 +1042,10 @@ export default class UlxTieredmenu extends Component {
 				{{this.handleResize}}
 				...attributes
 			>
-				<ul class="tieredmenu-list" data-qa="ulx-tieredmenu-list" {{this.setMenuRef}}>
+				<ul class="tieredmenu-list" data-qa={{this.getDataQa "list"}} {{this.setMenuRef}}>
 					<UlxTieredmenuMenuList
 						@items={{this.model}}
+						@getDataQa={{this.getDataQa}}
 						@renderItems={{this.renderItems}}
 						@isSeparator={{this.isSeparator}}
 						@getItemClasses={{this.getItemClasses}}

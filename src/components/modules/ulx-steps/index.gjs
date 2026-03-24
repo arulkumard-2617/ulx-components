@@ -4,6 +4,7 @@ import { fn, hash } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 /**
@@ -38,6 +39,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * @param {string} [ariaLabel] - Accessible label for the nav element
  * @param {string} [ariaLabelledBy] - ID of element that labels the nav element
  * @param {string} [customClass] - Extra CSS classes appended to the root element
+ * @param {string} [dataQa] - Override root data-qa attribute
  *
  * @yield {Block} item - Custom renderer for step content, yields: `item index meta`
  *   - meta: `{ active, completed, disabled, readOnly }`
@@ -81,6 +83,15 @@ export default class UlxSteps extends Component {
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "steps");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	listElement = null;
@@ -243,6 +254,7 @@ export default class UlxSteps extends Component {
 	<template>
 		<nav
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			aria-label={{this.ariaLabel}}
 			aria-labelledby={{this.ariaLabelledBy}}
 			data-active-index={{this.activeIndex}}
@@ -250,15 +262,17 @@ export default class UlxSteps extends Component {
 		>
 			<ol
 				class="steps-list"
+				data-qa={{this.getDataQa "list"}}
 				tabindex={{this.listTabIndex}}
 				{{this.setListRef}}
 				{{on "focus" this.handleListFocus}}
 			>
 				{{#each this.model as |item index|}}
-					<li class={{this.getStepClasses item index}}>
+					<li class={{this.getStepClasses item index}} data-qa={{this.getDataQa "item"}}>
 						<a
 							id={{this.getStepId index}}
 							class="steps-link"
+							data-qa={{this.getDataQa "link"}}
 							href={{this.getItemHref item}}
 							target={{item.target}}
 							aria-current={{if (this.isStepActive index) "step"}}

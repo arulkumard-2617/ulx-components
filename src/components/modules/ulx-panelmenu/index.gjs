@@ -5,33 +5,21 @@ import { on } from "@ember/modifier";
 import { fn } from "@ember/helper";
 import { guidFor } from "@ember/object/internals";
 import { modifier } from "ember-modifier";
+import { joinClassNames } from "../../../utils/class-names";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
+import { iconParts } from "../../../utils/panelmenu-icon";
+import { appendTransitionPhaseClasses } from "../../../utils/panelmenu-transition";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 import UlxPanelmenuSub from "./panelmenu-sub.gjs";
 
 const ENTER_TIMEOUT_MS = 200;
 const EXIT_TIMEOUT_MS = 200;
 
-function iconParts(icon) {
-	if (!icon || typeof icon !== "string") return { base: null, name: null };
-	const parts = icon.trim().split(/\s+/);
-	if (parts.length === 0) return { base: null, name: null };
+const EXIT_RENDER_PHASES = new Set(["exit", "exit-active", "exit-done"]);
 
-	// Support icon strings that include an optional size token at the end:
-	// e.g. "bs-icons1 add-icon-01 s20"
-	const sizeToken = parts[parts.length - 1];
-	const hasSize =
-		/^s\d+$/.test(sizeToken) ||
-		/^m\d+$/.test(sizeToken) ||
-		/^l\d+$/.test(sizeToken) ||
-		/-size$/.test(sizeToken);
-
-	const base = parts.length > 1 ? parts[0] : null;
-	const nameIndex = hasSize ? parts.length - 2 : parts.length - 1;
-	const name = nameIndex >= 0 ? parts[nameIndex] : null;
-	const size = hasSize ? sizeToken : null;
-
-	return { base, name, size };
+function panelHeightTransition(ms) {
+	return `height ${ms}ms ease, transform ${ms}ms ease, opacity ${ms}ms ease`;
 }
 
 /**
@@ -50,6 +38,7 @@ function iconParts(icon) {
  * @param {string} [toggleIconSize='s20'] - Size token for submenu expand/collapse icons.
  * @param {string} [itemIconSize='s20'] - Size token for submenu item icons.
  * @param {string} [customClass] - Extra CSS classes.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  */
 export default class UlxPanelmenu extends Component {
 	@tracked _expandedKeys = {};
@@ -98,11 +87,13 @@ export default class UlxPanelmenu extends Component {
 	}
 
 	get expandIconName() {
-		return this.args.expandIconName ?? "right-arrow-icon";
+		const { expandIconName = "right-arrow-icon" } = this.args;
+		return expandIconName;
 	}
 
 	get collapseIconName() {
-		return this.args.collapseIconName ?? "down-arrow-icon";
+		const { collapseIconName = "down-arrow-icon" } = this.args;
+		return collapseIconName;
 	}
 
 	get toggleIconSize() {
@@ -122,9 +113,16 @@ export default class UlxPanelmenu extends Component {
 
 	get rootClasses() {
 		const { customClass } = this.args;
-		const parts = [this.baseClass];
-		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(this.baseClass, customClass);
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "panelmenu");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	@action
@@ -172,11 +170,6 @@ export default class UlxPanelmenu extends Component {
 		return this._prevActiveMap?.get(key);
 	}
 
-	isPanelExiting(key) {
-		const phase = this._panelTransitionByKey[key] ?? null;
-		return phase === "exit" || phase === "exit-active" || phase === "exit-done";
-	}
-
 	@action
 	shouldRenderPanelContent(item, index) {
 		const key = this.getPanelKeyFor(item, index);
@@ -184,24 +177,19 @@ export default class UlxPanelmenu extends Component {
 		const phase = this._panelTransitionByKey[key] ?? null;
 		const prev = this.getPrevActive(key);
 
-		return (
-			active ||
-			phase === "exit" ||
-			phase === "exit-active" ||
-			phase === "exit-done" ||
-			(prev === true && !active)
-		);
+		return active || EXIT_RENDER_PHASES.has(phase) || (prev === true && !active);
 	}
 
 	@action
 	getPanelHeaderClasses(item, index) {
 		const key = this.getPanelKeyFor(item, index);
 		const active = this.isPanelActive(item, index) && this.hasChildren(item);
-		const parts = ["panelmenu-header"];
-		active && parts.push("active");
-		this.focusedHeaderKey === key && parts.push("focused");
-		this.isItemDisabled(item) && parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(
+			"panelmenu-header",
+			active && "active",
+			this.focusedHeaderKey === key && "focused",
+			this.isItemDisabled(item) && "disabled"
+		);
 	}
 
 	@action
@@ -239,14 +227,9 @@ export default class UlxPanelmenu extends Component {
 			(active && prev === false ? "enter" : null) ??
 			(!active && prev === true ? "exit" : null);
 
-		if (effectivePhase === "enter") parts.push("enter");
-		if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
-		if (effectivePhase === "enter-done") parts.push("enter-done");
-		if (effectivePhase === "exit") parts.push("exit");
-		if (effectivePhase === "exit-active") parts.push("exit", "exit-active");
-		if (effectivePhase === "exit-done") parts.push("exit-done");
+		appendTransitionPhaseClasses(parts, effectivePhase);
 
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	panelContentTransition = modifier((element, [key, active]) => {
@@ -274,7 +257,7 @@ export default class UlxPanelmenu extends Component {
 			rafId = requestAnimationFrame(() => {
 				rafId = null;
 				const targetHeight = element.scrollHeight;
-				element.style.transition = `height ${ENTER_TIMEOUT_MS}ms ease, transform ${ENTER_TIMEOUT_MS}ms ease, opacity ${ENTER_TIMEOUT_MS}ms ease`;
+				element.style.transition = panelHeightTransition(ENTER_TIMEOUT_MS);
 				element.style.height = `${targetHeight}px`;
 				this._panelTransitionByKey = { ...this._panelTransitionByKey, [key]: "enter-active" };
 				activeTimer = setTimeout(() => {
@@ -296,7 +279,7 @@ export default class UlxPanelmenu extends Component {
 			element.style.height = `${element.scrollHeight}px`;
 			rafId = requestAnimationFrame(() => {
 				rafId = null;
-				element.style.transition = `height ${EXIT_TIMEOUT_MS}ms ease, transform ${EXIT_TIMEOUT_MS}ms ease, opacity ${EXIT_TIMEOUT_MS}ms ease`;
+				element.style.transition = panelHeightTransition(EXIT_TIMEOUT_MS);
 				element.style.height = "0px";
 				this._panelTransitionByKey = { ...this._panelTransitionByKey, [key]: "exit-active" };
 				activeTimer = setTimeout(() => {
@@ -331,7 +314,7 @@ export default class UlxPanelmenu extends Component {
 	}
 
 	@action
-	onToggle({ item, key, expanded, parentKey }) {
+	onToggle({ key, expanded, parentKey }) {
 		// Nested toggles: when uncontrolled, collapse siblings under same parent.
 		let next = { ...this.expandedKeysState };
 
@@ -360,21 +343,17 @@ export default class UlxPanelmenu extends Component {
 		const key = this.getPanelKeyFor(item, index);
 		const active = this.isPanelActive(item, index);
 		const willExpand = !active;
-
 		let next = { ...this.expandedKeysState };
 
-		if (this.multiple) {
-			willExpand ? (next[key] = true) : delete next[key];
-		} else {
-			// When multiple=false, collapse other *root* panels,
-			// but keep nested expandedKeys so their state is preserved when reopening.
+		// Single expansion at root: close other root panels; nested keys stay in `next` for reopen.
+		if (!this.multiple) {
 			const rootKeys = new Set(this.model.map((rootItem, i) => this.getPanelKeyFor(rootItem, i)));
 			for (const rootKey of rootKeys) {
 				rootKey !== key && delete next[rootKey];
 			}
-
-			willExpand ? (next[key] = true) : delete next[key];
 		}
+
+		willExpand ? (next[key] = true) : delete next[key];
 
 		this.updateExpandedKeys(next);
 		willExpand
@@ -440,20 +419,24 @@ export default class UlxPanelmenu extends Component {
 		el?.focus?.();
 	}
 
+	@action
 	focusNextHeader(fromIndex) {
 		for (let i = fromIndex + 1; i < this.model.length; i++) {
 			const item = this.model[i];
-			if (item && this.isItemVisible(item) && !this.isItemDisabled(item))
+			if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) {
 				return this.focusHeader(i);
+			}
 		}
 		return this.focusHeader(0);
 	}
 
+	@action
 	focusPrevHeader(fromIndex) {
 		for (let i = fromIndex - 1; i >= 0; i--) {
 			const item = this.model[i];
-			if (item && this.isItemVisible(item) && !this.isItemDisabled(item))
+			if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) {
 				return this.focusHeader(i);
+			}
 		}
 		return this.focusHeader(this.model.length - 1);
 	}
@@ -464,13 +447,24 @@ export default class UlxPanelmenu extends Component {
 	}
 
 	<template>
-		<div id={{this.rootId}} class={{this.rootClasses}} {{this.setRootRef}} ...attributes>
+		<div
+			id={{this.rootId}}
+			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
+			{{this.setRootRef}}
+			...attributes
+		>
 			{{#each this.model as |item index|}}
 				{{#if (this.isItemVisible item)}}
-					<div id={{this.getPanelId item index}} class="panelmenu-panel">
+					<div
+						id={{this.getPanelId item index}}
+						class="panelmenu-panel"
+						data-qa={{this.getDataQa "panel"}}
+					>
 						<div
 							id={{this.getHeaderId item index}}
 							class={{this.getPanelHeaderClasses item index}}
+							data-qa={{this.getDataQa "header"}}
 							role="button"
 							aria-label={{item.label}}
 							aria-expanded={{if (this.isPanelActive item index) "true" "false"}}
@@ -482,7 +476,7 @@ export default class UlxPanelmenu extends Component {
 							{{on "focusin" (fn this.onHeaderFocus item index)}}
 							{{on "focusout" (fn this.onHeaderBlur item index)}}
 						>
-							<div class="panelmenu-header-content">
+							<div class="panelmenu-header-content" data-qa={{this.getDataQa "header-content"}}>
 								<a href={{if item.url item.url "#"}} tabindex="-1" class="panelmenu-header-action">
 									{{#if item.template}}
 										{{component
@@ -532,6 +526,7 @@ export default class UlxPanelmenu extends Component {
 								<div
 									id={{this.getContentId item index}}
 									class={{this.getPanelToggleableContentClasses item index}}
+									data-qa={{this.getDataQa "content"}}
 									role="region"
 									aria-labelledby={{this.getHeaderId item index}}
 									{{this.panelContentTransition
