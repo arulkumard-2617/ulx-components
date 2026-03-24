@@ -9,6 +9,8 @@ addon/dist
 # demo app compiled output
 ulx/src/demo/ulx-ember/dist
 ulx/src/demo/ulx-ember/dist/**
+ulx/src/demo/ulx-ember/appsail/dist
+ulx/src/demo/ulx-ember/appsail/dist/**
 
 # demo app lockfile (not committed)
 package-lock.json
