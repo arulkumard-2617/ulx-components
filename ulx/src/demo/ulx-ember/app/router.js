@@ -27,6 +27,7 @@ Router.map(function () {
     this.route('elements', function () {
       this.route('icon');
       this.route('input');
+      this.route('textarea');
       this.route('ulx-icon-input');
       this.route('input-group');
       this.route('checkbox');

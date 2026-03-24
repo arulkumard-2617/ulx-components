@@ -1,11 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
-import {
-	isInvalidState,
-	normalizeRules,
-	resolveKey
-} from "../../../utils/input-util";
+import { isInvalidState, normalizeRules, resolveKey } from "../../../utils/input-util";
 import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
 
 function buildTristateCheckboxId(namespace, idArg, key) {
@@ -135,6 +131,7 @@ export default class UlxTristateCheckbox extends Component {
 				@customClass={{this.rootClasses}}
 				@uncheckIconName={{@uncheckIconName}}
 				@hideLabel={{@hideLabel}}
+				@itemLabel={{@itemLabel}}
 				@required={{this.isRequired}}
 				@showRequiredStar={{@showRequiredStar}}
 				@ariaDescribedBy={{@ariaDescribedBy}}

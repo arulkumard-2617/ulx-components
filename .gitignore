@@ -3,17 +3,14 @@ node_modules
 node_modules/.package-lock.json
 
 # compiled output
-dist
-dist/**
-dist/index.js
-dist/index.js.map
-dist/components/elements/ulx-icon/index.js.map
 declarations
 addon/dist
 
 # demo app compiled output
 ulx/src/demo/ulx-ember/dist
 ulx/src/demo/ulx-ember/dist/**
+ulx/src/demo/ulx-ember/appsail/dist
+ulx/src/demo/ulx-ember/appsail/dist/**
 
 # demo app lockfile (not committed)
 package-lock.json

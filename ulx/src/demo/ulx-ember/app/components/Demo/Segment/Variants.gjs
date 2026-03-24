@@ -19,22 +19,22 @@ export default class VariantsDemoComponent extends Component {
 
   get invertedVariants() {
     return [
-      { variant: 'red-invert', label: 'Red' },
-      { variant: 'orange-invert', label: 'Orange' },
-      { variant: 'yellow-invert', label: 'Yellow' },
-      { variant: 'green-invert', label: 'Green' },
-      { variant: 'blue-invert', label: 'Blue' },
-      { variant: 'purple-invert', label: 'Purple' },
-      { variant: 'pink-invert', label: 'Pink' },
-      { variant: 'brown-invert', label: 'Brown' },
-      { variant: 'grey-invert', label: 'Grey' },
-      { variant: 'black-invert', label: 'Black' },
+      { variant: 'light-red', label: 'Red' },
+      { variant: 'light-orange', label: 'Orange' },
+      { variant: 'light-yellow', label: 'Yellow' },
+      { variant: 'light-green', label: 'Green' },
+      { variant: 'light-blue', label: 'Blue' },
+      { variant: 'light-purple', label: 'Purple' },
+      { variant: 'light-pink', label: 'Pink' },
+      { variant: 'light-brown', label: 'Brown' },
+      { variant: 'light-grey', label: 'Grey' },
+      { variant: 'light-black', label: 'Black' },
     ];
   }
 
   <template>
     <div class="variants-demo">
-      <h3 class="mb-4">Colored Segments (Light Background - Black Text)</h3>
+      <h3 class="mb-4">Colored Segments (Standard Variants)</h3>
       <div class="flex flex-col gap-5 mb-12">
         {{#each this.coloredVariants as |item|}}
           <UlxSegment @variant={{item.variant}}>
@@ -43,12 +43,11 @@ export default class VariantsDemoComponent extends Component {
         {{/each}}
       </div>
 
-      <h3 class="mb-4">Inverted Colored Segments (Dark Background - White Text)</h3>
+      <h3 class="mb-4">Colored Segments (Light Variants)</h3>
       <div class="flex flex-col gap-5">
         {{#each this.invertedVariants as |item|}}
           <UlxSegment @variant={{item.variant}}>
-            <p>{{item.label}}
-              inverted segment with dark background and white text</p>
+            <p>{{item.label}} segment with light background variant</p>
           </UlxSegment>
         {{/each}}
       </div>

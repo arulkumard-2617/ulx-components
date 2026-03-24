@@ -13,6 +13,12 @@ import {
   UlxCheckbox,
   UlxRadio,
   UlxToggle,
+  UlxPassword,
+  UlxMultiSelect,
+  UlxTristateCheckbox,
+  UlxSelectButton,
+  UlxSlider,
+  UlxRating,
   UlxOptionSegment,
   t,
 } from 'ulx-components';
@@ -68,13 +74,30 @@ const INTEREST_OPTIONS = [
   { title: 'Product', value: 'product', description: 'PM, strategy' },
 ];
 
+const LANGUAGE_OPTIONS = [
+  { label: 'JavaScript', value: 'js' },
+  { label: 'TypeScript', value: 'ts' },
+  { label: 'Python', value: 'python' },
+  { label: 'Go', value: 'go' },
+  { label: 'Rust', value: 'rust' },
+];
+
+const ACCOUNT_TYPE_OPTIONS = [
+  { label: 'Individual', value: 'individual' },
+  { label: 'Business', value: 'business' },
+  { label: 'Enterprise', value: 'enterprise' },
+];
+
 export default class DemoFormTemplate extends Component {
   @tracked messages = [];
 
   @tracked firstName = '';
   @tracked lastName = '';
   @tracked email = '';
+  @tracked password = '';
+  @tracked confirmPassword = '';
   @tracked country = null;
+  @tracked languages = ['js'];
   @tracked designation = '';
   @tracked companyName = '';
   @tracked skills = '';
@@ -89,6 +112,10 @@ export default class DemoFormTemplate extends Component {
   @tracked notificationChannels = ['email'];
   @tracked contactMethod = 'email';
   @tracked newsletterOptIn = true;
+  @tracked tristateValue = null;
+  @tracked accountType = 'individual';
+  @tracked profileCompletion = 60;
+  @tracked satisfaction = 3;
   @tracked frequency = 'weekly';
   @tracked interests = ['design'];
 
@@ -102,6 +129,14 @@ export default class DemoFormTemplate extends Component {
 
   get dialCodes() {
     return DIAL_CODES;
+  }
+
+  get languageOptions() {
+    return LANGUAGE_OPTIONS;
+  }
+
+  get accountTypeOptions() {
+    return ACCOUNT_TYPE_OPTIONS;
   }
 
   get notificationItems() {
@@ -154,6 +189,16 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
+  handlePasswordInput(event) {
+    this.password = event.target.value;
+  }
+
+  @action
+  handleConfirmPasswordInput(event) {
+    this.confirmPassword = event.target.value;
+  }
+
+  @action
   handleDesignationInput(event) {
     this.designation = event.target.value;
   }
@@ -171,6 +216,11 @@ export default class DemoFormTemplate extends Component {
   @action
   setCountry(value) {
     this.country = value;
+  }
+
+  @action
+  setLanguages(value) {
+    this.languages = value ?? [];
   }
 
   @action
@@ -231,6 +281,28 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
+  handleTristateChange(nextValue) {
+    this.tristateValue = nextValue;
+  }
+
+  @action
+  setAccountType(value) {
+    this.accountType = value;
+  }
+
+  @action
+  handleProfileCompletionChange(nextValue) {
+    const value = Number(nextValue);
+    this.profileCompletion = Number.isFinite(value) ? value : 0;
+  }
+
+  @action
+  handleSatisfactionChange(nextValue) {
+    const value = Number(nextValue);
+    this.satisfaction = Number.isFinite(value) ? value : 0;
+  }
+
+  @action
   handleFrequencySelect(_selected, value) {
     if (!value) return;
     this.frequency = value;
@@ -285,34 +357,90 @@ export default class DemoFormTemplate extends Component {
         aria-label="Template form"
         {{on "submit" this.handleSubmit}}
       >
-        <UlxInput
+        <UlxField
           @label="First Name"
-          @rules={{REQUIRED_RULES}}
-          @value={{this.firstName}}
-          @onInput={{this.handleFirstNameInput}}
-          @size="m-size"
+          @fieldId="form-first-name"
           @fieldClass="col-6"
-          placeholder=" "
-        />
+        >
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @rules={{REQUIRED_RULES}}
+              @value={{this.firstName}}
+              @onInput={{this.handleFirstNameInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder=" "
+            />
+          </:default>
+        </UlxField>
 
-        <UlxInput
+        <UlxField
           @label="Last Name"
-          @value={{this.lastName}}
-          @onInput={{this.handleLastNameInput}}
-          @size="m-size"
+          @fieldId="form-last-name"
           @fieldClass="col-6"
-          placeholder=" "
-        />
+        >
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @value={{this.lastName}}
+              @onInput={{this.handleLastNameInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder=" "
+            />
+          </:default>
+        </UlxField>
 
-        <UlxInput
-          @label="Email"
-          @value={{this.email}}
-          @onInput={{this.handleEmailInput}}
-          @size="m-size"
-          @fieldClass="col-12"
-          type="email"
-          placeholder=" "
-        />
+        <UlxField @label="Email" @fieldId="form-email" @fieldClass="col-12">
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @value={{this.email}}
+              @onInput={{this.handleEmailInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              type="email"
+              placeholder=" "
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Password"
+          @fieldId="form-password"
+          @fieldClass="col-6"
+        >
+          <:default as |field|>
+            <UlxPassword
+              @id={{field.inputId}}
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              @value={{this.password}}
+              @onInput={{this.handlePasswordInput}}
+              @feedback={{false}}
+              @toggleMask={{true}}
+              @placeholder="Enter password"
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Confirm Password"
+          @fieldId="form-confirm-password"
+          @fieldClass="col-6"
+        >
+          <:default as |field|>
+            <UlxPassword
+              @id={{field.inputId}}
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              @value={{this.confirmPassword}}
+              @onInput={{this.handleConfirmPasswordInput}}
+              @feedback={{false}}
+              @toggleMask={{true}}
+              @placeholder="Confirm password"
+            />
+          </:default>
+        </UlxField>
 
         <UlxField @label="Country" @fieldId="form-country" @fieldClass="col-12">
           <:default as |field|>
@@ -329,33 +457,74 @@ export default class DemoFormTemplate extends Component {
           </:default>
         </UlxField>
 
-        <UlxInput
-          @label="Designation"
-          @value={{this.designation}}
-          @onInput={{this.handleDesignationInput}}
-          @size="m-size"
-          @fieldClass="col-6"
-          placeholder=" "
-        />
-
-        <UlxInput
-          @label="Company Name"
-          @value={{this.companyName}}
-          @onInput={{this.handleCompanyNameInput}}
-          @size="m-size"
-          @fieldClass="col-6"
-          placeholder=" "
-        />
-
-        <UlxInput
-          @label="Skills"
-          @value={{this.skills}}
-          @onInput={{this.handleSkillsInput}}
-          @size="m-size"
+        <UlxField
+          @label="Preferred Languages"
+          @fieldId="form-languages"
           @fieldClass="col-12"
-          @helpText="Use a comma (,) to separate multiple skills"
-          placeholder=" "
-        />
+        >
+          <:default as |field|>
+            <UlxMultiSelect
+              @key={{field.key}}
+              @ariaDescribedBy={{field.describedBy}}
+              @ariaErrorMessage={{field.errorId}}
+              @options={{this.languageOptions}}
+              @value={{this.languages}}
+              @onChange={{this.setLanguages}}
+              @selectAll={{true}}
+              @filter={{true}}
+              @showClear={{true}}
+              @placeholder="Select languages"
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Designation"
+          @fieldId="form-designation"
+          @fieldClass="col-12"
+        >
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @value={{this.designation}}
+              @onInput={{this.handleDesignationInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder=" "
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Company Name"
+          @fieldId="form-company-name"
+          @fieldClass="col-12"
+        >
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @value={{this.companyName}}
+              @onInput={{this.handleCompanyNameInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder=" "
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField @label="Skills" @fieldId="form-skills" @fieldClass="col-12">
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @value={{this.skills}}
+              @onInput={{this.handleSkillsInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              @helpText="Use a comma (,) to separate multiple skills"
+              placeholder=" "
+            />
+          </:default>
+        </UlxField>
 
         <UlxCheckbox
           @label="Notification Channels"
@@ -371,127 +540,233 @@ export default class DemoFormTemplate extends Component {
           @fieldClass="col-12"
         />
 
-        <div class="field col-6 m-size">
-          <label for="newsletter-optin">
-            <span class="label-text">Subscribe to Newsletter</span>
-          </label>
-          <UlxToggle
-            @inputId="newsletter-optin"
-            @checked={{this.newsletterOptIn}}
-            @onCheckedChange={{this.setNewsletterOptIn}}
-            aria-label="Subscribe to Newsletter"
-          />
-        </div>
+        <UlxField
+          @label="Account Type"
+          @fieldId="form-account-type"
+          @fieldClass="col-12"
+        >
+          <:default>
+            <UlxSelectButton
+              @options={{this.accountTypeOptions}}
+              @value={{this.accountType}}
+              @onChange={{this.setAccountType}}
+              @ariaLabel="Account type"
+            />
+          </:default>
+        </UlxField>
 
-        <div class="field col-6 m-size">
-          <label>
-            <span class="label-text">Frequency</span>
-          </label>
-          <UlxOptionSegment
-            @type="radio"
-            @items={{this.frequencyItems}}
-            @onSelect={{this.handleFrequencySelect}}
-          />
-        </div>
+        <UlxField
+          @label="Subscribe to Newsletter"
+          @fieldId="newsletter-optin"
+          @fieldClass="col-6"
+        >
+          <:default>
+            <UlxToggle
+              @inputId="newsletter-optin"
+              @checked={{this.newsletterOptIn}}
+              @onCheckedChange={{this.setNewsletterOptIn}}
+              aria-label="Subscribe to Newsletter"
+            />
+          </:default>
+        </UlxField>
 
-        <div class="field col-12 m-size">
-          <label>
-            <span class="label-text">Interests</span>
-          </label>
-          <UlxOptionSegment
-            @type="checkbox"
-            @items={{this.interestItems}}
-            @onSelect={{this.handleInterestsSelect}}
-          />
-        </div>
+        <UlxField
+          @label="Terms Approval"
+          @fieldId="terms-approval"
+          @fieldClass="col-6"
+        >
+          <:default>
+            <UlxTristateCheckbox
+              @id="terms-approval"
+              @value={{this.tristateValue}}
+              @onValueChange={{this.handleTristateChange}}
+              @hideLabel={{true}}
+              aria-label="Terms approval"
+            />
+          </:default>
+        </UlxField>
 
-        <UlxInput
+        <UlxField
+          @label="Frequency"
+          @fieldId="form-frequency"
+          @fieldClass="col-6"
+        >
+          <:default>
+            <UlxOptionSegment
+              @type="radio"
+              @items={{this.frequencyItems}}
+              @onSelect={{this.handleFrequencySelect}}
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Interests"
+          @fieldId="form-interests"
+          @fieldClass="col-12"
+        >
+          <:default>
+            <UlxOptionSegment
+              @type="checkbox"
+              @items={{this.interestItems}}
+              @onSelect={{this.handleInterestsSelect}}
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Profile Completion"
+          @fieldId="profile-completion"
+          @fieldClass="col-6"
+        >
+          <:default>
+            <div class="flex items-center gap-8">
+              <UlxSlider
+                @value={{this.profileCompletion}}
+                @onChange={{this.handleProfileCompletionChange}}
+                @min={{0}}
+                @max={{100}}
+                @size="w-250 s-size"
+              />
+              <span>{{this.profileCompletion}}%</span>
+            </div>
+          </:default>
+        </UlxField>
+
+        <UlxField
+          @label="Satisfaction"
+          @fieldId="satisfaction-rating"
+          @fieldClass="col-6"
+        >
+          <:default>
+            <UlxRating
+              @value={{this.satisfaction}}
+              @onChange={{this.handleSatisfactionChange}}
+              aria-label="Satisfaction rating"
+            />
+          </:default>
+        </UlxField>
+
+        <UlxField
           @label="Social Pages/Handles"
-          @inputGroup={{true}}
-          @size="m-size"
+          @fieldId="form-social-pages-handles"
           @fieldClass="col-12"
-          @value={{this.socialUrl}}
-          @onInput={{this.handleSocialUrlInput}}
-          placeholder="https://www.x.com/xyz"
-          aria-label="Social URL"
         >
-          <:start>
-            <UlxDropdown
-              id="social-platform"
-              @options={{this.socialPlatforms}}
-              @value={{this.socialPlatform}}
-              @onChange={{this.setSocialPlatform}}
-              @placeholder="X"
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @inputGroup={{true}}
               @size="m-size"
-              @customClass="inputgroup-addon left w-140"
-              aria-label="Social platform"
-            />
-          </:start>
-          <:end>
-            <UlxButton
-              @label="Add"
-              @customClass="inputgroup-addon right"
-              @variant="primary"
-              @size="m-size"
-              @onClick={{this.addSocial}}
-            />
-          </:end>
-        </UlxInput>
+              @value={{this.socialUrl}}
+              @onInput={{this.handleSocialUrlInput}}
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder="https://www.x.com/xyz"
+              aria-label="Social URL"
+            >
+              <:start>
+                <UlxDropdown
+                  id="social-platform"
+                  @options={{this.socialPlatforms}}
+                  @value={{this.socialPlatform}}
+                  @onChange={{this.setSocialPlatform}}
+                  @placeholder="X"
+                  @size="m-size"
+                  @customClass="inputgroup-addon left w-140"
+                  aria-label="Social platform"
+                />
+              </:start>
+              <:end>
+                <UlxButton
+                  @label="Add"
+                  @customClass="inputgroup-addon right"
+                  @variant="primary"
+                  @size="m-size"
+                  @onClick={{this.addSocial}}
+                />
+              </:end>
+            </UlxInput>
+          </:default>
+        </UlxField>
 
-        <UlxInput
+        <UlxField
           @label="Phone Number"
-          @inputGroup={{true}}
-          @size="m-size"
+          @fieldId="form-phone-number"
           @fieldClass="col-6"
-          @value={{this.phone}}
-          @onInput={{this.handlePhoneInput}}
-          placeholder="(201) 555-0123"
-          aria-label="Phone number"
         >
-          <:start>
-            <UlxDropdown
-              id="dial-code"
-              @options={{this.dialCodes}}
-              @value={{this.dialCode}}
-              @onChange={{this.setDialCode}}
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @inputGroup={{true}}
               @size="m-size"
-              @customClass="inputgroup-addon left w-100"
-              aria-label="Dial code"
-            />
-          </:start>
-        </UlxInput>
+              @value={{this.phone}}
+              @onInput={{this.handlePhoneInput}}
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder="(201) 555-0123"
+              aria-label="Phone number"
+            >
+              <:start>
+                <UlxDropdown
+                  id="dial-code"
+                  @options={{this.dialCodes}}
+                  @value={{this.dialCode}}
+                  @onChange={{this.setDialCode}}
+                  @size="m-size"
+                  @customClass="inputgroup-addon left w-100"
+                  aria-label="Dial code"
+                />
+              </:start>
+            </UlxInput>
+          </:default>
+        </UlxField>
 
-        <UlxInput
+        <UlxField
           @label="Alternative Phone Number"
-          @inputGroup={{true}}
-          @size="m-size"
+          @fieldId="form-alt-phone-number"
           @fieldClass="col-6"
-          @value={{this.altPhone}}
-          @onInput={{this.handleAltPhoneInput}}
-          placeholder="(201) 555-0123"
-          aria-label="Alternative phone number"
         >
-          <:start>
-            <UlxDropdown
-              id="alt-dial-code"
-              @options={{this.dialCodes}}
-              @value={{this.altDialCode}}
-              @onChange={{this.setAltDialCode}}
+          <:default as |field|>
+            <UlxInput
+              id={{field.inputId}}
+              @inputGroup={{true}}
               @size="m-size"
-              @customClass="inputgroup-addon left w-100"
-              aria-label="Alternative dial code"
-            />
-          </:start>
-        </UlxInput>
+              @value={{this.altPhone}}
+              @onInput={{this.handleAltPhoneInput}}
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder="(201) 555-0123"
+              aria-label="Alternative phone number"
+            >
+              <:start>
+                <UlxDropdown
+                  id="alt-dial-code"
+                  @options={{this.dialCodes}}
+                  @value={{this.altDialCode}}
+                  @onChange={{this.setAltDialCode}}
+                  @size="m-size"
+                  @customClass="inputgroup-addon left w-100"
+                  aria-label="Alternative dial code"
+                />
+              </:start>
+            </UlxInput>
+          </:default>
+        </UlxField>
 
-        <UlxTextarea
-          @label="Address"
-          @value={{this.address}}
-          @onInput={{this.handleAddressInput}}
-          @size="m-size"
-          @fieldClass="col-12"
-          placeholder=" "
-        />
+        <UlxField @label="Address" @fieldId="form-address" @fieldClass="col-12">
+          <:default as |field|>
+            <UlxTextarea
+              id={{field.inputId}}
+              @value={{this.address}}
+              @onInput={{this.handleAddressInput}}
+              @size="m-size"
+              @ariaDescribedBy={{field.ariaDescribedBy}}
+              placeholder=" "
+              @customClass="w-full"
+            />
+          </:default>
+        </UlxField>
+
+        <div class="field col-12">
+          <UlxButton @type="submit" @label="Save" @variant="primary" />
+        </div>
       </UlxForm>
 
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
