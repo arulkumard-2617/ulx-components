@@ -7,18 +7,24 @@ import UlxTieredmenuMenuItem from "./menu-item.gjs";
  *
  * @class UlxTieredmenuMenuList
  * @private
+ * @param {function} getDataQa - `buildDataQa` wrapper from root (`"list"`, `"separator"`, …).
  */
 export default class UlxTieredmenuMenuList extends Component {
 	<template>
 		{{#each (@renderItems @items @parentId @level) as |itemData|}}
 			{{#if (@isSeparator itemData.item)}}
-				<li class="tieredmenu-separator" role="separator" data-qa="ulx-tieredmenu-separator"></li>
+				<li
+					class="tieredmenu-separator"
+					role="separator"
+					data-qa={{@getDataQa "separator"}}
+				></li>
 			{{else}}
 				<UlxTieredmenuMenuItem
 					@item={{itemData.item}}
 					@itemId={{itemData.itemId}}
 					@parentId={{itemData.parentId}}
 					@dataQa={{itemData.item.dataQa}}
+					@getDataQa={{@getDataQa}}
 					@itemClasses={{(@getItemClasses itemData.item itemData.itemId)}}
 					@hasSubmenu={{(@hasSubmenu itemData.item)}}
 					@isDisabled={{(@isDisabled itemData.item)}}
@@ -36,6 +42,7 @@ export default class UlxTieredmenuMenuList extends Component {
 							@items={{itemData.item.items}}
 							@parentId={{itemData.itemId}}
 							@level={{itemData.level}}
+							@getDataQa={{@getDataQa}}
 							@renderItems={{@renderItems}}
 							@isSeparator={{@isSeparator}}
 							@getItemClasses={{@getItemClasses}}

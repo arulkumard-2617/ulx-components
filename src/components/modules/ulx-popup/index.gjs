@@ -1,16 +1,20 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { guidFor } from "@ember/object/internals";
 import { inject as service } from "@ember/service";
+import { and, not } from "ember-truth-helpers";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
 import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import appendToBody from "../../../modifiers/append-to-body";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import {
 	applyBodyAbsoluteFromViewport,
-	getOverlayZIndexAboveMask
+	getOverlayZIndexAboveMask,
+	isEscapeKey
 } from "../../../utils/overlay-helpers";
 import UlxPopupHeader from "./header.gjs";
 import UlxPopupFooter from "./footer.gjs";
@@ -22,13 +26,78 @@ const POPUP_TRANSITION_FALLBACK_MS = POPUP_TRANSITION_MS + 100;
 const POPUP_FOCUSABLE_SELECTOR =
 	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-/** Bottom variants that may auto-flip to a top-* class when there is no room below. */
-const POPUP_BOTTOM_POSITIONS = new Set([
-	"position-bottom",
-	"position-bottom-left",
-	"position-bottom-right",
-	"position-bottom-center"
-]);
+/** When a bottom variant flips above the target, map root class to the matching top variant. */
+const POPUP_BOTTOM_TO_TOP_POSITION_CLASS = {
+	"position-bottom": "position-top",
+	"position-bottom-left": "position-top-left",
+	"position-bottom-right": "position-top-right",
+	"position-bottom-center": "position-top-center"
+};
+
+/** Bottom placement keys; same as `POPUP_BOTTOM_TO_TOP_POSITION_CLASS` (auto-flip targets). */
+const POPUP_BOTTOM_POSITIONS = new Set(Object.keys(POPUP_BOTTOM_TO_TOP_POSITION_CLASS));
+
+/**
+ * Viewport-space top/left for each `position-*` class; invalid keys fall back to bottom.
+ *
+ * @param {string} basePosition
+ * @param {DOMRect} targetRect
+ * @param {number} popupWidth
+ * @param {number} popupHeight
+ * @param {number} verticalGap
+ * @param {number} horizontalGap
+ * @returns {{ top: number; left: number; placedAbove: boolean }}
+ */
+function computePopupPlacement(
+	basePosition,
+	targetRect,
+	popupWidth,
+	popupHeight,
+	verticalGap,
+	horizontalGap
+) {
+	const { top: tt, bottom: tb, left: tl, right: tr, width: tw, height: th } = targetRect;
+	const topSnap = tt - popupHeight - verticalGap;
+
+	const layouts = {
+		"position-top": () => ({ top: topSnap, left: tl, placedAbove: true }),
+		"position-top-left": () => ({ top: topSnap, left: tl, placedAbove: true }),
+		"position-top-right": () => ({ top: topSnap, left: tr - popupWidth, placedAbove: true }),
+		"position-top-center": () => ({
+			top: topSnap,
+			left: tl + (tw - popupWidth) / 2,
+			placedAbove: true
+		}),
+		"position-left": () => ({
+			top: tt + (th - popupHeight) / 2,
+			left: tl - popupWidth - horizontalGap,
+			placedAbove: false
+		}),
+		"position-right": () => ({
+			top: tt + (th - popupHeight) / 2,
+			left: tr + horizontalGap,
+			placedAbove: false
+		}),
+		"position-bottom-left": () => ({
+			top: tb + verticalGap,
+			left: tl,
+			placedAbove: false
+		}),
+		"position-bottom-right": () => ({
+			top: tb + verticalGap,
+			left: tr - popupWidth,
+			placedAbove: false
+		}),
+		"position-bottom-center": () => ({
+			top: tb + verticalGap,
+			left: tl + (tw - popupWidth) / 2,
+			placedAbove: false
+		}),
+		"position-bottom": () => ({ top: tb + verticalGap, left: tl, placedAbove: false })
+	};
+
+	return (layouts[basePosition] ?? layouts["position-bottom"])();
+}
 
 const POPUP_ENTER_ANIMATION_STATES = new Set(["enter", "enter-active", "enter-done"]);
 const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]);
@@ -56,7 +125,8 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  *
  * ## WCAG
  * - Root element uses `role="dialog"` with `aria-modal="false"` and `aria-hidden` reflecting visibility.
- * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name.
+ * - With default header (`@title` and no `<:head>`), the title `<h6>` gets a stable unique `id` and the dialog sets `aria-labelledby` to it (unless `@ariaLabel` is set).
+ * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name when not using the default title pattern.
  * - Focus is moved into the popup on open (first focusable element, or the popup container as fallback).
  * - Escape closes the popup by default (unless @closeOnEscape is false) and returns focus to the trigger.
  *
@@ -125,14 +195,17 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
 export default class UlxPopup extends Component {
 	@service modalStack;
 
-	@tracked animationState = null; // 'enter', 'enter-active', 'enter-done', 'exit', 'exit-active', 'exit-done', null
+	/** `enter` | `enter-active` | `enter-done` | `exit` | `exit-active` | `exit-done` | null */
+	@tracked animationState = null;
 	@tracked containerElement = null;
+	/** After auto-flip, overrides `@position` so the pointer/arrow CSS matches real placement. */
 	@tracked currentPositionClass = null;
-	// targetElement is an internal reference only; it is intentionally not tracked
-	// to avoid mutating tracked state during the same computation that reads it.
+	/**
+	 * Not @tracked: internal anchor only; tracking it would mutate tracked state during the same
+	 * render pass that reads it.
+	 */
 	targetElement = null;
-
-	/** Compared each `watchVisibility` run to detect `@visible` false→true / true→false edges. */
+	/** Previous `watchVisibility` `isVisible`; used to detect false→true / true→false edges. */
 	_previousVisible = false;
 
 	get baseClass() {
@@ -141,6 +214,11 @@ export default class UlxPopup extends Component {
 
 	get rootDataQa() {
 		return resolveRootDataQa(this.args.dataQa, "popup");
+	}
+
+	/** Stable id for the default title heading; pairs with `aria-labelledby` on the dialog root. */
+	get defaultTitleHeadingId() {
+		return `ulx-popup-title-${guidFor(this)}`;
 	}
 
 	@action
@@ -157,14 +235,14 @@ export default class UlxPopup extends Component {
 	}
 
 	get isClosable() {
-		// Close icon and ESC should be opt-in; default is no close affordance.
+		/* Popup close button is opt-in; Escape still follows @closeOnEscape + overlay-dismiss. */
 		return this.args.closable === true;
 	}
 
 	get shouldRender() {
 		if (this.isVisible) return true;
 		if (this.animationState?.startsWith("exit")) return true;
-		// Stay in DOM briefly after `@visible` becomes false so exit transition can start.
+		/* Keep mounted briefly after @visible=false so exit transition can start. */
 		return !this.isVisible && POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
 	}
 
@@ -178,41 +256,26 @@ export default class UlxPopup extends Component {
 		effectivePosition && parts.push(effectivePosition);
 		size && parts.push(size);
 		variant && parts.push(variant);
-
-		if (!this.isClosable) {
-			parts.push("no-close");
-		}
-
-		// Only add visible once enter animation has started to avoid showing
-		// the popup fully before transition classes are applied.
+		!this.isClosable && parts.push("no-close");
+		/* `visible` only during enter-* so the first paint sees transition initial state. */
 		POPUP_ENTER_ANIMATION_STATES.has(this.animationState) && parts.push("visible");
 
 		this.animationState && parts.push(this.animationState);
 		customClass && parts.push(customClass);
 
-		return [...new Set(parts.filter(Boolean))].join(" ");
-	}
-
-	buildSectionClass(base, extraClass) {
-		const parts = [base];
-		extraClass && parts.push(extraClass);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	get headerClasses() {
-		return this.buildSectionClass("popup-header", this.args.headerClassName);
+		return joinClassNames("popup-header", this.args.headerClassName);
 	}
 
 	get bodyClasses() {
-		return this.buildSectionClass("popup-body", this.args.bodyClassName);
+		return joinClassNames("popup-body", this.args.bodyClassName);
 	}
 
 	get footerClasses() {
-		return this.buildSectionClass("popup-footer", this.args.footerClassName);
-	}
-
-	get ariaLabel() {
-		return this.args.ariaLabel;
+		return joinClassNames("popup-footer", this.args.footerClassName);
 	}
 
 	get overlayDismissClickActive() {
@@ -269,10 +332,10 @@ export default class UlxPopup extends Component {
 		if (this.args.closeOnEscape === false) return;
 		if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
 
-		if (event.key === "Escape" || event.key === "Esc" || event.code === "Escape") {
+		if (isEscapeKey(event.key) || event.code === "Escape") {
 			event.preventDefault();
 			event.stopPropagation();
-			// Avoid parent menus/dialogs also handling the same Escape in one dispatch.
+			/* Prevents parent menus/dialogs from handling the same key in this dispatch. */
 			event.stopImmediatePropagation();
 			this._handleHideInternal();
 		}
@@ -414,59 +477,15 @@ export default class UlxPopup extends Component {
 
 		const basePosition = this.args.position ?? "position-bottom";
 
-		// Base coordinates in viewport space (before scroll offsets)
-		let top;
-		let left;
-		let placedAbove = false;
-
-		// Initial placement based on requested position
-		switch (basePosition) {
-			case "position-top":
-				top = targetRect.top - popupHeight - verticalGap;
-				left = targetRect.left;
-				placedAbove = true;
-				break;
-			case "position-top-left":
-				top = targetRect.top - popupHeight - verticalGap;
-				left = targetRect.left;
-				placedAbove = true;
-				break;
-			case "position-top-right":
-				top = targetRect.top - popupHeight - verticalGap;
-				left = targetRect.right - popupWidth;
-				placedAbove = true;
-				break;
-			case "position-top-center":
-				top = targetRect.top - popupHeight - verticalGap;
-				left = targetRect.left + (targetRect.width - popupWidth) / 2;
-				placedAbove = true;
-				break;
-			case "position-left":
-				top = targetRect.top + (targetRect.height - popupHeight) / 2;
-				left = targetRect.left - popupWidth - horizontalGap;
-				break;
-			case "position-right":
-				top = targetRect.top + (targetRect.height - popupHeight) / 2;
-				left = targetRect.right + horizontalGap;
-				break;
-			case "position-bottom-left":
-				top = targetRect.bottom + verticalGap;
-				left = targetRect.left;
-				break;
-			case "position-bottom-right":
-				top = targetRect.bottom + verticalGap;
-				left = targetRect.right - popupWidth;
-				break;
-			case "position-bottom-center":
-				top = targetRect.bottom + verticalGap;
-				left = targetRect.left + (targetRect.width - popupWidth) / 2;
-				break;
-			case "position-bottom":
-			default:
-				top = targetRect.bottom + verticalGap;
-				left = targetRect.left;
-				break;
-		}
+		let { top, left, placedAbove: initialPlacedAbove } = computePopupPlacement(
+			basePosition,
+			targetRect,
+			popupWidth,
+			popupHeight,
+			verticalGap,
+			horizontalGap
+		);
+		let placedAbove = initialPlacedAbove;
 
 		// Automatic vertical flip only for "bottom" variants when there is not
 		// enough space below but there is space above.
@@ -484,37 +503,17 @@ export default class UlxPopup extends Component {
 
 		applyBodyAbsoluteFromViewport(container, top, left);
 
-		// Update position class when we have flipped vertically so that the
-		// pointer arrow direction matches the actual placement.
-		const originalPosition = this.args.position ?? "position-bottom";
-		this.currentPositionClass = this._getPositionClassForPlacement(originalPosition, placedAbove);
+		/* Remap bottom-* → top-* only when we auto-flipped; explicit top/left/right stay unchanged. */
+		this.currentPositionClass = this._getPositionClassForPlacement(basePosition, placedAbove);
 	}
 
 	_getPositionClassForPlacement(originalPosition, placedAbove) {
-		// Only remap when we have automatically flipped a bottom variant; for
-		// explicit top/left/right positions keep the original class.
-		if (
-			!placedAbove ||
-			(originalPosition !== "position-bottom" &&
-				originalPosition !== "position-bottom-left" &&
-				originalPosition !== "position-bottom-right" &&
-				originalPosition !== "position-bottom-center")
-		) {
+		if (!placedAbove) {
 			return originalPosition;
 		}
 
-		switch (originalPosition) {
-			case "position-bottom":
-				return "position-top";
-			case "position-bottom-left":
-				return "position-top-left";
-			case "position-bottom-right":
-				return "position-top-right";
-			case "position-bottom-center":
-				return "position-top-center";
-			default:
-				return originalPosition;
-		}
+		/* Unknown or non-bottom positions: keep caller’s class (e.g. position-top with placedAbove). */
+		return POPUP_BOTTOM_TO_TOP_POSITION_CLASS[originalPosition] ?? originalPosition;
 	}
 
 	@action
@@ -528,6 +527,7 @@ export default class UlxPopup extends Component {
 		if (this.containerElement) this.containerElement.style.zIndex = "";
 	}
 
+	/** Captures the root element, syncs `@target` if needed, and wires `registerRef`. */
 	registerPopup = modifier((element) => {
 		this.containerElement = element;
 
@@ -544,7 +544,10 @@ export default class UlxPopup extends Component {
 		};
 	});
 
-	/** Parent owns `@visible`; we react to edges and run show/hide animations (see `shouldRender`). */
+	/**
+	 * Parent owns `@visible`; reacts to edges and drives enter/exit (see `shouldRender`).
+	 * `animationState` is a positional dep so this re-runs as the transition advances.
+	 */
 	watchVisibility = modifier((element, [isVisible, targetElement, _animationState]) => {
 		const previousVisible = this._previousVisible;
 		const isTransitioningToVisible = !previousVisible && isVisible;
@@ -603,6 +606,7 @@ export default class UlxPopup extends Component {
 		this._previousVisible = isVisible;
 	});
 
+	/** After open, focus first focusable inside the dialog (or the root as fallback). */
 	focusFirstOnVisible = modifier((element, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
 
@@ -615,6 +619,7 @@ export default class UlxPopup extends Component {
 		}
 	});
 
+	/** While open, wrap Tab / Shift+Tab between first and last focusable. */
 	focusTrap = modifier((element, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
 
@@ -651,6 +656,7 @@ export default class UlxPopup extends Component {
 		return () => element.removeEventListener("keydown", handleKeyDown);
 	});
 
+	/** When dismissable, window resize requests close (same idea as outside click). */
 	handleResize = modifier((_, [isVisible]) => {
 		if (!this.isDismissable) {
 			return;
@@ -678,7 +684,11 @@ export default class UlxPopup extends Component {
 				role="dialog"
 				aria-modal="false"
 				aria-hidden={{if this.isVisible "false" "true"}}
-				aria-label={{if this.ariaLabel this.ariaLabel}}
+				aria-labelledby={{if
+					(and (not (has-block "head")) @title (not @ariaLabel))
+					this.defaultTitleHeadingId
+				}}
+				aria-label={{if @ariaLabel @ariaLabel}}
 				tabindex="-1"
 				{{appendToBody this.shouldRender}}
 				{{this.registerPopup}}
@@ -706,7 +716,7 @@ export default class UlxPopup extends Component {
 						</div>
 					{{else if @title}}
 						<div class={{this.headerClasses}} data-qa={{this.getDataQa "header"}}>
-							<UlxPopupHeader @title={{@title}} />
+							<UlxPopupHeader @title={{@title}} @titleId={{this.defaultTitleHeadingId}} />
 						</div>
 					{{/if}}
 
@@ -727,6 +737,7 @@ export default class UlxPopup extends Component {
 					{{else}}
 						{{#unless @hideFooter}}
 							<UlxPopupFooter
+								@dataQa={{this.getDataQa "footer"}}
 								@footerClassName={{@footerClassName}}
 								@tertiaryButtonLabel={{@tertiaryButtonLabel}}
 								@tertiaryButtonIcon={{@tertiaryButtonIcon}}
@@ -747,6 +758,7 @@ export default class UlxPopup extends Component {
 					<button
 						type="button"
 						class="popup-close-button"
+						data-qa={{this.getDataQa "close"}}
 						aria-label={{t "lbl.close"}}
 						{{on "click" this.handleCloseClick}}
 					>
