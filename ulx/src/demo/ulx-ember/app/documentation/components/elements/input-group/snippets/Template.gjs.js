@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {
   UlxInput,
-  UlxButton,
+  UlxIconButton,
   UlxCheckbox,
   UlxField,
   UlxInputGroup,
@@ -97,10 +97,10 @@ export default class DemoInputGroupTemplate extends Component {
             </:input>
 
             <:end>
-              <UlxButton
+              <UlxIconButton
                 @variant="basic"
                 @size="compact"
-                @icon="time-icon"
+                @iconLeft="time-icon"
                 @iconComponentClass="bs-icons1"
                 @iconSize="s18"
                 @disabled={{this.isDisabled}}
@@ -146,10 +146,10 @@ export default class DemoInputGroupTemplate extends Component {
                 </span>
 
                 <span class="inputgroup-addon vertical-stack-addon">
-                  <UlxButton
+                  <UlxIconButton
                     @variant="basic"
                     @size="compact"
-                    @icon="up-arrow-icon"
+                    @iconLeft="up-arrow-icon"
                     @iconSize="s14"
                     @onClick={{this.incrementHours}}
                     @disabled={{or
@@ -158,10 +158,10 @@ export default class DemoInputGroupTemplate extends Component {
                     }}
                     aria-label={{t "lbl.increment"}}
                   />
-                  <UlxButton
+                  <UlxIconButton
                     @variant="basic"
                     @size="compact"
-                    @icon="down-arrow-icon"
+                    @iconLeft="down-arrow-icon"
                     @iconSize="s14"
                     @onClick={{this.decrementHours}}
                     @disabled={{or
@@ -197,10 +197,10 @@ export default class DemoInputGroupTemplate extends Component {
                 </span>
 
                 <span class="inputgroup-addon vertical-stack-addon">
-                  <UlxButton
+                  <UlxIconButton
                     @variant="basic"
                     @size="compact"
-                    @icon="up-arrow-icon"
+                    @iconLeft="up-arrow-icon"
                     @iconSize="s14"
                     @onClick={{this.incrementMinutes}}
                     @disabled={{or
@@ -209,10 +209,10 @@ export default class DemoInputGroupTemplate extends Component {
                     }}
                     aria-label={{t "lbl.increment"}}
                   />
-                  <UlxButton
+                  <UlxIconButton
                     @variant="basic"
                     @size="compact"
-                    @icon="down-arrow-icon"
+                    @iconLeft="down-arrow-icon"
                     @iconSize="s14"
                     @onClick={{this.decrementMinutes}}
                     @disabled={{or

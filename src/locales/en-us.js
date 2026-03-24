@@ -263,6 +263,9 @@ const enUs = {
 	'lbl.doc.section.import': 'Import',
 	'lbl.doc.section.basic': 'Basic',
 	'lbl.doc.section.accessibility': 'Accessibility',
+	'msg.doc.section.work.in.progress.title': 'Work in progress',
+	'msg.doc.section.work.in.progress.body':
+		'Documentation for this tab is not available yet and will be added in a future update.',
 	'lbl.advanced': 'Advanced',
 
 	// ── Multiselect ──────────────────────────────────────────

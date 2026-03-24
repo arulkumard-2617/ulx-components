@@ -1,0 +1,135 @@
+import { a as _applyDecoratedDescriptor } from '../../../_rollupPluginBabelHelpers-CQHfKKbY.js';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { fn } from '@ember/helper';
+import { NAMESPACE, getComponentClass } from '../../../utils/component-config.js';
+import { normalizeRules, resolveKey, isInvalidState, invokeCheckedChange } from '../../../utils/input-util.js';
+import UlxCheckboxItem from './checkbox-item.js';
+import { precompileTemplate } from '@ember/template-compilation';
+import { setComponentTemplate } from '@ember/component';
+
+var _class, _UlxCheckbox;
+function buildCheckboxId(namespace, idArg, key) {
+  if (typeof idArg === "string" && idArg.length) return idArg;
+  if (typeof key === "string" && key.length) return key;
+  return `${namespace}-checkbox-${key}`;
+}
+/**
+ * Checkbox component with support for:
+ * - single checkbox
+ * - checkbox items list via `@items`
+ * - indeterminate visual state (single checkbox or per-item)
+ * - invalid state communication (help/error rendering is handled by `UlxField`)
+ *
+ * ## WCAG
+ * - Proper label association via `id` and `for` attributes
+ * - Help/error associated via `aria-describedby`
+ * - Required fields marked with `aria-required` (single checkbox)
+ * - Invalid state communicated via `aria-invalid`
+ * - Indeterminate state communicated via `aria-checked="mixed"`
+ *
+ * @class UlxCheckbox
+ * @param {string} [id] - Unique ID for the checkbox input. Auto-generated if not provided.
+ * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids.
+ *
+ * @param {Array<object>} [items] - Optional list of checkbox items. When provided, the component renders a group.
+ *   Each item supports: `{ label, checked, indeterminate, disabled, customClass, id }`.
+ *   Provide a string `id` per item when the list can reorder or grow; otherwise ids are derived from index (stable across checked toggles).
+ * @param {Function} [onItemChange] - When `@items` is provided: (item, checked, event) => void.
+ *
+ * @param {boolean} [checked] - Whether the checkbox is checked (controlled) (single mode).
+ * @param {boolean} [indeterminate=false] - Whether the checkbox is in indeterminate state (single mode).
+ * @param {string} [name] - Name attribute for form submissions (single mode).
+ * @param {string} [value] - Value attribute for form submissions (single mode).
+ *
+ * @param {string} [itemLabel] - Single checkbox label rendered next to the checkbox (single mode).
+ *
+ * @param {object} [rules] - Rules object for constraints (old component pattern): { required: true }
+ *
+ * @param {boolean} [disabled=false] - Whether the checkbox is disabled (single mode) or disables all items (group mode).
+ * @param {boolean} [invalid=false] - Whether the field is in invalid state.
+ * @param {boolean} [filled=false] - Whether to use filled variant styling.
+ * @param {string} [size="m-size"] - Size variant: "s-size", "m-size", "l-size".
+ *
+ * @param {string} [groupClass] - Extra classes for the items wrapper (appended to base `ulx-checkbox-group`).
+ * @param {string} [customClass] - Extra classes for the checkbox wrapper (single mode or per-item).
+ * @param {string} [ariaDescribedBy] - Override `aria-describedby` for the checkbox input (used by group rendering).
+ * @param {string} [ariaErrorMessage] - Override `aria-errormessage` for the checkbox input (used by group rendering).
+ *
+ * @param {Function} [onChange] - Callback fired on change event (single/bare): (event) => void.
+ * @param {Function} [onCheckedChange] - Callback fired with next checked value (single/bare): (checked, event) => void.
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-checkbox".
+ */
+let UlxCheckbox = (_class = (_UlxCheckbox = class UlxCheckbox extends Component {
+  get rules() {
+    return normalizeRules(this.args.rules);
+  }
+  get key() {
+    return resolveKey(this, this.args.key);
+  }
+  get checkboxId() {
+    return buildCheckboxId(NAMESPACE, this.args.id, this.key);
+  }
+  get items() {
+    return Array.isArray(this.args.items) ? this.args.items : [];
+  }
+  get hasItems() {
+    return this.items.length > 0;
+  }
+  get itemEntries() {
+    return this.items.map((item, index) => {
+      const id = item?.id;
+      const resolvedId = typeof id === "string" && id.length > 0 ? id : index === 0 ? this.checkboxId : `${this.checkboxId}-item-${index}`;
+      return {
+        item,
+        id: resolvedId
+      };
+    });
+  }
+  getItemId(index) {
+    return this.itemEntries?.[index]?.id;
+  }
+  get isRequired() {
+    return !!this.rules.required;
+  }
+  get isInvalid() {
+    const {
+      invalid = false,
+      error
+    } = this.args;
+    return isInvalidState(invalid, error);
+  }
+  get ariaDescribedBy() {
+    return this.args.ariaDescribedBy;
+  }
+  get ariaErrorMessage() {
+    return this.args.ariaErrorMessage;
+  }
+  get groupClass() {
+    const {
+      groupClass
+    } = this.args;
+    const parts = [getComponentClass("checkbox-group")];
+    groupClass && parts.push(groupClass);
+    return [...new Set(parts.filter(Boolean))].join(" ");
+  }
+  get rootDataQa() {
+    return this.args.dataQa ?? "ulx-checkbox";
+  }
+  handleChange(event) {
+    invokeCheckedChange(this.args, event);
+  }
+  handleItemChange(item, event) {
+    if (!this.args.onItemChange) return;
+    this.args.onItemChange(item, event.target.checked, event);
+  }
+}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.hasItems}}\n\t\t\t<div class={{this.groupClass}} data-qa={{this.rootDataQa}}>\n\t\t\t\t{{#each this.itemEntries key=\"id\" as |entry|}}\n\t\t\t\t\t<UlxCheckboxItem @id={{entry.id}} @checked={{entry.item.checked}} @indeterminate={{entry.item.indeterminate}} @disabled={{if @disabled true entry.item.disabled}} @invalid={{this.isInvalid}} @required={{this.isRequired}} @filled={{@filled}} @size={{@size}} @customClass={{entry.item.customClass}} @itemLabel={{entry.item.label}} @ariaDescribedBy={{this.ariaDescribedBy}} @ariaErrorMessage={{this.ariaErrorMessage}} @onChange={{fn this.handleItemChange entry.item}} />\n\t\t\t\t{{/each}}\n\t\t\t</div>\n\t\t{{else}}\n\t\t\t{{!-- NOTE: Named blocks (e.g. <:itemLabel>) must be direct children of a component invocation. --}}\n\t\t\t{{#if (has-block \"itemLabel\")}}\n\t\t\t\t<UlxCheckboxItem ...attributes @dataQa={{this.rootDataQa}} @id={{this.checkboxId}} @checked={{@checked}} @indeterminate={{@indeterminate}} @disabled={{@disabled}} @invalid={{this.isInvalid}} @filled={{@filled}} @size={{@size}} @customClass={{@customClass}} @required={{this.isRequired}} @ariaDescribedBy={{this.ariaDescribedBy}} @ariaErrorMessage={{this.ariaErrorMessage}} @name={{@name}} @value={{@value}} @onChange={{this.handleChange}}>\n\t\t\t\t\t<:itemLabel>\n\t\t\t\t\t\t{{yield to=\"itemLabel\"}}\n\t\t\t\t\t</:itemLabel>\n\t\t\t\t</UlxCheckboxItem>\n\t\t\t{{else}}\n\t\t\t\t<UlxCheckboxItem ...attributes @dataQa={{this.rootDataQa}} @id={{this.checkboxId}} @checked={{@checked}} @indeterminate={{@indeterminate}} @disabled={{@disabled}} @invalid={{this.isInvalid}} @filled={{@filled}} @size={{@size}} @customClass={{@customClass}} @itemLabel={{@itemLabel}} @required={{this.isRequired}} @ariaDescribedBy={{this.ariaDescribedBy}} @ariaErrorMessage={{this.ariaErrorMessage}} @name={{@name}} @value={{@value}} @onChange={{this.handleChange}} />\n\t\t\t{{/if}}\n\t\t{{/if}}\n\t", {
+  strictMode: true,
+  scope: () => ({
+    UlxCheckboxItem,
+    fn
+  })
+}), _UlxCheckbox), _UlxCheckbox), _applyDecoratedDescriptor(_class.prototype, "getItemId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getItemId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleChange", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleChange"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemChange", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemChange"), _class.prototype), _class);
+
+export { UlxCheckbox as default };
+//# sourceMappingURL=index.js.map

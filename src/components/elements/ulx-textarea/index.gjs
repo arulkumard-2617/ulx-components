@@ -3,61 +3,40 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { NAMESPACE } from "../../../utils/component-config";
 import {
-	buildAriaDescribedBy,
-	buildFieldClass,
-	buildFloatLabelClass,
 	buildInputClass,
-	getFloatLabelLabelClass,
 	getConstraintValue,
 	getKeyFilterPattern,
 	isInvalidState,
 	isRulesRequired,
 	isSpecialKey,
-	matchesKeyFilter,
 	normalizeRules,
-	resolveFloatLabelText,
 	resolveKey,
-	buildInputId,
-	syncFloatLabelFilledClass
+	buildInputId
 } from "../../../utils/input-util";
 
 /**
- * Textarea component (multi-line) with support for:
- * - key filtering
- * - validation/help/error text
- * - float labels
+ * Textarea component (multi-line) with ULX classes and optional rule-driven constraints.
  *
  * @class UlxTextarea
- * @param {string} [value] - Controlled value.
- * @param {string} [placeholder] - Placeholder text.
- * @param {boolean} [disabled=false] - Disables the textarea.
- * @param {boolean} [readonly=false] - Makes the textarea read-only.
- * @param {string} [label] - Label text (when not using float label or label block).
- * @param {string} [floatLabel] - Float label text; when set, uses float-label layout.
- * @param {string} [helpText] - Help text shown below the textarea.
- * @param {string} [error] - Error message; sets invalid state and aria-errormessage.
- * @param {boolean} [invalid=false] - Explicit invalid state.
- * @param {Object|Array} [rules] - Validation rules (e.g. required, minLength, maxLength).
- * @param {string} [keyfilter] - Key filter pattern for input.
- * @param {string} [id] - Id for the textarea. Auto-generated if not provided.
- * @param {string} [key] - Stable key for auto-generated id.
- * @param {string} [size] - Size class (e.g. s-size, m-size).
- * @param {boolean} [filled] - Filled state for styling.
- * @param {string} [fieldClass] - Extra class(es) on the field wrapper.
- * @param {Function} [onChange] - Called on change: (event) => void.
- * @param {Function} [onInput] - Called on input: (event) => void.
- * @param {Function} [onKeydown] - Called on keydown: (event) => void.
- * @param {Function} [onFocus] - Called on focus: (event) => void.
- * @param {Function} [onBlur] - Called on blur: (event) => void.
- * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-textarea").
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
+ * @param {string} [key] - Stable key or id; overrides `field.key` when set.
+ * @param {string} [ariaDescribedBy] - Overrides `field.describedBy`.
+ * @param {string} [ariaErrorMessage] - Overrides `field.errorId`.
  */
 export default class UlxTextarea extends Component {
 	get rules() {
-		return normalizeRules(this.args.rules);
+		const { rules: rulesArg } = this.args;
+		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
+	}
+
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
 	}
 
 	get key() {
-		return resolveKey(this, this.args.key);
+		const { key: keyArg } = this.args;
+		return resolveKey(this, keyArg ?? this.fieldContext?.key);
 	}
 
 	get textareaId() {
@@ -66,15 +45,6 @@ export default class UlxTextarea extends Component {
 
 	get rootDataQa() {
 		return this.args.dataQa ?? "ulx-textarea";
-	}
-
-	get floatLabelText() {
-		const { floatLabel, label } = this.args;
-		return resolveFloatLabelText(floatLabel, label);
-	}
-
-	get hasFloatLabelText() {
-		return typeof this.floatLabelText === "string" && this.floatLabelText.length > 0;
 	}
 
 	get isRequired() {
@@ -89,61 +59,37 @@ export default class UlxTextarea extends Component {
 		return getConstraintValue(this.rules, "maxLength");
 	}
 
-	get hasLabelMeta() {
-		return this.minLength != null || this.maxLength != null;
-	}
-
-	get labelMetaText() {
-		const parts = [];
-		this.minLength != null && parts.push(`${this.minLength}`);
-		this.maxLength != null && parts.push(`${this.maxLength}`);
-		return parts.join(" / ");
-	}
-
 	get isInvalid() {
-		const { invalid, error } = this.args;
+		const { invalid, error: errorArg } = this.args;
+		const error = errorArg ?? this.fieldContext?.error;
 		return isInvalidState(invalid, error);
 	}
 
 	get textareaClass() {
-		const { size, filled, disabled, readonly, floatLabel, value } = this.args;
-		return buildInputClass({
-			isTextarea: true,
-			size,
-			filled,
-			invalid: this.isInvalid,
-			disabled,
-			readonly,
-			floatLabel,
-			value
-		});
-	}
-
-	get fieldClass() {
-		return buildFieldClass(this.args.fieldClass);
-	}
-
-	get floatLabelClass() {
-		const { size, filled, disabled } = this.args;
-		return buildFloatLabelClass({
-			size,
-			filled,
-			invalid: this.isInvalid,
-			disabled
-		});
-	}
-
-	get floatLabelLabelClass() {
-		return getFloatLabelLabelClass();
+		const { size, filled, disabled, readonly, value, customClass } = this.args;
+		const parts = [
+			buildInputClass({
+				isTextarea: true,
+				size,
+				filled,
+				invalid: this.isInvalid,
+				disabled,
+				readonly,
+				value
+			})
+		];
+		customClass && parts.push(customClass);
+		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
 	get ariaDescribedBy() {
-		const { helpText, error } = this.args;
-		return buildAriaDescribedBy(this.textareaId, { helpText, error });
+		const { ariaDescribedBy } = this.args;
+		return ariaDescribedBy ?? this.fieldContext?.describedBy;
 	}
 
 	get ariaErrorMessage() {
-		return this.args.error ? `${this.textareaId}-error` : undefined;
+		const { ariaErrorMessage } = this.args;
+		return ariaErrorMessage ?? this.fieldContext?.errorId;
 	}
 
 	get keyFilterPattern() {
@@ -178,9 +124,7 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleInput(event) {
-		const { floatLabel, onInput } = this.args;
-		if (floatLabel) syncFloatLabelFilledClass(event.target);
-		if (onInput) onInput(event);
+		this.args.onInput?.(event);
 	}
 
 	@action
@@ -192,123 +136,36 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleFocus(event) {
-		const { floatLabel, onFocus } = this.args;
-		if (floatLabel) event.target.classList.add("focus");
-		if (onFocus) onFocus(event);
+		this.args.onFocus?.(event);
 	}
 
 	@action
 	handleBlur(event) {
-		const { floatLabel, onBlur } = this.args;
-		if (floatLabel) {
-			event.target.classList.remove("focus");
-			syncFloatLabelFilledClass(event.target);
-		}
-		if (onBlur) onBlur(event);
+		this.args.onBlur?.(event);
 	}
 
 	<template>
-		<div class={{this.fieldClass}} data-qa={{this.rootDataQa}}>
-			{{#if @floatLabel}}
-				<span class={{this.floatLabelClass}}>
-					<textarea
-						id={{this.textareaId}}
-						class={{this.textareaClass}}
-						value={{@value}}
-						data-qa="ulx-textarea-input"
-						placeholder={{@placeholder}}
-						disabled={{@disabled}}
-						readonly={{@readonly}}
-						minlength={{this.minLength}}
-						maxlength={{this.maxLength}}
-						required={{this.isRequired}}
-						aria-required={{this.isRequired}}
-						aria-invalid={{if this.isInvalid "true" "false"}}
-						aria-describedby={{this.ariaDescribedBy}}
-						aria-errormessage={{this.ariaErrorMessage}}
-						{{on "keydown" this.handleKeydown}}
-						{{on "input" this.handleInput}}
-						{{on "change" this.handleChange}}
-						{{on "focus" this.handleFocus}}
-						{{on "blur" this.handleBlur}}
-						...attributes
-					></textarea>
-
-					<label for={{this.textareaId}} class={{this.floatLabelLabelClass}}>
-						{{this.floatLabelText}}
-						{{#if this.isRequired}}
-							<span class="fg-red" aria-hidden="true">*</span>
-						{{/if}}
-					</label>
-				</span>
-			{{else}}
-				{{#if (has-block "label")}}
-					<label for={{this.textareaId}}>
-						<span class="label-text">
-							{{yield to="label"}}
-							{{#if this.isRequired}}
-								<span class="fg-red" aria-hidden="true">*</span>
-							{{/if}}
-						</span>
-						{{#if this.hasLabelMeta}}
-							<span class="label-right">{{this.labelMetaText}}</span>
-						{{/if}}
-					</label>
-				{{else if @label}}
-					<label for={{this.textareaId}}>
-						<span class="label-text">
-							{{@label}}
-							{{#if this.isRequired}}
-								<span class="fg-red" aria-hidden="true">*</span>
-							{{/if}}
-						</span>
-						{{#if this.hasLabelMeta}}
-							<span class="label-right">{{this.labelMetaText}}</span>
-						{{/if}}
-					</label>
-				{{/if}}
-
-				<textarea
-					id={{this.textareaId}}
-					class={{this.textareaClass}}
-					value={{@value}}
-					placeholder={{@placeholder}}
-					disabled={{@disabled}}
-					readonly={{@readonly}}
-					minlength={{this.minLength}}
-					maxlength={{this.maxLength}}
-					required={{this.isRequired}}
-					aria-required={{this.isRequired}}
-					aria-invalid={{if this.isInvalid "true" "false"}}
-					aria-describedby={{this.ariaDescribedBy}}
-					aria-errormessage={{this.ariaErrorMessage}}
-					data-qa="ulx-textarea-input"
-					{{on "keydown" this.handleKeydown}}
-					{{on "input" this.handleInput}}
-					{{on "change" this.handleChange}}
-					{{on "focus" this.handleFocus}}
-					{{on "blur" this.handleBlur}}
-					...attributes
-				></textarea>
-			{{/if}}
-
-			{{#if @helpText}}
-				<div
-					id="{{this.textareaId}}-help"
-					class="help-text"
-					data-qa="ulx-textarea-help"
-				>{{@helpText}}</div>
-			{{/if}}
-
-			{{#if @error}}
-				<div
-					id="{{this.textareaId}}-error"
-					class="error-message"
-					role="alert"
-					aria-atomic="true"
-					data-qa="ulx-textarea-error"
-				>{{@error}}</div>
-			{{/if}}
-		</div>
+		<textarea
+			id={{this.textareaId}}
+			class={{this.textareaClass}}
+			value={{@value}}
+			placeholder={{@placeholder}}
+			disabled={{@disabled}}
+			readonly={{@readonly}}
+			minlength={{this.minLength}}
+			maxlength={{this.maxLength}}
+			required={{this.isRequired}}
+			aria-required={{this.isRequired}}
+			aria-invalid={{if this.isInvalid "true" "false"}}
+			aria-describedby={{this.ariaDescribedBy}}
+			aria-errormessage={{this.ariaErrorMessage}}
+			data-qa={{this.rootDataQa}}
+			{{on "keydown" this.handleKeydown}}
+			{{on "input" this.handleInput}}
+			{{on "change" this.handleChange}}
+			{{on "focus" this.handleFocus}}
+			{{on "blur" this.handleBlur}}
+			...attributes
+		></textarea>
 	</template>
 }

@@ -27,6 +27,11 @@ export const DocNavItems = [
             route: 'components.elements.input',
           },
           {
+            menuItem: 'Textarea',
+            to: '/components/elements/textarea',
+            route: 'components.elements.textarea',
+          },
+          {
             menuItem: 'IconInput',
             to: '/components/elements/ulx-icon-input',
             route: 'components.elements.ulx-icon-input',

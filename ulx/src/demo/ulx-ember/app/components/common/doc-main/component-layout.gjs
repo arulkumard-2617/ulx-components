@@ -1,7 +1,13 @@
 import Component from '@glimmer/component';
 import DocTab from './doc-tab';
+import WorkInProgressNotice from './work-in-progress-notice';
 
 export default class ComponentLayoutComponent extends Component {
+  get showDocsWorkInProgress() {
+    const { activeTab } = this.args;
+    return activeTab === 'params' || activeTab === 'architecture';
+  }
+
   <template>
     <div class="doc-component-page">
       {{#if @tabs}}
@@ -17,7 +23,11 @@ export default class ComponentLayoutComponent extends Component {
             {{/if}}
           </header>
           <div class="doc-component-page__content">
-            {{yield @activeTab}}
+            {{#if this.showDocsWorkInProgress}}
+              <WorkInProgressNotice />
+            {{else}}
+              {{yield @activeTab}}
+            {{/if}}
           </div>
         </DocTab>
       {{else}}

@@ -3,11 +3,6 @@ node_modules
 node_modules/.package-lock.json
 
 # compiled output
-dist
-dist/**
-dist/index.js
-dist/index.js.map
-dist/components/elements/ulx-icon/index.js.map
 declarations
 addon/dist
 

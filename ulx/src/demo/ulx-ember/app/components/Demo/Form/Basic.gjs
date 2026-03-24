@@ -2,7 +2,13 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxForm, UlxInput, UlxButton, UlxToast } from 'ulx-components';
+import {
+  UlxForm,
+  UlxField,
+  UlxInput,
+  UlxButton,
+  UlxToast,
+} from 'ulx-components';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -74,14 +80,6 @@ export default class DemoFormBasic extends Component {
     this.messages = this.messages.filter((m) => m.id !== message.id);
   }
 
-  get nameInvalid() {
-    return Boolean(this.nameError);
-  }
-
-  get emailInvalid() {
-    return Boolean(this.emailError);
-  }
-
   <template>
     <UlxForm
       @size="m-size"
@@ -89,31 +87,43 @@ export default class DemoFormBasic extends Component {
       aria-label="Form"
       {{on "submit" this.handleSubmit}}
     >
-      <UlxInput
+      <UlxField
         @label="Name"
-        @value={{this.name}}
-        @onInput={{this.handleNameInput}}
-        @size="m-size"
-        @fieldClass="col-12"
+        @fieldId="form-basic-name"
+        @fieldClass="col-4"
         @error={{this.nameError}}
-        @invalid={{this.nameInvalid}}
-        placeholder="Enter name"
-        aria-label="Name"
-      />
-      <UlxInput
+        as |field|
+      >
+        <UlxInput
+          @field={{field}}
+          @value={{this.name}}
+          @onInput={{this.handleNameInput}}
+          @size="m-size"
+          placeholder="Enter name"
+          aria-label="Name"
+        />
+      </UlxField>
+      <UlxField
         @label="Email"
-        @value={{this.email}}
-        @onInput={{this.handleEmailInput}}
-        @size="m-size"
-        @fieldClass="col-12"
-        type="email"
+        @fieldId="form-basic-email"
+        @fieldClass="col-4"
         @error={{this.emailError}}
-        @invalid={{this.emailInvalid}}
-        placeholder="Enter email"
-        aria-label="Email"
-      />
-      <div class="field col-12">
-        <UlxButton @type="submit" @label="Submit" @variant="primary" />
+        as |field|
+      >
+        <UlxInput
+          @field={{field}}
+          @value={{this.email}}
+          @onInput={{this.handleEmailInput}}
+          @size="m-size"
+          type="email"
+          placeholder="Enter email"
+          aria-label="Email"
+        />
+      </UlxField>
+      <div class="col-12">
+        <div>
+          <UlxButton @type="submit" @label="Submit" @variant="primary" />
+        </div>
       </div>
     </UlxForm>
     <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
