@@ -23,7 +23,8 @@
 	"files": [
 		"dist",
 		"src",
-		"dev-releases"
+		"dev-releases",
+		"addon-main.cjs"
 	],
 	"scripts": {
 		"build": "rollup --config && node ulx/src/scripts/less/ulx-editor-build.js",
