@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { on } from "@ember/modifier";
+import { joinClassNames } from "../../../utils/class-names";
 import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import { optionSegmentRowKey } from "../../../utils/input-util";
 import UlxRadio from "../../elements/ulx-radio/index.gjs";
@@ -137,18 +138,13 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get itemClasses() {
 		const { itemClass } = this.item;
-
-		const parts = ["option-item"];
-
-		// Visual state on the individual option card
-		this.isSelected && parts.push("is-selected");
-		this.isDisabled && parts.push("disabled");
-		this.isCompact && parts.push("compact");
-
-		// Custom per-item class (not the group-level customClass)
-		itemClass && parts.push(itemClass);
-
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(
+			"option-item",
+			this.isSelected && "is-selected",
+			this.isDisabled && "disabled",
+			this.isCompact && "compact",
+			itemClass
+		);
 	}
 
 	get itemRole() {

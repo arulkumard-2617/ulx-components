@@ -2,7 +2,9 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { hash } from "@ember/helper";
 import { on } from "@ember/modifier";
+import { joinClassNames } from "../../../utils/class-names";
 import { NAMESPACE, getComponentClass } from "../../../utils/component-config";
+import { resolveRootDataQa } from "../../../utils/data-qa";
 import { optionSegmentRowKey, resolveKey } from "../../../utils/input-util";
 import UlxOptionSegmentItem from "./item.gjs";
 
@@ -163,12 +165,13 @@ export default class UlxOptionSegment extends Component {
 	}
 
 	get rootClasses() {
-		const parts = [this.baseClass, this.groupTypeClass, this.args.customClass];
-
-		// boolean API
-		this.args.horizontal && parts.push("horizontal");
-
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		const { customClass, horizontal } = this.args;
+		return joinClassNames(
+			this.baseClass,
+			this.groupTypeClass,
+			horizontal && "horizontal",
+			customClass
+		);
 	}
 
 	/**
@@ -210,7 +213,7 @@ export default class UlxOptionSegment extends Component {
 	}
 
 	get rootDataQa() {
-		return this.args.dataQa ?? "ulx-option-segment";
+		return resolveRootDataQa(this.args.dataQa, "option-segment");
 	}
 
 	get itemDataQaPrefix() {

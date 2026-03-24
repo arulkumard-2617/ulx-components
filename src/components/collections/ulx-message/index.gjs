@@ -2,27 +2,28 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
 import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
-import { t } from "../../../utils/i18n";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 const ENTER_DONE_CLASS = "enter-done";
 
 /**
- * Inline message element: single-line message with optional icon and variant styling.
- * Uses role="alert", aria-live="polite", aria-atomic="true" for accessibility.
+ * Inline message with optional icon and variant styling.
+ * Live region: `role="alert"`, `aria-live="polite"`, `aria-atomic="true"`.
  *
  * @class UlxMessage
- * @param {string} [text] - Message text (ignored when using default or template block).
- * @param {'info'|'success'|'warn'|'error'} [variant='info'] - Visual variant (demo: use "Variant" not "Severity").
- * @param {string} [icon] - Icon name/class; icon is shown only when this is passed.
- * @param {string} [iconSize] - Optional icon size (e.g. s18). No default; only applied when provided.
- * @param {string} [size="m-size"] - Size class (e.g. xs-size, s-size, m-size, l-size, xl-size).
- * @param {string} [customClass] - Extra CSS classes for the root.
- * @param {string} [id] - Id for the root element.
- * @param {string} [dataQa] - Override root data-qa attribute.
+ * @param {string} [text] - Shown when no block is passed; ignored when a block is provided.
+ * @param {'info'|'success'|'warn'|'error'} [variant='info'] - Visual variant (demos: "Variant", not "Severity").
+ * @param {string} [icon] - Renders `UlxIcon` when set; icon wrapper is `aria-hidden`.
+ * @param {string} [iconSize] - Passed to `UlxIcon` when `icon` is set.
+ * @param {string} [size="m-size"] - Size token (e.g. xs-size … xl-size).
+ * @param {string} [customClass] - Extra classes on the root.
+ * @param {string} [id] - Root id (via `...attributes`).
+ * @param {string} [dataQa] - Root `data-qa` override (default `ulx-message`).
  */
 export default class UlxMessage extends Component {
+	/** Next frame: adds `enter-done` so theme LESS can match `.ulx-message[role="alert"].enter-done`. */
 	addEnterDoneAfterRender = modifier((element) => {
 		const rafId = requestAnimationFrame(() => {
 			element.classList.add(ENTER_DONE_CLASS);
@@ -36,17 +37,14 @@ export default class UlxMessage extends Component {
 
 	get rootClasses() {
 		const { variant = "info", size = "m-size", customClass } = this.args;
-		const parts = [this.baseClass];
-		variant && parts.push(`${variant}`);
-		size && parts.push(size);
-		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(this.baseClass, variant, size, customClass);
 	}
 
 	get iconClass() {
 		return `${this.baseClass}-icon`;
 	}
 
+	/** Must stay `message-text` to match theme `.ulx-message .message-text` selectors. */
 	get textClass() {
 		return "message-text";
 	}
@@ -59,6 +57,7 @@ export default class UlxMessage extends Component {
 		return resolveRootDataQa(this.args.dataQa, "message");
 	}
 
+	/** `data-qa` suffix for internal parts (`icon`, `text`). */
 	@action
 	getDataQa(part) {
 		return buildDataQa(this.rootDataQa, part);

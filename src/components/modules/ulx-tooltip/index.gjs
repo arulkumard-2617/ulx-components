@@ -6,6 +6,7 @@ import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
 import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import {
@@ -21,6 +22,43 @@ const TOOLTIP_STACKING_ANCESTOR_SELECTOR =
 	".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper";
 
 const DEFAULT_POSITION = "bottom";
+
+/**
+ * Viewport-space top/left for the tooltip panel; unknown `position` uses the same geometry as `right`.
+ * @param {DOMRect} triggerRect - Trigger bounding rect
+ * @param {number} tooltipWidth
+ * @param {number} tooltipHeight
+ * @param {string} position
+ */
+function computeTooltipPlacement(triggerRect, tooltipWidth, tooltipHeight, position) {
+	const {
+		top: triggerTop,
+		bottom: triggerBottom,
+		left: triggerLeft,
+		right: triggerRight,
+		width: triggerWidth,
+		height: triggerHeight
+	} = triggerRect;
+	const placements = {
+		top: () => ({
+			top: triggerTop - tooltipHeight - GAP,
+			left: triggerLeft + (triggerWidth - tooltipWidth) / 2
+		}),
+		bottom: () => ({
+			top: triggerBottom + GAP,
+			left: triggerLeft + (triggerWidth - tooltipWidth) / 2
+		}),
+		left: () => ({
+			top: triggerTop + (triggerHeight - tooltipHeight) / 2,
+			left: triggerLeft - tooltipWidth - GAP
+		}),
+		right: () => ({
+			top: triggerTop + (triggerHeight - tooltipHeight) / 2,
+			left: triggerRight + GAP
+		})
+	};
+	return (placements[position] ?? placements.right)();
+}
 
 const NATIVELY_FOCUSABLE = /^(BUTTON|INPUT|SELECT|TEXTAREA|A|SUMMARY)$/;
 
@@ -75,6 +113,8 @@ function ensureFocusableForTooltip(element) {
  * @block default - Trigger element. Apply the yielded modifier to your element (e.g. as |attach| then <button {{attach}}>). Tooltip is rendered in appendTo (body by default), not wrapping the trigger.
  * @block trigger - Optional. Use with <:content>; apply the yielded modifier to the trigger element (e.g. as |attach| then {{attach}}).
  * @block content - Optional rich tooltip content. When present, @content is ignored.
+ *
+ * The portaled tooltip root accepts `...attributes` (e.g. extra `aria-*` or `data-*` from the caller).
  */
 export default class UlxTooltip extends Component {
 	@service modalStack;
@@ -108,12 +148,11 @@ export default class UlxTooltip extends Component {
 	get rootClasses() {
 		const { autoHide = true, customClass } = this.args;
 
-		const parts = [this.baseClass];
-		parts.push(`position-${this.positionState}`);
+		const parts = [this.baseClass, `position-${this.positionState}`];
 		!autoHide && parts.push("interactive");
 		customClass && parts.push(customClass);
 
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(...parts);
 	}
 
 	get appendTarget() {
@@ -140,6 +179,7 @@ export default class UlxTooltip extends Component {
 		return this.visible && this.appendTarget;
 	}
 
+	/** Explicit `@zIndex`, else above modal stack when trigger is in an overlay or a modal is open, else design default. */
 	get tooltipZIndex() {
 		const { zIndex } = this.args;
 
@@ -157,16 +197,24 @@ export default class UlxTooltip extends Component {
 
 	_shouldShowForEvent(eventType) {
 		const mode = this.eventMode;
-		if (mode === "hover") return eventType === "mouseenter";
-		if (mode === "focus") return eventType === "focus" || eventType === "focusin";
-		return eventType === "mouseenter" || eventType === "focus" || eventType === "focusin";
+		const byMode = {
+			hover: () => eventType === "mouseenter",
+			focus: () => eventType === "focus" || eventType === "focusin",
+			both: () =>
+				eventType === "mouseenter" || eventType === "focus" || eventType === "focusin"
+		};
+		return (byMode[mode] ?? byMode.both)();
 	}
 
 	_shouldHideForEvent(eventType) {
 		const mode = this.eventMode;
-		if (mode === "hover") return eventType === "mouseleave";
-		if (mode === "focus") return eventType === "blur" || eventType === "focusout";
-		return eventType === "mouseleave" || eventType === "blur" || eventType === "focusout";
+		const byMode = {
+			hover: () => eventType === "mouseleave",
+			focus: () => eventType === "blur" || eventType === "focusout",
+			both: () =>
+				eventType === "mouseleave" || eventType === "blur" || eventType === "focusout"
+		};
+		return (byMode[mode] ?? byMode.both)();
 	}
 
 	@action
@@ -210,6 +258,7 @@ export default class UlxTooltip extends Component {
 	hide(event) {
 		if (event?.type && !this._shouldHideForEvent(event.type)) return;
 
+		/* Interactive tooltip: leaving the trigger alone must not hide until the panel is left (`_allowHide`). */
 		if (
 			this.args.autoHide === false &&
 			event?.type === "mouseleave" &&
@@ -240,9 +289,9 @@ export default class UlxTooltip extends Component {
 	}
 
 	_doHide(event) {
-		const target = this.triggerElement;
 		this._setTriggerAriaDescribedBy(null);
 		this.visible = false;
+		const target = this.triggerElement;
 		this.triggerElement = null;
 		this.args.onHide?.({ originalEvent: event, target });
 	}
@@ -284,11 +333,16 @@ export default class UlxTooltip extends Component {
 		}
 	}
 
+	/** Used by `overlayDismiss` when `@closeOnEscape` is true. */
 	@action
 	dismissTooltipFromOverlay(event) {
 		this._doHide(event);
 	}
 
+	/**
+	 * Binds pointer + focus events per `@event`; always registers all four listeners so `show`/`hide`
+	 * can no-op by event type. May inject `tabindex="0"` for focus/both on non-focusable triggers.
+	 */
 	attach = modifier((element) => {
 		this.triggerElement = element;
 		const mode = this.eventMode;
@@ -314,47 +368,29 @@ export default class UlxTooltip extends Component {
 		};
 	});
 
+	/** Positions the portaled panel from the trigger rect; runs each time visibility/position/trigger updates. */
 	positionTooltip = modifier((element, [visible, trigger, position]) => {
 		this.tooltipElement = element;
 
 		if (!visible || !trigger) return;
 
 		const run = () => {
-			const rect = trigger.getBoundingClientRect();
-			const tooltipRect = element.getBoundingClientRect();
-			const w = tooltipRect.width || element.offsetWidth || 1;
-			const h = tooltipRect.height || element.offsetHeight || 1;
-			let top = 0;
-			let left = 0;
-
-			switch (position) {
-				case "top":
-					top = rect.top - h - GAP;
-					left = rect.left + (rect.width - w) / 2;
-					break;
-				case "bottom":
-					top = rect.bottom + GAP;
-					left = rect.left + (rect.width - w) / 2;
-					break;
-				case "left":
-					top = rect.top + (rect.height - h) / 2;
-					left = rect.left - w - GAP;
-					break;
-				case "right":
-					top = rect.top + (rect.height - h) / 2;
-					left = rect.right + GAP;
-					break;
-				default:
-					// Unknown @position values align with the "right" branch (legacy behavior).
-					top = rect.top + (rect.height - h) / 2;
-					left = rect.right + GAP;
-			}
+			const triggerBoundingRect = trigger.getBoundingClientRect();
+			const tooltipBoundingRect = element.getBoundingClientRect();
+			const tooltipWidth = tooltipBoundingRect.width || element.offsetWidth || 1;
+			const tooltipHeight = tooltipBoundingRect.height || element.offsetHeight || 1;
+			const { top, left } = computeTooltipPlacement(
+				triggerBoundingRect,
+				tooltipWidth,
+				tooltipHeight,
+				position
+			);
 
 			applyBodyAbsoluteFromViewport(element, top, left);
 			element.style.zIndex = String(this.tooltipZIndex);
 		};
 
-		// Wait one frame so layout has tooltip dimensions; then wire aria-describedby while visible.
+		/* One rAF: measure after first paint; then link trigger `aria-describedby` to tooltip id. */
 		requestAnimationFrame(() => {
 			run();
 			this._setTriggerAriaDescribedBy(this.tooltipId);
@@ -380,6 +416,7 @@ export default class UlxTooltip extends Component {
 					class={{this.rootClasses}}
 					data-qa={{this.rootDataQa}}
 					aria-hidden="false"
+					...attributes
 					{{this.positionTooltip this.visible this.triggerElement this.tooltipPosition}}
 					{{overlayDismiss
 						this.shouldCloseOnEscape

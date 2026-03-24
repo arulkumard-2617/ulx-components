@@ -6,10 +6,22 @@ import { fn } from "@ember/helper";
 import { modifier } from "ember-modifier";
 import { guidFor } from "@ember/object/internals";
 import { getComponentClass } from "../../../utils/component-config";
+import { joinClassNames } from "../../../utils/class-names";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 const ENTER_TIMEOUT_MS = 1000;
 const EXIT_TIMEOUT_MS = 450;
+
+/** Extra classes for each CSS transition phase on `.accordion-toggleable-content`. */
+const TOGGLEABLE_PHASE_CLASSES = {
+	enter: ["enter"],
+	"enter-active": ["enter", "enter-active"],
+	"enter-done": ["enter-done"],
+	exit: ["exit"],
+	"exit-active": ["exit", "exit-active"],
+	"exit-done": ["exit-done"]
+};
 
 /**
  * Accordion collection component. Groups content in expandable tabs.
@@ -31,6 +43,7 @@ const EXIT_TIMEOUT_MS = 450;
  * @param {string} [collapseIconName='down-stroke-icon-new'] - Font icon when tab is expanded
  * @param {'left'|'right'} [toggleIconPosition='left'] - Position of the expand/collapse icon.
  * @param {string} [ariaLabel] - Accessible label for accordion
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-accordion`).
  *
  * @block content - Optional. Yields (item, index, meta) for tab body; meta: { active, disabled }
  */
@@ -51,8 +64,18 @@ export default class UlxAccordion extends Component {
 		return this.args.id ?? `ulx-accordion-${guidFor(this)}`;
 	}
 
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "accordion");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
+	}
+
 	@tracked _activeIndex = null;
-	@tracked _contentTransition = {}; // index -> 'enter'|'enter-active'|'enter-done'|'exit'|'exit-active'|'exit-done'|null
+	/** Per-panel transition phase for enter/exit animation (mirrors accordion.less). */
+	@tracked _contentTransition = {};
 	_prevSelectedMap = null;
 
 	get activeIndexState() {
@@ -85,20 +108,19 @@ export default class UlxAccordion extends Component {
 	get headerActionClasses() {
 		const parts = ["accordion-header-action"];
 		this.isToggleIconRight && parts.push("toggle-icon-right");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	get rootClasses() {
 		const { size = "s-size", variant, spacing, rounded, customClass } = this.args;
-		const parts = [this.baseClass];
-		parts.push(size);
+		const parts = [this.baseClass, size];
 		this.multiple && parts.push("multiple");
 		!this.multiple && parts.push("single");
 		variant && parts.push(variant);
 		spacing && parts.push(spacing);
 		rounded && parts.push(rounded);
 		customClass && parts.push(customClass);
-		return [...new Set(parts.filter(Boolean))].join(" ");
+		return joinClassNames(...parts);
 	}
 
 	@action
@@ -124,7 +146,7 @@ export default class UlxAccordion extends Component {
 		index === 0 && parts.push("first");
 		index === this.model.length - 1 && parts.push("last");
 		item?.disabled && parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	@action
@@ -132,7 +154,7 @@ export default class UlxAccordion extends Component {
 		const parts = ["accordion-header"];
 		this.isTabSelected(index) && parts.push("active");
 		item?.disabled && parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	@action
@@ -148,18 +170,15 @@ export default class UlxAccordion extends Component {
 		return this._prevSelectedMap?.get(index);
 	}
 
-	isExiting(index) {
-		const phase = this.getContentTransitionState(index);
-		return phase === "exit" || phase === "exit-active" || phase === "exit-done";
-	}
-
+	/**
+	 * Keep panel mounted while open, during exit animation, or right after close (unmount-on-exit).
+	 */
 	@action
 	shouldRenderToggleableContent(index) {
 		const selected = this.isTabSelected(index);
 		const phase = this.getContentTransitionState(index);
 		const prev = this.getPrevSelected(index);
 
-		// Keep content in DOM if selected OR currently exiting OR just transitioned from selected->collapsed (unmountOnExit behavior).
 		return (
 			selected ||
 			phase === "exit" ||
@@ -178,25 +197,22 @@ export default class UlxAccordion extends Component {
 		const isInitiallyExpanded = prev === undefined && selected && !phase;
 		isInitiallyExpanded && parts.push("initially-expanded");
 
-		// Ensure the first render after a state change uses correct phase: opening mounts with "enter", closing keeps mounted with "exit".
 		const effectivePhase =
 			phase ??
 			(selected && prev === false ? "enter" : null) ??
 			(!selected && prev === true ? "exit" : null);
 
-		// CSS transition phases: enter-active includes both "enter" and "enter-active"; exit-active includes both "exit" and "exit-active".
-		if (effectivePhase === "enter") parts.push("enter");
-		if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
-		if (effectivePhase === "enter-done") parts.push("enter-done");
-		if (effectivePhase === "exit") parts.push("exit");
-		if (effectivePhase === "exit-active") parts.push("exit", "exit-active");
-		if (effectivePhase === "exit-done") parts.push("exit-done");
+		const phaseExtras = effectivePhase ? TOGGLEABLE_PHASE_CLASSES[effectivePhase] : null;
+		phaseExtras && parts.push(...phaseExtras);
 
-		// Legacy fallback for non-transition cases (kept minimal).
 		!effectivePhase && selected && parts.push("expanded");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
+	/**
+	 * Drives `_contentTransition` from open/close edges; timings must stay aligned with accordion.less.
+	 * First paint for a panel does not animate (`prev === undefined`).
+	 */
 	accordionContentTransition = modifier((element, [index, selected]) => {
 		const map = this._prevSelectedMap ?? (this._prevSelectedMap = new Map());
 		const prev = map.get(index);
@@ -205,7 +221,6 @@ export default class UlxAccordion extends Component {
 		let doneTimer = null;
 		let rafId = null;
 
-		// Initial render does not animate (appear=false).
 		if (prev === undefined) {
 			map.set(index, selected);
 			return () => {};
@@ -231,10 +246,8 @@ export default class UlxAccordion extends Component {
 				rafId = null;
 				this._contentTransition = { ...this._contentTransition, [index]: "exit-active" };
 				exitActiveTimer = setTimeout(() => {
-					// Exit done is momentary before unmounting.
 					this._contentTransition = { ...this._contentTransition, [index]: "exit-done" };
 					doneTimer = setTimeout(() => {
-						// Clear phase so content can unmount when !selected
 						this._contentTransition = { ...this._contentTransition, [index]: null };
 					}, 0);
 				}, EXIT_TIMEOUT_MS);
@@ -251,6 +264,8 @@ export default class UlxAccordion extends Component {
 	});
 
 	rootElement = null;
+
+	/** Root `div` ref for roving `focusHeader` / `#id` queries. */
 	setRootRef = modifier((element) => {
 		this.rootElement = element;
 		return () => {
@@ -358,7 +373,7 @@ export default class UlxAccordion extends Component {
 			class={{this.rootClasses}}
 			role="region"
 			aria-label={{@ariaLabel}}
-			data-qa="ulx-accordion"
+			data-qa={{this.rootDataQa}}
 			{{this.setRootRef}}
 			...attributes
 		>
@@ -374,7 +389,7 @@ export default class UlxAccordion extends Component {
 							aria-expanded={{this.isTabSelected index}}
 							aria-controls={{this.getContentId index}}
 							aria-disabled={{if item.disabled "true" "false"}}
-							data-qa="ulx-accordion-trigger"
+							data-qa={{this.getDataQa "trigger"}}
 							{{on "click" (fn this.changeActiveIndex item index)}}
 							{{on "keydown" (fn this.onHeaderKeyDown item index)}}
 						>
@@ -433,7 +448,7 @@ export default class UlxAccordion extends Component {
 							class={{this.getToggleableContentClasses index}}
 							role="region"
 							aria-labelledby={{this.getHeaderId index}}
-							data-qa="ulx-accordion-content"
+							data-qa={{this.getDataQa "content"}}
 							{{this.accordionContentTransition index (this.isTabSelected index)}}
 						>
 							<div class="accordion-content">
