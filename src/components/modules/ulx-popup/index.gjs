@@ -5,6 +5,7 @@ import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import appendToBody from "../../../modifiers/append-to-body";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import {
@@ -73,6 +74,7 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
  * @param {function} [onHide] - Callback invoked after exit animation completes and popup is fully hidden.
  * @param {function} [registerRef] - Callback invoked with the component instance when the popup is mounted (for calling show/hide/toggle), and with null on teardown.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  * @param {string} [headerClassName] - Extra class for the header wrapper (when header is shown).
  * @param {string} [footerClassName] - Extra class for the footer wrapper (when footer is shown).
  * Default header/footer (same usage as UlxModal): when <:head> / <:footer> are not passed, use these args.
@@ -135,6 +137,15 @@ export default class UlxPopup extends Component {
 
 	get baseClass() {
 		return getComponentClass("popup");
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "popup");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	get isVisible() {
@@ -663,6 +674,7 @@ export default class UlxPopup extends Component {
 		{{#if this.shouldRender}}
 			<div
 				class={{this.rootClasses}}
+				data-qa={{this.rootDataQa}}
 				role="dialog"
 				aria-modal="false"
 				aria-hidden={{if this.isVisible "false" "true"}}
@@ -687,29 +699,29 @@ export default class UlxPopup extends Component {
 				{{on "keydown" this.handleRootKeyDown}}
 				...attributes
 			>
-				<div class="popup-content">
+				<div class="popup-content" data-qa={{this.getDataQa "content"}}>
 					{{#if (has-block "head")}}
-						<div class={{this.headerClasses}}>
+						<div class={{this.headerClasses}} data-qa={{this.getDataQa "header"}}>
 							{{yield to="head"}}
 						</div>
 					{{else if @title}}
-						<div class={{this.headerClasses}}>
+						<div class={{this.headerClasses}} data-qa={{this.getDataQa "header"}}>
 							<UlxPopupHeader @title={{@title}} />
 						</div>
 					{{/if}}
 
 					{{#if (has-block "body")}}
-						<div class={{this.bodyClasses}}>
+						<div class={{this.bodyClasses}} data-qa={{this.getDataQa "body"}}>
 							{{yield to="body"}}
 						</div>
 					{{else}}
-						<div class={{this.bodyClasses}}>
+						<div class={{this.bodyClasses}} data-qa={{this.getDataQa "body"}}>
 							{{yield}}
 						</div>
 					{{/if}}
 
 					{{#if (has-block "footer")}}
-						<div class={{this.footerClasses}}>
+						<div class={{this.footerClasses}} data-qa={{this.getDataQa "footer"}}>
 							{{yield to="footer"}}
 						</div>
 					{{else}}

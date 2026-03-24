@@ -12,6 +12,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {"left"|"right"|"top"|"bottom"|"alternate"} [align] - Alignment (default depends on layout).
  * @param {string} [dataKey] - Field name (supports dot paths) that uniquely identifies an item for stable rendering.
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @block opposite - Optional. Yields (item, index, meta) where meta: { first, last, layout, align }.
  * @block marker - Optional. Yields (item, index, meta) where meta: { first, last, layout, align }.
@@ -95,10 +96,31 @@ export default class UlxTimeline extends Component {
 		return this.align === "alternate" || this.hasAnyOpposite;
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-timeline";
+	}
+
+	get itemDataQa() {
+		return `${this.rootDataQa}-item`;
+	}
+
+	get separatorDataQa() {
+		return `${this.rootDataQa}-separator`;
+	}
+
+	get contentDataQa() {
+		return `${this.rootDataQa}-content`;
+	}
+
 	<template>
-		<ol class={{this.rootClasses}} ...attributes>
+		<ol class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
 			{{#each this.keyedModel key="key" as |row|}}
-				<li class="timeline-event" data-index={{row.index}} data-state={{row.item.state}}>
+				<li
+					class="timeline-event"
+					data-qa={{this.itemDataQa}}
+					data-index={{row.index}}
+					data-state={{row.item.state}}
+				>
 					{{#if (has-block "opposite")}}
 						<div class="timeline-opposite">
 							{{yield row.item row.index row.meta to="opposite"}}
@@ -111,7 +133,7 @@ export default class UlxTimeline extends Component {
 						{{/if}}
 					{{/if}}
 
-					<div class="timeline-separator">
+					<div class="timeline-separator" data-qa={{this.separatorDataQa}}>
 						{{#if row.meta.isHorizontal}}
 							<div
 								class="timeline-connector"
@@ -145,7 +167,7 @@ export default class UlxTimeline extends Component {
 						{{/if}}
 					</div>
 
-					<div class="timeline-content">
+					<div class="timeline-content" data-qa={{this.contentDataQa}}>
 						{{#if (has-block "content")}}
 							{{yield row.item row.index row.meta to="content"}}
 						{{else}}

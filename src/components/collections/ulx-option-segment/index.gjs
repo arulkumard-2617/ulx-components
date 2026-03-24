@@ -69,6 +69,7 @@ function buildOptionSegmentId(namespace, idArg, key) {
  * @param {string} [ariaLabel] - Accessible label for the option
  * @param {string} [ariaLabelledBy] - ID of element that labels the option
  * @param {string} [ariaDescribedBy] - ID of element that describes the option
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @yield {Block} default - Additional content inside `.os-content` after title/description (single or items mode)
  * @yield {Block} control - Custom control content per item, receives the current `item`
@@ -208,6 +209,14 @@ export default class UlxOptionSegment extends Component {
 		return this.args.ariaDescribedBy;
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-option-segment";
+	}
+
+	get itemDataQaPrefix() {
+		return `${this.rootDataQa}-item`;
+	}
+
 	@action
 	handleItemSelect(selected, value, event, item) {
 		if (typeof this.args.onSelect === "function") {
@@ -218,6 +227,7 @@ export default class UlxOptionSegment extends Component {
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			role={{this.groupRole}}
 			aria-label={{this.ariaLabel}}
 			aria-labelledby={{this.ariaLabelledBy}}
@@ -227,6 +237,7 @@ export default class UlxOptionSegment extends Component {
 			{{#if this.hasItems}}
 				{{#each this.itemEntries key="rowKey" as |entry|}}
 					<UlxOptionSegmentItem
+						@dataQa={{this.itemDataQaPrefix}}
 						@type={{this.type}}
 						@item={{entry.item}}
 						@itemIndex={{entry.index}}
@@ -264,6 +275,7 @@ export default class UlxOptionSegment extends Component {
 				{{/each}}
 			{{else}}
 				<UlxOptionSegmentItem
+					@dataQa={{this.itemDataQaPrefix}}
 					@type={{this.type}}
 					@item={{hash
 						value=this.args.value

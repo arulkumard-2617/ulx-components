@@ -4,6 +4,9 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
+import { joinClassNames } from "../../../utils/class-names";
+import { iconParts } from "../../../utils/panelmenu-icon";
+import { appendTransitionPhaseClasses } from "../../../utils/panelmenu-transition";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
 const ENTER_TIMEOUT_MS = 200;
@@ -11,28 +14,6 @@ const EXIT_TIMEOUT_MS = 200;
 
 function itemKey(item, fallbackKey) {
 	return item?.key ?? fallbackKey;
-}
-
-function iconParts(icon) {
-	if (!icon || typeof icon !== "string") return { base: null, name: null };
-	const parts = icon.trim().split(/\s+/);
-	if (parts.length === 0) return { base: null, name: null };
-
-	// Support icon strings that include an optional size token at the end:
-	// e.g. "bs-icons1 add-icon-01 s20"
-	const sizeToken = parts[parts.length - 1];
-	const hasSize =
-		/^s\d+$/.test(sizeToken) ||
-		/^m\d+$/.test(sizeToken) ||
-		/^l\d+$/.test(sizeToken) ||
-		/-size$/.test(sizeToken);
-
-	const base = parts.length > 1 ? parts[0] : null;
-	const nameIndex = hasSize ? parts.length - 2 : parts.length - 1;
-	const name = nameIndex >= 0 ? parts[nameIndex] : null;
-	const size = hasSize ? sizeToken : null;
-
-	return { base, name, size };
 }
 
 /**
@@ -168,18 +149,17 @@ export default class UlxPanelmenuSub extends Component {
 	@action
 	getItemClasses(item, index) {
 		const key = this.getKeyFor(item, index);
-		const parts = ["panelmenu-item"];
-		this.isExpanded(item, index) && parts.push("active");
-		this.focusedKey === key && parts.push("focused");
-		this.isItemDisabled(item) && parts.push("disabled");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(
+			"panelmenu-item",
+			this.isExpanded(item, index) && "active",
+			this.focusedKey === key && "focused",
+			this.isItemDisabled(item) && "disabled"
+		);
 	}
 
 	@action
 	getItemContentClasses(item, index) {
-		const parts = ["panelmenu-item-content"];
-		this.isExpanded(item, index) && parts.push("active");
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("panelmenu-item-content", this.isExpanded(item, index) && "active");
 	}
 
 	@action
@@ -205,17 +185,9 @@ export default class UlxPanelmenuSub extends Component {
 			(active && prev === false ? "enter" : null) ??
 			(!active && prev === true ? "exit" : null);
 
-		// Match react-transition-group CSSTransition semantics:
-		// - enter-active includes both "enter" and "enter-active"
-		// - exit-active includes both "exit" and "exit-active"
-		if (effectivePhase === "enter") parts.push("enter");
-		if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
-		if (effectivePhase === "enter-done") parts.push("enter-done");
-		if (effectivePhase === "exit") parts.push("exit");
-		if (effectivePhase === "exit-active") parts.push("exit", "exit-active");
-		if (effectivePhase === "exit-done") parts.push("exit-done");
+		appendTransitionPhaseClasses(parts, effectivePhase);
 
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames(...parts);
 	}
 
 	@action

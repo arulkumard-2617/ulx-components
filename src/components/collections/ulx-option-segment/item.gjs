@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { on } from "@ember/modifier";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import { optionSegmentRowKey } from "../../../utils/input-util";
 import UlxRadio from "../../elements/ulx-radio/index.gjs";
 import UlxCheckbox from "../../elements/ulx-checkbox/index.gjs";
@@ -32,6 +33,7 @@ import UlxTristateCheckbox from "../../elements/ulx-tristate-checkbox/index.gjs"
  * @param {boolean} [compact=false] - Group-level compact flag (fallback when item.compact is undefined).
  * @param {Function} [onSelect] - Called when the option is toggled:
  *   `(selected, value, event, item) => void`.
+ * @param {string} [dataQa] - Root data-qa prefix from parent option segment.
  */
 export default class UlxOptionSegmentItem extends Component {
 	get type() {
@@ -48,6 +50,15 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get isTristateType() {
 		return this.type === "tristate";
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "option-segment-item");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	get item() {
@@ -356,6 +367,7 @@ export default class UlxOptionSegmentItem extends Component {
 	<template>
 		<div
 			class={{this.itemClasses}}
+			data-qa={{this.rootDataQa}}
 			role={{this.itemRole}}
 			tabindex={{this.tabIndex}}
 			aria-checked={{this.ariaChecked}}
@@ -365,7 +377,7 @@ export default class UlxOptionSegmentItem extends Component {
 			...attributes
 		>
 			{{#if this.hasControlSection}}
-				<div class="option-control">
+				<div class="option-control" data-qa={{this.getDataQa "control"}}>
 					{{#if this.hasControlBlock}}
 						{{yield this.item to="control"}}
 					{{else if this.isRadioType}}
@@ -408,37 +420,53 @@ export default class UlxOptionSegmentItem extends Component {
 				</div>
 			{{/if}}
 
-			<div class="option-content">
+			<div class="option-content" data-qa={{this.getDataQa "content"}}>
 				{{#if this.hasContentBlock}}
 					{{yield this.item to="content"}}
 				{{/if}}
 
 				{{#if this.hasTitleBlock}}
-					<div class="option-title" id={{this.optionTitleId}}>
+					<div class="option-title" data-qa={{this.getDataQa "title"}} id={{this.optionTitleId}}>
 						{{yield this.item to="title"}}
 					</div>
 				{{else if this.title}}
-					<div class="option-title" id={{this.optionTitleId}}>
+					<div class="option-title" data-qa={{this.getDataQa "title"}} id={{this.optionTitleId}}>
 						{{this.title}}
 					</div>
 				{{/if}}
 
 				{{#if this.hasDescriptionBlock}}
-					<div class="option-description" id={{this.optionDescriptionId}}>
+					<div
+						class="option-description"
+						data-qa={{this.getDataQa "description"}}
+						id={{this.optionDescriptionId}}
+					>
 						{{yield this.item to="description"}}
 					</div>
 				{{else if this.description}}
-					<div class="option-description" id={{this.optionDescriptionId}}>
+					<div
+						class="option-description"
+						data-qa={{this.getDataQa "description"}}
+						id={{this.optionDescriptionId}}
+					>
 						{{this.description}}
 					</div>
 				{{/if}}
 
 				{{#if this.hasNestedBlock}}
-					<div class="option-nested" {{on "click" this.stopNestedClickPropagation}}>
+					<div
+						class="option-nested"
+						data-qa={{this.getDataQa "nested"}}
+						{{on "click" this.stopNestedClickPropagation}}
+					>
 						{{yield this.item to="nested"}}
 					</div>
 				{{else if this.hasNestedItems}}
-					<div class="option-nested" {{on "click" this.stopNestedClickPropagation}}>
+					<div
+						class="option-nested"
+						data-qa={{this.getDataQa "nested"}}
+						{{on "click" this.stopNestedClickPropagation}}
+					>
 						{{#each this.nestedItems as |nestedItem|}}
 							<div class="option-nested-item">
 								{{nestedItem.label}}

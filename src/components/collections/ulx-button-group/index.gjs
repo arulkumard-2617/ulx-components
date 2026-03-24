@@ -14,6 +14,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {boolean} [text=false] - Text variant on group
  * @param {boolean} [raised=false] - Raised variant on group
  * @param {string} [customClass] - Additional CSS classes
+ * @param {string} [dataQa] - Override root data-qa attribute.
  */
 export default class UlxButtonGroup extends Component {
 	get baseClass() {
@@ -34,8 +35,12 @@ export default class UlxButtonGroup extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-button-group";
+	}
+
 	<template>
-		<div class={{this.groupClasses}} ...attributes>
+		<div class={{this.groupClasses}} data-qa={{this.rootDataQa}} ...attributes>
 			{{yield}}
 		</div>
 	</template>

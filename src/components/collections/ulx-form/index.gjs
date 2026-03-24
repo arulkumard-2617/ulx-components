@@ -15,6 +15,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * @param {2|3} [cols] - flex-col layout: 2 or 3 columns for direct .field children
  * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class)
  * @param {string} [customClass] - Extra CSS classes on the form root
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @example
  * <UlxForm @cols={{2}} @size="m-size">
@@ -45,8 +46,12 @@ export default class UlxForm extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-form";
+	}
+
 	<template>
-		<form class={{this.rootClasses}} ...attributes>
+		<form class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
 			{{yield}}
 		</form>
 	</template>

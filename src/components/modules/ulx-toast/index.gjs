@@ -5,6 +5,7 @@ import { inject as service } from "@ember/service";
 import { fn } from "@ember/helper";
 import { on } from "@ember/modifier";
 import { getComponentClass, NAMESPACE } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import { t } from "../../../utils/i18n";
 import appendToBody from "../../../modifiers/append-to-body";
 import { getDestinationElement, getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
@@ -72,6 +73,7 @@ const VARIANT_ICONS = {
  * @param {string} [closeIconName='close-icon-01'] - Icon name for the close button
  * @param {Object} [variantIcons] - Override icon names per variant. Keys: info, success, warn, warning, error, secondary, contrast. Merged with defaults.
  * @param {string} [iconComponentClass='bs-icons1'] - Component class for the message icon (UlxIcon)
+ * @param {string} [dataQa] - Override root data-qa attribute
  * @block content - Optional. Yields the message object; when provided, replaces default summary/detail with custom content.
  */
 export default class UlxToast extends Component {
@@ -92,6 +94,15 @@ export default class UlxToast extends Component {
 
 	get iconComponentClass() {
 		return this.args.iconComponentClass ?? "bs-icons1";
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "toast");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	/** Message ids currently playing the exit animation (toast-exit class). */
@@ -291,6 +302,7 @@ export default class UlxToast extends Component {
 	<template>
 		<div
 			class={{this.containerClasses}}
+			data-qa={{this.rootDataQa}}
 			role="region"
 			aria-label={{t "lbl.notification"}}
 			style={{this.toastContainerStyle}}
@@ -298,8 +310,13 @@ export default class UlxToast extends Component {
 			...attributes
 		>
 			{{#each this.messages key="id" as |message|}}
-				<div class={{this.getMessageClasses message}} role="alert" aria-live="polite">
-					<div class="toast-content">
+				<div
+					class={{this.getMessageClasses message}}
+					data-qa={{this.getDataQa "message"}}
+					role="alert"
+					aria-live="polite"
+				>
+					<div class="toast-content" data-qa={{this.getDataQa "content"}}>
 						{{#if (this.showMessageIcon message)}}
 							<span class="toast-icon" aria-hidden="true">
 								<UlxIcon
@@ -311,7 +328,7 @@ export default class UlxToast extends Component {
 								/>
 							</span>
 						{{/if}}
-						<div class="toast-text">
+						<div class="toast-text" data-qa={{this.getDataQa "text"}}>
 							{{#if (has-block "content")}}
 								{{yield message to="content"}}
 							{{else}}

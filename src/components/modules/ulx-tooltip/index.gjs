@@ -6,6 +6,7 @@ import { inject as service } from "@ember/service";
 import { modifier } from "ember-modifier";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import {
 	applyBodyAbsoluteFromViewport,
@@ -70,6 +71,7 @@ function ensureFocusableForTooltip(element) {
  * @param {Function} [onHide] - Callback when tooltip is hidden
  * @param {Function} [onBeforeShow] - Callback before show; return false to prevent show
  * @param {Function} [onBeforeHide] - Callback before hide; return false to prevent hide
+ * @param {string} [dataQa] - Override root data-qa attribute
  * @block default - Trigger element. Apply the yielded modifier to your element (e.g. as |attach| then <button {{attach}}>). Tooltip is rendered in appendTo (body by default), not wrapping the trigger.
  * @block trigger - Optional. Use with <:content>; apply the yielded modifier to the trigger element (e.g. as |attach| then {{attach}}).
  * @block content - Optional rich tooltip content. When present, @content is ignored.
@@ -92,6 +94,15 @@ export default class UlxTooltip extends Component {
 
 	get baseClass() {
 		return getComponentClass("tooltip");
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "tooltip");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	get rootClasses() {
@@ -367,6 +378,7 @@ export default class UlxTooltip extends Component {
 					id={{this.tooltipId}}
 					role="tooltip"
 					class={{this.rootClasses}}
+					data-qa={{this.rootDataQa}}
 					aria-hidden="false"
 					{{this.positionTooltip this.visible this.triggerElement this.tooltipPosition}}
 					{{overlayDismiss
@@ -381,8 +393,8 @@ export default class UlxTooltip extends Component {
 					{{on "mouseenter" this.tooltipMouseEnter}}
 					{{on "mouseleave" this.tooltipMouseLeave}}
 				>
-					<div class="tooltip-arrow" aria-hidden="true"></div>
-					<div class="tooltip-text">
+					<div class="tooltip-arrow" data-qa={{this.getDataQa "arrow"}} aria-hidden="true"></div>
+					<div class="tooltip-text" data-qa={{this.getDataQa "content"}}>
 						{{#if (has-block "content")}}
 							{{yield to="content"}}
 						{{else}}

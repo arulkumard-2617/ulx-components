@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../../elements/ulx-icon/index.gjs";
 
@@ -19,6 +20,7 @@ const ENTER_DONE_CLASS = "enter-done";
  * @param {string} [size="m-size"] - Size class (e.g. xs-size, s-size, m-size, l-size, xl-size).
  * @param {string} [customClass] - Extra CSS classes for the root.
  * @param {string} [id] - Id for the root element.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  */
 export default class UlxMessage extends Component {
 	addEnterDoneAfterRender = modifier((element) => {
@@ -53,9 +55,19 @@ export default class UlxMessage extends Component {
 		return !!this.args.icon;
 	}
 
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "message");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
+	}
+
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			role="alert"
 			aria-live="polite"
 			aria-atomic="true"
@@ -63,7 +75,7 @@ export default class UlxMessage extends Component {
 			...attributes
 		>
 			{{#if this.showIcon}}
-				<span class={{this.iconClass}} aria-hidden="true">
+				<span class={{this.iconClass}} data-qa={{this.getDataQa "icon"}} aria-hidden="true">
 					<UlxIcon
 						@componentClass="bs-icons1"
 						@type="font"
@@ -76,7 +88,7 @@ export default class UlxMessage extends Component {
 				{{yield}}
 			{{else}}
 				{{#if @text}}
-					<span class={{this.textClass}}>{{@text}}</span>
+					<span class={{this.textClass}} data-qa={{this.getDataQa "text"}}>{{@text}}</span>
 				{{/if}}
 			{{/if}}
 		</div>

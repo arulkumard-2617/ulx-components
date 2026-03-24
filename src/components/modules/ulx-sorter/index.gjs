@@ -13,6 +13,7 @@ import { getComponentClass } from "../../../utils/component-config.js";
  * @param {boolean} [disabled=false] - When true, sorting is disabled for the group
  * @param {string} [groupName] - Unique name when multiple sorters are on the page
  * @param {string} [customClass] - Extra CSS classes for the root element
+ * @param {string} [dataQa] - Override root data-qa attribute
  */
 export default class UlxSorter extends Component {
 	get baseClass() {
@@ -36,6 +37,10 @@ export default class UlxSorter extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get rootDataQa() {
+		return this.args.dataQa ?? "ulx-sorter";
+	}
+
 	@action
 	onChange(items, draggableItem) {
 		this.args.onChange?.(items, draggableItem);
@@ -44,6 +49,7 @@ export default class UlxSorter extends Component {
 	<template>
 		<div
 			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
 			{{SortableGroup
 				onChange=this.onChange
 				direction=this.direction

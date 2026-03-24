@@ -121,32 +121,53 @@ export default class UlxTristateCheckbox extends Component {
 	}
 
 	<template>
-		<UlxCheckboxItem
-			...attributes
-			@dataQa={{this.rootDataQa}}
-			@id={{this.tristateCheckboxId}}
-			@checked={{this.isChecked}}
-			@indeterminate={{this.isIndeterminate}}
-			@disabled={{@disabled}}
-			@invalid={{this.isInvalid}}
-			@filled={{@filled}}
-			@size={{this.resolvedSize}}
-			@customClass={{this.rootClasses}}
-			@uncheckIconName={{@uncheckIconName}}
-			@hideLabel={{@hideLabel}}
-			@itemLabel={{@itemLabel}}
-			@required={{this.isRequired}}
-			@showRequiredStar={{@showRequiredStar}}
-			@ariaDescribedBy={{@ariaDescribedBy}}
-			@ariaErrorMessage={{@ariaErrorMessage}}
-			@name={{@name}}
-			@onChange={{this.handleChange}}
-		>
-			{{#if (has-block "itemLabel")}}
+		{{#if (has-block "itemLabel")}}
+			<UlxCheckboxItem
+				...attributes
+				@dataQa={{this.rootDataQa}}
+				@id={{this.tristateCheckboxId}}
+				@checked={{this.isChecked}}
+				@indeterminate={{this.isIndeterminate}}
+				@disabled={{@disabled}}
+				@invalid={{this.isInvalid}}
+				@filled={{@filled}}
+				@size={{this.resolvedSize}}
+				@customClass={{this.rootClasses}}
+				@uncheckIconName={{@uncheckIconName}}
+				@hideLabel={{@hideLabel}}
+				@required={{this.isRequired}}
+				@showRequiredStar={{@showRequiredStar}}
+				@ariaDescribedBy={{@ariaDescribedBy}}
+				@ariaErrorMessage={{@ariaErrorMessage}}
+				@name={{@name}}
+				@onChange={{this.handleChange}}
+			>
 				<:itemLabel>
 					{{yield to="itemLabel"}}
 				</:itemLabel>
-			{{/if}}
-		</UlxCheckboxItem>
+			</UlxCheckboxItem>
+		{{else}}
+			<UlxCheckboxItem
+				...attributes
+				@dataQa={{this.rootDataQa}}
+				@id={{this.tristateCheckboxId}}
+				@checked={{this.isChecked}}
+				@indeterminate={{this.isIndeterminate}}
+				@disabled={{@disabled}}
+				@invalid={{this.isInvalid}}
+				@filled={{@filled}}
+				@size={{this.resolvedSize}}
+				@customClass={{this.rootClasses}}
+				@uncheckIconName={{@uncheckIconName}}
+				@hideLabel={{@hideLabel}}
+				@itemLabel={{@itemLabel}}
+				@required={{this.isRequired}}
+				@showRequiredStar={{@showRequiredStar}}
+				@ariaDescribedBy={{@ariaDescribedBy}}
+				@ariaErrorMessage={{@ariaErrorMessage}}
+				@name={{@name}}
+				@onChange={{this.handleChange}}
+			/>
+		{{/if}}
 	</template>
 }
