@@ -6,6 +6,7 @@ import { on } from "@ember/modifier";
 import { schedule } from "@ember/runloop";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
 import {
 	handleAsyncAction,
 	handleTabKey,
@@ -96,6 +97,7 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {string} [iconSize="s18"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon for restore button (when maximized)
+ * @param {string} [dataQa] - Override root data-qa attribute
  */
 export default class UlxSlidePane extends Component {
 	@service modalStack;
@@ -115,6 +117,15 @@ export default class UlxSlidePane extends Component {
 
 	get baseClass() {
 		return getComponentClass("slidepane");
+	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "slidepane");
+	}
+
+	@action
+	getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
 
 	get position() {
@@ -310,12 +321,14 @@ export default class UlxSlidePane extends Component {
 				{{#if this.shouldRenderSlidePane}}
 					<div
 						class={{this.maskClasses}}
+						data-qa={{this.getDataQa "mask"}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}
 						{{on "click" this.handleBackdropClick}}
 						role="presentation"
 					>
 						<div
 							class={{this.slidePaneClasses}}
+							data-qa={{this.rootDataQa}}
 							style={{this.slidePaneStyle}}
 							role="complementary"
 							aria-modal="true"
@@ -325,7 +338,7 @@ export default class UlxSlidePane extends Component {
 							...attributes
 						>
 							{{#if (has-block "head")}}
-								<div class={{this.headerWrapperClasses}}>
+								<div class={{this.headerWrapperClasses}} data-qa={{this.getDataQa "header"}}>
 									{{yield to="head"}}
 								</div>
 							{{else unless @hideHeader}}
@@ -354,7 +367,11 @@ export default class UlxSlidePane extends Component {
 							{{/if}}
 
 							{{#if (has-block "body")}}
-								<div class={{this.bodyContentClasses}} style={{this.bodyContentStyle}}>
+								<div
+									class={{this.bodyContentClasses}}
+									data-qa={{this.getDataQa "body"}}
+									style={{this.bodyContentStyle}}
+								>
 									{{yield to="body"}}
 								</div>
 							{{else}}
@@ -367,7 +384,11 @@ export default class UlxSlidePane extends Component {
 							{{/if}}
 
 							{{#if (has-block "footer")}}
-								<div class={{this.footerWrapperClasses}} style="justify-content: flex-end;">
+								<div
+									class={{this.footerWrapperClasses}}
+									data-qa={{this.getDataQa "footer"}}
+									style="justify-content: flex-end;"
+								>
 									{{yield to="footer"}}
 								</div>
 							{{else unless @hideFooter}}

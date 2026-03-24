@@ -3,6 +3,7 @@ import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../../elements/ulx-button/index.gjs";
 import UlxIconButton from "../../elements/ulx-icon-button/index.gjs";
+import { joinClassNames } from "../../../utils/class-names";
 import { t } from "../../../utils/i18n";
 
 /**
@@ -22,12 +23,11 @@ import { t } from "../../../utils/i18n";
  * @param {Function} [onCancel] - Callback when cancel button is clicked
  * @param {Function} [onDone] - Callback when done button is clicked
  * @param {string} [footerClassName] - Extra class for the footer wrapper (passed from UlxPopup when using default footer).
+ * @param {string} [dataQa] - Optional data-qa for the footer wrapper (e.g. from UlxPopup automation hooks).
  */
 export default class UlxPopupFooter extends Component {
 	get footerWrapperClass() {
-		const parts = ["popup-footer"];
-		this.args.footerClassName && parts.push(this.args.footerClassName);
-		return parts.filter(Boolean).join(" ");
+		return joinClassNames("popup-footer", this.args.footerClassName);
 	}
 
 	get tertiaryLabel() {
@@ -83,7 +83,7 @@ export default class UlxPopupFooter extends Component {
 	}
 
 	<template>
-		<div class={{this.footerWrapperClass}}>
+		<div class={{this.footerWrapperClass}} data-qa={{@dataQa}}>
 			{{#if this.showTertiaryButton}}
 				<UlxIconButton
 					@label={{this.tertiaryLabel}}

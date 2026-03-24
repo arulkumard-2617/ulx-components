@@ -10,11 +10,12 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  *
  * @class UlxTieredmenuMenuItem
  * @private
- * @param {string} [dataQa] - Optional data-qa value from item.dataQa; defaults to "ulx-tieredmenu-item"
+ * @param {string} [dataQa] - Optional per-item override from `item.dataQa` (full `data-qa` value).
+ * @param {function} getDataQa - Root `buildDataQa` wrapper (`"item"`, `"trigger"`, `"list"`, …).
  */
 export default class UlxTieredmenuMenuItem extends Component {
 	get itemDataQa() {
-		return this.args.dataQa ?? "ulx-tieredmenu-item";
+		return this.args.dataQa ?? this.args.getDataQa("item");
 	}
 
 	/** Model passes a single class string, e.g. `"bs-icons1 pdf-stroke-icon"` (font kit + glyph). */
@@ -64,7 +65,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 				aria-controls={{if @hasSubmenu @submenuId}}
 				tabindex={{@tabindex}}
 				data-item-id={{@itemId}}
-				data-qa="ulx-tieredmenu-trigger"
+				data-qa={{@getDataQa "trigger"}}
 				disabled={{@isDisabled}}
 				{{on "click" (fn @onClick @item @itemId @parentId)}}
 				{{on "keydown" (fn @onKeyDown @item @itemId @parentId)}}
@@ -100,9 +101,9 @@ export default class UlxTieredmenuMenuItem extends Component {
 					id={{@submenuId}}
 					role="menu"
 					aria-labelledby={{@itemId}}
-					data-qa="ulx-tieredmenu-submenu"
+					data-qa={{@getDataQa "submenu"}}
 				>
-					<ul class="tieredmenu-list" data-qa="ulx-tieredmenu-list">
+					<ul class="tieredmenu-list" data-qa={{@getDataQa "list"}}>
 						{{yield}}
 					</ul>
 				</div>
