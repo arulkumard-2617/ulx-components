@@ -29,22 +29,19 @@ export default class DemoMultiselectFilter extends Component {
         @label={{t "lbl.dropdown.filter"}}
         @fieldId="multiselect-filter"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @selectAll={{true}}
-            @selectAllLabel=""
-            @filter={{true}}
-            @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @selectAll={{true}}
+          @selectAllLabel=""
+          @filter={{true}}
+          @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

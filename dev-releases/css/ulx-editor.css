@@ -9736,7 +9736,8 @@ summary:focus-visible,
 .ulx-checkbox:has(.checkbox-input:focus-visible):not(.disabled) .checkbox-box,
 .ulx-inputswitch:has(.inputswitch-input:focus-visible):not(.disabled) .inputswitch-slider,
 .ulx-multiselect-panel .multiselect-item:not(.disabled):focus-visible,
-.ulx-multiselect-panel .multiselect-item:not(.disabled):has(:focus-visible) {
+.ulx-multiselect-panel .multiselect-item:not(.disabled):has(:focus-visible),
+.dropdown-wrapper .dropdown-list .dropdown-item:not(.disabled):focus-visible {
   outline: 2px solid var(--ulx-focus-default-color, #cd9747) !important;
   outline-offset: 2px !important;
   transition: none !important;
@@ -13661,7 +13662,7 @@ FEATURES IMPLEMENTED:
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2000 !important;
+  z-index: 1999;
   background-color: var(--ulx-default-bg);
   border: 1px solid color-mix(in srgb, var(--ulx-default-border-color), var(--ulx-contrast-color) var(--ulx-contrast-intensity-40));
   border-radius: var(--border-radius-md, 0.42857143rem);

@@ -30,20 +30,17 @@ export default class DemoMultiselectChips extends Component {
         @label={{t "lbl.multiselect.chips"}}
         @fieldId="multiselect-chips"
         @fieldClass="col-6"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @selectAll={{true}}
-            @display="chip"
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @selectAll={{true}}
+          @display="chip"
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

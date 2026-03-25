@@ -24,19 +24,16 @@ export default class DemoDropdownVirtualScroll extends Component {
         @label={{t "lbl.dropdown.virtual.scroll"}}
         @fieldId="dropdown-virtual"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.manyOptions}}
-            @value={{this.selectedOption}}
-            @onChange={{this.setSelectedOption}}
-            @scrollHeight="300px"
-            @placeholder={{t "msg.dropdown.select.virtual"}}
-          />
-        </:default>
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.manyOptions}}
+          @value={{this.selectedOption}}
+          @onChange={{this.setSelectedOption}}
+          @scrollHeight="300px"
+          @placeholder={{t "msg.dropdown.select.virtual"}}
+        />
       </UlxField>
     </div>
   </template>

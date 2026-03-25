@@ -6,6 +6,8 @@ import { inject } from '@ember/service';
 import { schedule } from '@ember/runloop';
 import { modifier } from 'ember-modifier';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { joinClassNames } from '../../../utils/class-names.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
 import appendToBody from '../../../modifiers/append-to-body.js';
 import { isPointerOutsideElement, isPointerOutsideAnchoredOverlay, applyBodyAbsoluteFromViewport, getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
 import UlxTieredmenuMenuList from './menu-list.js';
@@ -38,7 +40,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * - `command` (function): Callback function executed when item is activated
  * - `url` (string): URL for navigation (used with command for router integration)
  * - `template` (Component): Custom template component for item rendering
- * - `dataQa` (string): Optional value for the item's `data-qa` attribute (defaults to "ulx-tieredmenu-item")
+ * - `dataQa` (string): Optional full `data-qa` override for the row; default is `ulx-tieredmenu-item` (or `{root}-item` when `@dataQa` is set on the menu)
  *
  * ## Popup Mode
  * When `@popup={{true}}`, the menu is hidden by default and shown when `@visible={{true}}`.
@@ -63,6 +65,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * @param {HTMLElement} [target] - Target element for popup positioning (button that triggers menu)
  * @param {string} [customClass] - Additional CSS classes
  * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-tieredmenu`).
  */
 let UlxTieredmenu = (_class = (_UlxTieredmenu = class UlxTieredmenu extends Component {
   constructor(...args) {
@@ -228,6 +231,12 @@ let UlxTieredmenu = (_class = (_UlxTieredmenu = class UlxTieredmenu extends Comp
   get baseClass() {
     return getComponentClass("tieredmenu");
   }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "tieredmenu");
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
+  }
   get rootClasses() {
     const {
       popup = false,
@@ -237,7 +246,7 @@ let UlxTieredmenu = (_class = (_UlxTieredmenu = class UlxTieredmenu extends Comp
     popup && parts.push("popup");
     popup && this.animationState && parts.push(this.animationState);
     customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(...parts);
   }
   get model() {
     return this.args.model ?? [];
@@ -582,18 +591,14 @@ let UlxTieredmenu = (_class = (_UlxTieredmenu = class UlxTieredmenu extends Comp
   getItemClasses(item, itemId) {
     const parts = ["tieredmenu-item"];
     this.hasSubmenu(item) && parts.push("has-submenu");
-    // Only mark as active if this specific item's submenu is open
     (this.isSubmenuOpen(itemId) || this.hoveredItemId === itemId) && parts.push("active");
     this.isDisabled(item) && parts.push("disabled");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
-  /**
-  * Gets classes for a submenu
-  */
   getSubmenuClasses(itemId) {
     const parts = ["tieredmenu-submenu"];
     this.isSubmenuOpen(itemId) && parts.push("open");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
   /**
   * Handles mouse enter on item with submenu
@@ -870,7 +875,7 @@ let UlxTieredmenu = (_class = (_UlxTieredmenu = class UlxTieredmenu extends Comp
       this.show(event);
     }
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.shouldRender}}\n\t\t\t<div class={{this.rootClasses}} role=\"menubar\" aria-orientation=\"vertical\" data-qa=\"ulx-tieredmenu\" {{appendToBody this.shouldAppendToBody}} {{this.setContainerRef}} {{this.registerRefModifier}} {{this.watchVisibility this.isVisible this.isPopup this.args.target this.animationState}} {{this.focusFirstItemOnVisible this.isVisible this.animationState}} {{this.closeOnClickOutside}} {{this.handleResize}} ...attributes>\n\t\t\t\t<ul class=\"tieredmenu-list\" data-qa=\"ulx-tieredmenu-list\" {{this.setMenuRef}}>\n\t\t\t\t\t<UlxTieredmenuMenuList @items={{this.model}} @renderItems={{this.renderItems}} @isSeparator={{this.isSeparator}} @getItemClasses={{this.getItemClasses}} @hasSubmenu={{this.hasSubmenu}} @isDisabled={{this.isDisabled}} @isSubmenuOpen={{this.isSubmenuOpen}} @getSubmenuClasses={{this.getSubmenuClasses}} @getSubmenuId={{this.getSubmenuId}} @onMouseEnter={{this.handleItemMouseEnter}} @onMouseLeave={{this.handleItemMouseLeave}} @onClick={{this.handleItemClick}} @onKeyDown={{this.handleKeyDown}} />\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.shouldRender}}\n\t\t\t<div class={{this.rootClasses}} role=\"menubar\" aria-orientation=\"vertical\" data-qa={{this.rootDataQa}} {{appendToBody this.shouldAppendToBody}} {{this.setContainerRef}} {{this.registerRefModifier}} {{this.watchVisibility this.isVisible this.isPopup this.args.target this.animationState}} {{this.focusFirstItemOnVisible this.isVisible this.animationState}} {{this.closeOnClickOutside}} {{this.handleResize}} ...attributes>\n\t\t\t\t<ul class=\"tieredmenu-list\" data-qa={{this.getDataQa \"list\"}} {{this.setMenuRef}}>\n\t\t\t\t\t<UlxTieredmenuMenuList @items={{this.model}} @getDataQa={{this.getDataQa}} @renderItems={{this.renderItems}} @isSeparator={{this.isSeparator}} @getItemClasses={{this.getItemClasses}} @hasSubmenu={{this.hasSubmenu}} @isDisabled={{this.isDisabled}} @isSubmenuOpen={{this.isSubmenuOpen}} @getSubmenuClasses={{this.getSubmenuClasses}} @getSubmenuId={{this.getSubmenuId}} @onMouseEnter={{this.handleItemMouseEnter}} @onMouseLeave={{this.handleItemMouseLeave}} @onClick={{this.handleItemClick}} @onKeyDown={{this.handleKeyDown}} />\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
   strictMode: true,
   scope: () => ({
     appendToBody,
@@ -951,7 +956,7 @@ let UlxTieredmenu = (_class = (_UlxTieredmenu = class UlxTieredmenu extends Comp
   initializer: function () {
     return null;
   }
-}), _applyDecoratedDescriptor(_class.prototype, "hasSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hasSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isSeparator", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isSeparator"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isDisabled", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isDisabled"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getItemId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getItemId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getSubmenuId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getSubmenuId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isSubmenuOpen", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isSubmenuOpen"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeSiblingSubmenus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeSiblingSubmenus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggleSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeAllSubmenus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeAllSubmenus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_resetPopupTieredmenuState", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_resetPopupTieredmenuState"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleKeyDown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleKeyDown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusFirstItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusFirstItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusLastItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusLastItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusNextItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusNextItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusPreviousItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusPreviousItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusFirstItemInSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusFirstItemInSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getItemClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getItemClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getSubmenuClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getSubmenuClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemMouseEnter", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemMouseEnter"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemMouseLeave", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemMouseLeave"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderItems", [action], Object.getOwnPropertyDescriptor(_class.prototype, "renderItems"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleShow", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleShow"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleHide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleHide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "alignOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "alignOverlay"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setZIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clearZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "clearZIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setTarget", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setTarget"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "show", [action], Object.getOwnPropertyDescriptor(_class.prototype, "show"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggle", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggle"), _class.prototype), _class);
+}), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hasSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hasSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isSeparator", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isSeparator"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isDisabled", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isDisabled"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getItemId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getItemId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getSubmenuId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getSubmenuId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isSubmenuOpen", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isSubmenuOpen"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeSiblingSubmenus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeSiblingSubmenus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggleSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeAllSubmenus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeAllSubmenus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_resetPopupTieredmenuState", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_resetPopupTieredmenuState"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleKeyDown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleKeyDown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusFirstItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusFirstItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusLastItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusLastItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusNextItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusNextItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusPreviousItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusPreviousItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusFirstItemInSubmenu", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusFirstItemInSubmenu"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getItemClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getItemClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getSubmenuClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getSubmenuClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemMouseEnter", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemMouseEnter"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleItemMouseLeave", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleItemMouseLeave"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderItems", [action], Object.getOwnPropertyDescriptor(_class.prototype, "renderItems"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleShow", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleShow"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleHide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleHide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "alignOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "alignOverlay"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setZIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clearZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "clearZIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setTarget", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setTarget"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "show", [action], Object.getOwnPropertyDescriptor(_class.prototype, "show"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggle", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggle"), _class.prototype), _class);
 
 export { UlxTieredmenu as default };
 //# sourceMappingURL=index.js.map

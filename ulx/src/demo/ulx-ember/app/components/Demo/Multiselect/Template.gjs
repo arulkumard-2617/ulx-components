@@ -29,30 +29,27 @@ export default class DemoMultiselectTemplate extends Component {
         @label={{t "lbl.dropdown.template"}}
         @fieldId="multiselect-template"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @selectAll={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          >
-            <:value as |ctx|>
-              {{#if ctx.selectedOptions.length}}
-                <span>{{ctx.selectedLabels}}</span>
-              {{else}}
-                <span>{{ctx.placeholder}}</span>
-              {{/if}}
-            </:value>
-            <:item as |ctx|>
-              <span>{{ctx.label}}</span>
-            </:item>
-          </UlxMultiSelect>
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @selectAll={{true}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        >
+          <:value as |ctx|>
+            {{#if ctx.selectedOptions.length}}
+              <span>{{ctx.selectedLabels}}</span>
+            {{else}}
+              <span>{{ctx.placeholder}}</span>
+            {{/if}}
+          </:value>
+          <:item as |ctx|>
+            <span>{{ctx.label}}</span>
+          </:item>
+        </UlxMultiSelect>
       </UlxField>
     </div>
   </template>

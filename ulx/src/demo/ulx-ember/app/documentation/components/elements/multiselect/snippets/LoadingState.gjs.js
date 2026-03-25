@@ -28,20 +28,17 @@ export default class DemoMultiselectLoadingState extends Component {
         @label={{t "lbl.loading.state"}}
         @fieldId="multiselect-loading"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @selectAll={{true}}
-            @loading={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @selectAll={{true}}
+          @loading={{true}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

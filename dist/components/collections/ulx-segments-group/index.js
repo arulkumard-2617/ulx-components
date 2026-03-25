@@ -32,9 +32,12 @@ class UlxSegmentsGroup extends Component {
   get ariaDescribedBy() {
     return this.args.ariaDescribedBy;
   }
+  get rootDataQa() {
+    return this.args.dataQa ?? "ulx-segments-group";
+  }
 }
 _UlxSegmentsGroup = UlxSegmentsGroup;
-setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} role={{this.role}} aria-label={{this.ariaLabel}} aria-labelledby={{this.ariaLabelledBy}} aria-describedby={{this.ariaDescribedBy}} ...attributes>\n\t\t\t{{yield}}\n\t\t</div>\n\t", {
+setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} role={{this.role}} aria-label={{this.ariaLabel}} aria-labelledby={{this.ariaLabelledBy}} aria-describedby={{this.ariaDescribedBy}} ...attributes>\n\t\t\t{{yield}}\n\t\t</div>\n\t", {
   strictMode: true
 }), _UlxSegmentsGroup);
 

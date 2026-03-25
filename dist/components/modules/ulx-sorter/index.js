@@ -944,10 +944,13 @@ let UlxSorter = (_class = (_UlxSorter = class UlxSorter extends Component {
     customClass && parts.push(customClass);
     return [...new Set(parts.filter(Boolean))].join(" ");
   }
+  get rootDataQa() {
+    return this.args.dataQa ?? "ulx-sorter";
+  }
   onChange(items, draggableItem) {
     this.args.onChange?.(items, draggableItem);
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} {{SortableGroup onChange=this.onChange direction=this.direction disabled=@disabled groupName=@groupName}} ...attributes>\n\t\t\t{{yield @groupName}}\n\t\t</div>\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} {{SortableGroup onChange=this.onChange direction=this.direction disabled=@disabled groupName=@groupName}} ...attributes>\n\t\t\t{{yield @groupName}}\n\t\t</div>\n\t", {
   strictMode: true,
   scope: () => ({
     SortableGroup: SortableGroupModifier

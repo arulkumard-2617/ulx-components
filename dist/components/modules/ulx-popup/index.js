@@ -2,13 +2,18 @@ import { b as _initializerDefineProperty, _ as _defineProperty, a as _applyDecor
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { guidFor } from '@ember/object/internals';
 import { inject } from '@ember/service';
+import { not, and } from 'ember-truth-helpers';
 import { modifier } from 'ember-modifier';
 import { on } from '@ember/modifier';
 import { getComponentClass } from '../../../utils/component-config.js';
-import appendToBody from '../../../modifiers/append-to-body.js';
+import { joinClassNames } from '../../../utils/class-names.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
 import overlayDismiss from '../../../modifiers/overlay-dismiss.js';
-import { applyBodyAbsoluteFromViewport, getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
+import overlayPortal from '../../../modifiers/overlay-portal.js';
+import { isEscapeKey, applyBodyAbsoluteFromViewport, getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
+import { resolveOverlayContext, resolveOverlayBoundary, resolveOverlayScrollContext, buildOverlayCoordinateApi, getBoundaryRectInOverlaySpace, clampOverlayValue } from '../../../utils/overlay-context.js';
 import UlxPopupHeader from './header.js';
 import UlxPopupFooter from './footer.js';
 import { t } from '../../../utils/i18n.js';
@@ -19,8 +24,90 @@ var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _UlxPopup;
 const POPUP_TRANSITION_MS = 200;
 const POPUP_TRANSITION_FALLBACK_MS = POPUP_TRANSITION_MS + 100;
 const POPUP_FOCUSABLE_SELECTOR = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-/** Bottom variants that may auto-flip to a top-* class when there is no room below. */
-const POPUP_BOTTOM_POSITIONS = new Set(["position-bottom", "position-bottom-left", "position-bottom-right", "position-bottom-center"]);
+/** When a bottom variant flips above the target, map root class to the matching top variant. */
+const POPUP_BOTTOM_TO_TOP_POSITION_CLASS = {
+  "position-bottom": "position-top",
+  "position-bottom-left": "position-top-left",
+  "position-bottom-right": "position-top-right",
+  "position-bottom-center": "position-top-center"
+};
+/** Bottom placement keys; same as `POPUP_BOTTOM_TO_TOP_POSITION_CLASS` (auto-flip targets). */
+const POPUP_BOTTOM_POSITIONS = new Set(Object.keys(POPUP_BOTTOM_TO_TOP_POSITION_CLASS));
+/**
+ * Viewport-space top/left for each `position-*` class; invalid keys fall back to bottom.
+ *
+ * @param {string} basePosition
+ * @param {DOMRect} targetRect
+ * @param {number} popupWidth
+ * @param {number} popupHeight
+ * @param {number} verticalGap
+ * @param {number} horizontalGap
+ * @returns {{ top: number; left: number; placedAbove: boolean }}
+ */
+function computePopupPlacement(basePosition, targetRect, popupWidth, popupHeight, verticalGap, horizontalGap) {
+  const {
+    top: tt,
+    bottom: tb,
+    left: tl,
+    right: tr,
+    width: tw,
+    height: th
+  } = targetRect;
+  const topSnap = tt - popupHeight - verticalGap;
+  const layouts = {
+    "position-top": () => ({
+      top: topSnap,
+      left: tl,
+      placedAbove: true
+    }),
+    "position-top-left": () => ({
+      top: topSnap,
+      left: tl,
+      placedAbove: true
+    }),
+    "position-top-right": () => ({
+      top: topSnap,
+      left: tr - popupWidth,
+      placedAbove: true
+    }),
+    "position-top-center": () => ({
+      top: topSnap,
+      left: tl + (tw - popupWidth) / 2,
+      placedAbove: true
+    }),
+    "position-left": () => ({
+      top: tt + (th - popupHeight) / 2,
+      left: tl - popupWidth - horizontalGap,
+      placedAbove: false
+    }),
+    "position-right": () => ({
+      top: tt + (th - popupHeight) / 2,
+      left: tr + horizontalGap,
+      placedAbove: false
+    }),
+    "position-bottom-left": () => ({
+      top: tb + verticalGap,
+      left: tl,
+      placedAbove: false
+    }),
+    "position-bottom-right": () => ({
+      top: tb + verticalGap,
+      left: tr - popupWidth,
+      placedAbove: false
+    }),
+    "position-bottom-center": () => ({
+      top: tb + verticalGap,
+      left: tl + (tw - popupWidth) / 2,
+      placedAbove: false
+    }),
+    "position-bottom": () => ({
+      top: tb + verticalGap,
+      left: tl,
+      placedAbove: false
+    })
+  };
+  return (layouts[basePosition] ?? layouts["position-bottom"])();
+}
 const POPUP_ENTER_ANIMATION_STATES = new Set(["enter", "enter-active", "enter-done"]);
 const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]);
 /**
@@ -46,16 +133,23 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  *
  * ## WCAG
  * - Root element uses `role="dialog"` with `aria-modal="false"` and `aria-hidden` reflecting visibility.
- * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name.
+ * - With default header (`@title` and no `<:head>`), the title `<h6>` gets a stable unique `id` and the dialog sets `aria-labelledby` to it (unless `@ariaLabel` is set).
+ * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name when not using the default title pattern.
  * - Focus is moved into the popup on open (first focusable element, or the popup container as fallback).
  * - Escape closes the popup by default (unless @closeOnEscape is false) and returns focus to the trigger.
  *
  * @class UlxPopup
  * @param {boolean} [visible=false] - Controls visibility of the popup.
  * @param {HTMLElement|Event} [target] - Target element or event for popup positioning.
+ * @param {'self'|'body'|HTMLElement|Function|string} [context='body'] - Where to render the popup overlay.
+ * @param {'self'|'body'|HTMLElement|Function|string} [renderContainer] - Backward-compatible alias for `@context`.
+ * @param {'self'|'body'|HTMLElement|Function|string} [appendTo] - Backward-compatible alias for `@context`.
+ * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
+ * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that repositions the popup while open.
  * @param {string} [position='position-bottom'] - Positioning class for pointer and offset.
  * @param {string} [size='m-size'] - Size class: xs-size | s-size | m-size | l-size | xl-size.
  * @param {string} [variant] - Visual variant: elevated | flat | outlined.
+ * @param {number} [zIndex] - Overlay z-index override.
  * @param {boolean} [dismissable=true] - When true, clicking outside or resizing closes the popup.
  * @param {boolean} [closable=false] - When true, shows a close button in the popup.
  * @param {boolean} [closeOnEscape=true] - When true (default), Escape closes the popup.
@@ -64,6 +158,7 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
  * @param {function} [onHide] - Callback invoked after exit animation completes and popup is fully hidden.
  * @param {function} [registerRef] - Callback invoked with the component instance when the popup is mounted (for calling show/hide/toggle), and with null on teardown.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  * @param {string} [headerClassName] - Extra class for the header wrapper (when header is shown).
  * @param {string} [footerClassName] - Extra class for the footer wrapper (when footer is shown).
  * Default header/footer (same usage as UlxModal): when <:head> / <:footer> are not passed, use these args.
@@ -115,14 +210,19 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
   constructor(...args) {
     super(...args);
     _initializerDefineProperty(this, "modalStack", _descriptor, this);
+    /** `enter` | `enter-active` | `enter-done` | `exit` | `exit-active` | `exit-done` | null */
     _initializerDefineProperty(this, "animationState", _descriptor2, this);
     _initializerDefineProperty(this, "containerElement", _descriptor3, this);
+    /** After auto-flip, overrides `@position` so the pointer/arrow CSS matches real placement. */
     _initializerDefineProperty(this, "currentPositionClass", _descriptor4, this);
-    // targetElement is an internal reference only; it is intentionally not tracked
-    // to avoid mutating tracked state during the same computation that reads it.
+    /**
+    * Not @tracked: internal anchor only; tracking it would mutate tracked state during the same
+    * render pass that reads it.
+    */
     _defineProperty(this, "targetElement", null);
-    /** Compared each `watchVisibility` run to detect `@visible` false→true / true→false edges. */
+    /** Previous `watchVisibility` `isVisible`; used to detect false→true / true→false edges. */
     _defineProperty(this, "_previousVisible", false);
+    /** Captures the root element, syncs `@target` if needed, and wires `registerRef`. */
     _defineProperty(this, "registerPopup", modifier(element => {
       this.containerElement = element;
       if (this.args.target && !this.targetElement) {
@@ -135,7 +235,10 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
         this.args.registerRef?.(null);
       };
     }));
-    /** Parent owns `@visible`; we react to edges and run show/hide animations (see `shouldRender`). */
+    /**
+    * Parent owns `@visible`; reacts to edges and drives enter/exit (see `shouldRender`).
+    * `animationState` is a positional dep so this re-runs as the transition advances.
+    */
     _defineProperty(this, "watchVisibility", modifier((element, [isVisible, targetElement, _animationState]) => {
       const previousVisible = this._previousVisible;
       const isTransitioningToVisible = !previousVisible && isVisible;
@@ -146,9 +249,9 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
       if (isVisible) {
         const shouldShow = isTransitioningToVisible && !POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
         if (shouldShow) {
-          // `appendToBody` can lag one tick; measure only once the root is under `document.body`.
+          // `overlayPortal` can lag one tick; measure only once the root is mounted in its final context.
           const checkAndShow = () => {
-            if (element.parentNode === document.body) {
+            if (this.isPortalReadyForMeasurement(element)) {
               if (!POPUP_ENTER_ANIMATION_STATES.has(this.animationState)) {
                 requestAnimationFrame(() => {
                   this._handleShowInternal();
@@ -177,6 +280,7 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
       }
       this._previousVisible = isVisible;
     }));
+    /** After open, focus first focusable inside the dialog (or the root as fallback). */
     _defineProperty(this, "focusFirstOnVisible", modifier((element, [isVisible, animationState]) => {
       if (!isVisible || animationState !== "enter-done") return;
       const firstFocusable = element.querySelector(POPUP_FOCUSABLE_SELECTOR);
@@ -186,6 +290,20 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
         setTimeout(() => element.focus(), 0);
       }
     }));
+    _defineProperty(this, "repositionOnScroll", modifier((_, [isVisible, animationState]) => {
+      if (!isVisible || animationState !== "enter-done") return;
+      const scrollTarget = this.resolvedScrollContext;
+      const handleScroll = () => {
+        if (this.isVisible && this.animationState === "enter-done") {
+          this._alignOverlay();
+        }
+      };
+      scrollTarget?.addEventListener?.("scroll", handleScroll);
+      return () => {
+        scrollTarget?.removeEventListener?.("scroll", handleScroll);
+      };
+    }));
+    /** While open, wrap Tab / Shift+Tab between first and last focusable. */
     _defineProperty(this, "focusTrap", modifier((element, [isVisible, animationState]) => {
       if (!isVisible || animationState !== "enter-done") return;
       const getFocusables = () => {
@@ -213,6 +331,7 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
       element.addEventListener("keydown", handleKeyDown);
       return () => element.removeEventListener("keydown", handleKeyDown);
     }));
+    /** When dismissable, window resize requests close (same idea as outside click). */
     _defineProperty(this, "handleResize", modifier((_, [isVisible]) => {
       if (!this.isDismissable) {
         return;
@@ -232,6 +351,16 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
   get baseClass() {
     return getComponentClass("popup");
   }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "popup");
+  }
+  /** Stable id for the default title heading; pairs with `aria-labelledby` on the dialog root. */
+  get defaultTitleHeadingId() {
+    return `ulx-popup-title-${guidFor(this)}`;
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
+  }
   get isVisible() {
     return this.args.visible === true;
   }
@@ -239,13 +368,12 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
     return this.args.dismissable !== false;
   }
   get isClosable() {
-    // Close icon and ESC should be opt-in; default is no close affordance.
-    return this.args.closable === true;
+    /* Popup close button is opt-in; Escape still follows @closeOnEscape + overlay-dismiss. */return this.args.closable === true;
   }
   get shouldRender() {
     if (this.isVisible) return true;
     if (this.animationState?.startsWith("exit")) return true;
-    // Stay in DOM briefly after `@visible` becomes false so exit transition can start.
+    /* Keep mounted briefly after @visible=false so exit transition can start. */
     return !this.isVisible && POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
   }
   get rootClasses() {
@@ -260,38 +388,39 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
     effectivePosition && parts.push(effectivePosition);
     size && parts.push(size);
     variant && parts.push(variant);
-    if (!this.isClosable) {
-      parts.push("no-close");
-    }
-    // Only add visible once enter animation has started to avoid showing
-    // the popup fully before transition classes are applied.
+    !this.isClosable && parts.push("no-close");
+    /* `visible` only during enter-* so the first paint sees transition initial state. */
     POPUP_ENTER_ANIMATION_STATES.has(this.animationState) && parts.push("visible");
     this.animationState && parts.push(this.animationState);
     customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
-  }
-  buildSectionClass(base, extraClass) {
-    const parts = [base];
-    extraClass && parts.push(extraClass);
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
   get headerClasses() {
-    return this.buildSectionClass("popup-header", this.args.headerClassName);
+    return joinClassNames("popup-header", this.args.headerClassName);
   }
   get bodyClasses() {
-    return this.buildSectionClass("popup-body", this.args.bodyClassName);
+    return joinClassNames("popup-body", this.args.bodyClassName);
   }
   get footerClasses() {
-    return this.buildSectionClass("popup-footer", this.args.footerClassName);
-  }
-  get ariaLabel() {
-    return this.args.ariaLabel;
+    return joinClassNames("popup-footer", this.args.footerClassName);
   }
   get overlayDismissClickActive() {
     return this.isVisible && this.isDismissable;
   }
   get overlayDismissEscapeActive() {
     return this.isVisible && this.args.closeOnEscape !== false;
+  }
+  get resolvedContext() {
+    return resolveOverlayContext(this.args.context ?? this.args.renderContainer ?? this.args.appendTo ?? "body");
+  }
+  get resolvedBoundary() {
+    return resolveOverlayBoundary(this.args.boundary ?? "window");
+  }
+  get resolvedScrollContext() {
+    return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+  }
+  get shouldPortalOverlay() {
+    return this.resolvedContext != null;
   }
   setTarget(elementOrEvent) {
     if (elementOrEvent instanceof HTMLElement) {
@@ -327,10 +456,10 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
   handleRootKeyDown(event) {
     if (this.args.closeOnEscape === false) return;
     if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-    if (event.key === "Escape" || event.key === "Esc" || event.code === "Escape") {
+    if (isEscapeKey(event.key) || event.code === "Escape") {
       event.preventDefault();
       event.stopPropagation();
-      // Avoid parent menus/dialogs also handling the same Escape in one dispatch.
+      /* Prevents parent menus/dialogs from handling the same key in this dispatch. */
       event.stopImmediatePropagation();
       this._handleHideInternal();
     }
@@ -437,110 +566,91 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
     if (!this.containerElement || !this.targetElement) return;
     const container = this.containerElement;
     const target = this.targetElement;
-    const targetRect = target.getBoundingClientRect();
+    const resolvedContext = this.resolvedContext;
+    const coordinateApi = buildOverlayCoordinateApi(resolvedContext, container);
+    const targetRect = coordinateApi.fromViewportRect(target.getBoundingClientRect());
+    const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
     const containerRect = container.getBoundingClientRect();
     const popupWidth = containerRect.width || container.offsetWidth || 200;
     const popupHeight = containerRect.height || container.offsetHeight || 100;
     // Gaps between target element and popup
     const verticalGap = 8;
     const horizontalGap = 8;
+    const viewportPadding = 10;
     const basePosition = this.args.position ?? "position-bottom";
-    // Base coordinates in viewport space (before scroll offsets)
-    let top;
-    let left;
-    let placedAbove = false;
-    // Initial placement based on requested position
-    switch (basePosition) {
-      case "position-top":
-        top = targetRect.top - popupHeight - verticalGap;
-        left = targetRect.left;
-        placedAbove = true;
-        break;
-      case "position-top-left":
-        top = targetRect.top - popupHeight - verticalGap;
-        left = targetRect.left;
-        placedAbove = true;
-        break;
-      case "position-top-right":
-        top = targetRect.top - popupHeight - verticalGap;
-        left = targetRect.right - popupWidth;
-        placedAbove = true;
-        break;
-      case "position-top-center":
-        top = targetRect.top - popupHeight - verticalGap;
-        left = targetRect.left + (targetRect.width - popupWidth) / 2;
-        placedAbove = true;
-        break;
-      case "position-left":
-        top = targetRect.top + (targetRect.height - popupHeight) / 2;
-        left = targetRect.left - popupWidth - horizontalGap;
-        break;
-      case "position-right":
-        top = targetRect.top + (targetRect.height - popupHeight) / 2;
-        left = targetRect.right + horizontalGap;
-        break;
-      case "position-bottom-left":
-        top = targetRect.bottom + verticalGap;
-        left = targetRect.left;
-        break;
-      case "position-bottom-right":
-        top = targetRect.bottom + verticalGap;
-        left = targetRect.right - popupWidth;
-        break;
-      case "position-bottom-center":
-        top = targetRect.bottom + verticalGap;
-        left = targetRect.left + (targetRect.width - popupWidth) / 2;
-        break;
-      case "position-bottom":
-      default:
-        top = targetRect.bottom + verticalGap;
-        left = targetRect.left;
-        break;
-    }
+    let {
+      top,
+      left,
+      placedAbove: initialPlacedAbove
+    } = computePopupPlacement(basePosition, targetRect, popupWidth, popupHeight, verticalGap, horizontalGap);
+    let placedAbove = initialPlacedAbove;
     // Automatic vertical flip only for "bottom" variants when there is not
     // enough space below but there is space above.
-    const viewportHeight = window.innerHeight;
+    const fallbackBoundary = boundaryRect ?? {
+      top: 0,
+      left: 0,
+      right: targetRect.left + popupWidth + viewportPadding,
+      bottom: targetRect.bottom + popupHeight + viewportPadding
+    };
+    const boundaryTop = fallbackBoundary.top;
+    const boundaryBottom = fallbackBoundary.bottom;
+    const boundaryLeft = fallbackBoundary.left;
+    const boundaryRight = fallbackBoundary.right;
     const isBottomVariant = POPUP_BOTTOM_POSITIONS.has(basePosition);
-    if (isBottomVariant && top + popupHeight > viewportHeight - 10 && targetRect.top - popupHeight - verticalGap >= 10) {
+    if (isBottomVariant && top + popupHeight > boundaryBottom - viewportPadding && targetRect.top - popupHeight - verticalGap >= boundaryTop + viewportPadding) {
       top = targetRect.top - popupHeight - verticalGap;
       placedAbove = true;
     }
-    applyBodyAbsoluteFromViewport(container, top, left);
-    // Update position class when we have flipped vertically so that the
-    // pointer arrow direction matches the actual placement.
-    const originalPosition = this.args.position ?? "position-bottom";
-    this.currentPositionClass = this._getPositionClassForPlacement(originalPosition, placedAbove);
+    const minLeft = boundaryLeft + viewportPadding;
+    const maxLeft = boundaryRight - popupWidth - viewportPadding;
+    let minTop = boundaryTop + viewportPadding;
+    let maxTop = boundaryBottom - popupHeight - viewportPadding;
+    const targetOutTop = targetRect.bottom < boundaryTop + viewportPadding;
+    const targetOutBottom = targetRect.top > boundaryBottom - viewportPadding;
+    targetOutTop && (minTop = Math.min(minTop, top));
+    targetOutBottom && (maxTop = Math.max(maxTop, top));
+    // When rendering in document coordinates, allow the popup to move above the viewport
+    // instead of sticking to the boundary once the trigger scrolls out of view.
+    if (coordinateApi.usesDocumentCoordinates) {
+      minTop = Math.min(minTop, -popupHeight);
+    }
+    left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
+    top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
+    if (coordinateApi.usesDocumentCoordinates) {
+      applyBodyAbsoluteFromViewport(container, top, left);
+    } else {
+      coordinateApi.applyPosition(container, top, left);
+    }
+    /* Remap bottom-* → top-* only when we auto-flipped; explicit top/left/right stay unchanged. */
+    this.currentPositionClass = this._getPositionClassForPlacement(basePosition, placedAbove);
   }
   _getPositionClassForPlacement(originalPosition, placedAbove) {
-    // Only remap when we have automatically flipped a bottom variant; for
-    // explicit top/left/right positions keep the original class.
-    if (!placedAbove || originalPosition !== "position-bottom" && originalPosition !== "position-bottom-left" && originalPosition !== "position-bottom-right" && originalPosition !== "position-bottom-center") {
+    if (!placedAbove) {
       return originalPosition;
     }
-    switch (originalPosition) {
-      case "position-bottom":
-        return "position-top";
-      case "position-bottom-left":
-        return "position-top-left";
-      case "position-bottom-right":
-        return "position-top-right";
-      case "position-bottom-center":
-        return "position-top-center";
-      default:
-        return originalPosition;
-    }
+    /* Unknown or non-bottom positions: keep caller’s class (e.g. position-top with placedAbove). */
+    return POPUP_BOTTOM_TO_TOP_POSITION_CLASS[originalPosition] ?? originalPosition;
   }
   _setZIndex() {
     if (!this.containerElement) return;
-    this.containerElement.style.zIndex = String(getOverlayZIndexAboveMask(this.modalStack, this));
+    const resolvedContext = this.resolvedContext;
+    const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : resolvedContext === document.body ? getOverlayZIndexAboveMask(this.modalStack, this) : 1;
+    this.containerElement.style.setProperty("z-index", String(zIndex), "important");
   }
   _clearZIndex() {
     if (this.containerElement) this.containerElement.style.zIndex = "";
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.shouldRender}}\n\t\t\t<div class={{this.rootClasses}} role=\"dialog\" aria-modal=\"false\" aria-hidden={{if this.isVisible \"false\" \"true\"}} aria-label={{if this.ariaLabel this.ariaLabel}} tabindex=\"-1\" {{appendToBody this.shouldRender}} {{this.registerPopup}} {{this.watchVisibility this.isVisible this.args.target this.animationState}} {{this.focusFirstOnVisible this.isVisible this.animationState}} {{this.focusTrap this.isVisible this.animationState}} {{overlayDismiss this.isVisible whenClick=this.overlayDismissClickActive whenEscape=this.overlayDismissEscapeActive onClose=this._handleHideInternal dismissVariant=\"anchored\" target=this.targetElement useTopModalGuard=true componentForStack=this}} {{this.handleResize this.isVisible}} {{on \"keydown\" this.handleRootKeyDown}} ...attributes>\n\t\t\t\t<div class=\"popup-content\">\n\t\t\t\t\t{{#if (has-block \"head\")}}\n\t\t\t\t\t\t<div class={{this.headerClasses}}>\n\t\t\t\t\t\t\t{{yield to=\"head\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else if @title}}\n\t\t\t\t\t\t<div class={{this.headerClasses}}>\n\t\t\t\t\t\t\t<UlxPopupHeader @title={{@title}} />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t{{#if (has-block \"body\")}}\n\t\t\t\t\t\t<div class={{this.bodyClasses}}>\n\t\t\t\t\t\t\t{{yield to=\"body\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<div class={{this.bodyClasses}}>\n\t\t\t\t\t\t\t{{yield}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t{{#if (has-block \"footer\")}}\n\t\t\t\t\t\t<div class={{this.footerClasses}}>\n\t\t\t\t\t\t\t{{yield to=\"footer\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t{{#unless @hideFooter}}\n\t\t\t\t\t\t\t<UlxPopupFooter @footerClassName={{@footerClassName}} @tertiaryButtonLabel={{@tertiaryButtonLabel}} @tertiaryButtonIcon={{@tertiaryButtonIcon}} @tertiaryIconPos={{@tertiaryIconPos}} @onTertiary={{@onTertiary}} @hideTertiaryButton={{@hideTertiaryButton}} @cancelLabel={{@cancelButtonLabel}} @doneLabel={{@doneButtonLabel}} @onCancel={{@onCancel}} @onDone={{@onDone}} @hideCancelButton={{@hideCancelButton}} @hideDoneButton={{@hideDoneButton}} />\n\t\t\t\t\t\t{{/unless}}\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\t\t\t\t{{#if this.isClosable}}\n\t\t\t\t\t<button type=\"button\" class=\"popup-close-button\" aria-label={{t \"lbl.close\"}} {{on \"click\" this.handleCloseClick}}>\n\t\t\t\t\t\t<span class=\"popup-close-icon\" aria-hidden=\"true\"></span>\n\t\t\t\t\t</button>\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
+  isPortalReadyForMeasurement(element) {
+    const resolvedContext = this.resolvedContext;
+    if (!resolvedContext) return true;
+    return element?.parentNode === resolvedContext;
+  }
+}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.shouldRender}}\n\t\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} role=\"dialog\" aria-modal=\"false\" aria-hidden={{if this.isVisible \"false\" \"true\"}} aria-labelledby={{if (and (not (has-block \"head\")) @title (not @ariaLabel)) this.defaultTitleHeadingId}} aria-label={{if @ariaLabel @ariaLabel}} tabindex=\"-1\" {{overlayPortal this.shouldPortalOverlay this.resolvedContext}} {{this.registerPopup}} {{this.watchVisibility this.isVisible this.args.target this.animationState}} {{this.focusFirstOnVisible this.isVisible this.animationState}} {{this.focusTrap this.isVisible this.animationState}} {{this.repositionOnScroll this.isVisible this.animationState}} {{overlayDismiss this.isVisible whenClick=this.overlayDismissClickActive whenEscape=this.overlayDismissEscapeActive onClose=this._handleHideInternal dismissVariant=\"anchored\" target=this.targetElement useTopModalGuard=true componentForStack=this}} {{this.handleResize this.isVisible}} {{on \"keydown\" this.handleRootKeyDown}} ...attributes>\n\t\t\t\t<div class=\"popup-content\" data-qa={{this.getDataQa \"content\"}}>\n\t\t\t\t\t{{#if (has-block \"head\")}}\n\t\t\t\t\t\t<div class={{this.headerClasses}} data-qa={{this.getDataQa \"header\"}}>\n\t\t\t\t\t\t\t{{yield to=\"head\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else if @title}}\n\t\t\t\t\t\t<div class={{this.headerClasses}} data-qa={{this.getDataQa \"header\"}}>\n\t\t\t\t\t\t\t<UlxPopupHeader @title={{@title}} @titleId={{this.defaultTitleHeadingId}} />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t{{#if (has-block \"body\")}}\n\t\t\t\t\t\t<div class={{this.bodyClasses}} data-qa={{this.getDataQa \"body\"}}>\n\t\t\t\t\t\t\t{{yield to=\"body\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<div class={{this.bodyClasses}} data-qa={{this.getDataQa \"body\"}}>\n\t\t\t\t\t\t\t{{yield}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t{{#if (has-block \"footer\")}}\n\t\t\t\t\t\t<div class={{this.footerClasses}} data-qa={{this.getDataQa \"footer\"}}>\n\t\t\t\t\t\t\t{{yield to=\"footer\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t{{#unless @hideFooter}}\n\t\t\t\t\t\t\t<UlxPopupFooter @dataQa={{this.getDataQa \"footer\"}} @footerClassName={{@footerClassName}} @tertiaryButtonLabel={{@tertiaryButtonLabel}} @tertiaryButtonIcon={{@tertiaryButtonIcon}} @tertiaryIconPos={{@tertiaryIconPos}} @onTertiary={{@onTertiary}} @hideTertiaryButton={{@hideTertiaryButton}} @cancelLabel={{@cancelButtonLabel}} @doneLabel={{@doneButtonLabel}} @onCancel={{@onCancel}} @onDone={{@onDone}} @hideCancelButton={{@hideCancelButton}} @hideDoneButton={{@hideDoneButton}} />\n\t\t\t\t\t\t{{/unless}}\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\t\t\t\t{{#if this.isClosable}}\n\t\t\t\t\t<button type=\"button\" class=\"popup-close-button\" data-qa={{this.getDataQa \"close\"}} aria-label={{t \"lbl.close\"}} {{on \"click\" this.handleCloseClick}}>\n\t\t\t\t\t\t<span class=\"popup-close-icon\" aria-hidden=\"true\"></span>\n\t\t\t\t\t</button>\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
   strictMode: true,
   scope: () => ({
-    appendToBody,
+    and,
+    not,
+    overlayPortal,
     overlayDismiss,
     on,
     UlxPopupHeader,
@@ -573,7 +683,7 @@ let UlxPopup = (_class = (_UlxPopup = class UlxPopup extends Component {
   initializer: function () {
     return null;
   }
-}), _applyDecoratedDescriptor(_class.prototype, "setTarget", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setTarget"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "show", [action], Object.getOwnPropertyDescriptor(_class.prototype, "show"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggle", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggle"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleCloseClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleCloseClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleRootKeyDown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleRootKeyDown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_handleHideInternal", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_handleHideInternal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_handleShowInternal", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_handleShowInternal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_alignOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_alignOverlay"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_setZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_setZIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_clearZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_clearZIndex"), _class.prototype), _class);
+}), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setTarget", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setTarget"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "show", [action], Object.getOwnPropertyDescriptor(_class.prototype, "show"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggle", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggle"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleCloseClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleCloseClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleRootKeyDown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleRootKeyDown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_handleHideInternal", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_handleHideInternal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_handleShowInternal", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_handleShowInternal"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_alignOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_alignOverlay"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_setZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_setZIndex"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_clearZIndex", [action], Object.getOwnPropertyDescriptor(_class.prototype, "_clearZIndex"), _class.prototype), _class);
 
 export { UlxPopup as default };
 //# sourceMappingURL=index.js.map

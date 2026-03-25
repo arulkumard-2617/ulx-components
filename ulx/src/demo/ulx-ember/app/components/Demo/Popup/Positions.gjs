@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import { UlxPopup, UlxButton } from 'ulx-components';
+import { UlxPopup, UlxButton, t } from 'ulx-components';
 
 const POSITIONS = [
   'position-bottom',
@@ -70,8 +70,8 @@ export default class PositionsPopupDemo extends Component {
   }
 
   <template>
-    <div class="">
-      <p class="mb-4">Click a button to open the popup at that position.</p>
+    <div class="flex flex-col gap-6">
+      <p class="mb-0">{{t "msg.popup.positions.help"}}</p>
       <div class="gap-8 flex flex-wrap">
         {{#each this.positions as |position|}}
           <UlxButton
@@ -89,20 +89,26 @@ export default class PositionsPopupDemo extends Component {
       <UlxPopup
         @visible={{this.isPopupVisible}}
         @target={{this.triggerElement}}
+        @context="body"
+        @boundary="window"
+        @scrollContext="window"
         @position={{this.activePosition}}
         @size="m-size"
         @variant="elevated"
         @dismissable={{true}}
         @closeOnEscape={{true}}
-        @ariaLabel="Position demo"
+        @ariaLabel={{t "lbl.position"}}
+        @title={{t "lbl.position"}}
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
         @hideFooter={{true}}
       >
         <:default>
-          <div>
-            <p>Popup at
-              <strong>{{this.activePosition}}</strong></p>
+          <div class="flex flex-col gap-2">
+            <p class="mb-0">
+              <span class="bold-font">{{t "lbl.selected"}}</span>
+              {{this.activePosition}}
+            </p>
           </div>
         </:default>
       </UlxPopup>

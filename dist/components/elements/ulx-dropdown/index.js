@@ -11,9 +11,10 @@ import { getComponentClass } from '../../../utils/component-config.js';
 import { isInvalidState } from '../../../utils/input-util.js';
 import { guidFor } from '@ember/object/internals';
 import { t } from '../../../utils/i18n.js';
-import appendToBody from '../../../modifiers/append-to-body.js';
 import overlayDismiss from '../../../modifiers/overlay-dismiss.js';
-import { applyBodyAbsoluteFromViewport, getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
+import overlayPortal from '../../../modifiers/overlay-portal.js';
+import { getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
+import { buildOverlayCoordinateApi, getBoundaryRectInOverlaySpace, clampOverlayValue, resolveOverlayContext, resolveOverlayBoundary, resolveOverlayScrollContext } from '../../../utils/overlay-context.js';
 import { getFocusableElements } from '../../../utils/focus-util.js';
 import UlxIcon from '../ulx-icon/index.js';
 import UlxProgressSpinner from '../ulx-progressspinner/index.js';
@@ -38,62 +39,69 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
       const alignPanelToTrigger = () => {
         const trigger = this.triggerElement ?? triggerEl;
         if (!trigger) return;
-        const targetRect = trigger.getBoundingClientRect();
-        applyBodyAbsoluteFromViewport(element, targetRect.bottom + 2, targetRect.left);
-        element.style.width = `${targetRect.width}px`;
-        element.style.minWidth = `${targetRect.width}px`;
-        element.style.maxWidth = `${targetRect.width}px`;
-        const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : getOverlayZIndexAboveMask(this.modalStack);
-        element.style.zIndex = `${zIndex}`;
+        const resolvedContext = this.resolvedContext;
+        const triggerRect = trigger.getBoundingClientRect();
+        const coordinateApi = buildOverlayCoordinateApi(resolvedContext, element);
+        const targetRect = coordinateApi.fromViewportRect(triggerRect);
+        const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
+        const spacing = 2;
+        const viewportPadding = 10;
+        coordinateApi.applyPosition(element, targetRect.bottom + spacing, targetRect.left);
+        element.style.width = `${triggerRect.width}px`;
+        element.style.minWidth = `${triggerRect.width}px`;
+        element.style.maxWidth = `${triggerRect.width}px`;
+        const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : resolvedContext === document.body ? getOverlayZIndexAboveMask(this.modalStack) : 1;
+        element.style.setProperty("z-index", `${zIndex}`, "important");
         element.style.margin = "0";
         element.style.padding = "0";
-        const menuWidth = element.offsetWidth || targetRect.width;
+        const menuWidth = element.offsetWidth || triggerRect.width;
         const menuHeight = element.offsetHeight || 200;
-        let top = targetRect.bottom + 2;
+        const fallbackBoundary = boundaryRect ?? {
+          top: 0,
+          left: 0,
+          right: targetRect.left + menuWidth + viewportPadding,
+          bottom: targetRect.bottom + menuHeight + viewportPadding
+        };
+        let top = targetRect.bottom + spacing;
         let left = targetRect.left;
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        if (left + menuWidth > viewportWidth - scrollbarWidth) {
-          const leftPosition = targetRect.right - menuWidth;
-          if (leftPosition >= 0) {
-            left = leftPosition;
-          } else {
-            left = viewportWidth - menuWidth - scrollbarWidth - 10;
-          }
+        const leftPosition = targetRect.right - menuWidth;
+        const minLeft = fallbackBoundary.left + viewportPadding;
+        const maxLeft = fallbackBoundary.right - menuWidth - viewportPadding;
+        if (left + menuWidth > fallbackBoundary.right - viewportPadding) {
+          left = leftPosition >= minLeft ? leftPosition : maxLeft;
         }
-        if (left < 0) {
-          left = 10;
-        }
-        if (top + menuHeight > viewportHeight) {
-          const topPosition = targetRect.top - menuHeight - 2;
-          if (topPosition >= 0) {
-            top = topPosition;
-            typeof setPanelPosition === "function" && setPanelPosition("above");
-          } else {
-            top = viewportHeight - menuHeight - 10;
-            typeof setPanelPosition === "function" && setPanelPosition("below");
-          }
+        left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
+        const spaceBelow = fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
+        const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
+        const shouldPlaceAbove = top + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+        if (shouldPlaceAbove) {
+          top = targetRect.top - menuHeight - spacing;
+          typeof setPanelPosition === "function" && setPanelPosition("above");
         } else {
           typeof setPanelPosition === "function" && setPanelPosition("below");
         }
-        if (top < 0) {
-          top = 10;
-        }
-        applyBodyAbsoluteFromViewport(element, top, left);
+        const minTop = fallbackBoundary.top + viewportPadding;
+        const maxTop = fallbackBoundary.bottom - menuHeight - viewportPadding;
+        top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
+        coordinateApi.applyPosition(element, top, left);
       };
       schedule("afterRender", () => {
         alignPanelToTrigger();
-        if (element.parentNode === document.body) {
-          requestAnimationFrame(alignPanelToTrigger);
-        }
+        requestAnimationFrame(alignPanelToTrigger);
       });
-      const onScroll = () => {
-        if (this.overlayVisible && element.parentNode === document.body) alignPanelToTrigger();
+      const onResize = () => {
+        if (this.overlayVisible) alignPanelToTrigger();
       };
-      window.addEventListener("scroll", onScroll, true);
+      const shouldTrackScroll = this.resolvedContext != null;
+      const scrollTarget = this.resolvedScrollContext;
+      const onScroll = () => {
+        if (this.overlayVisible) alignPanelToTrigger();
+      };
+      window.addEventListener("resize", onResize);
+      shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
       return () => {
-        window.removeEventListener("scroll", onScroll, true);
+        window.removeEventListener("resize", onResize);
+        shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
       };
     }));
     _defineProperty(this, "triggerRef", modifier(element => {
@@ -350,6 +358,15 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
   get openTriggerAriaLabel() {
     return t("aria.dropdown.open");
   }
+  get resolvedContext() {
+    return resolveOverlayContext(this.args.context ?? "self");
+  }
+  get resolvedBoundary() {
+    return resolveOverlayBoundary(this.args.boundary ?? "window");
+  }
+  get resolvedScrollContext() {
+    return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+  }
   setPanelPosition(position) {
     this.panelPosition = position;
   }
@@ -461,6 +478,44 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
       preventScroll: true
     });
   }
+  closeOverlay() {
+    if (!this.overlayVisible) return;
+    this.overlayVisible = false;
+    this.panelPosition = "below";
+    this.dismissKeyboardOptionFocusRing();
+    this.args.onHide?.();
+  }
+  getTriggerFocusableAnchor(options = {}) {
+    const {
+      backward = false
+    } = options;
+    const triggerFocusables = getFocusableElements(this.triggerElement);
+    if (triggerFocusables.length > 0) {
+      return backward ? triggerFocusables[0] : triggerFocusables[triggerFocusables.length - 1];
+    }
+    return document.getElementById(this.triggerId) ?? this.triggerElement;
+  }
+  closeOverlayAndMoveFocus(options = {}) {
+    const {
+      backward = false
+    } = options;
+    const anchorElement = this.getTriggerFocusableAnchor({
+      backward
+    });
+    const focusableElements = getFocusableElements(document.body).filter(element => !this.panelElement?.contains(element));
+    const anchorIndex = anchorElement ? focusableElements.indexOf(anchorElement) : -1;
+    const targetIndex = anchorIndex + (backward ? -1 : 1);
+    const nextFocusableElement = focusableElements[targetIndex];
+    this.closeOverlay();
+    if (!nextFocusableElement) return;
+    schedule("afterRender", () => {
+      requestAnimationFrame(() => {
+        nextFocusableElement?.focus?.({
+          preventScroll: true
+        });
+      });
+    });
+  }
   toggleOverlay() {
     if (this.args.disabled || this.args.loading) return;
     this.overlayVisible = !this.overlayVisible;
@@ -486,7 +541,9 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
     }
     return -1;
   }
-  selectOption(entry) {
+  selectOption(entry, event) {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
     const optionItem = entry?.item != null ? entry.item : entry;
     if (this.isOptionDisabled(optionItem)) return;
     const value = this.getOptionValue(optionItem);
@@ -524,7 +581,7 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
   onFilterInput(event) {
     const filterInputValue = event.target?.value ?? "";
     this.filterValue = filterInputValue;
-    this.focusedOptionIndex = 0;
+    this.focusedOptionIndex = this.visibleOptions.length > 0 ? 0 : -1;
     this.showOptionKeyboardFocusRing = true;
     this.args.onFilter?.(filterInputValue);
   }
@@ -546,13 +603,21 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
       this.toggleOverlay();
     } else if (keyPressed === "Tab") {
       event.preventDefault();
-      this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
+      this.closeOverlayAndMoveFocus({
+        backward: event.shiftKey
+      });
     }
   }
   focusFocusedItem() {
     if (this.focusedOptionIndex < 0) return;
-    const focusedOptionElement = document.getElementById(`${this.triggerId}-item-${this.focusedOptionIndex}`);
-    focusedOptionElement?.focus?.();
+    schedule("afterRender", () => {
+      requestAnimationFrame(() => {
+        const focusedOptionElement = document.getElementById(`${this.triggerId}-item-${this.focusedOptionIndex}`);
+        focusedOptionElement?.focus?.({
+          preventScroll: true
+        });
+      });
+    });
   }
   onTriggerKeydown(event) {
     if (this.args.disabled) return;
@@ -562,12 +627,18 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
       if (!this.overlayVisible) {
         this.showOptionKeyboardFocusRing = true;
         this.toggleOverlay();
-      } else this.moveFocus(1);
+      } else {
+        this.moveFocus(1);
+        this.focusFocusedItem();
+      }
       return;
     }
     if (keyPressed === "ArrowUp") {
       event.preventDefault();
-      if (this.overlayVisible) this.moveFocus(-1);else {
+      if (this.overlayVisible) {
+        this.moveFocus(-1);
+        this.focusFocusedItem();
+      } else {
         this.showOptionKeyboardFocusRing = true;
         this.toggleOverlay();
       }
@@ -590,9 +661,9 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
     }
     if (keyPressed === "Tab" && this.overlayVisible) {
       event.preventDefault();
-      if (this.hasHeaderFocusableControls) this.enterHeaderMode({
-        focusFirst: !event.shiftKey
-      });else this.focusTriggerFallback();
+      this.closeOverlayAndMoveFocus({
+        backward: event.shiftKey
+      });
       return;
     }
   }
@@ -609,15 +680,19 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
     const keyPressed = event.code || event.key;
     if (keyPressed === "Tab") {
       event.preventDefault();
-      this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
+      this.closeOverlayAndMoveFocus({
+        backward: event.shiftKey
+      });
       return;
     }
     if (keyPressed === "ArrowDown") {
       event.preventDefault();
       this.moveFocus(1);
+      this.focusFocusedItem();
     } else if (keyPressed === "ArrowUp") {
       event.preventDefault();
       this.moveFocus(-1);
+      this.focusFocusedItem();
     } else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
       event.preventDefault();
       this.selectFocusedOptionIfEnabled();
@@ -662,7 +737,7 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
   stopPanelClick(event) {
     event.stopPropagation();
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded={{this.overlayVisible}} aria-controls=\"{{this.triggerId}}-listbox\" aria-invalid={{if (eq this.isInvalid true) \"true\" \"false\"}} aria-required={{this.isRequired}} aria-describedby={{this.ariaDescribedBy}} aria-errormessage={{this.ariaErrorMessage}} {{this.triggerRef}} {{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant=\"rootPanel\" defer=true}} {{on \"pointerdown\" this.onTriggerPointerIntent}} {{on \"click\" this.toggleOverlay}} ...attributes>\n\t\t\t<div class=\"dropdown-input {{this.contentPlaceholderClass}}\" tabindex=\"-1\">\n\t\t\t\t{{#if (has-block \"value\")}}\n\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t{{yield (hash selectedOption=this.selectedOption selectedLabel=this.selectedLabel placeholder=this.placeholderLabel imageUrl=this.selectedOptionImageUrl) to=\"value\"}}\n\t\t\t\t\t</div>\n\t\t\t\t{{else}}\n\t\t\t\t\t{{#if (and this.selectedLabel)}}\n\t\t\t\t\t\t<span class=\"dropdown-item-label\">{{this.selectedLabel}}</span>\n\t\t\t\t\t\t{{#if (has-block \"subtext\")}}\n\t\t\t\t\t\t\t<span>{{yield this.selectedOption to=\"subtext\"}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<span class=\"dropdown-item-label\">{{this.placeholderLabel}}</span>\n\t\t\t\t\t{{/if}}\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t\t<div class=\"dropdown-trigger {{if this.isTriggerDisabled \"disabled\" \"\"}}\">\n\t\t\t\t{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}\n\t\t\t\t\t<UlxIcon @type=\"font\" @dataQa=\"ulx-dropdown-clear\" @iconName=\"close-stroke-icon-new dropdown-clear-icon\" @componentClass=\"bs-icons1\" @ariaLabel={{this.clearButtonAriaLabel}} role=\"button\" tabindex=\"0\" {{on \"click\" this.clearSelection}} {{on \"keydown\" this.onClearIconKeydown}} />\n\t\t\t\t{{/if}}\n\t\t\t\t{{#if (and @loading)}}\n\t\t\t\t\t<span class=\"dropdown-loading-icon\" id={{this.triggerId}} data-qa=\"ulx-dropdown-trigger\" role=\"button\" aria-disabled=\"true\" tabindex=\"-1\" aria-busy=\"true\">\n\t\t\t\t\t\t<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden=\"true\" />\n\t\t\t\t\t</span>\n\t\t\t\t{{else}}\n\t\t\t\t\t{{#if (has-block \"icon\")}}\n\t\t\t\t\t\t<span id={{this.triggerId}} data-qa=\"ulx-dropdown-trigger\" role=\"button\" tabindex={{if (not this.isTriggerDisabled) \"0\" \"-1\"}} {{on \"keydown\" this.onTriggerKeydown}} {{on \"focus\" this.handleFocus}} {{on \"blur\" this.handleBlur}}>\n\t\t\t\t\t\t\t{{yield (hash overlayVisible=this.overlayVisible) to=\"icon\"}}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<UlxIcon id={{this.triggerId}} @dataQa=\"ulx-dropdown-trigger\" @iconName=\"down-stroke-icon-new dropdown-trigger-icon\" @type=\"font\" @componentClass=\"bs-icons1\" @ariaLabel={{this.openTriggerAriaLabel}} role=\"button\" tabindex={{if (not this.isTriggerDisabled) \"0\" \"-1\"}} {{on \"keydown\" this.onTriggerKeydown}} {{on \"focus\" this.handleFocus}} {{on \"blur\" this.handleBlur}} />\n\t\t\t\t\t{{/if}}\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t</div>\n\n\t\t{{#if this.overlayVisible}}\n\t\t\t<div id=\"{{this.triggerId}}-listbox\" data-qa=\"ulx-dropdown-panel\" class=\"dropdown-panel {{if (eq this.panelPosition \"above\") \"dropdown-panel-above\"}}\" role=\"listbox\" aria-activedescendant={{this.activeDescendantId}} aria-hidden=\"false\" {{this.panelRef}} {{appendToBody this.overlayVisible}} {{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}} {{on \"pointerdown\" this.onOptionPanelPointerIntent}} {{on \"keydown\" this.onPanelKeydown}} {{on \"click\" this.stopPanelClick}}>\n\t\t\t\t{{#if (and @filter)}}\n\t\t\t\t\t<div class=\"dropdown-filter-container\">\n\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"search-icon dropdown-filter-icon\" @componentClass=\"bs-icons1\" @size=\"s18\" aria-hidden=\"true\" />\n\t\t\t\t\t\t<input type=\"text\" class=\"dropdown-filter-input\" data-qa=\"ulx-dropdown-filter\" value={{this.filterValue}} placeholder={{@filterPlaceholder}} {{on \"input\" this.onFilterInput}} {{on \"keydown\" this.onFilterKeydown}} />\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t\t<div class=\"dropdown-wrapper\" data-qa=\"ulx-dropdown-options-wrapper\" style=\"max-height: {{this.scrollHeightValue}};\" {{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId}}>\n\t\t\t\t\t<ul class=\"dropdown-list\" role=\"listbox\" data-qa=\"ulx-dropdown-list\">\n\t\t\t\t\t\t{{#if (eq this.visibleOptions.length 0)}}\n\t\t\t\t\t\t\t<li class=\"dropdown-empty-message\" role=\"option\" data-qa=\"ulx-dropdown-empty\">\n\t\t\t\t\t\t\t\t{{or (and @filter @emptyFilterMessage) @emptyMessage}}\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t{{else if this.hasGroups}}\n\t\t\t\t\t\t\t{{#each this.optionListWithGroups as |row|}}\n\t\t\t\t\t\t\t\t{{#if (eq row.type \"group\")}}\n\t\t\t\t\t\t\t\t\t<li class=\"dropdown-item-group\" role=\"presentation\" aria-hidden=\"true\" data-qa=\"ulx-dropdown-group\">\n\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"group\")}}\n\t\t\t\t\t\t\t\t\t\t\t{{yield (hash label=row.label group=row.group) to=\"group\"}}\n\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{#if row.group.imageUrl}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src={{row.group.imageUrl}} alt={{row.label}} class={{concat \"mr-2 flag \" (this.getFlagClass row.group.code)}} style=\"width: 18px;\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{#if row.group.icon}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{row.group.icon}} @componentClass=\"bs-icons1\" @size=\"s24\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div>{{row.label}}</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t{{#let row.entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{row.flatIndex}}\" data-qa={{concat \"ulx-dropdown-option-\" row.flatIndex}} class=\"dropdown-item grouped\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (and (eq row.flatIndex this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (and @checkmark (this.isOptionSelected option)) \"checkmark\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"0\" {{on \"click\" (fn this.selectOption row.entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=row.flatIndex imageUrl=(this.getOptionImageUrl option)) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (and @checkmark (this.isOptionSelected option))}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"tick-icon-01 dropdown-checkmark\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"dropdown-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t{{#each this.optionList as |entry index|}}\n\t\t\t\t\t\t\t\t{{#let entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{index}}\" data-qa={{concat \"ulx-dropdown-option-\" index}} class=\"dropdown-item\n\t\t\t\t\t\t\t\t\t\t\t{{if (and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t{{if (and @checkmark (this.isOptionSelected option)) \"checkmark\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"0\" {{on \"click\" (fn this.selectOption entry)}}>\n\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=index imageUrl=(this.getOptionImageUrl option)) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t{{#if (and @checkmark (this.isOptionSelected option))}}\n\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"tick-icon-01 dropdown-checkmark\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"dropdown-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t\t{{#if (has-block \"footer\")}}\n\t\t\t\t\t<div class=\"dropdown-panel-footer\" data-qa=\"ulx-dropdown-footer\">\n\t\t\t\t\t\t<div class=\"dropdown-panel-footer-content\">\n\t\t\t\t\t\t\t{{yield (hash selectedOption=this.selectedOption) to=\"footer\"}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded={{this.overlayVisible}} aria-controls=\"{{this.triggerId}}-listbox\" aria-invalid={{if (eq this.isInvalid true) \"true\" \"false\"}} aria-required={{this.isRequired}} aria-describedby={{this.ariaDescribedBy}} aria-errormessage={{this.ariaErrorMessage}} {{this.triggerRef}} {{overlayDismiss this.overlayVisible onClose=this.toggleOverlay panel=this.panelElement dismissVariant=\"rootPanel\" defer=true}} {{on \"pointerdown\" this.onTriggerPointerIntent}} {{on \"click\" this.toggleOverlay}} ...attributes>\n\t\t\t<div class=\"dropdown-input {{this.contentPlaceholderClass}}\" tabindex=\"-1\">\n\t\t\t\t{{#if (has-block \"value\")}}\n\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t{{yield (hash selectedOption=this.selectedOption selectedLabel=this.selectedLabel placeholder=this.placeholderLabel imageUrl=this.selectedOptionImageUrl) to=\"value\"}}\n\t\t\t\t\t</div>\n\t\t\t\t{{else}}\n\t\t\t\t\t{{#if (and this.selectedLabel)}}\n\t\t\t\t\t\t<span class=\"dropdown-item-label\">{{this.selectedLabel}}</span>\n\t\t\t\t\t\t{{#if (has-block \"subtext\")}}\n\t\t\t\t\t\t\t<span>{{yield this.selectedOption to=\"subtext\"}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<span class=\"dropdown-item-label\">{{this.placeholderLabel}}</span>\n\t\t\t\t\t{{/if}}\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t\t<div class=\"dropdown-trigger {{if this.isTriggerDisabled \"disabled\" \"\"}}\">\n\t\t\t\t{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}\n\t\t\t\t\t<UlxIcon @type=\"font\" @dataQa=\"ulx-dropdown-clear\" @iconName=\"close-stroke-icon-new dropdown-clear-icon\" @componentClass=\"bs-icons1\" @ariaLabel={{this.clearButtonAriaLabel}} role=\"button\" tabindex=\"0\" {{on \"click\" this.clearSelection}} {{on \"keydown\" this.onClearIconKeydown}} />\n\t\t\t\t{{/if}}\n\t\t\t\t{{#if (and @loading)}}\n\t\t\t\t\t<span class=\"dropdown-loading-icon\" id={{this.triggerId}} data-qa=\"ulx-dropdown-trigger\" role=\"button\" aria-disabled=\"true\" tabindex=\"-1\" aria-busy=\"true\">\n\t\t\t\t\t\t<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden=\"true\" />\n\t\t\t\t\t</span>\n\t\t\t\t{{else}}\n\t\t\t\t\t{{#if (has-block \"icon\")}}\n\t\t\t\t\t\t<span id={{this.triggerId}} data-qa=\"ulx-dropdown-trigger\" role=\"button\" tabindex={{if (not this.isTriggerDisabled) \"0\" \"-1\"}} {{on \"keydown\" this.onTriggerKeydown}} {{on \"focus\" this.handleFocus}} {{on \"blur\" this.handleBlur}}>\n\t\t\t\t\t\t\t{{yield (hash overlayVisible=this.overlayVisible) to=\"icon\"}}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<UlxIcon id={{this.triggerId}} @dataQa=\"ulx-dropdown-trigger\" @iconName=\"down-stroke-icon-new dropdown-trigger-icon\" @type=\"font\" @componentClass=\"bs-icons1\" @ariaLabel={{this.openTriggerAriaLabel}} role=\"button\" tabindex={{if (not this.isTriggerDisabled) \"0\" \"-1\"}} {{on \"keydown\" this.onTriggerKeydown}} {{on \"focus\" this.handleFocus}} {{on \"blur\" this.handleBlur}} />\n\t\t\t\t\t{{/if}}\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\t\t\t{{#if this.overlayVisible}}\n\t\t\t\t<div id=\"{{this.triggerId}}-listbox\" data-qa=\"ulx-dropdown-panel\" class=\"dropdown-panel {{if (eq this.panelPosition \"above\") \"dropdown-panel-above\"}}\" role=\"listbox\" aria-activedescendant={{this.activeDescendantId}} aria-hidden=\"false\" {{this.panelRef}} {{overlayPortal this.overlayVisible this.resolvedContext}} {{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}} {{on \"pointerdown\" this.onOptionPanelPointerIntent}} {{on \"keydown\" this.onPanelKeydown}} {{on \"click\" this.stopPanelClick}}>\n\t\t\t\t\t{{#if (and @filter)}}\n\t\t\t\t\t\t<div class=\"dropdown-filter-container\">\n\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"search-icon dropdown-filter-icon\" @componentClass=\"bs-icons1\" @size=\"s18\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t<input type=\"text\" class=\"dropdown-filter-input\" data-qa=\"ulx-dropdown-filter\" value={{this.filterValue}} placeholder={{@filterPlaceholder}} {{on \"input\" this.onFilterInput}} {{on \"keydown\" this.onFilterKeydown}} />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\t\t\t\t\t<div class=\"dropdown-wrapper\" data-qa=\"ulx-dropdown-options-wrapper\" style=\"max-height: {{this.scrollHeightValue}};\" {{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId}}>\n\t\t\t\t\t\t<ul class=\"dropdown-list\" role=\"listbox\" data-qa=\"ulx-dropdown-list\">\n\t\t\t\t\t\t\t{{#if (eq this.visibleOptions.length 0)}}\n\t\t\t\t\t\t\t\t<li class=\"dropdown-empty-message\" role=\"option\" data-qa=\"ulx-dropdown-empty\">\n\t\t\t\t\t\t\t\t\t{{or (and @filter @emptyFilterMessage) @emptyMessage}}\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t{{else if this.hasGroups}}\n\t\t\t\t\t\t\t\t{{#each this.optionListWithGroups as |row|}}\n\t\t\t\t\t\t\t\t\t{{#if (eq row.type \"group\")}}\n\t\t\t\t\t\t\t\t\t\t<li class=\"dropdown-item-group\" role=\"presentation\" aria-hidden=\"true\" data-qa=\"ulx-dropdown-group\">\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"group\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash label=row.label group=row.group) to=\"group\"}}\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{#if row.group.imageUrl}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src={{row.group.imageUrl}} alt={{row.label}} class={{concat \"mr-2 flag \" (this.getFlagClass row.group.code)}} style=\"width: 18px;\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{#if row.group.icon}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{row.group.icon}} @componentClass=\"bs-icons1\" @size=\"s24\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div>{{row.label}}</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t{{#let row.entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{row.flatIndex}}\" data-qa={{concat \"ulx-dropdown-option-\" row.flatIndex}} class=\"dropdown-item grouped\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (and (eq row.flatIndex this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (and @checkmark (this.isOptionSelected option)) \"checkmark\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"-1\" {{on \"click\" (fn this.selectOption row.entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=row.flatIndex imageUrl=(this.getOptionImageUrl option)) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{#if (and @checkmark (this.isOptionSelected option))}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"tick-icon-01 dropdown-checkmark\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"dropdown-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t{{#each this.optionList as |entry index|}}\n\t\t\t\t\t\t\t\t\t{{#let entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{index}}\" data-qa={{concat \"ulx-dropdown-option-\" index}} class=\"dropdown-item\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (and @checkmark (this.isOptionSelected option)) \"checkmark\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"-1\" {{on \"click\" (fn this.selectOption entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=index imageUrl=(this.getOptionImageUrl option)) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (and @checkmark (this.isOptionSelected option))}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"tick-icon-01 dropdown-checkmark\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"dropdown-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t</div>\n\t\t\t\t\t{{#if (has-block \"footer\")}}\n\t\t\t\t\t\t<div class=\"dropdown-panel-footer\" data-qa=\"ulx-dropdown-footer\">\n\t\t\t\t\t\t\t<div class=\"dropdown-panel-footer-content\">\n\t\t\t\t\t\t\t\t{{yield (hash selectedOption=this.selectedOption) to=\"footer\"}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\t\t\t{{/if}}\n\t\t</div>\n\t", {
   strictMode: true,
   scope: () => ({
     eq,
@@ -673,7 +748,7 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
     not,
     UlxIcon,
     UlxProgressSpinner,
-    appendToBody,
+    overlayPortal,
     fn,
     or,
     concat
@@ -732,7 +807,7 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
   initializer: function () {
     return "below";
   }
-}), _applyDecoratedDescriptor(_class.prototype, "onTriggerPointerIntent", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onTriggerPointerIntent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onOptionPanelPointerIntent", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onOptionPanelPointerIntent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getResolved", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getResolved"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getOptionLabel", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getOptionLabel"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getOptionValue", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getOptionValue"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getOptionImageUrl", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getOptionImageUrl"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getFlagClass", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getFlagClass"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isOptionDisabled", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isOptionDisabled"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "valueEquals", [action], Object.getOwnPropertyDescriptor(_class.prototype, "valueEquals"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isOptionSelected", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isOptionSelected"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setPanelPosition", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setPanelPosition"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "enterHeaderMode", [action], Object.getOwnPropertyDescriptor(_class.prototype, "enterHeaderMode"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "cycleHeaderFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "cycleHeaderFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggleOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleOverlay"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "selectOption", [action], Object.getOwnPropertyDescriptor(_class.prototype, "selectOption"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clearSelection", [action], Object.getOwnPropertyDescriptor(_class.prototype, "clearSelection"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onClearIconKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onClearIconKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onFilterInput", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onFilterInput"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onFilterKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onFilterKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusFocusedItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusFocusedItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onTriggerKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onTriggerKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "moveFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "moveFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onPanelKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onPanelKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "stopPanelClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "stopPanelClick"), _class.prototype), _class);
+}), _applyDecoratedDescriptor(_class.prototype, "onTriggerPointerIntent", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onTriggerPointerIntent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onOptionPanelPointerIntent", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onOptionPanelPointerIntent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getResolved", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getResolved"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getOptionLabel", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getOptionLabel"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getOptionValue", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getOptionValue"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getOptionImageUrl", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getOptionImageUrl"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getFlagClass", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getFlagClass"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isOptionDisabled", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isOptionDisabled"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "valueEquals", [action], Object.getOwnPropertyDescriptor(_class.prototype, "valueEquals"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isOptionSelected", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isOptionSelected"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setPanelPosition", [action], Object.getOwnPropertyDescriptor(_class.prototype, "setPanelPosition"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "enterHeaderMode", [action], Object.getOwnPropertyDescriptor(_class.prototype, "enterHeaderMode"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "cycleHeaderFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "cycleHeaderFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "closeOverlayAndMoveFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "closeOverlayAndMoveFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggleOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleOverlay"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "selectOption", [action], Object.getOwnPropertyDescriptor(_class.prototype, "selectOption"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "clearSelection", [action], Object.getOwnPropertyDescriptor(_class.prototype, "clearSelection"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onClearIconKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onClearIconKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onFilterInput", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onFilterInput"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onFilterKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onFilterKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusFocusedItem", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusFocusedItem"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onTriggerKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onTriggerKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "moveFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "moveFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onPanelKeydown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onPanelKeydown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "stopPanelClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "stopPanelClick"), _class.prototype), _class);
 
 export { UlxDropdown as default };
 //# sourceMappingURL=index.js.map

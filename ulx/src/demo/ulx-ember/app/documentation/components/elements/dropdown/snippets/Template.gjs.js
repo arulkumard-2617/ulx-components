@@ -39,20 +39,18 @@ export default class DemoDropdownTemplate extends Component {
         @label={{t "lbl.dropdown.template"}}
         @fieldId="dropdown-template"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.options}}
-            @value={{this.selectedItem}}
-            @onChange={{this.setSelectedItem}}
-            @optionLabel="label"
-            @optionValue="value"
-            @optionImageUrl="imageUrl"
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
-          >
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.options}}
+          @value={{this.selectedItem}}
+          @onChange={{this.setSelectedItem}}
+          @optionLabel="label"
+          @optionValue="value"
+          @optionImageUrl="imageUrl"
+          @placeholder={{t "msg.dropdown.placeholder.city"}}
+        >
         <:value as |ctx|>
           {{#if ctx.selectedOption}}
             {{#if ctx.imageUrl}}
@@ -113,8 +111,7 @@ export default class DemoDropdownTemplate extends Component {
             />
           {{/if}}
         </:icon>
-          </UlxDropdown>
-        </:default>
+        </UlxDropdown>
       </UlxField>
     </div>
   </template>

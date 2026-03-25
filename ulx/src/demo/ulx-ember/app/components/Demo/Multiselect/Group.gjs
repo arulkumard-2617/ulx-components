@@ -40,22 +40,23 @@ export default class DemoMultiselectGroup extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxField @label={{t "lbl.group"}} @fieldId="multiselect-group" @fieldClass="col-6">
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.groupedCities}}
-            @optionGroupLabel="label"
-            @optionGroupChildren="items"
-            @value={{this.selected}}
-            @display="chip"
-            @onChange={{this.setSelected}}
-            @selectAll={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          />
-        </:default>
+      <UlxField
+        @label={{t "lbl.group"}}
+        @fieldId="multiselect-group"
+        @fieldClass="col-6"
+        as |field|
+      >
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.groupedCities}}
+          @optionGroupLabel="label"
+          @optionGroupChildren="items"
+          @value={{this.selected}}
+          @display="chip"
+          @onChange={{this.setSelected}}
+          @selectAll={{true}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

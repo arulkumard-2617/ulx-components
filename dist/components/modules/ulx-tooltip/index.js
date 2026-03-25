@@ -7,6 +7,8 @@ import { inject } from '@ember/service';
 import { modifier } from 'ember-modifier';
 import { on } from '@ember/modifier';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { joinClassNames } from '../../../utils/class-names.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
 import overlayDismiss from '../../../modifiers/overlay-dismiss.js';
 import { applyBodyAbsoluteFromViewport, getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
 import { precompileTemplate } from '@ember/template-compilation';
@@ -17,6 +19,42 @@ const GAP = 8;
 /** When the trigger sits inside a floating overlay, stack above modals/slidepanes. */
 const TOOLTIP_STACKING_ANCESTOR_SELECTOR = ".ulx-dialog, .ulx-slidepane, .ulx-popup, .ulx-tieredmenu, .dropdown-panel, .ulx-multiselect-panel, .ulx-datatable-filter-overlay-wrapper";
 const DEFAULT_POSITION = "bottom";
+/**
+ * Viewport-space top/left for the tooltip panel; unknown `position` uses the same geometry as `right`.
+ * @param {DOMRect} triggerRect - Trigger bounding rect
+ * @param {number} tooltipWidth
+ * @param {number} tooltipHeight
+ * @param {string} position
+ */
+function computeTooltipPlacement(triggerRect, tooltipWidth, tooltipHeight, position) {
+  const {
+    top: triggerTop,
+    bottom: triggerBottom,
+    left: triggerLeft,
+    right: triggerRight,
+    width: triggerWidth,
+    height: triggerHeight
+  } = triggerRect;
+  const placements = {
+    top: () => ({
+      top: triggerTop - tooltipHeight - GAP,
+      left: triggerLeft + (triggerWidth - tooltipWidth) / 2
+    }),
+    bottom: () => ({
+      top: triggerBottom + GAP,
+      left: triggerLeft + (triggerWidth - tooltipWidth) / 2
+    }),
+    left: () => ({
+      top: triggerTop + (triggerHeight - tooltipHeight) / 2,
+      left: triggerLeft - tooltipWidth - GAP
+    }),
+    right: () => ({
+      top: triggerTop + (triggerHeight - tooltipHeight) / 2,
+      left: triggerRight + GAP
+    })
+  };
+  return (placements[position] ?? placements.right)();
+}
 const NATIVELY_FOCUSABLE = /^(BUTTON|INPUT|SELECT|TEXTAREA|A|SUMMARY)$/;
 /** True if the element can receive focus (native controls or tabindex >= 0). */
 function isFocusable(el) {
@@ -63,9 +101,12 @@ function ensureFocusableForTooltip(element) {
  * @param {Function} [onHide] - Callback when tooltip is hidden
  * @param {Function} [onBeforeShow] - Callback before show; return false to prevent show
  * @param {Function} [onBeforeHide] - Callback before hide; return false to prevent hide
+ * @param {string} [dataQa] - Override root data-qa attribute
  * @block default - Trigger element. Apply the yielded modifier to your element (e.g. as |attach| then <button {{attach}}>). Tooltip is rendered in appendTo (body by default), not wrapping the trigger.
  * @block trigger - Optional. Use with <:content>; apply the yielded modifier to the trigger element (e.g. as |attach| then {{attach}}).
  * @block content - Optional rich tooltip content. When present, @content is ignored.
+ *
+ * The portaled tooltip root accepts `...attributes` (e.g. extra `aria-*` or `data-*` from the caller).
  */
 let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
   constructor(...args) {
@@ -79,6 +120,10 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
     _defineProperty(this, "_hideTimeout", null);
     /** When `autoHide` is false, moving onto the tooltip sets this false so trigger `mouseleave` does not hide prematurely. */
     _defineProperty(this, "_allowHide", true);
+    /**
+    * Binds pointer + focus events per `@event`; always registers all four listeners so `show`/`hide`
+    * can no-op by event type. May inject `tabindex="0"` for focus/both on non-focusable triggers.
+    */
     _defineProperty(this, "attach", modifier(element => {
       this.triggerElement = element;
       const mode = this.eventMode;
@@ -102,42 +147,23 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
         }
       };
     }));
+    /** Positions the portaled panel from the trigger rect; runs each time visibility/position/trigger updates. */
     _defineProperty(this, "positionTooltip", modifier((element, [visible, trigger, position]) => {
       this.tooltipElement = element;
       if (!visible || !trigger) return;
       const run = () => {
-        const rect = trigger.getBoundingClientRect();
-        const tooltipRect = element.getBoundingClientRect();
-        const w = tooltipRect.width || element.offsetWidth || 1;
-        const h = tooltipRect.height || element.offsetHeight || 1;
-        let top = 0;
-        let left = 0;
-        switch (position) {
-          case "top":
-            top = rect.top - h - GAP;
-            left = rect.left + (rect.width - w) / 2;
-            break;
-          case "bottom":
-            top = rect.bottom + GAP;
-            left = rect.left + (rect.width - w) / 2;
-            break;
-          case "left":
-            top = rect.top + (rect.height - h) / 2;
-            left = rect.left - w - GAP;
-            break;
-          case "right":
-            top = rect.top + (rect.height - h) / 2;
-            left = rect.right + GAP;
-            break;
-          default:
-            // Unknown @position values align with the "right" branch (legacy behavior).
-            top = rect.top + (rect.height - h) / 2;
-            left = rect.right + GAP;
-        }
+        const triggerBoundingRect = trigger.getBoundingClientRect();
+        const tooltipBoundingRect = element.getBoundingClientRect();
+        const tooltipWidth = tooltipBoundingRect.width || element.offsetWidth || 1;
+        const tooltipHeight = tooltipBoundingRect.height || element.offsetHeight || 1;
+        const {
+          top,
+          left
+        } = computeTooltipPlacement(triggerBoundingRect, tooltipWidth, tooltipHeight, position);
         applyBodyAbsoluteFromViewport(element, top, left);
         element.style.zIndex = String(this.tooltipZIndex);
       };
-      // Wait one frame so layout has tooltip dimensions; then wire aria-describedby while visible.
+      /* One rAF: measure after first paint; then link trigger `aria-describedby` to tooltip id. */
       requestAnimationFrame(() => {
         run();
         this._setTriggerAriaDescribedBy(this.tooltipId);
@@ -153,16 +179,21 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
   get baseClass() {
     return getComponentClass("tooltip");
   }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "tooltip");
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
+  }
   get rootClasses() {
     const {
       autoHide = true,
       customClass
     } = this.args;
-    const parts = [this.baseClass];
-    parts.push(`position-${this.positionState}`);
+    const parts = [this.baseClass, `position-${this.positionState}`];
     !autoHide && parts.push("interactive");
     customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(...parts);
   }
   get appendTarget() {
     if (typeof document === "undefined") return null;
@@ -183,6 +214,7 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
   get shouldRenderTooltip() {
     return this.visible && this.appendTarget;
   }
+  /** Explicit `@zIndex`, else above modal stack when trigger is in an overlay or a modal is open, else design default. */
   get tooltipZIndex() {
     const {
       zIndex
@@ -198,15 +230,21 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
   }
   _shouldShowForEvent(eventType) {
     const mode = this.eventMode;
-    if (mode === "hover") return eventType === "mouseenter";
-    if (mode === "focus") return eventType === "focus" || eventType === "focusin";
-    return eventType === "mouseenter" || eventType === "focus" || eventType === "focusin";
+    const byMode = {
+      hover: () => eventType === "mouseenter",
+      focus: () => eventType === "focus" || eventType === "focusin",
+      both: () => eventType === "mouseenter" || eventType === "focus" || eventType === "focusin"
+    };
+    return (byMode[mode] ?? byMode.both)();
   }
   _shouldHideForEvent(eventType) {
     const mode = this.eventMode;
-    if (mode === "hover") return eventType === "mouseleave";
-    if (mode === "focus") return eventType === "blur" || eventType === "focusout";
-    return eventType === "mouseleave" || eventType === "blur" || eventType === "focusout";
+    const byMode = {
+      hover: () => eventType === "mouseleave",
+      focus: () => eventType === "blur" || eventType === "focusout",
+      both: () => eventType === "mouseleave" || eventType === "blur" || eventType === "focusout"
+    };
+    return (byMode[mode] ?? byMode.both)();
   }
   show(event) {
     if (event?.type && !this._shouldShowForEvent(event.type)) return;
@@ -247,6 +285,7 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
   }
   hide(event) {
     if (event?.type && !this._shouldHideForEvent(event.type)) return;
+    /* Interactive tooltip: leaving the trigger alone must not hide until the panel is left (`_allowHide`). */
     if (this.args.autoHide === false && event?.type === "mouseleave" && event?.currentTarget === this.triggerElement) {
       return;
     }
@@ -271,9 +310,9 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
     }
   }
   _doHide(event) {
-    const target = this.triggerElement;
     this._setTriggerAriaDescribedBy(null);
     this.visible = false;
+    const target = this.triggerElement;
     this.triggerElement = null;
     this.args.onHide?.({
       originalEvent: event,
@@ -310,10 +349,11 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
       this.hide(event);
     }
   }
+  /** Used by `overlayDismiss` when `@closeOnEscape` is true. */
   dismissTooltipFromOverlay(event) {
     this._doHide(event);
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t{{#if (has-block \"trigger\")}}\n\t\t\t{{yield this.attach to=\"trigger\"}}\n\t\t{{else}}\n\t\t\t{{yield this.attach}}\n\t\t{{/if}}\n\n\t\t{{#if this.shouldRenderTooltip}}\n\t\t\t{{#in-element this.appendTarget insertBefore=null}}\n\t\t\t\t<div id={{this.tooltipId}} role=\"tooltip\" class={{this.rootClasses}} aria-hidden=\"false\" {{this.positionTooltip this.visible this.triggerElement this.tooltipPosition}} {{overlayDismiss this.shouldCloseOnEscape whenClick=false closeOnClickOutside=false onClose=this.dismissTooltipFromOverlay escapeEventMode=\"tooltip\" escapeUseCapture=false strictEscapeKey=true}} {{on \"mouseenter\" this.tooltipMouseEnter}} {{on \"mouseleave\" this.tooltipMouseLeave}}>\n\t\t\t\t\t<div class=\"tooltip-arrow\" aria-hidden=\"true\"></div>\n\t\t\t\t\t<div class=\"tooltip-text\">\n\t\t\t\t\t\t{{#if (has-block \"content\")}}\n\t\t\t\t\t\t\t{{yield to=\"content\"}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t{{@content}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t{{/in-element}}\n\t\t{{/if}}\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t{{#if (has-block \"trigger\")}}\n\t\t\t{{yield this.attach to=\"trigger\"}}\n\t\t{{else}}\n\t\t\t{{yield this.attach}}\n\t\t{{/if}}\n\n\t\t{{#if this.shouldRenderTooltip}}\n\t\t\t{{#in-element this.appendTarget insertBefore=null}}\n\t\t\t\t<div id={{this.tooltipId}} role=\"tooltip\" class={{this.rootClasses}} data-qa={{this.rootDataQa}} aria-hidden=\"false\" ...attributes {{this.positionTooltip this.visible this.triggerElement this.tooltipPosition}} {{overlayDismiss this.shouldCloseOnEscape whenClick=false closeOnClickOutside=false onClose=this.dismissTooltipFromOverlay escapeEventMode=\"tooltip\" escapeUseCapture=false strictEscapeKey=true}} {{on \"mouseenter\" this.tooltipMouseEnter}} {{on \"mouseleave\" this.tooltipMouseLeave}}>\n\t\t\t\t\t<div class=\"tooltip-arrow\" data-qa={{this.getDataQa \"arrow\"}} aria-hidden=\"true\"></div>\n\t\t\t\t\t<div class=\"tooltip-text\" data-qa={{this.getDataQa \"content\"}}>\n\t\t\t\t\t\t{{#if (has-block \"content\")}}\n\t\t\t\t\t\t\t{{yield to=\"content\"}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t{{@content}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t{{/in-element}}\n\t\t{{/if}}\n\t", {
   strictMode: true,
   scope: () => ({
     overlayDismiss,
@@ -338,7 +378,7 @@ let UlxTooltip = (_class = (_UlxTooltip = class UlxTooltip extends Component {
   initializer: function () {
     return "bottom";
   }
-}), _applyDecoratedDescriptor(_class.prototype, "show", [action], Object.getOwnPropertyDescriptor(_class.prototype, "show"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "tooltipMouseEnter", [action], Object.getOwnPropertyDescriptor(_class.prototype, "tooltipMouseEnter"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "tooltipMouseLeave", [action], Object.getOwnPropertyDescriptor(_class.prototype, "tooltipMouseLeave"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "dismissTooltipFromOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "dismissTooltipFromOverlay"), _class.prototype), _class);
+}), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "show", [action], Object.getOwnPropertyDescriptor(_class.prototype, "show"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hide", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hide"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "tooltipMouseEnter", [action], Object.getOwnPropertyDescriptor(_class.prototype, "tooltipMouseEnter"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "tooltipMouseLeave", [action], Object.getOwnPropertyDescriptor(_class.prototype, "tooltipMouseLeave"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "dismissTooltipFromOverlay", [action], Object.getOwnPropertyDescriptor(_class.prototype, "dismissTooltipFromOverlay"), _class.prototype), _class);
 
 export { UlxTooltip as default };
 //# sourceMappingURL=index.js.map

@@ -1,13 +1,17 @@
+import { a as _applyDecoratedDescriptor } from '../../../_rollupPluginBabelHelpers-CQHfKKbY.js';
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { joinClassNames } from '../../../utils/class-names.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
 import UlxIcon from '../ulx-icon/index.js';
 import { precompileTemplate } from '@ember/template-compilation';
 import { setComponentTemplate } from '@ember/component';
 
-var _UlxTag;
-function buildRootClass(rootClasses, icon, hasIconBlock, hasDefaultBlock) {
-  const hasIcon = !!icon || !!hasIconBlock;
-  return `${rootClasses}${hasIcon ? " with-icon" : " text-only"}${hasDefaultBlock ? " with-template" : ""}`;
+var _class, _UlxTag;
+function buildSurfaceClass(rootClasses, icon, hasIconBlock, hasDefaultBlock) {
+  const hasIcon = Boolean(icon) || Boolean(hasIconBlock);
+  return joinClassNames(rootClasses, hasIcon ? "with-icon" : "text-only", hasDefaultBlock && "with-template");
 }
 const TYPE_CLASS_ALIASES = {
   outline: "outlined"
@@ -43,14 +47,17 @@ function normalizeTypeClass(type) {
  *
  * @param {string} [customClass] - Extra CSS classes appended to the root.
  * @param {string} [componentClass] - Override base component class.
- * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-tag").
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-tag`).
  */
-class UlxTag extends Component {
+let UlxTag = (_class = (_UlxTag = class UlxTag extends Component {
   get baseClass() {
     return this.args.componentClass ?? getComponentClass("tag");
   }
   get rootDataQa() {
-    return this.args.dataQa ?? "ulx-tag";
+    return resolveRootDataQa(this.args.dataQa, "tag");
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
   }
   get typeClass() {
     return normalizeTypeClass(this.args.type);
@@ -66,21 +73,16 @@ class UlxTag extends Component {
       customClass
     } = this.args;
     const parts = [this.baseClass];
-    // Variant
     variant && parts.push(variant);
-    // Size
     size && parts.push(size);
-    // Type
     this.typeClass && parts.push(this.typeClass);
-    // ULX styles: `.icon-right` on root flips layout (row-reverse)
+    /* `.icon-right` on root flips flex direction for `@iconPosition="right"`. */
     iconPosition === "right" && parts.push("icon-right");
-    // States
     rounded && parts.push("rounded");
     invert && parts.push("outlined");
     disabled && parts.push("disabled");
-    // Custom classes
     customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(...parts);
   }
   get iconWrapperClass() {
     const {
@@ -90,17 +92,15 @@ class UlxTag extends Component {
     const position = iconPosition === "right" ? "right" : "left";
     const parts = ["tag-icon", position];
     disabled && parts.push("disabled");
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(...parts);
   }
-}
-_UlxTag = UlxTag;
-setComponentTemplate(precompileTemplate("\n\t\t{{#let (has-block \"icon\") (has-block) as |hasIconBlock hasDefaultBlock|}}\n\t\t\t<span class={{buildRootClass this.rootClasses @icon hasIconBlock hasDefaultBlock}} aria-disabled={{if @disabled \"true\"}} data-qa={{this.rootDataQa}} ...attributes>\n\t\t\t\t{{#if hasIconBlock}}\n\t\t\t\t\t<span class={{this.iconWrapperClass}} data-qa=\"ulx-tag-icon\">\n\t\t\t\t\t\t{{yield to=\"icon\"}}\n\t\t\t\t\t</span>\n\t\t\t\t{{else if @icon}}\n\t\t\t\t\t<span class={{this.iconWrapperClass}} data-qa=\"ulx-tag-icon\">\n\t\t\t\t\t\t<UlxIcon @componentClass={{@iconClass}} @iconName={{@icon}} @type={{@iconType}} @size={{@iconSize}} @ariaLabel={{@iconAriaLabel}} />\n\t\t\t\t\t</span>\n\t\t\t\t{{/if}}\n\n\t\t\t\t{{#if @value}}\n\t\t\t\t\t<span class=\"tag-label\" data-qa=\"ulx-tag-label\">{{@value}}</span>\n\t\t\t\t{{/if}}\n\n\t\t\t\t{{yield}}\n\t\t\t</span>\n\t\t{{/let}}\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t{{#let (has-block \"icon\") (has-block) as |hasIconBlock hasDefaultBlock|}}\n\t\t\t<span class={{buildSurfaceClass this.rootClasses @icon hasIconBlock hasDefaultBlock}} aria-disabled={{if @disabled \"true\"}} data-qa={{this.rootDataQa}} ...attributes>\n\t\t\t\t{{#if hasIconBlock}}\n\t\t\t\t\t<span class={{this.iconWrapperClass}} data-qa={{this.getDataQa \"icon\"}}>\n\t\t\t\t\t\t{{yield to=\"icon\"}}\n\t\t\t\t\t</span>\n\t\t\t\t{{else if @icon}}\n\t\t\t\t\t<span class={{this.iconWrapperClass}} data-qa={{this.getDataQa \"icon\"}}>\n\t\t\t\t\t\t<UlxIcon @componentClass={{@iconClass}} @iconName={{@icon}} @type={{@iconType}} @size={{@iconSize}} @ariaLabel={{@iconAriaLabel}} />\n\t\t\t\t\t</span>\n\t\t\t\t{{/if}}\n\n\t\t\t\t{{#if @value}}\n\t\t\t\t\t<span class=\"tag-label\" data-qa={{this.getDataQa \"label\"}}>{{@value}}</span>\n\t\t\t\t{{/if}}\n\n\t\t\t\t{{yield}}\n\t\t\t</span>\n\t\t{{/let}}\n\t", {
   strictMode: true,
   scope: () => ({
-    buildRootClass,
+    buildSurfaceClass,
     UlxIcon
   })
-}), _UlxTag);
+}), _UlxTag), _UlxTag), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _class);
 
 export { UlxTag as default };
 //# sourceMappingURL=index.js.map

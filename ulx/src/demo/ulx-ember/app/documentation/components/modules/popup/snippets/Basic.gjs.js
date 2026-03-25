@@ -2,13 +2,49 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { modifier } from 'ember-modifier';
+import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
-import { UlxPopup, UlxButton, UlxIcon } from 'ulx-components';
+import { UlxPopup, UlxButton, t } from 'ulx-components';
 
 export default class BasicPopupDemo extends Component {
   @tracked isPopupVisible = false;
   @tracked triggerElement = null;
+  @tracked popupContext = 'body';
+  @tracked popupBoundary = 'window';
+  @tracked popupScrollContext = 'window';
+  @tracked scrollHostElement = null;
   popupRef = null;
+
+  get currentContextLabelKey() {
+    if (this.popupContext === 'self') {
+      return 'lbl.dropdown.context.self';
+    }
+
+    if (this.popupContext === 'body') {
+      return 'lbl.dropdown.context.body';
+    }
+
+    return 'lbl.dropdown.boundary.scroll';
+  }
+
+  get currentDescriptionKey() {
+    if (this.popupContext === this.scrollHostElement) {
+      return 'msg.popup.overlay.scroll.help';
+    }
+
+    return 'msg.popup.overlay.options.doc';
+  }
+
+  scrollHostRef = modifier((element) => {
+    this.scrollHostElement = element;
+
+    return () => {
+      if (this.scrollHostElement === element) {
+        this.scrollHostElement = null;
+      }
+    };
+  });
 
   @action
   setPopupRef(ref) {
@@ -16,14 +52,30 @@ export default class BasicPopupDemo extends Component {
   }
 
   @action
-  togglePopup(event) {
-    if (this.isPopupVisible) {
-      this.popupRef?.hide(event);
+  openPopup(context, boundary, scrollContext, event) {
+    const target = event?.currentTarget ?? this.triggerElement;
+    const isSamePopupTarget =
+      this.isPopupVisible &&
+      target === this.triggerElement &&
+      context === this.popupContext &&
+      boundary === this.popupBoundary &&
+      scrollContext === this.popupScrollContext;
+
+    if (isSamePopupTarget) {
+      this.popupRef?.hide();
       return;
     }
 
-    this.triggerElement = event?.currentTarget ?? this.triggerElement;
+    this.triggerElement = target;
+    this.popupContext = context;
+    this.popupBoundary = boundary;
+    this.popupScrollContext = scrollContext;
     this.isPopupVisible = true;
+  }
+
+  @action
+  closePopup() {
+    this.popupRef?.hide();
   }
 
   @action
@@ -32,100 +84,113 @@ export default class BasicPopupDemo extends Component {
   }
 
   @action
-  handleTriggerKeyDown(event) {
+  handleTriggerKeyDown(context, boundary, scrollContext, event) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      this.togglePopup(event);
+      this.openPopup(context, boundary, scrollContext, event);
     }
   }
 
   <template>
-    <div class="">
-      <UlxButton
-        @label="Show popup"
-        @variant="primary"
-        aria-haspopup="dialog"
-        aria-expanded="{{this.isPopupVisible}}"
-        {{on "click" this.togglePopup}}
-        {{on "keydown" this.handleTriggerKeyDown}}
-      />
+    <div class="ulx-form m-size flex flex-col gap-8 mb-14">
+      <div class="ulx-grid gap-8">
+        <div class="col-4 flex flex-col gap-3">
+          <div class="text-13 bold-font">{{t "lbl.dropdown.context.self"}}</div>
+          <UlxButton
+            @label={{t "lbl.open.popup"}}
+            @variant="secondary"
+            aria-haspopup="dialog"
+            aria-expanded="{{this.isPopupVisible}}"
+            {{on "click" (fn this.openPopup "self" "window" "window")}}
+            {{on "keydown" (fn this.handleTriggerKeyDown "self" "window" "window")}}
+          />
+        </div>
+
+        <div class="col-4 flex flex-col gap-3">
+          <div class="text-13 bold-font">{{t "lbl.dropdown.context.body"}}</div>
+          <UlxButton
+            @label={{t "lbl.open.popup"}}
+            @variant="primary"
+            aria-haspopup="dialog"
+            aria-expanded="{{this.isPopupVisible}}"
+            {{on "click" (fn this.openPopup "body" "window" "window")}}
+            {{on "keydown" (fn this.handleTriggerKeyDown "body" "window" "window")}}
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <div class="text-13 fg-secondary">
+          {{t "msg.popup.overlay.scroll.help"}}
+        </div>
+
+        <div class="h-170 overflow-auto border rounded p-4" {{this.scrollHostRef}}>
+          <div class="flex flex-col gap-8">
+            <div class="h-170"></div>
+
+            <div class="flex">
+              <UlxButton
+                @label={{t "lbl.dropdown.boundary.scroll"}}
+                @variant="secondary"
+                aria-haspopup="dialog"
+                aria-expanded="{{this.isPopupVisible}}"
+                {{on
+                  "click"
+                  (fn
+                    this.openPopup
+                    this.scrollHostElement
+                    this.scrollHostElement
+                    this.scrollHostElement
+                  )
+                }}
+                {{on
+                  "keydown"
+                  (fn
+                    this.handleTriggerKeyDown
+                    this.scrollHostElement
+                    this.scrollHostElement
+                    this.scrollHostElement
+                  )
+                }}
+              />
+            </div>
+
+            <div class="h-170"></div>
+          </div>
+        </div>
+      </div>
 
       <UlxPopup
         @visible={{this.isPopupVisible}}
         @target={{this.triggerElement}}
+        @context={{this.popupContext}}
+        @boundary={{this.popupBoundary}}
+        @scrollContext={{this.popupScrollContext}}
         @position="position-bottom"
-        @size="xl-size"
+        @size="m-size"
         @variant="elevated"
         @dismissable={{true}}
         @closeOnEscape={{true}}
-        @ariaLabel="Select an item"
+        @ariaLabel={{t "lbl.popup"}}
+        @title={{t "lbl.popup"}}
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
-        @bodyClassName="p-0"
+        @cancelButtonLabel={{t "lbl.cancel"}}
+        @doneButtonLabel={{t "lbl.save"}}
+        @onCancel={{this.closePopup}}
+        @onDone={{this.closePopup}}
       >
-        <:head>
-          <div class="flex items-center gap-2">
-            <UlxIcon
-              @type="font"
-              @size="m-size"
-              @iconName="generate-icon"
-              @customClass="primary-layer bg-primaryLayer1 rounded"
-              aria-hidden="true"
-            />
-            <div class="flex flex-col">
-              <span class="h5">Generate from Scratch</span>
-            </div>
-          </div>
-        </:head>
-
         <:body>
-          <div class="p-4">
-            <p class="mb-5">Hey there, warm greetings!</p>
-            <p class="mb-6">
-              We invite you to the Zylker Summit 2027. We expect yourpresence to
-              make this event a grand success.
+          <div class="flex flex-col gap-3">
+            <p class="mb-0">
+              <span class="bold-font">{{t "lbl.selected"}}</span>
+              {{t this.currentContextLabelKey}}
+            </p>
+            <p class="mb-0">
+              {{t this.currentDescriptionKey}}
             </p>
           </div>
-          <p class="mb-0 px-5 py-2 bg-primaryLayer1 text-11">
-            AI responses may not always be accurate. Please verify important
-            information.
-            <UlxButton
-              @label="More Info"
-              @variant="link"
-              @size="compact"
-              @customClass="text-12 bold-font ms-1"
-            />
-          </p>
         </:body>
-
-        <:footer>
-          <div class="flex justify-between items-center w-full">
-            <span class="fg-muted">560/10000</span>
-            <div class="flex gap-2">
-              <UlxButton
-                @icon="update-icon"
-                @label="Regenerate"
-                @variant="link"
-                @size="s-size"
-              />
-              <UlxButton
-                @icon="copy-icon"
-                @label="Copy"
-                @variant="link"
-                @size="s-size"
-              />
-
-              <UlxButton
-                @label="Insert"
-                @icon="ls-arrow-icon"
-                @iconPos="right"
-                @variant="primary"
-                @size="s-size"
-                {{on "click" this.togglePopup}}
-              />
-            </div>
-          </div>
-        </:footer>
       </UlxPopup>
     </div>
   </template>

@@ -24,20 +24,17 @@ export default class DemoMultiselectVirtualScroll extends Component {
         @label={{t "lbl.dropdown.virtual.scroll"}}
         @fieldId="multiselect-virtual-scroll"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.manyOptions}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @scrollHeight="300px"
-            @selectAll={{true}}
-            @placeholder={{t "msg.dropdown.select.virtual"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.manyOptions}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @scrollHeight="300px"
+          @selectAll={{true}}
+          @placeholder={{t "msg.dropdown.select.virtual"}}
+        />
       </UlxField>
     </div>
   </template>

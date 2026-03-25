@@ -53,20 +53,21 @@ export default class DemoDropdownGroup extends Component {
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-      <UlxField @label={{t "lbl.group"}} @fieldId="dropdown-group" @fieldClass="col-4">
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.options}}
-            @optionGroupLabel="label"
-            @optionGroupChildren="items"
-            @value={{this.selectedGroupCity}}
-            @onChange={{this.setSelectedGroupCity}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
-          />
-        </:default>
+      <UlxField
+        @label={{t "lbl.group"}}
+        @fieldId="dropdown-group"
+        @fieldClass="col-4"
+        as |field|
+      >
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.options}}
+          @optionGroupLabel="label"
+          @optionGroupChildren="items"
+          @value={{this.selectedGroupCity}}
+          @onChange={{this.setSelectedGroupCity}}
+          @placeholder={{t "msg.dropdown.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

@@ -39,24 +39,21 @@ export default class DemoMultiselectAccessibility extends Component {
         @label={{t "lbl.multiselect.accessible"}}
         @fieldId="a11y-multiselect"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @filter={{true}}
-            @selectAll={{true}}
-            @allowAddition={{true}}
-            @showClose={{true}}
-            @onAddItem={{this.addCity}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-            aria-label={{t "msg.multiselect.choose.items"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @filter={{true}}
+          @selectAll={{true}}
+          @allowAddition={{true}}
+          @showClose={{true}}
+          @onAddItem={{this.addCity}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          aria-label={{t "msg.multiselect.choose.items"}}
+        />
       </UlxField>
     </div>
   </template>

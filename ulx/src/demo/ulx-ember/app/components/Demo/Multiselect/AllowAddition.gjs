@@ -40,22 +40,19 @@ export default class DemoMultiselectAllowAddition extends Component {
         @helpText={{t "msg.multiselect.tags.help"}}
         @fieldId="multiselect-allow-addition"
         @fieldClass="col-8"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @filter={{true}}
-            @allowAddition={{true}}
-            @onAddItem={{this.handleAddItem}}
-            @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
-            @placeholder={{t "msg.multiselect.filter.placeholder"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @filter={{true}}
+          @allowAddition={{true}}
+          @onAddItem={{this.handleAddItem}}
+          @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
+          @placeholder={{t "msg.multiselect.filter.placeholder"}}
+        />
       </UlxField>
     </div>
   </template>
