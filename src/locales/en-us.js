@@ -130,6 +130,12 @@ const enUs = {
 	'lbl.hover.tooltip': 'Hover for tooltip',
 	'lbl.popup': 'Popup',
 	'msg.popup.stacked.demo': 'This popup is stacked above the modal. Press ESC to close this first.',
+	'msg.popup.overlay.options.doc':
+		'Use @context to choose where the popup is rendered. You can keep it inline with the trigger or portal it to the document body.',
+	'msg.popup.overlay.scroll.help':
+		'Open the popup inside this scrollable container, then scroll to see @scrollContext keep it aligned while it stays open.',
+	'msg.popup.positions.help':
+		'Click a button to open the popup at that position. This demo keeps the popup in the body context so each placement is easy to compare.',
 	'msg.toast.stacked.demo': 'Stacked overlay demo',
 	'msg.toast.stacked.esc.first': 'Press ESC — this toast closes before the modal.',
 
@@ -319,7 +325,6 @@ const enUs = {
 	// ── Tab labels ───────────────────────────────────────────
 	'lbl.dashboard': 'Dashboard',
 	'lbl.transactions': 'Transactions',
-	'lbl.products': 'Products',
 	'lbl.overview': 'Overview',
 	'lbl.activity': 'Activity',
 	'lbl.team': 'Team',
@@ -541,7 +546,7 @@ const enUs = {
 	'msg.card.advanced.desc':
 		'Card with custom header and footer based on PrimeReact Card advanced example.',
 	'msg.card.accessibility.desc':
-		'Use role=\"region\" with aria-label when the card should be announced as a landmark.',
+		'Use role="region" with aria-label when the card should be announced as a landmark.',
 	'msg.card.basic.body':
 		'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum.',
 	'lbl.doc.card.title': 'Card - ULS Ember Documentation',

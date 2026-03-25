@@ -12,9 +12,7 @@ import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import overlayPortal from "../../../modifiers/overlay-portal";
-import {
-	getOverlayZIndexAboveMask
-} from "../../../utils/overlay-helpers";
+import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
 import {
 	buildOverlayCoordinateApi,
 	clampOverlayValue,
@@ -432,10 +430,10 @@ export default class UlxDropdown extends Component {
 			}
 			left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
 
-			const spaceBelow =
-				fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
+			const spaceBelow = fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
 			const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
-			const shouldPlaceAbove = top + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+			const shouldPlaceAbove =
+				top + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
 
 			if (shouldPlaceAbove) {
 				top = targetRect.top - menuHeight - spacing;
@@ -690,7 +688,9 @@ export default class UlxDropdown extends Component {
 	}
 
 	@action
-	selectOption(entry) {
+	selectOption(entry, event) {
+		event?.preventDefault?.();
+		event?.stopPropagation?.();
 		const optionItem = entry?.item != null ? entry.item : entry;
 		if (this.isOptionDisabled(optionItem)) return;
 		const value = this.getOptionValue(optionItem);
@@ -1043,7 +1043,11 @@ export default class UlxDropdown extends Component {
 						class="dropdown-wrapper"
 						data-qa="ulx-dropdown-options-wrapper"
 						style="max-height: {{this.scrollHeightValue}};"
-						{{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId}}
+						{{this.scrollFocusedIntoView
+							this.overlayVisible
+							this.focusedOptionIndex
+							this.triggerId
+						}}
 					>
 						<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
 							{{#if (eq this.visibleOptions.length 0)}}

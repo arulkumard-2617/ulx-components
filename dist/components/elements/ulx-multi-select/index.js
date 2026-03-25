@@ -8,6 +8,7 @@ import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
 import { fn, hash } from '@ember/helper';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { isInvalidState } from '../../../utils/input-util.js';
 import overlayDismiss from '../../../modifiers/overlay-dismiss.js';
 import overlayPortal from '../../../modifiers/overlay-portal.js';
 import { getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
@@ -31,8 +32,8 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR = "[data-qa='ulx-multiselect-select-all
  * MultiSelect: multiple selection from a list with optional chips, filter, groups, templates.
  * Supports: basic, chips, group, template, filter, select-all, loading,
  * invalid, disabled. Accessible: listbox aria-multiselectable, keyboard nav, ARIA.
- * Label, help, error, and field layout: use UlxField wrapping the control; pass
- * `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` from the field control hash.
+ * Label, help, error, and field layout: use UlxField wrapping the control and pass
+ * `@field={{field}}` (or `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` from the yield hash).
  *
  * @class UlxMultiSelect
  * @param {Array} [value=[]] - Selected values array (controlled).
@@ -53,7 +54,9 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR = "[data-qa='ulx-multiselect-select-all
  * @param {number} [selectionLimit] - Max number of selections (optional).
  * @param {boolean} [disabled=false] - Disables the component.
  * @param {boolean} [loading=false] - Shows progress spinner in trigger.
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
  * @param {boolean} [invalid=false] - Invalid state styling.
+ * @param {unknown} [error] - When truthy, treated like invalid for styling (same as `UlxInput`); message is not rendered here.
  * @param {boolean} [filter] - Show filter input in panel. When not provided, filter auto-enables for larger option lists (more than 10).
  * @param {boolean} [showClose=false] - Show close (X) button in panel header.
  * @param {boolean} [showClear=true] - Show a Clear action in the panel footer when value has items. Pass `false` to disable.
@@ -191,6 +194,12 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
   handleBlur(event) {
     this.args.onBlur?.(event);
   }
+  get fieldContext() {
+    const {
+      field
+    } = this.args;
+    return field && typeof field === "object" ? field : null;
+  }
   get triggerId() {
     const {
       id,
@@ -198,6 +207,8 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     } = this.args;
     if (typeof id === "string" && id.length) return id;
     if (typeof key === "string" && key.length) return key;
+    const fieldKey = this.fieldContext?.key;
+    if (typeof fieldKey === "string" && fieldKey.length) return fieldKey;
     return `ulx-multiselect-${guidFor(this)}`;
   }
   get listboxId() {
@@ -209,15 +220,17 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
   get rootClasses() {
     const {
       disabled = false,
-      invalid = false,
+      invalid: invalidArg = false,
+      error,
       loading = false,
       size = "m-size",
       customClass
     } = this.args;
+    const invalid = isInvalidState(invalidArg, error ?? this.fieldContext?.error);
     const parts = [this.baseClass];
     size && parts.push(size);
     (disabled || loading) && parts.push("disabled");
-    !!invalid && parts.push("invalid");
+    invalid && parts.push("invalid");
     loading && parts.push("loading");
     this.overlayVisible && parts.push("open");
     customClass && parts.push(customClass);
@@ -240,7 +253,11 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     return typeof this.args.showClear === "boolean" ? this.args.showClear : true;
   }
   get isInvalid() {
-    return !!this.args.invalid;
+    const {
+      invalid,
+      error
+    } = this.args;
+    return isInvalidState(invalid, error ?? this.fieldContext?.error);
   }
   get optionLabelKey() {
     return this.args.optionLabel ?? "label";
@@ -412,10 +429,16 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     return getComponentClass("inputtext");
   }
   get ariaDescribedBy() {
-    return this.args.ariaDescribedBy;
+    const {
+      ariaDescribedBy
+    } = this.args;
+    return ariaDescribedBy ?? this.fieldContext?.describedBy;
   }
   get ariaErrorMessage() {
-    return this.args.ariaErrorMessage;
+    const {
+      ariaErrorMessage
+    } = this.args;
+    return ariaErrorMessage ?? this.fieldContext?.errorId;
   }
   get isRequired() {
     return !!this.args.required;

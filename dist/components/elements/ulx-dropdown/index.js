@@ -541,7 +541,9 @@ let UlxDropdown = (_class = (_UlxDropdown = class UlxDropdown extends Component 
     }
     return -1;
   }
-  selectOption(entry) {
+  selectOption(entry, event) {
+    event?.preventDefault?.();
+    event?.stopPropagation?.();
     const optionItem = entry?.item != null ? entry.item : entry;
     if (this.isOptionDisabled(optionItem)) return;
     const value = this.getOptionValue(optionItem);

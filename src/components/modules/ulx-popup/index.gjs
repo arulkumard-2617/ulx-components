@@ -9,13 +9,21 @@ import { on } from "@ember/modifier";
 import { getComponentClass } from "../../../utils/component-config";
 import { joinClassNames } from "../../../utils/class-names";
 import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
-import appendToBody from "../../../modifiers/append-to-body";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import overlayPortal from "../../../modifiers/overlay-portal";
 import {
 	applyBodyAbsoluteFromViewport,
 	getOverlayZIndexAboveMask,
 	isEscapeKey
 } from "../../../utils/overlay-helpers";
+import {
+	buildOverlayCoordinateApi,
+	clampOverlayValue,
+	getBoundaryRectInOverlaySpace,
+	resolveOverlayBoundary,
+	resolveOverlayContext,
+	resolveOverlayScrollContext
+} from "../../../utils/overlay-context";
 import UlxPopupHeader from "./header.gjs";
 import UlxPopupFooter from "./footer.gjs";
 import { t } from "../../../utils/i18n";
@@ -133,9 +141,15 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  * @class UlxPopup
  * @param {boolean} [visible=false] - Controls visibility of the popup.
  * @param {HTMLElement|Event} [target] - Target element or event for popup positioning.
+ * @param {'self'|'body'|HTMLElement|Function|string} [context='body'] - Where to render the popup overlay.
+ * @param {'self'|'body'|HTMLElement|Function|string} [renderContainer] - Backward-compatible alias for `@context`.
+ * @param {'self'|'body'|HTMLElement|Function|string} [appendTo] - Backward-compatible alias for `@context`.
+ * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
+ * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that repositions the popup while open.
  * @param {string} [position='position-bottom'] - Positioning class for pointer and offset.
  * @param {string} [size='m-size'] - Size class: xs-size | s-size | m-size | l-size | xl-size.
  * @param {string} [variant] - Visual variant: elevated | flat | outlined.
+ * @param {number} [zIndex] - Overlay z-index override.
  * @param {boolean} [dismissable=true] - When true, clicking outside or resizing closes the popup.
  * @param {boolean} [closable=false] - When true, shows a close button in the popup.
  * @param {boolean} [closeOnEscape=true] - When true (default), Escape closes the popup.
@@ -284,6 +298,24 @@ export default class UlxPopup extends Component {
 
 	get overlayDismissEscapeActive() {
 		return this.isVisible && this.args.closeOnEscape !== false;
+	}
+
+	get resolvedContext() {
+		return resolveOverlayContext(
+			this.args.context ?? this.args.renderContainer ?? this.args.appendTo ?? "body"
+		);
+	}
+
+	get resolvedBoundary() {
+		return resolveOverlayBoundary(this.args.boundary ?? "window");
+	}
+
+	get resolvedScrollContext() {
+		return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+	}
+
+	get shouldPortalOverlay() {
+		return this.resolvedContext != null;
 	}
 
 	@action
@@ -465,8 +497,10 @@ export default class UlxPopup extends Component {
 
 		const container = this.containerElement;
 		const target = this.targetElement;
-
-		const targetRect = target.getBoundingClientRect();
+		const resolvedContext = this.resolvedContext;
+		const coordinateApi = buildOverlayCoordinateApi(resolvedContext, container);
+		const targetRect = coordinateApi.fromViewportRect(target.getBoundingClientRect());
+		const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
 		const containerRect = container.getBoundingClientRect();
 		const popupWidth = containerRect.width || container.offsetWidth || 200;
 		const popupHeight = containerRect.height || container.offsetHeight || 100;
@@ -474,6 +508,7 @@ export default class UlxPopup extends Component {
 		// Gaps between target element and popup
 		const verticalGap = 8;
 		const horizontalGap = 8;
+		const viewportPadding = 10;
 
 		const basePosition = this.args.position ?? "position-bottom";
 
@@ -489,19 +524,52 @@ export default class UlxPopup extends Component {
 
 		// Automatic vertical flip only for "bottom" variants when there is not
 		// enough space below but there is space above.
-		const viewportHeight = window.innerHeight;
+		const fallbackBoundary = boundaryRect ?? {
+			top: 0,
+			left: 0,
+			right: targetRect.left + popupWidth + viewportPadding,
+			bottom: targetRect.bottom + popupHeight + viewportPadding
+		};
+		const boundaryTop = fallbackBoundary.top;
+		const boundaryBottom = fallbackBoundary.bottom;
+		const boundaryLeft = fallbackBoundary.left;
+		const boundaryRight = fallbackBoundary.right;
 		const isBottomVariant = POPUP_BOTTOM_POSITIONS.has(basePosition);
 
 		if (
 			isBottomVariant &&
-			top + popupHeight > viewportHeight - 10 &&
-			targetRect.top - popupHeight - verticalGap >= 10
+			top + popupHeight > boundaryBottom - viewportPadding &&
+			targetRect.top - popupHeight - verticalGap >= boundaryTop + viewportPadding
 		) {
 			top = targetRect.top - popupHeight - verticalGap;
 			placedAbove = true;
 		}
 
-		applyBodyAbsoluteFromViewport(container, top, left);
+		const minLeft = boundaryLeft + viewportPadding;
+		const maxLeft = boundaryRight - popupWidth - viewportPadding;
+		let minTop = boundaryTop + viewportPadding;
+		let maxTop = boundaryBottom - popupHeight - viewportPadding;
+
+		const targetOutTop = targetRect.bottom < boundaryTop + viewportPadding;
+		const targetOutBottom = targetRect.top > boundaryBottom - viewportPadding;
+
+		targetOutTop && (minTop = Math.min(minTop, top));
+		targetOutBottom && (maxTop = Math.max(maxTop, top));
+
+		// When rendering in document coordinates, allow the popup to move above the viewport
+		// instead of sticking to the boundary once the trigger scrolls out of view.
+		if (coordinateApi.usesDocumentCoordinates) {
+			minTop = Math.min(minTop, -popupHeight);
+		}
+
+		left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
+		top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
+
+		if (coordinateApi.usesDocumentCoordinates) {
+			applyBodyAbsoluteFromViewport(container, top, left);
+		} else {
+			coordinateApi.applyPosition(container, top, left);
+		}
 
 		/* Remap bottom-* → top-* only when we auto-flipped; explicit top/left/right stay unchanged. */
 		this.currentPositionClass = this._getPositionClassForPlacement(basePosition, placedAbove);
@@ -519,7 +587,14 @@ export default class UlxPopup extends Component {
 	@action
 	_setZIndex() {
 		if (!this.containerElement) return;
-		this.containerElement.style.zIndex = String(getOverlayZIndexAboveMask(this.modalStack, this));
+		const resolvedContext = this.resolvedContext;
+		const zIndex =
+			typeof this.args.zIndex === "number"
+				? this.args.zIndex
+				: resolvedContext === document.body
+					? getOverlayZIndexAboveMask(this.modalStack, this)
+					: 1;
+		this.containerElement.style.setProperty("z-index", String(zIndex), "important");
 	}
 
 	@action
@@ -544,6 +619,12 @@ export default class UlxPopup extends Component {
 		};
 	});
 
+	isPortalReadyForMeasurement(element) {
+		const resolvedContext = this.resolvedContext;
+		if (!resolvedContext) return true;
+		return element?.parentNode === resolvedContext;
+	}
+
 	/**
 	 * Parent owns `@visible`; reacts to edges and drives enter/exit (see `shouldRender`).
 	 * `animationState` is a positional dep so this re-runs as the transition advances.
@@ -562,9 +643,9 @@ export default class UlxPopup extends Component {
 				isTransitioningToVisible && !POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
 
 			if (shouldShow) {
-				// `appendToBody` can lag one tick; measure only once the root is under `document.body`.
+				// `overlayPortal` can lag one tick; measure only once the root is mounted in its final context.
 				const checkAndShow = () => {
-					if (element.parentNode === document.body) {
+					if (this.isPortalReadyForMeasurement(element)) {
 						if (!POPUP_ENTER_ANIMATION_STATES.has(this.animationState)) {
 							requestAnimationFrame(() => {
 								this._handleShowInternal();
@@ -617,6 +698,23 @@ export default class UlxPopup extends Component {
 		} else {
 			setTimeout(() => element.focus(), 0);
 		}
+	});
+
+	repositionOnScroll = modifier((_, [isVisible, animationState]) => {
+		if (!isVisible || animationState !== "enter-done") return;
+
+		const scrollTarget = this.resolvedScrollContext;
+		const handleScroll = () => {
+			if (this.isVisible && this.animationState === "enter-done") {
+				this._alignOverlay();
+			}
+		};
+
+		scrollTarget?.addEventListener?.("scroll", handleScroll);
+
+		return () => {
+			scrollTarget?.removeEventListener?.("scroll", handleScroll);
+		};
 	});
 
 	/** While open, wrap Tab / Shift+Tab between first and last focusable. */
@@ -690,11 +788,12 @@ export default class UlxPopup extends Component {
 				}}
 				aria-label={{if @ariaLabel @ariaLabel}}
 				tabindex="-1"
-				{{appendToBody this.shouldRender}}
+				{{overlayPortal this.shouldPortalOverlay this.resolvedContext}}
 				{{this.registerPopup}}
 				{{this.watchVisibility this.isVisible this.args.target this.animationState}}
 				{{this.focusFirstOnVisible this.isVisible this.animationState}}
 				{{this.focusTrap this.isVisible this.animationState}}
+				{{this.repositionOnScroll this.isVisible this.animationState}}
 				{{overlayDismiss
 					this.isVisible
 					whenClick=this.overlayDismissClickActive
