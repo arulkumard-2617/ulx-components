@@ -29,19 +29,16 @@ export default class DemoDropdownCheckmark extends Component {
         @label={{t "lbl.dropdown.checkmark"}}
         @fieldId="dropdown-checkmark"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.cities}}
-            @value={{this.selectedCity}}
-            @onChange={{this.setSelectedCity}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
-            @checkmark={{true}}
-          />
-        </:default>
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.cities}}
+          @value={{this.selectedCity}}
+          @onChange={{this.setSelectedCity}}
+          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @checkmark={{true}}
+        />
       </UlxField>
     </div>
   </template>

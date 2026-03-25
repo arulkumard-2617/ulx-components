@@ -53,9 +53,18 @@ class UlxSegment extends Component {
   get isDisabled() {
     return this.args.disabled === true;
   }
+  get rootDataQa() {
+    return this.args.dataQa ?? "ulx-segment";
+  }
+  get headerDataQa() {
+    return `${this.rootDataQa}-header`;
+  }
+  get contentDataQa() {
+    return `${this.rootDataQa}-content`;
+  }
 }
 _UlxSegment = UlxSegment;
-setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} role={{this.role}} aria-label={{this.ariaLabel}} aria-labelledby={{this.ariaLabelledBy}} aria-describedby={{this.ariaDescribedBy}} aria-disabled=\"{{this.isDisabled}}\" ...attributes>\n\t\t\t{{#if (has-block \"header\")}}\n\t\t\t\t<div class=\"segment-header\">\n\t\t\t\t\t{{yield to=\"header\"}}\n\t\t\t\t</div>\n\t\t\t{{/if}}\n\n\t\t\t{{#if (has-block \"default\")}}\n\t\t\t\t<div class=\"segment-content\">\n\t\t\t\t\t{{yield}}\n\t\t\t\t</div>\n\t\t\t{{else}}\n\t\t\t\t{{yield}}\n\t\t\t{{/if}}\n\t\t</div>\n\t", {
+setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} role={{this.role}} aria-label={{this.ariaLabel}} aria-labelledby={{this.ariaLabelledBy}} aria-describedby={{this.ariaDescribedBy}} aria-disabled=\"{{this.isDisabled}}\" ...attributes>\n\t\t\t{{#if (has-block \"header\")}}\n\t\t\t\t<div class=\"segment-header\" data-qa={{this.headerDataQa}}>\n\t\t\t\t\t{{yield to=\"header\"}}\n\t\t\t\t</div>\n\t\t\t{{/if}}\n\n\t\t\t{{#if (has-block \"default\")}}\n\t\t\t\t<div class=\"segment-content\" data-qa={{this.contentDataQa}}>\n\t\t\t\t\t{{yield}}\n\t\t\t\t</div>\n\t\t\t{{else}}\n\t\t\t\t{{yield}}\n\t\t\t{{/if}}\n\t\t</div>\n\t", {
   strictMode: true
 }), _UlxSegment);
 

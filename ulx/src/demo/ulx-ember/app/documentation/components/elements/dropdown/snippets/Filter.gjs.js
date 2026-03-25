@@ -30,20 +30,17 @@ export default class DemoDropdownFilter extends Component {
         @label={{t "lbl.dropdown.filter"}}
         @fieldId="dropdown-filter"
         @fieldClass="col-6"
+        as |field|
       >
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.cities}}
-            @value={{this.selectedCity}}
-            @onChange={{this.setSelectedCity}}
-            @filter={{true}}
-            @filterPlaceholder={{t "msg.dropdown.search.cities"}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
-          />
-        </:default>
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.cities}}
+          @value={{this.selectedCity}}
+          @onChange={{this.setSelectedCity}}
+          @filter={{true}}
+          @filterPlaceholder={{t "msg.dropdown.search.cities"}}
+          @placeholder={{t "msg.dropdown.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

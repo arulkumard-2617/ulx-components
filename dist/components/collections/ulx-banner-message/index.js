@@ -5,6 +5,8 @@ import { action } from '@ember/object';
 import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { joinClassNames } from '../../../utils/class-names.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
 import { t } from '../../../utils/i18n.js';
 import UlxIcon from '../../elements/ulx-icon/index.js';
 import UlxIconButton from '../../elements/ulx-icon-button/index.js';
@@ -35,6 +37,7 @@ const DEFAULT_ICON_BY_VARIANT = {
  * @param {string} [size="m-size"] - Size class for container and message (e.g. xs-size, s-size, m-size, l-size, xl-size)
  * @param {string} [iconType="svg"] - Icon type for message icon (e.g. "svg", "font"). Default "svg".
  * @param {string} [iconSize] - Optional icon size for message icon (e.g. s18). No default; only applied when provided.
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-banner-message`).
  * @block content - Optional. Yields (message); when provided, replaces default summary/detail with custom content.
  * @block leftItem - Optional. Yields (message); custom left-side content (icon, avatar, image). When not provided, shows message.icon or default icon by variant.
  * @block action - Optional. Yields (message); custom right-side action area. Falls back to default close button when not provided.
@@ -43,6 +46,7 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
   constructor(...args) {
     super(...args);
     _initializerDefineProperty(this, "_dismissed", _descriptor, this);
+    /** One rAF: add `enter-done` after layout so transition from initial state is visible. */
     _defineProperty(this, "addEnterDoneAfterRender", modifier(element => {
       const rafId = requestAnimationFrame(() => {
         element.classList.add(ENTER_DONE_CLASS);
@@ -56,11 +60,18 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
   get messageBaseClass() {
     return getComponentClass("message");
   }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "banner-message");
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
+  }
+  /** In-session flag or localStorage hit for `@dismissStorageKey`. */
   get isDismissed() {
     if (this._dismissed) return true;
     const key = this.args.dismissStorageKey;
     if (!key || typeof window === "undefined" || !window.localStorage) return false;
-    return !!window.localStorage.getItem(key);
+    return Boolean(window.localStorage.getItem(key));
   }
   get displayMessage() {
     if (this.isDismissed) return null;
@@ -70,8 +81,7 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
   get displayMessageIconName() {
     const msg = this.displayMessage;
     if (!msg) return null;
-    const icon = msg.icon;
-    if (icon) return icon;
+    if (msg.icon) return msg.icon;
     const variant = msg.variant ?? "info";
     return DEFAULT_ICON_BY_VARIANT[variant] ?? DEFAULT_ICON_BY_VARIANT.info;
   }
@@ -84,7 +94,7 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
     const parts = [this.messagesBaseClass, variant];
     size && parts.push(size);
     customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(...parts);
   }
   get wrapperClass() {
     return `${this.messageBaseClass}-wrapper`;
@@ -95,11 +105,11 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
   get contentClass() {
     return "message-content";
   }
-  /** Wrapper for summary + detail (aligns with message.less .message-text) */
+  /** Summary + detail stack (message.less `.message-text`). */
   get contentTextClass() {
     return "message-text";
   }
-  /** Wrapper for action block or close button */
+  /** Custom action block or default close affordance. */
   get contentActionClass() {
     return "message-actions";
   }
@@ -119,8 +129,9 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
     return `${this.messageBaseClass}-close-button`;
   }
   showClose(message) {
-    return !!message?.closable;
+    return Boolean(message?.closable);
   }
+  /** Persists `@dismissStorageKey` when set, then delegates to `@onRemove`. */
   handleRemove(message) {
     const key = this.args.dismissStorageKey;
     if (key && typeof window !== "undefined" && window.localStorage) {
@@ -129,7 +140,7 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
     }
     this.args.onRemove?.(message);
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.displayMessage}}\n\t\t\t<div class={{this.getMessageRootClasses this.displayMessage}} id={{@id}} role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" data-qa=\"ulx-banner-message\" {{this.addEnterDoneAfterRender}} ...attributes>\n\t\t\t\t<div class={{this.wrapperClass}} data-qa=\"ulx-banner-message-wrapper\">\n\t\t\t\t\t{{#if (has-block \"leftItem\")}}\n\t\t\t\t\t\t{{yield this.displayMessage to=\"leftItem\"}}\n\t\t\t\t\t{{else if this.displayMessageIconName}}\n\t\t\t\t\t\t<span class={{this.iconClass}} aria-hidden=\"true\" data-qa=\"ulx-banner-message-icon\">\n\t\t\t\t\t\t\t<UlxIcon @componentClass=\"bs-icons1\" @type={{this.resolvedIconType}} @iconName={{this.displayMessageIconName}} @size={{this.resolvedIconSize}} />\n\t\t\t\t\t\t</span>\n\t\t\t\t\t{{/if}}\n\t\t\t\t\t<div class={{this.contentClass}} data-qa=\"ulx-banner-message-content\">\n\t\t\t\t\t\t{{#if (has-block \"content\")}}\n\t\t\t\t\t\t\t{{yield this.displayMessage to=\"content\"}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<div class={{this.contentTextClass}}>\n\t\t\t\t\t\t\t\t{{#if this.displayMessage.summary}}\n\t\t\t\t\t\t\t\t\t<h5 class={{this.summaryClass}}>{{this.displayMessage.summary}}</h5>\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{#if this.displayMessage.detail}}\n\t\t\t\t\t\t\t\t\t<span class={{this.detailClass}}>{{this.displayMessage.detail}}</span>\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t<div class={{this.contentActionClass}} data-qa=\"ulx-banner-message-actions\">\n\t\t\t\t\t\t\t{{#if (has-block \"action\")}}\n\t\t\t\t\t\t\t\t{{yield this.displayMessage to=\"action\"}}\n\t\t\t\t\t\t\t{{else if (this.showClose this.displayMessage)}}\n\t\t\t\t\t\t\t\t<UlxIconButton @iconLeft=\"close-stroke-icon\" @iconComponentClass=\"bs-icons1\" @iconSize=\"s22\" @text={{true}} @variant=\"secondary\" @size={{@size}} @customClass={{this.closeButtonClass}} @onClick={{fn this.handleRemove this.displayMessage}} aria-label={{t \"lbl.close.notification\"}} data-qa=\"ulx-banner-message-close\" />\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t{{#if this.displayMessage}}\n\t\t\t<div class={{this.getMessageRootClasses this.displayMessage}} id={{@id}} role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" data-qa={{this.rootDataQa}} {{this.addEnterDoneAfterRender}} ...attributes>\n\t\t\t\t<div class={{this.wrapperClass}} data-qa={{this.getDataQa \"wrapper\"}}>\n\t\t\t\t\t{{#if (has-block \"leftItem\")}}\n\t\t\t\t\t\t{{yield this.displayMessage to=\"leftItem\"}}\n\t\t\t\t\t{{else if this.displayMessageIconName}}\n\t\t\t\t\t\t<span class={{this.iconClass}} aria-hidden=\"true\" data-qa={{this.getDataQa \"icon\"}}>\n\t\t\t\t\t\t\t<UlxIcon @componentClass=\"bs-icons1\" @type={{this.resolvedIconType}} @iconName={{this.displayMessageIconName}} @size={{this.resolvedIconSize}} />\n\t\t\t\t\t\t</span>\n\t\t\t\t\t{{/if}}\n\t\t\t\t\t<div class={{this.contentClass}} data-qa={{this.getDataQa \"content\"}}>\n\t\t\t\t\t\t{{#if (has-block \"content\")}}\n\t\t\t\t\t\t\t{{yield this.displayMessage to=\"content\"}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<div class={{this.contentTextClass}}>\n\t\t\t\t\t\t\t\t{{#if this.displayMessage.summary}}\n\t\t\t\t\t\t\t\t\t<h5 class={{this.summaryClass}}>{{this.displayMessage.summary}}</h5>\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{#if this.displayMessage.detail}}\n\t\t\t\t\t\t\t\t\t<span class={{this.detailClass}}>{{this.displayMessage.detail}}</span>\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t<div class={{this.contentActionClass}} data-qa={{this.getDataQa \"actions\"}}>\n\t\t\t\t\t\t\t{{#if (has-block \"action\")}}\n\t\t\t\t\t\t\t\t{{yield this.displayMessage to=\"action\"}}\n\t\t\t\t\t\t\t{{else if (this.showClose this.displayMessage)}}\n\t\t\t\t\t\t\t\t<UlxIconButton @iconLeft=\"close-stroke-icon\" @iconComponentClass=\"bs-icons1\" @iconSize=\"s22\" @text={{true}} @variant=\"secondary\" @size={{@size}} @customClass={{this.closeButtonClass}} @onClick={{fn this.handleRemove this.displayMessage}} aria-label={{t \"lbl.close.notification\"}} data-qa={{this.getDataQa \"close\"}} />\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
   strictMode: true,
   scope: () => ({
     UlxIcon,
@@ -144,7 +155,7 @@ let UlxBannerMessage = (_class = (_UlxBannerMessage = class UlxBannerMessage ext
   initializer: function () {
     return false;
   }
-}), _applyDecoratedDescriptor(_class.prototype, "getMessageRootClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getMessageRootClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "showClose", [action], Object.getOwnPropertyDescriptor(_class.prototype, "showClose"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleRemove", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleRemove"), _class.prototype), _class);
+}), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getMessageRootClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getMessageRootClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "showClose", [action], Object.getOwnPropertyDescriptor(_class.prototype, "showClose"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "handleRemove", [action], Object.getOwnPropertyDescriptor(_class.prototype, "handleRemove"), _class.prototype), _class);
 
 export { UlxBannerMessage as default };
 //# sourceMappingURL=index.js.map

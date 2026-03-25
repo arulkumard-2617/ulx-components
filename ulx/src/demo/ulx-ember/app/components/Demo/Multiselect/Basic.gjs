@@ -62,36 +62,34 @@ export default class DemoMultiselectBasic extends Component {
         @label={{t "lbl.multiselect.basic"}}
         @fieldId="multiselect-basic"
         @fieldClass="col-6"
+        as |field|
       >
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items}}
-            @value={{this.selected}}
-            @onChange={{this.setSelected}}
-            @showClear={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          />
-        </:default>
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @showClear={{true}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        />
       </UlxField>
 
-      <UlxField @label="Basic with Search (20 items)" @fieldId="multiselect-basic-search" @fieldClass="col-6">
-        <:default as |field|>
-          <UlxMultiSelect
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.items20}}
-            @value={{this.selectedSearch}}
-            @onChange={{this.setSelectedSearch}}
-            @selectAll={{true}}
-            @filter={{true}}
-            @showClear={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-          />
-        </:default>
+      <UlxField
+        @label="Basic with Search (20 items)"
+        @fieldId="multiselect-basic-search"
+        @fieldClass="col-6"
+        as |field|
+      >
+        <UlxMultiSelect
+          @field={{field}}
+          @options={{this.items20}}
+          @value={{this.selectedSearch}}
+          @onChange={{this.setSelectedSearch}}
+          @selectAll={{true}}
+          @filter={{true}}
+          @showClear={{true}}
+          @placeholder={{t "msg.multiselect.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

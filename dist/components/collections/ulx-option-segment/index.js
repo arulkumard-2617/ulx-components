@@ -2,7 +2,9 @@ import { a as _applyDecoratedDescriptor } from '../../../_rollupPluginBabelHelpe
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { hash } from '@ember/helper';
+import { joinClassNames } from '../../../utils/class-names.js';
 import { getComponentClass, NAMESPACE } from '../../../utils/component-config.js';
+import { resolveRootDataQa } from '../../../utils/data-qa.js';
 import { resolveKey, optionSegmentRowKey } from '../../../utils/input-util.js';
 import UlxOptionSegmentItem from './item.js';
 import { precompileTemplate } from '@ember/template-compilation';
@@ -71,6 +73,7 @@ function buildOptionSegmentId(namespace, idArg, key) {
  * @param {string} [ariaLabel] - Accessible label for the option
  * @param {string} [ariaLabelledBy] - ID of element that labels the option
  * @param {string} [ariaDescribedBy] - ID of element that describes the option
+ * @param {string} [dataQa] - Override root data-qa attribute.
  *
  * @yield {Block} default - Additional content inside `.os-content` after title/description (single or items mode)
  * @yield {Block} control - Custom control content per item, receives the current `item`
@@ -146,10 +149,11 @@ let UlxOptionSegment = (_class = (_UlxOptionSegment = class UlxOptionSegment ext
     return optionSegmentRowKey({}, 0, this.segmentIdBase);
   }
   get rootClasses() {
-    const parts = [this.baseClass, this.groupTypeClass, this.args.customClass];
-    // boolean API
-    this.args.horizontal && parts.push("horizontal");
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    const {
+      customClass,
+      horizontal
+    } = this.args;
+    return joinClassNames(this.baseClass, this.groupTypeClass, horizontal && "horizontal", customClass);
   }
   /**
   * Group/container role:
@@ -181,12 +185,18 @@ let UlxOptionSegment = (_class = (_UlxOptionSegment = class UlxOptionSegment ext
   get ariaDescribedBy() {
     return this.args.ariaDescribedBy;
   }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "option-segment");
+  }
+  get itemDataQaPrefix() {
+    return `${this.rootDataQa}-item`;
+  }
   handleItemSelect(selected, value, event, item) {
     if (typeof this.args.onSelect === "function") {
       this.args.onSelect(selected, value, event, item);
     }
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} role={{this.groupRole}} aria-label={{this.ariaLabel}} aria-labelledby={{this.ariaLabelledBy}} aria-describedby={{this.ariaDescribedBy}} ...attributes>\n\t\t\t{{#if this.hasItems}}\n\t\t\t\t{{#each this.itemEntries key=\"rowKey\" as |entry|}}\n\t\t\t\t\t<UlxOptionSegmentItem @type={{this.type}} @item={{entry.item}} @itemIndex={{entry.index}} @controlId={{entry.rowKey}} @segmentIdBase={{this.segmentIdBase}} @disabled={{this.isDisabled}} @compact={{this.isCompact}} @onSelect={{this.handleItemSelect}} @hasControlBlock={{has-block \"control\"}} @hasContentBlock={{has-block \"content\"}} @hasTitleBlock={{has-block \"title\"}} @hasDescriptionBlock={{has-block \"description\"}} @hasNestedBlock={{has-block \"nested\"}}>\n\t\t\t\t\t\t<:control as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"control\"}}\n\t\t\t\t\t\t</:control>\n\n\t\t\t\t\t\t<:content as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"content\"}}\n\t\t\t\t\t\t</:content>\n\n\t\t\t\t\t\t<:title as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"title\"}}\n\t\t\t\t\t\t</:title>\n\n\t\t\t\t\t\t<:description as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"description\"}}\n\t\t\t\t\t\t</:description>\n\n\t\t\t\t\t\t<:nested as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"nested\"}}\n\t\t\t\t\t\t</:nested>\n\t\t\t\t\t</UlxOptionSegmentItem>\n\t\t\t\t{{/each}}\n\t\t\t{{else}}\n\t\t\t\t<UlxOptionSegmentItem @type={{this.type}} @item={{hash value=this.args.value selected=this.isSelected disabled=this.isDisabled compact=this.isCompact title=this.title description=this.description}} @itemIndex={{0}} @controlId={{this.singleItemControlId}} @segmentIdBase={{this.segmentIdBase}} @disabled={{this.isDisabled}} @compact={{this.isCompact}} @onSelect={{this.handleItemSelect}} @hasControlBlock={{has-block \"control\"}} @hasContentBlock={{has-block \"content\"}} @hasTitleBlock={{has-block \"title\"}} @hasDescriptionBlock={{has-block \"description\"}} @hasNestedBlock={{has-block \"nested\"}}>\n\t\t\t\t\t<:control as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"control\"}}\n\t\t\t\t\t</:control>\n\n\t\t\t\t\t<:content as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"content\"}}\n\t\t\t\t\t</:content>\n\n\t\t\t\t\t<:title as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"title\"}}\n\t\t\t\t\t</:title>\n\n\t\t\t\t\t<:description as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"description\"}}\n\t\t\t\t\t</:description>\n\n\t\t\t\t\t<:nested as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"nested\"}}\n\t\t\t\t\t</:nested>\n\t\t\t\t</UlxOptionSegmentItem>\n\t\t\t{{/if}}\n\t\t</div>\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} role={{this.groupRole}} aria-label={{this.ariaLabel}} aria-labelledby={{this.ariaLabelledBy}} aria-describedby={{this.ariaDescribedBy}} ...attributes>\n\t\t\t{{#if this.hasItems}}\n\t\t\t\t{{#each this.itemEntries key=\"rowKey\" as |entry|}}\n\t\t\t\t\t<UlxOptionSegmentItem @dataQa={{this.itemDataQaPrefix}} @type={{this.type}} @item={{entry.item}} @itemIndex={{entry.index}} @controlId={{entry.rowKey}} @segmentIdBase={{this.segmentIdBase}} @disabled={{this.isDisabled}} @compact={{this.isCompact}} @onSelect={{this.handleItemSelect}} @hasControlBlock={{has-block \"control\"}} @hasContentBlock={{has-block \"content\"}} @hasTitleBlock={{has-block \"title\"}} @hasDescriptionBlock={{has-block \"description\"}} @hasNestedBlock={{has-block \"nested\"}}>\n\t\t\t\t\t\t<:control as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"control\"}}\n\t\t\t\t\t\t</:control>\n\n\t\t\t\t\t\t<:content as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"content\"}}\n\t\t\t\t\t\t</:content>\n\n\t\t\t\t\t\t<:title as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"title\"}}\n\t\t\t\t\t\t</:title>\n\n\t\t\t\t\t\t<:description as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"description\"}}\n\t\t\t\t\t\t</:description>\n\n\t\t\t\t\t\t<:nested as |currentItem|>\n\t\t\t\t\t\t\t{{yield currentItem to=\"nested\"}}\n\t\t\t\t\t\t</:nested>\n\t\t\t\t\t</UlxOptionSegmentItem>\n\t\t\t\t{{/each}}\n\t\t\t{{else}}\n\t\t\t\t<UlxOptionSegmentItem @dataQa={{this.itemDataQaPrefix}} @type={{this.type}} @item={{hash value=this.args.value selected=this.isSelected disabled=this.isDisabled compact=this.isCompact title=this.title description=this.description}} @itemIndex={{0}} @controlId={{this.singleItemControlId}} @segmentIdBase={{this.segmentIdBase}} @disabled={{this.isDisabled}} @compact={{this.isCompact}} @onSelect={{this.handleItemSelect}} @hasControlBlock={{has-block \"control\"}} @hasContentBlock={{has-block \"content\"}} @hasTitleBlock={{has-block \"title\"}} @hasDescriptionBlock={{has-block \"description\"}} @hasNestedBlock={{has-block \"nested\"}}>\n\t\t\t\t\t<:control as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"control\"}}\n\t\t\t\t\t</:control>\n\n\t\t\t\t\t<:content as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"content\"}}\n\t\t\t\t\t</:content>\n\n\t\t\t\t\t<:title as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"title\"}}\n\t\t\t\t\t</:title>\n\n\t\t\t\t\t<:description as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"description\"}}\n\t\t\t\t\t</:description>\n\n\t\t\t\t\t<:nested as |currentItem|>\n\t\t\t\t\t\t{{yield currentItem to=\"nested\"}}\n\t\t\t\t\t</:nested>\n\t\t\t\t</UlxOptionSegmentItem>\n\t\t\t{{/if}}\n\t\t</div>\n\t", {
   strictMode: true,
   scope: () => ({
     UlxOptionSegmentItem,

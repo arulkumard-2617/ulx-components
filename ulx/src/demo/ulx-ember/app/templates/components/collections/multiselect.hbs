@@ -29,22 +29,19 @@
             @helpText={{props.fieldHelpText}}
             @error={{props.fieldError}}
             @fieldId="multiselect-doc-builder"
+            as |field|
           >
-            <:default as |field|>
-              <UlxMultiSelect
-                @key={{field.key}}
-                @ariaDescribedBy={{field.describedBy}}
-                @ariaErrorMessage={{field.errorId}}
-                @options={{props.options}}
-                @placeholder={{props.placeholder}}
-                @display={{props.display}}
-                @showClear={{props.showClear}}
-                @filter={{props.filter}}
-                @selectAll={{props.selectAll}}
-                @disabled={{props.disabled}}
-                @invalid={{props.invalid}}
-              />
-            </:default>
+            <UlxMultiSelect
+              @field={{field}}
+              @options={{props.options}}
+              @placeholder={{props.placeholder}}
+              @display={{props.display}}
+              @showClear={{props.showClear}}
+              @filter={{props.filter}}
+              @selectAll={{props.selectAll}}
+              @disabled={{props.disabled}}
+              @invalid={{props.invalid}}
+            />
           </UlxField>
         </div>
       </:preview>

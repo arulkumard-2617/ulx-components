@@ -9,7 +9,9 @@ import { modifier } from 'ember-modifier';
 import { fn, hash } from '@ember/helper';
 import { getComponentClass } from '../../../utils/component-config.js';
 import overlayDismiss from '../../../modifiers/overlay-dismiss.js';
+import overlayPortal from '../../../modifiers/overlay-portal.js';
 import { getOverlayZIndexAboveMask } from '../../../utils/overlay-helpers.js';
+import { resolveOverlayContext, resolveOverlayBoundary, resolveOverlayScrollContext, buildOverlayCoordinateApi, getBoundaryRectInOverlaySpace, clampOverlayValue } from '../../../utils/overlay-context.js';
 import { guidFor } from '@ember/object/internals';
 import { t } from '../../../utils/i18n.js';
 import UlxIcon from '../ulx-icon/index.js';
@@ -61,13 +63,16 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR = "[data-qa='ulx-multiselect-select-all
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
- * @param {number} [zIndex=1100] - Overlay z-index (useful since panel is appended to <body>).
- * @param {'body'|'self'|HTMLElement|Function|string} [renderContainer='body'] - Where to render the overlay panel.
- *   - `"body"`: append overlay to `<body>` (default).
- *   - `"self"`: keep overlay where it is rendered in DOM (no re-parenting).
+ * @param {number} [zIndex=1100] - Overlay z-index (useful when the panel must stack above nearby overlays).
+ * @param {'self'|'body'|HTMLElement|Function|string} [context='self'] - Where to render the overlay panel.
+ *   - `"self"`: keep the panel in-place after the component markup (default).
+ *   - `"body"`: append overlay to `<body>`.
  *   - `HTMLElement`: append to that element.
  *   - `Function`: called to resolve the container element.
  *   - `string`: a CSS selector resolved via `document.querySelector()`.
+ * @param {'self'|'body'|HTMLElement|Function|string} [renderContainer] - Backward-compatible alias for `@context`.
+ * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
+ * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that closes the overlay immediately.
  * @param {boolean} [resetFilterOnHide=true] - Reset filter when overlay closes.
  * @param {string} [id] - Id for the trigger (or use `@key` with UlxField).
  * @param {string} [key] - Stable id when `@id` is omitted (e.g. `field.key` from UlxField).
@@ -98,33 +103,6 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     _initializerDefineProperty(this, "panelElement", _descriptor7, this);
     _initializerDefineProperty(this, "wrapperScrollTop", _descriptor8, this);
     _initializerDefineProperty(this, "wrapperClientHeight", _descriptor9, this);
-    _defineProperty(this, "appendToBody", modifier((element, [when]) => {
-      const container = this.resolveRenderContainer();
-      let restoreContainerPosition = null;
-      if (!when) {
-        // Modifier teardown handles any cleanup via returned function below.
-        return;
-      }
-      if (container && element?.parentNode !== container) {
-        container.appendChild(element);
-      }
-      // If we append to a non-body container, ensure it can anchor absolute positioning.
-      if (container && container !== document.body) {
-        const computed = window.getComputedStyle(container);
-        if (computed.position === "static") {
-          const prev = container.style.position;
-          container.style.position = "relative";
-          restoreContainerPosition = () => {
-            container.style.position = prev;
-          };
-        }
-      }
-      return () => {
-        restoreContainerPosition?.();
-        // Remove element if it was moved under a container.
-        if (container && element?.parentNode === container) container.removeChild(element);
-      };
-    }));
     _defineProperty(this, "positionPanel", modifier((element, [when, triggerEl]) => {
       if (!when || !element) return;
       const alignPanel = () => this.alignPanelToTrigger(element, triggerEl);
@@ -132,17 +110,19 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
         alignPanel();
         requestAnimationFrame(alignPanel);
       });
-      const onScrollOrResize = () => {
+      const onResize = () => {
         if (this.overlayVisible) alignPanel();
       };
-      const containerForScroll = this.resolveRenderContainer();
-      window.addEventListener("scroll", onScrollOrResize, true);
-      window.addEventListener("resize", onScrollOrResize);
-      containerForScroll && containerForScroll !== document.body && containerForScroll.addEventListener("scroll", onScrollOrResize, true);
+      const shouldTrackScroll = this.resolvedContext != null;
+      const scrollTarget = this.resolvedScrollContext;
+      const onScroll = () => {
+        if (this.overlayVisible) alignPanel();
+      };
+      window.addEventListener("resize", onResize);
+      shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
       return () => {
-        window.removeEventListener("scroll", onScrollOrResize, true);
-        window.removeEventListener("resize", onScrollOrResize);
-        containerForScroll && containerForScroll !== document.body && containerForScroll.removeEventListener("scroll", onScrollOrResize, true);
+        window.removeEventListener("resize", onResize);
+        shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
       };
     }));
     _defineProperty(this, "repositionOnLayoutChange", modifier((element, [when, selectedCount, headerShown, footerShown]) => {
@@ -568,23 +548,17 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
   get scrollHeightValue() {
     return this.args.scrollHeight ?? "232px";
   }
+  get resolvedContext() {
+    return resolveOverlayContext(this.args.context ?? this.args.renderContainer ?? "self");
+  }
+  get resolvedBoundary() {
+    return resolveOverlayBoundary(this.args.boundary ?? "window");
+  }
+  get resolvedScrollContext() {
+    return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+  }
   resolveRenderContainer() {
-    const containerArg = this.args.renderContainer ?? "body";
-    if (containerArg === "self") return null;
-    if (containerArg === "body") return document.body;
-    if (typeof containerArg === "function") {
-      try {
-        const result = containerArg();
-        return result instanceof HTMLElement ? result : document.body;
-      } catch {
-        return document.body;
-      }
-    }
-    if (typeof containerArg === "string") {
-      if (containerArg.trim().length === 0) return document.body;
-      return document.querySelector(containerArg) ?? document.body;
-    }
-    return containerArg instanceof HTMLElement ? containerArg : document.body;
+    return this.resolvedContext;
   }
   parsePx(value, fallback) {
     if (typeof value !== "string") return fallback;
@@ -597,23 +571,20 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     if (!panelEl) return;
     const trigger = this.triggerElement ?? triggerElArg;
     if (!trigger) return;
-    const triggerRect = trigger.getBoundingClientRect();
+    const resolvedContext = this.resolveRenderContainer();
+    const triggerViewportRect = trigger.getBoundingClientRect();
+    const coordinateApi = buildOverlayCoordinateApi(resolvedContext, panelEl);
+    const triggerRect = coordinateApi.fromViewportRect(triggerViewportRect);
+    const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
     const viewportPadding = 8;
     const spacing = 2;
-    const container = this.resolveRenderContainer();
-    const useBody = !container || container === document.body;
-    const containerRect = !useBody ? container.getBoundingClientRect() : null;
-    const triggerLeft = useBody ? triggerRect.left : triggerRect.left - containerRect.left + container.scrollLeft;
-    const triggerTop = useBody ? triggerRect.top : triggerRect.top - containerRect.top + container.scrollTop;
-    const triggerBottom = useBody ? triggerRect.bottom : triggerRect.bottom - containerRect.top + container.scrollTop;
     // Ensure the panel is laid out so we can measure chrome heights.
-    panelEl.style.position = useBody ? "fixed" : "absolute";
-    panelEl.style.left = `${triggerLeft}px`;
-    panelEl.style.width = `${triggerRect.width}px`;
-    panelEl.style.minWidth = `${triggerRect.width}px`;
-    panelEl.style.maxWidth = `${triggerRect.width}px`;
-    const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : getOverlayZIndexAboveMask(this.modalStack);
-    panelEl.style.zIndex = `${zIndex}`;
+    coordinateApi.applyPosition(panelEl, triggerRect.bottom + spacing, triggerRect.left);
+    panelEl.style.width = `${triggerViewportRect.width}px`;
+    panelEl.style.minWidth = `${triggerViewportRect.width}px`;
+    panelEl.style.maxWidth = `${triggerViewportRect.width}px`;
+    const zIndex = typeof this.args.zIndex === "number" ? this.args.zIndex : resolvedContext === document.body ? getOverlayZIndexAboveMask(this.modalStack) : 1;
+    panelEl.style.setProperty("z-index", `${zIndex}`, "important");
     panelEl.style.margin = "0";
     panelEl.style.padding = "0";
     const headerEl = panelEl.querySelector(".multiselect-header");
@@ -624,10 +595,16 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     const chromeH = headerH + footerH;
     const requestedWrapperMax = this.parsePx(this.scrollHeightValue, 232);
     const desiredWrapperHeight = Math.min(requestedWrapperMax, Math.max(0, wrapperEl?.scrollHeight ?? requestedWrapperMax));
-    const boundaryTop = useBody ? 0 : container.scrollTop;
-    const boundaryBottom = useBody ? window.innerHeight : container.scrollTop + container.clientHeight;
-    const spaceBelow = Math.max(0, boundaryBottom - triggerBottom - spacing - viewportPadding);
-    const spaceAbove = Math.max(0, triggerTop - boundaryTop - spacing - viewportPadding);
+    const fallbackBoundary = boundaryRect ?? {
+      top: 0,
+      left: 0,
+      right: triggerRect.right + triggerViewportRect.width + viewportPadding,
+      bottom: triggerRect.bottom + desiredWrapperHeight + chromeH + viewportPadding
+    };
+    const boundaryTop = fallbackBoundary.top;
+    const boundaryBottom = fallbackBoundary.bottom;
+    const spaceBelow = Math.max(0, boundaryBottom - triggerRect.bottom - spacing - viewportPadding);
+    const spaceAbove = Math.max(0, triggerRect.top - boundaryTop - spacing - viewportPadding);
     const availableWrapperBelow = Math.max(0, spaceBelow - chromeH);
     const availableWrapperAbove = Math.max(0, spaceAbove - chromeH);
     const maxWrapperBelow = Math.min(desiredWrapperHeight, availableWrapperBelow);
@@ -639,22 +616,25 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
       wrapperEl.style.height = `${wrapperMax}px`;
     }
     const panelHeight = chromeH + wrapperMax;
-    const desiredTop = useAbove ? triggerTop - panelHeight - spacing : triggerBottom + spacing;
+    const desiredTop = useAbove ? triggerRect.top - panelHeight - spacing : triggerRect.bottom + spacing;
     // Clamp panel within the visible boundary only while the trigger is within it.
     // If the trigger scrolls off-screen (top or bottom), allow the panel to move off-screen too
     // (prevents the panel from getting "stuck" at a fixed top value).
     let boundaryMinTop = boundaryTop + viewportPadding;
     let boundaryMaxTop = boundaryBottom - panelHeight - viewportPadding;
-    const triggerOutTop = triggerBottom < boundaryTop + viewportPadding;
-    const triggerOutBottom = triggerTop > boundaryBottom - viewportPadding;
+    const triggerOutTop = triggerRect.bottom < boundaryTop + viewportPadding;
+    const triggerOutBottom = triggerRect.top > boundaryBottom - viewportPadding;
     triggerOutTop && (boundaryMinTop = Math.min(boundaryMinTop, desiredTop));
     triggerOutBottom && (boundaryMaxTop = Math.max(boundaryMaxTop, desiredTop));
-    // Safety: allow negative values when rendering to body and moving above viewport.
-    if (useBody) {
+    // Safety: allow negative values when rendering in viewport space and moving above the top edge.
+    if (coordinateApi.usesDocumentCoordinates) {
       boundaryMinTop = Math.min(boundaryMinTop, -panelHeight);
     }
-    const clampedTop = Math.min(Math.max(boundaryMinTop, desiredTop), Math.max(boundaryMinTop, boundaryMaxTop));
-    panelEl.style.top = `${clampedTop}px`;
+    const clampedTop = clampOverlayValue(desiredTop, boundaryMinTop, Math.max(boundaryMinTop, boundaryMaxTop));
+    const minLeft = fallbackBoundary.left + viewportPadding;
+    const maxLeft = fallbackBoundary.right - triggerViewportRect.width - viewportPadding;
+    const clampedLeft = clampOverlayValue(triggerRect.left, minLeft, Math.max(minLeft, maxLeft));
+    coordinateApi.applyPosition(panelEl, clampedTop, clampedLeft);
     panelEl.dataset.placement = useAbove ? "top" : "bottom";
   }
   get useVirtualScroll() {
@@ -1079,7 +1059,7 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
   stopItemCheckboxClick(event) {
     event.stopPropagation();
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div id={{this.triggerId}} class={{this.rootClasses}} role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded={{this.overlayVisible}} aria-controls={{this.listboxId}} aria-multiselectable=\"true\" aria-invalid={{if (eq this.isInvalid true) \"true\" \"false\"}} aria-required={{this.isRequired}} aria-describedby={{this.ariaDescribedBy}} aria-errormessage={{this.ariaErrorMessage}} tabindex={{if (not this.isTriggerDisabled) \"0\" \"-1\"}} {{this.triggerRef}} {{overlayDismiss this.overlayVisible onClose=this.closePanelAndRestoreTriggerFocus panel=this.panelElement dismissVariant=\"rootPanel\" defer=true}} {{on \"click\" this.toggleOverlay}} {{on \"keydown\" this.onTriggerKeydown}} {{on \"focus\" this.handleFocus}} {{on \"blur\" this.handleBlur}} ...attributes>\n\t\t\t<div class=\"multiselect-label-container {{this.displayClass}}\" tabindex=\"-1\">\n\t\t\t\t{{#if (has-block \"value\")}}\n\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t{{yield (hash selectedOptions=this.selectedOptions selectedLabels=this.selectedLabelsComma placeholder=this.placeholderDisplay) to=\"value\"}}\n\t\t\t\t\t</div>\n\t\t\t\t{{else}}\n\t\t\t\t\t{{#if this.displayChips}}\n\t\t\t\t\t\t{{#if this.hasValue}}\n\t\t\t\t\t\t\t<div class=\"multiselect-label\">\n\t\t\t\t\t\t\t\t{{#each this.selectedOptions as |option|}}\n\t\t\t\t\t\t\t\t\t{{#if (has-block \"chip\")}}\n\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) value=(this.getOptionValue option)) to=\"chip\"}}\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-token\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-token-label\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"close-stroke-icon\" @componentClass=\"bs-icons1\" @size=\"s16\" class=\"multiselect-token-icon\" role=\"button\" tabindex=\"0\" aria-label={{t \"lbl.remove\"}} {{on \"click\" (fn this.removeChipOption option)}} {{on \"keydown\" (fn this.onChipRemoveIconKeydown option)}} />\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<span class=\"multiselect-label\">{{this.placeholderDisplay}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t{{#if this.hasValue}}\n\t\t\t\t\t\t\t<span class=\"multiselect-label\">{{this.selectedLabelsComma}}</span>\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<span class=\"multiselect-label\">{{this.placeholderDisplay}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t{{/if}}\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\n\t\t\t{{#if (and @loading)}}\n\t\t\t\t<span class=\"multiselect-loading-icon\" aria-hidden=\"true\">\n\t\t\t\t\t<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden=\"true\" />\n\t\t\t\t</span>\n\t\t\t{{else}}\n\t\t\t\t{{#if (has-block \"icon\")}}\n\t\t\t\t\t{{yield (hash overlayVisible=this.overlayVisible) to=\"icon\"}}\n\t\t\t\t{{else}}\n\t\t\t\t\t<div class=\"multiselect-trigger {{if this.isTriggerDisabled \"disabled\" \"\"}}\" tabindex=\"-1\">\n\t\t\t\t\t\t<UlxIcon @iconName=\"down-stroke-icon-new multiselect-icon\" @type=\"font\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t{{/if}}\n\t\t</div>\n\n\t\t{{#if this.overlayVisible}}\n\t\t\t<div id={{this.listboxId}} class=\"ulx-multiselect-panel\" role=\"listbox\" aria-multiselectable=\"true\" aria-activedescendant={{this.activeDescendantId}} aria-hidden=\"false\" {{this.panelRef}} {{this.appendToBody this.overlayVisible}} {{this.positionPanel this.overlayVisible this.triggerElement}} {{this.repositionOnLayoutChange this.overlayVisible this.selectedValueCount this.shouldRenderPanelHeader (or (has-block \"footer\") (has-block \"footerActions\") (gt this.selectedValueCount 0))}} {{on \"keydown\" this.onPanelKeydown}} {{on \"click\" this.stopPanelClick}}>\n\t\t\t\t{{#if this.shouldRenderPanelHeader}}\n\t\t\t\t\t<div class=\"multiselect-header\">\n\t\t\t\t\t\t{{#if (and @selectAll this.allowOptionSelect)}}\n\t\t\t\t\t\t\t<div class=\"multiselect-header-checkbox-container\">\n\t\t\t\t\t\t\t\t<UlxTristateCheckbox @dataQa=\"ulx-multiselect-select-all\" @value={{this.headerTristateValue}} @itemLabel={{this.selectAllHeaderLabel}} @onValueChange={{this.onHeaderTristateChange}} />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{#if this.isFilterEnabled}}\n\t\t\t\t\t\t\t<div class=\"multiselect-filter-container\">\n\t\t\t\t\t\t\t\t<input type=\"text\" class=\"multiselect-filter-input\" data-qa=\"ulx-multiselect-filter\" value={{this.filterValue}} placeholder={{or @filterPlaceholder (t \"msg.multiselect.filter.placeholder\")}} {{on \"input\" this.onFilterInput}} {{on \"keydown\" this.onFilterKeydown}} />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t{{#if @allowAddition}}\n\t\t\t\t\t\t\t\t<UlxButton @dataQa=\"ulx-multiselect-add\" @label={{t \"label.add\"}} @variant=\"primary\" @onClick={{this.addItem}} @disabled={{not this.canAddItem}} />\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{#if @showClose}}\n\t\t\t\t\t\t\t<button type=\"button\" class=\"multiselect-close-button\" data-qa=\"ulx-multiselect-close\" aria-label={{t \"lbl.close\"}} {{on \"click\" this.onCloseButtonInteract}}>\n\t\t\t\t\t\t\t\t<UlxIcon @iconName=\"close-icon-01\" @type=\"font\" @size=\"s22\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t\t<div class=\"multiselect-wrapper\" style=\"max-height: {{this.scrollHeightValue}};\" {{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId this.useVirtualScroll this.virtualItemSize}} {{this.virtualScrollSync this.overlayVisible this.useVirtualScroll}}>\n\t\t\t\t\t{{#if this.useVirtualScroll}}\n\t\t\t\t\t\t<div style=\"height: {{this.virtualTotalHeight}}px;\">\n\t\t\t\t\t\t\t<div style=\"height: {{this.virtualStartIndexTimesItemSize}}px;\" aria-hidden=\"true\"></div>\n\t\t\t\t\t\t\t<ul class=\"multiselect-list\" role=\"listbox\" aria-multiselectable=\"true\">\n\t\t\t\t\t\t\t\t{{#if (eq this.optionList.length 0)}}\n\t\t\t\t\t\t\t\t\t<li class=\"multiselect-empty-message\" role=\"option\">\n\t\t\t\t\t\t\t\t\t\t{{or (and this.isFilterEnabled @emptyFilterMessage) @emptyMessage (t \"msg.multiselect.empty\")}}\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t{{#each this.virtualOptionList as |entry|}}\n\t\t\t\t\t\t\t\t\t\t{{#let entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{entry.virtualIndex}}\" class=\"multiselect-item\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (eq entry.virtualIndex this.focusedOptionIndex) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected=\"{{this.isOptionSelected option}}\" aria-disabled=\"{{this.isOptionDisabled option}}\" tabindex=\"-1\" style=\"height: {{this.virtualItemSize}}px;\" {{on \"click\" (fn this.selectOption entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-checkbox\" {{on \"click\" this.stopItemCheckboxClick}}>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxCheckbox @checked={{this.isOptionSelected option}} @onCheckedChange={{fn this.onItemCheckboxChange entry}} @fieldClass=\"flex\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-content\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=entry.virtualIndex) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t<div style=\"height: {{this.virtualBottomSpacerHeight}}px;\" aria-hidden=\"true\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<ul class=\"multiselect-list\" role=\"listbox\" aria-multiselectable=\"true\">\n\t\t\t\t\t\t\t{{#if (eq this.visibleOptions.length 0)}}\n\t\t\t\t\t\t\t\t<li class=\"multiselect-empty-message\" role=\"option\">\n\t\t\t\t\t\t\t\t\t{{or (and this.isFilterEnabled @emptyFilterMessage) @emptyMessage (t \"msg.multiselect.empty\")}}\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t{{else if this.hasGroups}}\n\t\t\t\t\t\t\t\t{{#each this.optionListWithGroups as |row|}}\n\t\t\t\t\t\t\t\t\t{{#if (eq row.type \"group\")}}\n\t\t\t\t\t\t\t\t\t\t<li class=\"multiselect-item-group\" role=\"presentation\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"group\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash label=row.label group=row.group) to=\"group\"}}\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span>{{row.label}}</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t{{#let row.entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{row.flatIndex}}\" class=\"multiselect-item\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (eq row.flatIndex this.focusedOptionIndex) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"-1\" {{on \"click\" (fn this.selectOption row.entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-checkbox\" {{on \"click\" this.stopItemCheckboxClick}}>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxCheckbox @checked={{this.isOptionSelected option}} @onCheckedChange={{fn this.onItemCheckboxChange row.entry}} @fieldClass=\"flex\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-content\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=row.flatIndex) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t{{#each this.optionList as |entry index|}}\n\t\t\t\t\t\t\t\t\t{{#let entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{index}}\" class=\"multiselect-item\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (eq index this.focusedOptionIndex) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"-1\" {{on \"click\" (fn this.selectOption entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-checkbox\" {{on \"click\" this.stopItemCheckboxClick}}>\n\t\t\t\t\t\t\t\t\t\t\t\t<UlxCheckbox @checked={{this.isOptionSelected option}} @onCheckedChange={{fn this.onItemCheckboxChange entry}} @fieldClass=\"flex\" />\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-content\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=index) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"multiselect-footer\">\n\t\t\t\t\t<div class=\"multiselect-footer-left\">\n\t\t\t\t\t\t{{#if (has-block \"footer\")}}\n\t\t\t\t\t\t\t{{yield (hash selectedOptions=this.selectedOptions) to=\"footer\"}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<span class=\"multiselect-footer-count\">{{t \"msg.multiselect.items.selected\" count=this.selectedValueCount}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"multiselect-footer-right\">\n\t\t\t\t\t\t{{#if (has-block \"footerActions\")}}\n\t\t\t\t\t\t\t{{yield (hash selectedOptions=this.selectedOptions) to=\"footerActions\"}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}\n\t\t\t\t\t\t\t<UlxButton @dataQa=\"ulx-multiselect-clear\" @label={{t \"lbl.clear\"}} @variant=\"link\" @onClick={{this.clearSelectionInPanel}} {{on \"keydown\" this.onClearButtonKeydown}} />\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div id={{this.triggerId}} class={{this.rootClasses}} role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded={{this.overlayVisible}} aria-controls={{this.listboxId}} aria-multiselectable=\"true\" aria-invalid={{if (eq this.isInvalid true) \"true\" \"false\"}} aria-required={{this.isRequired}} aria-describedby={{this.ariaDescribedBy}} aria-errormessage={{this.ariaErrorMessage}} tabindex={{if (not this.isTriggerDisabled) \"0\" \"-1\"}} {{this.triggerRef}} {{overlayDismiss this.overlayVisible onClose=this.closePanelAndRestoreTriggerFocus panel=this.panelElement dismissVariant=\"rootPanel\" defer=true}} {{on \"click\" this.toggleOverlay}} {{on \"keydown\" this.onTriggerKeydown}} {{on \"focus\" this.handleFocus}} {{on \"blur\" this.handleBlur}} ...attributes>\n\t\t\t<div class=\"multiselect-label-container {{this.displayClass}}\" tabindex=\"-1\">\n\t\t\t\t{{#if (has-block \"value\")}}\n\t\t\t\t\t<div class=\"flex items-center\">\n\t\t\t\t\t\t{{yield (hash selectedOptions=this.selectedOptions selectedLabels=this.selectedLabelsComma placeholder=this.placeholderDisplay) to=\"value\"}}\n\t\t\t\t\t</div>\n\t\t\t\t{{else}}\n\t\t\t\t\t{{#if this.displayChips}}\n\t\t\t\t\t\t{{#if this.hasValue}}\n\t\t\t\t\t\t\t<div class=\"multiselect-label\">\n\t\t\t\t\t\t\t\t{{#each this.selectedOptions as |option|}}\n\t\t\t\t\t\t\t\t\t{{#if (has-block \"chip\")}}\n\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) value=(this.getOptionValue option)) to=\"chip\"}}\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-token\">\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-token-label\">\n\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName=\"close-stroke-icon\" @componentClass=\"bs-icons1\" @size=\"s16\" class=\"multiselect-token-icon\" role=\"button\" tabindex=\"0\" aria-label={{t \"lbl.remove\"}} {{on \"click\" (fn this.removeChipOption option)}} {{on \"keydown\" (fn this.onChipRemoveIconKeydown option)}} />\n\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<span class=\"multiselect-label\">{{this.placeholderDisplay}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t{{#if this.hasValue}}\n\t\t\t\t\t\t\t<span class=\"multiselect-label\">{{this.selectedLabelsComma}}</span>\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<span class=\"multiselect-label\">{{this.placeholderDisplay}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t{{/if}}\n\t\t\t\t{{/if}}\n\t\t\t</div>\n\n\t\t\t{{#if (and @loading)}}\n\t\t\t\t<span class=\"multiselect-loading-icon\" aria-hidden=\"true\">\n\t\t\t\t\t<UlxProgressSpinner @size={{this.multiselectSize}} aria-hidden=\"true\" />\n\t\t\t\t</span>\n\t\t\t{{else}}\n\t\t\t\t{{#if (has-block \"icon\")}}\n\t\t\t\t\t{{yield (hash overlayVisible=this.overlayVisible) to=\"icon\"}}\n\t\t\t\t{{else}}\n\t\t\t\t\t<div class=\"multiselect-trigger {{if this.isTriggerDisabled \"disabled\" \"\"}}\" tabindex=\"-1\">\n\t\t\t\t\t\t<UlxIcon @iconName=\"down-stroke-icon-new multiselect-icon\" @type=\"font\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t{{/if}}\n\t\t</div>\n\n\t\t{{#if this.overlayVisible}}\n\t\t\t<div id={{this.listboxId}} class=\"ulx-multiselect-panel\" role=\"listbox\" aria-multiselectable=\"true\" aria-activedescendant={{this.activeDescendantId}} aria-hidden=\"false\" {{this.panelRef}} {{overlayPortal this.overlayVisible this.resolvedContext}} {{this.positionPanel this.overlayVisible this.triggerElement}} {{this.repositionOnLayoutChange this.overlayVisible this.selectedValueCount this.shouldRenderPanelHeader (or (has-block \"footer\") (has-block \"footerActions\") (gt this.selectedValueCount 0))}} {{on \"keydown\" this.onPanelKeydown}} {{on \"click\" this.stopPanelClick}}>\n\t\t\t\t{{#if this.shouldRenderPanelHeader}}\n\t\t\t\t\t<div class=\"multiselect-header\">\n\t\t\t\t\t\t{{#if (and @selectAll this.allowOptionSelect)}}\n\t\t\t\t\t\t\t<div class=\"multiselect-header-checkbox-container\">\n\t\t\t\t\t\t\t\t<UlxTristateCheckbox @dataQa=\"ulx-multiselect-select-all\" @value={{this.headerTristateValue}} @itemLabel={{this.selectAllHeaderLabel}} @onValueChange={{this.onHeaderTristateChange}} />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{#if this.isFilterEnabled}}\n\t\t\t\t\t\t\t<div class=\"multiselect-filter-container\">\n\t\t\t\t\t\t\t\t<input type=\"text\" class=\"multiselect-filter-input\" data-qa=\"ulx-multiselect-filter\" value={{this.filterValue}} placeholder={{or @filterPlaceholder (t \"msg.multiselect.filter.placeholder\")}} {{on \"input\" this.onFilterInput}} {{on \"keydown\" this.onFilterKeydown}} />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t{{#if @allowAddition}}\n\t\t\t\t\t\t\t\t<UlxButton @dataQa=\"ulx-multiselect-add\" @label={{t \"label.add\"}} @variant=\"primary\" @onClick={{this.addItem}} @disabled={{not this.canAddItem}} />\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{#if @showClose}}\n\t\t\t\t\t\t\t<button type=\"button\" class=\"multiselect-close-button\" data-qa=\"ulx-multiselect-close\" aria-label={{t \"lbl.close\"}} {{on \"click\" this.onCloseButtonInteract}}>\n\t\t\t\t\t\t\t\t<UlxIcon @iconName=\"close-icon-01\" @type=\"font\" @size=\"s22\" @componentClass=\"bs-icons1\" aria-hidden=\"true\" />\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t\t<div class=\"multiselect-wrapper\" style=\"max-height: {{this.scrollHeightValue}};\" {{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId this.useVirtualScroll this.virtualItemSize}} {{this.virtualScrollSync this.overlayVisible this.useVirtualScroll}}>\n\t\t\t\t\t{{#if this.useVirtualScroll}}\n\t\t\t\t\t\t<div style=\"height: {{this.virtualTotalHeight}}px;\">\n\t\t\t\t\t\t\t<div style=\"height: {{this.virtualStartIndexTimesItemSize}}px;\" aria-hidden=\"true\"></div>\n\t\t\t\t\t\t\t<ul class=\"multiselect-list\" role=\"listbox\" aria-multiselectable=\"true\">\n\t\t\t\t\t\t\t\t{{#if (eq this.optionList.length 0)}}\n\t\t\t\t\t\t\t\t\t<li class=\"multiselect-empty-message\" role=\"option\">\n\t\t\t\t\t\t\t\t\t\t{{or (and this.isFilterEnabled @emptyFilterMessage) @emptyMessage (t \"msg.multiselect.empty\")}}\n\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t{{#each this.virtualOptionList as |entry|}}\n\t\t\t\t\t\t\t\t\t\t{{#let entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{entry.virtualIndex}}\" class=\"multiselect-item\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (eq entry.virtualIndex this.focusedOptionIndex) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected=\"{{this.isOptionSelected option}}\" aria-disabled=\"{{this.isOptionDisabled option}}\" tabindex=\"-1\" style=\"height: {{this.virtualItemSize}}px;\" {{on \"click\" (fn this.selectOption entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-checkbox\" {{on \"click\" this.stopItemCheckboxClick}}>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxCheckbox @checked={{this.isOptionSelected option}} @onCheckedChange={{fn this.onItemCheckboxChange entry}} @fieldClass=\"flex\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-content\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=entry.virtualIndex) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t<div style=\"height: {{this.virtualBottomSpacerHeight}}px;\" aria-hidden=\"true\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{else}}\n\t\t\t\t\t\t<ul class=\"multiselect-list\" role=\"listbox\" aria-multiselectable=\"true\">\n\t\t\t\t\t\t\t{{#if (eq this.visibleOptions.length 0)}}\n\t\t\t\t\t\t\t\t<li class=\"multiselect-empty-message\" role=\"option\">\n\t\t\t\t\t\t\t\t\t{{or (and this.isFilterEnabled @emptyFilterMessage) @emptyMessage (t \"msg.multiselect.empty\")}}\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t{{else if this.hasGroups}}\n\t\t\t\t\t\t\t\t{{#each this.optionListWithGroups as |row|}}\n\t\t\t\t\t\t\t\t\t{{#if (eq row.type \"group\")}}\n\t\t\t\t\t\t\t\t\t\t<li class=\"multiselect-item-group\" role=\"presentation\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"group\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash label=row.label group=row.group) to=\"group\"}}\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span>{{row.label}}</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t{{#let row.entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{row.flatIndex}}\" class=\"multiselect-item\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (eq row.flatIndex this.focusedOptionIndex) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"-1\" {{on \"click\" (fn this.selectOption row.entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-checkbox\" {{on \"click\" this.stopItemCheckboxClick}}>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxCheckbox @checked={{this.isOptionSelected option}} @onCheckedChange={{fn this.onItemCheckboxChange row.entry}} @fieldClass=\"flex\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-content\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=row.flatIndex) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t{{#each this.optionList as |entry index|}}\n\t\t\t\t\t\t\t\t\t{{#let entry.item as |option|}}\n\t\t\t\t\t\t\t\t\t\t<li role=\"option\" id=\"{{this.triggerId}}-item-{{index}}\" class=\"multiselect-item\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (eq index this.focusedOptionIndex) this.focusItemClass \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\" aria-selected={{this.isOptionSelected option}} aria-disabled={{this.isOptionDisabled option}} tabindex=\"-1\" {{on \"click\" (fn this.selectOption entry)}}>\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-checkbox\" {{on \"click\" this.stopItemCheckboxClick}}>\n\t\t\t\t\t\t\t\t\t\t\t\t<UlxCheckbox @checked={{this.isOptionSelected option}} @onCheckedChange={{fn this.onItemCheckboxChange entry}} @fieldClass=\"flex\" />\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{#if (has-block \"item\")}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-content\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{yield (hash option=option label=(this.getOptionLabel option) index=index) to=\"item\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"multiselect-item-label\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionSelected option) \"selected\" \"\"}}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{if (this.isOptionDisabled option) \"disabled\" \"\"}}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{this.getOptionLabel option}}\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t{{/each}}\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</ul>\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"multiselect-footer\">\n\t\t\t\t\t<div class=\"multiselect-footer-left\">\n\t\t\t\t\t\t{{#if (has-block \"footer\")}}\n\t\t\t\t\t\t\t{{yield (hash selectedOptions=this.selectedOptions) to=\"footer\"}}\n\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t<span class=\"multiselect-footer-count\">{{t \"msg.multiselect.items.selected\" count=this.selectedValueCount}}</span>\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"multiselect-footer-right\">\n\t\t\t\t\t\t{{#if (has-block \"footerActions\")}}\n\t\t\t\t\t\t\t{{yield (hash selectedOptions=this.selectedOptions) to=\"footerActions\"}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{#if (and this.isClearEnabled this.hasValue (not this.isTriggerDisabled))}}\n\t\t\t\t\t\t\t<UlxButton @dataQa=\"ulx-multiselect-clear\" @label={{t \"lbl.clear\"}} @variant=\"link\" @onClick={{this.clearSelectionInPanel}} {{on \"keydown\" this.onClearButtonKeydown}} />\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t{{/if}}\n\t", {
   strictMode: true,
   scope: () => ({
     eq,
@@ -1092,6 +1072,7 @@ let UlxMultiSelect = (_class = (_UlxMultiSelect = class UlxMultiSelect extends C
     fn,
     and,
     UlxProgressSpinner,
+    overlayPortal,
     or,
     gt,
     UlxTristateCheckbox,

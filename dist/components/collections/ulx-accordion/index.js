@@ -7,6 +7,8 @@ import { fn } from '@ember/helper';
 import { modifier } from 'ember-modifier';
 import { guidFor } from '@ember/object/internals';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { joinClassNames } from '../../../utils/class-names.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
 import UlxIcon from '../../elements/ulx-icon/index.js';
 import { precompileTemplate } from '@ember/template-compilation';
 import { setComponentTemplate } from '@ember/component';
@@ -14,6 +16,15 @@ import { setComponentTemplate } from '@ember/component';
 var _class, _descriptor, _descriptor2, _UlxAccordion;
 const ENTER_TIMEOUT_MS = 1000;
 const EXIT_TIMEOUT_MS = 450;
+/** Extra classes for each CSS transition phase on `.accordion-toggleable-content`. */
+const TOGGLEABLE_PHASE_CLASSES = {
+  enter: ["enter"],
+  "enter-active": ["enter", "enter-active"],
+  "enter-done": ["enter-done"],
+  exit: ["exit"],
+  "exit-active": ["exit", "exit-active"],
+  "exit-done": ["exit-done"]
+};
 /**
  * Accordion collection component. Groups content in expandable tabs.
  * Matches ULS markup/classes from accordion.less.
@@ -34,6 +45,7 @@ const EXIT_TIMEOUT_MS = 450;
  * @param {string} [collapseIconName='down-stroke-icon-new'] - Font icon when tab is expanded
  * @param {'left'|'right'} [toggleIconPosition='left'] - Position of the expand/collapse icon.
  * @param {string} [ariaLabel] - Accessible label for accordion
+ * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-accordion`).
  *
  * @block content - Optional. Yields (item, index, meta) for tab body; meta: { active, disabled }
  */
@@ -41,8 +53,13 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
   constructor(...args) {
     super(...args);
     _initializerDefineProperty(this, "_activeIndex", _descriptor, this);
+    /** Per-panel transition phase for enter/exit animation (mirrors accordion.less). */
     _initializerDefineProperty(this, "_contentTransition", _descriptor2, this);
     _defineProperty(this, "_prevSelectedMap", null);
+    /**
+    * Drives `_contentTransition` from open/close edges; timings must stay aligned with accordion.less.
+    * First paint for a panel does not animate (`prev === undefined`).
+    */
     _defineProperty(this, "accordionContentTransition", modifier((element, [index, selected]) => {
       const map = this._prevSelectedMap ?? (this._prevSelectedMap = new Map());
       const prev = map.get(index);
@@ -50,7 +67,6 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
       let exitActiveTimer = null;
       let doneTimer = null;
       let rafId = null;
-      // Initial render does not animate (appear=false).
       if (prev === undefined) {
         map.set(index, selected);
         return () => {};
@@ -84,13 +100,11 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
             [index]: "exit-active"
           };
           exitActiveTimer = setTimeout(() => {
-            // Exit done is momentary before unmounting.
             this._contentTransition = {
               ...this._contentTransition,
               [index]: "exit-done"
             };
             doneTimer = setTimeout(() => {
-              // Clear phase so content can unmount when !selected
               this._contentTransition = {
                 ...this._contentTransition,
                 [index]: null
@@ -108,6 +122,7 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
       return () => {};
     }));
     _defineProperty(this, "rootElement", null);
+    /** Root `div` ref for roving `focusHeader` / `#id` queries. */
     _defineProperty(this, "setRootRef", modifier(element => {
       this.rootElement = element;
       return () => {
@@ -126,6 +141,12 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
   }
   get rootId() {
     return this.args.id ?? `ulx-accordion-${guidFor(this)}`;
+  }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "accordion");
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
   }
   get activeIndexState() {
     const raw = this.args.activeIndex ?? this._activeIndex;
@@ -151,7 +172,7 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
   get headerActionClasses() {
     const parts = ["accordion-header-action"];
     this.isToggleIconRight && parts.push("toggle-icon-right");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
   get rootClasses() {
     const {
@@ -161,15 +182,14 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
       rounded,
       customClass
     } = this.args;
-    const parts = [this.baseClass];
-    parts.push(size);
+    const parts = [this.baseClass, size];
     this.multiple && parts.push("multiple");
     !this.multiple && parts.push("single");
     variant && parts.push(variant);
     spacing && parts.push(spacing);
     rounded && parts.push(rounded);
     customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(...parts);
   }
   isTabSelected(index) {
     const state = this.activeIndexState;
@@ -187,13 +207,13 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
     index === 0 && parts.push("first");
     index === this.model.length - 1 && parts.push("last");
     item?.disabled && parts.push("disabled");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
   getHeaderClasses(item, index) {
     const parts = ["accordion-header"];
     this.isTabSelected(index) && parts.push("active");
     item?.disabled && parts.push("disabled");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
   getHeaderIconSize(item) {
     return item?.iconSize ?? "s18";
@@ -204,15 +224,13 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
   getPrevSelected(index) {
     return this._prevSelectedMap?.get(index);
   }
-  isExiting(index) {
-    const phase = this.getContentTransitionState(index);
-    return phase === "exit" || phase === "exit-active" || phase === "exit-done";
-  }
+  /**
+  * Keep panel mounted while open, during exit animation, or right after close (unmount-on-exit).
+  */
   shouldRenderToggleableContent(index) {
     const selected = this.isTabSelected(index);
     const phase = this.getContentTransitionState(index);
     const prev = this.getPrevSelected(index);
-    // Keep content in DOM if selected OR currently exiting OR just transitioned from selected->collapsed (unmountOnExit behavior).
     return selected || phase === "exit" || phase === "exit-active" || phase === "exit-done" || prev === true && !selected;
   }
   getToggleableContentClasses(index) {
@@ -222,18 +240,11 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
     const parts = ["accordion-toggleable-content"];
     const isInitiallyExpanded = prev === undefined && selected && !phase;
     isInitiallyExpanded && parts.push("initially-expanded");
-    // Ensure the first render after a state change uses correct phase: opening mounts with "enter", closing keeps mounted with "exit".
     const effectivePhase = phase ?? (selected && prev === false ? "enter" : null) ?? (!selected && prev === true ? "exit" : null);
-    // CSS transition phases: enter-active includes both "enter" and "enter-active"; exit-active includes both "exit" and "exit-active".
-    if (effectivePhase === "enter") parts.push("enter");
-    if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
-    if (effectivePhase === "enter-done") parts.push("enter-done");
-    if (effectivePhase === "exit") parts.push("exit");
-    if (effectivePhase === "exit-active") parts.push("exit", "exit-active");
-    if (effectivePhase === "exit-done") parts.push("exit-done");
-    // Legacy fallback for non-transition cases (kept minimal).
+    const phaseExtras = effectivePhase ? TOGGLEABLE_PHASE_CLASSES[effectivePhase] : null;
+    phaseExtras && parts.push(...phaseExtras);
     !effectivePhase && selected && parts.push("expanded");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames(...parts);
   }
   changeActiveIndex(item, index, originalEvent) {
     if (item?.disabled) {
@@ -328,14 +339,14 @@ let UlxAccordion = (_class = (_UlxAccordion = class UlxAccordion extends Compone
       disabled: Boolean(item?.disabled)
     };
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div id={{this.rootId}} class={{this.rootClasses}} role=\"region\" aria-label={{@ariaLabel}} data-qa=\"ulx-accordion\" {{this.setRootRef}} ...attributes>\n\t\t\t{{#each this.model as |item index|}}\n\t\t\t\t<div class={{this.getTabClasses item index}}>\n\t\t\t\t\t<div class={{this.getHeaderClasses item index}}>\n\t\t\t\t\t\t<a id={{this.getHeaderId index}} href=\"#{{this.getContentId index}}\" class={{this.headerActionClasses}} role=\"button\" tabindex={{if item.disabled \"-1\" \"0\"}} aria-expanded={{this.isTabSelected index}} aria-controls={{this.getContentId index}} aria-disabled={{if item.disabled \"true\" \"false\"}} data-qa=\"ulx-accordion-trigger\" {{on \"click\" (fn this.changeActiveIndex item index)}} {{on \"keydown\" (fn this.onHeaderKeyDown item index)}}>\n\t\t\t\t\t\t\t{{#unless this.isToggleIconRight}}\n\t\t\t\t\t\t\t\t<span class=\"accordion-header-icon\n\t\t\t\t\t\t\t\t\t\t{{if (this.isTabSelected index) \"expanded\" \"collapsed\"}}\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @size=\"s18\" @iconName={{if (this.isTabSelected index) this.collapseIconName this.expandIconName}} @componentClass=\"bs-icons1\" />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{/unless}}\n\t\t\t\t\t\t\t{{#if item.iconName}}\n\t\t\t\t\t\t\t\t<span class=\"{{this.baseClass}}-header-indicator\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{item.iconName}} @componentClass=\"bs-icons1\" @size={{this.getHeaderIconSize item}} />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t<span class=\"accordion-header-title\">{{item.header}}</span>\n\t\t\t\t\t\t\t{{#if this.isToggleIconRight}}\n\t\t\t\t\t\t\t\t<span class=\"accordion-header-icon right\n\t\t\t\t\t\t\t\t\t\t{{if (this.isTabSelected index) \"expanded\" \"collapsed\"}}\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @size=\"s18\" @iconName={{if (this.isTabSelected index) this.collapseIconName this.expandIconName}} @componentClass=\"bs-icons1\" />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</div>\n\t\t\t\t\t{{#if (this.shouldRenderToggleableContent index)}}\n\t\t\t\t\t\t<div id={{this.getContentId index}} class={{this.getToggleableContentClasses index}} role=\"region\" aria-labelledby={{this.getHeaderId index}} data-qa=\"ulx-accordion-content\" {{this.accordionContentTransition index (this.isTabSelected index)}}>\n\t\t\t\t\t\t\t<div class=\"accordion-content\">\n\t\t\t\t\t\t\t\t{{#if (has-block \"content\")}}\n\t\t\t\t\t\t\t\t\t{{yield item index (this.getContentMeta item index) to=\"content\"}}\n\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t{{item.content}}\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\t\t\t{{/each}}\n\t\t</div>\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div id={{this.rootId}} class={{this.rootClasses}} role=\"region\" aria-label={{@ariaLabel}} data-qa={{this.rootDataQa}} {{this.setRootRef}} ...attributes>\n\t\t\t{{#each this.model as |item index|}}\n\t\t\t\t<div class={{this.getTabClasses item index}}>\n\t\t\t\t\t<div class={{this.getHeaderClasses item index}}>\n\t\t\t\t\t\t<a id={{this.getHeaderId index}} href=\"#{{this.getContentId index}}\" class={{this.headerActionClasses}} role=\"button\" tabindex={{if item.disabled \"-1\" \"0\"}} aria-expanded={{this.isTabSelected index}} aria-controls={{this.getContentId index}} aria-disabled={{if item.disabled \"true\" \"false\"}} data-qa={{this.getDataQa \"trigger\"}} {{on \"click\" (fn this.changeActiveIndex item index)}} {{on \"keydown\" (fn this.onHeaderKeyDown item index)}}>\n\t\t\t\t\t\t\t{{#unless this.isToggleIconRight}}\n\t\t\t\t\t\t\t\t<span class=\"accordion-header-icon\n\t\t\t\t\t\t\t\t\t\t{{if (this.isTabSelected index) \"expanded\" \"collapsed\"}}\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @size=\"s18\" @iconName={{if (this.isTabSelected index) this.collapseIconName this.expandIconName}} @componentClass=\"bs-icons1\" />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{/unless}}\n\t\t\t\t\t\t\t{{#if item.iconName}}\n\t\t\t\t\t\t\t\t<span class=\"{{this.baseClass}}-header-indicator\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{item.iconName}} @componentClass=\"bs-icons1\" @size={{this.getHeaderIconSize item}} />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t<span class=\"accordion-header-title\">{{item.header}}</span>\n\t\t\t\t\t\t\t{{#if this.isToggleIconRight}}\n\t\t\t\t\t\t\t\t<span class=\"accordion-header-icon right\n\t\t\t\t\t\t\t\t\t\t{{if (this.isTabSelected index) \"expanded\" \"collapsed\"}}\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @size=\"s18\" @iconName={{if (this.isTabSelected index) this.collapseIconName this.expandIconName}} @componentClass=\"bs-icons1\" />\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t</a>\n\t\t\t\t\t</div>\n\t\t\t\t\t{{#if (this.shouldRenderToggleableContent index)}}\n\t\t\t\t\t\t<div id={{this.getContentId index}} class={{this.getToggleableContentClasses index}} role=\"region\" aria-labelledby={{this.getHeaderId index}} data-qa={{this.getDataQa \"content\"}} {{this.accordionContentTransition index (this.isTabSelected index)}}>\n\t\t\t\t\t\t\t<div class=\"accordion-content\">\n\t\t\t\t\t\t\t\t{{#if (has-block \"content\")}}\n\t\t\t\t\t\t\t\t\t{{yield item index (this.getContentMeta item index) to=\"content\"}}\n\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t{{item.content}}\n\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t{{/if}}\n\t\t\t\t</div>\n\t\t\t{{/each}}\n\t\t</div>\n\t", {
   strictMode: true,
   scope: () => ({
     on,
     fn,
     UlxIcon
   })
-}), _UlxAccordion), _UlxAccordion), _descriptor = _applyDecoratedDescriptor(_class.prototype, "_activeIndex", [tracked], {
+}), _UlxAccordion), _UlxAccordion), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _descriptor = _applyDecoratedDescriptor(_class.prototype, "_activeIndex", [tracked], {
   configurable: true,
   enumerable: true,
   writable: true,

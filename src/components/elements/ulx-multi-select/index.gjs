@@ -7,8 +7,18 @@ import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { getComponentClass } from "../../../utils/component-config";
+import { isInvalidState } from "../../../utils/input-util";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import overlayPortal from "../../../modifiers/overlay-portal";
 import { getOverlayZIndexAboveMask } from "../../../utils/overlay-helpers";
+import {
+	buildOverlayCoordinateApi,
+	clampOverlayValue,
+	getBoundaryRectInOverlaySpace,
+	resolveOverlayBoundary,
+	resolveOverlayContext,
+	resolveOverlayScrollContext
+} from "../../../utils/overlay-context";
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
@@ -39,8 +49,8 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * MultiSelect: multiple selection from a list with optional chips, filter, groups, templates.
  * Supports: basic, chips, group, template, filter, select-all, loading,
  * invalid, disabled. Accessible: listbox aria-multiselectable, keyboard nav, ARIA.
- * Label, help, error, and field layout: use UlxField wrapping the control; pass
- * `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` from the field control hash.
+ * Label, help, error, and field layout: use UlxField wrapping the control and pass
+ * `@field={{field}}` (or `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` from the yield hash).
  *
  * @class UlxMultiSelect
  * @param {Array} [value=[]] - Selected values array (controlled).
@@ -61,7 +71,9 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * @param {number} [selectionLimit] - Max number of selections (optional).
  * @param {boolean} [disabled=false] - Disables the component.
  * @param {boolean} [loading=false] - Shows progress spinner in trigger.
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
  * @param {boolean} [invalid=false] - Invalid state styling.
+ * @param {unknown} [error] - When truthy, treated like invalid for styling (same as `UlxInput`); message is not rendered here.
  * @param {boolean} [filter] - Show filter input in panel. When not provided, filter auto-enables for larger option lists (more than 10).
  * @param {boolean} [showClose=false] - Show close (X) button in panel header.
  * @param {boolean} [showClear=true] - Show a Clear action in the panel footer when value has items. Pass `false` to disable.
@@ -71,13 +83,16 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
- * @param {number} [zIndex=1100] - Overlay z-index (useful since panel is appended to <body>).
- * @param {'body'|'self'|HTMLElement|Function|string} [renderContainer='body'] - Where to render the overlay panel.
- *   - `"body"`: append overlay to `<body>` (default).
- *   - `"self"`: keep overlay where it is rendered in DOM (no re-parenting).
+ * @param {number} [zIndex=1100] - Overlay z-index (useful when the panel must stack above nearby overlays).
+ * @param {'self'|'body'|HTMLElement|Function|string} [context='self'] - Where to render the overlay panel.
+ *   - `"self"`: keep the panel in-place after the component markup (default).
+ *   - `"body"`: append overlay to `<body>`.
  *   - `HTMLElement`: append to that element.
  *   - `Function`: called to resolve the container element.
  *   - `string`: a CSS selector resolved via `document.querySelector()`.
+ * @param {'self'|'body'|HTMLElement|Function|string} [renderContainer] - Backward-compatible alias for `@context`.
+ * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
+ * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that closes the overlay immediately.
  * @param {boolean} [resetFilterOnHide=true] - Reset filter when overlay closes.
  * @param {string} [id] - Id for the trigger (or use `@key` with UlxField).
  * @param {string} [key] - Stable id when `@id` is omitted (e.g. `field.key` from UlxField).
@@ -118,10 +133,17 @@ export default class UlxMultiSelect extends Component {
 	@tracked wrapperScrollTop = 0;
 	@tracked wrapperClientHeight = 0;
 
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
+	}
+
 	get triggerId() {
 		const { id, key } = this.args;
 		if (typeof id === "string" && id.length) return id;
 		if (typeof key === "string" && key.length) return key;
+		const fieldKey = this.fieldContext?.key;
+		if (typeof fieldKey === "string" && fieldKey.length) return fieldKey;
 		return `ulx-multiselect-${guidFor(this)}`;
 	}
 
@@ -136,15 +158,17 @@ export default class UlxMultiSelect extends Component {
 	get rootClasses() {
 		const {
 			disabled = false,
-			invalid = false,
+			invalid: invalidArg = false,
+			error,
 			loading = false,
 			size = "m-size",
 			customClass
 		} = this.args;
+		const invalid = isInvalidState(invalidArg, error ?? this.fieldContext?.error);
 		const parts = [this.baseClass];
 		size && parts.push(size);
 		(disabled || loading) && parts.push("disabled");
-		!!invalid && parts.push("invalid");
+		invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		this.overlayVisible && parts.push("open");
 		customClass && parts.push(customClass);
@@ -173,7 +197,8 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get isInvalid() {
-		return !!this.args.invalid;
+		const { invalid, error } = this.args;
+		return isInvalidState(invalid, error ?? this.fieldContext?.error);
 	}
 
 	get optionLabelKey() {
@@ -390,11 +415,13 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
+		const { ariaDescribedBy } = this.args;
+		return ariaDescribedBy ?? this.fieldContext?.describedBy;
 	}
 
 	get ariaErrorMessage() {
-		return this.args.ariaErrorMessage;
+		const { ariaErrorMessage } = this.args;
+		return ariaErrorMessage ?? this.fieldContext?.errorId;
 	}
 
 	get isRequired() {
@@ -535,23 +562,20 @@ export default class UlxMultiSelect extends Component {
 		return this.args.scrollHeight ?? "232px";
 	}
 
+	get resolvedContext() {
+		return resolveOverlayContext(this.args.context ?? this.args.renderContainer ?? "self");
+	}
+
+	get resolvedBoundary() {
+		return resolveOverlayBoundary(this.args.boundary ?? "window");
+	}
+
+	get resolvedScrollContext() {
+		return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+	}
+
 	resolveRenderContainer() {
-		const containerArg = this.args.renderContainer ?? "body";
-		if (containerArg === "self") return null;
-		if (containerArg === "body") return document.body;
-		if (typeof containerArg === "function") {
-			try {
-				const result = containerArg();
-				return result instanceof HTMLElement ? result : document.body;
-			} catch {
-				return document.body;
-			}
-		}
-		if (typeof containerArg === "string") {
-			if (containerArg.trim().length === 0) return document.body;
-			return document.querySelector(containerArg) ?? document.body;
-		}
-		return containerArg instanceof HTMLElement ? containerArg : document.body;
+		return this.resolvedContext;
 	}
 
 	parsePx(value, fallback) {
@@ -568,36 +592,27 @@ export default class UlxMultiSelect extends Component {
 		const trigger = this.triggerElement ?? triggerElArg;
 		if (!trigger) return;
 
-		const triggerRect = trigger.getBoundingClientRect();
+		const resolvedContext = this.resolveRenderContainer();
+		const triggerViewportRect = trigger.getBoundingClientRect();
+		const coordinateApi = buildOverlayCoordinateApi(resolvedContext, panelEl);
+		const triggerRect = coordinateApi.fromViewportRect(triggerViewportRect);
+		const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
 		const viewportPadding = 8;
 		const spacing = 2;
 
-		const container = this.resolveRenderContainer();
-		const useBody = !container || container === document.body;
-		const containerRect = !useBody ? container.getBoundingClientRect() : null;
-
-		const triggerLeft = useBody
-			? triggerRect.left
-			: triggerRect.left - containerRect.left + container.scrollLeft;
-		const triggerTop = useBody
-			? triggerRect.top
-			: triggerRect.top - containerRect.top + container.scrollTop;
-		const triggerBottom = useBody
-			? triggerRect.bottom
-			: triggerRect.bottom - containerRect.top + container.scrollTop;
-
 		// Ensure the panel is laid out so we can measure chrome heights.
-		panelEl.style.position = useBody ? "fixed" : "absolute";
-		panelEl.style.left = `${triggerLeft}px`;
-		panelEl.style.width = `${triggerRect.width}px`;
-		panelEl.style.minWidth = `${triggerRect.width}px`;
-		panelEl.style.maxWidth = `${triggerRect.width}px`;
+		coordinateApi.applyPosition(panelEl, triggerRect.bottom + spacing, triggerRect.left);
+		panelEl.style.width = `${triggerViewportRect.width}px`;
+		panelEl.style.minWidth = `${triggerViewportRect.width}px`;
+		panelEl.style.maxWidth = `${triggerViewportRect.width}px`;
 
 		const zIndex =
 			typeof this.args.zIndex === "number"
 				? this.args.zIndex
-				: getOverlayZIndexAboveMask(this.modalStack);
-		panelEl.style.zIndex = `${zIndex}`;
+				: resolvedContext === document.body
+					? getOverlayZIndexAboveMask(this.modalStack)
+					: 1;
+		panelEl.style.setProperty("z-index", `${zIndex}`, "important");
 		panelEl.style.margin = "0";
 		panelEl.style.padding = "0";
 
@@ -615,13 +630,17 @@ export default class UlxMultiSelect extends Component {
 			Math.max(0, wrapperEl?.scrollHeight ?? requestedWrapperMax)
 		);
 
-		const boundaryTop = useBody ? 0 : container.scrollTop;
-		const boundaryBottom = useBody
-			? window.innerHeight
-			: container.scrollTop + container.clientHeight;
+		const fallbackBoundary = boundaryRect ?? {
+			top: 0,
+			left: 0,
+			right: triggerRect.right + triggerViewportRect.width + viewportPadding,
+			bottom: triggerRect.bottom + desiredWrapperHeight + chromeH + viewportPadding
+		};
+		const boundaryTop = fallbackBoundary.top;
+		const boundaryBottom = fallbackBoundary.bottom;
 
-		const spaceBelow = Math.max(0, boundaryBottom - triggerBottom - spacing - viewportPadding);
-		const spaceAbove = Math.max(0, triggerTop - boundaryTop - spacing - viewportPadding);
+		const spaceBelow = Math.max(0, boundaryBottom - triggerRect.bottom - spacing - viewportPadding);
+		const spaceAbove = Math.max(0, triggerRect.top - boundaryTop - spacing - viewportPadding);
 
 		const availableWrapperBelow = Math.max(0, spaceBelow - chromeH);
 		const availableWrapperAbove = Math.max(0, spaceAbove - chromeH);
@@ -637,7 +656,9 @@ export default class UlxMultiSelect extends Component {
 		}
 
 		const panelHeight = chromeH + wrapperMax;
-		const desiredTop = useAbove ? triggerTop - panelHeight - spacing : triggerBottom + spacing;
+		const desiredTop = useAbove
+			? triggerRect.top - panelHeight - spacing
+			: triggerRect.bottom + spacing;
 
 		// Clamp panel within the visible boundary only while the trigger is within it.
 		// If the trigger scrolls off-screen (top or bottom), allow the panel to move off-screen too
@@ -645,23 +666,31 @@ export default class UlxMultiSelect extends Component {
 		let boundaryMinTop = boundaryTop + viewportPadding;
 		let boundaryMaxTop = boundaryBottom - panelHeight - viewportPadding;
 
-		const triggerOutTop = triggerBottom < boundaryTop + viewportPadding;
-		const triggerOutBottom = triggerTop > boundaryBottom - viewportPadding;
+		const triggerOutTop = triggerRect.bottom < boundaryTop + viewportPadding;
+		const triggerOutBottom = triggerRect.top > boundaryBottom - viewportPadding;
 
 		triggerOutTop && (boundaryMinTop = Math.min(boundaryMinTop, desiredTop));
 		triggerOutBottom && (boundaryMaxTop = Math.max(boundaryMaxTop, desiredTop));
 
-		// Safety: allow negative values when rendering to body and moving above viewport.
-		if (useBody) {
+		// Safety: allow negative values when rendering in viewport space and moving above the top edge.
+		if (coordinateApi.usesDocumentCoordinates) {
 			boundaryMinTop = Math.min(boundaryMinTop, -panelHeight);
 		}
 
-		const clampedTop = Math.min(
-			Math.max(boundaryMinTop, desiredTop),
+		const clampedTop = clampOverlayValue(
+			desiredTop,
+			boundaryMinTop,
 			Math.max(boundaryMinTop, boundaryMaxTop)
 		);
+		const minLeft = fallbackBoundary.left + viewportPadding;
+		const maxLeft = fallbackBoundary.right - triggerViewportRect.width - viewportPadding;
+		const clampedLeft = clampOverlayValue(
+			triggerRect.left,
+			minLeft,
+			Math.max(minLeft, maxLeft)
+		);
 
-		panelEl.style.top = `${clampedTop}px`;
+		coordinateApi.applyPosition(panelEl, clampedTop, clampedLeft);
 		panelEl.dataset.placement = useAbove ? "top" : "bottom";
 	}
 
@@ -716,39 +745,6 @@ export default class UlxMultiSelect extends Component {
 		return Math.max(0, (listLength - this.virtualEndIndex) * this.virtualItemSize);
 	}
 
-	appendToBody = modifier((element, [when]) => {
-		const container = this.resolveRenderContainer();
-
-		let restoreContainerPosition = null;
-
-		if (!when) {
-			// Modifier teardown handles any cleanup via returned function below.
-			return;
-		}
-
-		if (container && element?.parentNode !== container) {
-			container.appendChild(element);
-		}
-
-		// If we append to a non-body container, ensure it can anchor absolute positioning.
-		if (container && container !== document.body) {
-			const computed = window.getComputedStyle(container);
-			if (computed.position === "static") {
-				const prev = container.style.position;
-				container.style.position = "relative";
-				restoreContainerPosition = () => {
-					container.style.position = prev;
-				};
-			}
-		}
-
-		return () => {
-			restoreContainerPosition?.();
-			// Remove element if it was moved under a container.
-			if (container && element?.parentNode === container) container.removeChild(element);
-		};
-	});
-
 	positionPanel = modifier((element, [when, triggerEl]) => {
 		if (!when || !element) return;
 		const alignPanel = () => this.alignPanelToTrigger(element, triggerEl);
@@ -756,21 +752,19 @@ export default class UlxMultiSelect extends Component {
 			alignPanel();
 			requestAnimationFrame(alignPanel);
 		});
-		const onScrollOrResize = () => {
+		const onResize = () => {
 			if (this.overlayVisible) alignPanel();
 		};
-		const containerForScroll = this.resolveRenderContainer();
-		window.addEventListener("scroll", onScrollOrResize, true);
-		window.addEventListener("resize", onScrollOrResize);
-		containerForScroll &&
-			containerForScroll !== document.body &&
-			containerForScroll.addEventListener("scroll", onScrollOrResize, true);
+		const shouldTrackScroll = this.resolvedContext != null;
+		const scrollTarget = this.resolvedScrollContext;
+		const onScroll = () => {
+			if (this.overlayVisible) alignPanel();
+		};
+		window.addEventListener("resize", onResize);
+		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 		return () => {
-			window.removeEventListener("scroll", onScrollOrResize, true);
-			window.removeEventListener("resize", onScrollOrResize);
-			containerForScroll &&
-				containerForScroll !== document.body &&
-				containerForScroll.removeEventListener("scroll", onScrollOrResize, true);
+			window.removeEventListener("resize", onResize);
+			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
 		};
 	});
 
@@ -1360,7 +1354,7 @@ export default class UlxMultiSelect extends Component {
 				aria-activedescendant={{this.activeDescendantId}}
 				aria-hidden="false"
 				{{this.panelRef}}
-				{{this.appendToBody this.overlayVisible}}
+				{{overlayPortal this.overlayVisible this.resolvedContext}}
 				{{this.positionPanel this.overlayVisible this.triggerElement}}
 				{{this.repositionOnLayoutChange
 					this.overlayVisible

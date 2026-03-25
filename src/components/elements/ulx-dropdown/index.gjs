@@ -10,12 +10,19 @@ import { getComponentClass } from "../../../utils/component-config";
 import { isInvalidState } from "../../../utils/input-util";
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../../utils/i18n";
-import appendToBody from "../../../modifiers/append-to-body";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
+import overlayPortal from "../../../modifiers/overlay-portal";
 import {
-	applyBodyAbsoluteFromViewport,
 	getOverlayZIndexAboveMask
 } from "../../../utils/overlay-helpers";
+import {
+	buildOverlayCoordinateApi,
+	clampOverlayValue,
+	getBoundaryRectInOverlaySpace,
+	resolveOverlayBoundary,
+	resolveOverlayContext,
+	resolveOverlayScrollContext
+} from "../../../utils/overlay-context";
 import { getFocusableElements } from "../../../utils/focus-util";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
@@ -54,6 +61,14 @@ import { hash, concat } from "@ember/helper";
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
+ * @param {'self'|'body'|HTMLElement|Function|string} [context='self'] - Where the overlay panel is created.
+ *   - `"self"` keeps the panel in-place after the dropdown markup (default).
+ *   - `"body"` appends the panel to `<body>`.
+ *   - `HTMLElement`: append to that element.
+ *   - `Function`: called to resolve the destination element.
+ *   - `string`: a CSS selector resolved with `document.querySelector()`.
+ * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
+ * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that closes the overlay immediately.
  * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
  * @param {string} [id] - Id for the trigger (for label `for` / ARIA).
  * @param {string} [key] - When `@id` is omitted, used as the trigger id (e.g. `@key={{field.key}}` with `UlxField`).
@@ -67,7 +82,7 @@ import { hash, concat } from "@ember/helper";
  * @param {Function} [onShow] - When overlay opens.
  * @param {Function} [onHide] - When overlay closes.
  * @param {Function} [optionDisabled] - (option) => boolean or property key to disable options.
- * @param {number} [zIndex] - Overlay panel z-index (e.g. when appended to body).
+ * @param {number} [zIndex] - Overlay panel z-index (e.g. when rendered above other overlays).
  */
 export default class UlxDropdown extends Component {
 	@service modalStack;
@@ -356,6 +371,18 @@ export default class UlxDropdown extends Component {
 		return t("aria.dropdown.open");
 	}
 
+	get resolvedContext() {
+		return resolveOverlayContext(this.args.context ?? "self");
+	}
+
+	get resolvedBoundary() {
+		return resolveOverlayBoundary(this.args.boundary ?? "window");
+	}
+
+	get resolvedScrollContext() {
+		return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+	}
+
 	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
 		if (!when || !element) return;
 
@@ -363,75 +390,86 @@ export default class UlxDropdown extends Component {
 			const trigger = this.triggerElement ?? triggerEl;
 			if (!trigger) return;
 
-			const targetRect = trigger.getBoundingClientRect();
+			const resolvedContext = this.resolvedContext;
+			const triggerRect = trigger.getBoundingClientRect();
+			const coordinateApi = buildOverlayCoordinateApi(resolvedContext, element);
+			const targetRect = coordinateApi.fromViewportRect(triggerRect);
+			const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
+			const spacing = 2;
+			const viewportPadding = 10;
 
-			applyBodyAbsoluteFromViewport(element, targetRect.bottom + 2, targetRect.left);
-			element.style.width = `${targetRect.width}px`;
-			element.style.minWidth = `${targetRect.width}px`;
-			element.style.maxWidth = `${targetRect.width}px`;
+			coordinateApi.applyPosition(element, targetRect.bottom + spacing, targetRect.left);
+			element.style.width = `${triggerRect.width}px`;
+			element.style.minWidth = `${triggerRect.width}px`;
+			element.style.maxWidth = `${triggerRect.width}px`;
 			const zIndex =
 				typeof this.args.zIndex === "number"
 					? this.args.zIndex
-					: getOverlayZIndexAboveMask(this.modalStack);
-			element.style.zIndex = `${zIndex}`;
+					: resolvedContext === document.body
+						? getOverlayZIndexAboveMask(this.modalStack)
+						: 1;
+			element.style.setProperty("z-index", `${zIndex}`, "important");
 			element.style.margin = "0";
 			element.style.padding = "0";
 
-			const menuWidth = element.offsetWidth || targetRect.width;
+			const menuWidth = element.offsetWidth || triggerRect.width;
 			const menuHeight = element.offsetHeight || 200;
+			const fallbackBoundary = boundaryRect ?? {
+				top: 0,
+				left: 0,
+				right: targetRect.left + menuWidth + viewportPadding,
+				bottom: targetRect.bottom + menuHeight + viewportPadding
+			};
 
-			let top = targetRect.bottom + 2;
+			let top = targetRect.bottom + spacing;
 			let left = targetRect.left;
+			const leftPosition = targetRect.right - menuWidth;
+			const minLeft = fallbackBoundary.left + viewportPadding;
+			const maxLeft = fallbackBoundary.right - menuWidth - viewportPadding;
 
-			const viewportWidth = window.innerWidth;
-			const viewportHeight = window.innerHeight;
-			const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-			if (left + menuWidth > viewportWidth - scrollbarWidth) {
-				const leftPosition = targetRect.right - menuWidth;
-				if (leftPosition >= 0) {
-					left = leftPosition;
-				} else {
-					left = viewportWidth - menuWidth - scrollbarWidth - 10;
-				}
+			if (left + menuWidth > fallbackBoundary.right - viewportPadding) {
+				left = leftPosition >= minLeft ? leftPosition : maxLeft;
 			}
-			if (left < 0) {
-				left = 10;
-			}
+			left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
 
-			if (top + menuHeight > viewportHeight) {
-				const topPosition = targetRect.top - menuHeight - 2;
-				if (topPosition >= 0) {
-					top = topPosition;
-					typeof setPanelPosition === "function" && setPanelPosition("above");
-				} else {
-					top = viewportHeight - menuHeight - 10;
-					typeof setPanelPosition === "function" && setPanelPosition("below");
-				}
+			const spaceBelow =
+				fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
+			const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
+			const shouldPlaceAbove = top + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+
+			if (shouldPlaceAbove) {
+				top = targetRect.top - menuHeight - spacing;
+				typeof setPanelPosition === "function" && setPanelPosition("above");
 			} else {
 				typeof setPanelPosition === "function" && setPanelPosition("below");
 			}
-			if (top < 0) {
-				top = 10;
-			}
 
-			applyBodyAbsoluteFromViewport(element, top, left);
+			const minTop = fallbackBoundary.top + viewportPadding;
+			const maxTop = fallbackBoundary.bottom - menuHeight - viewportPadding;
+			top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
+
+			coordinateApi.applyPosition(element, top, left);
 		};
 
 		schedule("afterRender", () => {
 			alignPanelToTrigger();
-			if (element.parentNode === document.body) {
-				requestAnimationFrame(alignPanelToTrigger);
-			}
+			requestAnimationFrame(alignPanelToTrigger);
 		});
 
-		const onScroll = () => {
-			if (this.overlayVisible && element.parentNode === document.body) alignPanelToTrigger();
+		const onResize = () => {
+			if (this.overlayVisible) alignPanelToTrigger();
 		};
-		window.addEventListener("scroll", onScroll, true);
+		const shouldTrackScroll = this.resolvedContext != null;
+		const scrollTarget = this.resolvedScrollContext;
+		const onScroll = () => {
+			if (this.overlayVisible) alignPanelToTrigger();
+		};
+		window.addEventListener("resize", onResize);
+		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 
 		return () => {
-			window.removeEventListener("scroll", onScroll, true);
+			window.removeEventListener("resize", onResize);
+			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
 		};
 	});
 
@@ -583,6 +621,45 @@ export default class UlxDropdown extends Component {
 		controls[nextIndex]?.focus?.({ preventScroll: true });
 	}
 
+	closeOverlay() {
+		if (!this.overlayVisible) return;
+		this.overlayVisible = false;
+		this.panelPosition = "below";
+		this.dismissKeyboardOptionFocusRing();
+		this.args.onHide?.();
+	}
+
+	getTriggerFocusableAnchor(options = {}) {
+		const { backward = false } = options;
+		const triggerFocusables = getFocusableElements(this.triggerElement);
+		if (triggerFocusables.length > 0) {
+			return backward ? triggerFocusables[0] : triggerFocusables[triggerFocusables.length - 1];
+		}
+		return document.getElementById(this.triggerId) ?? this.triggerElement;
+	}
+
+	@action
+	closeOverlayAndMoveFocus(options = {}) {
+		const { backward = false } = options;
+		const anchorElement = this.getTriggerFocusableAnchor({ backward });
+		const focusableElements = getFocusableElements(document.body).filter(
+			(element) => !this.panelElement?.contains(element)
+		);
+		const anchorIndex = anchorElement ? focusableElements.indexOf(anchorElement) : -1;
+		const targetIndex = anchorIndex + (backward ? -1 : 1);
+		const nextFocusableElement = focusableElements[targetIndex];
+
+		this.closeOverlay();
+
+		if (!nextFocusableElement) return;
+
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				nextFocusableElement?.focus?.({ preventScroll: true });
+			});
+		});
+	}
+
 	@action
 	toggleOverlay() {
 		if (this.args.disabled || this.args.loading) return;
@@ -590,7 +667,8 @@ export default class UlxDropdown extends Component {
 		if (this.overlayVisible) {
 			this.filterValue = "";
 			this.focusedOptionIndex = this.selectedOptionIndex;
-			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0) this.focusedOptionIndex = 0;
+			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+				this.focusedOptionIndex = 0;
 			this.panelPosition = "below";
 			this.args.onShow?.();
 			this.focusAppropriateControlOnOpen();
@@ -663,7 +741,7 @@ export default class UlxDropdown extends Component {
 	onFilterInput(event) {
 		const filterInputValue = event.target?.value ?? "";
 		this.filterValue = filterInputValue;
-		this.focusedOptionIndex = 0;
+		this.focusedOptionIndex = this.visibleOptions.length > 0 ? 0 : -1;
 		this.showOptionKeyboardFocusRing = true;
 		this.args.onFilter?.(filterInputValue);
 	}
@@ -687,17 +765,21 @@ export default class UlxDropdown extends Component {
 			this.toggleOverlay();
 		} else if (keyPressed === "Tab") {
 			event.preventDefault();
-			this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
+			this.closeOverlayAndMoveFocus({ backward: event.shiftKey });
 		}
 	}
 
 	@action
 	focusFocusedItem() {
 		if (this.focusedOptionIndex < 0) return;
-		const focusedOptionElement = document.getElementById(
-			`${this.triggerId}-item-${this.focusedOptionIndex}`
-		);
-		focusedOptionElement?.focus?.();
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				const focusedOptionElement = document.getElementById(
+					`${this.triggerId}-item-${this.focusedOptionIndex}`
+				);
+				focusedOptionElement?.focus?.({ preventScroll: true });
+			});
+		});
 	}
 
 	@action
@@ -709,13 +791,18 @@ export default class UlxDropdown extends Component {
 			if (!this.overlayVisible) {
 				this.showOptionKeyboardFocusRing = true;
 				this.toggleOverlay();
-			} else this.moveFocus(1);
+			} else {
+				this.moveFocus(1);
+				this.focusFocusedItem();
+			}
 			return;
 		}
 		if (keyPressed === "ArrowUp") {
 			event.preventDefault();
-			if (this.overlayVisible) this.moveFocus(-1);
-			else {
+			if (this.overlayVisible) {
+				this.moveFocus(-1);
+				this.focusFocusedItem();
+			} else {
 				this.showOptionKeyboardFocusRing = true;
 				this.toggleOverlay();
 			}
@@ -738,8 +825,7 @@ export default class UlxDropdown extends Component {
 		}
 		if (keyPressed === "Tab" && this.overlayVisible) {
 			event.preventDefault();
-			if (this.hasHeaderFocusableControls) this.enterHeaderMode({ focusFirst: !event.shiftKey });
-			else this.focusTriggerFallback();
+			this.closeOverlayAndMoveFocus({ backward: event.shiftKey });
 			return;
 		}
 	}
@@ -760,15 +846,17 @@ export default class UlxDropdown extends Component {
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "Tab") {
 			event.preventDefault();
-			this.cycleHeaderFocus(event.shiftKey ? -1 : 1);
+			this.closeOverlayAndMoveFocus({ backward: event.shiftKey });
 			return;
 		}
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
 			this.moveFocus(1);
+			this.focusFocusedItem();
 		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
 			this.moveFocus(-1);
+			this.focusFocusedItem();
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
 			event.preventDefault();
 			this.selectFocusedOptionIfEnabled();
@@ -916,104 +1004,158 @@ export default class UlxDropdown extends Component {
 					{{/if}}
 				{{/if}}
 			</div>
-		</div>
-
-		{{#if this.overlayVisible}}
-			<div
-				id="{{this.triggerId}}-listbox"
-				data-qa="ulx-dropdown-panel"
-				class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
-				role="listbox"
-				aria-activedescendant={{this.activeDescendantId}}
-				aria-hidden="false"
-				{{this.panelRef}}
-				{{appendToBody this.overlayVisible}}
-				{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
-				{{on "pointerdown" this.onOptionPanelPointerIntent}}
-				{{on "keydown" this.onPanelKeydown}}
-				{{on "click" this.stopPanelClick}}
-			>
-				{{#if (and @filter)}}
-					<div class="dropdown-filter-container">
-						<UlxIcon
-							@type="font"
-							@iconName="search-icon dropdown-filter-icon"
-							@componentClass="bs-icons1"
-							@size="s18"
-							aria-hidden="true"
-						/>
-						<input
-							type="text"
-							class="dropdown-filter-input"
-							data-qa="ulx-dropdown-filter"
-							value={{this.filterValue}}
-							placeholder={{@filterPlaceholder}}
-							{{on "input" this.onFilterInput}}
-							{{on "keydown" this.onFilterKeydown}}
-						/>
-					</div>
-				{{/if}}
+			{{#if this.overlayVisible}}
 				<div
-					class="dropdown-wrapper"
-					data-qa="ulx-dropdown-options-wrapper"
-					style="max-height: {{this.scrollHeightValue}};"
-					{{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId}}
+					id="{{this.triggerId}}-listbox"
+					data-qa="ulx-dropdown-panel"
+					class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
+					role="listbox"
+					aria-activedescendant={{this.activeDescendantId}}
+					aria-hidden="false"
+					{{this.panelRef}}
+					{{overlayPortal this.overlayVisible this.resolvedContext}}
+					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
+					{{on "pointerdown" this.onOptionPanelPointerIntent}}
+					{{on "keydown" this.onPanelKeydown}}
+					{{on "click" this.stopPanelClick}}
 				>
-					<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
-						{{#if (eq this.visibleOptions.length 0)}}
-							<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
-								{{or (and @filter @emptyFilterMessage) @emptyMessage}}
-							</li>
-						{{else if this.hasGroups}}
-							{{#each this.optionListWithGroups as |row|}}
-								{{#if (eq row.type "group")}}
-									<li
-										class="dropdown-item-group"
-										role="presentation"
-										aria-hidden="true"
-										data-qa="ulx-dropdown-group"
-									>
-										{{#if (has-block "group")}}
-											{{yield (hash label=row.label group=row.group) to="group"}}
-										{{else}}
-											<span>
-												<div class="flex items-center">
-													{{#if row.group.imageUrl}}
-														<img
-															src={{row.group.imageUrl}}
-															alt={{row.label}}
-															class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
-															style="width: 18px;"
+					{{#if (and @filter)}}
+						<div class="dropdown-filter-container">
+							<UlxIcon
+								@type="font"
+								@iconName="search-icon dropdown-filter-icon"
+								@componentClass="bs-icons1"
+								@size="s18"
+								aria-hidden="true"
+							/>
+							<input
+								type="text"
+								class="dropdown-filter-input"
+								data-qa="ulx-dropdown-filter"
+								value={{this.filterValue}}
+								placeholder={{@filterPlaceholder}}
+								{{on "input" this.onFilterInput}}
+								{{on "keydown" this.onFilterKeydown}}
+							/>
+						</div>
+					{{/if}}
+					<div
+						class="dropdown-wrapper"
+						data-qa="ulx-dropdown-options-wrapper"
+						style="max-height: {{this.scrollHeightValue}};"
+						{{this.scrollFocusedIntoView this.overlayVisible this.focusedOptionIndex this.triggerId}}
+					>
+						<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
+							{{#if (eq this.visibleOptions.length 0)}}
+								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
+									{{or (and @filter @emptyFilterMessage) @emptyMessage}}
+								</li>
+							{{else if this.hasGroups}}
+								{{#each this.optionListWithGroups as |row|}}
+									{{#if (eq row.type "group")}}
+										<li
+											class="dropdown-item-group"
+											role="presentation"
+											aria-hidden="true"
+											data-qa="ulx-dropdown-group"
+										>
+											{{#if (has-block "group")}}
+												{{yield (hash label=row.label group=row.group) to="group"}}
+											{{else}}
+												<span>
+													<div class="flex items-center">
+														{{#if row.group.imageUrl}}
+															<img
+																src={{row.group.imageUrl}}
+																alt={{row.label}}
+																class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
+																style="width: 18px;"
+																aria-hidden="true"
+															/>
+														{{/if}}
+														{{#if row.group.icon}}
+															<span aria-hidden="true">
+																<UlxIcon
+																	@type="font"
+																	@iconName={{row.group.icon}}
+																	@componentClass="bs-icons1"
+																	@size="s24"
+																/>
+															</span>
+														{{/if}}
+														<div>{{row.label}}</div>
+													</div>
+												</span>
+											{{/if}}
+										</li>
+									{{else}}
+										{{#let row.entry.item as |option|}}
+											<li
+												role="option"
+												id="{{this.triggerId}}-item-{{row.flatIndex}}"
+												data-qa={{concat "ulx-dropdown-option-" row.flatIndex}}
+												class="dropdown-item grouped
+													{{if
+														(and
+															(eq row.flatIndex this.focusedOptionIndex)
+															this.showOptionKeyboardFocusRing
+														)
+														this.focusItemClass
+														''
+													}}
+													{{if (this.isOptionSelected option) 'selected' ''}}
+													{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
+													{{if (this.isOptionDisabled option) 'disabled' ''}}"
+												aria-selected={{this.isOptionSelected option}}
+												aria-disabled={{this.isOptionDisabled option}}
+												tabindex="-1"
+												{{on "click" (fn this.selectOption row.entry)}}
+											>
+												{{#if (has-block "item")}}
+													<span>
+														<div class="flex items-center">
+															{{yield
+																(hash
+																	option=option
+																	label=(this.getOptionLabel option)
+																	index=row.flatIndex
+																	imageUrl=(this.getOptionImageUrl option)
+																)
+																to="item"
+															}}
+														</div>
+													</span>
+												{{else}}
+													{{#if (and @checkmark (this.isOptionSelected option))}}
+														<UlxIcon
+															@type="font"
+															@iconName="tick-icon-01 dropdown-checkmark"
+															@componentClass="bs-icons1"
 															aria-hidden="true"
 														/>
 													{{/if}}
-													{{#if row.group.icon}}
-														<span aria-hidden="true">
-															<UlxIcon
-																@type="font"
-																@iconName={{row.group.icon}}
-																@componentClass="bs-icons1"
-																@size="s24"
-															/>
-														</span>
-													{{/if}}
-													<div>{{row.label}}</div>
-												</div>
-											</span>
-										{{/if}}
-									</li>
-								{{else}}
-									{{#let row.entry.item as |option|}}
+													<span
+														class="dropdown-item-label
+															{{if (this.isOptionSelected option) 'selected' ''}}
+															{{if (this.isOptionDisabled option) 'disabled' ''}}"
+													>
+														{{this.getOptionLabel option}}
+													</span>
+												{{/if}}
+											</li>
+										{{/let}}
+									{{/if}}
+								{{/each}}
+							{{else}}
+								{{#each this.optionList as |entry index|}}
+									{{#let entry.item as |option|}}
 										<li
 											role="option"
-											id="{{this.triggerId}}-item-{{row.flatIndex}}"
-											data-qa={{concat "ulx-dropdown-option-" row.flatIndex}}
-											class="dropdown-item grouped
+											id="{{this.triggerId}}-item-{{index}}"
+											data-qa={{concat "ulx-dropdown-option-" index}}
+											class="dropdown-item
 												{{if
-													(and
-														(eq row.flatIndex this.focusedOptionIndex)
-														this.showOptionKeyboardFocusRing
-													)
+													(and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing)
 													this.focusItemClass
 													''
 												}}
@@ -1022,8 +1164,8 @@ export default class UlxDropdown extends Component {
 												{{if (this.isOptionDisabled option) 'disabled' ''}}"
 											aria-selected={{this.isOptionSelected option}}
 											aria-disabled={{this.isOptionDisabled option}}
-											tabindex="0"
-											{{on "click" (fn this.selectOption row.entry)}}
+											tabindex="-1"
+											{{on "click" (fn this.selectOption entry)}}
 										>
 											{{#if (has-block "item")}}
 												<span>
@@ -1032,7 +1174,7 @@ export default class UlxDropdown extends Component {
 															(hash
 																option=option
 																label=(this.getOptionLabel option)
-																index=row.flatIndex
+																index=index
 																imageUrl=(this.getOptionImageUrl option)
 															)
 															to="item"
@@ -1058,74 +1200,19 @@ export default class UlxDropdown extends Component {
 											{{/if}}
 										</li>
 									{{/let}}
-								{{/if}}
-							{{/each}}
-						{{else}}
-							{{#each this.optionList as |entry index|}}
-								{{#let entry.item as |option|}}
-									<li
-										role="option"
-										id="{{this.triggerId}}-item-{{index}}"
-										data-qa={{concat "ulx-dropdown-option-" index}}
-										class="dropdown-item
-											{{if
-												(and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing)
-												this.focusItemClass
-												''
-											}}
-											{{if (this.isOptionSelected option) 'selected' ''}}
-											{{if (and @checkmark (this.isOptionSelected option)) 'checkmark' ''}}
-											{{if (this.isOptionDisabled option) 'disabled' ''}}"
-										aria-selected={{this.isOptionSelected option}}
-										aria-disabled={{this.isOptionDisabled option}}
-										tabindex="0"
-										{{on "click" (fn this.selectOption entry)}}
-									>
-										{{#if (has-block "item")}}
-											<span>
-												<div class="flex items-center">
-													{{yield
-														(hash
-															option=option
-															label=(this.getOptionLabel option)
-															index=index
-															imageUrl=(this.getOptionImageUrl option)
-														)
-														to="item"
-													}}
-												</div>
-											</span>
-										{{else}}
-											{{#if (and @checkmark (this.isOptionSelected option))}}
-												<UlxIcon
-													@type="font"
-													@iconName="tick-icon-01 dropdown-checkmark"
-													@componentClass="bs-icons1"
-													aria-hidden="true"
-												/>
-											{{/if}}
-											<span
-												class="dropdown-item-label
-													{{if (this.isOptionSelected option) 'selected' ''}}
-													{{if (this.isOptionDisabled option) 'disabled' ''}}"
-											>
-												{{this.getOptionLabel option}}
-											</span>
-										{{/if}}
-									</li>
-								{{/let}}
-							{{/each}}
-						{{/if}}
-					</ul>
-				</div>
-				{{#if (has-block "footer")}}
-					<div class="dropdown-panel-footer" data-qa="ulx-dropdown-footer">
-						<div class="dropdown-panel-footer-content">
-							{{yield (hash selectedOption=this.selectedOption) to="footer"}}
-						</div>
+								{{/each}}
+							{{/if}}
+						</ul>
 					</div>
-				{{/if}}
-			</div>
-		{{/if}}
+					{{#if (has-block "footer")}}
+						<div class="dropdown-panel-footer" data-qa="ulx-dropdown-footer">
+							<div class="dropdown-panel-footer-content">
+								{{yield (hash selectedOption=this.selectedOption) to="footer"}}
+							</div>
+						</div>
+					{{/if}}
+				</div>
+			{{/if}}
+		</div>
 	</template>
 }

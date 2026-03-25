@@ -27,19 +27,16 @@ export default class DemoDropdownAccessibility extends Component {
         @label={{t "lbl.dropdown.accessible"}}
         @fieldId="a11y-dropdown"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.cities}}
-            @value={{this.selectedCity}}
-            @onChange={{this.setSelectedCity}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
-            aria-label={{t "msg.dropdown.choose.city"}}
-          />
-        </:default>
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.cities}}
+          @value={{this.selectedCity}}
+          @onChange={{this.setSelectedCity}}
+          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          aria-label={{t "msg.dropdown.choose.city"}}
+        />
       </UlxField>
     </div>
   </template>

@@ -28,19 +28,16 @@ export default class DemoDropdownInvalid extends Component {
         @error={{t "msg.dropdown.error.here"}}
         @fieldId="dropdown-invalid"
         @fieldClass="col-4"
+        as |field|
       >
-        <:default as |field|>
-          <UlxDropdown
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @options={{this.cities}}
-            @value={{this.selectedCity}}
-            @onChange={{this.setSelectedCity}}
-            @invalid={{true}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
-          />
-        </:default>
+        <UlxDropdown
+          @field={{field}}
+          @options={{this.cities}}
+          @value={{this.selectedCity}}
+          @onChange={{this.setSelectedCity}}
+          @invalid={{true}}
+          @placeholder={{t "msg.dropdown.placeholder.city"}}
+        />
       </UlxField>
     </div>
   </template>

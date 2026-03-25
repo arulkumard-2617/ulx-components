@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import UlxButton from '../../elements/ulx-button/index.js';
 import UlxIconButton from '../../elements/ulx-icon-button/index.js';
+import { joinClassNames } from '../../../utils/class-names.js';
 import { t } from '../../../utils/i18n.js';
 import { precompileTemplate } from '@ember/template-compilation';
 import { setComponentTemplate } from '@ember/component';
@@ -11,9 +12,7 @@ import { setComponentTemplate } from '@ember/component';
 var _class, _UlxPopupFooter;
 let UlxPopupFooter = (_class = (_UlxPopupFooter = class UlxPopupFooter extends Component {
   get footerWrapperClass() {
-    const parts = ["popup-footer"];
-    this.args.footerClassName && parts.push(this.args.footerClassName);
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames("popup-footer", this.args.footerClassName);
   }
   get tertiaryLabel() {
     return this.args.tertiaryButtonLabel ?? this.args.tertiaryLabel;
@@ -59,7 +58,7 @@ let UlxPopupFooter = (_class = (_UlxPopupFooter = class UlxPopupFooter extends C
     event?.preventDefault();
     this.args.onDone?.();
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.footerWrapperClass}}>\n\t\t\t{{#if this.showTertiaryButton}}\n\t\t\t\t<UlxIconButton @label={{this.tertiaryLabel}} @iconLeft={{this.tertiaryIconLeft}} @iconRight={{this.tertiaryIconRight}} @variant=\"link\" {{on \"click\" this.handleTertiary}} />\n\t\t\t{{/if}}\n\t\t\t{{#unless this.hideCancelButton}}\n\t\t\t\t<UlxButton @label={{this.cancelLabel}} @variant=\"outlined\" {{on \"click\" this.handleCancel}} />\n\t\t\t{{/unless}}\n\t\t\t{{#unless this.hideDoneButton}}\n\t\t\t\t<UlxButton @label={{this.doneLabel}} @variant=\"primary\" {{on \"click\" this.handleDone}} />\n\t\t\t{{/unless}}\n\t\t</div>\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div class={{this.footerWrapperClass}} data-qa={{@dataQa}}>\n\t\t\t{{#if this.showTertiaryButton}}\n\t\t\t\t<UlxIconButton @label={{this.tertiaryLabel}} @iconLeft={{this.tertiaryIconLeft}} @iconRight={{this.tertiaryIconRight}} @variant=\"link\" {{on \"click\" this.handleTertiary}} />\n\t\t\t{{/if}}\n\t\t\t{{#unless this.hideCancelButton}}\n\t\t\t\t<UlxButton @label={{this.cancelLabel}} @variant=\"outlined\" {{on \"click\" this.handleCancel}} />\n\t\t\t{{/unless}}\n\t\t\t{{#unless this.hideDoneButton}}\n\t\t\t\t<UlxButton @label={{this.doneLabel}} @variant=\"primary\" {{on \"click\" this.handleDone}} />\n\t\t\t{{/unless}}\n\t\t</div>\n\t", {
   strictMode: true,
   scope: () => ({
     UlxIconButton,

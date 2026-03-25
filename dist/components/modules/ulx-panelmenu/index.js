@@ -6,7 +6,11 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { guidFor } from '@ember/object/internals';
 import { modifier } from 'ember-modifier';
+import { joinClassNames } from '../../../utils/class-names.js';
 import { getComponentClass } from '../../../utils/component-config.js';
+import { resolveRootDataQa, buildDataQa } from '../../../utils/data-qa.js';
+import { iconParts } from '../../../utils/panelmenu-icon.js';
+import { appendTransitionPhaseClasses } from '../../../utils/panelmenu-transition.js';
 import UlxIcon from '../../elements/ulx-icon/index.js';
 import UlxPanelmenuSub from './panelmenu-sub.js';
 import { precompileTemplate } from '@ember/template-compilation';
@@ -15,29 +19,9 @@ import { setComponentTemplate } from '@ember/component';
 var _class, _descriptor, _descriptor2, _descriptor3, _UlxPanelmenu;
 const ENTER_TIMEOUT_MS = 200;
 const EXIT_TIMEOUT_MS = 200;
-function iconParts(icon) {
-  if (!icon || typeof icon !== "string") return {
-    base: null,
-    name: null
-  };
-  const parts = icon.trim().split(/\s+/);
-  if (parts.length === 0) return {
-    base: null,
-    name: null
-  };
-  // Support icon strings that include an optional size token at the end:
-  // e.g. "bs-icons1 add-icon-01 s20"
-  const sizeToken = parts[parts.length - 1];
-  const hasSize = /^s\d+$/.test(sizeToken) || /^m\d+$/.test(sizeToken) || /^l\d+$/.test(sizeToken) || /-size$/.test(sizeToken);
-  const base = parts.length > 1 ? parts[0] : null;
-  const nameIndex = hasSize ? parts.length - 2 : parts.length - 1;
-  const name = nameIndex >= 0 ? parts[nameIndex] : null;
-  const size = hasSize ? sizeToken : null;
-  return {
-    base,
-    name,
-    size
-  };
+const EXIT_RENDER_PHASES = new Set(["exit", "exit-active", "exit-done"]);
+function panelHeightTransition(ms) {
+  return `height ${ms}ms ease, transform ${ms}ms ease, opacity ${ms}ms ease`;
 }
 /**
  * PanelMenu component (ULX).
@@ -55,6 +39,7 @@ function iconParts(icon) {
  * @param {string} [toggleIconSize='s20'] - Size token for submenu expand/collapse icons.
  * @param {string} [itemIconSize='s20'] - Size token for submenu item icons.
  * @param {string} [customClass] - Extra CSS classes.
+ * @param {string} [dataQa] - Override root data-qa attribute.
  */
 let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Component {
   constructor(...args) {
@@ -100,7 +85,7 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
         rafId = requestAnimationFrame(() => {
           rafId = null;
           const targetHeight = element.scrollHeight;
-          element.style.transition = `height ${ENTER_TIMEOUT_MS}ms ease, transform ${ENTER_TIMEOUT_MS}ms ease, opacity ${ENTER_TIMEOUT_MS}ms ease`;
+          element.style.transition = panelHeightTransition(ENTER_TIMEOUT_MS);
           element.style.height = `${targetHeight}px`;
           this._panelTransitionByKey = {
             ...this._panelTransitionByKey,
@@ -127,7 +112,7 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
         element.style.height = `${element.scrollHeight}px`;
         rafId = requestAnimationFrame(() => {
           rafId = null;
-          element.style.transition = `height ${EXIT_TIMEOUT_MS}ms ease, transform ${EXIT_TIMEOUT_MS}ms ease, opacity ${EXIT_TIMEOUT_MS}ms ease`;
+          element.style.transition = panelHeightTransition(EXIT_TIMEOUT_MS);
           element.style.height = "0px";
           this._panelTransitionByKey = {
             ...this._panelTransitionByKey,
@@ -179,10 +164,16 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
     return Boolean(this.args.multiple);
   }
   get expandIconName() {
-    return this.args.expandIconName ?? "right-arrow-icon";
+    const {
+      expandIconName = "right-arrow-icon"
+    } = this.args;
+    return expandIconName;
   }
   get collapseIconName() {
-    return this.args.collapseIconName ?? "down-arrow-icon";
+    const {
+      collapseIconName = "down-arrow-icon"
+    } = this.args;
+    return collapseIconName;
   }
   get toggleIconSize() {
     const {
@@ -203,9 +194,13 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
     const {
       customClass
     } = this.args;
-    const parts = [this.baseClass];
-    customClass && parts.push(customClass);
-    return [...new Set(parts.filter(Boolean))].join(" ");
+    return joinClassNames(this.baseClass, customClass);
+  }
+  get rootDataQa() {
+    return resolveRootDataQa(this.args.dataQa, "panelmenu");
+  }
+  getDataQa(part) {
+    return buildDataQa(this.rootDataQa, part);
   }
   isItemVisible(item) {
     return item?.visible !== false;
@@ -235,25 +230,17 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
   getPrevActive(key) {
     return this._prevActiveMap?.get(key);
   }
-  isPanelExiting(key) {
-    const phase = this._panelTransitionByKey[key] ?? null;
-    return phase === "exit" || phase === "exit-active" || phase === "exit-done";
-  }
   shouldRenderPanelContent(item, index) {
     const key = this.getPanelKeyFor(item, index);
     const active = this.isPanelActive(item, index);
     const phase = this._panelTransitionByKey[key] ?? null;
     const prev = this.getPrevActive(key);
-    return active || phase === "exit" || phase === "exit-active" || phase === "exit-done" || prev === true && !active;
+    return active || EXIT_RENDER_PHASES.has(phase) || prev === true && !active;
   }
   getPanelHeaderClasses(item, index) {
     const key = this.getPanelKeyFor(item, index);
     const active = this.isPanelActive(item, index) && this.hasChildren(item);
-    const parts = ["panelmenu-header"];
-    active && parts.push("active");
-    this.focusedHeaderKey === key && parts.push("focused");
-    this.isItemDisabled(item) && parts.push("disabled");
-    return parts.filter(Boolean).join(" ");
+    return joinClassNames("panelmenu-header", active && "active", this.focusedHeaderKey === key && "focused", this.isItemDisabled(item) && "disabled");
   }
   onHeaderFocus(item, index) {
     this.focusedHeaderKey = this.getPanelKeyFor(item, index);
@@ -273,13 +260,8 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
     const parts = ["panelmenu-toggleable-content"];
     !active && parts.push("panelmenu-toggleable-content-collapsed");
     const effectivePhase = phase ?? (active && prev === false ? "enter" : null) ?? (!active && prev === true ? "exit" : null);
-    if (effectivePhase === "enter") parts.push("enter");
-    if (effectivePhase === "enter-active") parts.push("enter", "enter-active");
-    if (effectivePhase === "enter-done") parts.push("enter-done");
-    if (effectivePhase === "exit") parts.push("exit");
-    if (effectivePhase === "exit-active") parts.push("exit", "exit-active");
-    if (effectivePhase === "exit-done") parts.push("exit-done");
-    return parts.filter(Boolean).join(" ");
+    appendTransitionPhaseClasses(parts, effectivePhase);
+    return joinClassNames(...parts);
   }
   updateExpandedKeys(next) {
     if (this.isControlled) {
@@ -289,7 +271,6 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
     }
   }
   onToggle({
-    item,
     key,
     expanded,
     parentKey
@@ -323,17 +304,14 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
     let next = {
       ...this.expandedKeysState
     };
-    if (this.multiple) {
-      willExpand ? next[key] = true : delete next[key];
-    } else {
-      // When multiple=false, collapse other *root* panels,
-      // but keep nested expandedKeys so their state is preserved when reopening.
+    // Single expansion at root: close other root panels; nested keys stay in `next` for reopen.
+    if (!this.multiple) {
       const rootKeys = new Set(this.model.map((rootItem, i) => this.getPanelKeyFor(rootItem, i)));
       for (const rootKey of rootKeys) {
         rootKey !== key && delete next[rootKey];
       }
-      willExpand ? next[key] = true : delete next[key];
     }
+    willExpand ? next[key] = true : delete next[key];
     this.updateExpandedKeys(next);
     willExpand ? this.args.onOpen?.({
       originalEvent,
@@ -396,21 +374,25 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
   focusNextHeader(fromIndex) {
     for (let i = fromIndex + 1; i < this.model.length; i++) {
       const item = this.model[i];
-      if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) return this.focusHeader(i);
+      if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) {
+        return this.focusHeader(i);
+      }
     }
     return this.focusHeader(0);
   }
   focusPrevHeader(fromIndex) {
     for (let i = fromIndex - 1; i >= 0; i--) {
       const item = this.model[i];
-      if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) return this.focusHeader(i);
+      if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) {
+        return this.focusHeader(i);
+      }
     }
     return this.focusHeader(this.model.length - 1);
   }
   getHeaderIconMeta(item) {
     return iconParts(item?.icon);
   }
-}, setComponentTemplate(precompileTemplate("\n\t\t<div id={{this.rootId}} class={{this.rootClasses}} {{this.setRootRef}} ...attributes>\n\t\t\t{{#each this.model as |item index|}}\n\t\t\t\t{{#if (this.isItemVisible item)}}\n\t\t\t\t\t<div id={{this.getPanelId item index}} class=\"panelmenu-panel\">\n\t\t\t\t\t\t<div id={{this.getHeaderId item index}} class={{this.getPanelHeaderClasses item index}} role=\"button\" aria-label={{item.label}} aria-expanded={{if (this.isPanelActive item index) \"true\" \"false\"}} aria-disabled={{if item.disabled \"true\" \"false\"}} aria-controls={{this.getContentId item index}} tabindex={{if item.disabled \"-1\" \"0\"}} {{on \"click\" (fn this.onHeaderClick item index)}} {{on \"keydown\" (fn this.onHeaderKeyDown item index)}} {{on \"focusin\" (fn this.onHeaderFocus item index)}} {{on \"focusout\" (fn this.onHeaderBlur item index)}}>\n\t\t\t\t\t\t\t<div class=\"panelmenu-header-content\">\n\t\t\t\t\t\t\t\t<a href={{if item.url item.url \"#\"}} tabindex=\"-1\" class=\"panelmenu-header-action\">\n\t\t\t\t\t\t\t\t\t{{#if item.template}}\n\t\t\t\t\t\t\t\t\t\t{{component item.template item=item active=(this.isPanelActive item index) hasChildren=(this.hasChildren item) onClick=(fn this.onHeaderClick item index)}}\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t{{#if (this.hasChildren item)}}\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"panelmenu-header-toggle-icon\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{if (this.isPanelActive item index) this.collapseIconName this.expandIconName}} @componentClass=\"bs-icons1\" @size={{this.toggleIconSize}} />\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t\t\t\t\t\t{{#if item.icon}}\n\t\t\t\t\t\t\t\t\t\t\t{{#let (this.getHeaderIconMeta item) as |meta|}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"panelmenu-header-icon\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{meta.name}} @componentClass={{meta.base}} @size={{this.resolveIconSize meta this.itemIconSize}} />\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t\t\t\t\t\t<span class=\"panelmenu-header-label\">{{item.label}}</span>\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t{{#if (this.hasChildren item)}}\n\t\t\t\t\t\t\t{{#if (this.shouldRenderPanelContent item index)}}\n\t\t\t\t\t\t\t\t<div id={{this.getContentId item index}} class={{this.getPanelToggleableContentClasses item index}} role=\"region\" aria-labelledby={{this.getHeaderId item index}} {{this.panelContentTransition (this.getPanelKeyFor item index) (this.isPanelActive item index)}}>\n\t\t\t\t\t\t\t\t\t<div class=\"panelmenu-content\">\n\t\t\t\t\t\t\t\t\t\t<UlxPanelmenuSub @panelId={{this.getPanelId item index}} @items={{item.items}} @level={{0}} @expandedKeys={{this.expandedKeysState}} @onToggle={{this.onToggle}} @expandIconName={{this.expandIconName}} @collapseIconName={{this.collapseIconName}} @toggleIconSize={{this.toggleIconSize}} @itemIconSize={{this.itemIconSize}} />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t{{/each}}\n\t\t</div>\n\t", {
+}, setComponentTemplate(precompileTemplate("\n\t\t<div id={{this.rootId}} class={{this.rootClasses}} data-qa={{this.rootDataQa}} {{this.setRootRef}} ...attributes>\n\t\t\t{{#each this.model as |item index|}}\n\t\t\t\t{{#if (this.isItemVisible item)}}\n\t\t\t\t\t<div id={{this.getPanelId item index}} class=\"panelmenu-panel\" data-qa={{this.getDataQa \"panel\"}}>\n\t\t\t\t\t\t<div id={{this.getHeaderId item index}} class={{this.getPanelHeaderClasses item index}} data-qa={{this.getDataQa \"header\"}} role=\"button\" aria-label={{item.label}} aria-expanded={{if (this.isPanelActive item index) \"true\" \"false\"}} aria-disabled={{if item.disabled \"true\" \"false\"}} aria-controls={{this.getContentId item index}} tabindex={{if item.disabled \"-1\" \"0\"}} {{on \"click\" (fn this.onHeaderClick item index)}} {{on \"keydown\" (fn this.onHeaderKeyDown item index)}} {{on \"focusin\" (fn this.onHeaderFocus item index)}} {{on \"focusout\" (fn this.onHeaderBlur item index)}}>\n\t\t\t\t\t\t\t<div class=\"panelmenu-header-content\" data-qa={{this.getDataQa \"header-content\"}}>\n\t\t\t\t\t\t\t\t<a href={{if item.url item.url \"#\"}} tabindex=\"-1\" class=\"panelmenu-header-action\">\n\t\t\t\t\t\t\t\t\t{{#if item.template}}\n\t\t\t\t\t\t\t\t\t\t{{component item.template item=item active=(this.isPanelActive item index) hasChildren=(this.hasChildren item) onClick=(fn this.onHeaderClick item index)}}\n\t\t\t\t\t\t\t\t\t{{else}}\n\t\t\t\t\t\t\t\t\t\t{{#if (this.hasChildren item)}}\n\t\t\t\t\t\t\t\t\t\t\t<span class=\"panelmenu-header-toggle-icon\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{if (this.isPanelActive item index) this.collapseIconName this.expandIconName}} @componentClass=\"bs-icons1\" @size={{this.toggleIconSize}} />\n\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t\t\t\t\t\t{{#if item.icon}}\n\t\t\t\t\t\t\t\t\t\t\t{{#let (this.getHeaderIconMeta item) as |meta|}}\n\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"panelmenu-header-icon\" aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<UlxIcon @type=\"font\" @iconName={{meta.name}} @componentClass={{meta.base}} @size={{this.resolveIconSize meta this.itemIconSize}} />\n\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t{{/let}}\n\t\t\t\t\t\t\t\t\t\t{{/if}}\n\n\t\t\t\t\t\t\t\t\t\t<span class=\"panelmenu-header-label\">{{item.label}}</span>\n\t\t\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t{{#if (this.hasChildren item)}}\n\t\t\t\t\t\t\t{{#if (this.shouldRenderPanelContent item index)}}\n\t\t\t\t\t\t\t\t<div id={{this.getContentId item index}} class={{this.getPanelToggleableContentClasses item index}} data-qa={{this.getDataQa \"content\"}} role=\"region\" aria-labelledby={{this.getHeaderId item index}} {{this.panelContentTransition (this.getPanelKeyFor item index) (this.isPanelActive item index)}}>\n\t\t\t\t\t\t\t\t\t<div class=\"panelmenu-content\">\n\t\t\t\t\t\t\t\t\t\t<UlxPanelmenuSub @panelId={{this.getPanelId item index}} @items={{item.items}} @level={{0}} @expandedKeys={{this.expandedKeysState}} @onToggle={{this.onToggle}} @expandIconName={{this.expandIconName}} @collapseIconName={{this.collapseIconName}} @toggleIconSize={{this.toggleIconSize}} @itemIconSize={{this.itemIconSize}} />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t\t{{/if}}\n\t\t\t\t\t</div>\n\t\t\t\t{{/if}}\n\t\t\t{{/each}}\n\t\t</div>\n\t", {
   strictMode: true,
   scope: () => ({
     on,
@@ -439,7 +421,7 @@ let UlxPanelmenu = (_class = (_UlxPanelmenu = class UlxPanelmenu extends Compone
   initializer: function () {
     return null;
   }
-}), _applyDecoratedDescriptor(_class.prototype, "resolveIconSize", [action], Object.getOwnPropertyDescriptor(_class.prototype, "resolveIconSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isItemVisible", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isItemVisible"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isItemDisabled", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isItemDisabled"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hasChildren", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hasChildren"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelKeyFor", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelKeyFor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getHeaderId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getHeaderId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getContentId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getContentId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isPanelActive", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isPanelActive"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "shouldRenderPanelContent", [action], Object.getOwnPropertyDescriptor(_class.prototype, "shouldRenderPanelContent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelHeaderClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelHeaderClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderBlur", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderBlur"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelToggleableContentClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelToggleableContentClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateExpandedKeys", [action], Object.getOwnPropertyDescriptor(_class.prototype, "updateExpandedKeys"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onToggle", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onToggle"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggleRootPanel", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleRootPanel"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderKeyDown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderKeyDown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusHeader", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusHeader"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getHeaderIconMeta", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getHeaderIconMeta"), _class.prototype), _class);
+}), _applyDecoratedDescriptor(_class.prototype, "resolveIconSize", [action], Object.getOwnPropertyDescriptor(_class.prototype, "resolveIconSize"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getDataQa", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getDataQa"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isItemVisible", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isItemVisible"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isItemDisabled", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isItemDisabled"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "hasChildren", [action], Object.getOwnPropertyDescriptor(_class.prototype, "hasChildren"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelKeyFor", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelKeyFor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getHeaderId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getHeaderId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getContentId", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getContentId"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "isPanelActive", [action], Object.getOwnPropertyDescriptor(_class.prototype, "isPanelActive"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "shouldRenderPanelContent", [action], Object.getOwnPropertyDescriptor(_class.prototype, "shouldRenderPanelContent"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelHeaderClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelHeaderClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderFocus", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderFocus"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderBlur", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderBlur"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getPanelToggleableContentClasses", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getPanelToggleableContentClasses"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateExpandedKeys", [action], Object.getOwnPropertyDescriptor(_class.prototype, "updateExpandedKeys"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onToggle", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onToggle"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "toggleRootPanel", [action], Object.getOwnPropertyDescriptor(_class.prototype, "toggleRootPanel"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderClick", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderClick"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "onHeaderKeyDown", [action], Object.getOwnPropertyDescriptor(_class.prototype, "onHeaderKeyDown"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusHeader", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusHeader"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusNextHeader", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusNextHeader"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "focusPrevHeader", [action], Object.getOwnPropertyDescriptor(_class.prototype, "focusPrevHeader"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "getHeaderIconMeta", [action], Object.getOwnPropertyDescriptor(_class.prototype, "getHeaderIconMeta"), _class.prototype), _class);
 
 export { UlxPanelmenu as default };
 //# sourceMappingURL=index.js.map
