@@ -442,8 +442,21 @@ export default class UlxDropdown extends Component {
 				typeof setPanelPosition === "function" && setPanelPosition("below");
 			}
 
-			const minTop = fallbackBoundary.top + viewportPadding;
-			const maxTop = fallbackBoundary.bottom - menuHeight - viewportPadding;
+			let minTop = fallbackBoundary.top + viewportPadding;
+			let maxTop = fallbackBoundary.bottom - menuHeight - viewportPadding;
+
+			const triggerOutTop = targetRect.bottom < fallbackBoundary.top + viewportPadding;
+			const triggerOutBottom = targetRect.top > fallbackBoundary.bottom - viewportPadding;
+
+			triggerOutTop && (minTop = Math.min(minTop, top));
+			triggerOutBottom && (maxTop = Math.max(maxTop, top));
+
+			// When the panel is portaled to body, let it move with the trigger instead of
+			// sticking to the viewport boundary once the trigger scrolls out of view.
+			if (coordinateApi.usesDocumentCoordinates) {
+				minTop = Math.min(minTop, -menuHeight);
+			}
+
 			top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
 
 			coordinateApi.applyPosition(element, top, left);
