@@ -19,7 +19,7 @@ const RIPPLE_DURATION_MS = 200;
  * - success
  * - info
  * - warning
- * - help
+ * - help-button
  * - danger
  *
  * ## Styles
@@ -51,7 +51,7 @@ const RIPPLE_DURATION_MS = 200;
  * @param {string} [label] - Button label text
  * @param {boolean} [disabled=false] - Disables the button
  * @param {string} [href] - When set, renders as <a href="{{href}}">; otherwise <button>
- * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Button variant/type
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'} [variant='primary'] - Button variant/type (`help` is accepted as an alias for `help-button`)
  * @param {boolean} [raised=false] - Adds shadow for elevation
  * @param {boolean} [rounded=false] - Circular border radius
  * @param {boolean} [text=false] - Text variant (transparent background)
@@ -110,9 +110,11 @@ export default class UlxButton extends Component {
 			customClass
 		} = this.args;
 
+		const resolvedVariant = variant === "help" ? "help-button" : variant;
+
 		const parts = [this.baseClass];
 
-		parts.push(variant);
+		parts.push(resolvedVariant);
 		text && parts.push("text-button");
 		href && text && parts.push("link");
 		outlined && parts.push("outlined");

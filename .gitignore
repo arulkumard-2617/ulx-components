@@ -4,6 +4,7 @@ node_modules/.package-lock.json
 
 # compiled output
 declarations
+dist
 addon/dist
 
 # demo app compiled output

@@ -26,17 +26,13 @@ export default class WithlabelDemoComponent extends Component {
         @helpText={{t "lbl.help.text"}}
         @fieldClass="col-12"
         @fieldId="checkbox-disabled"
+        as |field|
       >
-        <:default as |field|>
-          <UlxCheckbox
-            @key={{field.key}}
-            @rules={{this.requiredRules}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-          />
-        </:default>
+        <UlxCheckbox
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+        />
       </UlxField>
     </div>
   </template>

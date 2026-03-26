@@ -42,25 +42,17 @@ export default class DemoPasswordInvalid extends Component {
       <UlxField
         @label={{t "lbl.password"}}
         @fieldClass="w-300"
-        @inputId="password"
-        {{! 🔥 REQUIRED }}
+        @fieldId="password"
         @error={{this.error}}
+        as |field|
       >
-
-        <:default as |field|>
-          <UlxPassword
-            @value={{this.value}}
-            @onInput={{this.handleInput}}
-            @feedback={{false}}
-            {{! 🔥 CRITICAL wiring }}
-            @id={{field.inputId}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @error={{this.error}}
-            {{! for red border }}
-            @placeholder={{t "lbl.enter.password"}}
-          />
-        </:default>
+        <UlxPassword
+          @field={{field}}
+          @value={{this.value}}
+          @onInput={{this.handleInput}}
+          @feedback={{false}}
+          @placeholder={{t "lbl.enter.password"}}
+        />
 
       </UlxField>
 

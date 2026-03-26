@@ -1,9 +1,11 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { schedule } from "@ember/runloop";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../../utils/component-config";
+import { getAdjacentFocusableInDocument } from "../../../utils/focus-util";
 import overlayDismiss from "../../../modifiers/overlay-dismiss";
 import { t } from "../../../utils/i18n";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
@@ -14,7 +16,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * Uses menu model for dropdown items; supports severity, size, variants (text, outlined, raised, rounded), loading, disabled.
  *
  * ## Variants (use "Variant" in demos, not "severity" for severity case)
- * - primary (default), secondary, success, info, warning, help, danger
+ * - primary (default), secondary, success, info, warning, help-button, danger
  * - text, outlined, raised, rounded
  *
  * ## Sizes
@@ -34,7 +36,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @param {string} [dropdownIcon] - Dropdown trigger icon (default down-arrow-icon)
  * @param {string} [dropdownIconSize] - Dropdown trigger icon size (default s18)
  * @param {boolean} [disabled=false] - Disables both buttons
- * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Variant/type
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'} [variant='primary'] - Variant/type (`help` is accepted as an alias for `help-button`)
  * @param {boolean} [raised=false] - Raised style
  * @param {boolean} [rounded=false] - Rounded corners
  * @param {boolean} [text=false] - Text variant
@@ -47,6 +49,9 @@ export default class UlxSplitButton extends Component {
 	@tracked menuVisible = false;
 	@tracked dropdownTarget = null;
 
+	/** When Tab closes the menu from the trigger, focus target after tieredmenu `onHide`. */
+	_tabOutFocus = null;
+
 	get splitButtonRootClass() {
 		return getComponentClass("splitbutton");
 	}
@@ -56,7 +61,8 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get variantValue() {
-		return this.args.variant || this.args.severity || "primary";
+		const raw = this.args.variant || this.args.severity || "primary";
+		return raw === "help" ? "help-button" : raw;
 	}
 
 	get menuId() {
@@ -163,6 +169,18 @@ export default class UlxSplitButton extends Component {
 		if (event.key === "ArrowDown" || event.key === "ArrowUp") {
 			event.preventDefault();
 			this.menuVisible ? this.hideMenu() : this.showMenu(event);
+			return;
+		}
+
+		if (event.key === "Tab" && this.menuVisible) {
+			event.preventDefault();
+			const menuRoot = this.menuId ? document.getElementById(this.menuId) : null;
+			const nextFocusable = getAdjacentFocusableInDocument(this.dropdownTarget, {
+				backward: event.shiftKey,
+				excludeContaining: menuRoot ?? undefined,
+			});
+			this._tabOutFocus = nextFocusable ?? null;
+			this.menuVisible = false;
 		}
 	}
 
@@ -173,9 +191,23 @@ export default class UlxSplitButton extends Component {
 	}
 
 	@action
-	hideMenu() {
+	hideMenu(detail) {
+		const tieredmenuTabOutTarget = detail?.nextFocusable;
+		const dropdownTabOutTarget = this._tabOutFocus;
+		this._tabOutFocus = null;
 		this.menuVisible = false;
 		if (typeof this.args.onHide === "function") this.args.onHide();
+		if (tieredmenuTabOutTarget) {
+			return;
+		}
+		if (dropdownTabOutTarget) {
+			schedule("afterRender", () => {
+				requestAnimationFrame(() => {
+					dropdownTabOutTarget.focus?.({ preventScroll: true });
+				});
+			});
+			return;
+		}
 		this.dropdownTarget?.focus({ preventScroll: true });
 	}
 

@@ -15,21 +15,18 @@ export default class DemoPasswordLocale extends Component {
   <template>
     <form class="ulx-form m-size ulx-grid gap-12 mb-14">
 
-      <UlxField @fieldClass="col-4" @label={{t "lbl.password"}}>
-
-        <:default>
-          <UlxPassword
-            @value={{this.value}}
-            @onInput={{this.handleInput}}
-            @promptLabel="Choose a password"
-            @weakLabel="Too simple"
-            @mediumLabel="Average complexity"
-            @strongLabel="Complex password"
-            @toggleMask={{true}}
-            @placeholder={{t "lbl.enter.password"}}
-          />
-        </:default>
-
+      <UlxField @fieldClass="col-4" @label={{t "lbl.password"}} as |field|>
+        <UlxPassword
+          @field={{field}}
+          @value={{this.value}}
+          @onInput={{this.handleInput}}
+          @promptLabel="Choose a password"
+          @weakLabel="Too simple"
+          @mediumLabel="Average complexity"
+          @strongLabel="Complex password"
+          @toggleMask={{true}}
+          @placeholder={{t "lbl.enter.password"}}
+        />
       </UlxField>
 
     </form>

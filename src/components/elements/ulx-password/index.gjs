@@ -43,8 +43,14 @@ export default class UlxPassword extends Component {
 		return getComponentClass("password");
 	}
 
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
+	}
+
 	get key() {
-		return resolveKey(this, this.args.key);
+		const { key: keyArg } = this.args;
+		return resolveKey(this, keyArg ?? this.fieldContext?.key);
 	}
 
 	get inputId() {
@@ -56,7 +62,8 @@ export default class UlxPassword extends Component {
 	// --------------------------
 
 	get rules() {
-		return normalizeRules(this.args.rules);
+		const { rules: rulesArg } = this.args;
+		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
 	}
 
 	get isRequired() {
@@ -72,7 +79,8 @@ export default class UlxPassword extends Component {
 	}
 
 	get isInvalid() {
-		const { invalid, error } = this.args;
+		const { invalid, error: errorArg } = this.args;
+		const error = errorArg ?? this.fieldContext?.error;
 		return isInvalidState(invalid, error);
 	}
 
@@ -210,14 +218,23 @@ export default class UlxPassword extends Component {
 	// --------------------------
 
 	get ariaDescribedBy() {
+		const { ariaDescribedBy, helpText, error: errorArg } = this.args;
+		if (ariaDescribedBy) return ariaDescribedBy;
+		if (this.fieldContext?.describedBy) return this.fieldContext.describedBy;
+		const error = errorArg ?? this.fieldContext?.error;
+
 		return buildAriaDescribedBy(this.inputId, {
-			helpText: this.args.helpText,
-			error: this.args.error
+			helpText,
+			error
 		});
 	}
 
 	get ariaErrorMessage() {
-		return this.args.error ? `${this.inputId}-error` : undefined;
+		const { ariaErrorMessage, error: errorArg } = this.args;
+		if (ariaErrorMessage) return ariaErrorMessage;
+		if (this.fieldContext?.errorId) return this.fieldContext.errorId;
+		const error = errorArg ?? this.fieldContext?.error;
+		return error ? `${this.inputId}-error` : undefined;
 	}
 
 	get toggleIconName() {

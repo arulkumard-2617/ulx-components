@@ -41,19 +41,14 @@ export default class InvalidRadioDemo extends Component {
         @helpText={{t "lbl.help.text"}}
         @error={{this.error}}
         @fieldClass="col-12"
-        @key="radio-invalid"
+        @fieldId="radio-invalid"
+        as |field|
       >
-        <:default as |field|>
-          <UlxRadio
-            @key={{field.key}}
-            @rules={{this.requiredRules}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-            @error={{this.error}}
-          />
-        </:default>
+        <UlxRadio
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+        />
       </UlxField>
 
       <div class="col-12">
