@@ -26,3 +26,32 @@ export function focusInCollection(elements, { forward = true, currentTarget = nu
 		: (currentIndex - 1 + elements.length) % elements.length;
 	elements[nextIndex].focus();
 }
+
+/**
+ * Next/previous focusable in document tab order relative to an anchor (e.g. menu trigger), excluding a subtree such as an open overlay.
+ */
+export function getAdjacentFocusableInDocument(
+	anchorElement,
+	{ backward = false, excludeContaining = null } = {}
+) {
+	if (!anchorElement || typeof document === "undefined") return null;
+
+	let focusables = getFocusableElements(document.body);
+	if (excludeContaining) {
+		focusables = focusables.filter((el) => !excludeContaining.contains(el));
+	}
+
+	const anchorFocusables = getFocusableElements(anchorElement);
+	const focusAnchor =
+		anchorFocusables.length > 0
+			? backward
+				? anchorFocusables[0]
+				: anchorFocusables[anchorFocusables.length - 1]
+			: anchorElement;
+
+	const anchorIndex = focusables.indexOf(focusAnchor);
+	if (anchorIndex < 0) return null;
+
+	const targetIndex = backward ? anchorIndex - 1 : anchorIndex + 1;
+	return focusables[targetIndex] ?? null;
+}
