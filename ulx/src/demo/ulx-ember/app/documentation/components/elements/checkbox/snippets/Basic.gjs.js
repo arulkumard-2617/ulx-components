@@ -22,17 +22,13 @@ export default class BasicCheckboxDemo extends Component {
         @rules={{this.requiredRules}}
         @fieldClass="col-12"
         @fieldId="checkbox-basic"
+        as |field|
       >
-        <:default as |field|>
-          <UlxCheckbox
-            @key={{field.key}}
-            @rules={{this.requiredRules}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-          />
-        </:default>
+        <UlxCheckbox
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+        />
       </UlxField>
     </div>
   </template>

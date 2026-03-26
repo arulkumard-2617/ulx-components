@@ -27,18 +27,14 @@ export default class SizesCheckboxDemo extends Component {
       <div class="flex flex-column gap-4">
         {{#each this.sizeItems as |item|}}
           <div class="flex align-items-center gap-2">
-            <UlxField @fieldId={{item.size}}>
-              <:default as |field|>
-                <UlxCheckbox
-                  @key={{field.key}}
-                  @size={{item.size}}
-                  @checked={{item.checked}}
-                  @onCheckedChange={{fn this.handleSizeChange item}}
-                  @itemLabel={{item.size}}
-                  @ariaDescribedBy={{field.describedBy}}
-                  @ariaErrorMessage={{field.errorId}}
-                />
-              </:default>
+            <UlxField @fieldId={{item.size}} as |field|>
+              <UlxCheckbox
+                @field={{field}}
+                @size={{item.size}}
+                @checked={{item.checked}}
+                @onCheckedChange={{fn this.handleSizeChange item}}
+                @itemLabel={{item.size}}
+              />
             </UlxField>
           </div>
         {{/each}}

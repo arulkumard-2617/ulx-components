@@ -29,18 +29,14 @@ export default class GroupDemoComponent extends Component {
         @error={{this.error}}
         @fieldClass="col-12"
         @fieldId="checkbox-group"
+        as |field|
       >
-        <:default as |field|>
-          <UlxCheckbox
-            @key={{field.key}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-            @groupClass="horizontal"
-            @error={{this.error}}
-          />
-        </:default>
+        <UlxCheckbox
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+          @groupClass="horizontal"
+        />
       </UlxField>
     </div>
   </template>

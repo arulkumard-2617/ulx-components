@@ -14,7 +14,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * Uses menu model for dropdown items; supports severity, size, variants (text, outlined, raised, rounded), loading, disabled.
  *
  * ## Variants (use "Variant" in demos, not "severity" for severity case)
- * - primary (default), secondary, success, info, warning, help, danger
+ * - primary (default), secondary, success, info, warning, help-button, danger
  * - text, outlined, raised, rounded
  *
  * ## Sizes
@@ -34,7 +34,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @param {string} [dropdownIcon] - Dropdown trigger icon (default down-arrow-icon)
  * @param {string} [dropdownIconSize] - Dropdown trigger icon size (default s18)
  * @param {boolean} [disabled=false] - Disables both buttons
- * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Variant/type
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'} [variant='primary'] - Variant/type (`help` is accepted as an alias for `help-button`)
  * @param {boolean} [raised=false] - Raised style
  * @param {boolean} [rounded=false] - Rounded corners
  * @param {boolean} [text=false] - Text variant
@@ -56,7 +56,8 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get variantValue() {
-		return this.args.variant || this.args.severity || "primary";
+		const raw = this.args.variant || this.args.severity || "primary";
+		return raw === "help" ? "help-button" : raw;
 	}
 
 	get menuId() {

@@ -31,8 +31,9 @@ function buildCheckboxId(namespace, idArg, key) {
  * - Indeterminate state communicated via `aria-checked="mixed"`
  *
  * @class UlxCheckbox
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
  * @param {string} [id] - Unique ID for the checkbox input. Auto-generated if not provided.
- * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids.
+ * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids. Overrides `field.key` when set.
  *
  * @param {Array<object>} [items] - Optional list of checkbox items. When provided, the component renders a group.
  *   Each item supports: `{ label, checked, indeterminate, disabled, customClass, id }`.
@@ -64,11 +65,18 @@ function buildCheckboxId(namespace, idArg, key) {
  */
 export default class UlxCheckbox extends Component {
 	get rules() {
-		return normalizeRules(this.args.rules);
+		const { rules: rulesArg } = this.args;
+		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
+	}
+
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
 	}
 
 	get key() {
-		return resolveKey(this, this.args.key);
+		const { key: keyArg } = this.args;
+		return resolveKey(this, keyArg ?? this.fieldContext?.key);
 	}
 
 	get checkboxId() {
@@ -107,16 +115,19 @@ export default class UlxCheckbox extends Component {
 	}
 
 	get isInvalid() {
-		const { invalid = false, error } = this.args;
+		const { invalid = false, error: errorArg } = this.args;
+		const error = errorArg ?? this.fieldContext?.error;
 		return isInvalidState(invalid, error);
 	}
 
 	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
+		const { ariaDescribedBy } = this.args;
+		return ariaDescribedBy ?? this.fieldContext?.describedBy;
 	}
 
 	get ariaErrorMessage() {
-		return this.args.ariaErrorMessage;
+		const { ariaErrorMessage } = this.args;
+		return ariaErrorMessage ?? this.fieldContext?.errorId;
 	}
 
 	get groupClass() {
