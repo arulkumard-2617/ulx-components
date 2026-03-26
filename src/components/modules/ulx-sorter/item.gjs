@@ -31,6 +31,10 @@ export default class UlxSorterItem extends Component {
 		return this.args.showDragIcon ?? false;
 	}
 
+	get useDragIconAsHandle() {
+		return this.args.useDragIconAsHandle ?? false;
+	}
+
 	get baseClass() {
 		return getComponentClass("sorter-item");
 	}
