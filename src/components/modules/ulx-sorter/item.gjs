@@ -10,7 +10,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * Each item receives a model; the parent's onChange receives the reordered array.
  *
  * @class UlxSorterItem
- * @param {*} model - The item data (passed to onChange when order changes)
+ * @param {*} items - The item data (passed to onChange when order changes)
  * @param {string} [handle] - Selector for the drag handle element (optional)
  * @param {boolean} [showDragIcon=false] - When true, renders a default drag icon before the yielded content
  * @param {boolean} [useDragIconAsHandle=false] - When true, the drag icon acts as the drag handle (no extra markup needed)
@@ -29,6 +29,10 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
 export default class UlxSorterItem extends Component {
 	get showDragIcon() {
 		return this.args.showDragIcon ?? false;
+	}
+
+	get useDragIconAsHandle() {
+		return this.args.useDragIconAsHandle ?? false;
 	}
 
 	get baseClass() {
@@ -86,7 +90,7 @@ export default class UlxSorterItem extends Component {
 		<div
 			class={{this.rootClasses}}
 			{{SortableItem
-				model=@model
+				model=@items
 				handle=this.handleSelector
 				onDragStart=this.onDragStart
 				onDragStop=this.onDragStop

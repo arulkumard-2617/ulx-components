@@ -22,7 +22,7 @@ export default class BasicTabMenuDemo extends Component {
 
   <template>
     <UlxTabmenu
-      @model={{this.items}}
+      @items={{this.items}}
       @activeIndex={{this.activeIndex}}
       @onTabChange={{this.handleTabChange}}
       @tabId="basic-tabmenu"

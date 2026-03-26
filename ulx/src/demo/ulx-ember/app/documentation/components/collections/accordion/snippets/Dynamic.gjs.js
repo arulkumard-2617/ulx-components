@@ -13,7 +13,7 @@ export default class DynamicAccordionDemo extends Component {
 
   <template>
     <div class="">
-      <UlxAccordion @model={{this.tabs}}>
+      <UlxAccordion @items={{this.tabs}}>
         <:content as |item|>
           <p class="m-0">{{item.content}}</p>
         </:content>

@@ -87,7 +87,7 @@ export default class DemoPanelmenuCommand extends Component {
 
   <template>
     <div class="w-full md-max-w-640">
-      <UlxPanelmenu @model={{this.items}} />
+      <UlxPanelmenu @items={{this.items}} />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>
   </template>

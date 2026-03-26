@@ -82,7 +82,7 @@ export default class ControlledTabMenuDemo extends Component {
       </div>
     </div>
     <UlxTabmenu
-      @model={{this.items}}
+      @items={{this.items}}
       @activeIndex={{this.activeIndex}}
       @onTabChange={{this.handleTabChange}}
       @tabId="controlled-tabmenu"

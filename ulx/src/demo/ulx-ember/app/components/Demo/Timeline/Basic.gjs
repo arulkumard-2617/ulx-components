@@ -35,7 +35,7 @@ export default class BasicTimelineDemo extends Component {
   <template>
     <div class="">
       <div class="primary ulx-segment border-default w-300">
-        <UlxTimeline @model={{this.events}} @customClass="state-tracker">
+        <UlxTimeline @items={{this.events}} @customClass="state-tracker">
           <:content as |item|>
             <div class="flex flex-col gap-1">
               <div class="text-sm fg-text-secondary">{{item.label}}</div>

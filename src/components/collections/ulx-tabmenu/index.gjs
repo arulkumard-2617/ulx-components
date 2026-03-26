@@ -24,7 +24,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * - Focus management: Active tab receives focus when component is focused
  *
  * @class UlxTabmenu
- * @param {Array<Object>} [model] - Array of menu item objects. Each item can have:
+ * @param {Array<Object>} [items] - Array of menu item objects. Each item can have:
  *   - `label` (string): Display text for the tab (only rendered automatically when NOT using `:item` named block)
  *   - `icon` (string): Icon name/class for the tab (only rendered automatically when NOT using `:item` named block)
  *   - `iconType` (string): Icon type for UlxIcon (e.g., "font", "svg")
@@ -48,11 +48,11 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  *
  * @example
  * // Default rendering (automatically renders label and icon)
- * <UlxTabmenu @model={{this.items}} />
+ * <UlxTabmenu @items={{this.items}} />
  *
  * @example
  * // Using LinkTo for Ember routing
- * <UlxTabmenu @model={{this.items}} />
+ * <UlxTabmenu @items={{this.items}} />
  * // items: [
  * //   { label: 'Dashboard', route: 'dashboard' },
  * //   { label: 'Users', route: 'users.index', models: [123] },
@@ -63,7 +63,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * // Custom rendering with named block (label/icon NOT rendered automatically)
  * // Note: Even if items have 'label' property, it won't be rendered automatically.
  * // You can safely use item.label in your block without duplicates.
- * <UlxTabmenu @model={{this.items}}>
+ * <UlxTabmenu @items={{this.items}}>
  *   <:item as |item|>
  *     <div class="flex items-center gap-2">
  *       <UlxAvatar @image={{item.imageUrl}} />
@@ -88,8 +88,8 @@ export default class UlxTabmenu extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
-	get model() {
-		return this.args.model ?? [];
+	get items() {
+		return this.args.items ?? [];
 	}
 
 	get activeIndex() {
@@ -143,10 +143,10 @@ export default class UlxTabmenu extends Component {
 
 	@action
 	getItemClasses(index) {
-		const model = this.args.model ?? [];
-		if (!Array.isArray(model)) return "";
+		const items = this.args.items ?? [];
+		if (!Array.isArray(items)) return "";
 
-		const item = model[index];
+		const item = items[index];
 		if (!item) return "";
 
 		const parts = ["tabmenu-item"];
@@ -158,10 +158,10 @@ export default class UlxTabmenu extends Component {
 
 	@action
 	getTabIndex(index) {
-		const model = this.args.model ?? [];
-		if (!Array.isArray(model)) return "0";
+		const items = this.args.items ?? [];
+		if (!Array.isArray(items)) return "0";
 
-		const item = model[index];
+		const item = items[index];
 		if (item?.disabled) {
 			return "-1";
 		}
@@ -170,10 +170,10 @@ export default class UlxTabmenu extends Component {
 
 	@action
 	getLinkClasses(index) {
-		const model = this.args.model ?? [];
-		if (!Array.isArray(model)) return "";
+		const items = this.args.items ?? [];
+		if (!Array.isArray(items)) return "";
 
-		const item = model[index];
+		const item = items[index];
 		if (!item) return "";
 
 		const parts = ["tabmenu-link"];
@@ -284,8 +284,8 @@ export default class UlxTabmenu extends Component {
 	}
 
 	getNextEnabledIndex(currentIndex) {
-		for (let i = currentIndex + 1; i < this.model.length; i++) {
-			if (!this.model[i]?.disabled) {
+		for (let i = currentIndex + 1; i < this.items.length; i++) {
+			if (!this.items[i]?.disabled) {
 				return i;
 			}
 		}
@@ -294,7 +294,7 @@ export default class UlxTabmenu extends Component {
 
 	getPreviousEnabledIndex(currentIndex) {
 		for (let i = currentIndex - 1; i >= 0; i--) {
-			if (!this.model[i]?.disabled) {
+			if (!this.items[i]?.disabled) {
 				return i;
 			}
 		}
@@ -302,8 +302,8 @@ export default class UlxTabmenu extends Component {
 	}
 
 	getFirstEnabledIndex() {
-		for (let i = 0; i < this.model.length; i++) {
-			if (!this.model[i]?.disabled) {
+		for (let i = 0; i < this.items.length; i++) {
+			if (!this.items[i]?.disabled) {
 				return i;
 			}
 		}
@@ -311,8 +311,8 @@ export default class UlxTabmenu extends Component {
 	}
 
 	getLastEnabledIndex() {
-		for (let i = this.model.length - 1; i >= 0; i--) {
-			if (!this.model[i]?.disabled) {
+		for (let i = this.items.length - 1; i >= 0; i--) {
+			if (!this.items[i]?.disabled) {
 				return i;
 			}
 		}
@@ -425,7 +425,7 @@ export default class UlxTabmenu extends Component {
 				aria-labelledby={{this.ariaLabelledBy}}
 				...attributes
 			>
-				{{#each this.model as |item index|}}
+				{{#each this.items as |item index|}}
 					<li
 						class={{this.getItemClasses index}}
 						data-qa={{this.getDataQa "item"}}

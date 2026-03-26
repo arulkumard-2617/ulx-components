@@ -21,7 +21,7 @@ export default class DisabledAccordionDemo extends Component {
 
   <template>
     <div class="">
-      <UlxAccordion @model={{this.tabs}} @activeIndex={{0}}>
+      <UlxAccordion @items={{this.tabs}} @activeIndex={{0}}>
         <:content as |item|>
           {{#if item.content}}
             <p class="m-0">{{item.content}}</p>

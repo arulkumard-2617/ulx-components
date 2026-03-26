@@ -56,7 +56,7 @@ export default class DemoSplitButtonSizes extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
         />
         <UlxSplitButton
@@ -64,7 +64,7 @@ export default class DemoSplitButtonSizes extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
         />
         <UlxSplitButton
@@ -72,7 +72,7 @@ export default class DemoSplitButtonSizes extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @size="l-size"
         />

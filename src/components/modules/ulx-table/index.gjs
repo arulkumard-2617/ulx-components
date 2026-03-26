@@ -1913,7 +1913,7 @@ export default class UlxTable extends Component {
 				>
 					<:body>
 						<UlxAccordion
-							@model={{this.filterAccordionModel}}
+							@items={{this.filterAccordionModel}}
 							@multiple={{true}}
 							@toggleIconPosition="right"
 							@variant="elevated"

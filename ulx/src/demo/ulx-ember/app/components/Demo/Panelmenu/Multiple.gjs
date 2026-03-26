@@ -72,7 +72,7 @@ export default class DemoPanelmenuMultiple extends Component {
 
   <template>
     <div class="w-full md-max-w-640">
-      <UlxPanelmenu @model={{this.items}} @multiple={{true}} />
+      <UlxPanelmenu @items={{this.items}} @multiple={{true}} />
     </div>
   </template>
 }
