@@ -27,7 +27,7 @@ export default class HandleSorterDemo extends Component {
       {{#each this.items as |item|}}
         <UlxSorterItem
           @groupName={{groupName}}
-          @model={{item}}
+          @items={{item}}
           @customClass="drag-item"
         >
           <span class="handle" {{SortableHandle}} aria-hidden="true">⋮⋮</span>

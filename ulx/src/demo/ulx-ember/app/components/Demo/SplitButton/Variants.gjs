@@ -56,7 +56,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
         />
         <UlxSplitButton
@@ -64,7 +64,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="secondary"
         />
@@ -73,7 +73,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="success"
         />
@@ -82,7 +82,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="info"
         />
@@ -91,7 +91,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="warning"
         />
@@ -100,7 +100,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="help"
         />
@@ -109,7 +109,7 @@ export default class DemoSplitButtonVariants extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="danger"
         />

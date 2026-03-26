@@ -41,7 +41,7 @@ export default class InteractiveStepsDemo extends Component {
   <template>
     <div class="">
       <UlxSteps
-        @model={{this.items}}
+        @items={{this.items}}
         @activeIndex={{this.activeIndex}}
         @onSelect={{this.handleSelect}}
         @readOnly={{false}}

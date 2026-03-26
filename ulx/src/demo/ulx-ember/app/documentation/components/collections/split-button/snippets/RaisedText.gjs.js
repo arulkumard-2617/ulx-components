@@ -57,7 +57,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @raised={{true}}
           @text={{true}}
@@ -67,7 +67,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="secondary"
           @raised={{true}}
@@ -78,7 +78,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="success"
           @raised={{true}}
@@ -89,7 +89,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="info"
           @raised={{true}}
@@ -100,7 +100,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="warning"
           @raised={{true}}
@@ -111,7 +111,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="help"
           @raised={{true}}
@@ -122,7 +122,7 @@ export default class DemoSplitButtonRaisedText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="danger"
           @raised={{true}}

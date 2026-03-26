@@ -6,7 +6,7 @@ import { getComponentClass } from "../../../utils/component-config";
  * Markup/classes match `ULS_V2.0/src/styles/uls-styles/less/collections/timeline.less`.
  *
  * @class UlxTimeline
- * @param {Array<any>} [model=[]] - Events array (preferred ULX arg). If not provided, falls back to `value`.
+ * @param {Array<any>} [items=[]] - Events array (preferred ULX arg). If not provided, falls back to `value`.
  * @param {Array<any>} [value=[]] - Events array (PrimeReact parity).
  * @param {"vertical"|"horizontal"} [layout="vertical"] - Timeline orientation.
  * @param {"left"|"right"|"top"|"bottom"|"alternate"} [align] - Alignment (default depends on layout).
@@ -23,9 +23,9 @@ export default class UlxTimeline extends Component {
 		return getComponentClass("timeline");
 	}
 
-	get model() {
-		const { model, value } = this.args;
-		return model ?? value ?? [];
+	get items() {
+		const { items, value } = this.args;
+		return items ?? value ?? [];
 	}
 
 	get layout() {
@@ -68,10 +68,10 @@ export default class UlxTimeline extends Component {
 
 	get keyedModel() {
 		const { dataKey } = this.args;
-		const model = Array.isArray(this.model) ? this.model : [];
-		const lastIndex = model.length - 1;
+		const items = Array.isArray(this.items) ? this.items : [];
+		const lastIndex = items.length - 1;
 
-		return model.map((item, index) => {
+		return items.map((item, index) => {
 			const key = dataKey ? this.resolveFieldData(item, dataKey) : undefined;
 			const isHorizontal = this.layout === "horizontal";
 			const meta = {
@@ -88,8 +88,8 @@ export default class UlxTimeline extends Component {
 	}
 
 	get hasAnyOpposite() {
-		const model = Array.isArray(this.model) ? this.model : [];
-		return model.some((item) => Boolean(item?.opposite));
+		const items = Array.isArray(this.items) ? this.items : [];
+		return items.some((item) => Boolean(item?.opposite));
 	}
 
 	get shouldRenderOppositeColumn() {

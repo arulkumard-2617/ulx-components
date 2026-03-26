@@ -57,7 +57,7 @@ export default class RouterDemoComponent extends Component {
       </p>
     </div>
     <UlxTabmenu
-      @model={{this.items}}
+      @items={{this.items}}
       @activeIndex={{this.currentActiveIndex}}
       @onTabChange={{this.handleTabChange}}
       @tabId="router-tabmenu"

@@ -29,7 +29,7 @@ export default class MultipleAccordionDemo extends Component {
   <template>
     <div class="">
       <UlxAccordion
-        @model={{this.tabs}}
+        @items={{this.tabs}}
         @activeIndex={{this.activeIndex}}
         @onTabChange={{this.handleTabChange}}
         @multiple={{true}}

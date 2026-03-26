@@ -13,7 +13,7 @@ export default class BasicStepsDemo extends Component {
 
   <template>
     <div class="">
-      <UlxSteps @model={{this.items}} />
+      <UlxSteps @items={{this.items}} />
     </div>
   </template>
 }

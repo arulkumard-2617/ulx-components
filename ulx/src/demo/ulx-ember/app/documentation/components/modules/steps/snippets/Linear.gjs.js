@@ -13,7 +13,7 @@ export default class LinearStepsDemo extends Component {
 
   <template>
     <div class="">
-      <UlxSteps @model={{this.items}} @readOnly={{true}} />
+      <UlxSteps @items={{this.items}} @readOnly={{true}} />
     </div>
   </template>
 }

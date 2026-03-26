@@ -579,7 +579,7 @@ export default class UlxDocsHeaderComponent extends Component {
         <:body>
           <div class="ulx-grid col-1 gap-3">
             <UlxAccordion
-              @model={{this.accessibilitySections}}
+              @items={{this.accessibilitySections}}
               @variant="flat"
               @size="m-size"
             >

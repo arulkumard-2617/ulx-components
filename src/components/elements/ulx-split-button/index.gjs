@@ -29,7 +29,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @class UlxSplitButton
  * @param {string} [label] - Main button label
  * @param {string} [icon] - Main button icon name (font icon)
- * @param {object[]} [model] - Menu items for dropdown (MenuModel API: label, icon, command, disabled, separator, items, etc.)
+ * @param {object[]} [items] - Menu items for dropdown (MenuModel API: label, icon, command, disabled, separator, items, etc.)
  * @param {function} [onClick] - Main button click handler
  * @param {function} [onShow] - Called when dropdown opens
  * @param {function} [onHide] - Called when dropdown closes
@@ -94,7 +94,7 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get menuItems() {
-		return this.args.model ?? [];
+		return this.args.items ?? [];
 	}
 
 	get dropdownIconName() {
@@ -339,7 +339,7 @@ export default class UlxSplitButton extends Component {
 			>
 				<UlxTieredmenu
 					id={{this.menuId}}
-					@model={{this.menuItems}}
+					@items={{this.menuItems}}
 					@popup={{true}}
 					@visible={{this.menuVisible}}
 					@target={{this.dropdownTarget}}

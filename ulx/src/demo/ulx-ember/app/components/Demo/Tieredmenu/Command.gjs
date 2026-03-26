@@ -115,7 +115,7 @@ export default class CommandDemoComponent extends Component {
   <template>
     <div class="">
       <UlxTieredmenu
-        @model={{this.items}}
+        @items={{this.items}}
         @onItemSelect={{this.handleItemSelect}}
       />
 

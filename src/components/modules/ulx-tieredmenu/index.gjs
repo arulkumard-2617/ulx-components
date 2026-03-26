@@ -62,7 +62,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * - Focus management: Focus moves to first item on open, tracks active item
  *
  * @class UlxTieredmenu
- * @param {Array<Object>} [model=[]] - Array of menu item objects
+ * @param {Array<Object>} [items=[]] - Array of menu item objects
  * @param {boolean} [popup=false] - When true, menu operates in popup mode (hidden by default)
  * @param {boolean} [visible=false] - Visibility state for popup mode
  * @param {string} [breakpoint='767px'] - Breakpoint for responsive behavior (mobile/tablet)
@@ -117,8 +117,8 @@ export default class UlxTieredmenu extends Component {
 		return joinClassNames(...parts);
 	}
 
-	get model() {
-		return this.args.model ?? [];
+	get items() {
+		return this.args.items ?? [];
 	}
 
 	get isPopup() {
@@ -1058,7 +1058,7 @@ export default class UlxTieredmenu extends Component {
 			>
 				<ul class="tieredmenu-list" data-qa={{this.getDataQa "list"}} {{this.setMenuRef}}>
 					<UlxTieredmenuMenuList
-						@items={{this.model}}
+						@items={{this.items}}
 						@getDataQa={{this.getDataQa}}
 						@renderItems={{this.renderItems}}
 						@isSeparator={{this.isSeparator}}
