@@ -8,12 +8,13 @@ export default {
   category: 'Elements',
   subCategory: 'Misc',
   menuItem: 'Image',
-  routeBase: '/components/elements/ulx-image',
+  routeBase: '/components/ulx-image',
   icon: 'pi pi-compass',
 
   // Page metadata
   header: 'Image',
-  subHeader: 'Image is a component for user interaction.',
+  subHeader:
+    'UlxImage wraps content images with ULS styles: shape, size scale, object-fit, aspect presets, and accessible fallbacks when loading fails.',
 
   // Tab configuration
   tabs: [
@@ -44,7 +45,8 @@ export default {
 
   // Accessibility information
   accessibility: {
-    description: 'UlxImage component description for accessibility.',
-    example: '<UlxImage />',
+    description:
+      'Use empty alt for decorative images and meaningful alt (often via t()) for informative images. Pass aria-* through ...attributes when needed. On error, non-empty alt receives an accessible fallback name.',
+    example: '<UlxImage @src={{url}} @alt={{description}} />',
   },
 };

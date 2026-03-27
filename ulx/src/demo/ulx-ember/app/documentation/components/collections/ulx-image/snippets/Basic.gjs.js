@@ -1,3 +1,4 @@
+export default `
 import { UlxImage, t } from 'ulx-components';
 
 <template>
@@ -30,3 +31,5 @@ import { UlxImage, t } from 'ulx-components';
     </div>
   </div>
 </template>
+
+`;

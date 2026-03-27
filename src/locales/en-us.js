@@ -16,6 +16,33 @@ const enUs = {
 	'lbl.more.options': 'More options',
 	'lbl.loading': 'Loading',
 	'lbl.image': 'Image',
+	'msg.image.load.failed': 'Failed to load',
+	'lbl.rounded': 'Rounded',
+	'msg.doc.image.sample.alt': 'Sample portrait for UlxImage demos',
+	'lbl.doc.image.decorative.heading': 'Decorative',
+	'lbl.doc.image.meaningful.heading': 'Meaningful',
+	'msg.doc.image.basic.decorative.desc':
+		'Use an empty alt so assistive technologies treat the image as decorative.',
+	'msg.doc.image.basic.meaningful.desc':
+		'Provide descriptive alt text when the image conveys information. Rounded shape uses the ULS modifier.',
+	'msg.doc.image.shape.intro':
+		'Use @shape with ULS classes: square (pair with @size for crop), rounded, or circle.',
+	'msg.doc.image.sizes.intro':
+		'ULS size tokens from xs-size through xxxl-size with square crop for comparison.',
+	'lbl.doc.image.a11y.decorative.heading': 'Decorative images',
+	'msg.doc.image.a11y.decorative.desc':
+		'When the image repeats nearby text or is purely visual, keep @alt empty.',
+	'lbl.doc.image.a11y.meaningful.heading': 'Meaningful images',
+	'msg.doc.image.a11y.meaningful.desc':
+		'Non-empty alt summarizes the image for people using screen readers.',
+	'lbl.doc.image.a11y.describedby.heading': 'Supplementary description',
+	'msg.doc.image.a11y.describedby.desc':
+		'Pass attributes such as aria-describedby on the root (via ...attributes) when a caption adds context beyond the alt text.',
+	'msg.doc.image.a11y.figcaption':
+		'Extended caption: this figure illustrates pairing the component with visible supporting text.',
+	'lbl.doc.image.a11y.loadfail.heading': 'Load failure (meaningful alt)',
+	'msg.doc.image.a11y.loadfail.desc':
+		'When the URL fails and alt is meaningful, UlxImage exposes an accessible fallback name.',
 	'msg.more.members': '{count} more members',
 	'lbl.a11y.empty.state.content': 'Empty state content',
 	'msg.empty.state.title': 'No results found',

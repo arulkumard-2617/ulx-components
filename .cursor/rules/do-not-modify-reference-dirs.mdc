@@ -1,15 +1,12 @@
 ---
-description: Do not modify files in reference directories ULS_V2.0 and primereact-master
+description: Do not modify external reference-only ULS_V2.0 or primereact-master trees; read only
 alwaysApply: true
 ---
 
 # Do Not Modify Reference Directories
 
-**Do not create, edit, or delete any files** in these directories. They are reference-only and must remain unchanged:
+**Do not create, edit, or delete any files** in external **reference-only** trees (e.g. local clones or checkouts of **ULS_V2.0** or **primereact-master** used only for reading). Those sources must stay unchanged.
 
-1. **`/Users/preethi-7562/backstage2/ULS_V2.0/`**
-2. **`/Users/preethi-7562/backstage2/primereact-master/`**
-
-- Use these paths only for **reading/reference** (e.g. to understand behavior, APIs, or patterns).
+- Use them only for **reading/reference** (e.g. to understand behavior, APIs, or patterns).
 - All implementation and changes must be done in the **ulx-components** workspace (e.g. `src/components`, demo app, etc.).
 - If a task would require changing files under ULS_V2.0 or primereact-master, do not make those changes; implement or document the behavior within the ulx-components codebase instead.
