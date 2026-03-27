@@ -73,7 +73,7 @@ export default class DemoToolbarBasic extends Component {
           <div class="flex items-center gap-2">
             <UlxSplitButton
               @label={{t "lbl.save"}}
-              @model={{array
+              @items={{array
                 (hash label=(t "lbl.update") icon="refresh-clockwise-icon-01")
                 (hash label=(t "lbl.delete") icon="delete-icon-01")
               }}

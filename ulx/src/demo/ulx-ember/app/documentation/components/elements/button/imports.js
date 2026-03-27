@@ -6,12 +6,11 @@
 // Demo Components
 export { default as BasicDemo } from '../../../../components/Demo/Button/Basic';
 export { default as TypesDemo } from '../../../../components/Demo/Button/Types';
+export { default as VariantsDemo } from '../../../../components/Demo/Button/Variants';
 export { default as OutlinedDemo } from '../../../../components/Demo/Button/Outlined';
 export { default as IconOnlyDemo } from '../../../../components/Demo/Button/IconOnly';
 export { default as TextDemo } from '../../../../components/Demo/Button/Text';
-export { default as RaisedDemo } from '../../../../components/Demo/Button/Raised';
-export { default as RaisedTextDemo } from '../../../../components/Demo/Button/RaisedText';
-export { default as RoundedDemo } from '../../../../components/Demo/Button/Rounded';
+export { default as PilledDemo } from '../../../../components/Demo/Button/Pilled';
 export { default as IconsDemo } from '../../../../components/Demo/Button/Icons';
 export { default as SizesDemo } from '../../../../components/Demo/Button/Sizes';
 export { default as StatesDemo } from '../../../../components/Demo/Button/States';
@@ -29,12 +28,11 @@ export { default as ImportSource } from './snippets/Import.gjs';
 // Centralized exports for all Button demo source files
 export { default as BasicSource } from './snippets/Basic.gjs';
 export { default as TypesSource } from './snippets/Types.gjs';
+export { default as VariantsSource } from './snippets/Variants.gjs';
 export { default as OutlinedSource } from './snippets/Outlined.gjs';
 export { default as IconOnlySource } from './snippets/IconOnly.gjs';
 export { default as TextSource } from './snippets/Text.gjs';
-export { default as RaisedSource } from './snippets/Raised.gjs';
-export { default as RaisedTextSource } from './snippets/RaisedText.gjs';
-export { default as RoundedSource } from './snippets/Rounded.gjs';
+export { default as PilledSource } from './snippets/Pilled.gjs';
 export { default as IconsSource } from './snippets/Icons.gjs';
 export { default as SizesSource } from './snippets/Sizes.gjs';
 export { default as StatesSource } from './snippets/States.gjs';

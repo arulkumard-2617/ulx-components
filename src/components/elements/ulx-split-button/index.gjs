@@ -13,11 +13,11 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
 
 /**
  * Split button: default action button plus dropdown for additional options.
- * Uses menu model for dropdown items; supports severity, size, variants (text, outlined, raised, rounded), loading, disabled.
+ * Uses menu model for dropdown items; supports severity, size, variants (text, outlined, pilled), loading, disabled.
  *
  * ## Variants (use "Variant" in demos, not "severity" for severity case)
  * - primary (default), secondary, success, info, warning, help-button, danger
- * - text, outlined, raised, rounded
+ * - text, outlined, pilled (inner buttons)
  *
  * ## Sizes
  * xs-size, s-size, m-size (default), l-size, xl-size
@@ -37,8 +37,7 @@ import UlxTieredmenu from "../../modules/ulx-tieredmenu/index.gjs";
  * @param {string} [dropdownIconSize] - Dropdown trigger icon size (default s18)
  * @param {boolean} [disabled=false] - Disables both buttons
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'} [variant='primary'] - Variant/type (`help` is accepted as an alias for `help-button`)
- * @param {boolean} [raised=false] - Raised style
- * @param {boolean} [rounded=false] - Rounded corners
+ * @param {boolean} [pilled=false] - Pill shape on inner buttons and root wrapper class
  * @param {boolean} [text=false] - Text variant
  * @param {boolean} [outlined=false] - Outlined variant
  * @param {string} [size] - Size class (e.g. s-size, m-size, l-size). Omit for m-size.
@@ -115,18 +114,16 @@ export default class UlxSplitButton extends Component {
 
 	get rootClasses() {
 		const {
-			raised = false,
-			rounded = false,
+			pilled = false,
 			text = false,
 			outlined = false,
 			loading = false,
-			disabled = false,
+			disabled = false
 		} = this.args;
 		const parts = [this.splitButtonRootClass];
 		parts.push(this.variantValue);
 		parts.push(this.buttonSize);
-		raised && parts.push("raised");
-		rounded && parts.push("rounded");
+		pilled && parts.push("pilled");
 		text && parts.push("text-button");
 		outlined && parts.push("outlined");
 		disabled && parts.push("disabled");
@@ -177,7 +174,7 @@ export default class UlxSplitButton extends Component {
 			const menuRoot = this.menuId ? document.getElementById(this.menuId) : null;
 			const nextFocusable = getAdjacentFocusableInDocument(this.dropdownTarget, {
 				backward: event.shiftKey,
-				excludeContaining: menuRoot ?? undefined,
+				excludeContaining: menuRoot ?? undefined
 			});
 			this._tabOutFocus = nextFocusable ?? null;
 			this.menuVisible = false;
@@ -240,8 +237,7 @@ export default class UlxSplitButton extends Component {
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
-						@raised={{@raised}}
-						@rounded={{@rounded}}
+						@pilled={{@pilled}}
 						@text={{@text}}
 						@outlined={{@outlined}}
 						@size={{this.buttonSize}}
@@ -259,8 +255,7 @@ export default class UlxSplitButton extends Component {
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
-						@raised={{@raised}}
-						@rounded={{@rounded}}
+						@pilled={{@pilled}}
 						@text={{@text}}
 						@outlined={{@outlined}}
 						@size={{this.buttonSize}}
@@ -279,8 +274,7 @@ export default class UlxSplitButton extends Component {
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
-						@raised={{@raised}}
-						@rounded={{@rounded}}
+						@pilled={{@pilled}}
 						@text={{@text}}
 						@outlined={{@outlined}}
 						@size={{this.buttonSize}}
@@ -298,8 +292,7 @@ export default class UlxSplitButton extends Component {
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
 						@variant={{this.variantValue}}
-						@raised={{@raised}}
-						@rounded={{@rounded}}
+						@pilled={{@pilled}}
 						@text={{@text}}
 						@outlined={{@outlined}}
 						@size={{this.buttonSize}}
@@ -318,8 +311,7 @@ export default class UlxSplitButton extends Component {
 				@iconSize={{this.dropdownIconSize}}
 				@disabled={{this.isDisabled}}
 				@variant={{this.variantValue}}
-				@raised={{@raised}}
-				@rounded={{@rounded}}
+				@pilled={{@pilled}}
 				@text={{@text}}
 				@outlined={{@outlined}}
 				@size={{this.buttonSize}}

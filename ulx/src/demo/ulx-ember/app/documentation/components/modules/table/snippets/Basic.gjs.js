@@ -197,7 +197,7 @@ export default class DemoTableBasic extends Component {
             @label="Add Speaker"
             @variant="primary"
             @size="m-size"
-            @model={{this.addSpeakerMenuItems}}
+            @items={{this.addSpeakerMenuItems}}
           />
         </div>
       </:postRightMenu>
@@ -209,7 +209,7 @@ export default class DemoTableBasic extends Component {
             @variant="basic"
             @outlined={{true}}
             @size="s-size"
-            @model={{this.rowActionItems}}
+            @items={{this.rowActionItems}}
             aria-label="Actions for {{row.name}}"
           />
         </div>

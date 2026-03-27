@@ -135,7 +135,7 @@ export default class DemoTableBsTableView extends Component {
   sortOptions = sortOptions;
   filterGroups = filterGroups;
 
-  @tracked sortBy = 'name:asc';
+  @tracked sortBy = '';
 
   @action
   getRowActionModel(member) {
@@ -214,7 +214,7 @@ export default class DemoTableBsTableView extends Component {
           @label="Delete"
           @variant="basic"
           @outlined={{true}}
-          @model={{this.getRowActionModel member}}
+          @items={{this.getRowActionModel member}}
           @onClick={{fn this.deleteMember member}}
           aria-label="Actions for {{member.name}}"
         />

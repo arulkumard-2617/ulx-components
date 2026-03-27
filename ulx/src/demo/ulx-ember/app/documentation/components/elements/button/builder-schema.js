@@ -12,8 +12,7 @@ const stateToProps = (state) => {
     size: state.size || undefined,
     outlined: state.outlined,
     text: state.text,
-    raised: state.raised,
-    rounded: state.rounded,
+    pilled: state.pilled,
     disabled: state.disabled,
     fluid: state.fluid,
     badge: state.badge || undefined,
@@ -32,8 +31,7 @@ const stateToSnippet = (state) => {
   if (p.size) attrs.push(`@size="${p.size}"`);
   if (p.outlined) attrs.push('@outlined={{true}}');
   if (p.text) attrs.push('@text={{true}}');
-  if (p.raised) attrs.push('@raised={{true}}');
-  if (p.rounded) attrs.push('@rounded={{true}}');
+  if (p.pilled) attrs.push('@pilled={{true}}');
   if (p.disabled) attrs.push('@disabled={{true}}');
   if (p.fluid) attrs.push('@fluid={{true}}');
   if (p.badge) attrs.push(`@badge="${p.badge}"`);
@@ -116,14 +114,8 @@ export default {
       default: false,
     },
     {
-      key: 'raised',
-      label: 'Raised',
-      type: 'checkbox',
-      default: false,
-    },
-    {
-      key: 'rounded',
-      label: 'Rounded',
+      key: 'pilled',
+      label: 'Pilled',
       type: 'checkbox',
       default: false,
     },

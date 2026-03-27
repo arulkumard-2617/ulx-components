@@ -32,28 +32,28 @@ export default class DemoButtonIconOnly extends Component {
         {{/each}}
       </div>
 
-      {{! Row 2: Rounded filled icon-only }}
+      {{! Row 2: Pilled filled icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
             @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
-            @rounded={{true}}
+            @pilled={{true}}
             @variant={{item.type}}
             aria-label={{item.ariaLabel}}
           />
         {{/each}}
       </div>
 
-      {{! Row 3: Rounded outlined icon-only }}
+      {{! Row 3: Pilled outlined icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
             @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
-            @rounded={{true}}
+            @pilled={{true}}
             @outlined={{true}}
             @variant={{item.type}}
             aria-label={{item.ariaLabel}}
@@ -61,30 +61,14 @@ export default class DemoButtonIconOnly extends Component {
         {{/each}}
       </div>
 
-      {{! Row 4: Rounded text raised icon-only }}
+      {{! Row 4: Pilled text icon-only }}
       <div class="flex items-center gap-6">
         {{#each this.iconOnlyRow as |item|}}
           <UlxIconButton
             @iconLeft={{item.icon}}
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
-            @rounded={{true}}
-            @text={{true}}
-            @raised={{true}}
-            @variant={{item.type}}
-            aria-label={{item.ariaLabel}}
-          />
-        {{/each}}
-      </div>
-
-      {{! Row 5: Rounded text icon-only }}
-      <div class="flex items-center gap-6">
-        {{#each this.iconOnlyRow as |item|}}
-          <UlxIconButton
-            @iconLeft={{item.icon}}
-            @iconSize="s18"
-            @iconComponentClass="bs-icons1"
-            @rounded={{true}}
+            @pilled={{true}}
             @text={{true}}
             @variant={{item.type}}
             aria-label={{item.ariaLabel}}

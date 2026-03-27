@@ -6,12 +6,11 @@ import {
   // Demos
   BasicDemo,
   TypesDemo,
+  VariantsDemo,
   OutlinedDemo,
   IconOnlyDemo,
   TextDemo,
-  RaisedDemo,
-  RaisedTextDemo,
-  RoundedDemo,
+  PilledDemo,
   IconsDemo,
   SizesDemo,
   StatesDemo,
@@ -25,12 +24,11 @@ import {
   ImportSource,
   BasicSource,
   TypesSource,
+  VariantsSource,
   OutlinedSource,
   IconOnlySource,
   TextSource,
-  RaisedSource,
-  RaisedTextSource,
-  RoundedSource,
+  PilledSource,
   IconsSource,
   SizesSource,
   StatesSource,
@@ -170,7 +168,7 @@ export const ButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Types</code> demo shows all available button types: primary, secondary, success, info, warning, help, and danger.',
+          'The <code>Types</code> demo contrasts the default primary button with the <code>@pilled={{true}}</code> shape.',
       },
     },
     demo: {
@@ -183,61 +181,41 @@ export const ButtonFeatureItems = [
     },
   },
   {
-    id: 'raised',
-    sectionNav: 'Raised',
+    id: 'variants',
+    sectionNav: 'Variants',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'The <code>Raised</code> variant adds shadow to buttons for elevation effect.',
+          'The <code>Variants</code> demo shows semantic variants: basic, primary, secondary, success, info, warning, help-button, and danger.',
       },
     },
     demo: {
-      component: RaisedDemo,
+      component: VariantsDemo,
       props: {
-        source: RaisedSource,
-        snippetName: 'raised',
+        source: VariantsSource,
+        snippetName: 'variants',
         language: 'handlebars',
       },
     },
   },
   {
-    id: 'raisedtext',
-    sectionNav: 'RaisedText',
+    id: 'pilled',
+    sectionNav: 'Pilled',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'A button can be rendered with raised and text state when <code>@raised</code> and <code>@text</code> are present. Use <code>@raised</code> for the elevation shadow and <code>@text</code> for the text-only (transparent background) style.',
+          'Use <code>@pilled={{true}}</code> for a pill-shaped button across semantic variants.',
       },
     },
     demo: {
-      component: RaisedTextDemo,
+      component: PilledDemo,
       props: {
-        source: RaisedTextSource,
-        snippetName: 'raisedtext',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'rounded',
-    sectionNav: 'Rounded',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'The <code>Rounded</code> variant creates buttons with fully rounded corners for a modern pill-shaped appearance.',
-      },
-    },
-    demo: {
-      component: RoundedDemo,
-      props: {
-        source: RoundedSource,
-        snippetName: 'rounded',
+        source: PilledSource,
+        snippetName: 'pilled',
         language: 'handlebars',
       },
     },

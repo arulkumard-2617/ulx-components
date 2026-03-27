@@ -8,9 +8,7 @@ import {
   VariantsDemo,
   LoadingDemo,
   DisabledDemo,
-  RaisedDemo,
   TextDemo,
-  RaisedTextDemo,
   OutlinedDemo,
   SizesDemo,
   TemplateDemo,
@@ -20,9 +18,7 @@ import {
   VariantsSource,
   LoadingSource,
   DisabledSource,
-  RaisedSource,
   TextSource,
-  RaisedTextSource,
   OutlinedSource,
   SizesSource,
   TemplateSource,
@@ -146,26 +142,6 @@ export const SplitButtonFeatureItems = [
     },
   },
   {
-    id: 'raised',
-    sectionNav: 'Raised',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Raised buttons display a shadow for elevation. Use <code>@raised={{true}}</code>.',
-      },
-    },
-    demo: {
-      component: RaisedDemo,
-      props: {
-        source: RaisedSource,
-        snippetName: 'raised',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
     id: 'text',
     sectionNav: 'Text',
     sectionDesc: {
@@ -181,26 +157,6 @@ export const SplitButtonFeatureItems = [
       props: {
         source: TextSource,
         snippetName: 'text',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'raisedtext',
-    sectionNav: 'Raised Text',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Combine <code>@raised</code> and <code>@text</code> for raised text buttons.',
-      },
-    },
-    demo: {
-      component: RaisedTextDemo,
-      props: {
-        source: RaisedTextSource,
-        snippetName: 'raisedtext',
         language: 'handlebars',
       },
     },

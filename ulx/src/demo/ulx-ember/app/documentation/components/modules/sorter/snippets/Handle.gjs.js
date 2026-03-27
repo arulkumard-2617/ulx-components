@@ -2,8 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSorter, UlxSorterItem } from 'ulx-components';
-import SortableHandle from 'ember-sortable/modifiers/sortable-handle';
+import { UlxSorter } from 'ulx-components';
 
 export default class HandleSorterDemo extends Component {
   @tracked items = [
@@ -19,21 +18,16 @@ export default class HandleSorterDemo extends Component {
 
   <template>
     <UlxSorter
+      @items={{this.items}}
       @groupName="handle-sorter"
       @onChange={{this.reorderItems}}
       @customClass="ulx-drag"
-      as |groupName|
+      @itemClass="drag-item"
+      @handle=".handle"
+      as |item|
     >
-      {{#each this.items as |item|}}
-        <UlxSorterItem
-          @groupName={{groupName}}
-          @items={{item}}
-          @customClass="drag-item"
-        >
-          <span class="handle" {{SortableHandle}} aria-hidden="true">⋮⋮</span>
-          {{item.name}}
-        </UlxSorterItem>
-      {{/each}}
+      <span class="handle" aria-hidden="true">⋮⋮</span>
+      {{item.name}}
     </UlxSorter>
   </template>
 }

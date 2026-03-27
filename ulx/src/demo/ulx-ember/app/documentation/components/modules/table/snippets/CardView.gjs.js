@@ -266,7 +266,7 @@ export default class DemoTableCardView extends Component {
                     />
                     <UlxTieredmenu
                       id="tieredmenu-popup"
-                      @model={{this.items}}
+                      @items={{this.items}}
                       @popup={{true}}
                       @visible={{this.isMenuVisible}}
                       @target={{this.buttonElement}}
@@ -388,7 +388,7 @@ export default class DemoTableCardView extends Component {
                     @outlined={{true}}
                     @size="s-size"
                     @menuCustomClass="with-separator"
-                    @model={{array
+                    @items={{array
                       (hash label="Event Day" icon="event-day-icon")
                       (hash label="Overview" icon="dashboard-icon")
                       (hash label="Clone" icon="copy-icon")
