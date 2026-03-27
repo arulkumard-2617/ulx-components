@@ -1,0 +1,38 @@
+{{page-title "Progress Bar - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-elements-progressbar-theming"
+        @title={{t "lbl.theming"}}
+        @subtitle={{t "msg.theming.subtitle" component="Progress Bar"}}
+      >
+        <p class="fg-text-secondary">Progress Bar uses ULS_V2.0 progress-bar
+          classes (ulx-progressbar, ulx-progressbar-value,
+          ulx-progressbar-label) from progress-bar.less.</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview as |props|>
+        <UlxProgressBar
+          @value={{props.value}}
+          @mode={{props.mode}}
+          @showValue={{props.showValue}}
+          @size={{props.size}}
+          @variant={{props.variant}}
+          @customClass={{props.customClass}}
+        />
+      </:preview>
+    </DocShared::DocMain::ComponentBuilder>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>

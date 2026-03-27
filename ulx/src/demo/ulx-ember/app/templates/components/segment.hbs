@@ -1,0 +1,46 @@
+{{page-title "Segment - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-collections-segment-theming"
+        @title={{t "lbl.theming"}}
+        @subtitle={{t "msg.theming.subtitle" component="Segment"}}
+      >
+        <p class="fg-text-secondary">{{t "msg.theming.content.goes.here"}}</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview>
+        <div class="pd6 fg-text-secondary text-12">
+          Preview not configured yet. Update
+          <code
+          >app/documentation/components/segment/builder-schema.js</code>
+          and this template to render the component with the generated props.
+        </div>
+      </:preview>
+    </DocShared::DocMain::ComponentBuilder>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-collections-segment-passthrough"
+        @title={{t "lbl.pass.through"}}
+        @subtitle={{t "msg.pass.through.subtitle" component="Segment"}}
+      >
+        <p class="fg-text-secondary">{{t
+            "msg.pass.through.content.goes.here"
+          }}</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>
