@@ -58,6 +58,7 @@ Router.map(function () {
     this.route('tooltip');
     this.route('tristate-checkbox');
     this.route('ulx-icon-input');
+    this.route('ulx-image');
   });
 
   this.route('utilities', function () {

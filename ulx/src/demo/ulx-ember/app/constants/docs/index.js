@@ -286,6 +286,11 @@ export const DocNavItems = [
             route: 'components.avatar',
           },
           {
+            menuItem: 'Image',
+            to: '/components/ulx-image',
+            route: 'components.ulx-image',
+          },
+          {
             menuItem: 'ProgressBar',
             to: '/components/progressbar',
             route: 'components.progressbar',

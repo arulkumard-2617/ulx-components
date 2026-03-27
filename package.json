@@ -104,6 +104,7 @@
       "./components/ulx-icon-button/index.js": "./dist/_app_/components/ulx-icon-button/index.js",
       "./components/ulx-icon-input/index.js": "./dist/_app_/components/ulx-icon-input/index.js",
       "./components/ulx-icon/index.js": "./dist/_app_/components/ulx-icon/index.js",
+      "./components/ulx-image/index.js": "./dist/_app_/components/ulx-image/index.js",
       "./components/ulx-input-group/index.js": "./dist/_app_/components/ulx-input-group/index.js",
       "./components/ulx-input/index.js": "./dist/_app_/components/ulx-input/index.js",
       "./components/ulx-message/index.js": "./dist/_app_/components/ulx-message/index.js",

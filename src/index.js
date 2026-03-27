@@ -11,6 +11,7 @@ export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs'
 export { default as UlxInputGroup } from './components/ulx-input-group/index.gjs';
 export { default as UlxTextarea } from './components/ulx-textarea/index.gjs';
 export { default as UlxIconInput } from './components/ulx-icon-input/index.gjs';
+export { default as UlxImage } from './components/ulx-image/index.gjs';
 export { default as UlxCheckbox } from './components/ulx-checkbox/index.gjs';
 export { default as UlxRadio } from './components/ulx-radio/index.gjs';
 export { default as UlxTag } from './components/ulx-tag/index.gjs';
