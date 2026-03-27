@@ -26,8 +26,9 @@ function buildRadioId(namespace, idArg, key) {
  * - Invalid state communicated via `aria-invalid`
  *
  * @class UlxRadio
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
  * @param {string} [id] - Unique ID base for the radio(s). Auto-generated if not provided.
- * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids.
+ * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids. Overrides `field.key` when set.
  *
  * @param {Array<object>} [items] - Optional list of radio items. When provided, the component renders a group.
  *   Each item supports: `{ label, value, checked, disabled, customClass, id }`. Pass string `id` when the list can reorder; otherwise ids use the item index (stable when toggling selection).
@@ -57,11 +58,18 @@ function buildRadioId(namespace, idArg, key) {
  */
 export default class UlxRadio extends Component {
 	get rules() {
-		return normalizeRules(this.args.rules);
+		const { rules: rulesArg } = this.args;
+		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
+	}
+
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
 	}
 
 	get key() {
-		return resolveKey(this, this.args.key);
+		const { key: keyArg } = this.args;
+		return resolveKey(this, keyArg ?? this.fieldContext?.key);
 	}
 
 	get radioId() {
@@ -95,16 +103,22 @@ export default class UlxRadio extends Component {
 	}
 
 	get isInvalid() {
-		return isInvalidState(this.args.invalid, this.args.error);
+		const { invalid, error: errorArg } = this.args;
+		const error = errorArg ?? this.fieldContext?.error;
+		return isInvalidState(invalid, error);
 	}
 
 	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
+		const { ariaDescribedBy } = this.args;
+		return ariaDescribedBy ?? this.fieldContext?.describedBy;
 	}
 
 	get ariaErrorMessage() {
-		if (this.args.ariaErrorMessage) return this.args.ariaErrorMessage;
-		return this.args.error ? `${this.radioId}-error` : undefined;
+		const { ariaErrorMessage, error: errorArg } = this.args;
+		if (ariaErrorMessage) return ariaErrorMessage;
+		if (this.fieldContext?.errorId) return this.fieldContext.errorId;
+		const error = errorArg ?? this.fieldContext?.error;
+		return error ? `${this.radioId}-error` : undefined;
 	}
 
 	get groupName() {

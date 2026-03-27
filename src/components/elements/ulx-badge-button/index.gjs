@@ -27,8 +27,7 @@ export default class UlxBadgeButton extends Component {
 			@label={{@label}}
 			@href={{@href}}
 			@variant={{@variant}}
-			@raised={{@raised}}
-			@rounded={{@rounded}}
+			@pilled={{@pilled}}
 			@text={{@text}}
 			@outlined={{@outlined}}
 			@size={{@size}}

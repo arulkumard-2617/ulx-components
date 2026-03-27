@@ -35,18 +35,13 @@ export default class WithlabelDemoComponent extends Component {
         @error={{this.error}}
         @fieldClass="col-12"
         @fieldId="checkbox-invalid"
+        as |field|
       >
-        <:default as |field|>
-          <UlxCheckbox
-            @key={{field.key}}
-            @rules={{this.requiredRules}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-            @error={{this.error}}
-          />
-        </:default>
+        <UlxCheckbox
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+        />
       </UlxField>
     </div>
   </template>

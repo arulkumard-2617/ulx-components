@@ -354,11 +354,14 @@ body {
 }
 
 .ulsp-topbar {
-  position: fixed;
   top: 0;
   left: 0;
   z-index: 11;
-  position: inherit;
+  position: relative;
+}
+
+.ulsp-topbar.sticky {
+  position: fixed;
 }
 
 .ulsp-app-routes-container {

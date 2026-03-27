@@ -6041,6 +6041,140 @@ export const utilSchema = {
       }
     ]
   },
+  "rowStart": {
+    "title": "Row Start",
+    "description": "Utilities for controlling row start.",
+    "sections": [
+      {
+        "title": "Row Start Utilities",
+        "rows": [
+          {
+            "class": "row-start-1",
+            "styles": "grid-row-start: 1;"
+          },
+          {
+            "class": "row-start-2",
+            "styles": "grid-row-start: 2;"
+          },
+          {
+            "class": "row-start-3",
+            "styles": "grid-row-start: 3;"
+          },
+          {
+            "class": "row-start-4",
+            "styles": "grid-row-start: 4;"
+          },
+          {
+            "class": "row-start-5",
+            "styles": "grid-row-start: 5;"
+          },
+          {
+            "class": "row-start-6",
+            "styles": "grid-row-start: 6;"
+          },
+          {
+            "class": "row-start-7",
+            "styles": "grid-row-start: 7;"
+          },
+          {
+            "class": "row-start-8",
+            "styles": "grid-row-start: 8;"
+          },
+          {
+            "class": "row-start-9",
+            "styles": "grid-row-start: 9;"
+          },
+          {
+            "class": "row-start-10",
+            "styles": "grid-row-start: 10;"
+          },
+          {
+            "class": "row-start-11",
+            "styles": "grid-row-start: 11;"
+          },
+          {
+            "class": "row-start-12",
+            "styles": "grid-row-start: 12;"
+          },
+          {
+            "class": "row-start-13",
+            "styles": "grid-row-start: 13;"
+          },
+          {
+            "class": "row-start-auto",
+            "styles": "grid-row-start: auto;"
+          }
+        ]
+      }
+    ]
+  },
+  "rowEnd": {
+    "title": "Row End",
+    "description": "Utilities for controlling row end.",
+    "sections": [
+      {
+        "title": "Row End Utilities",
+        "rows": [
+          {
+            "class": "row-end-1",
+            "styles": "grid-row-end: 1;"
+          },
+          {
+            "class": "row-end-2",
+            "styles": "grid-row-end: 2;"
+          },
+          {
+            "class": "row-end-3",
+            "styles": "grid-row-end: 3;"
+          },
+          {
+            "class": "row-end-4",
+            "styles": "grid-row-end: 4;"
+          },
+          {
+            "class": "row-end-5",
+            "styles": "grid-row-end: 5;"
+          },
+          {
+            "class": "row-end-6",
+            "styles": "grid-row-end: 6;"
+          },
+          {
+            "class": "row-end-7",
+            "styles": "grid-row-end: 7;"
+          },
+          {
+            "class": "row-end-8",
+            "styles": "grid-row-end: 8;"
+          },
+          {
+            "class": "row-end-9",
+            "styles": "grid-row-end: 9;"
+          },
+          {
+            "class": "row-end-10",
+            "styles": "grid-row-end: 10;"
+          },
+          {
+            "class": "row-end-11",
+            "styles": "grid-row-end: 11;"
+          },
+          {
+            "class": "row-end-12",
+            "styles": "grid-row-end: 12;"
+          },
+          {
+            "class": "row-end-13",
+            "styles": "grid-row-end: 13;"
+          },
+          {
+            "class": "row-end-auto",
+            "styles": "grid-row-end: auto;"
+          }
+        ]
+      }
+    ]
+  },
   "order": {
     "title": "Order",
     "description": "Utilities for controlling order.",

@@ -14,6 +14,7 @@ import {
 	isPointerOutsideAnchoredOverlay,
 	isPointerOutsideElement
 } from "../../../utils/overlay-helpers";
+import { getAdjacentFocusableInDocument } from "../../../utils/focus-util";
 import UlxTieredmenuMenuList from "./menu-list.gjs";
 
 /** Durations match popup/tieredmenu CSS (e.g. 0.2s); fallback timeout covers missing `transitionend`. */
@@ -61,7 +62,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * - Focus management: Focus moves to first item on open, tracks active item
  *
  * @class UlxTieredmenu
- * @param {Array<Object>} [model=[]] - Array of menu item objects
+ * @param {Array<Object>} [items=[]] - Array of menu item objects
  * @param {boolean} [popup=false] - When true, menu operates in popup mode (hidden by default)
  * @param {boolean} [visible=false] - Visibility state for popup mode
  * @param {string} [breakpoint='767px'] - Breakpoint for responsive behavior (mobile/tablet)
@@ -75,6 +76,9 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  */
 export default class UlxTieredmenu extends Component {
 	@service modalStack;
+
+	/** Passed to `@onHide` when closing via Tab so parent can move focus in document order. */
+	_pendingHideFocusDetail = undefined;
 
 	@tracked openSubmenus = new Set();
 	@tracked activeItemId = null;
@@ -113,8 +117,8 @@ export default class UlxTieredmenu extends Component {
 		return joinClassNames(...parts);
 	}
 
-	get model() {
-		return this.args.model ?? [];
+	get items() {
+		return this.args.items ?? [];
 	}
 
 	get isPopup() {
@@ -134,10 +138,7 @@ export default class UlxTieredmenu extends Component {
 		// Keep mounted while exit runs so CSS transition can finish.
 		if (this.animationState?.startsWith("exit")) return true;
 		// `@visible` may flip false before exit starts; stay mounted if we were mid enter.
-		return (
-			!this.args.visible &&
-			TIEREDMENU_ENTER_STATES.has(this.animationState)
-		);
+		return !this.args.visible && TIEREDMENU_ENTER_STATES.has(this.animationState);
 	}
 
 	get shouldAppendToBody() {
@@ -332,6 +333,17 @@ export default class UlxTieredmenu extends Component {
 	 */
 	@action
 	handleKeyDown(item, itemId, parentId, event) {
+		if (event.key === "Tab" && this.isPopup && this.isVisible) {
+			event.preventDefault();
+			const nextFocusable = getAdjacentFocusableInDocument(this.targetElement, {
+				backward: event.shiftKey,
+				excludeContaining: this.containerElement
+			});
+			this._pendingHideFocusDetail = nextFocusable ? { nextFocusable } : undefined;
+			this.handleHide();
+			return;
+		}
+
 		if (this.isDisabled(item)) {
 			return;
 		}
@@ -340,12 +352,7 @@ export default class UlxTieredmenu extends Component {
 		const hasSubmenu = this.hasSubmenu(item);
 
 		// Activation: `key` + `code` so Space/NumpadEnter behave across browsers.
-		if (
-			key === "Enter" ||
-			key === " " ||
-			code === "Space" ||
-			code === "NumpadEnter"
-		) {
+		if (key === "Enter" || key === " " || code === "Space" || code === "NumpadEnter") {
 			event.preventDefault();
 			if (hasSubmenu) {
 				this.toggleSubmenu(itemId, parentId, event);
@@ -677,7 +684,17 @@ export default class UlxTieredmenu extends Component {
 				this._resetPopupTieredmenuState();
 				this.modalStack?.unregisterModal(this);
 				this.clearZIndex();
-				this.args.onHide?.();
+				const hideDetail = this._pendingHideFocusDetail;
+				this._pendingHideFocusDetail = undefined;
+				this.args.onHide?.(hideDetail);
+				const tabOutTarget = hideDetail?.nextFocusable;
+				if (tabOutTarget) {
+					schedule("afterRender", () => {
+						requestAnimationFrame(() => {
+							tabOutTarget.focus?.({ preventScroll: true });
+						});
+					});
+				}
 				setTimeout(() => {
 					this.animationState = null;
 				}, 50);
@@ -993,10 +1010,7 @@ export default class UlxTieredmenu extends Component {
 		// Popup: dismiss when click is outside both the panel and the anchor; respect modal stack top.
 		const handleClick = (event) => {
 			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-			if (
-				isPointerOutsideAnchoredOverlay(element, this.targetElement, event) &&
-				this.isVisible
-			) {
+			if (isPointerOutsideAnchoredOverlay(element, this.targetElement, event) && this.isVisible) {
 				this.handleHide();
 			}
 		};
@@ -1044,7 +1058,7 @@ export default class UlxTieredmenu extends Component {
 			>
 				<ul class="tieredmenu-list" data-qa={{this.getDataQa "list"}} {{this.setMenuRef}}>
 					<UlxTieredmenuMenuList
-						@items={{this.model}}
+						@items={{this.items}}
 						@getDataQa={{this.getDataQa}}
 						@renderItems={{this.renderItems}}
 						@isSeparator={{this.isSeparator}}

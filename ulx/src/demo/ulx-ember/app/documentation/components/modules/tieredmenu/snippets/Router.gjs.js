@@ -43,7 +43,7 @@ export default class RouterDemoComponent extends Component {
   <template>
     <div class="">
       <UlxTieredmenu
-        @model={{this.items}}
+        @items={{this.items}}
         @onItemSelect={{this.handleItemSelect}}
       />
     </div>

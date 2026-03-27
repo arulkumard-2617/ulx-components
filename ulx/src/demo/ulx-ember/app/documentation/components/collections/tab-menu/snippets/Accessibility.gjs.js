@@ -15,7 +15,7 @@ export default class AccessibilityTabMenuDemo extends Component {
   <template>
     <div class="pda4">
       <UlxTabmenu
-        @model={{this.items}}
+        @items={{this.items}}
         @tabId="accessibility-tabmenu"
         @ariaLabel={{t "lbl.tabmenu.navigation"}}
       />

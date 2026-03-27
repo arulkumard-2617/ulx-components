@@ -40,20 +40,15 @@ export default class HorizontalDemoComponent extends Component {
         @helpText={{t "lbl.help.text"}}
         @error={{this.error}}
         @fieldClass="col-12"
-        @key="radio-horizontal"
+        @fieldId="radio-horizontal"
+        as |field|
       >
-        <:default as |field|>
-          <UlxRadio
-            @key={{field.key}}
-            @rules={{this.requiredRules}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-            @groupClass="horizontal"
-            @error={{this.error}}
-          />
-        </:default>
+        <UlxRadio
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+          @groupClass="horizontal"
+        />
       </UlxField>
 
       <div class="col-12">

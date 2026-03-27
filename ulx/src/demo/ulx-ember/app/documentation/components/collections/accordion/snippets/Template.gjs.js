@@ -48,7 +48,7 @@ export default class TemplateAccordionDemo extends Component {
   <template>
     <div class="">
       <UlxAccordion
-        @model={{this.tabs}}
+        @items={{this.tabs}}
         @activeIndex={{this.activeIndex}}
         @onTabChange={{this.handleTabChange}}
       >

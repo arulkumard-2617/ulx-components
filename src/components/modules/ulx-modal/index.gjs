@@ -113,6 +113,7 @@ export default class UlxModal extends Component {
 
 	@tracked isMaximized = false;
 	@tracked isDragging = false;
+	@tracked dragPlacement = null;
 	@tracked isSubmitting = false;
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
@@ -175,8 +176,21 @@ export default class UlxModal extends Component {
 		return this.args.dataQa ?? "ulx-modal";
 	}
 
+	get stackZIndexCss() {
+		const { visible } = this.args;
+		if (!visible) {
+			return "";
+		}
+		const zIndex = this.modalStack.getZIndex(this);
+		return `z-index: ${zIndex}`;
+	}
+
+	get maskStyle() {
+		return this.stackZIndexCss;
+	}
+
 	get modalStyle() {
-		const { visible, width, breakpoints } = this.args;
+		const { width, breakpoints } = this.args;
 		const styles = [];
 
 		!this.isMaximized && width && styles.push(`width: ${width}`);
@@ -187,10 +201,15 @@ export default class UlxModal extends Component {
 			});
 		}
 
-		if (visible) {
-			const zIndex = this.modalStack.getZIndex(this);
-			styles.push(`z-index: ${zIndex}`);
+		if (this.draggable && this.dragPlacement && !this.isMaximized) {
+			styles.push("position: fixed");
+			styles.push(`left: ${this.dragPlacement.left}px`);
+			styles.push(`top: ${this.dragPlacement.top}px`);
+			styles.push("margin: 0");
 		}
+
+		const zIndexCss = this.stackZIndexCss;
+		zIndexCss && styles.push(zIndexCss);
 
 		return styles.join("; ");
 	}
@@ -277,6 +296,9 @@ export default class UlxModal extends Component {
 	@action
 	handleMaximize() {
 		this.isMaximized = !this.isMaximized;
+		if (this.isMaximized) {
+			this.dragPlacement = null;
+		}
 		this.args.onMaximize?.({ maximized: this.isMaximized });
 	}
 
@@ -284,7 +306,7 @@ export default class UlxModal extends Component {
 		return buildOverlayLifecycleOptions(this);
 	}
 
-	// Drag modifier: position fixed + left/top during drag; exclude header icons; optionally keep in viewport
+	// Drag: anchor fixed+left+top on mousedown (flex-centered dialog jumps to 0,0 otherwise); persist dragPlacement for close transition and reopen.
 	dragModifier = modifier((element) => {
 		if (!this.draggable) return;
 
@@ -292,8 +314,16 @@ export default class UlxModal extends Component {
 		let lastPageY = 0;
 
 		const handleMouseDown = (e) => {
+			if (this.isMaximized) return;
 			if (e.target.closest(".dialog-header-icons") || e.target.closest("button")) return;
 			if (!e.target.closest(".dialog-header")) return;
+
+			const rect = element.getBoundingClientRect();
+			element.style.position = "fixed";
+			element.style.left = `${rect.left}px`;
+			element.style.top = `${rect.top}px`;
+			element.style.margin = "0";
+			this.dragPlacement = { left: rect.left, top: rect.top };
 
 			lastPageX = e.pageX;
 			lastPageY = e.pageY;
@@ -304,39 +334,33 @@ export default class UlxModal extends Component {
 		};
 
 		const handleMouseMove = (e) => {
-			const rect = element.getBoundingClientRect();
+			if (!this.isDragging || !this.dragPlacement) return;
+
 			const deltaX = e.pageX - lastPageX;
 			const deltaY = e.pageY - lastPageY;
-			const leftPos = rect.left + deltaX;
-			const topPos = rect.top + deltaY;
+			let newLeft = this.dragPlacement.left + deltaX;
+			let newTop = this.dragPlacement.top + deltaY;
+
+			const rect = element.getBoundingClientRect();
 			const width = rect.width;
 			const height = rect.height;
-			const computedStyle = getComputedStyle(element);
-			const leftMargin = parseFloat(computedStyle.marginLeft) || 0;
-			const topMargin = parseFloat(computedStyle.marginTop) || 0;
 			const viewportWidth = document.documentElement.clientWidth;
 			const viewportHeight = document.documentElement.clientHeight;
 
-			element.style.position = "fixed";
-
 			if (this.keepInViewport) {
-				if (leftPos >= 0 && leftPos + width <= viewportWidth) {
-					lastPageX = e.pageX;
-					element.style.left = `${leftPos - leftMargin}px`;
-				}
-				if (topPos >= 0 && (deltaY < 0 || topPos + height <= viewportHeight)) {
-					lastPageY = e.pageY;
-					element.style.top = `${topPos - topMargin}px`;
-				}
-			} else {
-				lastPageX = e.pageX;
-				lastPageY = e.pageY;
-				element.style.left = `${leftPos - leftMargin}px`;
-				element.style.top = `${topPos - topMargin}px`;
+				const maxLeft = Math.max(0, viewportWidth - width);
+				const maxTop = Math.max(0, viewportHeight - height);
+				newLeft = Math.min(Math.max(0, newLeft), maxLeft);
+				newTop = Math.min(Math.max(0, newTop), maxTop);
 			}
+
+			lastPageX = e.pageX;
+			lastPageY = e.pageY;
+			this.dragPlacement = { left: newLeft, top: newTop };
 		};
 
 		const handleMouseUp = () => {
+			if (!this.isDragging) return;
 			this.isDragging = false;
 			document.body.style.userSelect = "";
 			document.removeEventListener("mousemove", handleMouseMove);
@@ -350,9 +374,6 @@ export default class UlxModal extends Component {
 			document.removeEventListener("mousemove", handleMouseMove);
 			document.removeEventListener("mouseup", handleMouseUp);
 			document.body.style.userSelect = "";
-			element.style.position = "";
-			element.style.left = "";
-			element.style.top = "";
 		};
 	});
 
@@ -374,6 +395,9 @@ export default class UlxModal extends Component {
 
 		if (this.isMaximized !== (maximized ?? false)) {
 			this.isMaximized = maximized ?? false;
+			if (this.isMaximized) {
+				this.dragPlacement = null;
+			}
 		}
 
 		if (visible) {
@@ -396,6 +420,7 @@ export default class UlxModal extends Component {
 					<div
 						class={{this.maskClasses}}
 						data-qa={{this.rootDataQa}}
+						style={{this.maskStyle}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}
 						{{on "click" this.handleBackdropClick}}
 						role="presentation"

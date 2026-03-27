@@ -15,7 +15,7 @@ export default class OppositeTimelineDemo extends Component {
   <template>
     <div class="">
       <div class="w-full md-w-256px">
-        <UlxTimeline @model={{this.events}}>
+      <UlxTimeline @items={{this.events}}>
           <:opposite as |item|>
             {{item.status}}
           </:opposite>

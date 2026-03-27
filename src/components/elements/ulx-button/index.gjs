@@ -10,7 +10,7 @@ const RIPPLE_SIZE = 80;
 const RIPPLE_DURATION_MS = 200;
 
 /**
- * Button element component. Supports multiple variants, sizes, styles (text, outlined, raised, rounded),
+ * Button element component. Supports multiple variants, sizes, styles (text, outlined, pilled),
  * loading state, link rendering, and external content slots via named blocks.
  *
  * ## Variants
@@ -19,15 +19,15 @@ const RIPPLE_DURATION_MS = 200;
  * - success
  * - info
  * - warning
- * - help
+ * - help-button
  * - danger
+ * - white (outlined on primary / dark backgrounds)
  *
  * ## Styles
  * - Standard (default)
  * - Text - use @text={{true}}
  * - Outlined - use @outlined={{true}}
- * - Raised - use @raised={{true}} for shadow
- * - Rounded - use @rounded={{true}} for circular corners
+ * - Pilled - use @pilled={{true}} for pill-shaped corners (ULX `pilled` style)
  *
  * ## Sizes
  * Pass size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Default m-size.
@@ -51,9 +51,8 @@ const RIPPLE_DURATION_MS = 200;
  * @param {string} [label] - Button label text
  * @param {boolean} [disabled=false] - Disables the button
  * @param {string} [href] - When set, renders as <a href="{{href}}">; otherwise <button>
- * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help'|'danger'} [variant='primary'] - Button variant/type
- * @param {boolean} [raised=false] - Adds shadow for elevation
- * @param {boolean} [rounded=false] - Circular border radius
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [variant='primary'] - Button variant/type (`help` is accepted as an alias for `help-button`)
+ * @param {boolean} [pilled=false] - Pill-shaped border radius (adds `pilled` class)
  * @param {boolean} [text=false] - Text variant (transparent background)
  * @param {boolean} [outlined=false] - Outlined variant (transparent background with border)
  * @param {string} [size] - Button size class from parent (e.g. xs-size, s-size, m-size, l-size, xl-size). Omit for m-size.
@@ -103,21 +102,21 @@ export default class UlxButton extends Component {
 			text,
 			href,
 			outlined,
-			raised,
-			rounded,
+			pilled,
 			size,
 			fluid,
 			customClass
 		} = this.args;
 
+		const resolvedVariant = variant === "help" ? "help-button" : variant;
+
 		const parts = [this.baseClass];
 
-		parts.push(variant);
+		parts.push(resolvedVariant);
 		text && parts.push("text-button");
 		href && text && parts.push("link");
 		outlined && parts.push("outlined");
-		raised && parts.push("raised");
-		rounded && parts.push("rounded");
+		pilled && parts.push("pilled");
 
 		parts.push(size || "m-size");
 

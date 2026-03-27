@@ -28,7 +28,7 @@ const TOGGLEABLE_PHASE_CLASSES = {
  * Matches ULS markup/classes from accordion.less.
  *
  * @class UlxAccordion
- * @param {Array<Object>} [model=[]] - Tabs. Each item: { header (string), disabled? (boolean), content? (string) }
+ * @param {Array<Object>} [items=[]] - Tabs. Each item: { header (string), disabled? (boolean), content? (string) }
  * @param {number|number[]|null} [activeIndex=null] - Controlled open index (single) or array (multiple)
  * @param {boolean} [multiple=false] - Allow multiple tabs open
  * @param {Function} [onTabOpen] - Called when a tab opens: ({ originalEvent, index }) => void
@@ -52,8 +52,8 @@ export default class UlxAccordion extends Component {
 		return getComponentClass("accordion");
 	}
 
-	get model() {
-		return this.args.model ?? [];
+	get items() {
+		return this.args.items ?? [];
 	}
 
 	get multiple() {
@@ -144,7 +144,7 @@ export default class UlxAccordion extends Component {
 	getTabClasses(item, index) {
 		const parts = [`${this.baseClass}-tab`];
 		index === 0 && parts.push("first");
-		index === this.model.length - 1 && parts.push("last");
+		index === this.items.length - 1 && parts.push("last");
 		item?.disabled && parts.push("disabled");
 		return joinClassNames(...parts);
 	}
@@ -323,7 +323,7 @@ export default class UlxAccordion extends Component {
 				break;
 			}
 			case "End": {
-				this.focusHeader(this.model.length - 1);
+				this.focusHeader(this.items.length - 1);
 				originalEvent.preventDefault();
 				break;
 			}
@@ -339,15 +339,15 @@ export default class UlxAccordion extends Component {
 	}
 
 	findNextHeader(fromIndex) {
-		for (let i = fromIndex + 1; i < this.model.length; i++) {
-			if (!this.model[i]?.disabled) return i;
+		for (let i = fromIndex + 1; i < this.items.length; i++) {
+			if (!this.items[i]?.disabled) return i;
 		}
 		return null;
 	}
 
 	findPrevHeader(fromIndex) {
 		for (let i = fromIndex - 1; i >= 0; i--) {
-			if (!this.model[i]?.disabled) return i;
+			if (!this.items[i]?.disabled) return i;
 		}
 		return null;
 	}
@@ -377,7 +377,7 @@ export default class UlxAccordion extends Component {
 			{{this.setRootRef}}
 			...attributes
 		>
-			{{#each this.model as |item index|}}
+			{{#each this.items as |item index|}}
 				<div class={{this.getTabClasses item index}}>
 					<div class={{this.getHeaderClasses item index}}>
 						<a

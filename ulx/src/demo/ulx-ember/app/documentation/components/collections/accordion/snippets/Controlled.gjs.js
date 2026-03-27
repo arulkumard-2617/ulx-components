@@ -52,7 +52,7 @@ export default class ControlledAccordionDemo extends Component {
           @label="1"
           @variant={{if (this.isTabActive 0) "primary" "secondary"}}
           @size="s-size"
-          @rounded={{true}}
+          @pilled={{true}}
           aria-label="Open tab 1"
           {{on "click" (fn this.setActiveIndex 0)}}
         />
@@ -60,7 +60,7 @@ export default class ControlledAccordionDemo extends Component {
           @label="2"
           @variant={{if (this.isTabActive 1) "primary" "secondary"}}
           @size="s-size"
-          @rounded={{true}}
+          @pilled={{true}}
           aria-label="Open tab 2"
           {{on "click" (fn this.setActiveIndex 1)}}
         />
@@ -68,13 +68,13 @@ export default class ControlledAccordionDemo extends Component {
           @label="3"
           @variant={{if (this.isTabActive 2) "primary" "secondary"}}
           @size="s-size"
-          @rounded={{true}}
+          @pilled={{true}}
           aria-label="Open tab 3"
           {{on "click" (fn this.setActiveIndex 2)}}
         />
       </div>
       <UlxAccordion
-        @model={{this.tabs}}
+        @items={{this.tabs}}
         @activeIndex={{this.activeIndex}}
         @onTabChange={{this.handleTabChange}}
         @multiple={{true}}

@@ -16,7 +16,7 @@ export default class TemplateTimelineDemo extends Component {
 
   <template>
     <div class="">
-      <UlxTimeline @model={{this.events}} @align="alternate">
+      <UlxTimeline @items={{this.events}} @align="alternate">
         <:opposite as |item|>
           <small class="fg-text-tertiary">{{item.date}}</small>
         </:opposite>

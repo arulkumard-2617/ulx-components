@@ -57,7 +57,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @outlined={{true}}
         />
@@ -66,7 +66,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="secondary"
           @outlined={{true}}
@@ -76,7 +76,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="success"
           @outlined={{true}}
@@ -86,7 +86,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="info"
           @outlined={{true}}
@@ -96,7 +96,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="warning"
           @outlined={{true}}
@@ -106,7 +106,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="help"
           @outlined={{true}}
@@ -116,7 +116,7 @@ export default class DemoSplitButtonOutlined extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="danger"
           @outlined={{true}}

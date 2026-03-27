@@ -56,7 +56,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @text={{true}}
         />
@@ -65,7 +65,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="secondary"
           @text={{true}}
@@ -75,7 +75,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="success"
           @text={{true}}
@@ -85,7 +85,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="info"
           @text={{true}}
@@ -95,7 +95,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="warning"
           @text={{true}}
@@ -105,7 +105,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="help"
           @text={{true}}
@@ -115,7 +115,7 @@ export default class DemoSplitButtonText extends Component {
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @variant="danger"
           @text={{true}}

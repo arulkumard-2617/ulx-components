@@ -338,8 +338,8 @@ export default class TableHeader extends Component {
 											{{else}}
 												<UlxInput
 													@value={{this.filterValueFor (or col.filterField col.field)}}
-													@placeholder={{or col.filterPlaceholder (t "lbl.search")}}
-													{{on "input" (fn this.handleFilterInput (or col.filterField col.field))}}
+													@onInput={{fn this.handleFilterInput (or col.filterField col.field)}}
+													placeholder={{or col.filterPlaceholder (t "lbl.search")}}
 													aria-label={{t "aria.table.filter.column" header=col.header}}
 												/>
 											{{/if}}

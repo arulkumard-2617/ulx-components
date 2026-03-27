@@ -13,6 +13,9 @@ const SLUG_TO_DATA_KEY = {
   // 'min-height': 'size',
   // 'max-height': 'size',
   // 'box-shadow': 'shadow',
+  /** grid.less maps use @row-start / @row-end → schema keys rowStart / rowEnd */
+  'grid-row-start': 'rowStart',
+  'grid-row-end': 'rowEnd',
 };
 
 /**
@@ -75,10 +78,6 @@ export default class UlsDocsService extends Service {
     const normalizedSlug = this.toCamelCase(slug);
     const dataKey = SLUG_TO_DATA_KEY[slug] ?? normalizedSlug;
     const data = ulsUtilitiesData[dataKey];
-
-    console.log('Requested slug:', slug);
-    console.log('Resolved key:', dataKey);
-    console.log('Available schema keys:', Object.keys(ulsUtilitiesData));
 
     if (data) {
       const isAlias = dataKey !== slug;

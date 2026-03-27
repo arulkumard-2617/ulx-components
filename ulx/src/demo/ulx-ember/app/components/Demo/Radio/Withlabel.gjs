@@ -32,18 +32,14 @@ export default class BasicRadioDemo extends Component {
         @rules={{this.requiredRules}}
         @helpText={{t "lbl.help.text"}}
         @fieldClass="col-12"
-        @key="radio-with-label"
+        @fieldId="radio-with-label"
+        as |field|
       >
-        <:default as |field|>
-          <UlxRadio
-            @key={{field.key}}
-            @rules={{this.requiredRules}}
-            @ariaDescribedBy={{field.describedBy}}
-            @ariaErrorMessage={{field.errorId}}
-            @items={{this.items}}
-            @onItemChange={{this.handleItemChange}}
-          />
-        </:default>
+        <UlxRadio
+          @field={{field}}
+          @items={{this.items}}
+          @onItemChange={{this.handleItemChange}}
+        />
       </UlxField>
 
       <div class="col-12">
