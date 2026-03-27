@@ -1,5 +1,5 @@
 import { t } from 'ulx-components';
-import RichText from '../components/common/doc-main/rich-text';
+import RichText from '../components/doc-shared/doc-main/rich-text';
 import DropdownOverlayOptionsDemo from '../components/Demo/Dropdown/OverlayOptions';
 import DropdownOverlayOptionsSource from './demo-sources/dropdown-overlay-options-source';
 

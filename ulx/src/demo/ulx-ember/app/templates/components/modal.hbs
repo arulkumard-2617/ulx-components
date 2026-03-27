@@ -1,0 +1,33 @@
+{{page-title "modal - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-modules-modal-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for modal component."
+      >
+        <p class="fg-text-secondary">Theming content goes here.</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-modules-modal-passthrough"
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for modal component."
+      >
+        <p class="fg-text-secondary">Pass Through content goes here.</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>

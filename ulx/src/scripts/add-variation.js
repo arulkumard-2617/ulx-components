@@ -100,7 +100,7 @@ try {
 	const navEntry = findNavEntryForComponent(items, componentKebab);
 	if (navEntry && typeof navEntry.route === 'string') {
 		const parts = navEntry.route.split('.');
-		// e.g. components.elements.input → category = elements
+		// e.g. components.input → category = elements
 		if (parts[0] === 'components' && parts[1]) {
 			const preferredCategory = parts[1];
 			if (categories.includes(preferredCategory)) {

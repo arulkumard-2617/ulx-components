@@ -359,7 +359,7 @@ if (fs.existsSync(importSnippetPath)) {
 const featuresContent = `// ==========================================================================
 // ${pascalName} Feature Items
 // ==========================================================================
-import RichText from '../../../../components/common/doc-main/rich-text';
+import RichText from '../../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,

@@ -12,7 +12,7 @@ export default class RouterDemoComponent extends Component {
     return [
       {
         label: t('lbl.tabmenu'),
-        route: 'components.collections.tab-menu',
+        route: 'components.tab-menu',
       },
       {
         label: t('lbl.walkthrough'),
