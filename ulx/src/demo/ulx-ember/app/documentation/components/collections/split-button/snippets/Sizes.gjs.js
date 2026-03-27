@@ -56,7 +56,7 @@ export default class DemoSplitButtonSizes extends Component {
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @size="s-size"
         />
@@ -64,7 +64,7 @@ export default class DemoSplitButtonSizes extends Component {
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @size="m-size"
         />
@@ -72,7 +72,7 @@ export default class DemoSplitButtonSizes extends Component {
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
           @iconSize="s22"
-          @model={{this.items}}
+          @items={{this.items}}
           @onClick={{this.save}}
           @size="l-size"
         />

@@ -13,7 +13,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  * Matches ULS markup/classes from `ULS_V2.0/src/styles/uls-styles/less/modules/steps.less`.
  *
  * ## Variations
- * - Basic: provide `@model`
+ * - Basic: provide `@items`
  * - Controlled: provide `@activeIndex`
  * - Linear/read-only (default): `@readOnly={{true}}` (default) blocks selection
  * - Interactive (non-linear): `@readOnly={{false}}` + `@onSelect`
@@ -28,7 +28,7 @@ import UlxIcon from "../../elements/ulx-icon/index.gjs";
  *   - Home/End moves focus to first/last step
  *
  * @class UlxSteps
- * @param {Array<Object>} [model=[]] - Steps array. Each item may include:
+ * @param {Array<Object>} [items=[]] - Steps array. Each item may include:
  *   - `label` (string)
  *   - `icon` (string) - Font icon class for UlxIcon (type="font")
  *   - `disabled` (boolean)
@@ -49,8 +49,8 @@ export default class UlxSteps extends Component {
 		return getComponentClass("steps");
 	}
 
-	get model() {
-		return this.args.model ?? [];
+	get items() {
+		return this.args.items ?? [];
 	}
 
 	get activeIndex() {
@@ -267,7 +267,7 @@ export default class UlxSteps extends Component {
 				{{this.setListRef}}
 				{{on "focus" this.handleListFocus}}
 			>
-				{{#each this.model as |item index|}}
+				{{#each this.items as |item index|}}
 					<li class={{this.getStepClasses item index}} data-qa={{this.getDataQa "item"}}>
 						<a
 							id={{this.getStepId index}}

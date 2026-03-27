@@ -74,7 +74,7 @@ export default class ControlledAccordionDemo extends Component {
         />
       </div>
       <UlxAccordion
-        @model={{this.tabs}}
+        @items={{this.tabs}}
         @activeIndex={{this.activeIndex}}
         @onTabChange={{this.handleTabChange}}
         @multiple={{true}}

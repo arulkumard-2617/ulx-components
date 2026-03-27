@@ -57,7 +57,7 @@ export default class DemoSplitButtonIcons extends Component {
         @iconComponentClass="bs-icons1"
         @iconSize="s22"
         @dropdownIcon="comment-icon"
-        @model={{this.items}}
+        @items={{this.items}}
         @onClick={{this.save}}
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />

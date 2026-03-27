@@ -37,7 +37,7 @@ export default class DemoPanelmenuBasic extends Component {
 
   <template>
     <div class="w-full md-max-w-640">
-      <UlxPanelmenu @model={{this.items}} />
+      <UlxPanelmenu @items={{this.items}} />
     </div>
   </template>
 }

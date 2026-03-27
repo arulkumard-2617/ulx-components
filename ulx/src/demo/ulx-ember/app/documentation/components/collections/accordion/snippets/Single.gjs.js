@@ -34,7 +34,7 @@ export default class SingleAccordionDemo extends Component {
   <template>
     <div class="mb-3">
       <UlxAccordion
-        @model={{this.tabs}}
+        @items={{this.tabs}}
         @activeIndex={{this.activeIndexFlat}}
         @onTabChange={{this.handleFlatTabChange}}
         @toggleIconPosition="right"
@@ -47,7 +47,7 @@ export default class SingleAccordionDemo extends Component {
     </div>
     <div>
       <UlxAccordion
-        @model={{this.tabs}}
+        @items={{this.tabs}}
         @activeIndex={{this.activeIndexOutlined}}
         @onTabChange={{this.handleOutlinedTabChange}}
         @toggleIconPosition="right"

@@ -330,7 +330,7 @@ export default class StackedModalDemo extends Component {
     </UlxPopup>
 
     <UlxTieredmenu
-      @model={{this.menuItems}}
+      @items={{this.menuItems}}
       @popup={{true}}
       @visible={{this.showMenu}}
       @target={{this.menuTriggerElement}}

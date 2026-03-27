@@ -33,7 +33,7 @@ export default class NamedblocksDemoComponent extends Component {
 
   <template>
     <UlxTabmenu
-      @model={{this.items}}
+      @items={{this.items}}
       @tabId="namedblocks-tabmenu"
       @ariaLabel={{t "lbl.tabmenu.profileNavigation"}}
     >

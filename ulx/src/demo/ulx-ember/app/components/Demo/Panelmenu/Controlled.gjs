@@ -63,7 +63,7 @@ export default class DemoPanelmenuControlled extends Component {
         @onClick={{this.toggleAll}}
       />
       <UlxPanelmenu
-        @model={{this.items}}
+        @items={{this.items}}
         @expandedKeys={{this.expandedKeys}}
         @onExpandedKeysChange={{this.onExpandedKeysChange}}
         @multiple={{true}}

@@ -19,7 +19,7 @@ export default class HorizontalTimelineDemo extends Component {
     <div class="">
       <div class="flex flex-col gap-15">
         <div>
-          <UlxTimeline @model={{this.events}} @layout="horizontal" @align="top" @customClass="state-tracker">
+          <UlxTimeline @items={{this.events}} @layout="horizontal" @align="top" @customClass="state-tracker">
             <:content as |item|>
               <span class="medium-font">
                 {{item.label}}
@@ -30,7 +30,7 @@ export default class HorizontalTimelineDemo extends Component {
 
         <div>
           <UlxTimeline
-            @model={{this.years}}
+            @items={{this.years}}
             @layout="horizontal"
             @align="bottom"
           >
@@ -42,7 +42,7 @@ export default class HorizontalTimelineDemo extends Component {
 
         <div>
           <UlxTimeline
-            @model={{this.years}}
+            @items={{this.years}}
             @layout="horizontal"
             @align="alternate"
           >

@@ -26,7 +26,7 @@ function panelHeightTransition(ms) {
  * PanelMenu component (ULX).
  *
  * @class UlxPanelmenu
- * @param {Array<Object>} [model=[]] - Menu model (panels with nested items).
+ * @param {Array<Object>} [items=[]] - Menu items (panels with nested items).
  * @param {Object|null} [expandedKeys] - Controlled expansion map: { [key: string]: true }.
  * @param {Function} [onExpandedKeysChange] - Called with next expandedKeys map in controlled mode.
  * @param {Function} [onOpen] - Called when a root panel expands: ({ originalEvent, item }) => void
@@ -52,7 +52,7 @@ export default class UlxPanelmenu extends Component {
 		this.rootElement = element;
 		// Initialize prev-active map so first user-driven open can animate (unmounted content needs a baseline).
 		this._prevActiveMap ??= new Map();
-		this.model.forEach((item, index) => {
+		this.items.forEach((item, index) => {
 			const key = this.getPanelKeyFor(item, index);
 			if (this._prevActiveMap.has(key)) return;
 			this._prevActiveMap.set(key, this.isPanelActive(item, index));
@@ -70,8 +70,8 @@ export default class UlxPanelmenu extends Component {
 		return this.args.id ?? `ulx-panelmenu-${guidFor(this)}`;
 	}
 
-	get model() {
-		return this.args.model ?? [];
+	get items() {
+		return this.args.items ?? [];
 	}
 
 	get isControlled() {
@@ -347,7 +347,7 @@ export default class UlxPanelmenu extends Component {
 
 		// Single expansion at root: close other root panels; nested keys stay in `next` for reopen.
 		if (!this.multiple) {
-			const rootKeys = new Set(this.model.map((rootItem, i) => this.getPanelKeyFor(rootItem, i)));
+			const rootKeys = new Set(this.items.map((rootItem, i) => this.getPanelKeyFor(rootItem, i)));
 			for (const rootKey of rootKeys) {
 				rootKey !== key && delete next[rootKey];
 			}
@@ -396,7 +396,7 @@ export default class UlxPanelmenu extends Component {
 				originalEvent.preventDefault();
 				break;
 			case "End":
-				this.focusHeader(this.model.length - 1);
+				this.focusHeader(this.items.length - 1);
 				originalEvent.preventDefault();
 				break;
 			case "Enter":
@@ -412,7 +412,7 @@ export default class UlxPanelmenu extends Component {
 
 	@action
 	focusHeader(index) {
-		const item = this.model[index];
+		const item = this.items[index];
 		if (!item || this.isItemDisabled(item) || !this.isItemVisible(item)) return;
 		const id = this.getHeaderId(item, index);
 		const el = this.rootElement?.querySelector?.(`#${id}`);
@@ -421,8 +421,8 @@ export default class UlxPanelmenu extends Component {
 
 	@action
 	focusNextHeader(fromIndex) {
-		for (let i = fromIndex + 1; i < this.model.length; i++) {
-			const item = this.model[i];
+		for (let i = fromIndex + 1; i < this.items.length; i++) {
+			const item = this.items[i];
 			if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) {
 				return this.focusHeader(i);
 			}
@@ -433,12 +433,12 @@ export default class UlxPanelmenu extends Component {
 	@action
 	focusPrevHeader(fromIndex) {
 		for (let i = fromIndex - 1; i >= 0; i--) {
-			const item = this.model[i];
+			const item = this.items[i];
 			if (item && this.isItemVisible(item) && !this.isItemDisabled(item)) {
 				return this.focusHeader(i);
 			}
 		}
-		return this.focusHeader(this.model.length - 1);
+		return this.focusHeader(this.items.length - 1);
 	}
 
 	@action
@@ -454,7 +454,7 @@ export default class UlxPanelmenu extends Component {
 			{{this.setRootRef}}
 			...attributes
 		>
-			{{#each this.model as |item index|}}
+			{{#each this.items as |item index|}}
 				{{#if (this.isItemVisible item)}}
 					<div
 						id={{this.getPanelId item index}}

@@ -49,7 +49,7 @@ export default class ControlledStepsDemo extends Component {
           />
         {{/each}}
       </div>
-      <UlxSteps @model={{this.items}} @activeIndex={{this.activeIndex}} />
+      <UlxSteps @items={{this.items}} @activeIndex={{this.activeIndex}} />
     </div>
   </template>
 }
