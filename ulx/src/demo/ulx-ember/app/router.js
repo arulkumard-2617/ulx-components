@@ -49,6 +49,7 @@ Router.map(function () {
       this.route('empty-state');
       this.route('password');
       this.route('slider');
+      this.route('ulx-image');
     });
     this.route('modules', function () {
       this.route('data-view');
