@@ -7,87 +7,78 @@ import { Addon } from '@embroider/addon-dev/rollup';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const addon = new Addon({
-	srcDir: 'src',
-	destDir: 'dist'
+  srcDir: 'src',
+  destDir: 'dist',
 });
 
 export default {
-	output: addon.output(),
+  output: addon.output(),
 
-	plugins: [
-		addon.publicEntrypoints([
-			'index.js',
-			'components/index.js',
-			'components/elements/**/*.js',
-			'components/elements/**/*.gjs',
-			'components/collections/**/*.js',
-			'components/collections/**/*.gjs',
-			'components/modules/**/*.js',
-			'components/modules/**/*.gjs',
-			'helpers/**/*.js',
-			'modifiers/**/*.js',
-			'services/**/*.js',
-			'utils/**/*.js'
-		]),
+  plugins: [
+    addon.publicEntrypoints([
+      'index.js',
+      'components/**/*.js',
+      'components/**/*.gjs',
+      'helpers/**/*.js',
+      'modifiers/**/*.js',
+      'services/**/*.js',
+      'utils/**/*.js',
+    ]),
 
-		addon.appReexports([
-			'components/elements/**/*.js',
-			'components/elements/**/*.gjs',
-			'components/collections/**/*.js',
-			'components/collections/**/*.gjs',
-			'components/modules/**/*.js',
-			'components/modules/**/*.gjs',
-			'helpers/**/*.js',
-			'modifiers/**/*.js',
-			'services/**/*.js'
-		]),
+    addon.appReexports([
+      'components/**/*.js',
+      'components/**/*.gjs',
+      'helpers/**/*.js',
+      'modifiers/**/*.js',
+      'services/**/*.js',
+    ]),
 
-		addon.dependencies(),
+    addon.dependencies(),
 
-		// Resolve ember-sortable so it gets bundled (addon.dependencies doesn't externalize devDeps)
-		{
-			name: 'resolve-ember-sortable',
-			resolveId(source) {
-				if (source === 'ember-sortable/modifiers/sortable-group') {
-					return path.resolve(
-						__dirname,
-						'node_modules/ember-sortable/dist/modifiers/sortable-group.js'
-					);
-				}
-				if (source === 'ember-sortable/modifiers/sortable-item') {
-					return path.resolve(
-						__dirname,
-						'node_modules/ember-sortable/dist/modifiers/sortable-item.js'
-					);
-				}
-				if (source === 'ember-sortable/modifiers/sortable-handle') {
-					return path.resolve(
-						__dirname,
-						'node_modules/ember-sortable/dist/modifiers/sortable-handle.js'
-					);
-				}
-				return null;
-			},
-		},
+    // Resolve ember-sortable so it gets bundled (addon.dependencies doesn't externalize devDeps)
+    {
+      name: 'resolve-ember-sortable',
+      resolveId(source) {
+        if (source === 'ember-sortable/modifiers/sortable-group') {
+          return path.resolve(
+            __dirname,
+            'node_modules/ember-sortable/dist/modifiers/sortable-group.js'
+          );
+        }
+        if (source === 'ember-sortable/modifiers/sortable-item') {
+          return path.resolve(
+            __dirname,
+            'node_modules/ember-sortable/dist/modifiers/sortable-item.js'
+          );
+        }
+        if (source === 'ember-sortable/modifiers/sortable-handle') {
+          return path.resolve(
+            __dirname,
+            'node_modules/ember-sortable/dist/modifiers/sortable-handle.js'
+          );
+        }
+        return null;
+      },
+    },
 
-		babel({
-			babelHelpers: 'bundled',
-			extensions: ['.js', '.gjs', '.ts', '.gts']
-		}),
+    babel({
+      babelHelpers: 'bundled',
+      extensions: ['.js', '.gjs', '.ts', '.gts'],
+    }),
 
-		addon.hbs(),
+    addon.hbs(),
 
-		addon.gjs(),
+    addon.gjs(),
 
-		addon.keepAssets(['**/*.css']),
+    addon.keepAssets(['**/*.css']),
 
-		addon.clean(),
+    addon.clean(),
 
-		copy({
-			targets: [
-				{ src: '../README.md', dest: '.' },
-				{ src: '../LICENSE.md', dest: '.' }
-			]
-		})
-	]
+    copy({
+      targets: [
+        { src: '../README.md', dest: '.' },
+        { src: '../LICENSE.md', dest: '.' },
+      ],
+    }),
+  ],
 };

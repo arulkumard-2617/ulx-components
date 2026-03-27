@@ -17,14 +17,14 @@ export default class DemoPanelmenuRouter extends Component {
             label: 'Divider',
             icon: 'bs-icons1 divider-icon s20',
             command: () =>
-              this.router.transitionTo('components.elements.divider'),
+              this.router.transitionTo('components.divider'),
           },
           {
             key: 'accordion',
             label: 'Accordion',
             icon: 'bs-icons1 list-view-icon s20',
             command: () =>
-              this.router.transitionTo('components.collections.accordion'),
+              this.router.transitionTo('components.accordion'),
           },
         ],
       },

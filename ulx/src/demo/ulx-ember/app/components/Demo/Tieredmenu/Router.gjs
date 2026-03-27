@@ -10,15 +10,15 @@ export default class RouterDemoComponent extends Component {
     const routes = [
       {
         label: 'TieredMenu docs',
-        route: 'components.modules.tieredmenu',
+        route: 'components.tieredmenu',
       },
       {
         label: 'Toast docs',
-        route: 'components.modules.toast',
+        route: 'components.toast',
       },
       {
         label: 'Tab Menu docs',
-        route: 'components.collections.tab-menu',
+        route: 'components.tab-menu',
       },
     ];
 

@@ -1,5 +1,5 @@
 import { t } from 'ulx-components';
-import RichText from '../components/common/doc-main/rich-text';
+import RichText from '../components/doc-shared/doc-main/rich-text';
 import MultiselectOverlayOptionsDemo from '../components/Demo/Multiselect/OverlayOptions';
 import MultiselectOverlayOptionsSource from './demo-sources/multiselect-overlay-options-source';
 
