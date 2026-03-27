@@ -383,8 +383,7 @@ export default class UlxPaginator extends Component {
 							>
 								{{#each this.pageLinks as |pageNum|}}
 									<UlxButton
-										@variant="secondary"
-										@text={{true}}
+										@variant="basic"
 										@label={{pageNum}}
 										@customClass="paginator-page-button {{if
 											(eq pageNum this.currentPageOneBased)

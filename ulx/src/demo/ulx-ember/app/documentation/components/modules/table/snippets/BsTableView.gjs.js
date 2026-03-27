@@ -135,7 +135,7 @@ export default class DemoTableBsTableView extends Component {
   sortOptions = sortOptions;
   filterGroups = filterGroups;
 
-  @tracked sortBy = 'name:asc';
+  @tracked sortBy = '';
 
   @action
   getRowActionModel(member) {

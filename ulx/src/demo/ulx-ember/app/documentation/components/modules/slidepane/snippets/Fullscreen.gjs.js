@@ -35,7 +35,6 @@ export default class FullscreenSlidepaneDemo extends Component {
         @visible={{this.isVisible}}
         @title="Fullscreen Slide Pane"
         @position="right"
-        @width="500px"
         @onHide={{this.closePane}}
         @onDone={{this.handleDone}}
         @onCancel={{this.closePane}}

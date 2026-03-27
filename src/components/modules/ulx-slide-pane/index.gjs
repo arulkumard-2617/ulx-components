@@ -56,7 +56,6 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {boolean} visible - Controls pane visibility
  * @param {string} [position="right"] - Position: "left", "right", "top", "bottom"
  * @param {string} [title] - Pane title (used when no :head block)
- * @param {string} [width] - CSS width (e.g. "400px"); overridden by size when set
  * @param {string} [size="m-size"] - Preset size: "s-size", "m-size", "l-size"
  * @param {boolean} [closeOnBackdrop=true] - Close when backdrop is clicked
  * @param {boolean} [closeOnEscape=true] - Close on Escape key
@@ -170,15 +169,13 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get slidePaneStyle() {
-		const { visible, width, size } = this.args;
+		const { visible } = this.args;
 		const styles = [];
 
 		if (visible) {
 			const zIndex = this.modalStack.getZIndex(this);
 			styles.push(`z-index: ${zIndex}`);
 		}
-
-		!this.isMaximized && width && !size && styles.push(`inline-size: ${width}`);
 
 		return styles.join("; ");
 	}

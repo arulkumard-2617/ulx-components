@@ -6,12 +6,7 @@ export default class DemoButtonTypes extends Component {
   <template>
     <div class="flex gap-5 align-items-center flex-wrap">
       <UlxButton @label={{t "lbl.primary"}} @variant="primary" />
-      <UlxButton @label={{t "lbl.secondary"}} @variant="secondary" />
-      <UlxButton @label={{t "lbl.success"}} @variant="success" />
-      <UlxButton @label={{t "lbl.info"}} @variant="info" />
-      <UlxButton @label={{t "lbl.warning"}} @variant="warning" />
-      <UlxButton @label={{t "lbl.help"}} @variant="help-button" />
-      <UlxButton @label={{t "lbl.danger"}} @variant="danger" />
+      <UlxButton @label={{t "lbl.primary"}} @variant="primary" @pilled={{true}} />
     </div>
   </template>
 }

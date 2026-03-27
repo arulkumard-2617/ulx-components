@@ -1298,18 +1298,22 @@ export default class UlxTable extends Component {
 						{{#if @showGlobalFilter}}
 							<div class="datatable-globalfilter" role="search">
 								<UlxIconInput
-									@value={{this.globalFilterValue}}
 									@iconLeft="search-icon"
 									@iconType="font"
 									@iconClass="bs-icons1"
 									@iconSize="s14"
-									@onInput={{this.handleGlobalFilterInput}}
-									placeholder={{or
-										@globalFilterPlaceholder
-										(t "msg.table.global.filter.placeholder")
-									}}
-									aria-label={{t "aria.table.global.filter"}}
-								/>
+								>
+									<UlxInput
+										@key="datatable-global-filter"
+										@value={{this.globalFilterValue}}
+										@onInput={{this.handleGlobalFilterInput}}
+										placeholder={{or
+											@globalFilterPlaceholder
+											(t "msg.table.global.filter.placeholder")
+										}}
+										aria-label={{t "aria.table.global.filter"}}
+									/>
+								</UlxIconInput>
 							</div>
 						{{/if}}
 						{{yield to="postLeftMenu"}}

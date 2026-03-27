@@ -50,27 +50,26 @@ export default class DemoSplitButtonSizes extends Component {
   <template>
     <div class="">
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
-      <div class="flex gap-3 align-items-center flex-wrap">
+      <div class="flex gap-3 items-center flex-wrap">
         <UlxSplitButton
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
-          @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @model={{this.items}}
           @onClick={{this.save}}
+          @size="s-size"
         />
         <UlxSplitButton
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
-          @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @model={{this.items}}
           @onClick={{this.save}}
+          @size="m-size"
         />
         <UlxSplitButton
           @label={{t "lbl.save"}}
           @icon="ls-tick-icon"
-          @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @model={{this.items}}
           @onClick={{this.save}}
