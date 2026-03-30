@@ -6,11 +6,15 @@ import {
   BasicDemo,
   ShapeDemo,
   SizesDemo,
+  AspectRatioDemo,
+  ThumbnailDemo,
   AccessibilityDemo,
   ImportSource,
   BasicSource,
   ShapeSource,
   SizesSource,
+  AspectRatioSource,
+  ThumbnailSource,
   AccessibilitySource,
 } from './imports';
 
@@ -91,6 +95,46 @@ export const UlxImageFeatureItems = [
       props: {
         source: SizesSource,
         snippetName: 'sizes',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'aspect-ratio',
+    sectionNav: 'Aspect ratio',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Fluid <code>img-aspect-*</code> classes from ULS section 4. Use <code>@aspectRatio</code> with a bounded width (parent utilities and/or <code>@size</code> such as <code>img-size-100</code>).',
+      },
+    },
+    demo: {
+      component: AspectRatioDemo,
+      props: {
+        source: AspectRatioSource,
+        snippetName: 'aspect-ratio',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'thumbnail',
+    sectionNav: 'Thumbnail',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Fixed-size 16:9 and 9:16 thumbnails (<code>thumb-landscape-*</code>, <code>thumb-portrait-*</code>). Use <code>@thumbLandscape</code> or <code>@thumbPortrait</code>; avoid setting both on one instance.',
+      },
+    },
+    demo: {
+      component: ThumbnailDemo,
+      props: {
+        source: ThumbnailSource,
+        snippetName: 'thumbnail',
         language: 'handlebars',
       },
     },

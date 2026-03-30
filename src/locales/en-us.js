@@ -29,6 +29,20 @@ const enUs = {
 		'Use @shape with ULS classes: square (pair with @size for crop), rounded, or circle.',
 	'msg.doc.image.sizes.intro':
 		'ULS size tokens from xs-size through xxxl-size with square crop for comparison.',
+	'msg.doc.image.aspectratio.intro':
+		'Fluid aspect boxes from image.less (img-aspect-*). Constrain width with a parent (e.g. max-width utilities) and/or @size with ULS img-size-* (e.g. img-size-100) so aspect-ratio applies.',
+	'lbl.doc.image.aspect.square': '1:1 (img-aspect-square)',
+	'lbl.doc.image.aspect.video': '16:9 (img-aspect-video)',
+	'lbl.doc.image.aspect.portrait': '9:16 (img-aspect-portrait)',
+	'lbl.doc.image.aspect.fourthree': '4:3 (img-aspect-four-three)',
+	'lbl.doc.image.thumb.landscape.heading': '16:9 fixed thumbs (thumb-landscape-*)',
+	'msg.doc.image.thumb.landscape.intro':
+		'ULS presets for wide list cells and banners. Use @thumbLandscape: xs, s, m, l, or xl.',
+	'lbl.doc.image.thumb.portrait.heading': '9:16 fixed thumbs (thumb-portrait-*)',
+	'msg.doc.image.thumb.portrait.intro':
+		'ULS presets for narrow phone-style mockups. Use @thumbPortrait: xs, s, m, or l.',
+	'msg.doc.image.thumb.landscape.alt': 'Wide thumbnail sample, {size} preset',
+	'msg.doc.image.thumb.portrait.alt': 'Tall thumbnail sample, {size} preset',
 	'lbl.doc.image.a11y.decorative.heading': 'Decorative images',
 	'msg.doc.image.a11y.decorative.desc':
 		'When the image repeats nearby text or is purely visual, keep @alt empty.',

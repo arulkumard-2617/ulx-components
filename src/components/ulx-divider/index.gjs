@@ -40,7 +40,7 @@ function buildRootClass(baseClasses, hasContent) {
  * @param {string} [variant] - ULS color/variant class: primary | dark | secondary.
  *
  * @param {string} [customClass] - Extra CSS classes appended to the root.
- * @param {string} [componentClass] - Override base component class (rare; defaults to `getComponentClass('divider')` or `getComponentClass('vtl-divider')`).
+ * @param {string} [componentClass] - Override base `ulx-divider` class (rare).
  *
  * @block default - Optional content rendered inside the divider content slot.
  */
@@ -55,9 +55,8 @@ export default class UlxDivider extends Component {
 
 	get baseClass() {
 		if (this.args.componentClass) return this.args.componentClass;
-		return this.layout === "vertical"
-			? getComponentClass("vtl-divider")
-			: getComponentClass("divider");
+		// ULS divider.less: .ulx-divider.horizontal | .ulx-divider.vertical
+		return getComponentClass("divider");
 	}
 
 	get contentClass() {
@@ -65,18 +64,12 @@ export default class UlxDivider extends Component {
 	}
 
 	get baseRootClasses() {
-		const {
-			type = "solid",
-			size = "s-size",
-			thickness,
-			variant,
-			customClass
-		} = this.args;
+		const { type = "solid", size = "s-size", thickness, variant, customClass } = this.args;
 
 		const parts = [this.baseClass];
 
-		// Layout
-		this.layout === "horizontal" && parts.push("horizontal");
+		// Layout (matches elements/divider.less: .ulx-divider.horizontal | .ulx-divider.vertical)
+		parts.push(this.layout === "vertical" ? "vertical" : "horizontal");
 
 		// Size / thickness
 		size && parts.push(size);
@@ -123,4 +116,3 @@ export default class UlxDivider extends Component {
 		{{/let}}
 	</template>
 }
-
