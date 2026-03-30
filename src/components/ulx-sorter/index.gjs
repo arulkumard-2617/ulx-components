@@ -1,10 +1,10 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-import sortable from "../../../modifiers/sortable.js";
+import sortable from "../../modifiers/sortable.js";
 import { getComponentClass } from "../../utils/component-config";
-import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
-import { t } from "../../../utils/i18n";
+import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
+import { t } from "../../utils/i18n";
 
 export default class UlxSorter extends Component {
 	@tracked _items = [];

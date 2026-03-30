@@ -1,11 +1,11 @@
-export { default as BasicDemo } from "../../../../components/Demo/Sorter/Basic";
-export { default as SharedlistsDemo } from "../../../../components/Demo/Sorter/Sharedlists";
-export { default as CloningDemo } from "../../../../components/Demo/Sorter/Cloning";
-export { default as DisablesortingDemo } from "../../../../components/Demo/Sorter/Disablesorting";
-export { default as HandleDemo } from "../../../../components/Demo/Sorter/Handle";
-export { default as FilterDemo } from "../../../../components/Demo/Sorter/Filter";
-export { default as GridDemo } from "../../../../components/Demo/Sorter/Grid";
-export { default as NestedDemo } from "../../../../components/Demo/Sorter/Nested";
+export { default as BasicDemo } from "../../../components/Demo/Sorter/Basic";
+export { default as SharedlistsDemo } from "../../../components/Demo/Sorter/Sharedlists";
+export { default as CloningDemo } from "../../../components/Demo/Sorter/Cloning";
+export { default as DisablesortingDemo } from "../../../components/Demo/Sorter/Disablesorting";
+export { default as HandleDemo } from "../../../components/Demo/Sorter/Handle";
+export { default as FilterDemo } from "../../../components/Demo/Sorter/Filter";
+export { default as GridDemo } from "../../../components/Demo/Sorter/Grid";
+export { default as NestedDemo } from "../../../components/Demo/Sorter/Nested";
 export { default as MultidragDemo } from "../../../components/Demo/Sorter/Multidrag";
 export { default as SwapDemo } from "../../../components/Demo/Sorter/Swap";
 
