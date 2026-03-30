@@ -7,7 +7,7 @@ import { getComponentClass } from "../../utils/component-config";
  * ## WCAG
  * - **Dot badges**: Decorative (`aria-hidden="true"`) when no `@ariaLabel`. With `@ariaLabel`, exposed for assistive tech like other meaningful badges.
  * - **Badges with content**: Decorative by default (`aria-hidden="true"`). For meaningful badges, provide `@ariaLabel` prop to make them accessible (automatically sets `aria-hidden="false"` and `role="status"`).
- * - **Interactive badges**: When `@clickable` or `@interactive` is true, automatically makes badge focusable (`tabindex="0"`). Requires `@ariaLabel` for accessible name.
+ * - **Clickable badges**: When `@clickable` is true, automatically makes badge focusable (`tabindex="0"`). Requires `@ariaLabel` for accessible name.
  * - **Override via attributes**: You can override accessibility attributes via `...attributes` (e.g., `aria-hidden="false"`, `role="status"`, `aria-label="..."`).
  *
  * @class UlxBadge
@@ -17,8 +17,7 @@ import { getComponentClass } from "../../utils/component-config";
  * @param {string} [type] - Badge type: "circle" | "dot" | "square" (default). "dot" renders as a dot indicator without text content; use `@ariaLabel` for a meaningful dot. "circle" applies fully rounded shape.
  * @param {string} [ariaLabel] - Accessible name for meaningful badges. When provided, automatically sets `aria-hidden="false"` and `role="status"`.
  * @param {boolean} [disabled=false] - When true, applies disabled styling and prevents interaction.
- * @param {boolean} [clickable=false] - When true, applies clickable styling with hover/active states. Requires `@ariaLabel` for accessibility.
- * @param {boolean} [interactive=false] - When true, applies interactive styling with focus support. Requires `@ariaLabel` for accessibility.
+ * @param {boolean} [clickable=false] - When true, applies clickable styling with hover/active states and focus (`tabindex="0"`). Requires `@ariaLabel` for accessibility.
  * @param {string} [customClass] - Extra CSS classes appended to the root element.
  * @param {string} [componentClass] - Override base component class (defaults to "ulx-badge").
  */
@@ -35,7 +34,6 @@ export default class UlxBadge extends Component {
 			type,
 			disabled = false,
 			clickable = false,
-			interactive = false,
 			customClass
 		} = this.args;
 
@@ -54,7 +52,6 @@ export default class UlxBadge extends Component {
 		// States
 		disabled && parts.push("disabled");
 		clickable && parts.push("clickable");
-		interactive && parts.push("interactive");
 
 		// Custom classes
 		customClass && parts.push(customClass);
@@ -82,8 +79,8 @@ export default class UlxBadge extends Component {
 	}
 
 	get tabindex() {
-		// Interactive badges should be focusable
-		if (this.args.clickable || this.args.interactive) {
+		// Clickable badges should be focusable
+		if (this.args.clickable) {
 			return this.args.disabled ? "-1" : "0";
 		}
 		return undefined;

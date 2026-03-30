@@ -18,10 +18,11 @@ import { t } from "../../utils/i18n";
  * @param {string} src - Image URL.
  * @param {string} [alt=""] - `alt` for the inner `<img>`; empty string for decorative images.
  * @param {'square'|'rounded'|'circle'} [shape] - `rounded` / `circle` map to ULS modifiers. `square` adds the `square` crop modifier; pair with `@size` so ULS applies fixed square dimensions.
- * @param {'xs-size'|'s-size'|'m-size'|'l-size'|'xl-size'|'xxl-size'|'xxxl-size'} [size] - ULS image scale class (see `image.less`).
+ * @param {'xs-size'|'s-size'|'m-size'|'l-size'|'xl-size'|'xxl-size'|'xxxl-size'|'img-size-100'|'img-size-75'|'img-size-50'|'img-size-25'} [size] - ULS `image.less` on the root: fixed scale tokens (`xs-size`–`xxxl-size`, pair with `shape="square"` for square crop) or fluid width utilities (`img-size-*` percentages).
  * @param {'cover'|'contain'|'fill'} [objectFit] - `object-*` modifier on the root.
- * @param {'square'|'video'|'portrait'|'four-three'} [aspectRatio] - `img-aspect-*` preset on the root.
- * @param {100|75|50|25} [widthFill] - Fluid width utility `img-size-*`.
+ * @param {'square'|'video'|'portrait'|'four-three'} [aspectRatio] - `img-aspect-*` fluid aspect box on the root (pair with parent width constraints and/or `@size` such as `img-size-100`).
+ * @param {'xs'|'s'|'m'|'l'|'xl'} [thumbLandscape] - Fixed 16:9 thumbnail: `thumb-landscape-*` (ULS section 4).
+ * @param {'xs'|'s'|'m'|'l'} [thumbPortrait] - Fixed 9:16 thumbnail: `thumb-portrait-*`. Do not set both `thumbLandscape` and `thumbPortrait` on the same instance.
  * @param {string|number} [width] - `width` attribute on `<img>` (layout hint / CLS).
  * @param {string|number} [height] - `height` attribute on `<img>` (layout hint / CLS).
  * @param {'lazy'|'eager'} [loading] - Native `loading` hint.
@@ -58,7 +59,15 @@ export default class UlxImage extends Component {
 	}
 
 	get rootClasses() {
-		const { shape, size, objectFit, aspectRatio, widthFill, customClass } = this.args;
+		const {
+			shape,
+			size,
+			objectFit,
+			aspectRatio,
+			thumbLandscape,
+			thumbPortrait,
+			customClass
+		} = this.args;
 
 		const parts = [this.baseClass];
 
@@ -77,10 +86,16 @@ export default class UlxImage extends Component {
 		aspectRatio === "portrait" && parts.push("img-aspect-portrait");
 		aspectRatio === "four-three" && parts.push("img-aspect-four-three");
 
-		widthFill === 100 && parts.push("img-size-100");
-		widthFill === 75 && parts.push("img-size-75");
-		widthFill === 50 && parts.push("img-size-50");
-		widthFill === 25 && parts.push("img-size-25");
+		thumbLandscape === "xs" && parts.push("thumb-landscape-xs");
+		thumbLandscape === "s" && parts.push("thumb-landscape-s");
+		thumbLandscape === "m" && parts.push("thumb-landscape-m");
+		thumbLandscape === "l" && parts.push("thumb-landscape-l");
+		thumbLandscape === "xl" && parts.push("thumb-landscape-xl");
+
+		thumbPortrait === "xs" && parts.push("thumb-portrait-xs");
+		thumbPortrait === "s" && parts.push("thumb-portrait-s");
+		thumbPortrait === "m" && parts.push("thumb-portrait-m");
+		thumbPortrait === "l" && parts.push("thumb-portrait-l");
 
 		customClass && parts.push(customClass);
 
