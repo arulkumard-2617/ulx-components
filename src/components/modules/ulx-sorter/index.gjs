@@ -1,109 +1,81 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-import SortableGroup from "ember-sortable/modifiers/sortable-group";
-import { getComponentClass } from "../../../utils/component-config.js";
-import UlxSorterItem from "./item.gjs";
+import sortable from "../../../modifiers/sortable.js";
+import { getComponentClass } from "../../../utils/component-config";
+import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
+import { t } from "../../../utils/i18n";
 
-/**
- * Sortable group wrapper around ember-sortable. Renders a container that reorders
- * child UlxSorterItem components when the user drags them.
- *
- * @class UlxSorter
- * @param {Function} [onChange] - Called with (items, draggedItem) when order changes
- * @param {string} [direction="y"] - Sort direction: "y" (vertical), "x" (horizontal), or "grid"
- * @param {boolean} [disabled=false] - When true, sorting is disabled for the group
- * @param {string} [groupName] - Unique name when multiple sorters are on the page
- * @param {string} [customClass] - Extra CSS classes for the root element
- * @param {string} [dataQa] - Override root data-qa attribute
- */
 export default class UlxSorter extends Component {
+	@tracked _items = [];
+
+	_isDragging = false;
+
+	constructor(owner, args) {
+		super(owner, args);
+		this._items = [...(args.items ?? [])];
+	}
+
 	get baseClass() {
 		return getComponentClass("sorter");
 	}
 
+	// ✅ Sync from @items ONLY when not dragging (i.e. after parent updates state)
 	get items() {
-		return this.args.items ?? [];
+		if (!this._isDragging) {
+			const incoming = this.args.items ?? [];
+			this._items = [...incoming];
+		}
+		return this._items;
 	}
-
-	get direction() {
-		return this.args.direction ?? "y";
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "sorter");
 	}
-
-	get groupName() {
-		return this.args.groupName;
-	}
-
-	get itemClass() {
-		return this.args.itemClass;
-	}
-
-	get handle() {
-		return this.args.handle;
-	}
-
-	get useDragIconAsHandle() {
-		return this.args.useDragIconAsHandle ?? false;
-	}
-
-	get distance() {
-		return this.args.distance ?? 30;
-	}
-
 	get rootClasses() {
-		const { customClass } = this.args;
-
+		const { customClass = "ulx-drag" } = this.args;
 		const parts = [this.baseClass];
 		customClass && parts.push(customClass);
-
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
-
-	get rootDataQa() {
-		return this.args.dataQa ?? "ulx-sorter";
+	get itemClasses() {
+		return this.args.itemClass ?? "drag-item";
 	}
-
-	@action
-	onChange(items, draggableItem) {
-		this.args.onChange?.(items, draggableItem);
+	get ariaLabel() {
+		return this.args.ariaLabel ?? t("lbl.sorter");
 	}
-
-	@action
-	onDragStart(item) {
-		this.args.onDragStart?.(item);
+	get sortableOptions() {
+		return this.args.options;
 	}
-
-	@action
-	onDragStop(item) {
-		this.args.onDragStop?.(item);
+	@action getDataQa(part) {
+		return buildDataQa(this.rootDataQa, part);
 	}
-
+	@action getItemId(item, index) {
+		const { idKey } = this.args;
+		if (idKey && item && typeof item === "object" && item[idKey] != null) {
+			return String(item[idKey]);
+		}
+		return String(index);
+	}
 	<template>
 		<div
+			id={{@rootId}}
 			class={{this.rootClasses}}
+			role="listbox"
+			aria-label={{this.ariaLabel}}
 			data-qa={{this.rootDataQa}}
-			{{SortableGroup
-				onChange=this.onChange
-				direction=this.direction
-				disabled=@disabled
-				groupName=@groupName
-			}}
+			data-id={{@rootId}}
 			...attributes
+			{{sortable this.sortableOptions}}
 		>
-			{{#each this.items as |item|}}
-				<UlxSorterItem
-					@items={{item}}
-					@groupName={{this.groupName}}
-					@customClass={{this.itemClass}}
-					@handle={{this.handle}}
-					@useDragIconAsHandle={{this.useDragIconAsHandle}}
-					@distance={{this.distance}}
-					@onDragStart={{this.onDragStart}}
-					@onDragStop={{this.onDragStop}}
-					@disabled={{@disabled}}
-					@isAnimated={{@isAnimated}}
+			{{#each this.items as |item index|}}
+				<div
+					class={{this.itemClasses}}
+					data-qa={{this.getDataQa "item"}}
+					role="option"
+					aria-selected="false"
 				>
-					{{yield item}}
-				</UlxSorterItem>
+					{{yield item index}}
+				</div>
 			{{/each}}
 		</div>
 	</template>

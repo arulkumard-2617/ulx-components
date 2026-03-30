@@ -1,4 +1,4 @@
-{{page-title "Sorter - ULS Ember Documentation"}}
+{{page-title "sorter - ULS Ember Documentation"}}
 
 <Common::DocMain::ComponentLayout
   @title={{@model.meta.header}}
@@ -9,35 +9,22 @@
 >
   {{#if this.isFeaturesTab}}
     <Common::DocMain::DocPanel @features={{@model.features}} />
-  {{else if this.isThemingTab}}
-    <div class="doc-section">
-      <Common::DocMain::FoundationSection
-        @id="components-modules-sorter-theming"
-        @title="Theming"
-        @subtitle="Theming documentation for Sorter component."
-      >
-        <p class="fg-text-secondary">Theming content goes here.</p>
-      </Common::DocMain::FoundationSection>
-    </div>
-  {{else if this.isBuilderTab}}
+  {{else if this.isParamsTab}}
     <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
       <:preview>
         <div class="pd6 fg-text-secondary text-12">
-          Preview not configured yet. Update
-          <code
-          >app/documentation/components/modules/sorter/builder-schema.js</code>
-          and this template to render the component with the generated props.
+          Builder preview is not configured yet.
         </div>
       </:preview>
     </Common::DocMain::ComponentBuilder>
-  {{else if this.isPassthroughTab}}
+  {{else if this.isArchitectureTab}}
     <div class="doc-section">
       <Common::DocMain::FoundationSection
-        @id="components-modules-sorter-passthrough"
-        @title="Pass Through"
-        @subtitle="Pass Through props documentation for Sorter component."
+        @id="components-modules-sorter-architecture"
+        @title="Architecture"
+        @subtitle="Architecture details for sorter."
       >
-        <p class="fg-text-secondary">Pass Through content goes here.</p>
+        <p class="fg-text-secondary">Architecture content goes here.</p>
       </Common::DocMain::FoundationSection>
     </div>
   {{/if}}

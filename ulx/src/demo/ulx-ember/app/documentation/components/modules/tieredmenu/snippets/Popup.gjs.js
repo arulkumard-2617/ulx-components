@@ -94,7 +94,7 @@ export default class PopupTieredmenuDemo extends Component {
 
       <UlxTieredmenu
         id="tieredmenu-popup"
-        @items={{this.items}}
+      @items={{this.items}}
         @popup={{true}}
         @visible={{this.isMenuVisible}}
         @target={{this.buttonElement}}

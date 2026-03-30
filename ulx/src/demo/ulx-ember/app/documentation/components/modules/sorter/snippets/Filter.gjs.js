@@ -3,14 +3,12 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxSorter } from 'ulx-components';
-import { hash } from '@ember/helper';
+import { fn, hash } from '@ember/helper';
 
-export default class HandleSorterDemo extends Component {
-  @tracked items = [
-    { id: 1, name: 'Drag by handle' },
-    { id: 2, name: 'Second item' },
-    { id: 3, name: 'Third item' },
-  ];
+const ITEMS = ['Item 1', 'Item 2', 'Item 3', 'Filtered', 'Item 4', 'Item 5'];
+
+export default class FilterSorterDemo extends Component {
+  @tracked items = [...ITEMS];
 
   @action
   handleSort(event) {
@@ -21,17 +19,19 @@ export default class HandleSorterDemo extends Component {
     this.items = reorderedItems;
   }
 
+  @action
+  isFiltered(item) {
+    return item === 'Filtered';
+  }
+
   <template>
     <UlxSorter
       @items={{this.items}}
-      @options={{hash handle=".handle" animation=150}}
-      @onEnd={{this.handleSort}}
-      @customClass="ulx-drag"
-      @itemClass="drag-item"
+      @options={{hash filter=".filtered" onSort=(fn this.handleSort)}}
+      @filter=".filtered"
       as |item|
     >
-      <span class="handle" aria-hidden="true">⋮⋮</span>
-      {{item.name}}
+      <div class="{{if (this.isFiltered item) 'filtered'}}">{{item}}</div>
     </UlxSorter>
   </template>
 }

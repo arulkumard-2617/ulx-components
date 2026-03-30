@@ -1,4 +1,3 @@
 export default `
-import { UlxSorter, UlxSorterItem } from 'ulx-components';
-
+import { UlxSorter } from 'ulx-components';
 `;
