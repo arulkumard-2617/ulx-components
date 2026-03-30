@@ -17,7 +17,8 @@ export default {
   plugins: [
     addon.publicEntrypoints([
       'index.js',
-      'components/**/*.js',
+      'instance-initializers/**/*.js',
+			'components/**/*.js',
       'components/**/*.gjs',
       'helpers/**/*.js',
       'modifiers/**/*.js',
@@ -26,7 +27,8 @@ export default {
     ]),
 
     addon.appReexports([
-      'components/**/*.js',
+      'instance-initializers/**/*.js',
+			'components/**/*.js',
       'components/**/*.gjs',
       'helpers/**/*.js',
       'modifiers/**/*.js',
@@ -58,7 +60,7 @@ export default {
           );
         }
         return null;
-      },
+      }
     },
 
     babel({

@@ -1,35 +1,30 @@
-import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+import Controller from "@ember/controller";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
 
 export default class ComponentsModulesSorterController extends Controller {
-  @tracked activeTab = 'features';
+	@tracked activeTab = "features";
 
-  tabs = [
-    { id: 'features', label: 'FEATURES' },
-    { id: 'theming', label: 'THEMING' },
-    { id: 'builder', label: 'BUILDER' },
-    { id: 'passthrough', label: 'PASS THROUGH' },
-  ];
+	tabs = [
+		{ id: "features", label: "FEATURES" },
+		{ id: "params", label: "PARAMS" },
+		{ id: "architecture", label: "ARCHITECTURE" }
+	];
 
-  get isFeaturesTab() {
-    return this.activeTab === 'features';
-  }
+	get isFeaturesTab() {
+		return this.activeTab === "features";
+	}
 
-  get isThemingTab() {
-    return this.activeTab === 'theming';
-  }
+	get isParamsTab() {
+		return this.activeTab === "params";
+	}
 
-  get isBuilderTab() {
-    return this.activeTab === 'builder';
-  }
+	get isArchitectureTab() {
+		return this.activeTab === "architecture";
+	}
 
-  get isPassthroughTab() {
-    return this.activeTab === 'passthrough';
-  }
-
-  @action
-  onTabChange(tabId) {
-    this.activeTab = tabId;
-  }
+	@action
+	onTabChange(tabId) {
+		this.activeTab = tabId;
+	}
 }

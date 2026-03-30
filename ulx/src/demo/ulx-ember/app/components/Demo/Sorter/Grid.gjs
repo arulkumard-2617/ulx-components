@@ -1,16 +1,13 @@
-export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxSorter } from 'ulx-components';
 import { hash } from '@ember/helper';
 
-export default class HandleSorterDemo extends Component {
-  @tracked items = [
-    { id: 1, name: 'Drag by handle' },
-    { id: 2, name: 'Second item' },
-    { id: 3, name: 'Third item' },
-  ];
+const ITEMS = Array.from({ length: 20 }, (_, index) => `Item ${index + 1}`);
+
+export default class GridSorterDemo extends Component {
+  @tracked items = [...ITEMS];
 
   @action
   handleSort(event) {
@@ -24,16 +21,11 @@ export default class HandleSorterDemo extends Component {
   <template>
     <UlxSorter
       @items={{this.items}}
-      @options={{hash handle=".handle" animation=150}}
-      @onEnd={{this.handleSort}}
-      @customClass="ulx-drag"
-      @itemClass="drag-item"
+      @onSort={{this.handleSort}}
+      @options={{hash animation=150 ghostClass="blue-background-class"}}
       as |item|
     >
-      <span class="handle" aria-hidden="true">⋮⋮</span>
-      {{item.name}}
+      <div class="pd2 text-center border-radius-sm border">{{item}}</div>
     </UlxSorter>
   </template>
 }
-
-`;

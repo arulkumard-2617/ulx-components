@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxSorter } from 'ulx-components';
+import { hash } from '@ember/helper';
 
 export default class HandleSorterDemo extends Component {
   @tracked items = [
@@ -11,18 +12,21 @@ export default class HandleSorterDemo extends Component {
   ];
 
   @action
-  reorderItems(newItems) {
-    this.items = newItems;
+  handleSort(event) {
+    const { oldIndex, newIndex } = event;
+    const reorderedItems = [...this.items];
+    const [movedItem] = reorderedItems.splice(oldIndex, 1);
+    reorderedItems.splice(newIndex, 0, movedItem);
+    this.items = reorderedItems;
   }
 
   <template>
     <UlxSorter
       @items={{this.items}}
-      @groupName="handle-sorter"
-      @onChange={{this.reorderItems}}
+      @options={{hash handle=".handle" animation=150}}
+      @onEnd={{this.handleSort}}
       @customClass="ulx-drag"
       @itemClass="drag-item"
-      @handle=".handle"
       as |item|
     >
       <span class="handle" aria-hidden="true">⋮⋮</span>

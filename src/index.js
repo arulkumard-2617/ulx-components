@@ -58,7 +58,6 @@ export { default as UlxPaginator } from './components/ulx-paginator/index.gjs';
 export { default as Steps } from './components/ulx-steps/index.gjs';
 export { default as UlxSteps } from './components/ulx-steps/index.gjs';
 export { default as UlxSorter } from './components/ulx-sorter/index.gjs';
-export { default as UlxSorterItem } from './components/ulx-sorter/item.gjs';
 
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
@@ -76,3 +75,4 @@ export { default as ModalStackService } from './services/modal-stack.js';
 // Modifiers
 export { default as tooltip } from './modifiers/tooltip.js';
 export { default as overlayDismiss } from './modifiers/overlay-dismiss.js';
+export { default as sortable } from './modifiers/sortable.js';

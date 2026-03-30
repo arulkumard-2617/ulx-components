@@ -15,6 +15,13 @@ module.exports = function (defaults) {
         DEPRECATE_STORE_EXTENDS_EMBER_OBJECT: false,
       },
     },
+
+    nodeAssets: {
+      sortablejs: {
+        srcDir: '/',
+        import: ['Sortable.js'],
+      },
+    },
     // Configure ember-code-snippet for .gjs files with Handlebars comments
     'ember-code-snippet': {
       snippetExtensions: [
