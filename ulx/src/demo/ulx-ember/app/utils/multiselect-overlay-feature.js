@@ -10,17 +10,17 @@ export const MultiselectOverlayFeatureItem = {
     component: RichText,
     props: {
       as: 'span',
-      content: t('msg.dropdown.overlay.options.doc'),
-    },
+      content: t('msg.dropdown.overlay.options.doc')
+    }
   },
   demo: {
     component: MultiselectOverlayOptionsDemo,
     props: {
       source: MultiselectOverlayOptionsSource,
       snippetName: 'overlay-options',
-      language: 'handlebars',
-    },
-  },
+      language: 'handlebars'
+    }
+  }
 };
 
 export function withMultiselectOverlayFeature(featureItems = []) {

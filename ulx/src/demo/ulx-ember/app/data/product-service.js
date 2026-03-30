@@ -40,6 +40,6 @@ export function getProductsData() {
     { id: '1026', code: 'zx23zc42c', name: 'Teal T-Shirt', description: 'Product Description', image: 'teal-t-shirt.jpg', price: 49, category: 'Clothing', quantity: 3, inventoryStatus: 'LOWSTOCK', rating: 3 },
     { id: '1027', code: 'acvx872gc', name: 'Yellow Earbuds', description: 'Product Description', image: 'yellow-earbuds.jpg', price: 89, category: 'Electronics', quantity: 35, inventoryStatus: 'INSTOCK', rating: 3 },
     { id: '1028', code: 'tx125ck42', name: 'Yoga Mat', description: 'Product Description', image: 'yoga-mat.jpg', price: 20, category: 'Fitness', quantity: 15, inventoryStatus: 'INSTOCK', rating: 5 },
-    { id: '1029', code: 'gwuby345v', name: 'Yoga Set', description: 'Product Description', image: 'yoga-set.jpg', price: 20, category: 'Fitness', quantity: 25, inventoryStatus: 'INSTOCK', rating: 8 },
+    { id: '1029', code: 'gwuby345v', name: 'Yoga Set', description: 'Product Description', image: 'yoga-set.jpg', price: 20, category: 'Fitness', quantity: 25, inventoryStatus: 'INSTOCK', rating: 8 }
   ];
 }

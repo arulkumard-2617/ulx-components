@@ -1,5 +1,5 @@
-import { htmlSafe } from "@ember/template";
-import enUs from "../locales/en-us";
+import { htmlSafe } from '@ember/template';
+import enUs from '../locales/en-us';
 
 /**
  * Lightweight i18n utility for ULX components.
@@ -16,11 +16,11 @@ import enUs from "../locales/en-us";
 
 /** Registry of loaded locale maps. */
 const _locales = {
-	"en-us": enUs
+	'en-us': enUs
 };
 
 /** Currently active locale key. */
-let _currentLocale = "en-us";
+let _currentLocale = 'en-us';
 
 // ── Public API ──────────────────────────────────────────────
 
@@ -37,7 +37,7 @@ let _currentLocale = "en-us";
  *   t("unknown.key");                                    // "unknown.key" (fallback)
  */
 export function t(key, params) {
-	const map = _locales[_currentLocale] ?? _locales["en-us"] ?? {};
+	const map = _locales[_currentLocale] ?? _locales['en-us'] ?? {};
 	const template = map[key];
 
 	if (template === undefined) {
@@ -126,7 +126,7 @@ export function addTranslations(locale, translations) {
  * @returns {boolean}
  */
 export function hasTranslation(key) {
-	const map = _locales[_currentLocale] ?? _locales["en-us"] ?? {};
+	const map = _locales[_currentLocale] ?? _locales['en-us'] ?? {};
 	return key in map;
 }
 

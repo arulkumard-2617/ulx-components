@@ -1,5 +1,5 @@
-import { helper } from "@ember/component/helper";
-import { tSafe } from "../utils/i18n";
+import { helper } from '@ember/component/helper';
+import { tSafe } from '../utils/i18n';
 
 /**
  * Template helper that resolves a translation key and returns an htmlSafe string.

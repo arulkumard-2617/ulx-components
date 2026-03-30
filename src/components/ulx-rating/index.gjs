@@ -125,7 +125,10 @@ export default class UlxRating extends Component {
 				event.preventDefault();
 				this.setValue(value);
 			}
-		} else if (type === "cancel" && (key === " " || key === "Enter" || code === "NumpadEnter" || code === "Space")) {
+		} else if (
+			type === "cancel" &&
+			(key === " " || key === "Enter" || code === "NumpadEnter" || code === "Space")
+		) {
 			event.preventDefault();
 			this.setValue(0);
 		}

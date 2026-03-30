@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 
 const { resolve, dirname } = require('path');
 const { readFileSync, writeFileSync, mkdirSync, existsSync, watch } = require('fs');

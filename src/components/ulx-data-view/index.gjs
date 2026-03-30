@@ -5,7 +5,7 @@ import { t } from "../../utils/i18n";
 
 const LAYOUT_TO_CLASS = {
 	list: "layout-list",
-	grid: "layout-grid",
+	grid: "layout-grid"
 };
 
 const DEFAULT_LAYOUT = "list";

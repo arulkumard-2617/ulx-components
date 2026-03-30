@@ -3,7 +3,7 @@ import { joinClassNames } from "../../utils/class-names";
 
 const CONTENT_OVERFLOW_STYLE = {
 	true: "overflow-y: auto",
-	false: "overflow-y: hidden",
+	false: "overflow-y: hidden"
 };
 
 /**

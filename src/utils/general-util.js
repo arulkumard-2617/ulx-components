@@ -1,13 +1,4 @@
-export const EVENT_THEMES = [
-	"red",
-	"orange",
-	"teal",
-	"violet",
-	"green",
-	"blue",
-	"yellow",
-	"brown",
-];
+export const EVENT_THEMES = ['red', 'orange', 'teal', 'violet', 'green', 'blue', 'yellow', 'brown'];
 
 function generatePseudoNumber(id) {
 	if (!id) {
@@ -35,7 +26,7 @@ function getPseudoUniqueColorClass(id, colorsArray = EVENT_THEMES) {
 
 const GeneralUtil = {
 	generatePseudoNumber,
-	getPseudoUniqueColorClass,
+	getPseudoUniqueColorClass
 };
 
 export { generatePseudoNumber, getPseudoUniqueColorClass };

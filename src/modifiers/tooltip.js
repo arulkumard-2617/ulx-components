@@ -107,8 +107,9 @@ export default modifier(function tooltip(
 
 	function getAppendTarget() {
 		if (appendTarget === document.body) return document.body;
-		if (typeof appendTarget === 'string')
+		if (typeof appendTarget === 'string') {
 			return document.querySelector(appendTarget) ?? document.body;
+		}
 		return appendTarget;
 	}
 

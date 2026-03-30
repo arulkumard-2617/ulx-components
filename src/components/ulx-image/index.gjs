@@ -59,15 +59,8 @@ export default class UlxImage extends Component {
 	}
 
 	get rootClasses() {
-		const {
-			shape,
-			size,
-			objectFit,
-			aspectRatio,
-			thumbLandscape,
-			thumbPortrait,
-			customClass
-		} = this.args;
+		const { shape, size, objectFit, aspectRatio, thumbLandscape, thumbPortrait, customClass } =
+			this.args;
 
 		const parts = [this.baseClass];
 

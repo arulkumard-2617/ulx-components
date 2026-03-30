@@ -9,7 +9,7 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
 	start: "flex-start",
 	center: "center",
 	end: "flex-end",
-	"space-between": "space-between",
+	"space-between": "space-between"
 };
 
 /**

@@ -6,9 +6,13 @@
  * @returns {{ base: string|null, name: string|null, size: string|null }}
  */
 export function iconParts(icon) {
-	if (!icon || typeof icon !== 'string') return { base: null, name: null, size: null };
+	if (!icon || typeof icon !== 'string') {
+		return { base: null, name: null, size: null };
+	}
 	const parts = icon.trim().split(/\s+/);
-	if (parts.length === 0) return { base: null, name: null, size: null };
+	if (parts.length === 0) {
+		return { base: null, name: null, size: null };
+	}
 
 	const sizeToken = parts[parts.length - 1];
 	const hasSize =
