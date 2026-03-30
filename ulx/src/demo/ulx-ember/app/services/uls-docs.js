@@ -16,15 +16,9 @@ const SLUG_TO_DATA_KEY = {
   /** grid.less maps use @row-start / @row-end → schema keys rowStart / rowEnd */
   'grid-row-start': 'rowStart',
   'grid-row-end': 'rowEnd',
-};
-
-/**
- * Typography route slug → actual section slug mapping
- * (because section titles contain extra words like "/ face" or "& other")
- */
-const TYPOGRAPHY_SLUG_MAP = {
-  'font-weight': 'font-weight-face',
-  'line-height': 'line-height-other',
+  /** column start/end use colStart / colEnd in generated schema (not gridColumnStart) */
+  'grid-column-start': 'colStart',
+  'grid-column-end': 'colEnd',
 };
 
 function slugToTitle(slug) {

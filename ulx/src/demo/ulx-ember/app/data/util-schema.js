@@ -5412,6 +5412,10 @@ export const utilSchema = {
           {
             "class": "items-stretch",
             "styles": "align-items: stretch;"
+          },
+          {
+            "class": "items-baseline",
+            "styles": "align-items: baseline;"
           }
         ]
       }
@@ -5545,6 +5549,10 @@ export const utilSchema = {
           {
             "class": "content-evenly",
             "styles": "align-content: space-evenly;"
+          },
+          {
+            "class": "content-stretch",
+            "styles": "align-content: stretch;"
           }
         ]
       }
@@ -5557,6 +5565,10 @@ export const utilSchema = {
       {
         "title": "Justify Items Utilities",
         "rows": [
+          {
+            "class": "justify-items-auto",
+            "styles": "justify-items: auto;"
+          },
           {
             "class": "justify-items-start",
             "styles": "justify-items: start;"
@@ -5599,6 +5611,18 @@ export const utilSchema = {
           {
             "class": "place-content-stretch",
             "styles": "place-content: stretch;"
+          },
+          {
+            "class": "place-content-between",
+            "styles": "place-content: space-between;"
+          },
+          {
+            "class": "place-content-around",
+            "styles": "place-content: space-around;"
+          },
+          {
+            "class": "place-content-evenly",
+            "styles": "place-content: space-evenly;"
           }
         ]
       }
@@ -5626,6 +5650,14 @@ export const utilSchema = {
           {
             "class": "place-items-stretch",
             "styles": "place-items: stretch;"
+          },
+          {
+            "class": "place-items-baseline",
+            "styles": "place-items: baseline;"
+          },
+          {
+            "class": "place-items-normal",
+            "styles": "place-items: normal;"
           }
         ]
       }
@@ -5638,6 +5670,10 @@ export const utilSchema = {
       {
         "title": "Justify Self Utilities",
         "rows": [
+          {
+            "class": "justify-self-auto",
+            "styles": "justify-self: auto;"
+          },
           {
             "class": "justify-self-start",
             "styles": "justify-self: start;"
@@ -5701,6 +5737,10 @@ export const utilSchema = {
         "title": "Place Self Utilities",
         "rows": [
           {
+            "class": "place-self-auto",
+            "styles": "place-self: auto;"
+          },
+          {
             "class": "place-self-center",
             "styles": "place-self: center;"
           },
@@ -5715,6 +5755,10 @@ export const utilSchema = {
           {
             "class": "place-self-stretch",
             "styles": "place-self: stretch;"
+          },
+          {
+            "class": "place-self-normal",
+            "styles": "place-self: normal;"
           }
         ]
       }
@@ -5782,8 +5826,175 @@ export const utilSchema = {
             "styles": "grid-template-rows: repeat(4, auto);"
           },
           {
+            "class": "rows-5",
+            "styles": "grid-template-rows: repeat(5, auto);"
+          },
+          {
+            "class": "rows-6",
+            "styles": "grid-template-rows: repeat(6, auto);"
+          },
+          {
             "class": "rows-auto",
             "styles": "grid-template-rows: auto;"
+          },
+          {
+            "class": "rows-none",
+            "styles": "grid-template-rows: none;"
+          }
+        ]
+      }
+    ]
+  },
+  "gridTemplateColumns": {
+    "title": "Grid Template Columns",
+    "description": "Template columns for grid container (.uls-grid). Use class on container.",
+    "sections": [
+      {
+        "title": "Grid Template Columns",
+        "rows": [
+          {
+            "class": "col-1",
+            "styles": "grid-template-columns: repeat(1, 1fr);"
+          },
+          {
+            "class": "col-2",
+            "styles": "grid-template-columns: repeat(2, 1fr);"
+          },
+          {
+            "class": "col-3",
+            "styles": "grid-template-columns: repeat(3, 1fr);"
+          },
+          {
+            "class": "col-4",
+            "styles": "grid-template-columns: repeat(4, 1fr);"
+          },
+          {
+            "class": "col-5",
+            "styles": "grid-template-columns: repeat(5, 1fr);"
+          },
+          {
+            "class": "col-6",
+            "styles": "grid-template-columns: repeat(6, 1fr);"
+          },
+          {
+            "class": "col-7",
+            "styles": "grid-template-columns: repeat(7, 1fr);"
+          },
+          {
+            "class": "col-8",
+            "styles": "grid-template-columns: repeat(8, 1fr);"
+          },
+          {
+            "class": "col-9",
+            "styles": "grid-template-columns: repeat(9, 1fr);"
+          },
+          {
+            "class": "col-10",
+            "styles": "grid-template-columns: repeat(10, 1fr);"
+          },
+          {
+            "class": "col-11",
+            "styles": "grid-template-columns: repeat(11, 1fr);"
+          },
+          {
+            "class": "col-12",
+            "styles": "grid-template-columns: repeat(12, 1fr);"
+          },
+          {
+            "class": "cols-1",
+            "styles": "grid-template-columns: repeat(1, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-2",
+            "styles": "grid-template-columns: repeat(2, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-3",
+            "styles": "grid-template-columns: repeat(3, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-4",
+            "styles": "grid-template-columns: repeat(4, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-5",
+            "styles": "grid-template-columns: repeat(5, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-6",
+            "styles": "grid-template-columns: repeat(6, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-7",
+            "styles": "grid-template-columns: repeat(7, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-8",
+            "styles": "grid-template-columns: repeat(8, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-9",
+            "styles": "grid-template-columns: repeat(9, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-10",
+            "styles": "grid-template-columns: repeat(10, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-11",
+            "styles": "grid-template-columns: repeat(11, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-12",
+            "styles": "grid-template-columns: repeat(12, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-none",
+            "styles": "grid-template-columns: none;"
+          },
+          {
+            "class": "cols-subgrid",
+            "styles": "grid-template-columns: subgrid;"
+          },
+          {
+            "class": "cols-auto-fit-xs",
+            "styles": "grid-template-columns: repeat(auto-fit, minmax(@96px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fit-sm",
+            "styles": "grid-template-columns: repeat(auto-fit, minmax(@120px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fit-md",
+            "styles": "grid-template-columns: repeat(auto-fit, minmax(@160px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fit-lg",
+            "styles": "grid-template-columns: repeat(auto-fit, minmax(@200px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fit-xl",
+            "styles": "grid-template-columns: repeat(auto-fit, minmax(@240px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fill-xs",
+            "styles": "grid-template-columns: repeat(auto-fill, minmax(@96px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fill-sm",
+            "styles": "grid-template-columns: repeat(auto-fill, minmax(@120px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fill-md",
+            "styles": "grid-template-columns: repeat(auto-fill, minmax(@160px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fill-lg",
+            "styles": "grid-template-columns: repeat(auto-fill, minmax(@200px, 1fr));"
+          },
+          {
+            "class": "cols-auto-fill-xl",
+            "styles": "grid-template-columns: repeat(auto-fill, minmax(@240px, 1fr));"
           }
         ]
       }
@@ -5832,6 +6043,18 @@ export const utilSchema = {
             "styles": "grid-auto-columns: minmax(0, 1fr);"
           },
           {
+            "class": "auto-cols-fr",
+            "styles": "grid-auto-columns: minmax(0, 1fr);"
+          },
+          {
+            "class": "auto-cols-auto",
+            "styles": "grid-auto-columns: auto;"
+          },
+          {
+            "class": "auto-cols-max",
+            "styles": "grid-auto-columns: max-content;"
+          },
+          {
             "class": "auto-c-auto",
             "styles": "grid-auto-columns: auto;"
           },
@@ -5853,6 +6076,18 @@ export const utilSchema = {
           {
             "class": "auto-rows-min",
             "styles": "grid-auto-rows: minmax(0, auto);"
+          },
+          {
+            "class": "auto-rows-fr",
+            "styles": "grid-auto-rows: minmax(0, 1fr);"
+          },
+          {
+            "class": "auto-rows-auto",
+            "styles": "grid-auto-rows: auto;"
+          },
+          {
+            "class": "auto-rows-max",
+            "styles": "grid-auto-rows: max-content;"
           },
           {
             "class": "auto-r-auto",
@@ -5892,6 +6127,46 @@ export const utilSchema = {
           {
             "class": "basis-max",
             "styles": "flex-basis: max-content;"
+          },
+          {
+            "class": "basis-1-2",
+            "styles": "flex-basis: 50%;"
+          },
+          {
+            "class": "basis-1-3",
+            "styles": "flex-basis: 33.333333%;"
+          },
+          {
+            "class": "basis-2-3",
+            "styles": "flex-basis: 66.666667%;"
+          },
+          {
+            "class": "basis-1-4",
+            "styles": "flex-basis: 25%;"
+          },
+          {
+            "class": "basis-3-4",
+            "styles": "flex-basis: 75%;"
+          },
+          {
+            "class": "basis-xs",
+            "styles": "flex-basis: 96px;"
+          },
+          {
+            "class": "basis-sm",
+            "styles": "flex-basis: 120px;"
+          },
+          {
+            "class": "basis-md",
+            "styles": "flex-basis: 160px;"
+          },
+          {
+            "class": "basis-lg",
+            "styles": "flex-basis: 200px;"
+          },
+          {
+            "class": "basis-xl",
+            "styles": "flex-basis: 240px;"
           }
         ]
       }
@@ -6041,6 +6316,140 @@ export const utilSchema = {
       }
     ]
   },
+  "colStart": {
+    "title": "Col Start",
+    "description": "Utilities for controlling col start.",
+    "sections": [
+      {
+        "title": "Col Start Utilities",
+        "rows": [
+          {
+            "class": "col-start-1",
+            "styles": "grid-column-start: 1;"
+          },
+          {
+            "class": "col-start-2",
+            "styles": "grid-column-start: 2;"
+          },
+          {
+            "class": "col-start-3",
+            "styles": "grid-column-start: 3;"
+          },
+          {
+            "class": "col-start-4",
+            "styles": "grid-column-start: 4;"
+          },
+          {
+            "class": "col-start-5",
+            "styles": "grid-column-start: 5;"
+          },
+          {
+            "class": "col-start-6",
+            "styles": "grid-column-start: 6;"
+          },
+          {
+            "class": "col-start-7",
+            "styles": "grid-column-start: 7;"
+          },
+          {
+            "class": "col-start-8",
+            "styles": "grid-column-start: 8;"
+          },
+          {
+            "class": "col-start-9",
+            "styles": "grid-column-start: 9;"
+          },
+          {
+            "class": "col-start-10",
+            "styles": "grid-column-start: 10;"
+          },
+          {
+            "class": "col-start-11",
+            "styles": "grid-column-start: 11;"
+          },
+          {
+            "class": "col-start-12",
+            "styles": "grid-column-start: 12;"
+          },
+          {
+            "class": "col-start-13",
+            "styles": "grid-column-start: 13;"
+          },
+          {
+            "class": "col-start-auto",
+            "styles": "grid-column-start: auto;"
+          }
+        ]
+      }
+    ]
+  },
+  "colEnd": {
+    "title": "Col End",
+    "description": "Utilities for controlling col end.",
+    "sections": [
+      {
+        "title": "Col End Utilities",
+        "rows": [
+          {
+            "class": "col-end-1",
+            "styles": "grid-column-end: 1;"
+          },
+          {
+            "class": "col-end-2",
+            "styles": "grid-column-end: 2;"
+          },
+          {
+            "class": "col-end-3",
+            "styles": "grid-column-end: 3;"
+          },
+          {
+            "class": "col-end-4",
+            "styles": "grid-column-end: 4;"
+          },
+          {
+            "class": "col-end-5",
+            "styles": "grid-column-end: 5;"
+          },
+          {
+            "class": "col-end-6",
+            "styles": "grid-column-end: 6;"
+          },
+          {
+            "class": "col-end-7",
+            "styles": "grid-column-end: 7;"
+          },
+          {
+            "class": "col-end-8",
+            "styles": "grid-column-end: 8;"
+          },
+          {
+            "class": "col-end-9",
+            "styles": "grid-column-end: 9;"
+          },
+          {
+            "class": "col-end-10",
+            "styles": "grid-column-end: 10;"
+          },
+          {
+            "class": "col-end-11",
+            "styles": "grid-column-end: 11;"
+          },
+          {
+            "class": "col-end-12",
+            "styles": "grid-column-end: 12;"
+          },
+          {
+            "class": "col-end-13",
+            "styles": "grid-column-end: 13;"
+          },
+          {
+            "class": "col-end-auto",
+            "styles": "grid-column-end: auto;"
+          }
+        ]
+      }
+    ]
+  },
   "rowStart": {
     "title": "Row Start",
     "description": "Utilities for controlling row start.",
@@ -6182,6 +6591,14 @@ export const utilSchema = {
       {
         "title": "Order Utilities",
         "rows": [
+          {
+            "class": "order-first",
+            "styles": "order: -9999;"
+          },
+          {
+            "class": "order-last",
+            "styles": "order: 9999;"
+          },
           {
             "class": "order-0",
             "styles": "order: 0;"
@@ -6351,65 +6768,6 @@ export const utilSchema = {
           {
             "class": "col-12",
             "styles": "grid-column: span 12;"
-          }
-        ]
-      }
-    ]
-  },
-  "gridTemplateColumns": {
-    "title": "Grid Template Columns",
-    "description": "Template columns for grid container (.uls-grid). Use class on container.",
-    "sections": [
-      {
-        "title": "Grid Template Columns",
-        "rows": [
-          {
-            "class": "col-1",
-            "styles": "grid-template-columns: repeat(1, 1fr);"
-          },
-          {
-            "class": "col-2",
-            "styles": "grid-template-columns: repeat(2, 1fr);"
-          },
-          {
-            "class": "col-3",
-            "styles": "grid-template-columns: repeat(3, 1fr);"
-          },
-          {
-            "class": "col-4",
-            "styles": "grid-template-columns: repeat(4, 1fr);"
-          },
-          {
-            "class": "col-5",
-            "styles": "grid-template-columns: repeat(5, 1fr);"
-          },
-          {
-            "class": "col-6",
-            "styles": "grid-template-columns: repeat(6, 1fr);"
-          },
-          {
-            "class": "col-7",
-            "styles": "grid-template-columns: repeat(7, 1fr);"
-          },
-          {
-            "class": "col-8",
-            "styles": "grid-template-columns: repeat(8, 1fr);"
-          },
-          {
-            "class": "col-9",
-            "styles": "grid-template-columns: repeat(9, 1fr);"
-          },
-          {
-            "class": "col-10",
-            "styles": "grid-template-columns: repeat(10, 1fr);"
-          },
-          {
-            "class": "col-11",
-            "styles": "grid-template-columns: repeat(11, 1fr);"
-          },
-          {
-            "class": "col-12",
-            "styles": "grid-template-columns: repeat(12, 1fr);"
           }
         ]
       }
