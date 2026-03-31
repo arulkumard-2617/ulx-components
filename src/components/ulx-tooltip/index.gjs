@@ -200,8 +200,7 @@ export default class UlxTooltip extends Component {
 		const byMode = {
 			hover: () => eventType === "mouseenter",
 			focus: () => eventType === "focus" || eventType === "focusin",
-			both: () =>
-				eventType === "mouseenter" || eventType === "focus" || eventType === "focusin"
+			both: () => eventType === "mouseenter" || eventType === "focus" || eventType === "focusin"
 		};
 		return (byMode[mode] ?? byMode.both)();
 	}
@@ -211,8 +210,7 @@ export default class UlxTooltip extends Component {
 		const byMode = {
 			hover: () => eventType === "mouseleave",
 			focus: () => eventType === "blur" || eventType === "focusout",
-			both: () =>
-				eventType === "mouseleave" || eventType === "blur" || eventType === "focusout"
+			both: () => eventType === "mouseleave" || eventType === "blur" || eventType === "focusout"
 		};
 		return (byMode[mode] ?? byMode.both)();
 	}

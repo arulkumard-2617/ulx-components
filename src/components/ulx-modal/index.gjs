@@ -23,7 +23,7 @@ const DEFAULT_MODAL_POSITION = "center";
 
 const BODY_OVERFLOW_STYLE = {
 	true: "overflow-y: auto",
-	false: "overflow-y: hidden",
+	false: "overflow-y: hidden"
 };
 
 /**

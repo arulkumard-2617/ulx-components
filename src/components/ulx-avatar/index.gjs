@@ -197,7 +197,13 @@ export default class UlxAvatar extends Component {
 
 	get rootClasses() {
 		const { disabled = false, customClass } = this.args;
-		const { resolvedVariant: variant, size, shape, resolvedImage: image, isClickable: clickable } = this;
+		const {
+			resolvedVariant: variant,
+			size,
+			shape,
+			resolvedImage: image,
+			isClickable: clickable
+		} = this;
 
 		const parts = [this.baseClass];
 

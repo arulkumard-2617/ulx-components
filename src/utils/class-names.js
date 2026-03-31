@@ -4,5 +4,5 @@
  * @returns {string}
  */
 export function joinClassNames(...parts) {
-	return [...new Set(parts.filter(Boolean))].join(" ");
+	return [...new Set(parts.filter(Boolean))].join(' ');
 }

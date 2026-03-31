@@ -15,7 +15,7 @@ export default {
     's26',
     's28',
     's30',
-    's32',
+    's32'
   ],
   colors: [
     'primary',
@@ -24,7 +24,7 @@ export default {
     'danger',
     'info',
     'muted',
-    'inverted',
+    'inverted'
   ],
   'shaped icons size': [
     'xs',
@@ -37,14 +37,14 @@ export default {
     'xl4',
     'xl5',
     'xl6',
-    'xl7',
+    'xl7'
   ],
   layers: [
     'primary-layer',
     'success-layer',
     'warning-layer',
     'danger-layer',
-    'info-layer',
+    'info-layer'
   ],
-  spin: ['spin-anim'],
+  spin: ['spin-anim']
 };

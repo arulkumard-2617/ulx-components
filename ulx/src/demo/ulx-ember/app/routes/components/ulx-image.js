@@ -8,7 +8,7 @@ export default class ComponentsUlxImageRoute extends Route {
     return {
       features: UlxImageFeatureItems,
       meta,
-      builderSchema,
+      builderSchema
     };
   }
 }

@@ -10,7 +10,9 @@ import { modifier } from 'ember-modifier';
  * @returns {Function|void} Cleanup function
  */
 export default modifier((element, [when, destination]) => {
-	const container = when ? (destination ?? (typeof document !== 'undefined' ? document.body : null)) : null;
+	const container = when
+		? (destination ?? (typeof document !== 'undefined' ? document.body : null))
+		: null;
 
 	if (!when) {
 		if (container && element.parentNode === container) {

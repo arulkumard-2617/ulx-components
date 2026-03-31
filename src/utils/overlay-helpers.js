@@ -207,10 +207,8 @@ export function getDocumentScrollOffsets() {
 		return { scrollX: 0, scrollY: 0 };
 	}
 	const docEl = typeof document !== 'undefined' ? document.documentElement : null;
-	const scrollX =
-		window.pageXOffset ?? window.scrollX ?? (docEl?.scrollLeft ?? 0) ?? 0;
-	const scrollY =
-		window.pageYOffset ?? window.scrollY ?? (docEl?.scrollTop ?? 0) ?? 0;
+	const scrollX = window.pageXOffset ?? window.scrollX ?? docEl?.scrollLeft ?? 0 ?? 0;
+	const scrollY = window.pageYOffset ?? window.scrollY ?? docEl?.scrollTop ?? 0 ?? 0;
 	return { scrollX, scrollY };
 }
 

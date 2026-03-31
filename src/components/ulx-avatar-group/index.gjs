@@ -48,7 +48,9 @@ export default class UlxAvatarGroup extends Component {
 
 	get groupAriaLabelResolved() {
 		const { groupAriaLabel } = this.args;
-		return typeof groupAriaLabel === "string" && groupAriaLabel.length > 0 ? groupAriaLabel : undefined;
+		return typeof groupAriaLabel === "string" && groupAriaLabel.length > 0
+			? groupAriaLabel
+			: undefined;
 	}
 
 	get rootClasses() {

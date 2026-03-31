@@ -292,8 +292,9 @@ export default class UlxMultiSelect extends Component {
 	valueEquals(a, b) {
 		if (a === b) return true;
 		if (a == null || b == null) return false;
-		if (typeof a === "object" && typeof b === "object")
+		if (typeof a === "object" && typeof b === "object") {
 			return JSON.stringify(a) === JSON.stringify(b);
+		}
 		return false;
 	}
 
@@ -684,11 +685,7 @@ export default class UlxMultiSelect extends Component {
 		);
 		const minLeft = fallbackBoundary.left + viewportPadding;
 		const maxLeft = fallbackBoundary.right - triggerViewportRect.width - viewportPadding;
-		const clampedLeft = clampOverlayValue(
-			triggerRect.left,
-			minLeft,
-			Math.max(minLeft, maxLeft)
-		);
+		const clampedLeft = clampOverlayValue(triggerRect.left, minLeft, Math.max(minLeft, maxLeft));
 
 		coordinateApi.applyPosition(panelEl, clampedTop, clampedLeft);
 		panelEl.dataset.placement = useAbove ? "top" : "bottom";
@@ -800,8 +797,9 @@ export default class UlxMultiSelect extends Component {
 				const itemBottom = itemTop + item.offsetHeight;
 				const wrapperScrollTop = wrapper.scrollTop;
 				const wrapperHeight = wrapper.clientHeight;
-				if (itemBottom > wrapperScrollTop + wrapperHeight)
+				if (itemBottom > wrapperScrollTop + wrapperHeight) {
 					wrapper.scrollTop = itemBottom - wrapperHeight;
+				}
 				if (itemTop < wrapperScrollTop) wrapper.scrollTop = itemTop;
 			};
 			schedule("afterRender", () => {

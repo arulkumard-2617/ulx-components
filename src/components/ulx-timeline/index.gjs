@@ -179,4 +179,3 @@ export default class UlxTimeline extends Component {
 		</ol>
 	</template>
 }
-

@@ -15,8 +15,3 @@
 # ember-try
 /.node_modules.ember-try/
 /package.json.ember-try
-
-# # gts/gjs files are checked by glint
-**/*.gts
-**/*.gjs
-

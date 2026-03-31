@@ -9,19 +9,31 @@ function toJs(value, indentLevel = 0) {
 	const indent = '  '.repeat(indentLevel);
 	const nextIndent = '  '.repeat(indentLevel + 1);
 
-	if (value === null) return 'null';
-	if (value === undefined) return 'undefined';
-	if (typeof value === 'string') return `'${escapeString(value)}'`;
-	if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+	if (value === null) {
+		return 'null';
+	}
+	if (value === undefined) {
+		return 'undefined';
+	}
+	if (typeof value === 'string') {
+		return `'${escapeString(value)}'`;
+	}
+	if (typeof value === 'number' || typeof value === 'boolean') {
+		return String(value);
+	}
 
 	if (Array.isArray(value)) {
-		if (value.length === 0) return '[]';
+		if (value.length === 0) {
+			return '[]';
+		}
 		return `[\n${value.map((v) => `${nextIndent}${toJs(v, indentLevel + 1)}`).join(',\n')}\n${indent}]`;
 	}
 
 	if (typeof value === 'object') {
 		const entries = Object.entries(value);
-		if (entries.length === 0) return '{}';
+		if (entries.length === 0) {
+			return '{}';
+		}
 		return `{\n${entries
 			.map(([k, v]) => `${nextIndent}${k}: ${toJs(v, indentLevel + 1)}`)
 			.join(',\n')}\n${indent}}`;
@@ -98,13 +110,23 @@ function upsertDocNavComponent({
 function findNavEntryForComponent(items, componentKebab) {
 	// Look under any section that has `children: [{ category, items: [...] }]`
 	for (const section of items) {
-		if (!section || !Array.isArray(section.children)) continue;
+		if (!section || !Array.isArray(section.children)) {
+			continue;
+		}
 		for (const child of section.children) {
-			if (!child || !Array.isArray(child.items)) continue;
+			if (!child || !Array.isArray(child.items)) {
+				continue;
+			}
 			for (const it of child.items) {
-				if (!it) continue;
-				if (typeof it.route === 'string' && it.route.endsWith(`.${componentKebab}`)) return it;
-				if (typeof it.to === 'string' && it.to.endsWith(`/${componentKebab}`)) return it;
+				if (!it) {
+					continue;
+				}
+				if (typeof it.route === 'string' && it.route.endsWith(`.${componentKebab}`)) {
+					return it;
+				}
+				if (typeof it.to === 'string' && it.to.endsWith(`/${componentKebab}`)) {
+					return it;
+				}
 			}
 		}
 	}

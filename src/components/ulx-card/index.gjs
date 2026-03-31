@@ -116,9 +116,7 @@ export default class UlxCard extends Component {
 	get bodyClass() {
 		const baseBodyClassName = `${this.baseClass}-body`;
 		const customBodyClassName = this.args.bodyClass;
-		return customBodyClassName
-			? `${baseBodyClassName} ${customBodyClassName}`
-			: baseBodyClassName;
+		return customBodyClassName ? `${baseBodyClassName} ${customBodyClassName}` : baseBodyClassName;
 	}
 
 	get titleClass() {

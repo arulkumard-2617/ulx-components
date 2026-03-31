@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 
 /**
  * Script to create demo pages for components
@@ -480,10 +481,13 @@ let routerContent = fs.readFileSync(routerPath, 'utf8');
 function findMatchingBraceIndex(str, openBraceIndex) {
 	let braceCount = 0;
 	for (let i = openBraceIndex; i < str.length; i++) {
-		if (str[i] === '{') braceCount++;
-		else if (str[i] === '}') {
+		if (str[i] === '{') {
+			braceCount++;
+		} else if (str[i] === '}') {
 			braceCount--;
-			if (braceCount === 0) return i;
+			if (braceCount === 0) {
+				return i;
+			}
 		}
 	}
 	return -1;
@@ -514,16 +518,22 @@ function ensureChildRouteInCategory(componentsBody, categoryName, childName, exp
 	const categoryStartIndex = componentsBody.indexOf(`this.route('${categoryName}'`);
 	if (categoryStartIndex !== -1) {
 		const fnIndex = componentsBody.indexOf('function', categoryStartIndex);
-		if (fnIndex === -1) return componentsBody;
+		if (fnIndex === -1) {
+			return componentsBody;
+		}
 		const openBraceIndex = componentsBody.indexOf('{', fnIndex);
-		if (openBraceIndex === -1) return componentsBody;
+		if (openBraceIndex === -1) {
+			return componentsBody;
+		}
 		const closeBraceIndex = findMatchingBraceIndex(componentsBody, openBraceIndex);
 		if (closeBraceIndex !== -1) {
 			const before = componentsBody.slice(0, closeBraceIndex).trimEnd();
 			const after = componentsBody.slice(closeBraceIndex);
 			// Ensure we don't double-add if route exists in this category
 			const categoryBlock = componentsBody.slice(categoryStartIndex, closeBraceIndex + 1);
-			if (categoryBlock.includes(`this.route('${childName}'`)) return componentsBody;
+			if (categoryBlock.includes(`this.route('${childName}'`)) {
+				return componentsBody;
+			}
 			return `${before}\n${routeLine}\n${after}`;
 		}
 	}

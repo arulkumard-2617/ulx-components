@@ -10,14 +10,22 @@ export function resolveKey(componentInstance, keyArg) {
 }
 
 export function buildInputId(namespace, idArg, key) {
-	if (typeof idArg === 'string' && idArg.length) return idArg;
-	if (typeof key === 'string' && key.length) return key;
+	if (typeof idArg === 'string' && idArg.length) {
+		return idArg;
+	}
+	if (typeof key === 'string' && key.length) {
+		return key;
+	}
 	return `${namespace}-input-${key}`;
 }
 
 export function buildToggleId(namespace, idArg, key) {
-	if (typeof idArg === 'string' && idArg.length) return idArg;
-	if (typeof key === 'string' && key.length) return key;
+	if (typeof idArg === 'string' && idArg.length) {
+		return idArg;
+	}
+	if (typeof key === 'string' && key.length) {
+		return key;
+	}
 	return `${namespace}-toggle-${key}`;
 }
 
@@ -32,8 +40,12 @@ export function buildToggleId(namespace, idArg, key) {
  */
 export function optionSegmentRowKey(item, index, segmentIdBase) {
 	const rowId = item?.id;
-	if (typeof rowId === 'string' && rowId.length > 0) return rowId;
-	if (typeof segmentIdBase !== 'string' || segmentIdBase.length === 0) return undefined;
+	if (typeof rowId === 'string' && rowId.length > 0) {
+		return rowId;
+	}
+	if (typeof segmentIdBase !== 'string' || segmentIdBase.length === 0) {
+		return undefined;
+	}
 	return index === 0 ? segmentIdBase : `${segmentIdBase}-item-${index}`;
 }
 
@@ -49,9 +61,15 @@ export function hasText(value) {
 }
 
 export function hasInputValue(value) {
-	if (value === null || value === undefined) return false;
-	if (typeof value === 'string') return value.length > 0;
-	if (Array.isArray(value)) return value.length > 0;
+	if (value === null || value === undefined) {
+		return false;
+	}
+	if (typeof value === 'string') {
+		return value.length > 0;
+	}
+	if (Array.isArray(value)) {
+		return value.length > 0;
+	}
 	return true;
 }
 
@@ -64,11 +82,21 @@ export function hasInputValue(value) {
  */
 export function getConstraintValue(rules, ruleName) {
 	const block = rules?.[ruleName];
-	if (block == null) return undefined;
-	if (typeof block === 'number') return block;
-	if (typeof block.value === 'number') return block.value;
-	if (ruleName === 'maxLength' && typeof block.max === 'number') return block.max;
-	if (ruleName === 'minLength' && typeof block.min === 'number') return block.min;
+	if (block == null) {
+		return undefined;
+	}
+	if (typeof block === 'number') {
+		return block;
+	}
+	if (typeof block.value === 'number') {
+		return block.value;
+	}
+	if (ruleName === 'maxLength' && typeof block.max === 'number') {
+		return block.max;
+	}
+	if (ruleName === 'minLength' && typeof block.min === 'number') {
+		return block.min;
+	}
 	return undefined;
 }
 
@@ -82,8 +110,12 @@ export function getRuleValue(rules, ruleName) {
  */
 export function isRulesRequired(rules) {
 	const { required } = rules ?? {};
-	if (required == null || required === false) return false;
-	if (typeof required === 'string') return required.length > 0;
+	if (required == null || required === false) {
+		return false;
+	}
+	if (typeof required === 'string') {
+		return required.length > 0;
+	}
 	return !!required;
 }
 
@@ -103,7 +135,9 @@ export function invokeCheckedChange(args, event) {
 
 export function buildFieldClass(fieldClassArg) {
 	const parts = ['field'];
-	if (fieldClassArg) parts.push(fieldClassArg);
+	if (fieldClassArg) {
+		parts.push(fieldClassArg);
+	}
 	return parts.filter(Boolean).join(' ');
 }
 
@@ -121,11 +155,21 @@ export function buildInputClass({
 		? [getComponentClass('inputtextarea'), getComponentClass('input')]
 		: [getComponentClass('input')];
 
-	if (size) parts.push(size);
-	if (filled) parts.push('filled');
-	if (invalid) parts.push('invalid');
-	if (disabled) parts.push('disabled');
-	if (readonly) parts.push('readonly');
+	if (size) {
+		parts.push(size);
+	}
+	if (filled) {
+		parts.push('filled');
+	}
+	if (invalid) {
+		parts.push('invalid');
+	}
+	if (disabled) {
+		parts.push('disabled');
+	}
+	if (readonly) {
+		parts.push('readonly');
+	}
 
 	// Float label: add input-filled class if value exists (for initial render)
 	if (floatLabel && hasInputValue(value)) {
@@ -137,10 +181,18 @@ export function buildInputClass({
 
 export function buildFloatLabelClass({ size, filled, invalid, disabled }) {
 	const parts = [getComponentClass('floatlabel')];
-	if (size) parts.push(size);
-	if (filled) parts.push('filled');
-	if (invalid) parts.push('invalid');
-	if (disabled) parts.push('disabled');
+	if (size) {
+		parts.push(size);
+	}
+	if (filled) {
+		parts.push('filled');
+	}
+	if (invalid) {
+		parts.push('invalid');
+	}
+	if (disabled) {
+		parts.push('disabled');
+	}
 	return parts.filter(Boolean).join(' ');
 }
 
@@ -152,9 +204,15 @@ export function buildIconFieldClass({ iconPosition, size, disabled, iconFieldCla
 	const position = iconPosition === 'right' ? 'right' : 'left';
 	const parts = [getComponentClass('iconfield'), `icon-${position}`, 'outlined'];
 
-	if (size) parts.push(size);
-	if (disabled) parts.push('disabled');
-	if (iconFieldClass) parts.push(iconFieldClass);
+	if (size) {
+		parts.push(size);
+	}
+	if (disabled) {
+		parts.push('disabled');
+	}
+	if (iconFieldClass) {
+		parts.push(iconFieldClass);
+	}
 
 	return parts.filter(Boolean).join(' ');
 }
@@ -165,22 +223,34 @@ export function getInputIconClass() {
 
 export function buildInputGroupClass({ size, filled, invalid, disabled }) {
 	const parts = [getComponentClass('inputgroup')];
-	if (size) parts.push(size);
+	if (size) {
+		parts.push(size);
+	}
 	parts.push(filled ? 'filled' : 'outlined');
-	if (invalid) parts.push('invalid');
-	if (disabled) parts.push('disabled');
+	if (invalid) {
+		parts.push('invalid');
+	}
+	if (disabled) {
+		parts.push('disabled');
+	}
 	return parts.filter(Boolean).join(' ');
 }
 
 export function buildAriaDescribedBy(inputId, { helpText, error }) {
 	const parts = [];
-	if (helpText) parts.push(`${inputId}-help`);
-	if (error) parts.push(`${inputId}-error`);
+	if (helpText) {
+		parts.push(`${inputId}-help`);
+	}
+	if (error) {
+		parts.push(`${inputId}-error`);
+	}
 	return parts.length > 0 ? parts.join(' ') : undefined;
 }
 
 export function getKeyFilterPattern(keyfilter) {
-	if (!keyfilter) return null;
+	if (!keyfilter) {
+		return null;
+	}
 
 	const buildKeyFilterRegExp = (source, flags = '') => {
 		const safeFlags = flags.replace(/[gy]/g, '');
@@ -191,7 +261,6 @@ export function getKeyFilterPattern(keyfilter) {
 		try {
 			return buildKeyFilterRegExp(keyfilter.source, keyfilter.flags);
 		} catch (e) {
-			console.warn('Invalid RegExp pattern:', keyfilter);
 			return null;
 		}
 	}
@@ -204,7 +273,6 @@ export function getKeyFilterPattern(keyfilter) {
 				return buildKeyFilterRegExp(match[1], match[2] || '');
 			}
 		} catch (e) {
-			console.warn('Invalid RegExp pattern:', keyfilter);
 			return null;
 		}
 	}
@@ -234,14 +302,20 @@ export function getKeyFilterPattern(keyfilter) {
 }
 
 export function matchesKeyFilter(pattern, value) {
-	if (!(pattern instanceof RegExp)) return true;
+	if (!(pattern instanceof RegExp)) {
+		return true;
+	}
 	pattern.lastIndex = 0;
 	return pattern.test(value);
 }
 
 export function areOptionValuesEqual(a, b) {
-	if (a === b) return true;
-	if (a == null || b == null) return false;
+	if (a === b) {
+		return true;
+	}
+	if (a == null || b == null) {
+		return false;
+	}
 
 	const primitiveTypes = ['string', 'number', 'bigint', 'boolean'];
 	const aType = typeof a;
@@ -293,7 +367,9 @@ export function isSpecialKey(event) {
 }
 
 export function syncFloatLabelFilledClass(target) {
-	if (!target) return;
+	if (!target) {
+		return;
+	}
 	if (target.value) {
 		target.classList.add('input-filled');
 	} else {

@@ -10,17 +10,17 @@ export const DropdownOverlayFeatureItem = {
     component: RichText,
     props: {
       as: 'span',
-      content: t('msg.dropdown.overlay.options.doc'),
-    },
+      content: t('msg.dropdown.overlay.options.doc')
+    }
   },
   demo: {
     component: DropdownOverlayOptionsDemo,
     props: {
       source: DropdownOverlayOptionsSource,
       snippetName: 'overlay-options',
-      language: 'handlebars',
-    },
-  },
+      language: 'handlebars'
+    }
+  }
 };
 
 export function withDropdownOverlayFeature(featureItems = []) {

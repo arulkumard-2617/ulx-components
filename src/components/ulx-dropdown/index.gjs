@@ -317,8 +317,9 @@ export default class UlxDropdown extends Component {
 	valueEquals(a, b) {
 		if (a === b) return true;
 		if (a == null || b == null) return false;
-		if (typeof a === "object" && typeof b === "object")
+		if (typeof a === "object" && typeof b === "object") {
 			return JSON.stringify(a) === JSON.stringify(b);
+		}
 		return false;
 	}
 
@@ -513,8 +514,9 @@ export default class UlxDropdown extends Component {
 			const itemBottom = itemTop + item.offsetHeight;
 			const wrapperScrollTop = wrapper.scrollTop;
 			const wrapperHeight = wrapper.clientHeight;
-			if (itemBottom > wrapperScrollTop + wrapperHeight)
+			if (itemBottom > wrapperScrollTop + wrapperHeight) {
 				wrapper.scrollTop = itemBottom - wrapperHeight;
+			}
 			if (itemTop < wrapperScrollTop) wrapper.scrollTop = itemTop;
 		};
 		schedule("afterRender", () => {
@@ -678,8 +680,9 @@ export default class UlxDropdown extends Component {
 		if (this.overlayVisible) {
 			this.filterValue = "";
 			this.focusedOptionIndex = this.selectedOptionIndex;
-			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0)
+			if (this.focusedOptionIndex < 0 && this.visibleOptions.length > 0) {
 				this.focusedOptionIndex = 0;
+			}
 			this.panelPosition = "below";
 			this.args.onShow?.();
 			this.focusAppropriateControlOnOpen();
