@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { getComponentClass } from "../../utils/component-config";
+import { SVG_NAMESPACE } from "../../utils/svg-namespace";
 import { t } from "../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 
@@ -85,7 +86,7 @@ export default class UlxProgressSpinner extends Component {
 			{{else}}
 				<UlxIcon @componentClass="bs-icons1" @size={{this.iconSize}} aria-hidden="true">
 					<svg
-						xmlns="http://www.w3.org/2000/svg"
+						xmlns={{SVG_NAMESPACE}}
 						width="24"
 						height="24"
 						viewBox="0 0 24 24"

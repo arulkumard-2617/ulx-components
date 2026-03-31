@@ -5,6 +5,7 @@ import copy from 'rollup-plugin-copy';
 import { Addon } from '@embroider/addon-dev/rollup';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.join(__dirname, '..');
 
 const addon = new Addon({
   srcDir: 'src',
@@ -37,25 +38,24 @@ export default {
 
     addon.dependencies(),
 
-    // Resolve ember-sortable so it gets bundled (addon.dependencies doesn't externalize devDeps)
     {
       name: 'resolve-ember-sortable',
       resolveId(source) {
         if (source === 'ember-sortable/modifiers/sortable-group') {
           return path.resolve(
-            __dirname,
+            repoRoot,
             'node_modules/ember-sortable/dist/modifiers/sortable-group.js'
           );
         }
         if (source === 'ember-sortable/modifiers/sortable-item') {
           return path.resolve(
-            __dirname,
+            repoRoot,
             'node_modules/ember-sortable/dist/modifiers/sortable-item.js'
           );
         }
         if (source === 'ember-sortable/modifiers/sortable-handle') {
           return path.resolve(
-            __dirname,
+            repoRoot,
             'node_modules/ember-sortable/dist/modifiers/sortable-handle.js'
           );
         }
@@ -78,8 +78,8 @@ export default {
 
     copy({
       targets: [
-        { src: '../README.md', dest: '.' },
-        { src: '../LICENSE.md', dest: '.' },
+        { src: path.join(repoRoot, 'README.md'), dest: path.join(repoRoot, 'dist') },
+        { src: path.join(repoRoot, 'LICENSE.md'), dest: path.join(repoRoot, 'dist') },
       ],
     }),
   ],
