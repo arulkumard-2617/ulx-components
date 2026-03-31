@@ -9,23 +9,24 @@
 	"exports": {
 		".": "./dist/index.js",
 		"./*": "./dist/*",
-		"./addon-main.js": "./addon-main.cjs"
+		"./addon-main.js": "./config/addon-main.cjs"
 	},
 	"files": [
 		"dist",
 		"src",
 		"dev-releases",
-		"addon-main.cjs"
+		"config",
+		"babel.config.json"
 	],
 	"scripts": {
-		"build": "rollup --config",
+		"build": "rollup --config config/rollup.config.mjs",
 		"lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
 		"lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
 		"lint:js": "eslint . --cache",
 		"lint:js:fix": "eslint . --fix",
-		"prepack": "rollup --config",
-		"prepare": "rollup --config",
-		"start": "rollup --config --watch",
+		"prepack": "rollup --config config/rollup.config.mjs",
+		"prepare": "rollup --config config/rollup.config.mjs",
+		"start": "rollup --config config/rollup.config.mjs --watch",
 		"test": "echo 'A v2 addon does not have tests, run tests in test-app'"
 	},
 	"dependencies": {
@@ -81,7 +82,7 @@
 	"ember-addon": {
 		"version": 2,
 		"type": "addon",
-		"main": "addon-main.cjs",
+		"main": "config/addon-main.cjs",
 		"app-js": {
 			"./components/ulx-accordion/index.js": "./dist/_app_/components/ulx-accordion/index.js",
 			"./components/ulx-avatar-group/index.js": "./dist/_app_/components/ulx-avatar-group/index.js",

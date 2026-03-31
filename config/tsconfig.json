@@ -2,20 +2,20 @@
 	"extends": "@tsconfig/ember/tsconfig.json",
 	"compilerOptions": {
 		"allowJs": true,
-		"declarationDir": "dist",
+		"declarationDir": "../dist",
 		"declarationMap": true,
 		"declaration": true,
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"noEmit": false,
-		"outDir": "dist",
+		"outDir": "../dist",
 		"paths": {
-			"ulx-components": ["./src/index.js"],
-			"ulx-components/*": ["./src/*"]
+			"ulx-components": ["../src/index.js"],
+			"ulx-components/*": ["../src/*"]
 		},
-		"rootDir": "src",
+		"rootDir": "../src",
 		"target": "esnext"
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "**/*.gjs", "**/*.gts"]
+	"include": ["../src/**/*"],
+	"exclude": ["../node_modules", "../dist", "**/*.gjs", "**/*.gts"]
 }

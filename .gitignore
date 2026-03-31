@@ -45,6 +45,10 @@ qodana-report/
 .env.local
 .env.*.local
 
+# IDE / local workspace (not allowed at repo root per CM policy)
+*.code-workspace
+ulx-components.code-workspace
+
 # IDE
 .idea/
 *.swp
