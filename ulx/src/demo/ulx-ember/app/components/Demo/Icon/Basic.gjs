@@ -1,4 +1,4 @@
-import { UlxIcon } from 'ulx-components';
+import { UlxIcon, SVG_NAMESPACE } from 'ulx-components';
 
 <template>
   <div class="flex items-center gap-4">
@@ -25,7 +25,7 @@ import { UlxIcon } from 'ulx-components';
     />
     <UlxIcon>
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns={{SVG_NAMESPACE}}
         width="24"
         height="24"
         viewBox="0 0 1024 1024"

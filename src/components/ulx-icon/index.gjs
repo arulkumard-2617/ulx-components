@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 
 import { getComponentClass } from "../../utils/component-config";
+import { SVG_NAMESPACE } from "../../utils/svg-namespace";
 
 /**
  * Icon element component. Three modes:
@@ -14,7 +15,7 @@ import { getComponentClass } from "../../utils/component-config";
  * - **Suggestions**: (1) For pasted SVG in the default block, add `focusable="false"` on the <svg>. (2) When the icon is the only content of a button/link, the control must have an accessible name (e.g. aria-label on the button).
  *
  * Font CDN (include in app as needed):
- * - https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css
+ * - cdn.zicons.in/21598000000025464/latest/bs-icons1.css
  *
  * @class UlxIcon
  * @param {string} [iconName] - Symbol id or font class. Not used when a custom block is provided.
@@ -96,7 +97,7 @@ export default class UlxIcon extends Component {
 				aria-label={{this.resolvedAriaLabel}}
 				focusable="false"
 				...attributes
-				xmlns="http://www.w3.org/2000/svg"
+				xmlns={{SVG_NAMESPACE}}
 			>
 				{{#if this.symbolHref}}
 					<use href={{this.symbolHref}}></use>

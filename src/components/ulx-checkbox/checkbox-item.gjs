@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../utils/component-config";
+import { SVG_NAMESPACE } from "../../utils/svg-namespace";
 import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
@@ -151,7 +152,7 @@ export default class UlxCheckboxItem extends Component {
 				{{else if this.isIndeterminate}}
 					<UlxIcon @customClass={{this.checkboxIconClass}} @size={{this.checkboxIconSize}}>
 						<svg
-							xmlns="http://www.w3.org/2000/svg"
+							xmlns={{SVG_NAMESPACE}}
 							viewBox="0 0 24 24"
 							fill="none"
 							focusable="false"
