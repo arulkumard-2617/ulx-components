@@ -1,6 +1,7 @@
 # dependencies
 node_modules/
 ulx/node_modules/
+ulx/src/demo/ulx-ember/node_modules/
 
 # compiled output
 declarations/

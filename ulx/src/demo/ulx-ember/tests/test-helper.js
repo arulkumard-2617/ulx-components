@@ -14,7 +14,7 @@ setupEmberOnerrorValidation();
 try {
   const { loadTests } = require('ember-qunit/test-loader');
 loadTests();
-} catch (e) {
+} catch {
   // Test loader not available, skip loading tests
   console.warn('Test loader not available, skipping test loading');
 }
