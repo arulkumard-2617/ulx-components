@@ -3,7 +3,6 @@ import { action } from "@ember/object";
 import { fn } from "@ember/helper";
 import not from "ember-truth-helpers/helpers/not";
 import UlxRadio from "../ulx-radio/index.gjs";
-import UlxIcon from "../ulx-icon/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxDivider from "../ulx-divider/index.gjs";
 import { t } from "../../utils/i18n.js";
@@ -112,3 +111,4 @@ export default class SortOptions extends Component {
 			</div>
 		</div>
 	</template>
+}

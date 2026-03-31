@@ -15,3 +15,6 @@
 # ember-try
 /.node_modules.ember-try/
 /package.json.ember-try
+
+# demo app (not validated by root JS lint)
+/ulx/src/demo/
