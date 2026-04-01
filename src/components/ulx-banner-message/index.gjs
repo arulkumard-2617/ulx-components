@@ -10,7 +10,7 @@ import { t } from "../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
-/** Applied after first paint so CSS enter transition can run (see messages.less). */
+/** Applied after first paint so CSS enter transition can run (see banner-message.less). */
 const ENTER_DONE_CLASS = "enter-done";
 
 const DEFAULT_ICON_BY_VARIANT = {
@@ -25,7 +25,7 @@ const DEFAULT_ICON_BY_VARIANT = {
  * Single-message banner: displays one message with variant, summary, detail,
  * and optional close button. Optional one-time banner: when @dismissStorageKey is set,
  * closing the banner persists the choice so the user won't see it again (localStorage).
- * Uses existing classes from messages.less. Argument-driven: @message and @onRemove.
+ * Uses existing classes from banner-message.less. Argument-driven: @message and @onRemove.
  *
  * @class UlxBannerMessage
  * @param {Object} [message] - Single message object: { id?: string, variant?: string, summary?: string, detail?: string, closable?: boolean, icon?: string }
@@ -52,12 +52,8 @@ export default class UlxBannerMessage extends Component {
 		return () => cancelAnimationFrame(rafId);
 	});
 
-	get messagesBaseClass() {
-		return getComponentClass("messages");
-	}
-
 	get messageBaseClass() {
-		return getComponentClass("message");
+		return getComponentClass("banner-message");
 	}
 
 	get rootDataQa() {
@@ -95,25 +91,25 @@ export default class UlxBannerMessage extends Component {
 	getMessageRootClasses(message) {
 		const { customClass, size = "m-size" } = this.args;
 		const variant = message?.variant ?? "info";
-		const parts = [this.messagesBaseClass, variant];
+		const parts = [this.messageBaseClass, variant];
 		size && parts.push(size);
 		customClass && parts.push(customClass);
 		return joinClassNames(...parts);
 	}
 
 	get wrapperClass() {
-		return `${this.messageBaseClass}-wrapper`;
+		return "message-wrapper";
 	}
 
 	get detailClass() {
-		return `${this.messageBaseClass}-detail`;
+		return "message-detail";
 	}
 
 	get contentClass() {
 		return "message-content";
 	}
 
-	/** Summary + detail stack (message.less `.message-text`). */
+	/** Summary + detail stack (`banner-message.less` `.message-text`). */
 	get contentTextClass() {
 		return "message-text";
 	}
@@ -124,11 +120,11 @@ export default class UlxBannerMessage extends Component {
 	}
 
 	get summaryClass() {
-		return `${this.messageBaseClass}-summary`;
+		return "message-summary";
 	}
 
 	get iconClass() {
-		return `${this.messageBaseClass}-icon`;
+		return "message-icon";
 	}
 
 	get resolvedIconType() {
@@ -140,7 +136,7 @@ export default class UlxBannerMessage extends Component {
 	}
 
 	get closeButtonClass() {
-		return `${this.messageBaseClass}-close-button`;
+		return "message-close-button";
 	}
 
 	@action
@@ -171,7 +167,8 @@ export default class UlxBannerMessage extends Component {
 				{{this.addEnterDoneAfterRender}}
 				...attributes
 			>
-				<div class={{this.wrapperClass}} data-qa={{this.getDataQa "wrapper"}}>
+				<div class="message-item">
+					<div class={{this.wrapperClass}} data-qa={{this.getDataQa "wrapper"}}>
 					{{#if (has-block "leftItem")}}
 						{{yield this.displayMessage to="leftItem"}}
 					{{else if this.displayMessageIconName}}
@@ -215,6 +212,7 @@ export default class UlxBannerMessage extends Component {
 								/>
 							{{/if}}
 						</div>
+					</div>
 					</div>
 				</div>
 			</div>

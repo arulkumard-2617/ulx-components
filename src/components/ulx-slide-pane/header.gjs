@@ -80,7 +80,7 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	get iconVariant() {
-		return this.args.iconVariant ?? "secondary";
+		return this.args.iconVariant ?? "basic";
 	}
 
 	get iconSize() {

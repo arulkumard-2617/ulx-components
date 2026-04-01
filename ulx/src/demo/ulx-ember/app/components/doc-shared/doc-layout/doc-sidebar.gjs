@@ -259,11 +259,8 @@ export default class DocSidebarComponent extends Component {
       class="ulsp-sidebar overflow-x-hidden overflow-y-auto border-e"
       {{this.syncActiveItemFromRoute}}
     >
-      <div class="mb-6">
-        <UlxIconInput
-          @iconLeft="search-icon"
-          @iconType="font"
-        >
+      <div class="px-5 bg-default py-3 sticky top-0 z-10">
+        <UlxIconInput @iconLeft="search-icon" @iconType="font">
           <UlxInput
             @value={{this.searchQuery}}
             @onInput={{this.handleSearchInput}}
@@ -273,7 +270,7 @@ export default class DocSidebarComponent extends Component {
           />
         </UlxIconInput>
       </div>
-      <nav class="sidebar-nav grow">
+      <nav class="sidebar-nav grow p-5">
         <ol class="s-nav-list">
           {{#each this.filteredNavItems as |item|}}
             <li class="s-nav-item mb-4" data-a11y="focus">

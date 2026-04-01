@@ -58,6 +58,7 @@ export { default as UlxPaginator } from './components/ulx-paginator/index.gjs';
 export { default as Steps } from './components/ulx-steps/index.gjs';
 export { default as UlxSteps } from './components/ulx-steps/index.gjs';
 export { default as UlxSorter } from './components/ulx-sorter/index.gjs';
+export { default as UlxSorterItem } from './components/ulx-sorter/item.gjs';
 
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
