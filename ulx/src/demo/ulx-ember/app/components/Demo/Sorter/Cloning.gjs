@@ -29,16 +29,18 @@ export default class CloningSorterDemo extends Component {
   }
 
   @action
-  handleSort(listName, event) {
+  handleEnd(listName, event) {
     if (event.from !== event.to) {
       return;
     }
-
     const { oldIndex, newIndex } = event;
-    const reorderedItems = [...this.getItemsForList(listName)];
-    const [movedItem] = reorderedItems.splice(oldIndex, 1);
-    reorderedItems.splice(newIndex, 0, movedItem);
-    this.setItemsForList(listName, reorderedItems);
+    if (oldIndex === newIndex) {
+      return;
+    }
+    const next = [...this.getItemsForList(listName)];
+    const [moved] = next.splice(oldIndex, 1);
+    next.splice(newIndex, 0, moved);
+    this.setItemsForList(listName, next);
   }
 
   @action
@@ -51,8 +53,15 @@ export default class CloningSorterDemo extends Component {
     const sourceItems = this.getItemsForList(sourceList);
     const targetItems = [...this.getItemsForList(listName)];
     const clonedItem = sourceItems[event.oldIndex];
-    clonedItem != null && targetItems.splice(event.newIndex, 0, clonedItem);
-    this.setItemsForList(listName, targetItems);
+    if (clonedItem != null) {
+      targetItems.splice(event.newIndex, 0, clonedItem);
+      this.setItemsForList(listName, targetItems);
+    }
+
+    const movedElement = event.item;
+    if (movedElement?.parentNode === event.to) {
+      event.to.removeChild(movedElement);
+    }
   }
 
   @action
@@ -61,32 +70,42 @@ export default class CloningSorterDemo extends Component {
       return;
     }
 
-    const sourceItems = [...this.getItemsForList(listName)];
-    sourceItems.splice(event.oldIndex, 1);
-    this.setItemsForList(listName, sourceItems);
+    const next = [...this.getItemsForList(listName)];
+    next.splice(event.oldIndex, 1);
+    this.setItemsForList(listName, next);
   }
 
   <template>
     <div class="grid grid-cols-2 gap-4">
       <UlxSorter
         @items={{this.leftItems}}
-        @options={{hash group=(hash name="shared" pull="clone") animation=150}}
+        @listKey="left"
         @rootId="left-sorter"
-        @onAdd={{fn this.handleAdd "left-sorter"}}
-        @onRemove={{fn this.handleRemove "left-sorter"}}
+        @options={{hash
+          group=(hash name="shared" pull="clone")
+          animation=150
+          onEnd=(fn this.handleEnd "left")
+          onAdd=(fn this.handleAdd "left")
+          onRemove=(fn this.handleRemove "left")
+        }}
         as |item|
       >
-        {{item}}
+        <span class="text-14 fg-text">{{item}}</span>
       </UlxSorter>
       <UlxSorter
         @items={{this.rightItems}}
-        @options={{hash group=(hash name="shared" pull="clone") animation=150}}
+        @listKey="right"
         @rootId="right-sorter"
-        @onAdd={{fn this.handleAdd "right-sorter"}}
-        @onRemove={{fn this.handleRemove "right-sorter"}}
+        @options={{hash
+          group=(hash name="shared" pull="clone")
+          animation=150
+          onEnd=(fn this.handleEnd "right")
+          onAdd=(fn this.handleAdd "right")
+          onRemove=(fn this.handleRemove "right")
+        }}
         as |item|
       >
-        {{item}}
+        <span class="text-14 fg-text">{{item}}</span>
       </UlxSorter>
     </div>
   </template>

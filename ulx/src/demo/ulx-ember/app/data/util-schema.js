@@ -2341,120 +2341,152 @@ export const utilSchema = {
             "styles": "width: @148px;"
           },
           {
-            "class": "w-155",
-            "styles": "width: @155px;"
+            "class": "w-152",
+            "styles": "width: @152px;"
+          },
+          {
+            "class": "w-156",
+            "styles": "width: 156px;"
           },
           {
             "class": "w-160",
             "styles": "width: @160px;"
           },
           {
-            "class": "w-165",
-            "styles": "width: @165px;"
+            "class": "w-164",
+            "styles": "width: 164px;"
           },
           {
-            "class": "w-170",
-            "styles": "width: @170px;"
+            "class": "w-168",
+            "styles": "width: 168px;"
           },
           {
-            "class": "w-175",
-            "styles": "width: @175px;"
+            "class": "w-172",
+            "styles": "width: 172px;"
+          },
+          {
+            "class": "w-176",
+            "styles": "width: 176px;"
           },
           {
             "class": "w-180",
             "styles": "width: @180px;"
           },
           {
-            "class": "w-185",
-            "styles": "width: @185px;"
+            "class": "w-184",
+            "styles": "width: 184px;"
           },
           {
-            "class": "w-190",
-            "styles": "width: @190px;"
+            "class": "w-188",
+            "styles": "width: 188px;"
           },
           {
-            "class": "w-195",
-            "styles": "width: @195px;"
+            "class": "w-192",
+            "styles": "width: 192px;"
+          },
+          {
+            "class": "w-196",
+            "styles": "width: 196px;"
           },
           {
             "class": "w-200",
             "styles": "width: @200px;"
           },
           {
-            "class": "w-205",
-            "styles": "width: @205px;"
+            "class": "w-204",
+            "styles": "width: 204px;"
           },
           {
-            "class": "w-210",
-            "styles": "width: @210px;"
+            "class": "w-208",
+            "styles": "width: 208px;"
           },
           {
-            "class": "w-215",
-            "styles": "width: @215px;"
+            "class": "w-212",
+            "styles": "width: 212px;"
+          },
+          {
+            "class": "w-216",
+            "styles": "width: 216px;"
           },
           {
             "class": "w-220",
             "styles": "width: @220px;"
           },
           {
-            "class": "w-225",
-            "styles": "width: @225px;"
+            "class": "w-224",
+            "styles": "width: 224px;"
           },
           {
-            "class": "w-230",
-            "styles": "width: @230px;"
+            "class": "w-228",
+            "styles": "width: 228px;"
           },
           {
-            "class": "w-235",
-            "styles": "width: @235px;"
+            "class": "w-232",
+            "styles": "width: 232px;"
+          },
+          {
+            "class": "w-236",
+            "styles": "width: 236px;"
           },
           {
             "class": "w-240",
             "styles": "width: @240px;"
           },
           {
-            "class": "w-245",
-            "styles": "width: @245px;"
+            "class": "w-244",
+            "styles": "width: 244px;"
           },
           {
-            "class": "w-250",
-            "styles": "width: @250px;"
+            "class": "w-248",
+            "styles": "width: 248px;"
           },
           {
-            "class": "w-255",
-            "styles": "width: @255px;"
+            "class": "w-252",
+            "styles": "width: 252px;"
+          },
+          {
+            "class": "w-256",
+            "styles": "width: 256px;"
           },
           {
             "class": "w-260",
             "styles": "width: @260px;"
           },
           {
-            "class": "w-265",
-            "styles": "width: @265px;"
+            "class": "w-264",
+            "styles": "width: 264px;"
           },
           {
-            "class": "w-270",
-            "styles": "width: @270px;"
+            "class": "w-268",
+            "styles": "width: 268px;"
           },
           {
-            "class": "w-275",
-            "styles": "width: @275px;"
+            "class": "w-272",
+            "styles": "width: 272px;"
+          },
+          {
+            "class": "w-276",
+            "styles": "width: 276px;"
           },
           {
             "class": "w-280",
             "styles": "width: @280px;"
           },
           {
-            "class": "w-285",
-            "styles": "width: @285px;"
+            "class": "w-284",
+            "styles": "width: 284px;"
           },
           {
-            "class": "w-290",
-            "styles": "width: @290px;"
+            "class": "w-288",
+            "styles": "width: 288px;"
           },
           {
-            "class": "w-295",
-            "styles": "width: @295px;"
+            "class": "w-292",
+            "styles": "width: 292px;"
+          },
+          {
+            "class": "w-296",
+            "styles": "width: 296px;"
           },
           {
             "class": "w-300",
@@ -2622,6 +2654,158 @@ export const utilSchema = {
           {
             "class": "min-w-148",
             "styles": "min-width: @148px;"
+          },
+          {
+            "class": "min-w-152",
+            "styles": "min-width: @152px;"
+          },
+          {
+            "class": "min-w-156",
+            "styles": "min-width: 156px;"
+          },
+          {
+            "class": "min-w-160",
+            "styles": "min-width: @160px;"
+          },
+          {
+            "class": "min-w-164",
+            "styles": "min-width: 164px;"
+          },
+          {
+            "class": "min-w-168",
+            "styles": "min-width: 168px;"
+          },
+          {
+            "class": "min-w-172",
+            "styles": "min-width: 172px;"
+          },
+          {
+            "class": "min-w-176",
+            "styles": "min-width: 176px;"
+          },
+          {
+            "class": "min-w-180",
+            "styles": "min-width: @180px;"
+          },
+          {
+            "class": "min-w-184",
+            "styles": "min-width: 184px;"
+          },
+          {
+            "class": "min-w-188",
+            "styles": "min-width: 188px;"
+          },
+          {
+            "class": "min-w-192",
+            "styles": "min-width: 192px;"
+          },
+          {
+            "class": "min-w-196",
+            "styles": "min-width: 196px;"
+          },
+          {
+            "class": "min-w-200",
+            "styles": "min-width: @200px;"
+          },
+          {
+            "class": "min-w-204",
+            "styles": "min-width: 204px;"
+          },
+          {
+            "class": "min-w-208",
+            "styles": "min-width: 208px;"
+          },
+          {
+            "class": "min-w-212",
+            "styles": "min-width: 212px;"
+          },
+          {
+            "class": "min-w-216",
+            "styles": "min-width: 216px;"
+          },
+          {
+            "class": "min-w-220",
+            "styles": "min-width: @220px;"
+          },
+          {
+            "class": "min-w-224",
+            "styles": "min-width: 224px;"
+          },
+          {
+            "class": "min-w-228",
+            "styles": "min-width: 228px;"
+          },
+          {
+            "class": "min-w-232",
+            "styles": "min-width: 232px;"
+          },
+          {
+            "class": "min-w-236",
+            "styles": "min-width: 236px;"
+          },
+          {
+            "class": "min-w-240",
+            "styles": "min-width: @240px;"
+          },
+          {
+            "class": "min-w-244",
+            "styles": "min-width: 244px;"
+          },
+          {
+            "class": "min-w-248",
+            "styles": "min-width: 248px;"
+          },
+          {
+            "class": "min-w-252",
+            "styles": "min-width: 252px;"
+          },
+          {
+            "class": "min-w-256",
+            "styles": "min-width: 256px;"
+          },
+          {
+            "class": "min-w-260",
+            "styles": "min-width: @260px;"
+          },
+          {
+            "class": "min-w-264",
+            "styles": "min-width: 264px;"
+          },
+          {
+            "class": "min-w-268",
+            "styles": "min-width: 268px;"
+          },
+          {
+            "class": "min-w-272",
+            "styles": "min-width: 272px;"
+          },
+          {
+            "class": "min-w-276",
+            "styles": "min-width: 276px;"
+          },
+          {
+            "class": "min-w-280",
+            "styles": "min-width: @280px;"
+          },
+          {
+            "class": "min-w-284",
+            "styles": "min-width: 284px;"
+          },
+          {
+            "class": "min-w-288",
+            "styles": "min-width: 288px;"
+          },
+          {
+            "class": "min-w-292",
+            "styles": "min-width: 292px;"
+          },
+          {
+            "class": "min-w-296",
+            "styles": "min-width: 296px;"
+          },
+          {
+            "class": "min-w-300",
+            "styles": "min-width: @300px;"
           }
         ]
       }
@@ -2791,120 +2975,152 @@ export const utilSchema = {
             "styles": "height: @148px;"
           },
           {
-            "class": "h-155",
-            "styles": "height: @155px;"
+            "class": "h-152",
+            "styles": "height: @152px;"
+          },
+          {
+            "class": "h-156",
+            "styles": "height: 156px;"
           },
           {
             "class": "h-160",
             "styles": "height: @160px;"
           },
           {
-            "class": "h-165",
-            "styles": "height: @165px;"
+            "class": "h-164",
+            "styles": "height: 164px;"
           },
           {
-            "class": "h-170",
-            "styles": "height: @170px;"
+            "class": "h-168",
+            "styles": "height: 168px;"
           },
           {
-            "class": "h-175",
-            "styles": "height: @175px;"
+            "class": "h-172",
+            "styles": "height: 172px;"
+          },
+          {
+            "class": "h-176",
+            "styles": "height: 176px;"
           },
           {
             "class": "h-180",
             "styles": "height: @180px;"
           },
           {
-            "class": "h-185",
-            "styles": "height: @185px;"
+            "class": "h-184",
+            "styles": "height: 184px;"
           },
           {
-            "class": "h-190",
-            "styles": "height: @190px;"
+            "class": "h-188",
+            "styles": "height: 188px;"
           },
           {
-            "class": "h-195",
-            "styles": "height: @195px;"
+            "class": "h-192",
+            "styles": "height: 192px;"
+          },
+          {
+            "class": "h-196",
+            "styles": "height: 196px;"
           },
           {
             "class": "h-200",
             "styles": "height: @200px;"
           },
           {
-            "class": "h-205",
-            "styles": "height: @205px;"
+            "class": "h-204",
+            "styles": "height: 204px;"
           },
           {
-            "class": "h-210",
-            "styles": "height: @210px;"
+            "class": "h-208",
+            "styles": "height: 208px;"
           },
           {
-            "class": "h-215",
-            "styles": "height: @215px;"
+            "class": "h-212",
+            "styles": "height: 212px;"
+          },
+          {
+            "class": "h-216",
+            "styles": "height: 216px;"
           },
           {
             "class": "h-220",
             "styles": "height: @220px;"
           },
           {
-            "class": "h-225",
-            "styles": "height: @225px;"
+            "class": "h-224",
+            "styles": "height: 224px;"
           },
           {
-            "class": "h-230",
-            "styles": "height: @230px;"
+            "class": "h-228",
+            "styles": "height: 228px;"
           },
           {
-            "class": "h-235",
-            "styles": "height: @235px;"
+            "class": "h-232",
+            "styles": "height: 232px;"
+          },
+          {
+            "class": "h-236",
+            "styles": "height: 236px;"
           },
           {
             "class": "h-240",
             "styles": "height: @240px;"
           },
           {
-            "class": "h-245",
-            "styles": "height: @245px;"
+            "class": "h-244",
+            "styles": "height: 244px;"
           },
           {
-            "class": "h-250",
-            "styles": "height: @250px;"
+            "class": "h-248",
+            "styles": "height: 248px;"
           },
           {
-            "class": "h-255",
-            "styles": "height: @255px;"
+            "class": "h-252",
+            "styles": "height: 252px;"
+          },
+          {
+            "class": "h-256",
+            "styles": "height: 256px;"
           },
           {
             "class": "h-260",
             "styles": "height: @260px;"
           },
           {
-            "class": "h-265",
-            "styles": "height: @265px;"
+            "class": "h-264",
+            "styles": "height: 264px;"
           },
           {
-            "class": "h-270",
-            "styles": "height: @270px;"
+            "class": "h-268",
+            "styles": "height: 268px;"
           },
           {
-            "class": "h-275",
-            "styles": "height: @275px;"
+            "class": "h-272",
+            "styles": "height: 272px;"
+          },
+          {
+            "class": "h-276",
+            "styles": "height: 276px;"
           },
           {
             "class": "h-280",
             "styles": "height: @280px;"
           },
           {
-            "class": "h-285",
-            "styles": "height: @285px;"
+            "class": "h-284",
+            "styles": "height: 284px;"
           },
           {
-            "class": "h-290",
-            "styles": "height: @290px;"
+            "class": "h-288",
+            "styles": "height: 288px;"
           },
           {
-            "class": "h-295",
-            "styles": "height: @295px;"
+            "class": "h-292",
+            "styles": "height: 292px;"
+          },
+          {
+            "class": "h-296",
+            "styles": "height: 296px;"
           },
           {
             "class": "h-300",
@@ -3074,120 +3290,152 @@ export const utilSchema = {
             "styles": "min-height: @148px;"
           },
           {
-            "class": "min-h-155",
-            "styles": "min-height: @155px;"
+            "class": "min-h-152",
+            "styles": "min-height: @152px;"
+          },
+          {
+            "class": "min-h-156",
+            "styles": "min-height: 156px;"
           },
           {
             "class": "min-h-160",
             "styles": "min-height: @160px;"
           },
           {
-            "class": "min-h-165",
-            "styles": "min-height: @165px;"
+            "class": "min-h-164",
+            "styles": "min-height: 164px;"
           },
           {
-            "class": "min-h-170",
-            "styles": "min-height: @170px;"
+            "class": "min-h-168",
+            "styles": "min-height: 168px;"
           },
           {
-            "class": "min-h-175",
-            "styles": "min-height: @175px;"
+            "class": "min-h-172",
+            "styles": "min-height: 172px;"
+          },
+          {
+            "class": "min-h-176",
+            "styles": "min-height: 176px;"
           },
           {
             "class": "min-h-180",
             "styles": "min-height: @180px;"
           },
           {
-            "class": "min-h-185",
-            "styles": "min-height: @185px;"
+            "class": "min-h-184",
+            "styles": "min-height: 184px;"
           },
           {
-            "class": "min-h-190",
-            "styles": "min-height: @190px;"
+            "class": "min-h-188",
+            "styles": "min-height: 188px;"
           },
           {
-            "class": "min-h-195",
-            "styles": "min-height: @195px;"
+            "class": "min-h-192",
+            "styles": "min-height: 192px;"
+          },
+          {
+            "class": "min-h-196",
+            "styles": "min-height: 196px;"
           },
           {
             "class": "min-h-200",
             "styles": "min-height: @200px;"
           },
           {
-            "class": "min-h-205",
-            "styles": "min-height: @205px;"
+            "class": "min-h-204",
+            "styles": "min-height: 204px;"
           },
           {
-            "class": "min-h-210",
-            "styles": "min-height: @210px;"
+            "class": "min-h-208",
+            "styles": "min-height: 208px;"
           },
           {
-            "class": "min-h-215",
-            "styles": "min-height: @215px;"
+            "class": "min-h-212",
+            "styles": "min-height: 212px;"
+          },
+          {
+            "class": "min-h-216",
+            "styles": "min-height: 216px;"
           },
           {
             "class": "min-h-220",
             "styles": "min-height: @220px;"
           },
           {
-            "class": "min-h-225",
-            "styles": "min-height: @225px;"
+            "class": "min-h-224",
+            "styles": "min-height: 224px;"
           },
           {
-            "class": "min-h-230",
-            "styles": "min-height: @230px;"
+            "class": "min-h-228",
+            "styles": "min-height: 228px;"
           },
           {
-            "class": "min-h-235",
-            "styles": "min-height: @235px;"
+            "class": "min-h-232",
+            "styles": "min-height: 232px;"
+          },
+          {
+            "class": "min-h-236",
+            "styles": "min-height: 236px;"
           },
           {
             "class": "min-h-240",
             "styles": "min-height: @240px;"
           },
           {
-            "class": "min-h-245",
-            "styles": "min-height: @245px;"
+            "class": "min-h-244",
+            "styles": "min-height: 244px;"
           },
           {
-            "class": "min-h-250",
-            "styles": "min-height: @250px;"
+            "class": "min-h-248",
+            "styles": "min-height: 248px;"
           },
           {
-            "class": "min-h-255",
-            "styles": "min-height: @255px;"
+            "class": "min-h-252",
+            "styles": "min-height: 252px;"
+          },
+          {
+            "class": "min-h-256",
+            "styles": "min-height: 256px;"
           },
           {
             "class": "min-h-260",
             "styles": "min-height: @260px;"
           },
           {
-            "class": "min-h-265",
-            "styles": "min-height: @265px;"
+            "class": "min-h-264",
+            "styles": "min-height: 264px;"
           },
           {
-            "class": "min-h-270",
-            "styles": "min-height: @270px;"
+            "class": "min-h-268",
+            "styles": "min-height: 268px;"
           },
           {
-            "class": "min-h-275",
-            "styles": "min-height: @275px;"
+            "class": "min-h-272",
+            "styles": "min-height: 272px;"
+          },
+          {
+            "class": "min-h-276",
+            "styles": "min-height: 276px;"
           },
           {
             "class": "min-h-280",
             "styles": "min-height: @280px;"
           },
           {
-            "class": "min-h-285",
-            "styles": "min-height: @285px;"
+            "class": "min-h-284",
+            "styles": "min-height: 284px;"
           },
           {
-            "class": "min-h-290",
-            "styles": "min-height: @290px;"
+            "class": "min-h-288",
+            "styles": "min-height: 288px;"
           },
           {
-            "class": "min-h-295",
-            "styles": "min-height: @295px;"
+            "class": "min-h-292",
+            "styles": "min-height: 292px;"
+          },
+          {
+            "class": "min-h-296",
+            "styles": "min-height: 296px;"
           },
           {
             "class": "min-h-300",
@@ -3357,120 +3605,152 @@ export const utilSchema = {
             "styles": "max-width: @148px;"
           },
           {
-            "class": "max-w-155",
-            "styles": "max-width: @155px;"
+            "class": "max-w-152",
+            "styles": "max-width: @152px;"
+          },
+          {
+            "class": "max-w-156",
+            "styles": "max-width: 156px;"
           },
           {
             "class": "max-w-160",
             "styles": "max-width: @160px;"
           },
           {
-            "class": "max-w-165",
-            "styles": "max-width: @165px;"
+            "class": "max-w-164",
+            "styles": "max-width: 164px;"
           },
           {
-            "class": "max-w-170",
-            "styles": "max-width: @170px;"
+            "class": "max-w-168",
+            "styles": "max-width: 168px;"
           },
           {
-            "class": "max-w-175",
-            "styles": "max-width: @175px;"
+            "class": "max-w-172",
+            "styles": "max-width: 172px;"
+          },
+          {
+            "class": "max-w-176",
+            "styles": "max-width: 176px;"
           },
           {
             "class": "max-w-180",
             "styles": "max-width: @180px;"
           },
           {
-            "class": "max-w-185",
-            "styles": "max-width: @185px;"
+            "class": "max-w-184",
+            "styles": "max-width: 184px;"
           },
           {
-            "class": "max-w-190",
-            "styles": "max-width: @190px;"
+            "class": "max-w-188",
+            "styles": "max-width: 188px;"
           },
           {
-            "class": "max-w-195",
-            "styles": "max-width: @195px;"
+            "class": "max-w-192",
+            "styles": "max-width: 192px;"
+          },
+          {
+            "class": "max-w-196",
+            "styles": "max-width: 196px;"
           },
           {
             "class": "max-w-200",
             "styles": "max-width: @200px;"
           },
           {
-            "class": "max-w-205",
-            "styles": "max-width: @205px;"
+            "class": "max-w-204",
+            "styles": "max-width: 204px;"
           },
           {
-            "class": "max-w-210",
-            "styles": "max-width: @210px;"
+            "class": "max-w-208",
+            "styles": "max-width: 208px;"
           },
           {
-            "class": "max-w-215",
-            "styles": "max-width: @215px;"
+            "class": "max-w-212",
+            "styles": "max-width: 212px;"
+          },
+          {
+            "class": "max-w-216",
+            "styles": "max-width: 216px;"
           },
           {
             "class": "max-w-220",
             "styles": "max-width: @220px;"
           },
           {
-            "class": "max-w-225",
-            "styles": "max-width: @225px;"
+            "class": "max-w-224",
+            "styles": "max-width: 224px;"
           },
           {
-            "class": "max-w-230",
-            "styles": "max-width: @230px;"
+            "class": "max-w-228",
+            "styles": "max-width: 228px;"
           },
           {
-            "class": "max-w-235",
-            "styles": "max-width: @235px;"
+            "class": "max-w-232",
+            "styles": "max-width: 232px;"
+          },
+          {
+            "class": "max-w-236",
+            "styles": "max-width: 236px;"
           },
           {
             "class": "max-w-240",
             "styles": "max-width: @240px;"
           },
           {
-            "class": "max-w-245",
-            "styles": "max-width: @245px;"
+            "class": "max-w-244",
+            "styles": "max-width: 244px;"
           },
           {
-            "class": "max-w-250",
-            "styles": "max-width: @250px;"
+            "class": "max-w-248",
+            "styles": "max-width: 248px;"
           },
           {
-            "class": "max-w-255",
-            "styles": "max-width: @255px;"
+            "class": "max-w-252",
+            "styles": "max-width: 252px;"
+          },
+          {
+            "class": "max-w-256",
+            "styles": "max-width: 256px;"
           },
           {
             "class": "max-w-260",
             "styles": "max-width: @260px;"
           },
           {
-            "class": "max-w-265",
-            "styles": "max-width: @265px;"
+            "class": "max-w-264",
+            "styles": "max-width: 264px;"
           },
           {
-            "class": "max-w-270",
-            "styles": "max-width: @270px;"
+            "class": "max-w-268",
+            "styles": "max-width: 268px;"
           },
           {
-            "class": "max-w-275",
-            "styles": "max-width: @275px;"
+            "class": "max-w-272",
+            "styles": "max-width: 272px;"
+          },
+          {
+            "class": "max-w-276",
+            "styles": "max-width: 276px;"
           },
           {
             "class": "max-w-280",
             "styles": "max-width: @280px;"
           },
           {
-            "class": "max-w-285",
-            "styles": "max-width: @285px;"
+            "class": "max-w-284",
+            "styles": "max-width: 284px;"
           },
           {
-            "class": "max-w-290",
-            "styles": "max-width: @290px;"
+            "class": "max-w-288",
+            "styles": "max-width: 288px;"
           },
           {
-            "class": "max-w-295",
-            "styles": "max-width: @295px;"
+            "class": "max-w-292",
+            "styles": "max-width: 292px;"
+          },
+          {
+            "class": "max-w-296",
+            "styles": "max-width: 296px;"
           },
           {
             "class": "max-w-300",
@@ -3640,120 +3920,152 @@ export const utilSchema = {
             "styles": "max-height: @148px;"
           },
           {
-            "class": "max-h-155",
-            "styles": "max-height: @155px;"
+            "class": "max-h-152",
+            "styles": "max-height: @152px;"
+          },
+          {
+            "class": "max-h-156",
+            "styles": "max-height: 156px;"
           },
           {
             "class": "max-h-160",
             "styles": "max-height: @160px;"
           },
           {
-            "class": "max-h-165",
-            "styles": "max-height: @165px;"
+            "class": "max-h-164",
+            "styles": "max-height: 164px;"
           },
           {
-            "class": "max-h-170",
-            "styles": "max-height: @170px;"
+            "class": "max-h-168",
+            "styles": "max-height: 168px;"
           },
           {
-            "class": "max-h-175",
-            "styles": "max-height: @175px;"
+            "class": "max-h-172",
+            "styles": "max-height: 172px;"
+          },
+          {
+            "class": "max-h-176",
+            "styles": "max-height: 176px;"
           },
           {
             "class": "max-h-180",
             "styles": "max-height: @180px;"
           },
           {
-            "class": "max-h-185",
-            "styles": "max-height: @185px;"
+            "class": "max-h-184",
+            "styles": "max-height: 184px;"
           },
           {
-            "class": "max-h-190",
-            "styles": "max-height: @190px;"
+            "class": "max-h-188",
+            "styles": "max-height: 188px;"
           },
           {
-            "class": "max-h-195",
-            "styles": "max-height: @195px;"
+            "class": "max-h-192",
+            "styles": "max-height: 192px;"
+          },
+          {
+            "class": "max-h-196",
+            "styles": "max-height: 196px;"
           },
           {
             "class": "max-h-200",
             "styles": "max-height: @200px;"
           },
           {
-            "class": "max-h-205",
-            "styles": "max-height: @205px;"
+            "class": "max-h-204",
+            "styles": "max-height: 204px;"
           },
           {
-            "class": "max-h-210",
-            "styles": "max-height: @210px;"
+            "class": "max-h-208",
+            "styles": "max-height: 208px;"
           },
           {
-            "class": "max-h-215",
-            "styles": "max-height: @215px;"
+            "class": "max-h-212",
+            "styles": "max-height: 212px;"
+          },
+          {
+            "class": "max-h-216",
+            "styles": "max-height: 216px;"
           },
           {
             "class": "max-h-220",
             "styles": "max-height: @220px;"
           },
           {
-            "class": "max-h-225",
-            "styles": "max-height: @225px;"
+            "class": "max-h-224",
+            "styles": "max-height: 224px;"
           },
           {
-            "class": "max-h-230",
-            "styles": "max-height: @230px;"
+            "class": "max-h-228",
+            "styles": "max-height: 228px;"
           },
           {
-            "class": "max-h-235",
-            "styles": "max-height: @235px;"
+            "class": "max-h-232",
+            "styles": "max-height: 232px;"
+          },
+          {
+            "class": "max-h-236",
+            "styles": "max-height: 236px;"
           },
           {
             "class": "max-h-240",
             "styles": "max-height: @240px;"
           },
           {
-            "class": "max-h-245",
-            "styles": "max-height: @245px;"
+            "class": "max-h-244",
+            "styles": "max-height: 244px;"
           },
           {
-            "class": "max-h-250",
-            "styles": "max-height: @250px;"
+            "class": "max-h-248",
+            "styles": "max-height: 248px;"
           },
           {
-            "class": "max-h-255",
-            "styles": "max-height: @255px;"
+            "class": "max-h-252",
+            "styles": "max-height: 252px;"
+          },
+          {
+            "class": "max-h-256",
+            "styles": "max-height: 256px;"
           },
           {
             "class": "max-h-260",
             "styles": "max-height: @260px;"
           },
           {
-            "class": "max-h-265",
-            "styles": "max-height: @265px;"
+            "class": "max-h-264",
+            "styles": "max-height: 264px;"
           },
           {
-            "class": "max-h-270",
-            "styles": "max-height: @270px;"
+            "class": "max-h-268",
+            "styles": "max-height: 268px;"
           },
           {
-            "class": "max-h-275",
-            "styles": "max-height: @275px;"
+            "class": "max-h-272",
+            "styles": "max-height: 272px;"
+          },
+          {
+            "class": "max-h-276",
+            "styles": "max-height: 276px;"
           },
           {
             "class": "max-h-280",
             "styles": "max-height: @280px;"
           },
           {
-            "class": "max-h-285",
-            "styles": "max-height: @285px;"
+            "class": "max-h-284",
+            "styles": "max-height: 284px;"
           },
           {
-            "class": "max-h-290",
-            "styles": "max-height: @290px;"
+            "class": "max-h-288",
+            "styles": "max-height: 288px;"
           },
           {
-            "class": "max-h-295",
-            "styles": "max-height: @295px;"
+            "class": "max-h-292",
+            "styles": "max-height: 292px;"
+          },
+          {
+            "class": "max-h-296",
+            "styles": "max-height: 296px;"
           },
           {
             "class": "max-h-300",
@@ -4327,6 +4639,10 @@ export const utilSchema = {
         "rows": [
           {
             "class": "border",
+            "styles": "border-width: 1px;"
+          },
+          {
+            "class": "border-1",
             "styles": "border-width: 1px;"
           },
           {
@@ -5947,6 +6263,54 @@ export const utilSchema = {
           {
             "class": "cols-12",
             "styles": "grid-template-columns: repeat(12, minmax(0, 1fr));"
+          },
+          {
+            "class": "cols-auto-1fr-1fr",
+            "styles": "grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-auto-1fr",
+            "styles": "grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-1fr-auto",
+            "styles": "grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;"
+          },
+          {
+            "class": "cols-auto-1fr-1fr-1fr",
+            "styles": "grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-auto-1fr-1fr",
+            "styles": "grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-1fr-auto-1fr",
+            "styles": "grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-1fr-1fr-auto",
+            "styles": "grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto;"
+          },
+          {
+            "class": "cols-auto-1fr-1fr-1fr-1fr",
+            "styles": "grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-auto-1fr-1fr-1fr",
+            "styles": "grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-1fr-auto-1fr-1fr",
+            "styles": "grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-1fr-1fr-auto-1fr",
+            "styles": "grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto minmax(0, 1fr);"
+          },
+          {
+            "class": "cols-1fr-1fr-1fr-1fr-auto",
+            "styles": "grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto;"
           },
           {
             "class": "cols-none",
