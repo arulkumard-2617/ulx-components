@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { defineConfig } from 'vite';
 import { resolve, dirname } from 'path';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, watch } from 'fs';
