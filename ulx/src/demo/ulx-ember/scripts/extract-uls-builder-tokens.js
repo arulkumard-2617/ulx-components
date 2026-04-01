@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 /**
  * Extracts @ulx-builder token lines from a .less file and writes a JS module.
  *

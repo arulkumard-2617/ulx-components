@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Application from 'ulx-ember/app';
 import config from 'ulx-ember/config/environment';
 import * as QUnit from 'qunit';

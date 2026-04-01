@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

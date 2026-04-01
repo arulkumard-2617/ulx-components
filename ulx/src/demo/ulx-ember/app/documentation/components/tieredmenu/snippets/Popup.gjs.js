@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
