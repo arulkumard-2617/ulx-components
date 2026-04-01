@@ -15,7 +15,6 @@ const stylesPath = 'src/styles/ulx';
 const entryFile = resolve(ulxRoot, stylesPath, 'ulx-editor.less');
 // Write CSS to ulx-components/dev-releases/css
 const outDir = resolve(addonRoot, 'dev-releases/css');
-const outFile = resolve(outDir, 'ulx-editor.css');
 const outMinFile = resolve(outDir, 'ulx-editor.min.css');
 
 // Command line arguments
@@ -70,32 +69,6 @@ async function compileCSS() {
 
 		console.log(`🔄 Compiling ${entryFile}... (prefix: ${componentPrefix})`);
 
-		// Compile regular CSS
-		const cssResult = await less.render(src, {
-			filename: entryFile,
-			paths: [
-				entryDir,
-				stylesRoot,
-				ulsStylesPath,
-				ulsOverridesPath,
-				nodeModulesPath,
-				resolve(process.cwd(), 'node_modules'),
-				resolve(uiPackagePath, 'node_modules')
-			],
-			modifyVars: {
-				'ulx-prefix': componentPrefix, // Inject component prefix from config (LESS will treat as string)
-				'ulx-css-var-prefix': cssVarPrefix // Inject CSS variable prefix from config
-			}
-		});
-
-		if (!cssResult || !cssResult.css) {
-			throw new Error('LESS compilation failed: No CSS output');
-		}
-
-		writeFileSync(outFile, cssResult.css, 'utf8');
-		console.log(`✅ LESS compiled → ${outFile}`);
-
-		// Compile minified CSS
 		const minResult = await less.render(src, {
 			filename: entryFile,
 			paths: [
