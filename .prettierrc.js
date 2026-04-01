@@ -1,4 +1,5 @@
 module.exports = {
+	ignorePath: './config/.prettierignore',
 	singleQuote: true,
 	trailingComma: 'none',
 	printWidth: 100,
