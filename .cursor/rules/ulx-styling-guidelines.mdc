@@ -1,0 +1,51 @@
+---
+description: ULX styling and CSS guidelines for components
+globs: src/components/**/*.gjs, src/components/**/*.hbs
+alwaysApply: false
+---
+
+# ULX Styling Guidelines
+
+## Paths
+
+- **Style source**: `uls/node_modules/ulx-v2`
+- **Component source**: `src/components`
+
+## ULX Styles
+
+- **Primary**: `uls/node_modules/ulx-v2/src/styles/ulx-master.less`
+- **Component styles**: `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/`
+  - `base/` - Variables, mixins, reset, utilities
+  - `elements/` - Element components (button, input, etc.)
+  - `collections/` - Collections (tabmenu, card, accordion, etc.)
+  - `modules/` - Modules (dialog, table, etc.)
+  - `themes/` - Theme files
+
+## Rules
+
+- **MUST** use existing ULX classes from `uls-styles/less/` for each component.
+- **MUST** use the **ulx-** prefix and exact class names from those files (e.g. `.ulx-tabmenu`, `.ulx-button`, `.ulx-button-primary`, `.ulx-button-secondary`).
+- **MUST** look up classes in the matching `.less` file under `uls/node_modules/ulx-v2/src/styles/ulx-styles/less/` before implementing.
+- **NEVER** add custom CSS classes that duplicate ULX behavior.
+- **NEVER** override ULX styles unless required; use `styles/uls/{app}/overrides/` and document why.
+- **NEVER** use inline styles or component-specific CSS files for ULX look-and-feel.
+
+## Example
+
+```gjs
+{{! ✅ CORRECT: ULX classes }}
+<div class="ulx-tabmenu">
+  <ul class="tabmenu-nav">
+    <li class="tabmenu-item">
+      <a class="tabmenu-link tabmenu-link-active">Tab 1</a>
+    </li>
+  </ul>
+</div>
+
+{{! ❌ WRONG: Custom classes }}
+<div class="my-custom-tabmenu">
+  <ul class="my-nav">...</ul>
+</div>
+```
+
+Styles come from `ulx-master.less`; do not import styles in component files.

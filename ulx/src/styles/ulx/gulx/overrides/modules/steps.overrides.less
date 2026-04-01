@@ -1,0 +1,134 @@
+// // steps overrides here
+// // ==========================================================================
+// // VERTICAL STEP PROGRESS COMPONENT
+// // ==========================================================================
+// // Vertical step progress indicator with done and progress states
+
+// .ulx-vtl-steps {
+//     position: relative;
+//     padding-inline-start: @20px; // Use logical property for RTL
+//     list-style: none;
+
+//     // Step item
+//     .steps-item {
+//         position: relative;
+//         counter-increment: list;
+
+//         // Spacing between items
+//         &:not(:last-child) {
+//             padding-bottom: @20px;
+//         }
+
+//         // Connecting line between steps
+//         &:not(:last-child):before {
+//             display: inline-block;
+//             content: '';
+//             position: absolute;
+//             top: @4px;
+//             inset-inline-start: -@20px; // Use logical property for RTL
+//             height: 100%;
+//             width: @10px;
+//             border-inline-start: @1px solid @default-border-color; // Use logical property for RTL
+//         }
+
+//         // Step indicator circle
+//         &:after {
+//             content: '';
+//             display: inline-block;
+//             position: absolute;
+//             top: @4px;
+//             inset-inline-start: -@27px; // Use logical property for RTL
+//             width: @15px;
+//             height: @15px;
+//             border: @1px solid @default-border-color;
+//             border-radius: 50%;
+//             background-color: @static-white;
+//         }
+
+//         // ==========================================================================
+//         // STATE VARIANTS
+//         // ==========================================================================
+
+//         // Done/completed state
+//         &.is-done {
+//             // Completed connecting line
+//             &:before {
+//                 border-inline-start: @1px solid @primary-color; // Use logical property for RTL
+//             }
+
+//             // Completed step indicator with checkmark
+//             &:after {
+//                 content: "\eabd";
+//                 font-family: 'bs-icons1';
+//                 color: @static-white;
+//                 text-align: center;
+//                 border: @1px solid @primary-color;
+//                 background-color: @primary-color;
+//                 font-size: @font-size15; // 15px
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 font-weight: @font-weight-bold;
+//                 top: @4px;
+//             }
+//         }
+
+//         // In progress state
+//         &.is-progress {
+//             // Progress step indicator with primary border
+//             &:after {
+//                 border: @1px solid @primary-color;
+//             }
+//         }
+//     }
+
+//     // ==========================================================================
+//     // SIZE VARIATIONS
+//     // ==========================================================================
+
+//     // Large size variant
+//     &.l-size {
+//         padding-inline-start: @40px; // Use logical property for RTL
+
+//         .steps-item {
+//             padding-bottom: @24px;
+
+//             // Thicker connecting line
+//             &:not(:last-child):before {
+//                 border-inline-start-width: @2px; // Use logical property for RTL
+//             }
+
+//             // Larger step indicator
+//             &:after {
+//                 width: @20px;
+//                 height: @20px;
+//                 inset-inline-start: -@40px; // Use logical property for RTL
+//                 top: @0px;
+//                 border-width: @2px;
+//             }
+
+//             // Adjusted connecting line position
+//             &:before {
+//                 inset-inline-start: -@31px; // Use logical property for RTL
+//             }
+
+//             // Thicker completed connecting line
+//             &.is-done {
+//                 &:before {
+//                     border-inline-start-width: @2px; // Use logical property for RTL
+//                 }
+//             }
+
+//             // Progress indicator with icon
+//             &.is-progress {
+//                 &:after {
+//                     content: "\eab6";
+//                     font-family: 'bs-icons1';
+//                     line-height: normal;
+//                     font-size: @font-size16; // 16px
+//                     color: @primary-color;
+//                 }
+//             }
+//         }
+//     }
+// }

@@ -1,0 +1,499 @@
+// // ==========================================================================
+// // ULS LABEL COMPONENT
+// // ==========================================================================
+// // Label component with size variations, color variants, and visual modifiers
+
+// .ulx-label {
+//     display: inline-grid;
+//     border-radius: @border-radius-md;
+//     align-items: center;
+//     text-align: center;
+//     grid-auto-flow: column;
+//     font-family: @medium-font;
+//     background-color: var(--ulx-label-bg-color); // Runtime CSS custom property
+//     box-shadow: 0 0 0 1px var(--ulx-label-border-color) inset; // Runtime CSS custom property
+//     color: var(--ulx-label-text-color); // Runtime CSS custom property
+
+//     // Pilled variant (rounded)
+//     &.pilled {
+//         border-radius: @40px;
+//     }
+
+//     // Closable variant with close icon
+//     &.closable {
+//         grid-gap: @4px;
+
+//         >.close-icon {
+//             transform: translate(@6px, @0px);
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//             color: var(--ulx-label-text-color);
+//             -webkit-text-stroke: 0.5px;
+//         }
+//     }
+
+//     // Marked variant with indicator dot
+//     &.lb-marked {
+//         position: relative;
+//         grid-gap: @4px;
+
+//         &:before {
+//             content: "";
+//             background: var(--ulx-label-marked-color, var(--ulx-label-text-color));
+//             height: @7px;
+//             width: @7px;
+//             border-radius: 50%;
+//         }
+//     }
+
+//     // Outline variant (transparent background)
+//     &.outline {
+//         color: var(--ulx-label-bg-color);
+//         background-color: transparent;
+
+//         &:before {
+//             background: var(--ulx-label-bg-color);
+//         }
+//     }
+
+//     // With icon variant
+//     &.wt-icon {
+//         display: inline-grid;
+//         grid-auto-flow: column;
+//         grid-template-columns: max-content;
+//         align-items: center;
+//         grid-gap: @4px;
+
+//         &.xs-size {
+//             .bs-icons1 {
+//                 font-size: @font-size12; // tiny is 12px
+//             }
+//         }
+//     }
+
+//     // Rounded variant (circular)
+//     &.rds {
+//         border-radius: 50%;
+//     }
+// }
+
+// // ==========================================================================
+// // SIZE VARIATIONS
+// // ==========================================================================
+
+// .ulx-label {
+//     &:not(.empty) {
+//         &.xs-size {
+//             @font-size: @font-size11; // mini is 11px
+//             @line-height: @mini-lineheight;
+//             @padding: 0 @8px;
+//             @height: @20px;
+//             font-family: @bold-font;
+//             .element-size(); // Note: This mixin needs to be defined or replaced
+//         }
+
+//         &.s-size {
+//             @font-size: @font-size13; // small is 13px
+//             @line-height: @small-lineheight;
+//             @padding: 0 @12px;
+//             @height: @24px;
+//             .element-size();
+//         }
+
+//         &.m-size {
+//             @font-size: @font-size-default; // default is 14px
+//             @line-height: @default-lineheight;
+//             @padding: 0 @12px;
+//             @height: @28px;
+//             .element-size();
+//         }
+
+//         &.l-size {
+//             @font-size: @font-size-default; // default is 14px
+//             @line-height: @default-lineheight;
+//             @padding: 0 @12px;
+//             @height: @32px;
+//             .element-size();
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // DEFAULT COLOR VARIATIONS
+// // ==========================================================================
+
+// .ulx-label,
+// .ulx-label.empty {
+//     &.primary {
+//         --ulx-label-bg-color: @primary-color;
+//         --ulx-label-border-color: @primary-color;
+//         --ulx-label-text-color: @primary-fg-color;
+//     }
+
+//     &.green {
+//         --ulx-label-bg-color: @green-bg;
+//         --ulx-label-border-color: @green-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.orange {
+//         --ulx-label-bg-color: @orange-bg;
+//         --ulx-label-border-color: @orange-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.gold {
+//         --ulx-label-bg-color: @gold-bg;
+//         --ulx-label-border-color: @gold-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.red {
+//         --ulx-label-bg-color: @red-bg;
+//         --ulx-label-border-color: @red-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.blue {
+//         --ulx-label-bg-color: @blue-bg;
+//         --ulx-label-border-color: @blue-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.blue1 {
+//         --ulx-label-bg-color: @blue1-bg;
+//         --ulx-label-border-color: @blue1-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.purple {
+//         --ulx-label-bg-color: @purple-bg;
+//         --ulx-label-border-color: @purple-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.black {
+//         --ulx-label-bg-color: @black-bg;
+//         --ulx-label-border-color: @black-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.magenta {
+//         --ulx-label-bg-color: @magenta-bg;
+//         --ulx-label-border-color: @magenta-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.yellow {
+//         --ulx-label-bg-color: @yellow-bg;
+//         --ulx-label-border-color: @yellow-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.violet {
+//         --ulx-label-bg-color: @violet-bg;
+//         --ulx-label-border-color: @violet-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.teal {
+//         --ulx-label-bg-color: @teal-bg;
+//         --ulx-label-border-color: @teal-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.pink {
+//         --ulx-label-bg-color: @pink-bg;
+//         --ulx-label-border-color: @pink-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.brown {
+//         --ulx-label-bg-color: @brown-bg;
+//         --ulx-label-border-color: @brown-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.olive {
+//         --ulx-label-bg-color: @olive-bg;
+//         --ulx-label-border-color: @olive-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.darkturquoise {
+//         --ulx-label-bg-color: @darkturquoise-bg;
+//         --ulx-label-border-color: @darkturquoise-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.nightblue {
+//         --ulx-label-bg-color: @nightblue-bg;
+//         --ulx-label-border-color: @nightblue-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.white {
+//         --ulx-label-bg-color: @default-background;
+//         --ulx-label-border-color: @default-border-color;
+//         --ulx-label-text-color: @text-color;
+//     }
+
+//     &.default-color {
+//         --ulx-label-bg-color: transparent;
+//         --ulx-label-border-color: @default-border-color;
+//         --ulx-label-text-color: @text-color;
+//     }
+
+//     &.grey {
+//         --ulx-label-bg-color: @bg-layer4;
+//         --ulx-label-border-color: @default-border-color;
+//         --ulx-label-text-color: @text-color;
+//     }
+
+//     &.bd-white {
+//         border: solid @1px @static-white;
+//     }
+
+//     &.bg-bluelayer1 {
+//         --ulx-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
+//         --ulx-label-text-color: @text-color;
+//     }
+// }
+
+// // ==========================================================================
+// // USER ROLE COLORS
+// // ==========================================================================
+
+// .ulx-label {
+//     &.attendee-color {
+//         --ulx-label-bg-color: #1890ff; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.eo-color {
+//         --ulx-label-bg-color: #d93f89; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.speaker-color {
+//         --ulx-label-bg-color: #2c9e75; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.sponsor-color {
+//         --ulx-label-bg-color: #01aed3; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.exhibitor-color {
+//         --ulx-label-bg-color: #e07817; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.visitor-color {
+//         --ulx-label-bg-color: #d63333; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.host-color {
+//         --ulx-label-bg-color: #3f6fc6; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.event-team-member-color {
+//         --ulx-label-bg-color: #a1b71c; // Keep direct hex value
+//         --ulx-label-text-color: @static-white;
+//     }
+// }
+
+// // ==========================================================================
+// // LIGHT COLOR VARIATIONS
+// // ==========================================================================
+
+// .ulx-label,
+// .ulx-label.empty {
+//     &.lt-green {
+//         --ulx-label-bg-color: @bg-greenLayer2;
+//         --ulx-label-text-color: @green-fg-dark;
+//     }
+
+//     &.lt-green1 {
+//         --ulx-label-bg-color: @bg-greenLayer3;
+//         --ulx-label-text-color: @green-fg-dark;
+//     }
+
+//     &.lt-orange {
+//         --ulx-label-bg-color: @bg-orangeLayer2;
+//         --ulx-label-text-color: @orange-fg-dark;
+//     }
+
+//     &.lt-gold {
+//         --ulx-label-bg-color: @bg-goldLayer2;
+//         --ulx-label-text-color: @gold-fg-dark;
+//     }
+
+//     &.lt-red {
+//         --ulx-label-bg-color: @bg-redLayer3;
+//         --ulx-label-text-color: @red-fg;
+//     }
+
+//     &.lt-red1 {
+//         --ulx-label-bg-color: @bg-redLayer1;
+//         --ulx-label-text-color: @red-fg;
+//     }
+
+//     &.lt-blue {
+//         --ulx-label-bg-color: @bg-BlueLayer2;
+//         --ulx-label-text-color: @blue-fg;
+//     }
+
+//     &.lt-blue1 {
+//         --ulx-label-bg-color: @bg-BlueLayer1;
+//         --ulx-label-text-color: @blue-fg;
+//     }
+
+//     &.lt-purple {
+//         --ulx-label-bg-color: @bg-purpleLayer2;
+//         --ulx-label-text-color: @purple-fg;
+//     }
+
+//     &.lt-purple1 {
+//         --ulx-label-bg-color: @bg-purpleLayer4;
+//         --ulx-label-text-color: @purple-fg;
+//     }
+
+//     &.lt-neutral {
+//         --ulx-label-bg-color: @grey-bg;
+//         --ulx-label-text-color: @grey-fg;
+//     }
+
+//     &.lt-neutral1 {
+//         --ulx-label-bg-color: @bg-blackLayer3;
+//         --ulx-label-text-color: @static-black;
+//     }
+
+//     &.lt-magenta {
+//         --ulx-label-bg-color: @bg-magentaLayer2;
+//         --ulx-label-text-color: @magenta-fg;
+//     }
+
+//     &.lt-brown {
+//         --ulx-label-bg-color: @bg-brownLayer2;
+//         --ulx-label-text-color: @brown-fg;
+//     }
+
+//     // User availability status
+//     &.user-in-label {
+//         --ulx-label-bg-color: @user-in-bg; // Note: Check if this variable exists
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.user-out-label {
+//         --ulx-label-bg-color: @user-out-bg; // Note: Check if this variable exists
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.user-yet-in {
+//         --ulx-label-bg-color: @user-yet-in-bg; // Note: Check if this variable exists
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.user-attended {
+//         --ulx-label-bg-color: @blue-bg;
+//         --ulx-label-text-color: @static-white;
+//     }
+
+//     &.bg-blueLayer1 {
+//         --ulx-label-bg-color: @bg-primaryLayer2; // primary-layer2 equivalent
+//         --ulx-label-text-color: @text-color;
+//     }
+
+//     // User checkin status with marked variant
+//     &.lb-marked {
+//         &.user-in-label {
+//             --ulx-label-bg-color: @user-in-LayerBg; // Note: Check if this variable exists
+//             --ulx-label-text-color: @static-black;
+
+//             &:before {
+//                 background-color: @user-in-bg; // Note: Check if this variable exists
+//             }
+//         }
+
+//         &.user-out-label {
+//             --ulx-label-bg-color: @user-out-LayerBg; // Note: Check if this variable exists
+//             --ulx-label-text-color: @static-black;
+
+//             &:before {
+//                 background-color: @user-out-bg; // Note: Check if this variable exists
+//             }
+//         }
+
+//         &.user-yet-in {
+//             --ulx-label-bg-color: @user-yet-in-LayerBg; // Note: Check if this variable exists
+//             --ulx-label-text-color: @static-black;
+
+//             &:before {
+//                 background-color: @user-yet-in-bg; // Note: Check if this variable exists
+//             }
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // EMPTY LABEL SIZE VARIATIONS
+// // ==========================================================================
+// // Circular empty labels (dots/indicators)
+
+// .ulx-label.empty {
+//     border-radius: 50% !important;
+//     padding: 0;
+
+//     &.xxs-size {
+//         width: @4px;
+//         height: @4px;
+//         min-height: auto;
+//     }
+
+//     &.xs-size {
+//         width: @8px;
+//         height: @8px;
+//         min-height: auto;
+//     }
+
+//     &.s-size {
+//         width: @12px;
+//         height: @12px;
+//         min-height: auto;
+//     }
+
+//     &.m-size {
+//         width: @24px;
+//         height: @24px;
+//         min-height: 0;
+//         padding: 0;
+//     }
+
+//     &.xl-size {
+//         width: @32px;
+//         height: @32px;
+//         min-height: 0;
+//         padding: 0;
+//     }
+// }
+
+// // ==========================================================================
+// // BUTTON LABEL COMPONENT
+// // ==========================================================================
+
+// .ulx-btn-label {
+//     background: @bg-layer4;
+//     box-shadow: 0 @2px 0 @bg-layer5;
+//     border-radius: @border-radius-sm; // 4px
+//     height: @20px;
+//     padding: 0 @4px;
+//     color: @text-color;
+//     border: @1px solid @default-border-color;
+//     font-size: @font-size12; // tiny is 12px
+//     line-height: @20px;
+//     display: inline-block;
+//     font-family: @medium-font;
+// }

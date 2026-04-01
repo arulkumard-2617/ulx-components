@@ -1,0 +1,168 @@
+---
+description: ULX component philosophy, Ember 6.8, and PrimeReact-as-reference
+globs: src/components/**/*.gjs, src/components/**/*.hbs, src/components/**/*.js
+alwaysApply: true
+---
+
+# ULX Component Philosophy
+
+## Ember Version
+
+- **Use Ember 6.8.** All component code must be valid for and follow idioms of Ember 6.8 (e.g. Glimmer Components, `@tracked`, `@action`, modern helpers/modifiers).
+
+## Paths
+
+- **Component source**: `src/components`
+
+## PrimeReact as Reference Only
+
+- **MAY** use PrimeReact as a reference for: behavior, public API shape, interaction patterns, props/arguments, and a11y.
+- **MUST** implement everything as **native Ember/Glimmer** components — no PrimeReact dependency.
+- **MUST** align with Ember 6.8 patterns: Glimmer reactivity, `@tracked` / `@action`, Ember routing and services as needed.
+
+## How to Use PrimeReact
+
+- Use PrimeReact docs to learn: which arguments to expose, how the component should behave, which a11y features to support.
+- Implement those ideas in Ember (e.g. if PrimeReact has `activeIndex`, you might have `@activeItem` and implement with `@tracked` and `@action`).
+
+## Rules
+
+- All components live under `src/components` and are built from scratch in Ember.
+- No PrimeReact (or other React) code or imports in the codebase.
+- **Class prefix**: Use `NAMESPACE` from `src/utils/component-config.js` for the component class prefix. Prefer `getComponentClass(componentName)` from that file when building class names (e.g. `getComponentClass('button')` → `ulx-button`). Do not hardcode prefix strings like `ulx-` or `ulx-` in components.
+- **Avoid Ember 6.8 deprecations**: Do not use deprecated APIs. Prefer: Glimmer Components (`@glimmer/component`) and `this.args`; `@tracked` for state; `@action` or `fn` for callbacks; `{{on}}` from `@ember/modifier` for DOM events. Avoid: `Ember.Component`, `Ember.get` / `Ember.set`, `computed()`, `observer()`, `@ember/object` get/set, `sendAction`, classic lifecycle hooks (`didInsertElement` → use modifiers or `{{did-insert}}`).
+- Always use _@action_ for methods and functions
+- **Component structure**: Use class-based Glimmer components with an embedded template (`.gjs`). Put each component in its own folder under `src/components/` (e.g. `src/components/ulx-button/`).
+- **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
+- **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
+- **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.
+- **Avoid** Don't add any comments related to primereact
+- **Must** In the demo page, for the severity case use instead that as Variant not severity
+- Avoid writing new size classes
+- **Must** Always use @action for the function used in the template
+- **MUST** Use ember-truth-helpers if needed and dont forget to import that
+- **Must** Use 'i18n t helper' for all the strings used in the component.Import the t helper in the component also
+- **Must** Also must use the components like input ,button etc... if needed use the existing components we have. Eg ulxbutton, ulxicon, ulxinput....
+
+## Code Style Patterns
+
+All components **MUST** follow these code style patterns for consistency and readability:
+
+### Argument Destructuring
+
+- **Destructure `this.args` with defaults** in getters for better readability and maintainability.
+- Use default values directly in destructuring assignments to eliminate conditional checks.
+- Destructure within getters to maintain Glimmer reactivity (do not override `this.args`).
+- **MUST** Variables should be more specific and meaningful.
+
+```javascript
+// ✅ CORRECT: Destructure with defaults in getter
+get rootClasses() {
+  const {
+    variant = "primary",
+    size = "s-size",
+    disabled = false,
+    customClass
+  } = this.args;
+
+  // Use destructured variables...
+}
+
+// ❌ WRONG: Accessing this.args directly throughout
+get rootClasses() {
+  if (this.args.variant) {
+    // ...
+  }
+}
+```
+
+### Conditional Logic
+
+- **Use ES6+ syntax** for conditional operations. Prefer logical AND (`&&`) for conditional pushes/assignments.
+- Use nullish coalescing (`??`) for fallback values when appropriate.
+
+```javascript
+// ✅ CORRECT: Modern ES6+ syntax
+dot && parts.push('dot');
+disabled && parts.push('disabled');
+customClass && parts.push(customClass);
+const value = this.args.value ?? defaultValue;
+
+// ❌ WRONG: Verbose if statements
+if (dot) {
+	parts.push('dot');
+}
+if (disabled) {
+	parts.push('disabled');
+}
+```
+
+### Class Building Pattern
+
+- When building class strings, destructure args with defaults first, then build the class array.
+- Use logical AND for conditional class additions.
+- Filter and join at the end for clean, readable code.
+
+```javascript
+get rootClasses() {
+  const {
+    variant = "primary",
+    size = "s-size",
+    disabled = false,
+    customClass
+  } = this.args;
+
+  const parts = [this.baseClass];
+  parts.push(variant);
+  parts.push(size);
+  disabled && parts.push("disabled");
+  customClass && parts.push(customClass);
+
+  return [...new Set(parts.filter(Boolean))].join(" ");
+}
+```
+
+## Component Design Principles
+
+Best components are:
+
+- **Argument-driven**: Components receive data and behavior through arguments (`this.args`), not internal state or external dependencies.
+- **Stateless by default**: Prefer components that derive their output from arguments without maintaining internal state.
+- **No lifecycle hooks**: Avoid component lifecycle hooks that introduce side effects or complexity.
+- **No side effects**: Components should be pure functions of their arguments, rendering output without side effects.
+
+❌ **Avoid**:
+
+- `did-insert`
+- `did-update`
+- `will-destroy`
+- Constructors
+- Observers
+- Mixins
+- Don't create any .md files when component is created.
+
+**If you need effects → use resources or modifiers, not components.**
+
+## WCAG compliance
+
+All components **MUST** meet WCAG requirements. Apply these rules so every component can pass accessibility review.
+
+### General
+
+- **Decorative vs meaningful**: For purely decorative content, use `aria-hidden="true"` so assistive tech skips it. For meaningful content (icons that convey info, images that matter), expose a name via `aria-label` or `aria-labelledby`.
+- **Overrides**: Prefer passing a11y attributes through `...attributes` so callers can set `aria-label`, `role`, etc. when needed. Default to safe choices (e.g. decorative) and let callers override.
+- **Keyboard & focus**: Interactive components must be keyboard operable and have visible focus. Use `tabindex`, `role`, and focus management as appropriate for the control type.
+- **Semantics**: Use the right HTML element or ARIA role (e.g. `role="button"` only when it behaves like a button; use `<button>` when possible).
+- **snippets**: we need to write whatever the code demo page variation is having , it should be present in the snippet file also, including the imports.
+
+### Icon components
+
+Icon components (e.g. UlxIcon) **MUST** follow:
+
+- **iconname** Must use the icon from this https://cdn.zicons.in/21598000000025464/latest/bs-icons1.css cdn.If the icon is not present just let it empty.
+- **`aria-hidden="true"`** when the icon is decorative (default). Ensures screen readers ignore it when it doesn’t add information.
+- **`aria-label`** when the icon is meaningful. Callers pass it via `...attributes` (e.g. `<UlxIcon aria-label="Close" />`). Do not add a default `aria-label`; only use it when the caller provides one.
+- **Suggestions**:
+  - For inline/custom SVG, set `focusable="false"` on the `<svg>` when the icon is non-interactive to avoid focus quirks in some browsers.
+  - If the icon is the only content of a button or link, the button/link must have an accessible name (e.g. `aria-label` on the control, or visually hidden text), not only on the icon.
+  - Document in the component JSDoc when to use `aria-label` and how `...attributes` affects a11y (e.g. “Decorative by default; for meaningful icons pass `role="img"` and `aria-label`.”).

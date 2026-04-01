@@ -1,0 +1,125 @@
+// // button overrides here
+// // // ==========================================================================
+// // // ULS PrimeReact - Button Component Overrides
+// // // ==========================================================================
+// // // This file allows you to customize button component styles specifically
+// // // for the PrimeReact library. Override default ULS button styles here.
+// // //
+// // // Usage:
+// // // This file is automatically imported in the React library's main.less
+// // // to provide React-specific button customizations.
+// // //
+// // // Version: 2.1.0
+// // // Last Updated: 2025-01-17
+// // // ==========================================================================
+
+// // // ==========================================================================
+// // // BUTTON COMPONENT OVERRIDES
+// // // ==========================================================================
+
+// // ==========================================================================
+// // BUTTONS COMPONENT (Grid-based Button Group)
+// // ==========================================================================
+// // Grid-based button group with equal-width columns and switch variant
+
+// .ulx-buttons {
+//     display: inline-grid;
+//     grid-auto-flow: column;
+//     grid-template-columns: none;
+//     grid-auto-columns: 1fr;
+//     align-items: center;
+
+//     // Middle children - no border radius
+//     > :not(:first-child):not(:last-child) {
+//         border-radius: 0;
+//     }
+
+//     // First child - remove right border radius
+//     > :first-child {
+//         border-top-right-radius: 0;
+//         border-bottom-right-radius: 0;
+//     }
+
+//     // Last child - remove left border radius
+//     > :last-child {
+//         border-top-left-radius: 0;
+//         border-bottom-left-radius: 0;
+//     }
+
+//     // Negative margin for seamless connection (except first child)
+//     > *:not(:first-child) {
+//         margin-inline-start: -@1px; // RTL support
+//     }
+
+//     // Rounded modifier
+//     &.rds {
+//         border-radius: 5em;
+
+//         .ulx-button {
+//             border-radius: 5em;
+//         }
+//     }
+
+//     // Button styling
+//     .ulx-button {
+//         display: flex;
+//         align-items: center;
+//     }
+
+//     // Fluid modifier - full width
+//     &.fluid {
+//         width: 100%;
+//     }
+
+//     // Size variation - padding for xs-size
+//     &.xs-size {
+//         padding: @4px;
+//     }
+
+//     // Switch variant - animated toggle button group
+//     &.switch {
+//         background-color: @bg-layer1;
+//         border-radius: @border-radius-7xl; // 32px
+//         border: 1px solid @default-border-color;
+
+//         > .ulx-button {
+//             border-radius: @border-radius-7xl; // 32px
+//             position: relative;
+//             transition: all 0.3s ease;
+
+//             // Last child pseudo-element for animated border
+//             &:last-child {
+//                 &:after {
+//                     content: "";
+//                     position: absolute;
+//                     width: 100%;
+//                     height: 100%;
+//                     top: 0;
+//                     left: -99%;
+//                     border-radius: @border-radius-7xl; // 32px
+//                     color: @primary-text-color;
+//                     border: 1px solid @primary-color;
+//                     transition: all 0.3s ease;
+//                 }
+//             }
+
+//             // Active state - animated border position
+//             &.active {
+//                 color: @primary-text-color;
+//                 z-index: 1;
+
+//                 // Reset last child border when first button is active
+//                 &:nth-child(1) ~ .ulx-button:last-child:after {
+//                     left: -99%;
+//                     transition: all 0.3s ease;
+//                 }
+
+//                 // Move border to active button position
+//                 &:after {
+//                     left: 0;
+//                     transition: all 0.3s ease;
+//                 }
+//             }
+//         }
+//     }
+// }

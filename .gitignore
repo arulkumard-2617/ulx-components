@@ -1,0 +1,59 @@
+# dependencies
+node_modules/
+ulx/node_modules/
+ulx/src/demo/ulx-ember/node_modules/
+
+# compiled output
+declarations/
+dist/
+ulx/dist/
+addon/dist/
+
+# Ember demo build output
+ulx/src/demo/ulx-ember/dist/
+ulx/src/demo/ulx-ember/appsail/dist/
+
+# lockfiles (not committed)
+package-lock.json
+ulx/package-lock.json
+
+# misc
+.DS_Store
+**/.DS_Store
+Thumbs.db
+.npm
+.yarn-integrity
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# cache
+.eslintcache
+*.tsbuildinfo
+
+# tooling / analysis output
+coverage/
+tmp/
+temp/
+qodana-report/
+.qodana/
+
+# local env (keep .env.example committed if you add one)
+.env
+.env.local
+.env.*.local
+
+# IDE / local workspace (not allowed at repo root per CM policy)
+*.code-workspace
+ulx-components.code-workspace
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# local docs
+component-brain

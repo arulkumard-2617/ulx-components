@@ -1,0 +1,315 @@
+// // dropdown overrides here
+// .ulx-dropdown {
+//     border: 1px solid @input-border-color;
+//     border-radius: @border-radius-md;
+//     position: relative;
+//     clear: both;
+//     background-color: @input-bg-color;
+
+//     &.pilled {
+//         border-radius: @20px;
+//     }
+
+//     >.dw-parent {
+//         padding: @3px @8px;
+
+//         .dw-content {
+//             width: ~"calc(100% - @{24px})";
+//             display: flex;
+//             gap: @8px;
+//             justify-content: flex-start;
+//             align-items: center;
+//             flex-wrap: wrap;
+//             min-height: @24px;
+
+//             >.image,
+//             >.image img {
+//                 height: @24px;
+//                 width: auto;
+//                 flex-shrink: 0;
+//             }
+
+//             .dw-text {
+//                 font-size: @font-size-default;
+//                 line-height: @default-lineheight;
+
+//                 overflow: hidden;
+//                 display: -webkit-box;
+//                 -webkit-line-clamp: 1;
+//                 -webkit-box-orient: vertical;
+//             }
+
+//             &.place-holder {
+//                 .dw-text {
+//                     color: @place-holder-color;
+//                 }
+//             }
+
+//             .dw-subtext {
+//                 font-size: @font-size13; // small is 13px
+//                 line-height: @small-lineheight;
+//             }
+//         }
+
+//         >.down-arrow-icon {
+//             font-size: ~"calc(@{20px} * var(--ulx-global-text-size))";
+//             position: absolute;
+//             right: @8px;
+//             top: @5px;
+//             line-height: 1em;
+//         }
+//     }
+
+//     &.multiple {
+//         >.dw-parent {
+//             display: flex;
+//             gap: @4px;
+//             justify-content: flex-start;
+//             align-items: center;
+//             flex-wrap: wrap;
+//             padding-inline-end: @32px; // Use logical property
+
+//             .dw-content {
+//                 display: flex;
+//                 align-items: center;
+//                 gap: @4px;
+//                 background: @bg-layer2;
+//                 box-shadow: 0 0 0 1px @default-border-color inset;
+//                 border-radius: @20px;
+//                 height: @24px;
+//                 padding: 0 @24px 0 @8px;
+//                 position: relative;
+//                 width: auto;
+
+//                 >.close-icon {
+//                     position: absolute;
+//                     right: @6px;
+//                     font-size: @font-size12;
+//                     cursor: var(--zdr-cursor-pointer, pointer);
+
+//                     &:hover {
+//                         color: @primary-text-color;
+//                         font-weight: bold;
+//                     }
+//                 }
+
+//                 .dw-text {
+//                     font-size: @font-size13; // small is 13px
+//                     line-height: @small-lineheight;
+
+//                     overflow: hidden;
+//                     display: -webkit-box;
+//                     -webkit-line-clamp: 1;
+//                     -webkit-box-orient: vertical;
+//                 }
+
+//                 &.place-holder {
+//                     background-color: transparent;
+//                     padding: 0;
+//                     height: 0;
+//                 }
+//             }
+
+//             .dw-content>.image,
+//             .dw-content>.image img {
+//                 height: @20px;
+//                 width: auto;
+//                 flex-shrink: 0;
+//             }
+
+//             .dw-content>.ulx-user-list>.ulx-avatar {
+//                 margin-inline-start: -@6px; // Use logical property
+//             }
+
+//             //for placeholder border
+//             .dw-content.place-holder {
+//                 box-shadow: none;
+//             }
+//         }
+//     }
+
+//     >.dw-menu {
+//         min-width: 100%;
+//         left: anchor(left);
+//         top: ~"calc(@{4px} + anchor(bottom))";
+//         right: auto;
+//         bottom: auto;
+//         border: 1px solid @input-border-color;
+//         border-radius: @border-radius-md;
+//         background: @default-background;
+//         z-index: 1;
+//         display: none;
+//         visibility: hidden;
+//         opacity: 0;
+//         transition: opacity @default-duration;
+//         color: @text-color;
+
+//         .dw-menu-form {
+//             padding: @12px @8px;
+//         }
+
+//         .dw-group {
+//             margin-bottom: @8px;
+//             border-bottom: @1px dashed @default-border-color;
+
+//             .dw-text.title {
+//                 font-family: @font-family-base; // or @medium-font
+//                 font-size: @font-size16; // h6 is 16px
+//                 padding: 0 @6px;
+//             }
+//         }
+
+//         .dw-items {
+//             max-height: 232px;
+//             overflow: auto;
+//             padding: 0 @4px;
+//         }
+
+//         .dw-item {
+//             padding: @8px;
+//             display: flex;
+//             justify-content: space-between;
+//             gap: @8px;
+//             margin-bottom: @4px;
+//             border-radius: @border-radius-md;
+
+//             >.dw-content {
+//                 display: flex;
+//                 justify-content: space-between;
+//                 align-items: center;
+//                 gap: @4px;
+//                 flex-wrap: 1;
+
+//                 >.image,
+//                 >.image img {
+//                     width: @32px;
+//                     height: auto;
+//                     flex-shrink: 0;
+//                 }
+
+//                 .dw-subtext {
+//                     font-size: @font-size13; // small is 13px
+//                     line-height: @small-lineheight;
+//                     color: @secondary-text-color;
+//                 }
+//             }
+
+//             &:last-child {
+//                 margin-bottom: 0;
+//             }
+
+//             &:hover:not(.selected) {
+//                 background: @secondary-background; // default-hover-bg
+//             }
+
+//             &.selected {
+//                 background: @bg-layer2;
+
+//                 .dw-text {
+//                     font-family: @font-family-base; // or @medium-font
+//                 }
+//             }
+
+//             >.item-nav {
+//                 display: flex;
+//                 align-items: center;
+//                 gap: @8px;
+//                 visibility: hidden;
+//                 opacity: 0;
+//                 transition: all @default-duration;
+//             }
+
+//             &:hover .item-nav {
+//                 visibility: visible;
+//                 opacity: 1;
+//             }
+//         }
+//     }
+
+//     &.up {
+//         >.dw-menu {
+//             top: auto;
+//             bottom: ~"calc(@{4px} + anchor(top))";
+//         }
+//     }
+
+//     &:hover,
+//     &.active {
+//         >.down-arrow-icon {
+//             background: @bg-layer2;
+//             border-radius: @border-radius-xs; // 2px
+//         }
+//     }
+
+//     &.active {
+//         border-color: @primary-color;
+
+//         >.down-arrow-icon {
+//             color: @primary-text-color;
+//         }
+
+//         .dw-menu {
+//             opacity: 1;
+//             visibility: visible;
+//             display: block;
+//         }
+//     }
+
+//     &.error {
+//         border-color: @error-border-color;
+//     }
+
+//     &.secondary {
+//         border: none;
+//         border-radius: 0;
+
+//         >.dw-parent {
+//             padding: 0;
+//             display: inline-flex;
+//             align-items: center;
+//             gap: @4px;
+
+//             >.down-arrow-icon {
+//                 position: static;
+//                 margin-top: @2px;
+//             }
+//         }
+
+//         .dw-menu {
+//             width: auto !important;
+//             min-width: @140px !important; // If @140px doesn't exist, use 140px directly
+//         }
+//     }
+
+//     &.disabled {
+//         opacity: 0.6;
+//         pointer-events: none;
+//     }
+
+//     &.txt-center {
+//         >.dw-parent .dw-content {
+//             justify-content: center;
+//         }
+//     }
+
+//     &.l-size {
+//         >.dw-parent {
+//             padding: @6px @8px;
+
+//             > .down-arrow-icon {
+//                 top: @8px;
+//             }
+//         }
+//     }
+// }
+
+// [dir="rtl"] {
+//     .ulx-dropdown {
+//         >.dw-parent {
+//             >.down-arrow-icon {
+//                 right: auto;
+//                 left: @8px;
+//             }
+//         }
+//     }
+// }

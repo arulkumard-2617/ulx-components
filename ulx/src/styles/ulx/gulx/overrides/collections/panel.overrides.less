@@ -1,0 +1,96 @@
+// // segment overrides here
+// // ==========================================================================
+// // OPTION SEGMENT COMPONENT
+// // ==========================================================================
+// // Selectable option segment with labeled indicator and selection states
+
+// .ulx-option-segment {
+//     cursor: var(--zdr-cursor-pointer, pointer);
+//     position: relative;
+//     box-shadow: 0 0 0 @1px @dark-border-color inset;
+//     background-color: @default-background;
+//     border-radius: @border-radius-md;
+//     color: @text-color;
+
+//     // Labeled indicator (checkmark badge)
+//     .labeled {
+//         height: @32px;
+//         width: @20px;
+//         background-color: @primary-color;
+//         transform: rotate(45deg);
+//         position: absolute;
+//         inset-inline-start: -@6px; // Use logical property for RTL
+//         top: -@12px;
+//         text-align: center;
+//         display: none;
+
+//         // Checkmark icon
+//         &:before {
+//             position: absolute;
+//             content: "\e980";
+//             font-family: 'bs-icons1';
+//             color: @primary-fg-color;
+//             transform: rotate(-47deg);
+//             inset-inline-start: @7px; // Use logical property for RTL
+//             top: @6px;
+//             font-size: @font-size12; // tiny is 12px
+//             line-height: @20px;
+//             font-weight: @font-weight-bold; // Use font-weight variable
+//         }
+
+//         // Right-aligned variant
+//         &.right {
+//             transform: rotate(-45deg);
+//             inset-inline-end: -@6px; // Use logical property for RTL
+//             inset-inline-start: auto; // Reset logical property
+
+//             &:before {
+//                 transform: rotate(47deg);
+//                 inset-inline-start: 0; // Reset logical property
+//                 inset-inline-end: @7px; // Use logical property for RTL
+//             }
+//         }
+//     }
+
+//     // Selected background variant
+//     &.selected-bg {
+//         background-color: @bg-layer2;
+//     }
+
+//     // ==========================================================================
+//     // SELECTION STATES
+//     // ==========================================================================
+//     // Hover and selected states with primary border highlight
+
+//     &:hover,
+//     &.selected,
+//     &.selected-bg,
+//     &.checked {
+//         box-shadow: 0 0 0 @2px @primary-color !important;
+//         position: relative;
+//         overflow: hidden;
+//         border: none;
+//     }
+
+//     // Show labeled indicator for selected states
+//     &.selected,
+//     &.selected-bg,
+//     &.checked {
+//         .labeled {
+//             display: block;
+//         }
+//     }
+
+//     // ==========================================================================
+//     // CHECKBOX/RADIO INTEGRATION
+//     // ==========================================================================
+//     // Hide native input when used as checkbox or radio
+
+//     &.ulx-checkbox,
+//     &.ulx-radio {
+//         input[type="checkbox"],
+//         input[type="radio"] {
+//             display: none;
+//         }
+//     }
+// }

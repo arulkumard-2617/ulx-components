@@ -1,0 +1,292 @@
+// // order-list overrides here
+
+// // ==========================================================================
+// // CONTENT LIST COMPONENT
+// // ==========================================================================
+// // List component with grid layout and flexible item structure
+
+// .ulx-content-list {
+//     >.list-item {
+//         display: grid;
+//         grid-template-columns: auto 1fr;
+//         padding: @24px 0;
+//         grid-gap: @12px;
+
+//         &:first-child {
+//             padding-top: 0;
+//         }
+
+//         &:last-child {
+//             padding-bottom: 0;
+//         }
+
+//         &.col-1 {
+//             grid-template-columns: 1fr;
+//         }
+//     }
+
+//     &.col-1 {
+//         >.list-item {
+//             grid-template-columns: 1fr;
+//         }
+//     }
+
+//     // Title styling
+//     .cl-title {
+//         font-size: @font-size16; // h6 is 16px
+//         line-height: @line-height-h6;
+//         font-family: @bold-font;
+//     }
+
+//     // Subtitle styling
+//     .cl-sub-title {
+//         font-size: @font-size-default; // default is 14px
+//         line-height: @default-lineheight;
+//         margin-top: @4px;
+//     }
+
+//     // Description styling
+//     .cl-description {
+//         font-size: @font-size13; // small is 13px
+//         line-height: @default-lineheight;
+//         margin-top: @4px;
+//     }
+
+//     // Footer styling
+//     .cl-footer {
+//         display: flex;
+//         align-items: center;
+//         gap: @8px;
+//         margin-top: @4px;
+//     }
+
+//     // With border divider variant
+//     &.divider {
+//         .list-item {
+//             border-bottom: @1px solid @default-border-color;
+
+//             &:last-child {
+//                 border: none;
+//             }
+//         }
+//     }
+
+//     // Dashed divider variant
+//     &.dashed {
+//         .list-item {
+//             border-bottom: @1px dashed @default-border-color;
+
+//             &:first-child {
+//                 border: none;
+//             }
+//         }
+//     }
+
+//     // Spacing variants
+//     &.s-size {
+//         >.list-item {
+//             padding: @12px 0;
+//         }
+//     }
+
+//     &.s20 {
+//         >.list-item {
+//             padding: @20px 0;
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // CARD LIST COMPONENT
+// // ==========================================================================
+// // Card-based list with image support and hover effects
+
+// .ulx-card-list {
+//     padding: 0 @2px;
+
+//     .card-list-item {
+//         background-color: @secondary-background;
+//         border: @1px solid @default-border-color;
+//         border-radius: @border-radius-md;
+//         position: relative;
+
+//         .badge-icon-01 {
+//             position: absolute;
+//             left: @6px;
+//             top: @7px;
+//             font-size: @24px;
+//             color: @primary-color;
+//             line-height: 1em;
+//             z-index: 1;
+//             text-shadow: @1px @1px @default-border-color; // box-shadow-color equivalent
+//         }
+
+//         >.img-info {
+//             position: absolute;
+//             top: @121px; // If @121px doesn't exist, use 121px directly
+//             z-index: 1;
+//             width: 100%;
+//             background-color: @overlay-bg;
+//             color: @static-white;
+//             height: @32px;
+//             padding: @4px;
+//             visibility: hidden;
+//             transition: all @default-duration;
+//             opacity: 0;
+
+//             .bs-icons1 {
+//                 cursor: var(--zdr-cursor-pointer, pointer);
+//             }
+//         }
+
+//         &:hover>.img-info {
+//             visibility: visible;
+//             opacity: 1;
+//         }
+
+//         .card-image {
+//             height: 152px; // If @152px doesn't exist, use 152px directly
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             position: relative;
+//             overflow: hidden;
+//             border-radius: @border-radius-md @border-radius-md 0 0;
+//             background-size: cover;
+
+//             >img {
+//                 max-width: 100%;
+//                 max-height: 100%;
+//                 width: auto !important;
+//                 height: auto !important;
+//             }
+
+//             >.ulx-label {
+//                 position: absolute;
+//                 top: @8px;
+//                 right: @8px;
+//                 z-index: 2;
+//             }
+//         }
+
+//         .card-content {
+//             padding: @4px @8px;
+//             background-color: @default-background;
+//             border-top: @1px solid @default-border-color;
+//             border-radius: 0 0 @border-radius-md @border-radius-md;
+//             height: @48px;
+//             display: flex;
+//             align-items: center;
+
+//             >.ulx-grid {
+//                 width: 100%;
+//                 align-items: center;
+//             }
+//         }
+
+//         .edit-icon-label {
+//             height: @24px;
+//             width: @24px;
+//             border-radius: 50%;
+//             box-shadow: 0 0 0 @1px @default-border-color;
+//             background-color: @default-background;
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             position: absolute;
+//             bottom: @8px;
+//             right: @8px;
+//             visibility: hidden;
+//             opacity: 0;
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//         }
+
+//         &:hover {
+//             .edit-icon-label {
+//                 visibility: visible;
+//                 opacity: 1;
+//                 transition: @default-duration;
+//             }
+//         }
+
+//         &.selected {
+//             box-shadow: 0 0 0 @2px @primary-color !important;
+//             position: relative;
+//             overflow: hidden;
+//             border: 0;
+
+//             .labeled {
+//                 display: block;
+//                 z-index: 1;
+//             }
+//         }
+
+//         .labeled {
+//             height: @32px;
+//             width: @20px;
+//             background-color: @primary-color;
+//             transform: rotate(45deg);
+//             position: absolute;
+//             left: -@6px;
+//             top: -@12px;
+//             text-align: center;
+//             display: none;
+
+//             &:before {
+//                 position: absolute;
+//                 content: "\e980";
+//                 font-family: 'bs-icons1';
+//                 color: @primary-fg-color;
+//                 transform: rotate(-47deg);
+//                 left: @7px;
+//                 top: @6px;
+//                 font-size: @font-size12;
+//                 line-height: @20px;
+//                 font-weight: bolder;
+//             }
+
+//             &.right {
+//                 transform: rotate(-45deg);
+//                 right: -@6px;
+//                 left: auto;
+
+//                 &:before {
+//                     transform: rotate(47deg);
+//                     left: 0;
+//                     right: @7px;
+//                 }
+//             }
+//         }
+//     }
+
+//     .card-image .wd-file-logo {
+//         position: absolute;
+//         right: @4px;
+//         top: @4px;
+//         background-color: @default-background;
+//         box-shadow: 0 0 0 @2px @static-white;
+//         border-radius: @border-radius-xs; // 1px equivalent
+//     }
+
+//     // Secondary variant (grid layout)
+//     &.secondary {
+//         --card-item-size: @260px; // If @260px doesn't exist, use 260px directly
+//         grid-template-columns: repeat(auto-fill, minmax(var(--card-item-size), 1fr));
+//         display: grid;
+//         grid-auto-flow: dense;
+//         gap: @24px;
+
+//         .card-list-item {
+//             max-width: 360px; // If @360px doesn't exist, use 360px directly
+
+//             .card-image {
+//                 height: @200px; // If @200px doesn't exist, use 200px directly
+//             }
+
+//             .card-content {
+//                 height: auto;
+//                 padding: @8px;
+//             }
+//         }
+//     }
+// }

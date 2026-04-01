@@ -1,0 +1,259 @@
+// // message overrides here
+// // ==========================================================================
+// // NOTIFICATION COMPONENT
+// // ==========================================================================
+// // Notification component with severity variants and positioning options
+
+// .ulx-notification {
+//     padding: @8px @12px;
+//     display: flex;
+//     gap: @8px;
+//     width: 600px; // Fixed width - consider making this configurable
+//     border-radius: @border-radius-md;
+//     border: @1px solid transparent;
+//     border-inline-start: @4px solid transparent; // Use logical property for RTL support
+
+//     // Fixed positioning variant
+//     &.fixed {
+//         position: fixed;
+//         top: var(--ulx-notify-top-position); // Keep CSS custom property for runtime positioning
+//         z-index: @z-index; // Use ULS z-index variable
+//         margin: 0 auto;
+//         left: 0;
+//         right: 0;
+//     }
+
+//     // Icon styling
+//     .n-icon {
+//         font-size: @20px;
+//         line-height: @22px; // If @22px doesn't exist, use 22px directly or @line-height-normal
+//         margin-top: @1px;
+//     }
+
+//     // Content area
+//     .n-content {
+//         flex-grow: 1;
+//         position: relative;
+//     }
+
+//     // Title styling
+//     .n-title {
+//         font-size: @font-size-h6; // h6 is 16px
+//         line-height: @line-height-h6;
+//         color: @text-color;
+//         margin-bottom: @4px;
+//         font-family: @medium-font;
+//     }
+
+//     // Text styling
+//     .n-text {
+//         color: @text-color;
+//     }
+
+//     // Footer styling
+//     .n-footer {
+//         margin-top: @12px;
+//     }
+
+//     // Right section
+//     .n-right {
+//         flex: none;
+//     }
+
+//     // Closable variant
+//     &.closable {
+//         position: relative;
+
+//         .close-nav {
+//             position: absolute;
+//             inset-inline-end: @12px; // Use logical property for RTL
+//             top: @12px;
+//             color: @text-color;
+//             cursor: var(--zdr-cursor-pointer, pointer);
+//         }
+
+//         .n-content {
+//             padding-inline-end: @24px; // Use logical property for RTL
+//         }
+//     }
+
+//     // ==========================================================================
+//     // SIZE VARIATIONS
+//     // ==========================================================================
+
+//     // Small width variant
+//     &.wt-small {
+//         width: 536px; // If @536px doesn't exist, use 536px directly
+//     }
+
+//     // Fluid width variant
+//     &.fluid {
+//         width: 100%;
+//     }
+
+//     // ==========================================================================
+//     // COLOR VARIATIONS
+//     // ==========================================================================
+
+//     // Default/Info color variant
+//     &.default-color {
+//         background-color: @info-bg-color;
+//         border-color: @info-border-color;
+//         color: @text-color;
+
+//         .n-footer .ulx-button-link,
+//         .n-icon,
+//         .n-link {
+//             color: @info-fg-color;
+//         }
+//     }
+
+//     // Success color variant
+//     &.success {
+//         background-color: @success-bg-color;
+//         border-color: @success-border-color;
+//         color: @text-color;
+
+//         .n-footer .ulx-button-link,
+//         .n-icon,
+//         .n-link {
+//             color: @success-fg-color;
+//         }
+//     }
+
+//     // Danger color variant
+//     &.danger {
+//         background-color: @danger-bg-color;
+//         border-color: @danger-border-color;
+//         color: @text-color;
+
+//         .n-footer .ulx-button-link,
+//         .n-icon,
+//         .n-link {
+//             color: @danger-fg-color;
+//         }
+//     }
+
+//     // Alert/Warning color variant
+//     &.alert {
+//         background-color: @warning-bg-color; // Alert maps to warning in ULS
+//         border-color: @warning-color; // Use warning-color as border (warning-border-color may not exist)
+//         color: @text-color;
+
+//         .n-footer .ulx-button-link,
+//         .n-icon,
+//         .n-link {
+//             color: @warning-fg-color;
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // HANG NOTIFICATION COMPONENT
+// // ==========================================================================
+// // Fixed-position notification container with animations
+
+// .ulx-hang {
+//     position: fixed;
+//     top: var(--ulx-notify-top-position); // Keep CSS custom property for runtime positioning
+//     z-index: @z-index; // Use ULS z-index variable
+//     margin: 0 auto;
+//     left: 0;
+//     right: 0;
+//     width: 600px; // Fixed width - consider making this configurable
+//     background: none;
+//     padding: 0;
+//     border: none;
+
+//     .ulx-notification {
+//         text-align: center;
+
+//         &.success {
+//             .n-text {
+//                 color: @green-fg; // Use green-fg instead of var(--gulx-green-fg-color)
+//             }
+//         }
+//     }
+
+//     // Hide backdrop for dialog
+//     &:-internal-dialog-in-top-layer::backdrop {
+//         display: none;
+//     }
+
+//     // Fade in animation
+//     &:not(.hide) {
+//         -webkit-animation: fadeInDown @default-duration ease normal;
+//         animation: fadeInDown @default-duration ease normal;
+//     }
+
+//     // Fade out animation
+//     &.hide {
+//         -webkit-animation: fadeOutDown @default-duration ease normal;
+//         animation: fadeOutDown @default-duration ease normal;
+//     }
+
+//     // ==========================================================================
+//     // RESPONSIVE BEHAVIOR
+//     // ==========================================================================
+
+//     // Mobile view
+//     @media @mobile-screen {
+//         width: 90%;
+//     }
+// }
+
+// // ==========================================================================
+// // RTL SUPPORT
+// // ==========================================================================
+
+// [dir="rtl"] {
+//     .ulx-notification {
+//         &.closable {
+//             .n-content {
+//                 padding-inline-end: 0; // Reset logical property
+//                 padding-inline-start: @24px; // Use logical property for RTL
+//             }
+
+//             .close-nav {
+//                 inset-inline-end: auto; // Reset logical property
+//                 inset-inline-start: 0; // Use logical property for RTL
+//             }
+//         }
+//     }
+// }
+
+// // ==========================================================================
+// // TABLE FILTER NOTIFICATION COMPONENT
+// // ==========================================================================
+// // Notification badge for table filter buttons
+
+// .ulx-table-filter-notify {
+//     position: relative;
+//     box-shadow: 0 0 0 @1px @primary-color inset !important;
+//     z-index: 5;
+//     background: @bg-primaryLayer2 !important;
+
+//     &.ulx-button .filter-icon {
+//         color: @primary-text-color !important;
+//     }
+
+//     // Notification badge indicator
+//     &:before {
+//         content: attr(data-now);
+//         position: absolute;
+//         width: @16px;
+//         height: @16px;
+//         background-color: @primary-color;
+//         border-radius: 50%;
+//         color: @static-white;
+//         font-weight: @font-weight-medium; // 500
+//         font-size: @font-size10; // If @font-size9 doesn't exist, use 9px directly
+//         line-height: @font-size10; // Match font-size for centering
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//         inset-inline-end: -@5px; // Use logical property for RTL
+//         top: -@8px;
+//         z-index: 2;
+//     }
+// }
