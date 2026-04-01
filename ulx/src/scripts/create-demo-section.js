@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/* eslint-disable no-console */
 /**
  * Script to create demo sections for utility components in ulx-foundation
  * Usage: npm run create demo-section --component=Password

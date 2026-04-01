@@ -512,7 +512,11 @@ export default class UlxPopup extends Component {
 
 		const basePosition = this.args.position ?? "position-bottom";
 
-		let { top, left, placedAbove: initialPlacedAbove } = computePopupPlacement(
+		let {
+			top,
+			left,
+			placedAbove: initialPlacedAbove
+		} = computePopupPlacement(
 			basePosition,
 			targetRect,
 			popupWidth,

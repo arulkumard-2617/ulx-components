@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { UlxTieredmenu } from 'ulx-components';

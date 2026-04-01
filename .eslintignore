@@ -16,7 +16,5 @@
 /.node_modules.ember-try/
 /package.json.ember-try
 
-# # gts/gjs files are checked by glint
-**/*.gts
-**/*.gjs
-
+# demo app (not validated by root JS lint)
+/ulx/src/demo/

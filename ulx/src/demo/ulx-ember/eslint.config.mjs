@@ -15,7 +15,7 @@
 import globals from 'globals';
 import js from '@eslint/js';
 
-import ember from 'eslint-plugin-ember/recommended';
+import emberRecommended from 'eslint-plugin-ember/configs/recommended';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import qunit from 'eslint-plugin-qunit';
 import n from 'eslint-plugin-n';
@@ -35,15 +35,23 @@ const esmParserOptions = {
 
 export default [
   js.configs.recommended,
+  ...emberRecommended,
   eslintConfigPrettier,
-  ember.configs.base,
-  ember.configs.gjs,
   /**
    * Ignores must be in their own object
    * https://eslint.org/docs/latest/use/configure/ignore
    */
   {
-    ignores: ['dist/', 'node_modules/', 'coverage/', '!**/.*'],
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'coverage/',
+      'appsail/dist/**',
+      'app/components/Demo/**',
+      'app/components/doc-shared/**',
+      'app/documentation/**',
+      '!**/.*',
+    ],
   },
   /**
    * https://eslint.org/docs/latest/use/configure/configuration-files#configuring-linter-options
@@ -89,6 +97,7 @@ export default [
       '.stylelintrc.js',
       '.template-lintrc.js',
       'ember-cli-build.js',
+      'scripts/**/*.js',
     ],
     plugins: {
       n,
@@ -112,6 +121,24 @@ export default [
     },
 
     languageOptions: {
+      sourceType: 'module',
+      ecmaVersion: 'latest',
+      parserOptions: esmParserOptions,
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  /**
+   * ESM in .js (Node — appsail server, test helper)
+   */
+  {
+    files: ['appsail/**/*.js', 'tests/test-helper.js'],
+    plugins: {
+      n,
+    },
+    languageOptions: {
+      parser: babelParser,
       sourceType: 'module',
       ecmaVersion: 'latest',
       parserOptions: esmParserOptions,

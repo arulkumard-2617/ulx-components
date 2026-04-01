@@ -28,11 +28,7 @@ export default class UlxSkeleton extends Component {
 	}
 
 	get rootClasses() {
-		const {
-			shape = "rectangle",
-			animation = "wave",
-			customClass,
-		} = this.args;
+		const { shape = "rectangle", animation = "wave", customClass } = this.args;
 
 		const parts = [this.baseClass];
 
@@ -49,12 +45,7 @@ export default class UlxSkeleton extends Component {
 	}
 
 	get inlineStyle() {
-		const {
-			size,
-			width = "100%",
-			height = "1rem",
-			borderRadius,
-		} = this.args;
+		const { size, width = "100%", height = "1rem", borderRadius } = this.args;
 
 		const w = size ?? width;
 		const h = size ?? height;

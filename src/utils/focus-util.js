@@ -4,7 +4,7 @@ const DEFAULT_FOCUSABLE_SELECTOR =
 export function getFocusableElements(rootElement, selector = DEFAULT_FOCUSABLE_SELECTOR) {
 	if (!rootElement) return [];
 	return Array.from(rootElement.querySelectorAll(selector)).filter((element) => {
-		if (element.getAttribute("aria-hidden") === "true") return false;
+		if (element.getAttribute('aria-hidden') === 'true') return false;
 		if (element.tabIndex < 0) return false;
 		return element.offsetParent !== null;
 	});
@@ -34,7 +34,7 @@ export function getAdjacentFocusableInDocument(
 	anchorElement,
 	{ backward = false, excludeContaining = null } = {}
 ) {
-	if (!anchorElement || typeof document === "undefined") return null;
+	if (!anchorElement || typeof document === 'undefined') return null;
 
 	let focusables = getFocusableElements(document.body);
 	if (excludeContaining) {

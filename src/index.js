@@ -65,6 +65,7 @@ export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from 
 
 export { validate } from './utils/validation-util.js';
 export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
+export { SVG_NAMESPACE } from './utils/svg-namespace.js';
 
 // ── i18n template helpers ───────────────────────────────────
 export { default as tHelper } from './helpers/t.js';

@@ -1,4 +1,8 @@
 {
+	"eslint.probe": ["javascript", "glimmer-js", "glimmer-ts"],
+	"eslint.workingDirectories": [
+		{ "pattern": "ulx/src/demo/ulx-ember", "mode": "auto" }
+	],
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.codeActionsOnSave": {

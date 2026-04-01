@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Application from 'ulx-ember/app';
 import config from 'ulx-ember/config/environment';
 import * as QUnit from 'qunit';
@@ -14,7 +15,7 @@ setupEmberOnerrorValidation();
 try {
   const { loadTests } = require('ember-qunit/test-loader');
 loadTests();
-} catch (e) {
+} catch {
   // Test loader not available, skip loading tests
   console.warn('Test loader not available, skipping test loading');
 }

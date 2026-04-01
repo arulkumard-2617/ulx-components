@@ -16,7 +16,9 @@ module.exports = {
 	env: {
 		browser: true
 	},
-	rules: {},
+	rules: {
+		curly: ['error', 'multi-line']
+	},
 	overrides: [
 		{
 			files: ['**/scripts/**/*.js'],
@@ -24,16 +26,12 @@ module.exports = {
 			parserOptions: { sourceType: 'script' }
 		},
 		{
-			files: ['**/*.gjs'],
+			files: ['**/*.gjs', '**/*.gts'],
 			parser: 'ember-eslint-parser',
-			plugins: ['ember'],
-			extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended']
-		},
-		{
-			files: ['**/*.gts'],
-			parser: 'ember-eslint-parser',
-			plugins: ['ember'],
-			extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended']
+			processor: 'ember/<template>',
+			globals: {
+				__GLIMMER_TEMPLATE: 'readonly'
+			}
 		}
 	]
 };

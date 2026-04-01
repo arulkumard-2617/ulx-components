@@ -1,14 +1,10 @@
 # Source files (not needed - only dist/ is published)
 /tests/
 
-# Config files (not needed in published package)
-babel.config.json
-rollup.config.mjs
-tsconfig.json
+# Config files (rollup + babel config must ship so `prepare` can build; see package.json `files`)
 .eslintrc.cjs
 .prettierrc.js
 .prettierrc.cjs
-.prettierignore
 .editorconfig
 .eslintignore
 .eslintcache
