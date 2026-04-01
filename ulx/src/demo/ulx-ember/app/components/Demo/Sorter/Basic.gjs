@@ -1,8 +1,10 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { hash } from '@ember/helper';
 import {
   UlxSorter,
+  UlxSorterItem,
   UlxButton,
   t,
   UlxIcon,
@@ -19,36 +21,45 @@ export default class BasicSorterDemo extends Component {
   ];
 
   @action
-  reorderItems(newItems) {
-    this.items = newItems;
+  handleEnd(event) {
+    const { oldIndex, newIndex } = event;
+    if (oldIndex === newIndex) {
+      return;
+    }
+    const next = [...this.items];
+    const [moved] = next.splice(oldIndex, 1);
+    next.splice(newIndex, 0, moved);
+    this.items = next;
   }
 
   <template>
     <UlxSorter
       @items={{this.items}}
-      @groupName="basic-sorter"
-      @onChange={{this.reorderItems}}
-      @customClass="w-full flex flex-col gap-y-2"
-      @itemClass="w-full"
-      @useDragIconAsHandle={{true}}
+      @customClass="w-full"
+      @options={{hash
+        handle=".sorter-handle"
+        animation=150
+        onEnd=this.handleEnd
+      }}
       as |item|
     >
-      <div
-        class="w-full flex items-center justify-between bg-default border rounded-md py-2 px-4"
-      >
-        <div class="flex items-center gap-x-4">
+      <UlxSorterItem>
+        <:handle>
           <UlxIcon
             @iconName="dragdrop-icon1"
             @iconComponentClass="bs-icons1"
             @type="font"
             @size="s18"
-            @customClass="move"
+            aria-hidden="true"
           />
-          <span class="text-14 fg-text">{{item.id}}</span>
-          <span class="text-14 fg-text">{{item.value}}</span>
-        </div>
-
-        <div class="flex items-center gap-x-2">
+        </:handle>
+        <:default>
+          <div class="flex items-center gap-4">
+            <span class="text-14 fg-text">{{item.id}}</span>
+            <span class="text-14 fg-text">{{item.value}}</span>
+          </div>
+        </:default>
+        <:actions>
           <UlxButton
             @icon="edit-icon"
             @iconComponentClass="bs-icons1"
@@ -62,8 +73,8 @@ export default class BasicSorterDemo extends Component {
             @iconComponentClass="bs-icons1"
             aria-label={{t "lbl.delete"}}
           />
-        </div>
-      </div>
+        </:actions>
+      </UlxSorterItem>
     </UlxSorter>
   </template>
 }

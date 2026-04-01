@@ -56,7 +56,7 @@ export default class UlxModalHeader extends Component {
 	}
 
 	get iconVariant() {
-		return this.args.iconVariant ?? "secondary";
+		return this.args.iconVariant ?? "basic";
 	}
 
 	get iconSize() {
@@ -123,6 +123,7 @@ export default class UlxModalHeader extends Component {
 						@iconLeft={{this.closeIconName}}
 						@iconComponentClass={{this.iconComponentClass}}
 						@variant={{this.iconVariant}}
+						@text={{true}}
 						@iconSize={{this.iconSize}}
 						@text={{true}}
 						@customClass="dialog-close-button"

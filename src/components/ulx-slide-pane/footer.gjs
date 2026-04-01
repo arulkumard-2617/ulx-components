@@ -99,35 +99,27 @@ export default class UlxSlidePaneFooter extends Component {
 				{{#if (has-block)}}
 					{{yield}}
 				{{else}}
-					<div class="footer-left-actions">
-						{{#if this.showBackButton}}
-							<UlxButton
-								@label={{this.backLabel}}
-								@variant="basic"
-								{{on "click" this.handleBack}}
-							/>
-						{{/if}}
-					</div>
+					{{#if this.showBackButton}}
+						<UlxButton @label={{this.backLabel}} @variant="basic" {{on "click" this.handleBack}} />
+					{{/if}}
 
-					<div class="footer-right-actions">
-						{{#unless this.hideCancelButton}}
-							<UlxButton
-								@label={{this.cancelLabel}}
-								@variant="secondary"
-								@disabled={{this.cancelButtonDisabled}}
-								{{on "click" this.handleCancel}}
-							/>
-						{{/unless}}
+					{{#unless this.hideCancelButton}}
+						<UlxButton
+							@label={{this.cancelLabel}}
+							@variant="basic"
+							@disabled={{this.cancelButtonDisabled}}
+							{{on "click" this.handleCancel}}
+						/>
+					{{/unless}}
 
-						{{#unless this.hideDoneButton}}
-							<UlxButton
-								@label={{this.doneLabel}}
-								@variant="primary"
-								@disabled={{this.doneButtonDisabled}}
-								{{on "click" this.handleDone}}
-							/>
-						{{/unless}}
-					</div>
+					{{#unless this.hideDoneButton}}
+						<UlxButton
+							@label={{this.doneLabel}}
+							@variant="primary"
+							@disabled={{this.doneButtonDisabled}}
+							{{on "click" this.handleDone}}
+						/>
+					{{/unless}}
 				{{/if}}
 			</div>
 		{{/unless}}
