@@ -33,6 +33,9 @@ Router.map(function () {
     this.route('paginator');
     this.route('panel-menu');
     this.route('password');
+    this.route('date-picker');
+    this.route('date-range-picker');
+    this.route('time-picker');
     this.route('popup');
     this.route('progressbar');
     this.route('progressspinner');

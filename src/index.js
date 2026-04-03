@@ -6,6 +6,9 @@ export { default as UlxButton } from './components/ulx-button/index.gjs';
 export { default as UlxIconButton } from './components/ulx-icon-button/index.gjs';
 export { default as UlxBadgeButton } from './components/ulx-badge-button/index.gjs';
 export { default as UlxInput } from './components/ulx-input/index.gjs';
+export { default as UlxDatePicker } from './components/modules/ulx-date-picker/index.gjs';
+export { default as UlxDateRangePicker } from './components/modules/ulx-date-range-picker/index.gjs';
+export { default as UlxTimePicker } from './components/modules/ulx-time-picker/index.gjs';
 export { default as UlxField } from './components/ulx-field/index.gjs';
 export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs';
 export { default as UlxInputGroup } from './components/ulx-input-group/index.gjs';
@@ -58,7 +61,6 @@ export { default as UlxPaginator } from './components/ulx-paginator/index.gjs';
 export { default as Steps } from './components/ulx-steps/index.gjs';
 export { default as UlxSteps } from './components/ulx-steps/index.gjs';
 export { default as UlxSorter } from './components/ulx-sorter/index.gjs';
-export { default as UlxSorterItem } from './components/ulx-sorter/item.gjs';
 
 // ── i18n utilities ──────────────────────────────────────────
 export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
@@ -75,6 +77,7 @@ export { default as tSafeHelper } from './helpers/t-safe.js';
 export { default as ModalStackService } from './services/modal-stack.js';
 
 // Modifiers
+export { default as flatpickrModifier } from './modifiers/flatpickr.js';
 export { default as tooltip } from './modifiers/tooltip.js';
 export { default as overlayDismiss } from './modifiers/overlay-dismiss.js';
 export { default as sortable } from './modifiers/sortable.js';

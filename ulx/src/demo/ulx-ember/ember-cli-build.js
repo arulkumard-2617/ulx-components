@@ -16,12 +16,6 @@ module.exports = function (defaults) {
       }
     },
 
-    nodeAssets: {
-      sortablejs: {
-        srcDir: '/',
-        import: ['Sortable.js']
-      }
-    },
     // Configure ember-code-snippet for .gjs files with Handlebars comments
     'ember-code-snippet': {
       snippetExtensions: [
@@ -74,6 +68,9 @@ module.exports = function (defaults) {
       }
     }
   });
+
+  app.import('node_modules/sortablejs/Sortable.js');
+  app.import('node_modules/flatpickr/dist/flatpickr.min.css');
 
   return app.toTree();
 };
