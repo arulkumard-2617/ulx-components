@@ -1,31 +1,31 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { t } from "../../../utils/i18n";
-import tHelper from "../../../helpers/t";
-import { buildInputGroupClass } from "../../../utils/input-util";
-import flatpickrModifier from "../../../modifiers/flatpickr";
-import UlxInput from "../../ulx-input/index.gjs";
-import UlxIconButton from "../../ulx-icon-button/index.gjs";
+import { t } from "../../utils/i18n";
+import tHelper from "../../helpers/t";
+import { buildInputGroupClass } from "../../utils/input-util";
+import flatpickrModifier from "../../modifiers/flatpickr";
+import UlxInput from "../ulx-input/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 
 /**
- * Single- or multi-date field using flatpickr (popup or inline).
+ * Date range field using flatpickr (`mode: "range"`).
  *
- * @class UlxDatePicker
- * @param {Date|string|null} [value] - Selected date (single) or use `values` shape via value for multiple
+ * @class UlxDateRangePicker
+ * @param {Array<Date|string|null|undefined>} [value] - Tuple `[start, end]` when complete
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
- * @param {'single'|'multiple'} [mode='single']
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
- * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (hooks, plugins, etc.)
+ * @param {boolean} [enableTime]
+ * @param {boolean} [noCalendar]
+ * @param {string} [minTime]
+ * @param {string} [maxTime]
+ * @param {boolean} [time_24hr]
+ * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
  */
-export default class UlxDatePicker extends Component {
-	get mode() {
-		return this.args.mode ?? "single";
-	}
-
+export default class UlxDateRangePicker extends Component {
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
@@ -57,7 +57,7 @@ export default class UlxDatePicker extends Component {
 		} = this.args;
 
 		const o = {
-			mode: this.mode,
+			mode: "range",
 			dateFormat,
 			minDate,
 			maxDate,
@@ -90,14 +90,17 @@ export default class UlxDatePicker extends Component {
 
 	get syncValue() {
 		const { value } = this.args;
-		if (this.mode === "multiple") {
-			return Array.isArray(value) ? value : [];
-		}
-		return value ?? null;
+		return Array.isArray(value) ? value : [];
 	}
 
 	get wrapRootClass() {
-		const { size = "m-size", filled, disabled, invalid, customClass } = this.args;
+		const {
+			size = "m-size",
+			filled,
+			disabled,
+			invalid,
+			customClass
+		} = this.args;
 
 		const parts = [
 			"flatpickr",
@@ -121,7 +124,7 @@ export default class UlxDatePicker extends Component {
 
 	get placeholderText() {
 		const { placeholder } = this.args;
-		return placeholder ?? t("lbl.datepicker.placeholder");
+		return placeholder ?? t("lbl.daterangepicker.placeholder");
 	}
 
 	<template>

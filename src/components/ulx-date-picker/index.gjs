@@ -1,39 +1,31 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { t } from "../../../utils/i18n";
-import tHelper from "../../../helpers/t";
-import { buildInputGroupClass } from "../../../utils/input-util";
-import flatpickrModifier from "../../../modifiers/flatpickr";
-import UlxInput from "../../ulx-input/index.gjs";
-import UlxIconButton from "../../ulx-icon-button/index.gjs";
+import { t } from "../../utils/i18n";
+import tHelper from "../../helpers/t";
+import { buildInputGroupClass } from "../../utils/input-util";
+import flatpickrModifier from "../../modifiers/flatpickr";
+import UlxInput from "../ulx-input/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 
 /**
- * Time-only field using flatpickr (`enableTime` + `noCalendar`).
+ * Single- or multi-date field using flatpickr (popup or inline).
  *
- * @class UlxTimePicker
- * @param {Date|string|null} [value]
+ * @class UlxDatePicker
+ * @param {Date|string|null} [value] - Selected date (single) or use `values` shape via value for multiple
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
- * @param {'12'|'24'} [hourFormat='24'] - Default for flatpickr `time_24hr` when `time_24hr` is omitted
- * @param {boolean} [time_24hr] - When set, overrides `hourFormat` for flatpickr 24h mode
- * @param {Date|string} [minDate]
- * @param {Date|string} [maxDate]
- * @param {Array} [disable]
- * @param {Array} [enable]
- * @param {boolean} [altInput]
- * @param {string} [altFormat]
- * @param {boolean} [inline]
- * @param {boolean} [weekNumbers]
- * @param {string} [conjunction]
- * @param {boolean} [enableTime=true]
- * @param {boolean} [noCalendar=true]
+ * @param {'single'|'multiple'} [mode='single']
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
- * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
+ * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (hooks, plugins, etc.)
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
  */
-export default class UlxTimePicker extends Component {
+export default class UlxDatePicker extends Component {
+	get mode() {
+		return this.args.mode ?? "single";
+	}
+
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
@@ -41,6 +33,31 @@ export default class UlxTimePicker extends Component {
 
 	get fpOptions() {
 		const {
+			dateFormat = "Y-m-d",
+			minDate,
+			maxDate,
+			disable,
+			enable,
+			altInput,
+			altFormat,
+			inline,
+			weekNumbers,
+			enableTime,
+			noCalendar,
+			minTime,
+			maxTime,
+			time_24hr,
+			conjunction,
+			allowInput,
+			parseDate,
+			formatDate,
+			defaultDate,
+			clickOpens,
+			flatpickrOptions = {}
+		} = this.args;
+
+		const o = {
+			mode: this.mode,
 			dateFormat,
 			minDate,
 			maxDate,
@@ -56,39 +73,11 @@ export default class UlxTimePicker extends Component {
 			maxTime,
 			time_24hr,
 			conjunction,
-			defaultDate,
-			allowInput,
-			parseDate,
-			formatDate,
-			enableSeconds,
-			clickOpens,
-			hourFormat = "24",
-			flatpickrOptions = {}
-		} = this.args;
-
-		const o = {
-			mode: "single",
-			dateFormat: dateFormat ?? (hourFormat === "12" ? "h:i K" : "H:i"),
-			minDate,
-			maxDate,
-			disable,
-			enable,
-			altInput,
-			altFormat,
-			inline,
-			weekNumbers,
-			enableTime: enableTime ?? true,
-			noCalendar: noCalendar ?? true,
-			minTime,
-			maxTime,
-			time_24hr: time_24hr ?? hourFormat === "24",
-			conjunction,
 			allowInput,
 			parseDate,
 			formatDate,
 			defaultDate,
 			clickOpens,
-			enableSeconds,
 			...flatpickrOptions
 		};
 
@@ -100,17 +89,15 @@ export default class UlxTimePicker extends Component {
 	}
 
 	get syncValue() {
-		return this.args.value ?? null;
+		const { value } = this.args;
+		if (this.mode === "multiple") {
+			return Array.isArray(value) ? value : [];
+		}
+		return value ?? null;
 	}
 
 	get wrapRootClass() {
-		const {
-			size = "m-size",
-			filled,
-			disabled,
-			invalid,
-			customClass
-		} = this.args;
+		const { size = "m-size", filled, disabled, invalid, customClass } = this.args;
 
 		const parts = [
 			"flatpickr",
@@ -134,7 +121,7 @@ export default class UlxTimePicker extends Component {
 
 	get placeholderText() {
 		const { placeholder } = this.args;
-		return placeholder ?? t("lbl.timepicker.placeholder");
+		return placeholder ?? t("lbl.datepicker.placeholder");
 	}
 
 	<template>
@@ -174,8 +161,8 @@ export default class UlxTimePicker extends Component {
 							data-toggle
 							@type="button"
 							@variant="white"
-							@iconLeft="time-icon"
-							aria-label={{tHelper "lbl.timepicker.toggle"}}
+							@iconLeft="calendar-icon02"
+							aria-label={{tHelper "lbl.datepicker.toggle"}}
 						/>
 					</span>
 				{{/if}}
