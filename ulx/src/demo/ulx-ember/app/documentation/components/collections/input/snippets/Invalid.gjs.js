@@ -3,9 +3,8 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 
-import { UlxInput, UlxField, UlxButton } from 'ulx-components';
+import { UlxForm, UlxInput, UlxField, UlxButton } from 'ulx-components';
 
 export default class DemoInputInvalid extends Component {
   @tracked value = '';
@@ -46,33 +45,34 @@ export default class DemoInputInvalid extends Component {
   }
 
   <template>
-    <form
+    <UlxForm
+      @size="m-size"
+      @customClass="ulx-grid mb-14"
       novalidate
-      class="ulx-form m-size ulx-grid mb-14"
-      {{on "submit" this.handleSubmit}}
+      @onSubmit={{this.handleSubmit}}
     >
+      <:default>
+        <UlxField
+          @label="Username"
+          @fieldId="error-input"
+          @fieldClass="col-4"
+          @error={{this.error}}
+          as |field|
+        >
+          <UlxInput
+            @field={{field}}
+            @value={{this.value}}
+            @onInput={{this.handleInput}}
+            placeholder="Enter username"
+            aria-label="Username"
+          />
+        </UlxField>
+      </:default>
 
-      <UlxField
-        @label="Username"
-        @fieldId="error-input"
-        @fieldClass="col-4"
-        @error={{this.error}}
-        as |field|
-      >
-        <UlxInput
-          @field={{field}}
-          @value={{this.value}}
-          @onInput={{this.handleInput}}
-          placeholder="Enter username"
-          aria-label="Username"
-        />
-      </UlxField>
-
-      <div class="col-12">
+      <:actions>
         <UlxButton @type="submit" @label="Submit" />
-      </div>
-
-    </form>
+      </:actions>
+    </UlxForm>
   </template>
 }
 

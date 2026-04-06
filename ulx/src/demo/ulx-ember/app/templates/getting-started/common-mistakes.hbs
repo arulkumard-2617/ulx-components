@@ -1,0 +1,104 @@
+{{page-title "Common Mistakes - ULX Ember Documentation"}}
+
+<DocShared::DocMain::FoundationLayout
+  @title={{t "lbl.common.mistakes"}}
+  @description={{t "msg.getting.started.common.mistakes.page.description"}}
+>
+  <div class="doc-panel-wrapper flex justify-between">
+    <div class="doc-panel grow w-full">
+      <DocShared::DocMain::FoundationSection
+        @id="common-mistakes-list"
+        @title={{t "lbl.common.mistakes"}}
+      >
+        <p class="mt-0 mb-5 fg-text-secondary text-16">
+          {{t "msg.getting.started.common.mistakes.body.intro"}}
+        </p>
+        <div class="ulx-grid col-1 gap-4 mt-4">
+          <div class="flex items-center gap-3">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s32"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.common.mistakes.item.1"}}
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s32"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.common.mistakes.item.2"}}
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s32"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.common.mistakes.item.3"}}
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s32"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.common.mistakes.item.4"}}
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s32"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.common.mistakes.item.5"}}
+            </p>
+          </div>
+        </div>
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="common-mistakes-correct-stylesheet-path"
+        @title={{t "lbl.correct.stylesheet.path"}}
+        @subtitle={{t "msg.getting.started.quick.start.load.stylesheet"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source="dev-releases/css/ulx-editor.min.css"
+          @language="text"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="common-mistakes-required-theme-classes"
+        @title={{t "lbl.required.theme.classes"}}
+        @subtitle={{t "msg.getting.started.quick.start.apply.theme.classes"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source='<body class="ulx-default-mode ulx-cardinal-theme">'
+          @language="html"
+        />
+      </DocShared::DocMain::FoundationSection>
+    </div>
+    <DocShared::DocMain::DocSectionNav @features={{@model.sections}} />
+  </div>
+</DocShared::DocMain::FoundationLayout>

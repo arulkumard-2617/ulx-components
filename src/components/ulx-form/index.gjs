@@ -1,4 +1,7 @@
 import Component from "@glimmer/component";
+import { action } from "@ember/object";
+import { on } from "@ember/modifier";
+
 import { getComponentClass } from "../../utils/component-config";
 import { joinClassNames } from "../../utils/class-names";
 import { resolveRootDataQa } from "../../utils/data-qa";
@@ -7,47 +10,50 @@ import { resolveRootDataQa } from "../../utils/data-qa";
 const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
 
 /**
- * Form container that provides layout and typography for form fields.
- * Uses grid layout; direct children with class "field" get flex flex-col layout
- * (label, control, help-text, error-message). Structure per form.less:
- * form > .field > label (.label-text, .label-right) + control + .help-text / .error-message
+ * Semantic `<form>` container with ULX layout classes, optional action region, and form-level events.
+ * Pass `aria-*`, `novalidate`, `method`, `action`, etc. via `...attributes`.
+ *
+ * ## Structure
+ * - Default block: main content (fieldsets, fields, sections). With `<:actions>`, use `<:default>` for main content.
+ * - `<:actions>`: optional footer row (e.g. submit / reset buttons).
+ *
+ * ## Events
+ * - `@onSubmit` — when provided, `submit` is `preventDefault`’d and this callback receives the native event.
+ * - `@onReset` — optional; invoked on `reset` (native reset still runs unless the handler calls `preventDefault`).
  *
  * ## WCAG
- * - Uses semantic <form> element
- * - Pass aria-label, aria-labelledby, or aria-describedby via ...attributes
+ * - Uses `<form>`; name the form with `aria-label`, `aria-labelledby`, or a visible heading associated via `aria-describedby` as needed.
  *
  * @class UlxForm
- * @param {2|3} [cols] - flex-col layout: 2 or 3 columns for direct .field children
- * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class)
- * @param {string} [customClass] - Extra CSS classes on the form root
- * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-form`).
- *
- * @example
- * <UlxForm @cols={{2}} @size="m-size">
- *   <div class="field">
- *     <label for="name">
- *       <span class="label-text">Name</span>
- *       <span class="label-right">Optional</span>
- *     </label>
- *     <input id="name" class="ulx-input" />
- *     <p class="help-text">Enter your full name.</p>
- *   </div>
- * </UlxForm>
+ * @param {(event: SubmitEvent) => void} [onSubmit] - Submit handler; prevents default navigation when set.
+ * @param {(event: Event) => void} [onReset] - Reset handler.
+ * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class).
+ * @param {string} [customClass] - Extra CSS classes on the form root. Avoid `ulx-grid` here; use `UlxFieldSet` `@layout="grid"` (and `@customClass` on the fieldset wrapper) for field groups.
+ * @param {string} [actionsClass] - Extra classes on the actions wrapper (base `ulx-form-actions`).
+ * @param {string} [dataQa] - Optional root `data-qa` (default `ulx-form`).
+ * @block default - Primary form content.
+ * @block actions - Optional actions row (buttons).
  */
 export default class UlxForm extends Component {
 	get baseClass() {
 		return getComponentClass("form");
 	}
 
-	/** Grid column count (`cols-2` / `cols-3`), optional size from `FORM_SIZE_CLASSES`, then `customClass`. */
+	/** Optional size from `FORM_SIZE_CLASSES`, then `customClass` (spacing/stack utilities only; grid layout belongs on `UlxFieldSet`). */
 	get rootClasses() {
-		const { cols, size, customClass } = this.args;
+		const { size, customClass } = this.args;
 
 		const parts = [this.baseClass];
-		cols === 2 && parts.push("cols-2");
-		cols === 3 && parts.push("cols-3");
 		size && FORM_SIZE_CLASSES.has(size) && parts.push(size);
 		customClass && parts.push(customClass);
+
+		return joinClassNames(...parts);
+	}
+
+	get actionsClasses() {
+		const { actionsClass } = this.args;
+		const parts = [`${this.baseClass}-actions`];
+		actionsClass && parts.push(actionsClass);
 
 		return joinClassNames(...parts);
 	}
@@ -57,9 +63,35 @@ export default class UlxForm extends Component {
 		return resolveRootDataQa(this.args.dataQa, "form");
 	}
 
+	@action
+	handleSubmit(event) {
+		const { onSubmit } = this.args;
+		if (onSubmit) {
+			event.preventDefault();
+			onSubmit(event);
+		}
+	}
+
+	@action
+	handleReset(event) {
+		this.args.onReset?.(event);
+	}
+
 	<template>
-		<form class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
+		<form
+			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
+			{{on "submit" this.handleSubmit}}
+			{{on "reset" this.handleReset}}
+			...attributes
+		>
 			{{yield}}
+
+			{{#if (has-block "actions")}}
+				<div class={{this.actionsClasses}}>
+					{{yield to="actions"}}
+				</div>
+			{{/if}}
 		</form>
 	</template>
 }
