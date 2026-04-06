@@ -38,7 +38,6 @@ export default class BasicOptionSegmentDemo extends Component {
 
   <template>
     <UlxOptionSegment
-      @selection="overlay"
       @type="basic"
       @items={{this.items}}
       @onSelect={{this.handleItemClick}}

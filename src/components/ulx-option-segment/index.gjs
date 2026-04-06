@@ -8,7 +8,7 @@ import { optionSegmentRowKey, resolveKey } from "../../utils/input-util";
 import UlxOptionSegmentItem from "./item.gjs";
 
 function isSelectionMode(value) {
-	return value === "control" || value === "overlay" || value === "corner";
+	return value === "control" || value === "center" || value === "corner";
 }
 
 function buildOptionSegmentId(namespace, idArg, key) {
@@ -50,10 +50,10 @@ function buildOptionSegmentId(namespace, idArg, key) {
  * @class UlxOptionSegment
  * @param {"radio"|"checkbox"|"tristate"|"basic"} [type="radio"] - Semantic type: built-in toggles vs plain selectable cards
  * @param {"stacked"|"tile"} [layout="stacked"] - `stacked` lists vertically; `tile` lays out items in a row with wrap (`layout-tile` on the group)
- * @param {"control"|"overlay"|"corner"} [selection] - Selection affordance (root class `selection-<value>` for styling):
+ * @param {"control"|"center"|"corner"} [selection] - Selection affordance (root class `selection-<value>` for styling):
  *   - **control** — default when using built-in radio/checkbox/tristate; emphasize the `.option-control` column.
  *   - **corner** — default when `@type="basic"` or a custom `<:control>` block; corner tick/check treatment via CSS.
- *   - **overlay** — always opt-in (`@selection="overlay"`); full-card selection (tint, ring, or `::after` layer). No separate Ember behavior—target `.ulx-option-segments.selection-overlay` in styles.
+ *   - **center** — always opt-in (`@selection="center"`); full-card selection (tint, ring, or `::after` layer). No separate Ember behavior—target `.ulx-option-segments.selection-center` in styles.
  * @param {Array<object>} [items] - List of option items. When provided, the
  *   component renders a group:
  *   - Each item can include:
@@ -128,7 +128,7 @@ export default class UlxOptionSegment extends Component {
 	 * - `@type="basic"` → default **corner**
 	 * - Custom `<:control>` → default **corner**
 	 * - Built-in radio / checkbox / tristate → default **control**
-	 * `@selection="overlay"` is always explicit (never auto-defaulted).
+	 * `@selection="center"` is always explicit (never auto-defaulted).
 	 */
 	get resolvedSelection() {
 		const raw = this.args.selection;
