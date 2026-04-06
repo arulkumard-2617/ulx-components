@@ -104,6 +104,7 @@
       "./components/ulx-dropdown/index.js": "./dist/_app_/components/ulx-dropdown/index.js",
       "./components/ulx-empty-state/index.js": "./dist/_app_/components/ulx-empty-state/index.js",
       "./components/ulx-field/index.js": "./dist/_app_/components/ulx-field/index.js",
+      "./components/ulx-fieldset/index.js": "./dist/_app_/components/ulx-fieldset/index.js",
       "./components/ulx-floatlabel/index.js": "./dist/_app_/components/ulx-floatlabel/index.js",
       "./components/ulx-form/index.js": "./dist/_app_/components/ulx-form/index.js",
       "./components/ulx-icon-button/index.js": "./dist/_app_/components/ulx-icon-button/index.js",

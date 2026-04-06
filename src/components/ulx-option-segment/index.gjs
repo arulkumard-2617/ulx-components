@@ -1,12 +1,15 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { hash } from "@ember/helper";
-import { on } from "@ember/modifier";
 import { joinClassNames } from "../../utils/class-names";
 import { NAMESPACE, getComponentClass } from "../../utils/component-config";
 import { resolveRootDataQa } from "../../utils/data-qa";
 import { optionSegmentRowKey, resolveKey } from "../../utils/input-util";
 import UlxOptionSegmentItem from "./item.gjs";
+
+function isSelectionMode(value) {
+	return value === "control" || value === "overlay" || value === "corner";
+}
 
 function buildOptionSegmentId(namespace, idArg, key) {
 	if (typeof idArg === "string" && idArg.length) return idArg;
@@ -34,9 +37,9 @@ function buildOptionSegmentId(namespace, idArg, key) {
  *   - `role="radiogroup"` when `@type="radio"` (container of radio options)
  *   - `role="group"` for all other types (e.g. checkbox/basic containers)
  * - The **individual option item** inside the group behaves as:
- *   - `role="radio"` when `@type="radio"`
- *   - `role="checkbox"` when `@type="checkbox"`
- *   - `role="group"` for basic/other types
+ *   - no `role` on the card when built-in `UlxRadio` / `UlxCheckbox` / `UlxTristateCheckbox` is used (focus stays on the native control)
+ *   - `role="radio"` / `role="checkbox"` when the card is the toggle (custom `<:control>` or non-native selection)
+ *   - `role="button"` with `aria-pressed` when `@type="basic"`
  *
  * Keyboard and screen reader behavior:
  * - With the default embedded `UlxRadio` / `UlxCheckbox` / `UlxTristateCheckbox`, the
@@ -45,7 +48,12 @@ function buildOptionSegmentId(namespace, idArg, key) {
  *   `role="radio"` / `role="checkbox"` with `aria-checked` and `tabindex` for Space / Enter.
  *
  * @class UlxOptionSegment
- * @param {"radio"|"checkbox"|null} [type="radio"] - Semantic type of the option, used for ARIA role and `aria-checked`
+ * @param {"radio"|"checkbox"|"tristate"|"basic"} [type="radio"] - Semantic type: built-in toggles vs plain selectable cards
+ * @param {"stacked"|"tile"} [layout="stacked"] - `stacked` lists vertically; `tile` lays out items in a row with wrap (`layout-tile` on the group)
+ * @param {"control"|"overlay"|"corner"} [selection] - Selection affordance (root class `selection-<value>` for styling):
+ *   - **control** — default when using built-in radio/checkbox/tristate; emphasize the `.option-control` column.
+ *   - **corner** — default when `@type="basic"` or a custom `<:control>` block; corner tick/check treatment via CSS.
+ *   - **overlay** — always opt-in (`@selection="overlay"`); full-card selection (tint, ring, or `::after` layer). No separate Ember behavior—target `.ulx-option-segments.selection-overlay` in styles.
  * @param {Array<object>} [items] - List of option items. When provided, the
  *   component renders a group:
  *   - Each item can include:
@@ -56,6 +64,7 @@ function buildOptionSegmentId(namespace, idArg, key) {
  *     - {string} [title]
  *     - {string} [description]
  *     - {Array<object>} [nestedItems]
+ *     - {string} [itemClass] - Extra classes for this row only (after group `@itemClass`)
  *     - {string} [id] - Unique id for the embedded control when items can reorder; otherwise ids use index (stable when toggling selection).
  * @param {boolean} [selected=false] - Single-item selected state (when `@items` is not used)
  * @param {boolean} [disabled=false] - Disable interaction when true (group-level)
@@ -64,6 +73,7 @@ function buildOptionSegmentId(namespace, idArg, key) {
  * @param {Function} [onSelect] - Callback invoked on click / key activation: `(selected, value, event) => void`
  * @param {string} [title] - Primary label text when no `title` block is provided
  * @param {string} [description] - Helper text when no `description` block is provided
+ * @param {string} [itemClass] - CSS class applied to every `.option-item` root (before each item's own `itemClass`)
  * @param {string} [customClass] - Extra CSS classes appended to the root element
  * @param {string} [id] - Base id for embedded controls and title/description ids (first list item). Auto-generated if omitted.
  * @param {string} [key] - When `@id` is omitted, stable key for auto-generated ids (e.g. `@key={{field.key}}` with `UlxField`).
@@ -101,11 +111,46 @@ export default class UlxOptionSegment extends Component {
 		return this.type === "tristate";
 	}
 
+	get isBasicType() {
+		return this.type === "basic";
+	}
+
+	get layout() {
+		return this.args.layout === "tile" ? "tile" : "stacked";
+	}
+
+	get isTileLayout() {
+		return this.layout === "tile";
+	}
+
+	/**
+	 * Resolved selection mode for the root `selection-*` class.
+	 * - `@type="basic"` → default **corner**
+	 * - Custom `<:control>` → default **corner**
+	 * - Built-in radio / checkbox / tristate → default **control**
+	 * `@selection="overlay"` is always explicit (never auto-defaulted).
+	 */
+	get resolvedSelection() {
+		const raw = this.args.selection;
+		if (typeof raw === "string" && isSelectionMode(raw)) {
+			return raw;
+		}
+
+		const basicOrCustomControl = this.isBasicType || this.args.hasControlBlock;
+		return basicOrCustomControl ? "corner" : "control";
+	}
+
+	/**
+	 * Group layout modifier (e.g. `.ulx-option-segments.basic`): card-style / non–column-control variants.
+	 * Toggle groups use `radio-options` or `checkbox-options`.
+	 */
 	get groupTypeClass() {
-		// If consumer provides a custom `control` block, they are not using the
-		// built-in `UlxRadio` / `UlxCheckbox` control UI.
 		if (this.args.hasControlBlock) {
-			return "default-options";
+			return "basic";
+		}
+
+		if (this.isBasicType) {
+			return "basic";
 		}
 
 		if (this.isRadioType) {
@@ -116,7 +161,7 @@ export default class UlxOptionSegment extends Component {
 			return "checkbox-options";
 		}
 
-		return "default-options";
+		return "basic";
 	}
 
 	get isSelected() {
@@ -165,11 +210,13 @@ export default class UlxOptionSegment extends Component {
 	}
 
 	get rootClasses() {
-		const { customClass, horizontal } = this.args;
+		const { customClass } = this.args;
 		return joinClassNames(
 			this.baseClass,
 			this.groupTypeClass,
-			horizontal && "horizontal",
+			this.isTileLayout && "layout-tile",
+			this.layout === "stacked" && "layout-stacked",
+			`selection-${this.resolvedSelection}`,
 			customClass
 		);
 	}
@@ -242,6 +289,7 @@ export default class UlxOptionSegment extends Component {
 					<UlxOptionSegmentItem
 						@dataQa={{this.itemDataQaPrefix}}
 						@type={{this.type}}
+						@itemClass={{this.args.itemClass}}
 						@item={{entry.item}}
 						@itemIndex={{entry.index}}
 						@controlId={{entry.rowKey}}
@@ -280,6 +328,7 @@ export default class UlxOptionSegment extends Component {
 				<UlxOptionSegmentItem
 					@dataQa={{this.itemDataQaPrefix}}
 					@type={{this.type}}
+					@itemClass={{this.args.itemClass}}
 					@item={{hash
 						value=this.args.value
 						selected=this.isSelected

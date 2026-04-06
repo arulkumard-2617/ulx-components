@@ -1,35 +1,35 @@
-{{page-title "Get started with ULX - ULX Ember Documentation"}}
+{{page-title "Docs Walkthrough - ULX Ember Documentation"}}
 
 <DocShared::DocMain::FoundationLayout
-  @title={{t "msg.getting.started"}}
-  @description={{t "msg.walkthrough.description"}}
+  @title={{t "lbl.docs.walkthrough"}}
+  @description={{t "msg.docs.walkthrough.description"}}
 >
   <div class="doc-panel-wrapper flex justify-between">
     <div class="doc-panel grow w-full">
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-prerequisites"
+        @id="docs-walkthrough-prerequisites"
         @title={{t "lbl.prerequisites"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Ensure you have <code>Node.js</code> (with npm) and <code>Git</code> installed. All create/destroy and variation commands below must be run from the <code>ulx</code> project root (the directory whose <code>package.json</code> contains the <code>create</code>, <code>destroy</code>, <code>add-variation</code>, and <code>destroy-variation</code> scripts)."
+            @content={{t "msg.docs.walkthrough.prerequisites"}}
           />
         </div>
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-run-docs"
+        @id="docs-walkthrough-run-docs"
         @title={{t "msg.run.the.documentation"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="From the <code>ulx-ember</code> demo app directory, run the dev server to view the docs and your new pages locally."
+            @content={{t "msg.docs.walkthrough.run.documentation"}}
           />
         </div>
         <DocShared::DocMain::CodePreview
@@ -37,25 +37,25 @@
           @language="bash"
         />
         <div
-          class="ulx-foundation-section__subtitle mgt4 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mt-4 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Then open <code>http://localhost:4200</code>. New demo pages and variations appear under the relevant sidebar section (Foundation, Utilities, or Components)."
+            @content={{t "msg.docs.walkthrough.run.documentation.followup"}}
           />
         </div>
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-create-demo-page"
+        @id="docs-walkthrough-create-demo-page"
         @title={{t "lbl.create.demo.page"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Scaffolds a new demo page for a component. Use <code>--category</code> (e.g. collections, elements, modules) and optionally <code>--submodule</code> to match your docs structure."
+            @content={{t "msg.docs.walkthrough.create.demo.page"}}
           />
         </div>
         <DocShared::DocMain::CodePreview
@@ -65,15 +65,15 @@
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-delete-demo-page"
+        @id="docs-walkthrough-delete-demo-page"
         @title={{t "lbl.delete.demo.page"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Removes an existing demo page. Use the same <code>--category</code> value as when the page was created."
+            @content={{t "msg.docs.walkthrough.delete.demo.page"}}
           />
         </div>
         <DocShared::DocMain::CodePreview
@@ -83,15 +83,15 @@
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-create-variations"
+        @id="docs-walkthrough-create-variations"
         @title={{t "lbl.create.variations"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Adds a new variation (e.g. Default, Controlled, Disabled) to a component's demo. Pass <code>--component</code> and <code>--variation</code>. The leading <code>--</code> forwards args to the underlying script."
+            @content={{t "msg.docs.walkthrough.create.variations"}}
           />
         </div>
         <DocShared::DocMain::CodePreview
@@ -101,15 +101,15 @@
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-delete-variations"
+        @id="docs-walkthrough-delete-variations"
         @title={{t "lbl.delete.variations"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Removes a specific variation from a component. Example for removing the Controlled variation from <code>CodePreviewComponent</code>:"
+            @content={{t "msg.docs.walkthrough.delete.variations"}}
           />
         </div>
         <DocShared::DocMain::CodePreview
@@ -119,15 +119,15 @@
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
-        @id="walkthrough-next-steps"
+        @id="docs-walkthrough-next-steps"
         @title={{t "lbl.next.steps"}}
       >
         <div
-          class="ulx-foundation-section__subtitle mgb5 font-regular fg-text-secondary mgr0"
+          class="ulx-foundation-section__subtitle mb-5 font-regular fg-text-secondary me-0"
         >
           <DocShared::DocMain::RichText
             @as="span"
-            @content="Use the sidebar to explore <strong>Foundation</strong> (Typography, Colors) for design tokens, <strong>Utilities</strong> for layout and styling classes, and <strong>Components</strong> (Elements, Collections) for live demos and usage."
+            @content={{t "msg.docs.walkthrough.next.steps"}}
           />
         </div>
       </DocShared::DocMain::FoundationSection>

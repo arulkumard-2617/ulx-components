@@ -5,6 +5,6 @@ export default class IndexRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.router.replaceWith('walkthrough');
+    this.router.replaceWith('getting-started.overview');
   }
 }

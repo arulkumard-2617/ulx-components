@@ -7,7 +7,13 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('walkthrough');
+  this.route('getting-started', function () {
+    this.route('overview');
+    this.route('quick-start');
+    this.route('styles-and-theming');
+    this.route('common-mistakes');
+    this.route('docs-walkthrough');
+  });
 
   this.route('components', function () {
     this.route('accordion');
@@ -21,6 +27,7 @@ Router.map(function () {
     this.route('divider');
     this.route('dropdown');
     this.route('empty-state');
+    this.route('fieldset');
     this.route('form');
     this.route('icon');
     this.route('input');

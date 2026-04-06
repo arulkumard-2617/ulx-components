@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxInput, UlxField, UlxCheckbox } from 'ulx-components';
+import { UlxForm, UlxInput, UlxField, UlxCheckbox } from 'ulx-components';
 
 export default class DemoInputTemplate extends Component {
   @tracked isFeatured = false;
@@ -12,8 +12,7 @@ export default class DemoInputTemplate extends Component {
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-6 mb-14">
-
+    <UlxForm @size="m-size" @customClass="ulx-grid gap-6 mb-14">
       {{! First Name }}
       <UlxField @label="First Name" @fieldId="firstName" @fieldClass="col-6">
         <:default as |field|>
@@ -41,7 +40,6 @@ export default class DemoInputTemplate extends Component {
           aria-label="Last Name"
         />
       </UlxField>
-
-    </div>
+    </UlxForm>
   </template>
 }

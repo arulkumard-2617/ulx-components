@@ -10,6 +10,7 @@ export { default as UlxDatePicker } from './components/ulx-date-picker/index.gjs
 export { default as UlxDateRangePicker } from './components/ulx-date-range-picker/index.gjs';
 export { default as UlxTimePicker } from './components/ulx-time-picker/index.gjs';
 export { default as UlxField } from './components/ulx-field/index.gjs';
+export { default as UlxFieldSet } from './components/ulx-fieldset/index.gjs';
 export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs';
 export { default as UlxInputGroup } from './components/ulx-input-group/index.gjs';
 export { default as UlxTextarea } from './components/ulx-textarea/index.gjs';

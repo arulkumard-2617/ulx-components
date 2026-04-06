@@ -1,8 +1,7 @@
-import { UlxInput, UlxField, t } from 'ulx-components';
+import { UlxForm, UlxInput, UlxField, t } from 'ulx-components';
 
 <template>
-  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-
+  <UlxForm @size="m-size" @customClass="ulx-grid gap-8 mb-14">
     <UlxField
       @label={{t "lbl.label"}}
       @fieldId="disabled-input"
@@ -16,6 +15,5 @@ import { UlxInput, UlxField, t } from 'ulx-components';
         aria-label={{t "lbl.label"}}
       />
     </UlxField>
-
-  </div>
+  </UlxForm>
 </template>
