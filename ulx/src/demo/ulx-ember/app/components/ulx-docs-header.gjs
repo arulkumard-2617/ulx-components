@@ -486,11 +486,11 @@ export default class UlxDocsHeaderComponent extends Component {
         {{if this.isSticky 'sticky' ''}}"
       {{this.setupScrollObserver}}
     >
-      <header class="ulx-container-fluid flex items-center justify-between">
+      <header class="px-5 flex items-center justify-between">
         <div class="t-left">
           <div class="t-logo">
             <h3 class="bold-font">ULX
-              <span class="fg-primary">EMBER</span>
+              <span class="fg-primary">COMPONENTS</span>
             </h3>
           </div>
         </div>
