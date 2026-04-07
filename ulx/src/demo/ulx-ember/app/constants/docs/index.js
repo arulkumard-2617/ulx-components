@@ -9,8 +9,30 @@ export const DocNavItems = [
   {
     menuTitle: 'Getting Started',
     icon: 'bs-icons1 home-icon-01 s18',
-    to: '/walkthrough',
-    route: 'walkthrough'
+    to: '/getting-started/overview',
+    route: 'getting-started.overview',
+    children: [
+      {
+        menuItem: 'Overview',
+        route: 'getting-started.overview'
+      },
+      {
+        menuItem: 'Quick Start',
+        route: 'getting-started.quick-start'
+      },
+      {
+        menuItem: 'Styles and Theming',
+        route: 'getting-started.styles-and-theming'
+      },
+      {
+        menuItem: 'Common mistakes',
+        route: 'getting-started.common-mistakes'
+      },
+      {
+        menuItem: 'Docs Walkthrough',
+        route: 'getting-started.docs-walkthrough'
+      }
+    ]
   },
   ...utilNavSchema,
   {
@@ -80,6 +102,11 @@ export const DocNavItems = [
             menuItem: 'Password',
             to: '/components/password',
             route: 'components.password'
+          },
+          {
+            menuItem: 'Fieldset',
+            to: '/components/fieldset',
+            route: 'components.fieldset'
           },
           {
             menuItem: 'Form',

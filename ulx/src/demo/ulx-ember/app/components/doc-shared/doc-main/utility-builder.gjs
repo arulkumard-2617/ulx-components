@@ -275,7 +275,7 @@ export default class CommonDocMainUtilityBuilderComponent extends Component {
                 @items={{this.segmentItems}}
                 @onSelect={{this.handleSelect}}
                 @compact={{true}}
-                @horizontal={{true}}
+                @layout="tile"
                 @ariaLabel="Utility class options"
               />
             </div>

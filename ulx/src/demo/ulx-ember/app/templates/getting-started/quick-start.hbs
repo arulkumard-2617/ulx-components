@@ -1,0 +1,90 @@
+{{page-title "Quick Start - ULX Ember Documentation"}}
+
+<DocShared::DocMain::FoundationLayout
+  @title={{t "lbl.quick.start"}}
+  @description={{t "msg.getting.started.quick.start.page.description"}}
+>
+  <div class="doc-panel-wrapper flex justify-between">
+    <div class="doc-panel grow w-full">
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-install-package"
+        @title={{t "lbl.install.package"}}
+        @subtitle={{t "msg.getting.started.quick.start.install.package"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source="npm install ulx-components"
+          @language="bash"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-load-stylesheet"
+        @title={{t "lbl.load.stylesheet"}}
+        @subtitle={{t "msg.getting.started.quick.start.load.stylesheet"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source="dev-releases/css/ulx-editor.min.css"
+          @language="text"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-apply-theme-classes"
+        @title={{t "lbl.apply.theme.classes"}}
+        @subtitle={{t "msg.getting.started.quick.start.apply.theme.classes"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source='<body class="ulx-default-mode ulx-cardinal-theme">'
+          @language="html"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-use-your-first-component"
+        @title={{t "lbl.use.your.first.component"}}
+        @subtitle={{t "msg.getting.started.quick.start.use.first.component"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source="import { UlxButton } from 'ulx-components';
+
+<template>
+  <UlxButton @label='Save' @variant='primary' />
+</template>"
+          @language="gjs"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-installation"
+        @title={{t "lbl.installation"}}
+      >
+        <p class="mt-0 mb-5 fg-text-secondary text-16">
+          {{t "msg.getting.started.installation.body"}}
+        </p>
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-component-imports"
+        @title={{t "lbl.component.imports"}}
+        @subtitle={{t "msg.getting.started.quick.start.component.imports"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source="import { UlxButton, UlxInput, UlxDropdown } from 'ulx-components';"
+          @language="gjs"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="quick-start-theme-setup"
+        @title={{t "lbl.theme.setup"}}
+        @subtitle={{t "msg.getting.started.quick.start.theme.setup"}}
+      >
+        <DocShared::DocMain::CodePreview
+          @source='<body class="ulx-default-mode ulx-cardinal-theme">'
+          @language="html"
+        />
+      </DocShared::DocMain::FoundationSection>
+    </div>
+    <DocShared::DocMain::DocSectionNav @features={{@model.sections}} />
+  </div>
+</DocShared::DocMain::FoundationLayout>

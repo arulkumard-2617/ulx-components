@@ -7,6 +7,7 @@ export { default as UlxIconButton } from './components/ulx-icon-button/index.gjs
 export { default as UlxBadgeButton } from './components/ulx-badge-button/index.gjs';
 export { default as UlxInput } from './components/ulx-input/index.gjs';
 export { default as UlxField } from './components/ulx-field/index.gjs';
+export { default as UlxFieldSet } from './components/ulx-fieldset/index.gjs';
 export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs';
 export { default as UlxInputGroup } from './components/ulx-input-group/index.gjs';
 export { default as UlxTextarea } from './components/ulx-textarea/index.gjs';

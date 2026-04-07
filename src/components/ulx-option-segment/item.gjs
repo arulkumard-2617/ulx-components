@@ -25,8 +25,9 @@ import UlxTristateCheckbox from "../ulx-tristate-checkbox/index.gjs";
  *   - {string} [title]
  *   - {string} [description]
  *   - {string} [id] - Unique id for the embedded control when items can reorder; otherwise derived from `@segmentIdBase` + `@itemIndex`.
- *   - {string} [itemClass] - Custom CSS class for the item root.
+ *   - {string} [itemClass] - Per-item CSS class for the item root (merged after group `itemClass` from parent)
  *   - {Array<object>} [nestedItems] - Optional nested checkbox rows.
+ * @param {string} [itemClass] - Group-level class from `UlxOptionSegment`; applied before each `item.itemClass`
  * @param {number} [itemIndex=0] - Index in the parent list (stable input ids with `@segmentIdBase`).
  * @param {string} [controlId] - Must match parent `itemEntries.rowKey` / `{{#each key=}}` (same string as native input `id`).
  * @param {string} [segmentIdBase] - Id base from parent `UlxOptionSegment`.
@@ -51,6 +52,10 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get isTristateType() {
 		return this.type === "tristate";
+	}
+
+	get isBasicType() {
+		return this.type === "basic";
 	}
 
 	get rootDataQa() {
@@ -138,11 +143,13 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get itemClasses() {
 		const { itemClass } = this.item;
+		const { itemClass: groupItemClass } = this.args;
 		return joinClassNames(
 			"option-item",
 			this.isSelected && "is-selected",
 			this.isDisabled && "disabled",
 			this.isCompact && "compact",
+			groupItemClass,
 			itemClass
 		);
 	}
@@ -150,6 +157,10 @@ export default class UlxOptionSegmentItem extends Component {
 	get itemRole() {
 		if (this.usesBuiltInToggleControl) {
 			return undefined;
+		}
+
+		if (this.isBasicType) {
+			return "button";
 		}
 
 		if (this.isCheckboxType || this.isTristateType) {
@@ -160,7 +171,7 @@ export default class UlxOptionSegmentItem extends Component {
 			return "radio";
 		}
 
-		return "radio";
+		return undefined;
 	}
 
 	get isToggleRole() {
@@ -181,7 +192,19 @@ export default class UlxOptionSegmentItem extends Component {
 			return -1;
 		}
 
+		if (this.isBasicType) {
+			return 0;
+		}
+
 		return this.isToggleRole ? 0 : undefined;
+	}
+
+	get ariaPressed() {
+		if (!this.isBasicType || this.usesBuiltInToggleControl) {
+			return undefined;
+		}
+
+		return this.isSelected ? "true" : "false";
 	}
 
 	get ariaChecked() {
@@ -344,7 +367,10 @@ export default class UlxOptionSegmentItem extends Component {
 
 	@action
 	handleKeyDown(event) {
-		if (!this.isToggleRole || this.isDisabled) {
+		const keyboardActivatable =
+			(this.isToggleRole || this.isBasicType) && !this.usesBuiltInToggleControl;
+
+		if (!keyboardActivatable || this.isDisabled) {
 			return;
 		}
 
@@ -366,6 +392,7 @@ export default class UlxOptionSegmentItem extends Component {
 			data-qa={{this.rootDataQa}}
 			role={{this.itemRole}}
 			tabindex={{this.tabIndex}}
+			aria-pressed={{this.ariaPressed}}
 			aria-checked={{this.ariaChecked}}
 			aria-disabled={{this.ariaDisabled}}
 			{{on "click" this.handleClick}}

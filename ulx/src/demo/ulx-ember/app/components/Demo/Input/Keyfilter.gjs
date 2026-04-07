@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import { UlxInput, UlxField } from 'ulx-components';
+import { UlxForm, UlxInput, UlxField } from 'ulx-components';
 
 const keyfilters = [
   { label: 'Integers', keyfilter: 'int', placeholder: 'e.g. -123' },
@@ -43,8 +43,7 @@ export default class DemoKeyFilter extends Component {
   keyfilters = keyfilters;
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-
+    <UlxForm @size="m-size" @customClass="ulx-grid gap-8 mb-14">
       {{#each this.keyfilters as |item index|}}
         <UlxField
           @label={{item.label}}
@@ -61,7 +60,6 @@ export default class DemoKeyFilter extends Component {
           />
         </UlxField>
       {{/each}}
-
-    </div>
+    </UlxForm>
   </template>
 }
