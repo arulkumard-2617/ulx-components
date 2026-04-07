@@ -148,7 +148,6 @@ const enUs = {
 	'lbl.data.updated': 'Data Updated',
 	'lbl.data.deleted': 'Data Deleted',
 	'lbl.process.completed': 'Process Completed',
-	'msg.download.ai.skills': 'Download AI Skills',
 	'lbl.variant.elevated': 'Variant: elevated',
 	'lbl.variant.flat': 'Variant: flat',
 	'lbl.variant.outlined': 'Variant: outlined',
