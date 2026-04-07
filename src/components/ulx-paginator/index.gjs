@@ -298,11 +298,9 @@ export default class UlxPaginator extends Component {
 							{{yield this.firstPageLinkConfig to="firstPageLink"}}
 						{{else}}
 							<UlxIconButton
-								@variant="secondary"
 								@text={{true}}
+								@variant="secondary"
 								@iconLeft={{this.firstPageLinkConfig.icon}}
-								@iconComponentClass="bs-icons1"
-								@iconSize="s18"
 								@customClass={{this.firstPageLinkConfig.className}}
 								@disabled={{this.firstPageLinkConfig.disabled}}
 								@onClick={{this.firstPageLinkConfig.onClick}}
@@ -316,11 +314,8 @@ export default class UlxPaginator extends Component {
 						{{else}}
 							<UlxIconButton
 								@variant="basic"
-								@text={{true}}
 								@label={{t "lbl.paginator.previous"}}
 								@iconLeft={{this.prevPageLinkConfig.icon}}
-								@iconComponentClass="bs-icons1"
-								@iconSize="s18"
 								@customClass={{this.prevPageLinkConfig.className}}
 								@disabled={{this.prevPageLinkConfig.disabled}}
 								@onClick={{this.prevPageLinkConfig.onClick}}
@@ -334,11 +329,8 @@ export default class UlxPaginator extends Component {
 						{{else}}
 							<UlxIconButton
 								@variant="basic"
-								@text={{true}}
 								@label={{t "lbl.paginator.next"}}
 								@iconRight={{this.nextPageLinkConfig.icon}}
-								@iconComponentClass="bs-icons1"
-								@iconSize="s18"
 								@customClass={{this.nextPageLinkConfig.className}}
 								@disabled={{this.nextPageLinkConfig.disabled}}
 								@onClick={{this.nextPageLinkConfig.onClick}}
@@ -351,11 +343,9 @@ export default class UlxPaginator extends Component {
 							{{yield this.lastPageLinkConfig to="lastPageLink"}}
 						{{else}}
 							<UlxIconButton
-								@variant="secondary"
 								@text={{true}}
+								@variant="secondary"
 								@iconLeft={{this.lastPageLinkConfig.icon}}
-								@iconComponentClass="bs-icons1"
-								@iconSize="s18"
 								@customClass={{this.lastPageLinkConfig.className}}
 								@disabled={{this.lastPageLinkConfig.disabled}}
 								@onClick={{this.lastPageLinkConfig.onClick}}
