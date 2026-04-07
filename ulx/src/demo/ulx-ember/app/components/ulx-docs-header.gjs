@@ -495,14 +495,14 @@ export default class UlxDocsHeaderComponent extends Component {
           </div>
 
           <UlxIconButton
-            @href="/downloads/ulx-ai-skills.zip"
-            @label={{t "msg.download.ai.skills"}}
+            @href="/downloads/ulx-ai-skills-and-rules.zip"
+            @label="Download AI Skills and Rules"
             @iconLeft="download-icon"
             @iconComponentClass="bs-icons1"
             @variant="secondary"
             @size="xs-size"
-            download="ulx-ai-skills.zip"
-            aria-label={{t "msg.download.ai.skills"}}
+            download="ulx-ai-skills-and-rules.zip"
+            aria-label="Download AI Skills and Rules"
           />
         </div>
 
