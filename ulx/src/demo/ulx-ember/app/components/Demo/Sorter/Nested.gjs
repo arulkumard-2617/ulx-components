@@ -37,7 +37,9 @@ function findNode(nodes, itemId) {
     if (node.id === itemId) {
       return node;
     }
-    const match = node.children?.length ? findNode(node.children, itemId) : null;
+    const match = node.children?.length
+      ? findNode(node.children, itemId)
+      : null;
     if (match) {
       return match;
     }
@@ -85,7 +87,9 @@ function serializeTreeFromDom(container, itemIndex) {
 
       return {
         ...item,
-        children: nestedContainer ? serializeTreeFromDom(nestedContainer, itemIndex) : [],
+        children: nestedContainer
+          ? serializeTreeFromDom(nestedContainer, itemIndex)
+          : [],
       };
     })
     .filter(Boolean);
@@ -116,7 +120,7 @@ class NestedTree extends Component {
         as |item|
       >
         <div class="w-full">
-          <div class="w-full bg-layer3 border border-radius-sm pd2">
+          <div class="w-full bg-layer3 border border-radius-sm p-2">
             <span class="text-14 fg-text">{{item.label}}</span>
           </div>
           {{#if item.children.length}}
@@ -164,7 +168,10 @@ export default class NestedSorterDemo extends Component {
       return true;
     }
 
-    const blockedParentIds = new Set([draggedId, ...getDescendantIds(draggedNode)]);
+    const blockedParentIds = new Set([
+      draggedId,
+      ...getDescendantIds(draggedNode),
+    ]);
     return !blockedParentIds.has(targetParentId);
   }
 
@@ -196,13 +203,11 @@ export default class NestedSorterDemo extends Component {
   }
 
   <template>
-    <div class="w-full bg-layer2 border border-radius-sm pd1">
-      <NestedTree
-        @items={{this.items}}
-        @parentId={{ROOT_LIST_ID}}
-        @isRoot={{true}}
-        @options={{this.sortableOptions}}
-      />
-    </div>
+    <NestedTree
+      @items={{this.items}}
+      @parentId={{ROOT_LIST_ID}}
+      @isRoot={{true}}
+      @options={{this.sortableOptions}}
+    />
   </template>
 }

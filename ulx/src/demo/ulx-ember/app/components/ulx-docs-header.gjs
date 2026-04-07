@@ -487,12 +487,23 @@ export default class UlxDocsHeaderComponent extends Component {
       {{this.setupScrollObserver}}
     >
       <header class="px-5 flex items-center justify-between">
-        <div class="t-left">
+        <div class="t-left flex gap-2 items-center">
           <div class="t-logo">
             <h3 class="bold-font">ULX
               <span class="fg-primary">COMPONENTS</span>
             </h3>
           </div>
+
+          <UlxIconButton
+            @href="/downloads/ulx-ai-skills.zip"
+            @label={{t "msg.download.ai.skills"}}
+            @iconLeft="download-icon"
+            @iconComponentClass="bs-icons1"
+            @variant="secondary"
+            @size="xs-size"
+            download="ulx-ai-skills.zip"
+            aria-label={{t "msg.download.ai.skills"}}
+          />
         </div>
 
         <div class="t-right flex items-center gap-2">
