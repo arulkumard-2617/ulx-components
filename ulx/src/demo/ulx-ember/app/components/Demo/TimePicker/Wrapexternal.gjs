@@ -12,7 +12,7 @@ export default class WrapexternalTimeDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-300">
       <UlxTimePicker
         @hourFormat="24"
         @value={{this.value}}

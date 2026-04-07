@@ -104,13 +104,7 @@ export default class UlxTimePicker extends Component {
 	}
 
 	get wrapRootClass() {
-		const {
-			size = "m-size",
-			filled,
-			disabled,
-			invalid,
-			customClass
-		} = this.args;
+		const { size = "m-size", filled, disabled, invalid, customClass } = this.args;
 
 		const parts = [
 			"flatpickr",
@@ -169,7 +163,7 @@ export default class UlxTimePicker extends Component {
 					...attributes
 				/>
 				{{#if @showIcon}}
-					<span class="inputgroup-addon button-addon contents">
+					<span class="inputgroup-addon button-addon">
 						<UlxIconButton
 							data-toggle
 							@type="button"
@@ -180,7 +174,7 @@ export default class UlxTimePicker extends Component {
 					</span>
 				{{/if}}
 				{{#if @showClearButton}}
-					<span class="inputgroup-addon button-addon contents">
+					<span class="inputgroup-addon button-addon">
 						<UlxIconButton
 							data-clear
 							@type="button"

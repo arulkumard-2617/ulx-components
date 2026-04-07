@@ -249,6 +249,8 @@ const enUs = {
 	'lbl.datepicker.placeholder': 'Select date',
 	'lbl.datepicker.toggle': 'Open calendar',
 	'lbl.datepicker.clear': 'Clear date',
+	'aria.datepicker.previousMonth': 'Go to previous month',
+	'aria.datepicker.nextMonth': 'Go to next month',
 	'lbl.daterangepicker.placeholder': 'Select date range',
 	'lbl.timepicker.placeholder': 'Select time',
 	'lbl.timepicker.toggle': 'Open time picker',

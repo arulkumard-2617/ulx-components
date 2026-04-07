@@ -3,6 +3,7 @@ import { registerDestructor } from '@ember/destroyable';
 import Flatpickr from 'flatpickr';
 import { normalizeSelectedDates, selectedDatesEqual } from '../utils/flatpickr-helpers';
 import { FLATPICKR_SETTABLE_KEYS } from '../utils/flatpickr-options';
+import { t } from '../utils/i18n';
 
 /**
  * Flatpickr assigns `disable` / `enable` via setters that call `parseDateRules(arr)`,
@@ -84,6 +85,38 @@ function snapshotSettableOptions(restSpread) {
 }
 
 /**
+ * Makes prev/next month controls keyboard-focusable and activates them on Enter/Space.
+ *
+ * @param {import('flatpickr').Instance | null | undefined} fpInstance
+ */
+function enhanceNavKeyboardAccess(fpInstance) {
+	const container = fpInstance?.calendarContainer;
+	if (!container) return;
+
+	container.setAttribute('tabindex', '0');
+
+	const prev = container.querySelector('.flatpickr-prev-month');
+	const next = container.querySelector('.flatpickr-next-month');
+
+	[
+		{ el: prev, labelKey: 'aria.datepicker.previousMonth' },
+		{ el: next, labelKey: 'aria.datepicker.nextMonth' }
+	]
+		.filter(({ el }) => el)
+		.forEach(({ el, labelKey }) => {
+			el.setAttribute('role', 'button');
+			el.setAttribute('aria-label', t(labelKey));
+			el.setAttribute('tabindex', '0');
+			el.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					el.click();
+				}
+			});
+		});
+}
+
+/**
  * Initializes or updates flatpickr on an `<input>` or a `wrap` container element.
  *
  * Named args:
@@ -153,6 +186,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			}
 
 			this._flatpickrInstance = Flatpickr(element, createCfg);
+			enhanceNavKeyboardAccess(this._flatpickrInstance);
 			this._lastElement = element;
 			this._lastSettableOptions = snapshotSettableOptions(restSpread);
 		} else {
