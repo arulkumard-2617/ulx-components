@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxSorter, UlxIcon } from 'ulx-components';
-import { hash } from '@ember/helper';
 
 const NAV_ITEMS = [
   {
@@ -11,6 +10,7 @@ const NAV_ITEMS = [
     iconName: 'home-icon-01',
     isActive: true,
     showHandle: true,
+    locked: true,
   },
   {
     id: 'scan',
@@ -39,11 +39,39 @@ const NAV_ITEMS = [
     iconName: 'user-sync-icon',
     isActive: false,
     showHandle: true,
+    locked: true,
   },
 ];
 
 export default class GridSorterDemo extends Component {
   @tracked items = NAV_ITEMS.map((row) => ({ ...row }));
+
+  get sortableOptions() {
+    return {
+      animation: 150,
+      onEnd: this.handleEnd,
+      onMove: this.handleMove,
+      filter: '.is-locked',
+    };
+  }
+
+  /**
+   * Home stays first: block inserting another item before Home.
+   * Profile stays last: final order is normalized in `handleEnd`.
+   */
+  @action
+  handleMove(evt) {
+    const related = evt.related;
+    if (related?.dataset?.itemId === 'home' && evt.willInsertAfter === false) {
+      return false;
+    }
+    return true;
+  }
+
+  @action
+  itemRowClass(item) {
+    return item.locked ? 'relative is-locked' : 'relative';
+  }
 
   @action
   handleEnd(event) {
@@ -51,9 +79,19 @@ export default class GridSorterDemo extends Component {
     if (oldIndex === newIndex) {
       return;
     }
-    const next = [...this.items];
+    let next = [...this.items];
     const [moved] = next.splice(oldIndex, 1);
     next.splice(newIndex, 0, moved);
+    const homeIdx = next.findIndex((i) => i.id === 'home');
+    if (homeIdx > 0) {
+      const [home] = next.splice(homeIdx, 1);
+      next.unshift(home);
+    }
+    const profileIdx = next.findIndex((i) => i.id === 'profile');
+    if (profileIdx >= 0 && profileIdx !== next.length - 1) {
+      const [profile] = next.splice(profileIdx, 1);
+      next.push(profile);
+    }
     this.items = next;
   }
 
@@ -63,9 +101,8 @@ export default class GridSorterDemo extends Component {
       @layout="grid"
       @columnsClass="col-5 gap-3"
       @itemKey="id"
-      @itemClass="relative"
-      style="width: 600px"
-      @options={{hash animation=150 onEnd=this.handleEnd}}
+      @itemClass={{this.itemRowClass}}
+      @options={{this.sortableOptions}}
       as |item|
     >
       {{#if item.showHandle}}
@@ -73,14 +110,25 @@ export default class GridSorterDemo extends Component {
           class="absolute top-2 right-2 flex items-center justify-center rounded-full bg-layer3 w-12 h-12"
           aria-hidden="true"
         >
-          <UlxIcon
-            @iconName="dragdrop-icon1"
-            @componentClass="bs-icons1"
-            @type="font"
-            @size="s18"
-            @customClass="fg-secondary"
-            aria-hidden="true"
-          />
+          {{#if item.locked}}
+            <UlxIcon
+              @iconName="lock-filled-icon"
+              @componentClass="bs-icons1"
+              @type="font"
+              @size="s18"
+              @customClass="fg-secondary"
+              aria-hidden="true"
+            />
+          {{else}}
+            <UlxIcon
+              @iconName="dragdrop-icon1"
+              @componentClass="bs-icons1"
+              @type="font"
+              @size="s18"
+              @customClass="fg-secondary"
+              aria-hidden="true"
+            />
+          {{/if}}
         </span>
       {{/if}}
       <div

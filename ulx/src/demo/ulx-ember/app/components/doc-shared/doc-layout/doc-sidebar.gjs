@@ -17,10 +17,23 @@ export default class DocSidebarComponent extends Component {
   contentRefs = {};
 
   syncActiveItemFromRoute = modifier(() => {
-    const rafId = requestAnimationFrame(() => {
+    let rafId = requestAnimationFrame(() => {
       this.setInitialActiveItem();
     });
-    return () => cancelAnimationFrame(rafId);
+
+    const onRouteDidChange = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        this.setInitialActiveItem();
+      });
+    };
+
+    this.router.on('routeDidChange', onRouteDidChange);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      this.router.off('routeDidChange', onRouteDidChange);
+    };
   });
 
   get currentPath() {
@@ -34,22 +47,23 @@ export default class DocSidebarComponent extends Component {
   setInitialActiveItem() {
     const currentPath = this.currentPath || '';
 
-    DocNavItems.forEach((item) => {
-      if (item.children) {
-        const hasMatchingRoute = item.children.some((childItem) => {
-          if (childItem.items) {
-            return childItem.items.some((subItem) =>
-              this.isRouteActive(subItem.to, currentPath),
-            );
-          }
-          return this.isRouteActive(childItem.to, currentPath);
-        });
+    for (const item of DocNavItems) {
+      if (!item.children?.length) continue;
 
-        if (hasMatchingRoute) {
-          this.activeItem = item.menuTitle;
+      const hasMatchingRoute = item.children.some((childItem) => {
+        if (childItem.items) {
+          return childItem.items.some((subItem) =>
+            this.isRouteActive(subItem.to, currentPath),
+          );
         }
+        return this.isRouteActive(childItem.to, currentPath);
+      });
+
+      if (hasMatchingRoute) {
+        this.activeItem = item.menuTitle;
+        return;
       }
-    });
+    }
   }
 
   isRouteActive = (routePath, currentPath) => {
@@ -113,8 +127,8 @@ export default class DocSidebarComponent extends Component {
   }
 
   getContentHeight = (menuTitle) => {
-    // Access activeItem to make this reactive
-    const isExpanded = this.activeItem === menuTitle;
+    const item = this.filteredNavItems.find((i) => i.menuTitle === menuTitle);
+    const isExpanded = item ? this.isExpanded(item) : false;
     const element = this.contentRefs[menuTitle];
 
     if (isExpanded && element) {
@@ -127,8 +141,6 @@ export default class DocSidebarComponent extends Component {
   };
 
   getContentStyle = (menuTitle) => {
-    // Access activeItem to make this reactive
-    const isExpanded = this.activeItem === menuTitle;
     const height = this.getContentHeight(menuTitle);
 
     // Smooth accordion transition
@@ -145,34 +157,12 @@ export default class DocSidebarComponent extends Component {
     return DocNavItems;
   }
 
-  // This getter will be called whenever the template renders, ensuring activeItem updates
-  get computedActiveItem() {
-    const currentPath = this.currentPath || '';
-
-    for (const item of DocNavItems) {
-      if (item.children) {
-        const hasMatchingRoute = item.children.some((childItem) => {
-          if (childItem.items) {
-            return childItem.items.some((subItem) =>
-              this.isRouteActive(subItem.to, currentPath),
-            );
-          }
-          return this.isRouteActive(childItem.to, currentPath);
-        });
-
-        if (hasMatchingRoute) {
-          if (this.activeItem !== item.menuTitle) {
-            this.activeItem = item.menuTitle;
-          }
-          return item.menuTitle;
-        }
-      }
-    }
-    return this.activeItem;
-  }
-
   isExpanded = (item) => {
     if (!item) return false;
+    const hasSearchQuery = (this.searchQuery ?? '').trim() !== '';
+    if (hasSearchQuery && this.hasChildren(item)) {
+      return true;
+    }
     return this.activeItem === item.menuTitle;
   };
 
@@ -249,12 +239,18 @@ export default class DocSidebarComponent extends Component {
 
   @action
   handleSearchInput(event) {
+    const prevHadQuery = (this.searchQuery ?? '').trim() !== '';
     this.searchQuery = event.target?.value ?? '';
+    const nowHasQuery = (this.searchQuery ?? '').trim() !== '';
+
+    if (prevHadQuery && !nowHasQuery) {
+      requestAnimationFrame(() => {
+        this.setInitialActiveItem();
+      });
+    }
   }
 
   <template>
-    {{! Force evaluation of computedActiveItem to update activeItem }}
-    {{#if false}}{{this.computedActiveItem}}{{/if}}
     <aside
       class="ulsp-sidebar overflow-x-hidden overflow-y-auto border-e"
       {{this.syncActiveItemFromRoute}}
