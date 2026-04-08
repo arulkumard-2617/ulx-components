@@ -16,5 +16,5 @@ import { UlxCard, t } from 'ulx-components';
   </div>
 </template>
 
-`;
 
+`;

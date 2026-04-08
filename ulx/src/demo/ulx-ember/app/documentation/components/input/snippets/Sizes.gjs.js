@@ -1,7 +1,7 @@
 export default `
 import Component from '@glimmer/component';
 import { concat } from '@ember/helper';
-import { UlxInput, UlxField, t } from 'ulx-components';
+import { UlxForm, UlxInput, UlxField, t } from 'ulx-components';
 
 const sizes = [
   { label: 's-size', size: 's-size' },
@@ -14,8 +14,7 @@ export default class DemoSizes extends Component {
   sizes = sizes;
 
   <template>
-    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-
+    <UlxForm @size="m-size" @customClass="ulx-grid gap-8 mb-14">
       {{#each this.sizes as |item index|}}
         <UlxField
           @label={{item.label}}
@@ -32,8 +31,7 @@ export default class DemoSizes extends Component {
           />
         </UlxField>
       {{/each}}
-
-    </div>
+    </UlxForm>
   </template>
 }
 

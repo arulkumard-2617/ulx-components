@@ -38,6 +38,7 @@ function panelHeightTransition(ms) {
  * @param {string} [toggleIconSize='s20'] - Size token for submenu expand/collapse icons.
  * @param {string} [itemIconSize='s20'] - Size token for submenu item icons.
  * @param {string} [customClass] - Extra CSS classes.
+ * @param {boolean} [flat=false] - Borderless flat layout (`flat` on root; pairs with ULS `.flat` panelmenu styles).
  * @param {string} [dataQa] - Override root data-qa attribute.
  */
 export default class UlxPanelmenu extends Component {
@@ -112,8 +113,8 @@ export default class UlxPanelmenu extends Component {
 	}
 
 	get rootClasses() {
-		const { customClass } = this.args;
-		return joinClassNames(this.baseClass, customClass);
+		const { customClass, flat } = this.args;
+		return joinClassNames(this.baseClass, flat && "flat", customClass);
 	}
 
 	get rootDataQa() {
@@ -487,21 +488,6 @@ export default class UlxPanelmenu extends Component {
 											onClick=(fn this.onHeaderClick item index)
 										}}
 									{{else}}
-										{{#if (this.hasChildren item)}}
-											<span class="panelmenu-header-toggle-icon" aria-hidden="true">
-												<UlxIcon
-													@type="font"
-													@iconName={{if
-														(this.isPanelActive item index)
-														this.collapseIconName
-														this.expandIconName
-													}}
-													@componentClass="bs-icons1"
-													@size={{this.toggleIconSize}}
-												/>
-											</span>
-										{{/if}}
-
 										{{#if item.icon}}
 											{{#let (this.getHeaderIconMeta item) as |meta|}}
 												<span class="panelmenu-header-icon" aria-hidden="true">
@@ -516,6 +502,21 @@ export default class UlxPanelmenu extends Component {
 										{{/if}}
 
 										<span class="panelmenu-header-label">{{item.label}}</span>
+
+										{{#if (this.hasChildren item)}}
+											<span class="panelmenu-header-toggle-icon" aria-hidden="true">
+												<UlxIcon
+													@type="font"
+													@iconName={{if
+														(this.isPanelActive item index)
+														this.collapseIconName
+														this.expandIconName
+													}}
+													@componentClass="bs-icons1"
+													@size={{this.toggleIconSize}}
+												/>
+											</span>
+										{{/if}}
 									{{/if}}
 								</a>
 							</div>

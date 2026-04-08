@@ -34,11 +34,12 @@ function buildOptionSegmentId(namespace, idArg, key) {
  *
  * WCAG semantics:
  * - The **group container** behaves as:
- *   - `role="radiogroup"` when `@type="radio"` (container of radio options)
+ *   - `role="radiogroup"` when `@type="radio"` or `@type="color-swatch"`
  *   - `role="group"` for all other types (e.g. checkbox/basic containers)
  * - The **individual option item** inside the group behaves as:
  *   - no `role` on the card when built-in `UlxRadio` / `UlxCheckbox` / `UlxTristateCheckbox` is used (focus stays on the native control)
  *   - `role="radio"` / `role="checkbox"` when the card is the toggle (custom `<:control>` or non-native selection)
+ *   - `role="radio"` with roving `tabindex` and arrow / Home / End navigation for `@type="color-swatch"` (APG radiogroup)
  *   - `role="button"` with `aria-pressed` when `@type="basic"`
  *
  * Keyboard and screen reader behavior:
@@ -46,11 +47,13 @@ function buildOptionSegmentId(namespace, idArg, key) {
  *   native input is the only tab stop; the card still handles clicks outside `.option-control`.
  * - With a custom `<:control>` block (or non-toggle types), each item card may expose
  *   `role="radio"` / `role="checkbox"` with `aria-checked` and `tabindex` for Space / Enter.
+ * - Color swatches: one tab stop for the group via roving tabindex; Arrow keys move focus and selection; Space selects the focused swatch.
  *
  * @class UlxOptionSegment
- * @param {"radio"|"checkbox"|"tristate"|"basic"} [type="radio"] - Semantic type: built-in toggles vs plain selectable cards
+ * @param {"radio"|"checkbox"|"tristate"|"basic"
+ *   |"color-swatch"} [type="radio"] - Semantic type: built-in toggles, plain selectable cards, or color swatches (`color-swatch` root class; no `selection-*` root class)
  * @param {"stacked"|"tile"} [layout="stacked"] - `stacked` lists vertically; `tile` lays out items in a row with wrap (`layout-tile` on the group)
- * @param {"control"|"center"|"corner"} [selection] - Selection affordance (root class `selection-<value>` for styling):
+ * @param {"control"|"center"|"corner"} [selection] - Selection affordance (root class `selection-<value>` for styling). Omit for `@type="color-swatch"` (no `selection-*` class).
  *   - **control** — default when using built-in radio/checkbox/tristate; emphasize the `.option-control` column.
  *   - **corner** — default when `@type="basic"` or a custom `<:control>` block; corner tick/check treatment via CSS.
  *   - **center** — always opt-in (`@selection="center"`); full-card selection (tint, ring, or `::after` layer). No separate Ember behavior—target `.ulx-option-segments.selection-center` in styles.
@@ -65,6 +68,8 @@ function buildOptionSegmentId(namespace, idArg, key) {
  *     - {string} [description]
  *     - {Array<object>} [nestedItems]
  *     - {string} [itemClass] - Extra classes for this row only (after group `@itemClass`)
+ *     - {string} [optionColorCode] - Color for **color-swatch** groups (`@type="color-swatch"`); sets `--ulx-option-color-code` on the card.
+ *     - {string} [colorCode] - Alias of **optionColorCode**.
  *     - {string} [id] - Unique id for the embedded control when items can reorder; otherwise ids use index (stable when toggling selection).
  * @param {boolean} [selected=false] - Single-item selected state (when `@items` is not used)
  * @param {boolean} [disabled=false] - Disable interaction when true (group-level)
@@ -115,6 +120,10 @@ export default class UlxOptionSegment extends Component {
 		return this.type === "basic";
 	}
 
+	get isColorSwatchType() {
+		return this.type === "color-swatch";
+	}
+
 	get layout() {
 		return this.args.layout === "tile" ? "tile" : "stacked";
 	}
@@ -131,6 +140,10 @@ export default class UlxOptionSegment extends Component {
 	 * `@selection="center"` is always explicit (never auto-defaulted).
 	 */
 	get resolvedSelection() {
+		if (this.isColorSwatchType) {
+			return null;
+		}
+
 		const raw = this.args.selection;
 		if (typeof raw === "string" && isSelectionMode(raw)) {
 			return raw;
@@ -214,9 +227,10 @@ export default class UlxOptionSegment extends Component {
 		return joinClassNames(
 			this.baseClass,
 			this.groupTypeClass,
+			this.isColorSwatchType && "color-swatch",
 			this.isTileLayout && "layout-tile",
 			this.layout === "stacked" && "layout-stacked",
-			`selection-${this.resolvedSelection}`,
+			this.resolvedSelection && `selection-${this.resolvedSelection}`,
 			customClass
 		);
 	}
@@ -232,11 +246,97 @@ export default class UlxOptionSegment extends Component {
 			return this.args.role;
 		}
 
-		if (this.isRadioType) {
+		if (this.isRadioType || this.isColorSwatchType) {
 			return "radiogroup";
 		}
 
 		return "group";
+	}
+
+	/**
+	 * Enabled color-swatch entries in DOM order for radiogroup focus and keyboard navigation.
+	 */
+	get colorSwatchNavigateEntries() {
+		if (!this.isColorSwatchType) {
+			return [];
+		}
+
+		if (this.hasItems) {
+			return this.itemEntries.filter((e) => !this.isDisabled && !e.item.disabled);
+		}
+
+		if (this.isDisabled) {
+			return [];
+		}
+
+		return [
+			{
+				rowKey: this.singleItemControlId,
+				item: {
+					value: this.args.value,
+					selected: this.isSelected,
+					disabled: this.isDisabled,
+					compact: this.isCompact,
+					title: this.title,
+					description: this.description
+				}
+			}
+		];
+	}
+
+	/**
+	 * Which swatch root keeps `tabindex="0"` (checked if enabled, else first enabled).
+	 */
+	get colorSwatchRadiogroupFocusMemberId() {
+		const entries = this.colorSwatchNavigateEntries;
+		if (!entries.length) {
+			return undefined;
+		}
+
+		const selected = entries.find((e) => Boolean(e.item.selected));
+		if (selected) {
+			return selected.rowKey;
+		}
+
+		return entries[0].rowKey;
+	}
+
+	@action
+	handleColorSwatchRadiogroupNavigate(intent, fromControlId, event) {
+		if (!this.isColorSwatchType) {
+			return;
+		}
+
+		const enabled = this.colorSwatchNavigateEntries;
+		if (!enabled.length) {
+			return;
+		}
+
+		const curIdx = enabled.findIndex((e) => e.rowKey === fromControlId);
+		let nextIdx = 0;
+
+		if (intent === "next") {
+			nextIdx = curIdx < 0 ? 0 : (curIdx + 1) % enabled.length;
+		} else if (intent === "prev") {
+			nextIdx = curIdx < 0 ? enabled.length - 1 : (curIdx - 1 + enabled.length) % enabled.length;
+		} else if (intent === "first") {
+			nextIdx = 0;
+		} else if (intent === "last") {
+			nextIdx = enabled.length - 1;
+		} else {
+			return;
+		}
+
+		event?.preventDefault?.();
+
+		const nextEntry = enabled[nextIdx];
+		if (typeof document !== "undefined") {
+			document.getElementById(nextEntry.rowKey)?.focus();
+		}
+
+		if (!nextEntry.item.selected) {
+			this.handleItemSelect(true, nextEntry.item.value, event, nextEntry.item);
+		}
 	}
 
 	get title() {
@@ -297,6 +397,8 @@ export default class UlxOptionSegment extends Component {
 						@disabled={{this.isDisabled}}
 						@compact={{this.isCompact}}
 						@onSelect={{this.handleItemSelect}}
+						@radiogroupFocusMemberId={{this.colorSwatchRadiogroupFocusMemberId}}
+						@onColorSwatchRadiogroupNavigate={{this.handleColorSwatchRadiogroupNavigate}}
 						@hasControlBlock={{has-block "control"}}
 						@hasContentBlock={{has-block "content"}}
 						@hasTitleBlock={{has-block "title"}}
@@ -343,6 +445,8 @@ export default class UlxOptionSegment extends Component {
 					@disabled={{this.isDisabled}}
 					@compact={{this.isCompact}}
 					@onSelect={{this.handleItemSelect}}
+					@radiogroupFocusMemberId={{this.colorSwatchRadiogroupFocusMemberId}}
+					@onColorSwatchRadiogroupNavigate={{this.handleColorSwatchRadiogroupNavigate}}
 					@hasControlBlock={{has-block "control"}}
 					@hasContentBlock={{has-block "content"}}
 					@hasTitleBlock={{has-block "title"}}

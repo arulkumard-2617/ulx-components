@@ -11,8 +11,11 @@ export default class SwapSorterDemo extends Component {
   @tracked items = [...ITEMS];
 
   @action
-  handleSort(event) {
+  handleEnd(event) {
     const { oldIndex, newIndex } = event;
+    if (oldIndex === newIndex) {
+      return;
+    }
     const swappedItems = [...this.items];
     const sourceItem = swappedItems[oldIndex];
     swappedItems[oldIndex] = swappedItems[newIndex];
@@ -23,11 +26,15 @@ export default class SwapSorterDemo extends Component {
   <template>
     <UlxSorter
       @items={{this.items}}
-      @onSort={{this.handleSort}}
-      @options={{hash swap=true swapClass="highlight"}}
+      @options={{hash
+        swap=true
+        swapClass="is-selected"
+        animation=150
+        onEnd=this.handleEnd
+      }}
       as |item|
     >
-      {{item}}
+      <span class="text-14 fg-text">{{item}}</span>
     </UlxSorter>
   </template>
 }

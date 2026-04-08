@@ -17,7 +17,7 @@ export default class RouterDemoComponent extends Component {
       },
       {
         label: t('lbl.walkthrough'),
-        route: 'walkthrough',
+        route: 'getting-started.docs-walkthrough',
       },
       {
         label: t('lbl.utilities'),

@@ -14,9 +14,8 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-sticky\`,
-        variant: 'info',
-        summary: t('lbl.sticky'),
-        detail: t('msg.sticky.toast'),
+        variant: 'success',
+        summary: 'Speakers added',
         sticky: true,
       },
     ];
@@ -28,22 +27,8 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: \`msg-\${Date.now()}-life\`,
-        variant: 'info',
-        summary: t('lbl.auto.close'),
-        detail: t('msg.auto.close.toast'),
-      },
-    ];
-  }
-
-  @action
-  showWithLife() {
-    this.messages = [
-      ...this.messages,
-      {
-        id: \`msg-\${Date.now()}-life\`,
-        variant: 'info',
-        summary: 'Auto-close',
-        detail: 'This message disappears after 3000ms.',
+        variant: 'success',
+        summary: 'Speakers added',
       },
     ];
   }
@@ -59,21 +44,21 @@ export default class StickyToastDemo extends Component {
   }
 
   <template>
-    <div class="pda4">
+    <div class="">
       <div class="fx gap8 flxw">
         <UlxButton
           @label={{t "lbl.sticky"}}
-          @variant="secondary"
+          @variant="success"
           {{on "click" this.showSticky}}
         />
         <UlxButton
           @label={{t "lbl.auto.close.3s"}}
-          @variant="secondary"
+          @variant="success"
           {{on "click" this.showWithLife}}
         />
         <UlxButton
           @label={{t "lbl.clear"}}
-          @variant="secondary"
+          @variant="success"
           {{on "click" this.clearAll}}
         />
       </div>

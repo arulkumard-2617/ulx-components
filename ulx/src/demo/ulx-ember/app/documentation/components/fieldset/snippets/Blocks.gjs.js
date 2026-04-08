@@ -22,7 +22,7 @@ import {
         <UlxField
           @label={{t "lbl.doc.fieldset.city"}}
           @fieldId="demo-fieldset-blocks-city"
-          @fieldClass="field"
+          @fieldClass="col-12"
           @helpText={{t "lbl.doc.fieldset.inline.help"}}
           as |field|
         >
