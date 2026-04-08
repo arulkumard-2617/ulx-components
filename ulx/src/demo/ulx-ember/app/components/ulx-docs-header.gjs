@@ -591,7 +591,8 @@ export default class UlxDocsHeaderComponent extends Component {
           <div class="ulx-grid col-1 gap-3">
             <UlxAccordion
               @items={{this.accessibilitySections}}
-              @variant="flat"
+              @variant="elevated"
+              @toggleIconPosition="right"
               @size="m-size"
             >
               <:content as |paneSection|>
