@@ -10,6 +10,7 @@ import {
   RouterDemo,
   CommandDemo,
   AccessibilityDemo,
+  CardTabsDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -18,6 +19,7 @@ import {
   RouterSource,
   CommandSource,
   AccessibilitySource,
+  CardTabsSource,
 } from './imports';
 
 export const TabMenuFeatureItems = [
@@ -156,6 +158,26 @@ export const TabMenuFeatureItems = [
       props: {
         source: AccessibilitySource,
         snippetName: "accessibility",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "card-tabs",
+    sectionNav: "Card Tabs",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Card Tabs</code> variant renders each tab as a card with an icon, label, and a dot indicator. Use <code>@variant=\"card-tabs\"</code> to activate this layout. Each item supports <code>icon</code>, <code>iconType</code>, <code>iconComponentClass</code>, and <code>iconSize</code> for the icon display. The active card is highlighted with a primary border, background, and a filled dot indicator. Disabled tabs are visually dimmed and non-interactive.",
+      }
+    },
+    demo: {
+      component: CardTabsDemo,
+      props: {
+        source: CardTabsSource,
+        snippetName: "card-tabs",
         language: "handlebars"
       }
     }
