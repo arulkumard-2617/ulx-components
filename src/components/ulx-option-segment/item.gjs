@@ -3,6 +3,7 @@ import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { on } from "@ember/modifier";
 import { joinClassNames } from "../../utils/class-names";
+import { NAMESPACE } from "../../utils/component-config";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import { optionSegmentRowKey } from "../../utils/input-util";
 import UlxRadio from "../ulx-radio/index.gjs";
@@ -16,7 +17,7 @@ import UlxTristateCheckbox from "../ulx-tristate-checkbox/index.gjs";
  * `.ulx-option-segments` group container.
  *
  * @class UlxOptionSegmentItem
- * @param {"radio"|"checkbox"|"tristate"|"basic"} [type="radio"] - Type of the option.
+ * @param {"radio"|"checkbox"|"tristate"|"basic"|"color-swatch"} [type="radio"] - Type of the option.
  * @param {object} item - Option data object:
  *   - {string} value
  *   - {boolean} [selected]
@@ -26,6 +27,8 @@ import UlxTristateCheckbox from "../ulx-tristate-checkbox/index.gjs";
  *   - {string} [description]
  *   - {string} [id] - Unique id for the embedded control when items can reorder; otherwise derived from `@segmentIdBase` + `@itemIndex`.
  *   - {string} [itemClass] - Per-item CSS class for the item root (merged after group `itemClass` from parent)
+ *   - {string} [optionColorCode] - Sets `--ulx-option-color-code` when the group uses **color-swatch** (`segments.less`).
+ *   - {string} [colorCode] - Alias of **optionColorCode**.
  *   - {Array<object>} [nestedItems] - Optional nested checkbox rows.
  * @param {string} [itemClass] - Group-level class from `UlxOptionSegment`; applied before each `item.itemClass`
  * @param {number} [itemIndex=0] - Index in the parent list (stable input ids with `@segmentIdBase`).
@@ -35,6 +38,8 @@ import UlxTristateCheckbox from "../ulx-tristate-checkbox/index.gjs";
  * @param {boolean} [compact=false] - Group-level compact flag (fallback when item.compact is undefined).
  * @param {Function} [onSelect] - Called when the option is toggled:
  *   `(selected, value, event, item) => void`.
+ * @param {string} [radiogroupFocusMemberId] - For `@type="color-swatch"`, set by `UlxOptionSegment` (roving `tabindex`).
+ * @param {Function} [onColorSwatchRadiogroupNavigate] - For `@type="color-swatch"`, set by `UlxOptionSegment` for arrow / Home / End (not a public consumer argument).
  * @param {string} [dataQa] - Root data-qa prefix from parent option segment.
  */
 export default class UlxOptionSegmentItem extends Component {
@@ -56,6 +61,10 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get isBasicType() {
 		return this.type === "basic";
+	}
+
+	get isColorSwatchType() {
+		return this.type === "color-swatch";
 	}
 
 	get rootDataQa() {
@@ -121,6 +130,23 @@ export default class UlxOptionSegmentItem extends Component {
 		return typeof v === "string" && v.length > 0 ? v : "";
 	}
 
+	get colorSwatchAriaLabel() {
+		if (!this.isColorSwatchType || this.hasVisibleTitle) {
+			return undefined;
+		}
+
+		const label = this.fallbackItemLabel || (typeof this.value === "string" ? this.value : "");
+		return typeof label === "string" && label.length > 0 ? label : undefined;
+	}
+
+	get colorSwatchAriaLabelledBy() {
+		if (!this.isColorSwatchType || !this.hasVisibleTitle || !this.optionTitleId) {
+			return undefined;
+		}
+
+		return this.optionTitleId;
+	}
+
 	get value() {
 		return this.item.value;
 	}
@@ -154,6 +180,14 @@ export default class UlxOptionSegmentItem extends Component {
 		);
 	}
 
+	get optionColorInlineStyle() {
+		const raw = this.item.optionColorCode ?? this.item.colorCode;
+		if (typeof raw !== "string" || raw.length === 0) {
+			return undefined;
+		}
+		return `--${NAMESPACE}-option-color-code: ${raw};`;
+	}
+
 	get itemRole() {
 		if (this.usesBuiltInToggleControl) {
 			return undefined;
@@ -167,7 +201,7 @@ export default class UlxOptionSegmentItem extends Component {
 			return "checkbox";
 		}
 
-		if (this.isRadioType) {
+		if (this.isRadioType || this.isColorSwatchType) {
 			return "radio";
 		}
 
@@ -194,6 +228,15 @@ export default class UlxOptionSegmentItem extends Component {
 
 		if (this.isBasicType) {
 			return 0;
+		}
+
+		if (this.isColorSwatchType) {
+			const targetId = this.args.radiogroupFocusMemberId;
+			if (typeof targetId !== "string" || targetId.length === 0) {
+				return -1;
+			}
+
+			return this.stableControlId === targetId ? 0 : -1;
 		}
 
 		return this.isToggleRole ? 0 : undefined;
@@ -338,7 +381,7 @@ export default class UlxOptionSegmentItem extends Component {
 
 			if (this.isCheckboxType) {
 				nextSelected = !this.isSelected;
-			} else if (this.isRadioType) {
+			} else if (this.isRadioType || this.isColorSwatchType) {
 				nextSelected = true;
 			} else {
 				nextSelected = !this.isSelected;
@@ -367,10 +410,32 @@ export default class UlxOptionSegmentItem extends Component {
 
 	@action
 	handleKeyDown(event) {
+		if (this.isDisabled) {
+			return;
+		}
+
+		if (this.isColorSwatchType && typeof this.args.onColorSwatchRadiogroupNavigate === "function") {
+			let intent;
+			if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+				intent = "next";
+			} else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+				intent = "prev";
+			} else if (event.key === "Home") {
+				intent = "first";
+			} else if (event.key === "End") {
+				intent = "last";
+			}
+
+			if (intent) {
+				this.args.onColorSwatchRadiogroupNavigate(intent, this.stableControlId, event);
+				return;
+			}
+		}
+
 		const keyboardActivatable =
 			(this.isToggleRole || this.isBasicType) && !this.usesBuiltInToggleControl;
 
-		if (!keyboardActivatable || this.isDisabled) {
+		if (!keyboardActivatable) {
 			return;
 		}
 
@@ -389,12 +454,16 @@ export default class UlxOptionSegmentItem extends Component {
 	<template>
 		<div
 			class={{this.itemClasses}}
+			style={{this.optionColorInlineStyle}}
 			data-qa={{this.rootDataQa}}
+			id={{if this.isColorSwatchType this.stableControlId}}
 			role={{this.itemRole}}
 			tabindex={{this.tabIndex}}
 			aria-pressed={{this.ariaPressed}}
 			aria-checked={{this.ariaChecked}}
 			aria-disabled={{this.ariaDisabled}}
+			aria-label={{this.colorSwatchAriaLabel}}
+			aria-labelledby={{this.colorSwatchAriaLabelledBy}}
 			{{on "click" this.handleClick}}
 			{{on "keydown" this.handleKeyDown}}
 			...attributes

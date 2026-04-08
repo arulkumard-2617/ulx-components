@@ -12,6 +12,7 @@ export { default as HorizontalDemo } from '../../../components/Demo/OptionSegmen
 export { default as NamedblocksDemo } from '../../../components/Demo/OptionSegment/Namedblocks';
 export { default as NestedDemo } from '../../../components/Demo/OptionSegment/Nested';
 export { default as TristateDemo } from '../../../components/Demo/OptionSegment/Tristate';
+export { default as ColorswatchDemo } from '../../../components/Demo/OptionSegment/Colorswatch';
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
 
@@ -26,3 +27,4 @@ export { default as HorizontalSource } from './snippets/Horizontal.gjs';
 export { default as NamedblocksSource } from './snippets/Namedblocks.gjs';
 export { default as NestedSource } from './snippets/Nested.gjs';
 export { default as TristateSource } from './snippets/Tristate.gjs';
+export { default as ColorswatchSource } from './snippets/Colorswatch.gjs';

@@ -45,6 +45,7 @@ const TOGGLEABLE_PHASE_CLASSES = {
  * @param {string} [ariaLabel] - Accessible label for accordion
  * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-accordion`).
  *
+ * @block header - Optional. Yields (item, index, meta) to replace the default title; meta: { active, disabled }
  * @block content - Optional. Yields (item, index, meta) for tab body; meta: { active, disabled }
  */
 export default class UlxAccordion extends Component {
@@ -421,7 +422,13 @@ export default class UlxAccordion extends Component {
 									/>
 								</span>
 							{{/if}}
-							<span class="accordion-header-title">{{item.header}}</span>
+							{{#if (has-block "header")}}
+								<div class="accordion-header-title">
+									{{yield item index (this.getContentMeta item index) to="header"}}
+								</div>
+							{{else}}
+								<span class="accordion-header-title">{{item.header}}</span>
+							{{/if}}
 							{{#if this.isToggleIconRight}}
 								<span
 									class="accordion-header-icon right

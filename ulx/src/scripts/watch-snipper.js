@@ -7,20 +7,23 @@ const path = require('path');
 	const chokidar = (await import('chokidar')).default;
 
 	const ROOT = process.cwd();
+	const ONCE = process.argv.includes('--once');
 
 	const SRC_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/components/Demo');
 
 	const DOCS_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/documentation/components');
 
-	function getDestinationPath(srcFile) {
+	function parseDemoPath(srcFile) {
 		const relative = path.relative(SRC_ROOT, srcFile);
 		const { dir, name } = path.parse(relative);
 		const [componentName] = dir.split(path.sep);
-
-		// Convert component name to kebab-case
 		const kebabName = componentName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+		return { kebabName, name };
+	}
 
-		// Find the category folder that contains this component
+	function getDestinationPath(srcFile) {
+		const { kebabName, name } = parseDemoPath(srcFile);
+
 		let category = null;
 		const categories = ['collections', 'elements', 'modules']; // Add more categories as needed
 
@@ -32,12 +35,25 @@ const path = require('path');
 			}
 		}
 
-		// Default to collections if not found
 		if (!category) {
 			category = 'collections';
 		}
 
 		return path.join(DOCS_ROOT, category, kebabName, 'snippets', `${name}.gjs.js`);
+	}
+
+	/**
+	 * Some doc routes import snippets from `components/<kebab>/snippets/` instead of
+	 * `components/collections/<kebab>/snippets/`. Mirror the same content when that folder exists.
+	 */
+	function getAlternateDestinationPath(srcFile) {
+		const { kebabName, name } = parseDemoPath(srcFile);
+		const altDir = path.join(DOCS_ROOT, kebabName, 'snippets');
+		if (!fs.existsSync(altDir)) {
+			return null;
+		}
+
+		return path.join(altDir, `${name}.gjs.js`);
 	}
 
 	/**
@@ -59,6 +75,13 @@ const path = require('path');
 		const wrapped = `export default \`\n${escaped}\n\`;\n`;
 
 		fs.writeFileSync(destFile, wrapped, 'utf8');
+
+		const altDest = getAlternateDestinationPath(srcFile);
+		if (altDest && path.resolve(altDest) !== path.resolve(destFile)) {
+			fs.mkdirSync(path.dirname(altDest), { recursive: true });
+			fs.writeFileSync(altDest, wrapped, 'utf8');
+		}
+
 		if (isInitial) return;
 		console.log(`✓ synced ${path.relative(ROOT, srcFile)}`);
 	}
@@ -71,9 +94,13 @@ const path = require('path');
 			fs.unlinkSync(destFile);
 			console.log(`✗ removed ${path.relative(ROOT, destFile)}`);
 		}
-	}
 
-	console.log('👀 Watching demo .gjs files...');
+		const altDest = getAlternateDestinationPath(srcFile);
+		if (altDest && fs.existsSync(altDest)) {
+			fs.unlinkSync(altDest);
+			console.log(`✗ removed ${path.relative(ROOT, altDest)}`);
+		}
+	}
 
 	const gjsFiles = [];
 	function collectGjs(dir) {
@@ -89,6 +116,12 @@ const path = require('path');
 
 	for (const f of gjsFiles) syncFile(f, true);
 	console.log('✓ synced all files to documentation');
+
+	if (ONCE) {
+		process.exit(0);
+	}
+
+	console.log('👀 Watching demo .gjs files...');
 
 	chokidar
 		.watch(SRC_ROOT, {
