@@ -2,8 +2,14 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { UlxInput, UlxField, UlxButton, t, validate } from 'ulx-components';
+import {
+  UlxForm,
+  UlxInput,
+  UlxField,
+  UlxButton,
+  t,
+  validate,
+} from 'ulx-components';
 
 const TEXT_PATTERN_ALT = /^[a-zA-Z0-9\\s\\-_'.,]+$/;
 const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
@@ -80,59 +86,60 @@ export default class Demo extends Component {
   }
 
   <template>
-    <form
+    <UlxForm
+      @size="m-size"
+      @customClass="ulx-grid mb-14"
       novalidate
-      class="ulx-form m-size ulx-grid mb-14"
-      {{on "submit" this.suppressNativeSubmit}}
+      @onSubmit={{this.suppressNativeSubmit}}
     >
+      <:default>
+        <UlxField
+          @label={{t "lbl.name"}}
+          @tooltipMessage="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout"
+          @helpText={{t "msg.input.help"}}
+          @rules={{this.validations.newContactName}}
+          @error={{this.errors.newContactName}}
+          @fieldId="newContactName"
+          @fieldClass="col-6"
+          as |field|
+        >
+          <UlxInput
+            @field={{field}}
+            @value={{this.newContactName}}
+            @onInput={{this.updateNewContactName}}
+            placeholder={{t "lbl.enter.name"}}
+            aria-label={{t "lbl.name"}}
+          />
+        </UlxField>
 
-      <UlxField
-        @label={{t "lbl.name"}}
-        @tooltipMessage="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout"
-        @helpText={{t "msg.input.help"}}
-        @rules={{this.validations.newContactName}}
-        @error={{this.errors.newContactName}}
-        @fieldId="newContactName"
-        @fieldClass="col-6"
-        as |field|
-      >
-        <UlxInput
-          @field={{field}}
-          @value={{this.newContactName}}
-          @onInput={{this.updateNewContactName}}
-          placeholder={{t "lbl.enter.name"}}
-          aria-label={{t "lbl.name"}}
-        />
-      </UlxField>
+        <UlxField
+          @label={{t "lbl.email"}}
+          @helpText={{t "msg.input.help"}}
+          @rules={{this.validations.newContactEmail}}
+          @error={{this.errors.newContactEmail}}
+          @fieldId="newContactEmail"
+          @fieldClass="col-6"
+          as |field|
+        >
+          <UlxInput
+            @field={{field}}
+            @value={{this.newContactEmail}}
+            @onInput={{this.updateNewContactEmail}}
+            placeholder={{t "lbl.enter.email"}}
+            aria-label={{t "lbl.email"}}
+          />
+        </UlxField>
+      </:default>
 
-      <UlxField
-        @label={{t "lbl.email"}}
-        @helpText={{t "msg.input.help"}}
-        @rules={{this.validations.newContactEmail}}
-        @error={{this.errors.newContactEmail}}
-        @fieldId="newContactEmail"
-        @fieldClass="col-6"
-        as |field|
-      >
-        <UlxInput
-          @field={{field}}
-          @value={{this.newContactEmail}}
-          @onInput={{this.updateNewContactEmail}}
-          placeholder={{t "lbl.enter.email"}}
-          aria-label={{t "lbl.email"}}
-        />
-      </UlxField>
-
-      <div class="col-12">
+      <:actions>
         <UlxButton
           @type="button"
           @label={{t "lbl.submit"}}
           @variant="primary"
           @onClick={{this.handleSubmit}}
         />
-      </div>
-
-    </form>
+      </:actions>
+    </UlxForm>
   </template>
 }
 

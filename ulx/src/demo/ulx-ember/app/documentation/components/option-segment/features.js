@@ -11,7 +11,8 @@ import {
   HorizontalDemo,
   NamedblocksDemo,
   NestedDemo,
-  TristateDemo, // Sources
+  TristateDemo,
+  ColorswatchDemo, // Sources
   ImportSource,
   BasicSource,
   TemplateSource,
@@ -21,6 +22,7 @@ import {
   NamedblocksSource,
   NestedSource,
   TristateSource,
+  ColorswatchSource,
 } from './imports';
 
 export const OptionSegmentFeatureItems = [
@@ -200,6 +202,26 @@ export const OptionSegmentFeatureItems = [
       props: {
         source: TristateSource,
         snippetName: 'tri-state',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'color-swatch',
+    sectionNav: 'Colorswatch',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Colorswatch</code> demo uses <code>@customClass="color-swatch"</code> with ULS option-segment swatch styles. Each item sets <code>colorCode</code> (or <code>optionColorCode</code>) so the card background uses <code>--ulx-option-color-code</code>.',
+      },
+    },
+    demo: {
+      component: ColorswatchDemo,
+      props: {
+        source: ColorswatchSource,
+        snippetName: 'color-swatch',
         language: 'handlebars',
       },
     },

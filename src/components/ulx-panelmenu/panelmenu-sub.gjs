@@ -58,11 +58,14 @@ export default class UlxPanelmenuSub extends Component {
 	}
 
 	get listRole() {
+		// First list under panel content behaves as tree root; nested lists are groups.
 		return this.level === 0 ? "tree" : "group";
 	}
 
 	get listClass() {
-		return this.level === 0 ? "panelmenu-root-list" : "panelmenu-submenu-list";
+		// Level 0: direct children under `.panelmenu-content` (panel body list).
+		// Deeper levels: nested lists under expandable items.
+		return this.level === 0 ? "panelmenu-panel-list" : "panelmenu-nested-list";
 	}
 
 	@action
@@ -340,21 +343,6 @@ export default class UlxPanelmenuSub extends Component {
 											onClick=(fn this.onItemClick item index)
 										}}
 									{{else}}
-										{{#if (this.hasChildren item)}}
-											<span class="panelmenu-submenu-icon" aria-hidden="true">
-												<UlxIcon
-													@type="font"
-													@iconName={{if
-														(this.isExpanded item index)
-														this.collapseIconName
-														this.expandIconName
-													}}
-													@componentClass="bs-icons1"
-													@size={{this.toggleIconSize}}
-												/>
-											</span>
-										{{/if}}
-
 										{{#if item.icon}}
 											{{#let (this.getItemIconMeta item) as |meta|}}
 												<span class="panelmenu-item-icon" aria-hidden="true">
@@ -369,6 +357,21 @@ export default class UlxPanelmenuSub extends Component {
 										{{/if}}
 
 										<span class="panelmenu-item-text">{{item.label}}</span>
+
+										{{#if (this.hasChildren item)}}
+											<span class="panelmenu-submenu-icon" aria-hidden="true">
+												<UlxIcon
+													@type="font"
+													@iconName={{if
+														(this.isExpanded item index)
+														this.collapseIconName
+														this.expandIconName
+													}}
+													@componentClass="bs-icons1"
+													@size={{this.toggleIconSize}}
+												/>
+											</span>
+										{{/if}}
 									{{/if}}
 								</a>
 							</div>
