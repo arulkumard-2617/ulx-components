@@ -7,58 +7,209 @@ import {
   UlxFieldSet,
   UlxField,
   UlxInput,
-  UlxCheckbox,
+  UlxTextarea,
+  UlxDropdown,
   UlxButton,
   UlxToast,
-  t,
 } from 'ulx-components';
 
-const EMAIL_REGEX = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+const PHONE_DIGITS_REGEX = /^\\d{10}$/;
+
+const MSG_REQUIRED = 'This field is required.';
+const MSG_MIN_LEN = (min) => \`Minimum \${min} characters required.\`;
+const MSG_MAX_LEN = (max) => \`Maximum \${max} characters allowed.\`;
+
+const APP_NAME_MIN_LEN = 3;
+const APP_NAME_MAX_LEN = 30;
+const APP_DESC_MIN_LEN = 10;
+const APP_DESC_MAX_LEN = 500;
+
+const MSG_PHONE_INVALID = 'Enter exactly 10 digits.';
+const MSG_FORM_ERRORS = 'Please fix the errors below.';
+const MSG_FORM_SUCCESS = 'Form submitted successfully.';
+
+const COUNTRY_OPTIONS = [
+  { label: 'United States', value: 'US' },
+  { label: 'India', value: 'IN' },
+  { label: 'United Kingdom', value: 'GB' },
+];
+
+const STATES_BY_COUNTRY = {
+  US: [
+    { label: 'California', value: 'CA' },
+    { label: 'New York', value: 'NY' },
+    { label: 'Texas', value: 'TX' },
+    { label: 'Washington', value: 'WA' },
+  ],
+  IN: [
+    { label: 'Karnataka', value: 'KA' },
+    { label: 'Maharashtra', value: 'MH' },
+    { label: 'Tamil Nadu', value: 'TN' },
+    { label: 'Telangana', value: 'TS' },
+  ],
+  GB: [
+    { label: 'England', value: 'ENG' },
+    { label: 'Scotland', value: 'SCT' },
+    { label: 'Wales', value: 'WLS' },
+  ],
+};
 
 export default class DemoFieldsetFormLayout extends Component {
+  countryOptions = COUNTRY_OPTIONS;
+
+  phoneKeyfilter = /^\\d{0,10}$/;
+
   @tracked messages = [];
-  @tracked name = '';
-  @tracked email = '';
-  @tracked emailOptIn = false;
-  @tracked nameError = null;
-  @tracked emailError = null;
+  @tracked appName = 'Zylker Developer Summit';
+  @tracked appDescription =
+    'Join us for the annual developer summit featuring the latest in technology and innovation.';
+  @tracked country = null;
+  @tracked state = null;
+  @tracked phone = '';
+  @tracked appNameError = null;
+  @tracked appDescriptionError = null;
+  @tracked countryError = null;
+  @tracked stateError = null;
+  @tracked phoneError = null;
 
-  @action
-  handleNameInput(event) {
-    this.name = event.target.value;
-    this.nameError = null;
+  get appNameRules() {
+    return {
+      required: MSG_REQUIRED,
+      minLength: {
+        value: APP_NAME_MIN_LEN,
+        msg: MSG_MIN_LEN(APP_NAME_MIN_LEN),
+      },
+      maxLength: {
+        value: APP_NAME_MAX_LEN,
+        msg: MSG_MAX_LEN(APP_NAME_MAX_LEN),
+      },
+    };
+  }
+
+  get appDescriptionRules() {
+    return {
+      required: MSG_REQUIRED,
+      minLength: {
+        value: APP_DESC_MIN_LEN,
+        msg: MSG_MIN_LEN(APP_DESC_MIN_LEN),
+      },
+      maxLength: {
+        value: APP_DESC_MAX_LEN,
+        msg: MSG_MAX_LEN(APP_DESC_MAX_LEN),
+      },
+    };
+  }
+
+  get countryFieldRules() {
+    return { required: MSG_REQUIRED };
+  }
+
+  get stateFieldRules() {
+    return { required: MSG_REQUIRED };
+  }
+
+  get phoneFieldRules() {
+    return {
+      required: MSG_REQUIRED,
+      maxLength: {
+        value: 10,
+        msg: MSG_PHONE_INVALID,
+      },
+    };
+  }
+
+  get stateOptions() {
+    const list = this.country ? STATES_BY_COUNTRY[this.country] : null;
+    return Array.isArray(list) ? list : [];
   }
 
   @action
-  handleEmailInput(event) {
-    this.email = event.target.value;
-    this.emailError = null;
+  handleAppNameInput(event) {
+    this.appName = event.target.value;
+    this.appNameError = null;
   }
 
   @action
-  handleEmailOptIn(checked) {
-    this.emailOptIn = checked;
+  handleAppDescriptionInput(event) {
+    this.appDescription = event.target.value;
+    this.appDescriptionError = null;
+  }
+
+  @action
+  handleCountryChange(value) {
+    this.country = value;
+    this.state = null;
+    this.countryError = null;
+    this.stateError = null;
+  }
+
+  @action
+  handleStateChange(value) {
+    this.state = value;
+    this.stateError = null;
+  }
+
+  @action
+  handlePhoneInput(event) {
+    const raw = event.target.value ?? '';
+    this.phone = raw.replace(/\\D/g, '').slice(0, 10);
+    this.phoneError = null;
   }
 
   @action
   handleSubmit() {
     let valid = true;
 
-    if (!this.name?.trim()) {
-      this.nameError = 'This field is required.';
+    const nameTrimmed = this.appName?.trim() ?? '';
+    if (!nameTrimmed) {
+      this.appNameError = MSG_REQUIRED;
+      valid = false;
+    } else if (nameTrimmed.length < APP_NAME_MIN_LEN) {
+      this.appNameError = MSG_MIN_LEN(APP_NAME_MIN_LEN);
+      valid = false;
+    } else if (nameTrimmed.length > APP_NAME_MAX_LEN) {
+      this.appNameError = MSG_MAX_LEN(APP_NAME_MAX_LEN);
       valid = false;
     } else {
-      this.nameError = null;
+      this.appNameError = null;
     }
 
-    if (!this.email?.trim()) {
-      this.emailError = 'This field is required.';
+    const descTrimmed = this.appDescription?.trim() ?? '';
+    if (!descTrimmed) {
+      this.appDescriptionError = MSG_REQUIRED;
       valid = false;
-    } else if (!EMAIL_REGEX.test(this.email.trim())) {
-      this.emailError = 'Please enter a valid email address.';
+    } else if (descTrimmed.length < APP_DESC_MIN_LEN) {
+      this.appDescriptionError = MSG_MIN_LEN(APP_DESC_MIN_LEN);
+      valid = false;
+    } else if (descTrimmed.length > APP_DESC_MAX_LEN) {
+      this.appDescriptionError = MSG_MAX_LEN(APP_DESC_MAX_LEN);
       valid = false;
     } else {
-      this.emailError = null;
+      this.appDescriptionError = null;
+    }
+
+    if (!this.country) {
+      this.countryError = MSG_REQUIRED;
+      valid = false;
+    } else {
+      this.countryError = null;
+    }
+
+    if (this.stateOptions.length > 0 && !this.state) {
+      this.stateError = MSG_REQUIRED;
+      valid = false;
+    } else {
+      this.stateError = null;
+    }
+
+    if (!this.phone?.length) {
+      this.phoneError = MSG_REQUIRED;
+      valid = false;
+    } else if (!PHONE_DIGITS_REGEX.test(this.phone)) {
+      this.phoneError = MSG_PHONE_INVALID;
+      valid = false;
+    } else {
+      this.phoneError = null;
     }
 
     if (!valid) {
@@ -67,7 +218,7 @@ export default class DemoFieldsetFormLayout extends Component {
         {
           id: \`fieldset-form-error-\${Date.now()}\`,
           variant: 'error',
-          summary: 'Please fix the errors below.',
+          summary: MSG_FORM_ERRORS,
         },
       ];
       return;
@@ -78,7 +229,7 @@ export default class DemoFieldsetFormLayout extends Component {
       {
         id: \`fieldset-form-ok-\${Date.now()}\`,
         variant: 'success',
-        summary: 'Form submitted successfully.',
+        summary: MSG_FORM_SUCCESS,
       },
     ];
   }
@@ -93,78 +244,132 @@ export default class DemoFieldsetFormLayout extends Component {
       @size="m-size"
       @onSubmit={{this.handleSubmit}}
       @customClass="flex flex-col gap-8"
-      aria-label={{t "lbl.doc.fieldset.form.aria"}}
+      aria-label="Sample registration form"
+      novalidate
     >
       <:default>
         <UlxFieldSet
-          class="col-12"
-          @layout="grid"
-          @legend={{t "lbl.doc.fieldset.legend.contact"}}
-          @description={{t "msg.doc.fieldset.desc.contact"}}
-          @customClass="col-2 gap-6"
+          class="col-12 w-full"
+          @layout="stack"
+          @legend="Basic information"
+          @customClass="gap-6"
         >
           <UlxField
-            @label={{t "lbl.doc.fieldset.name"}}
-            @fieldId="demo-fieldset-form-name"
-            @fieldClass="field"
-            @error={{this.nameError}}
-            as |field|
+            @fieldId="demo-fieldset-form-app-name"
+            @fieldClass="w-full"
+            @rules={{this.appNameRules}}
+            @error={{this.appNameError}}
+            @tooltipMessage="The public name shown to users when they install or open your app."
           >
-            <UlxInput
-              @field={{field}}
-              @value={{this.name}}
-              @onInput={{this.handleNameInput}}
-              @size="m-size"
-              autocomplete="name"
-            />
+            <:label>
+              <span class="flex justify-between items-center gap-4 w-full">
+                <span>App name</span>
+              </span>
+            </:label>
+            <:default as |field|>
+              <UlxInput
+                @field={{field}}
+                @value={{this.appName}}
+                @onInput={{this.handleAppNameInput}}
+                @size="m-size"
+                autocomplete="off"
+              />
+            </:default>
           </UlxField>
+
           <UlxField
-            @label={{t "lbl.doc.fieldset.email"}}
-            @fieldId="demo-fieldset-form-email"
-            @fieldClass="field"
-            @error={{this.emailError}}
-            as |field|
+            @fieldId="demo-fieldset-form-app-description"
+            @fieldClass="w-full"
+            @rules={{this.appDescriptionRules}}
+            @error={{this.appDescriptionError}}
           >
-            <UlxInput
-              @field={{field}}
-              @value={{this.email}}
-              @onInput={{this.handleEmailInput}}
-              @size="m-size"
-              type="email"
-              autocomplete="email"
-            />
+            <:label>
+              <span>App description</span>
+            </:label>
+            <:default as |field|>
+              <UlxTextarea
+                @field={{field}}
+                @value={{this.appDescription}}
+                @onInput={{this.handleAppDescriptionInput}}
+                @size="m-size"
+                rows="4"
+                class="w-full"
+              />
+            </:default>
           </UlxField>
         </UlxFieldSet>
 
         <UlxFieldSet
-          class="col-12"
-          @legend={{t "lbl.doc.fieldset.legend.delivery"}}
-          @description={{t "msg.doc.fieldset.desc.delivery"}}
+          class="col-12 w-full"
+          @legend="Location & contact"
           @layout="stack"
-          @customClass="gap-4"
+          @customClass="gap-6"
         >
-          <div class="field">
-            <UlxCheckbox
-              @itemLabel={{t "lbl.doc.fieldset.notify.email"}}
-              @checked={{this.emailOptIn}}
-              @onCheckedChange={{this.handleEmailOptIn}}
+          <UlxField
+            @label="Country"
+            @fieldId="demo-fieldset-form-country"
+            @fieldClass="w-full"
+            @rules={{this.countryFieldRules}}
+            @error={{this.countryError}}
+            as |field|
+          >
+            <UlxDropdown
+              @field={{field}}
+              @options={{this.countryOptions}}
+              @value={{this.country}}
+              @onChange={{this.handleCountryChange}}
+              @placeholder="Select a Country"
+              @size="m-size"
             />
-          </div>
+          </UlxField>
+
+          <UlxField
+            @label="State / Province"
+            @fieldId="demo-fieldset-form-state"
+            @fieldClass="w-full"
+            @rules={{this.stateFieldRules}}
+            @error={{this.stateError}}
+            as |field|
+          >
+            <UlxDropdown
+              @field={{field}}
+              @options={{this.stateOptions}}
+              @value={{this.state}}
+              @onChange={{this.handleStateChange}}
+              @placeholder="Select state or province"
+              @disabled={{if this.country false true}}
+              @size="m-size"
+            />
+          </UlxField>
+
+          <UlxField
+            @label="Phone"
+            @fieldId="demo-fieldset-form-phone"
+            @fieldClass="w-full"
+            @rules={{this.phoneFieldRules}}
+            @error={{this.phoneError}}
+            as |field|
+          >
+            <UlxInput
+              @field={{field}}
+              @error={{this.phoneError}}
+              @value={{this.phone}}
+              @onInput={{this.handlePhoneInput}}
+              @keyfilter={{this.phoneKeyfilter}}
+              @size="m-size"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              @placeholder="5551234567"
+            />
+          </UlxField>
         </UlxFieldSet>
       </:default>
 
       <:actions>
         <div class="flex flex-wrap gap-4">
-          <UlxButton
-            @type="submit"
-            @label={{t "lbl.submit"}}
-            @variant="primary"
-          />
-          <UlxButton
-            @type="reset"
-            @label={{t "lbl.reset"}}
-            @variant="secondary"
-          />
+          <UlxButton @type="submit" @label="Submit" @variant="primary" />
+          <UlxButton @type="reset" @label="Reset" @variant="secondary" />
         </div>
       </:actions>
     </UlxForm>

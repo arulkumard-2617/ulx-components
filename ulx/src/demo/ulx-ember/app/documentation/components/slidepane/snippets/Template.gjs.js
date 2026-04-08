@@ -39,7 +39,6 @@ export default class TemplateDemoComponent extends Component {
       <UlxSlidePane
         @visible={{this.isVisible}}
         @position="right"
-        @width="400px"
         @onHide={{this.closePane}}
         @onDone={{this.handleDone}}
         @onCancel={{this.closePane}}
