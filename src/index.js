@@ -68,8 +68,8 @@ export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
 export { SVG_NAMESPACE } from './utils/svg-namespace.js';
 
 // ── i18n template helpers ───────────────────────────────────
-export { default as tHelper } from './helpers/t.js';
-export { default as tSafeHelper } from './helpers/t-safe.js';
+export { default as ulxTHelper } from './helpers/ulx-t.js';
+export { default as ulxTSafeHelper } from './helpers/ulx-t-safe.js';
 
 // Export services
 export { default as ModalStackService } from './services/modal-stack.js';
