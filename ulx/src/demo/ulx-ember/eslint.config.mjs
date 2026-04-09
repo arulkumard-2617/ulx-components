@@ -18,7 +18,6 @@ import js from '@eslint/js';
 import emberRecommended from 'eslint-plugin-ember/configs/recommended';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import qunit from 'eslint-plugin-qunit';
-import n from 'eslint-plugin-n';
 
 import babelParser from '@babel/eslint-parser';
 
@@ -99,10 +98,6 @@ export default [
       'ember-cli-build.js',
       'scripts/**/*.js',
     ],
-    plugins: {
-      n,
-    },
-
     languageOptions: {
       sourceType: 'script',
       ecmaVersion: 'latest',
@@ -116,10 +111,6 @@ export default [
    */
   {
     files: ['**/*.mjs'],
-    plugins: {
-      n,
-    },
-
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',
@@ -134,9 +125,6 @@ export default [
    */
   {
     files: ['appsail/**/*.js', 'tests/test-helper.js'],
-    plugins: {
-      n,
-    },
     languageOptions: {
       parser: babelParser,
       sourceType: 'module',
