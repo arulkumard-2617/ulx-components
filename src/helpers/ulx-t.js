@@ -6,22 +6,22 @@ import { t as translate } from '../utils/i18n';
  *
  * Usage in .gjs templates:
  *
- *   {{t "btn.save"}}
- *   {{t "lbl.day.no" number=3}}
- *   {{t "err.required" field="Email"}}
+ *   {{ulx-t "btn.save"}}
+ *   {{ulx-t "lbl.day.no" number=3}}
+ *   {{ulx-t "err.required" field="Email"}}
  *
  * The first positional argument is the translation key.
  * All named arguments are treated as interpolation parameters.
  *
  * @example
  *   // Import at the top of a .gjs file:
- *   import tHelper from "ulx-components/helpers/t";
+ *   import ulxTHelper from "ulx-components/helpers/ulx-t";
  *
  *   <template>
- *     <span>{{tHelper "msg.welcome.user" name=@userName}}</span>
+ *     <span>{{ulxTHelper "msg.welcome.user" name=@userName}}</span>
  *   </template>
  */
-export default helper(function t(positional, named) {
+export default helper(function ulxT(positional, named) {
 	const key = positional[0];
 	return translate(key, named);
 });

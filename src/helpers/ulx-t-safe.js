@@ -7,16 +7,16 @@ import { tSafe } from '../utils/i18n';
  *
  * Usage in .gjs templates:
  *
- *   {{tSafeHelper "msg.welcome.html" name="Ada"}}
+ *   {{ulx-t-safe "msg.welcome.html" name="Ada"}}
  *
  * @example
- *   import tSafeHelper from "ulx-components/helpers/t-safe";
+ *   import ulxTSafeHelper from "ulx-components/helpers/ulx-t-safe";
  *
  *   <template>
- *     {{tSafeHelper "msg.formatted.message" name="Ada"}}
+ *     {{ulxTSafeHelper "msg.formatted.message" name="Ada"}}
  *   </template>
  */
-export default helper(function tSafeHelperFn(positional, named) {
+export default helper(function ulxTSafeHelperFn(positional, named) {
 	const key = positional[0];
 	return tSafe(key, named);
 });
