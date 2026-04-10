@@ -168,16 +168,18 @@ export default class UlxSlidePane extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	get slidePaneZIndex() {
+		return this.args.visible ? this.modalStack.getZIndex(this) : null;
+	}
+
+	get maskStyle() {
+		const zIndex = this.slidePaneZIndex;
+		return zIndex != null ? `z-index: ${zIndex}` : "";
+	}
+
 	get slidePaneStyle() {
-		const { visible } = this.args;
-		const styles = [];
-
-		if (visible) {
-			const zIndex = this.modalStack.getZIndex(this);
-			styles.push(`z-index: ${zIndex}`);
-		}
-
-		return styles.join("; ");
+		const zIndex = this.slidePaneZIndex;
+		return zIndex != null ? `z-index: ${zIndex}` : "";
 	}
 
 	get closeOnBackdrop() {
@@ -319,6 +321,7 @@ export default class UlxSlidePane extends Component {
 					<div
 						class={{this.maskClasses}}
 						data-qa={{this.getDataQa "mask"}}
+						style={{this.maskStyle}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}
 						{{on "click" this.handleBackdropClick}}
 						role="presentation"

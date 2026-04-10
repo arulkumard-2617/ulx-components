@@ -170,7 +170,7 @@ export const TabMenuFeatureItems = [
       props: {
         as: "span",
         content:
-          "The <code>Card Tabs</code> variant renders each tab as a card with an icon, label, and a dot indicator. Use <code>@variant=\"card-tabs\"</code> to activate this layout. Each item supports <code>icon</code>, <code>iconType</code>, <code>iconComponentClass</code>, and <code>iconSize</code> for the icon display. The active card is highlighted with a primary border, background, and a filled dot indicator. Disabled tabs are visually dimmed and non-interactive.",
+          "The <code>Card Tabs</code> demo shows the <code>card-tabs</code> variant with icon-based cards and a disabled tab.",
       }
     },
     demo: {
