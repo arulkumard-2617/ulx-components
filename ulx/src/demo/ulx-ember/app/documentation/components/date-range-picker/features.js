@@ -1,12 +1,14 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
 	BasicDemo,
+	LocaleDemo,
 	PreloadDemo,
 	RangewithdisableDemo,
 	ShowiconDemo,
 	WrapexternalDemo,
 	ImportSource,
 	BasicSource,
+	LocaleSource,
 	PreloadSource,
 	RangewithdisableSource,
 	ShowiconSource,
@@ -46,6 +48,13 @@ export const DateRangePickerFeatureItems = [
 		'<code>mode: "range"</code> — same as flatpickr <a href="https://flatpickr.js.org/examples/#range-calendar" target="_blank" rel="noopener noreferrer">Range calendar</a>.',
 		BasicDemo,
 		BasicSource
+	),
+	feat(
+		'locale',
+		'Locale',
+		'Imported flatpickr locale object via <code>@locale</code> (Spanish example).',
+		LocaleDemo,
+		LocaleSource
 	),
 	feat(
 		'preload',

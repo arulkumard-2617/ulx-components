@@ -19,6 +19,8 @@ export const FLATPICKR_SETTABLE_KEYS = [
 	'time_24hr',
 	'minTime',
 	'maxTime',
+	'minuteIncrement',
+	'hourIncrement',
 	'conjunction',
 	'allowInput',
 	'clickOpens',

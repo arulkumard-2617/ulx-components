@@ -15,12 +15,14 @@ import {
 	FilledDemo,
 	InlineDemo,
 	InvalidDemo,
+	LocaleDemo,
 	MinmaxDemo,
 	MultipleDemo,
 	MultipleconjunctionDemo,
 	MultiplepreloadDemo,
 	PreloadDemo,
 	ShowiconDemo,
+	TimesteppingDemo,
 	WeeknumbersDemo,
 	WrapexternalDemo,
 	ImportSource,
@@ -39,12 +41,14 @@ import {
 	FilledSource,
 	InlineSource,
 	InvalidSource,
+	LocaleSource,
 	MinmaxSource,
 	MultipleSource,
 	MultipleconjunctionSource,
 	MultiplepreloadSource,
 	PreloadSource,
 	ShowiconSource,
+	TimesteppingSource,
 	WeeknumbersSource,
 	WrapexternalSource
 } from './imports';
@@ -82,6 +86,13 @@ export const DatePickerFeatureItems = [
 		'Flatpickr with default options (see <a href="https://flatpickr.js.org/examples/" target="_blank" rel="noopener noreferrer">flatpickr examples</a>).',
 		BasicDemo,
 		BasicSource
+	),
+	feat(
+		'locale',
+		'Locale',
+		'Imported flatpickr locale object via <code>@locale</code> (Spanish example).',
+		LocaleDemo,
+		LocaleSource
 	),
 	feat(
 		'datetime',
@@ -180,6 +191,13 @@ export const DatePickerFeatureItems = [
 		'<code>minTime</code> / <code>maxTime</code> when <code>enableTime</code> is on.',
 		DatetimelimitsDemo,
 		DatetimelimitsSource
+	),
+	feat(
+		'time-stepping',
+		'Time stepping',
+		'<code>@minuteIncrement</code> and <code>@hourIncrement</code> with <code>@enableTime</code>.',
+		TimesteppingDemo,
+		TimesteppingSource
 	),
 	feat(
 		'inline',

@@ -13,12 +13,14 @@ export { default as EnablespecificDemo } from '../../../components/Demo/DatePick
 export { default as FilledDemo } from '../../../components/Demo/DatePicker/Filled';
 export { default as InlineDemo } from '../../../components/Demo/DatePicker/Inline';
 export { default as InvalidDemo } from '../../../components/Demo/DatePicker/Invalid';
+export { default as LocaleDemo } from '../../../components/Demo/DatePicker/Locale';
 export { default as MinmaxDemo } from '../../../components/Demo/DatePicker/Minmax';
 export { default as MultipleDemo } from '../../../components/Demo/DatePicker/Multiple';
 export { default as MultipleconjunctionDemo } from '../../../components/Demo/DatePicker/Multipleconjunction';
 export { default as MultiplepreloadDemo } from '../../../components/Demo/DatePicker/Multiplepreload';
 export { default as PreloadDemo } from '../../../components/Demo/DatePicker/Preload';
 export { default as ShowiconDemo } from '../../../components/Demo/DatePicker/Showicon';
+export { default as TimesteppingDemo } from '../../../components/Demo/DatePicker/Timestepping';
 export { default as WeeknumbersDemo } from '../../../components/Demo/DatePicker/Weeknumbers';
 export { default as WrapexternalDemo } from '../../../components/Demo/DatePicker/Wrapexternal';
 
@@ -38,11 +40,13 @@ export { default as EnablespecificSource } from './snippets/Enablespecific.gjs';
 export { default as FilledSource } from './snippets/Filled.gjs';
 export { default as InlineSource } from './snippets/Inline.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
+export { default as LocaleSource } from './snippets/Locale.gjs';
 export { default as MinmaxSource } from './snippets/Minmax.gjs';
 export { default as MultipleSource } from './snippets/Multiple.gjs';
 export { default as MultipleconjunctionSource } from './snippets/Multipleconjunction.gjs';
 export { default as MultiplepreloadSource } from './snippets/Multiplepreload.gjs';
 export { default as PreloadSource } from './snippets/Preload.gjs';
 export { default as ShowiconSource } from './snippets/Showicon.gjs';
+export { default as TimesteppingSource } from './snippets/Timestepping.gjs';
 export { default as WeeknumbersSource } from './snippets/Weeknumbers.gjs';
 export { default as WrapexternalSource } from './snippets/Wrapexternal.gjs';

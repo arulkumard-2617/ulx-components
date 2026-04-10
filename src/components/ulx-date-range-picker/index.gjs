@@ -10,6 +10,9 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
 /**
  * Date range field using flatpickr (`mode: "range"`).
  *
+ * Timezones: flatpickr works in local wall time. For a fixed zone or UTC, use `@parseDate` and
+ * `@formatDate` to convert at the boundary, or pass a plugin via `@flatpickrOptions`.
+ *
  * @class UlxDateRangePicker
  * @param {Array<Date|string|null|undefined>} [value] - Tuple `[start, end]` when complete
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
@@ -21,6 +24,11 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {string} [minTime]
  * @param {string} [maxTime]
  * @param {boolean} [time_24hr]
+ * @param {string|object} [locale] - Flatpickr locale key or imported locale object
+ * @param {number} [minuteIncrement=5] - Minute step when `enableTime` is true
+ * @param {number} [hourIncrement=1] - Hour step when `enableTime` is true
+ * @param {string} [position='auto'] - Popup position (`auto`, `above`, `below`, etc.)
+ * @param {function|function[]} [onDayCreate] - Per-day hook merged with built-in a11y styling
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
@@ -34,6 +42,11 @@ export default class UlxDateRangePicker extends Component {
 	get fpOptions() {
 		const {
 			dateFormat = "Y-m-d",
+			locale,
+			minuteIncrement,
+			hourIncrement,
+			position,
+			onDayCreate,
 			minDate,
 			maxDate,
 			disable,
@@ -59,6 +72,11 @@ export default class UlxDateRangePicker extends Component {
 		const o = {
 			mode: "range",
 			dateFormat,
+			locale,
+			minuteIncrement,
+			hourIncrement,
+			position,
+			onDayCreate,
 			minDate,
 			maxDate,
 			disable,

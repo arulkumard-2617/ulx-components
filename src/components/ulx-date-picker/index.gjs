@@ -10,6 +10,9 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
 /**
  * Single- or multi-date field using flatpickr (popup or inline).
  *
+ * Timezones: flatpickr works in local wall time. For a fixed zone or UTC, use `@parseDate` and
+ * `@formatDate` to convert at the boundary, or pass a plugin via `@flatpickrOptions`.
+ *
  * @class UlxDatePicker
  * @param {Date|string|null} [value] - Selected date (single) or use `values` shape via value for multiple
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
@@ -17,6 +20,11 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
+ * @param {string|object} [locale] - Flatpickr locale key or imported locale object (e.g. from `flatpickr/dist/l10n/...`)
+ * @param {number} [minuteIncrement=5] - Minute step when `enableTime` is true
+ * @param {number} [hourIncrement=1] - Hour step when `enableTime` is true
+ * @param {string} [position='auto'] - Popup position (`auto`, `above`, `below`, `auto left`, etc.)
+ * @param {function|function[]} [onDayCreate] - Per-day hook merged with built-in a11y styling
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (hooks, plugins, etc.)
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
@@ -34,6 +42,11 @@ export default class UlxDatePicker extends Component {
 	get fpOptions() {
 		const {
 			dateFormat = "Y-m-d",
+			locale,
+			minuteIncrement,
+			hourIncrement,
+			position,
+			onDayCreate,
 			minDate,
 			maxDate,
 			disable,
@@ -59,6 +72,11 @@ export default class UlxDatePicker extends Component {
 		const o = {
 			mode: this.mode,
 			dateFormat,
+			locale,
+			minuteIncrement,
+			hourIncrement,
+			position,
+			onDayCreate,
 			minDate,
 			maxDate,
 			disable,
