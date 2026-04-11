@@ -595,7 +595,7 @@ const enUs = {
 	'msg.docs.walkthrough.run.documentation':
 		'From the <code>ulx-ember</code> demo app directory, run the dev server to view the docs and your new pages locally.',
 	'msg.docs.walkthrough.run.documentation.followup':
-		'Then open <code>http://localhost:4200</code>. New demo pages and variations appear under the relevant sidebar section.',
+		'Then open <code>localhost:4200</code>. New demo pages and variations appear under the relevant sidebar section.',
 	'msg.docs.walkthrough.create.demo.page':
 		'Scaffold a new demo page for a component. Use <code>--category</code> (for example: collections, elements, or modules) and optionally <code>--submodule</code> to match your docs structure.',
 	'msg.docs.walkthrough.delete.demo.page':

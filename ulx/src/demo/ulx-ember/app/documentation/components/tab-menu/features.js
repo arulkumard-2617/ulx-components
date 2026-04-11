@@ -19,7 +19,7 @@ import {
   RouterSource,
   CommandSource,
   AccessibilitySource,
-  CardTabsSource,
+  CardTabsSource
 } from './imports';
 
 export const TabMenuFeatureItems = [
@@ -170,7 +170,7 @@ export const TabMenuFeatureItems = [
       props: {
         as: "span",
         content:
-          "The <code>Card Tabs</code> demo shows the <code>card-tabs</code> variant with icon-based cards and a disabled tab.",
+          "The <code>Card Tabs</code> demo shows the <code>card-tabs</code> variant with icon-based cards and a disabled tab."
       }
     },
     demo: {
