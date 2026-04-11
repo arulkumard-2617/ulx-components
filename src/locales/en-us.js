@@ -424,6 +424,7 @@ const enUs = {
 	'lbl.paginator.choose': 'Choose',
 	'lbl.paginator.previous': 'Previous',
 	'lbl.paginator.next': 'Next',
+	'lbl.paginator.recordsPerPage': 'Records per Page',
 
 	// ── SelectButton demo ────────────────────────────────────
 	'demo.selectbutton.off': 'Off',

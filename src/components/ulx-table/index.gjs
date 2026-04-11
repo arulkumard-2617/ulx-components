@@ -2,51 +2,41 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
-import { fn } from "@ember/helper";
-import { on } from "@ember/modifier";
 import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
 import eq from "ember-truth-helpers/helpers/eq";
-import not from "ember-truth-helpers/helpers/not";
-import gt from "ember-truth-helpers/helpers/gt";
 import { getComponentClass } from "../../utils/component-config.js";
 import {
-	sortItems,
-	multiSortItems,
-	filterItems,
-	paginateItems,
 	exportCSV,
 	reorderArray,
 	getFieldValue,
 	isSpecialColumn,
 	parseSortBy,
+	formatSortBy,
+	getNextSingleSortState,
+	getNextMultiSortMeta,
+	applySelectionToFilters,
+	applySelectionMapToFilters,
+	processAndPaginateData,
+	resolvePersistenceStorage,
+	resolveGlobalFilterFields,
+	resolveVisibleColumns,
+	resolveOrderedColumns,
+	rehydrateColumnOrder,
 	saveTableState,
 	loadTableState
 } from "./utils.js";
-import TableHeader from "./table-header.gjs";
-import TableBody from "./table-body.gjs";
-import TableFooter from "./table-footer.gjs";
-import ManageColumns from "./manage-columns.gjs";
-import FilterOverlay from "./filter-overlay.gjs";
-import SortOptions from "./sort-options.gjs";
-import UlxPaginator from "../ulx-paginator/index.gjs";
-import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import UlxButton from "../ulx-button/index.gjs";
-import UlxIconButton from "../ulx-icon-button/index.gjs";
-import UlxButtonGroup from "../ulx-button-group/index.gjs";
-import UlxIcon from "../ulx-icon/index.gjs";
-import UlxSelectButton from "../ulx-select-button/index.gjs";
-import UlxInput from "../ulx-input/index.gjs";
-import UlxIconInput from "../ulx-icon-input/index.gjs";
-import UlxSlidePane from "../ulx-slide-pane/index.gjs";
-import UlxPopup from "../ulx-popup/index.gjs";
-import UlxAccordion from "../ulx-accordion/index.gjs";
-import UlxCheckbox from "../ulx-checkbox/index.gjs";
-import UlxCheckboxItem from "../ulx-checkbox/checkbox-item.gjs";
-import UlxCard from "../ulx-card/index.gjs";
-import UlxChip from "../ulx-chip/index.gjs";
-import UlxDataView from "../ulx-data-view/index.gjs";
-import UlxEmptyState from "../ulx-empty-state/index.gjs";
+import TableToolbar from "./table-toolbar.gjs";
+import TableFilterBubblesBar from "./table-filter-bubbles-bar.gjs";
+import TablePaginatorRow from "./table-paginator-row.gjs";
+import TableLoadingOverlay from "./table-loading-overlay.gjs";
+import TableViewDetailed from "./table-view-detailed.gjs";
+import TableViewCard from "./table-view-card.gjs";
+import TableViewVertical from "./table-view-vertical.gjs";
+import TableGridShell from "./table-grid-shell.gjs";
+import TableEmptyState from "./table-empty-state.gjs";
+import TableOverlays from "./table-overlays.gjs";
 import { t } from "../../utils/i18n.js";
 
 /**
@@ -132,8 +122,8 @@ import { t } from "../../utils/i18n.js";
  * @param {number}  [first=0]               - zero-based first row index
  * @param {number}  [totalRecords]          - total records (lazy mode)
  * @param {Array}   [rowsPerPageOptions]    - e.g. [10, 25, 50]
- * @param {string}  [paginatorTemplate]     - paginator layout string
- * @param {string}  [currentPageReportTemplate]
+ * @param {string}  [paginatorTemplate]     - paginator layout string; defaults to prev/page links/next + rows dropdown + current page report (no first/last). Include `CurrentPageReport` in the string to show the report; omit that token to hide it.
+ * @param {string}  [currentPageReportTemplate] - Placeholders: {currentPage}, {totalPages}, {first}, {last}, {rows}, {totalRecords}. Used only when `CurrentPageReport` is present in @paginatorTemplate.
  * @param {string}  [paginatorPosition='bottom'] - 'top' | 'bottom' | 'both'
  * @param {Function}[onPage]                - ({first, rows, page}) => void
  *
@@ -244,6 +234,7 @@ export default class UlxTable extends Component {
 	@tracked filterOverlayColumn = null;
 	@tracked filterOverlayPosition = null;
 	@tracked filterOverlayWrapperElement = null;
+	@tracked filterOverlayZIndex = 1100;
 
 	// ─── Toolbar sort popover (sortOptions) ───────────────────────────────────
 	@tracked showSortPopover = false;
@@ -299,8 +290,7 @@ export default class UlxTable extends Component {
 
 	get persistenceStorage() {
 		const { stateStorage, moduleName, stateKey } = this.args;
-		if (stateStorage) return stateStorage;
-		return moduleName && !stateKey ? "local" : "session";
+		return resolvePersistenceStorage(stateStorage, moduleName, stateKey);
 	}
 
 	restorePersistedState() {
@@ -309,10 +299,6 @@ export default class UlxTable extends Component {
 
 		this._restoredStateKey = key;
 		const persistedState = loadTableState(key, this.persistenceStorage) ?? {};
-		const columnMap = new Map(
-			this.allColumns.filter((column) => column?.field).map((column) => [column.field, column])
-		);
-
 		this.args.sortField === undefined &&
 			("sortField" in persistedState || "sortOrder" in persistedState) &&
 			(this._sortField = persistedState.sortField ?? null);
@@ -339,9 +325,7 @@ export default class UlxTable extends Component {
 		Array.isArray(persistedState.visibleColumnFields) &&
 			(this._visibleColumnFields = new Set(persistedState.visibleColumnFields));
 		Array.isArray(persistedState.columnOrder) &&
-			(this._columnOrder = persistedState.columnOrder
-				.map((field) => columnMap.get(field))
-				.filter(Boolean));
+			(this._columnOrder = rehydrateColumnOrder(this.allColumns, persistedState.columnOrder));
 		persistedState.columnWidths &&
 			typeof persistedState.columnWidths === "object" &&
 			(this._columnWidths = persistedState.columnWidths);
@@ -441,7 +425,7 @@ export default class UlxTable extends Component {
 		}
 		const field = this.sortField;
 		const order = this.sortOrder;
-		return field ? `${field}:${order === 1 ? "asc" : "desc"}` : "";
+		return formatSortBy(field, order);
 	}
 
 	get sortMode() {
@@ -490,28 +474,12 @@ export default class UlxTable extends Component {
 
 	get visibleColumns() {
 		this.restorePersistedState();
-		const fields = this._visibleColumnFields;
-		if (!fields) return this.allColumns;
-		return this.allColumns.filter((c) => {
-			if (isSpecialColumn(c)) return true;
-			if (c.manageable === false) return true;
-			return fields.has(c.field);
-		});
+		return resolveVisibleColumns(this.allColumns, this._visibleColumnFields);
 	}
 
 	get orderedColumns() {
 		this.restorePersistedState();
-		const order = this._columnOrder;
-		if (!order) return this.visibleColumns;
-		const fieldOrder = order.map((c) => c.field);
-		return [...this.visibleColumns].sort((a, b) => {
-			const ia = fieldOrder.indexOf(a.field);
-			const ib = fieldOrder.indexOf(b.field);
-			if (ia === -1 && ib === -1) return 0;
-			if (ia === -1) return 1;
-			if (ib === -1) return -1;
-			return ia - ib;
-		});
+		return resolveOrderedColumns(this.visibleColumns, this._columnOrder);
 	}
 
 	// ─── Data pipeline ───────────────────────────────────────────────────────
@@ -524,12 +492,7 @@ export default class UlxTable extends Component {
 	}
 
 	get globalFilterFields() {
-		return (
-			this.args.globalFilterFields ??
-			this.allColumns
-				.filter((c) => c.field && !isSpecialColumn(c))
-				.map((c) => c.filterField ?? c.field)
-		);
+		return resolveGlobalFilterFields(this.allColumns, this.args.globalFilterFields);
 	}
 
 	get globalFilterValue() {
@@ -557,34 +520,27 @@ export default class UlxTable extends Component {
 	}
 
 	get processedData() {
-		const { lazy } = this.args;
-		if (lazy) return this.rawData;
-
-		let data = this.rawData;
-
-		// Filter
-		if (Object.keys(this.filters).length) {
-			data = filterItems(data, this.filters, this.globalFilterFields);
-		}
-
-		// Sort
-		if (this.sortMode === "multiple") {
-			if (this.multiSortMeta?.length) {
-				data = multiSortItems(data, this.multiSortMeta);
-			}
-		} else {
-			if (this.sortField) {
-				data = sortItems(data, this.sortField, this.sortOrder);
-			}
-		}
-
-		return data;
+		return this.dataPipelineResult.processedData;
 	}
 
 	get pagedData() {
-		const { lazy, paginator } = this.args;
-		if (lazy || !paginator) return this.processedData;
-		return paginateItems(this.processedData, this.first, this.rows);
+		return this.dataPipelineResult.pagedData;
+	}
+
+	get dataPipelineResult() {
+		return processAndPaginateData({
+			rawData: this.rawData,
+			lazy: this.args.lazy,
+			filters: this.filters,
+			globalFilterFields: this.globalFilterFields,
+			sortMode: this.sortMode,
+			sortField: this.sortField,
+			sortOrder: this.sortOrder,
+			multiSortMeta: this.multiSortMeta,
+			paginator: this.args.paginator,
+			first: this.first,
+			rows: this.rows
+		});
 	}
 
 	get frozenData() {
@@ -611,6 +567,17 @@ export default class UlxTable extends Component {
 		return (
 			this.args.paginator &&
 			(this.paginatorPosition === "bottom" || this.paginatorPosition === "both")
+		);
+	}
+
+	/**
+	 * Default layout: previous + page numbers + next, rows-per-page, and current page report.
+	 * Omit first/last links to match standard table footer pagination.
+	 */
+	get tablePaginatorTemplate() {
+		return (
+			this.args.paginatorTemplate ??
+			"PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
 		);
 	}
 
@@ -663,52 +630,40 @@ export default class UlxTable extends Component {
 	}
 
 	// ─── Sort actions ─────────────────────────────────────────────────────────
+	commitFilterUpdate(updated) {
+		this._filters = updated;
+		this._first = 0;
+		this.persistState();
+		this.args.lazy && this.args.onFilter?.({ filters: updated });
+	}
+
 	@action
 	handleSort(field) {
 		const { removableSort } = this.args;
 
 		if (this.sortMode === "multiple") {
-			const meta = [...(this.multiSortMeta ?? [])];
-			const idx = meta.findIndex((m) => m.field === field);
-			if (idx >= 0) {
-				if (meta[idx].order === 1) {
-					meta[idx] = { field, order: -1 };
-				} else if (removableSort) {
-					meta.splice(idx, 1);
-				} else {
-					meta[idx] = { field, order: 1 };
-				}
-			} else {
-				meta.push({ field, order: 1 });
-			}
+			const meta = getNextMultiSortMeta(this.multiSortMeta ?? [], field, removableSort);
 			this._multiSortMeta = meta;
 			this._first = 0;
 			this.persistState();
 			this.args.onSort?.({ multiSortMeta: meta });
 		} else {
-			let order;
-			if (this.sortField === field) {
-				if (this.sortOrder === 1) order = -1;
-				else if (removableSort) {
-					this._sortField = null;
-					this._sortOrder = 1;
-					this._sortByString = "";
-					this._first = 0;
-					this.persistState();
-					this.args.onSort?.({ field: null, order: null });
-					this.args.sortOptions?.length && this.args.onSortByChange?.("");
-					return;
-				} else order = 1;
-			} else {
-				order = 1;
-			}
-			this._sortField = field;
-			this._sortOrder = order;
-			const sortByString = `${field}:${order === 1 ? "asc" : "desc"}`;
+			const next = getNextSingleSortState({
+				currentField: this.sortField,
+				currentOrder: this.sortOrder,
+				nextField: field,
+				removableSort
+			});
+			const { sortField, sortOrder, cleared } = next;
+			this._sortField = sortField;
+			this._sortOrder = sortOrder;
+			const sortByString = formatSortBy(sortField, sortOrder);
 			this._sortByString = sortByString;
 			this._first = 0;
 			this.persistState();
-			this.args.onSort?.({ field, order });
+			this.args.onSort?.(
+				cleared ? { field: null, order: null } : { field: sortField, order: sortOrder }
+			);
 			this.args.sortOptions?.length && this.args.onSortByChange?.(sortByString);
 		}
 	}
@@ -723,31 +678,22 @@ export default class UlxTable extends Component {
 		} else {
 			updated[field] = { value, matchMode };
 		}
-		this._filters = updated;
-		this._first = 0;
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	}
 
 	@action
 	handleFilterApply(field, meta) {
 		const updated = { ...this.filters, [field]: meta };
-		this._filters = updated;
-		this._first = 0;
 		this.filterOverlayColumn = null;
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	}
 
 	@action
 	handleFilterClear(field) {
 		const updated = { ...this.filters };
 		delete updated[field];
-		this._filters = updated;
-		this._first = 0;
 		this.filterOverlayColumn = null;
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	}
 
 	get hasFilterableColumns() {
@@ -875,19 +821,13 @@ export default class UlxTable extends Component {
 		} else {
 			delete updated.global;
 		}
-		this._filters = updated;
-		this._first = 0;
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	};
 
 	@action
 	handleClearAllFilters() {
-		this._filters = {};
-		this._first = 0;
 		this.filterOverlayColumn = null;
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: {} });
+		this.commitFilterUpdate({});
 	}
 
 	@action
@@ -904,6 +844,8 @@ export default class UlxTable extends Component {
 		} else {
 			this.filterOverlayPosition = { top: 0, left: 0 };
 		}
+		const currentModal = this.modalStack?.topModal;
+		this.filterOverlayZIndex = currentModal ? this.modalStack.getZIndex(currentModal) + 20 : 1100;
 		this.filterOverlayColumn = col;
 	}
 
@@ -936,38 +878,24 @@ export default class UlxTable extends Component {
 	deleteFilterFromBubble(field) {
 		const updated = { ...this.filters };
 		delete updated[field];
-		this._filters = updated;
-		this._first = 0;
 		this.filterOverlayColumn = null;
 		this.closeFilterBubble();
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	}
 
 	@action
 	applyFilterFromBubble(field, meta) {
 		const updated = { ...this.filters, [field]: meta };
-		this._filters = updated;
-		this._first = 0;
 		this.closeFilterBubble();
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	}
 
 	@action
 	applyPaneFilterFromBubble(field) {
 		const arr = this._filterPaneSelections[field];
-		const updated = { ...this.filters };
-		if (Array.isArray(arr) && arr.length > 0) {
-			updated[field] = { value: arr, matchMode: "in" };
-		} else {
-			delete updated[field];
-		}
-		this._filters = updated;
-		this._first = 0;
+		const updated = applySelectionToFilters(this.filters, field, arr);
 		this.closeFilterBubble();
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 	}
 
 	@action
@@ -980,6 +908,7 @@ export default class UlxTable extends Component {
 	@action
 	openSortPopover(event) {
 		const trigger = event?.currentTarget;
+		this.filterOverlayColumn = null;
 		this.sortPopoverTriggerElement = trigger ?? null;
 		this.showSortPopover = true;
 	}
@@ -1011,20 +940,9 @@ export default class UlxTable extends Component {
 
 	@action
 	applyFilterPane() {
-		const updated = { ...this.filters };
-		Object.keys(this._filterPaneSelections).forEach((key) => {
-			const arr = this._filterPaneSelections[key];
-			if (Array.isArray(arr) && arr.length > 0) {
-				updated[key] = { value: arr, matchMode: "in" };
-			} else {
-				delete updated[key];
-			}
-		});
-		this._filters = updated;
-		this._first = 0;
+		const updated = applySelectionMapToFilters(this.filters, this._filterPaneSelections);
 		this.filterPaneOpen = false;
-		this.persistState();
-		if (this.args.lazy) this.args.onFilter?.({ filters: updated });
+		this.commitFilterUpdate(updated);
 		this.args.onFilterApply?.(this._filterPaneSelections);
 	}
 
@@ -1056,10 +974,7 @@ export default class UlxTable extends Component {
 	get filterOverlayWrapperStyle() {
 		const p = this.filterOverlayPosition;
 		if (p == null || typeof p.top !== "number" || typeof p.left !== "number") return undefined;
-		const zIndex = this.modalStack?.topModal
-			? this.modalStack.getZIndex(this.modalStack.topModal) + 20
-			: 1100;
-		return `position: absolute; top: ${p.top}px; left: ${p.left}px; z-index: ${zIndex};`;
+		return `position: absolute; top: ${p.top}px; left: ${p.left}px; z-index: ${this.filterOverlayZIndex};`;
 	}
 
 	// ─── Pagination actions ───────────────────────────────────────────────────
@@ -1079,7 +994,7 @@ export default class UlxTable extends Component {
 
 	@action
 	handleHeaderCheckboxChange(checked) {
-		const { onSelectionChange, dataKey } = this.args;
+		const { onSelectionChange } = this.args;
 		if (checked) {
 			onSelectionChange?.([...this.pagedData]);
 		} else {
@@ -1273,6 +1188,72 @@ export default class UlxTable extends Component {
 		return this.filters?.[field];
 	}
 
+	get manageColumnsOverlayConfig() {
+		return {
+			visible: this.showManagePanel,
+			target: this.manageColumnsTriggerElement,
+			allColumns: this.allColumns,
+			visibleColumns: this.visibleColumns,
+			onApply: this.handleManageColumnsApply,
+			onClose: this.closeManageColumns,
+			onReset: this.handleManageColumnsReset,
+			onSetRef: this.setManageColumnsRef,
+			onInvokeApply: this.invokeManageColumnsApply
+		};
+	}
+
+	get filterBubbleOverlayConfig() {
+		return {
+			activeBubble: this.activeBubble,
+			target: this.filterBubbleTriggerEl,
+			isOptionChecked: this.isFilterPaneOptionChecked,
+			onUpdateSelection: this.updateFilterPaneSelection,
+			onApplyPane: this.applyPaneFilterFromBubble,
+			onApply: this.applyFilterFromBubble,
+			onDelete: this.deleteFilterFromBubble,
+			onClose: this.closeFilterBubble
+		};
+	}
+
+	get filterOverlayConfig() {
+		const column = this.filterOverlayColumn;
+		return {
+			column,
+			portalTarget: this.filterOverlayPortalTarget,
+			// Only resolve modal-stack aware wrapper style when overlay is active.
+			wrapperStyle: column ? this.filterOverlayWrapperStyle : undefined,
+			filterMetaFor: this.filterMetaFor,
+			onApply: this.handleFilterApply,
+			onClear: this.handleFilterClear,
+			onClose: this.closeFilterOverlay
+		};
+	}
+
+	get sortPopoverConfig() {
+		return {
+			visible: this.showSortPopover,
+			target: this.sortPopoverTriggerElement,
+			sortBy: this.sortByString,
+			options: this.args.sortOptions,
+			onChange: this.handleSortByChange,
+			onClose: this.closeSortPopover
+		};
+	}
+
+	get filterPaneOverlayConfig() {
+		return {
+			hasGroups: this.hasFilterGroups,
+			visible: this.filterPaneOpen,
+			onClose: this.closeFilterPane,
+			onApply: this.applyFilterPane,
+			accordionModel: this.filterAccordionModel,
+			getGroupAt: this.getFilterGroupAt,
+			groupClass: this.filterPaneGroupClass,
+			isOptionChecked: this.isFilterPaneOptionChecked,
+			onUpdateSelection: this.updateFilterPaneSelection
+		};
+	}
+
 	<template>
 		<div class={{this.rootClasses}} ...attributes aria-busy={{if @loading "true"}}>
 			{{! Custom table header area }}
@@ -1282,116 +1263,40 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Unified toolbar (filter menu): left = slots + search, right = slots + button group (Filter, Sort, Columns) + view toggle }}
-			{{#if
-				(or
-					this.showToolbar
-					(has-block "preLeftMenu")
-					(has-block "postLeftMenu")
-					(has-block "preRightMenu")
-					(has-block "postRightMenu")
-				)
-			}}
-				<div class="header-toolbar datatable-toolbar">
-					<div class="datatable-toolbar-left">
-						{{yield to="preLeftMenu"}}
-						{{#if @showGlobalFilter}}
-							<div class="datatable-globalfilter" role="search">
-								<UlxIconInput
-									@iconLeft="search-icon"
-									@iconType="font"
-									@iconClass="bs-icons1"
-									@iconSize="s14"
-								>
-									<UlxInput
-										@key="datatable-global-filter"
-										@value={{this.globalFilterValue}}
-										@onInput={{this.handleGlobalFilterInput}}
-										placeholder={{or
-											@globalFilterPlaceholder
-											(t "msg.table.global.filter.placeholder")
-										}}
-										aria-label={{t "aria.table.global.filter"}}
-									/>
-								</UlxIconInput>
-							</div>
-						{{/if}}
-						{{yield to="postLeftMenu"}}
-					</div>
-					<div class="datatable-toolbar-right flex gap-4">
-						{{yield to="preRightMenu"}}
-						{{#if
-							(or
-								this.hasFilterGroups
-								(and @sortOptions (gt @sortOptions.length 0))
-								@showManageColumns
-								@showToggleViews
-							)
+			{{! Unified toolbar (filter menu): left = slots + search, right = actions + view toggle }}
+			{{#let (has-block "detailed") (has-block "card") as |hasDetailed hasCard|}}
+				{{#let (this.getViewToggleOptions hasDetailed hasCard) as |viewOpts|}}
+					<TableToolbar
+						@visible={{or
+							this.showToolbar
+							(has-block "preLeftMenu")
+							(has-block "postLeftMenu")
+							(has-block "preRightMenu")
+							(has-block "postRightMenu")
 						}}
-							<UlxButtonGroup @size="m-size" @customClass="uls-inline-popup">
-								{{#if this.hasFilterGroups}}
-									<UlxIconButton
-										@variant="outlined"
-										@size="m-size"
-										@iconLeft="filter-icon"
-										@iconComponentClass="bs-icons1"
-										aria-label={{t "lbl.filter"}}
-										{{on "click" this.openFilterPane}}
-									/>
-								{{/if}}
-								{{#if (and @sortOptions (gt @sortOptions.length 0))}}
-									<UlxIconButton
-										@variant="outlined"
-										@size="m-size"
-										@iconLeft="sort-icon"
-										@iconComponentClass="bs-icons1"
-										aria-label={{t "lbl.sort"}}
-										aria-expanded={{this.showSortPopover}}
-										{{on "click" this.openSortPopover}}
-									/>
-								{{/if}}
-								{{#if @showManageColumns}}
-									<UlxIconButton
-										@variant="outlined"
-										@size="m-size"
-										@iconLeft="columns-icon"
-										@iconComponentClass="bs-icons1"
-										aria-label={{t "lbl.columns"}}
-										{{on "click" this.openManageColumns}}
-									/>
-								{{/if}}
-							</UlxButtonGroup>
-							{{#if @showToggleViews}}
-								{{#if (or (has-block "detailed") (has-block "card"))}}
-									{{#let (has-block "detailed") (has-block "card") as |hasDetailed hasCard|}}
-										{{#let (this.getViewToggleOptions hasDetailed hasCard) as |viewOpts|}}
-											<UlxSelectButton
-												@options={{viewOpts}}
-												@value={{this.effectiveViewModeForOptions this.viewMode viewOpts}}
-												@onChange={{this.handleViewToggleChange}}
-												@size="m-size"
-												@variant="primary"
-												@ariaLabel={{t "aria.table.view.toggle"}}
-											>
-												<:item as |option|>
-													<UlxIcon
-														@iconName={{option.icon}}
-														@type="font"
-														@componentClass="bs-icons1"
-														@size="s16"
-														aria-hidden="true"
-													/>
-												</:item>
-											</UlxSelectButton>
-										{{/let}}
-									{{/let}}
-								{{/if}}
-							{{/if}}
-						{{/if}}
-						{{yield to="postRightMenu"}}
-					</div>
-				</div>
-			{{/if}}
+						@showGlobalFilter={{@showGlobalFilter}}
+						@globalFilterValue={{this.globalFilterValue}}
+						@globalFilterPlaceholder={{@globalFilterPlaceholder}}
+						@hasFilterGroups={{this.hasFilterGroups}}
+						@sortOptions={{@sortOptions}}
+						@showManageColumns={{@showManageColumns}}
+						@showToggleViews={{@showToggleViews}}
+						@showSortPopover={{this.showSortPopover}}
+						@viewOptions={{viewOpts}}
+						@viewMode={{this.effectiveViewModeForOptions this.viewMode viewOpts}}
+						@onGlobalFilterInput={{this.handleGlobalFilterInput}}
+						@onOpenFilterPane={{this.openFilterPane}}
+						@onOpenSortPopover={{this.openSortPopover}}
+						@onOpenManageColumns={{this.openManageColumns}}
+						@onViewToggleChange={{this.handleViewToggleChange}}
+					>
+						<:preLeftMenu>{{yield to="preLeftMenu"}}</:preLeftMenu>
+						<:postLeftMenu>{{yield to="postLeftMenu"}}</:postLeftMenu>
+						<:preRightMenu>{{yield to="preRightMenu"}}</:preRightMenu>
+						<:postRightMenu>{{yield to="postRightMenu"}}</:postRightMenu>
+					</TableToolbar>
+				{{/let}}
+			{{/let}}
 
 			{{! Row-mode clear filters bar }}
 			{{#if this.showClearFiltersBar}}
@@ -1406,356 +1311,165 @@ export default class UlxTable extends Component {
 			{{/if}}
 
 			{{! Filter bubbles bar — shown whenever any filter is active }}
-			{{#if this.showFilterBubblesBar}}
-				<div class="datatable-filter-bubbles-bar" role="group" aria-label={{t "lbl.filter"}}>
-					{{#each this.activeFilterBubbles as |bubble|}}
-						<div class="datatable-filter-bubble-item">
-							<UlxButton
-								@variant="outlined"
-								@size="compact"
-								@customClass="filter-bubble-trigger"
-								@onClick={{fn this.openFilterBubble bubble}}
-								aria-haspopup="true"
-								aria-expanded={{eq this.activeFilterBubbleField bubble.field}}
-							>
-								<:default>
-									<UlxChip @size="s-size" @customClass="filter-bubble-chip">
-										<UlxIcon
-											@iconName="filter-icon"
-											@componentClass="bs-icons1"
-											@type="font"
-											@size="s18"
-											aria-hidden="true"
-										/>
-										<span class="filter-bubble-label">
-											{{bubble.label}}:
-											<strong>{{bubble.displayValue}}</strong>
-										</span>
-										<UlxIcon
-											@iconName="down-arrow-filled-icon"
-											@componentClass="bs-icons1"
-											@type="font"
-											@size="s18"
-											aria-hidden="true"
-										/>
-									</UlxChip>
-								</:default>
-							</UlxButton>
-							<UlxIconButton
-								@variant="link"
-								@size="s-size"
-								@iconSize="s18"
-								@iconLeft="remove-icon"
-								@customClass="filter-bubble-remove-btn"
-								@onClick={{fn this.deleteFilterFromBubble bubble.field}}
-								aria-label={{t "lbl.delete.filter"}}
-							/>
-						</div>
-					{{/each}}
-					<UlxIconButton
-						@variant="danger"
-						@text={{true}}
-						@size="compact"
-						@iconLeft="delete-icon-02"
-						@label={{t "lbl.clear.filters"}}
-						@onClick={{this.handleClearAllFilters}}
-					/>
-				</div>
-			{{/if}}
+			<TableFilterBubblesBar
+				@visible={{this.showFilterBubblesBar}}
+				@bubbles={{this.activeFilterBubbles}}
+				@activeField={{this.activeFilterBubbleField}}
+				@onOpenBubble={{this.openFilterBubble}}
+				@onRemoveBubble={{this.deleteFilterFromBubble}}
+				@onClearAll={{this.handleClearAllFilters}}
+			/>
 
 			{{! Top paginator }}
-			{{#if this.showPaginatorTop}}
-				<div class="datatable-paginator">
-					<UlxPaginator
-						@totalRecords={{this.paginatorTotalRecords}}
-						@rows={{this.rows}}
-						@first={{this.first}}
-						@rowsPerPageOptions={{@rowsPerPageOptions}}
-						@template={{@paginatorTemplate}}
-						@currentPageReportTemplate={{@currentPageReportTemplate}}
-						@onPageChange={{this.handlePageChange}}
-					>
-						<:left>{{yield to="paginatorLeft"}}</:left>
-						<:right>{{yield to="paginatorRight"}}</:right>
-					</UlxPaginator>
-				</div>
-			{{/if}}
+			<TablePaginatorRow
+				@visible={{this.showPaginatorTop}}
+				@totalRecords={{this.paginatorTotalRecords}}
+				@rows={{this.rows}}
+				@first={{this.first}}
+				@rowsPerPageOptions={{@rowsPerPageOptions}}
+				@template={{this.tablePaginatorTemplate}}
+				@currentPageReportTemplate={{@currentPageReportTemplate}}
+				@onPageChange={{this.handlePageChange}}
+			>
+				<:left>{{yield to="paginatorLeft"}}</:left>
+				<:right>{{yield to="paginatorRight"}}</:right>
+			</TablePaginatorRow>
 
-			{{! Detailed view (list view — uses UlxDataView when there is data) }}
+			{{! Detailed, card, vertical and default grid views }}
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
-				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					{{#if (or @loading this.pagedData.length)}}
-						<UlxDataView @layout="list" @gridRole="list">
-							<:content>
-								{{#each this.pagedData as |row|}}
-									<div class="dataview-item">
-										{{yield row to="detailed"}}
-									</div>
-								{{/each}}
-							</:content>
-						</UlxDataView>
-					{{/if}}
-					{{#if (and (not @loading) (not this.pagedData.length))}}
-						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}
-								{{yield to="emptyMessage"}}
-							{{else}}
-								<UlxEmptyState
-									@headerText={{this.emptyStateHeaderText}}
-									@subHeaderText={{this.emptyStateSubHeaderText}}
-									@iconName={{this.emptyStateIconName}}
-									@iconSize="s32"
-								/>
-							{{/if}}
-						</div>
-					{{/if}}
-				</div>
+				<TableViewDetailed
+					@loading={{@loading}}
+					@rows={{this.pagedData}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+				>
+					<:detailed as |row|>{{yield row to="detailed"}}</:detailed>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableViewDetailed>
 			{{else if (and (eq this.viewMode "card") (has-block "card"))}}
-				{{! Card view (grid; column count from @cardViewColumns — uses ulx-grid from grid.less) }}
-				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<div class="ulx-grid gap-4 col-{{this.cardViewColumns}}">
-						{{#each this.pagedData as |row|}}
-							<UlxCard @bodyClass="p-0">{{yield row to="card"}}</UlxCard>
-						{{/each}}
-					</div>
-					{{#if (and (not @loading) (not this.pagedData.length))}}
-						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}
-								{{yield to="emptyMessage"}}
-							{{else}}
-								<UlxEmptyState
-									@headerText={{this.emptyStateHeaderText}}
-									@subHeaderText={{this.emptyStateSubHeaderText}}
-									@iconName={{this.emptyStateIconName}}
-									@iconSize="s32"
-								/>
-							{{/if}}
-						</div>
-					{{/if}}
-				</div>
+				<TableViewCard
+					@loading={{@loading}}
+					@rows={{this.pagedData}}
+					@cardViewColumns={{this.cardViewColumns}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+				>
+					<:card as |row|>{{yield row to="card"}}</:card>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableViewCard>
 			{{else if this.isVertical}}
-				{{! Vertical (transposed) table — rows = properties, columns = data records }}
-				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<table class="{{this.tableClass}} datatable-vertical" role="grid">
-						{{#if @verticalLabelField}}
-							<thead>
-								<tr>
-									<th
-										class="datatable-vertical-corner"
-										scope="col"
-										aria-label={{t "aria.table.vertical.corner"}}
-									></th>
-									{{#each this.pagedData as |row|}}
-										<th class="datatable-vertical-col-header" scope="col">
-											{{getFieldValue row @verticalLabelField}}
-										</th>
-									{{/each}}
-								</tr>
-							</thead>
-						{{/if}}
-						<tbody>
-							{{#each this.verticalRows as |col|}}
-								<tr class="datatable-vertical-row">
-									<th class="column-header-cell datatable-vertical-row-header" scope="row">
-										{{col.header}}
-									</th>
-									{{#each this.pagedData as |row rowIdx|}}
-										<td class="datatable-cell">
-											{{#if col.body}}
-												<col.body
-													@row={{row}}
-													@value={{this.getCellValue row col}}
-													@index={{rowIdx}}
-												/>
-											{{else}}
-												{{this.getCellValue row col}}
-											{{/if}}
-										</td>
-									{{/each}}
-								</tr>
-							{{/each}}
-						</tbody>
-					</table>
-					{{#if (and (not @loading) (not this.pagedData.length))}}
-						<div class="datatable-empty-message">
-							{{#if (has-block "emptyMessage")}}
-								{{yield to="emptyMessage"}}
-							{{else}}
-								<UlxEmptyState
-									@headerText={{this.emptyStateHeaderText}}
-									@subHeaderText={{this.emptyStateSubHeaderText}}
-									@iconName={{this.emptyStateIconName}}
-									@iconSize="s32"
-								/>
-							{{/if}}
-						</div>
-					{{/if}}
-				</div>
+				<TableViewVertical
+					@loading={{@loading}}
+					@rows={{this.pagedData}}
+					@tableClass={{this.tableClass}}
+					@verticalLabelField={{@verticalLabelField}}
+					@verticalRows={{this.verticalRows}}
+					@getCellValue={{this.getCellValue}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+				>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableViewVertical>
 			{{else}}
-				{{! Table wrapper }}
-				<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{this.wrapperStyle}}>
-					<table class={{this.tableClass}} style={{this.tableStyle}} role="grid">
-						<TableHeader
-							@columns={{this.orderedColumns}}
-							@columnWidths={{this._columnWidths}}
-							@sortField={{this.sortField}}
-							@sortOrder={{this.sortOrder}}
-							@sortMode={{this.sortMode}}
-							@multiSortMeta={{this.multiSortMeta}}
-							@removableSort={{@removableSort}}
-							@resizableColumns={{@resizableColumns}}
-							@selectionMode={{@selectionMode}}
-							@allSelected={{this.allSelected}}
-							@someSelected={{this.someSelected}}
-							@filterDisplay={{@filterDisplay}}
-							@filters={{this.filters}}
-							@showManageColumns={{@showManageColumns}}
-							@hasOptionCell={{has-block "optionCell"}}
-							@filterOverlayField={{this.filterOverlayField}}
-							@onSort={{this.handleSort}}
-							@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
-							@onFilterChange={{this.handleFilterChange}}
-							@onFilterMenuOpen={{this.handleFilterMenuOpen}}
-							@onColumnResizeStart={{this.handleColumnResizeStart}}
-							@onManageColumns={{this.openManageColumns}}
-						/>
-
-						{{! Frozen rows body }}
-						{{#if this.frozenData.length}}
-							<TableBody
-								@rows={{this.frozenData}}
-								@columns={{this.orderedColumns}}
-								@columnWidths={{this._columnWidths}}
-								@dataKey={{@dataKey}}
-								@selectionMode={{@selectionMode}}
-								@selection={{@selection}}
-								@expandedRows={{@expandedRows}}
-								@editMode={{@editMode}}
-								@editingRows={{this.editingRows}}
-								@editingCell={{this.editingCell}}
-								@rowClassName={{@rowClassName}}
-								@showManageColumns={{@showManageColumns}}
-								@hasOptionCell={{has-block "optionCell"}}
-								@emptyMessage={{@emptyMessage}}
-								@onSelectionChange={{this.handleSelectionChange}}
-								@onRowToggle={{this.handleRowToggle}}
-								@onRowEditInit={{this.handleRowEditInit}}
-								@onRowEditSave={{this.handleRowEditSave}}
-								@onRowEditCancel={{this.handleRowEditCancel}}
-								@onCellEditInit={{this.handleCellEditInit}}
-								@onCellEditComplete={{this.handleCellEditComplete}}
-								@onRowReorder={{this.handleRowReorder}}
-								@onRowClick={{this.handleRowClick}}
-								@onRowDoubleClick={{this.handleRowDoubleClick}}
-								@onContextMenu={{this.handleContextMenu}}
+				<TableGridShell
+					@rows={{this.pagedData}}
+					@frozenRows={{this.frozenData}}
+					@columns={{this.orderedColumns}}
+					@columnWidths={{this._columnWidths}}
+					@tableClass={{this.tableClass}}
+					@tableStyle={{this.tableStyle}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@sortField={{this.sortField}}
+					@sortOrder={{this.sortOrder}}
+					@sortMode={{this.sortMode}}
+					@multiSortMeta={{this.multiSortMeta}}
+					@removableSort={{@removableSort}}
+					@resizableColumns={{@resizableColumns}}
+					@selectionMode={{@selectionMode}}
+					@selection={{@selection}}
+					@allSelected={{this.allSelected}}
+					@someSelected={{this.someSelected}}
+					@filterDisplay={{@filterDisplay}}
+					@filters={{this.filters}}
+					@showManageColumns={{@showManageColumns}}
+					@hasOptionCell={{has-block "optionCell"}}
+					@filterOverlayField={{this.filterOverlayField}}
+					@dataKey={{@dataKey}}
+					@expandedRows={{@expandedRows}}
+					@editMode={{@editMode}}
+					@editingRows={{this.editingRows}}
+					@editingCell={{this.editingCell}}
+					@rowClassName={{@rowClassName}}
+					@loading={{@loading}}
+					@emptyMessage={{@emptyMessage}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+					@onSort={{this.handleSort}}
+					@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
+					@onFilterChange={{this.handleFilterChange}}
+					@onFilterMenuOpen={{this.handleFilterMenuOpen}}
+					@onColumnResizeStart={{this.handleColumnResizeStart}}
+					@onManageColumns={{this.openManageColumns}}
+					@onSelectionChange={{this.handleSelectionChange}}
+					@onRowToggle={{this.handleRowToggle}}
+					@onRowEditInit={{this.handleRowEditInit}}
+					@onRowEditSave={{this.handleRowEditSave}}
+					@onRowEditCancel={{this.handleRowEditCancel}}
+					@onCellEditInit={{this.handleCellEditInit}}
+					@onCellEditComplete={{this.handleCellEditComplete}}
+					@onRowReorder={{this.handleRowReorder}}
+					@onRowClick={{this.handleRowClick}}
+					@onRowDoubleClick={{this.handleRowDoubleClick}}
+					@onContextMenu={{this.handleContextMenu}}
+				>
+					<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
+					<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
+					<:emptyMessage>
+						{{#if (has-block "customEmptyState")}}
+							{{yield to="customEmptyState"}}
+						{{else}}
+							<TableEmptyState
+								@headerText={{this.emptyStateHeaderText}}
+								@subHeaderText={{this.emptyStateSubHeaderText}}
+								@iconName={{this.emptyStateIconName}}
 							>
-								<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
-								<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
-								<:emptyMessage>
-									{{#if (has-block "customEmptyState")}}
-										{{yield to="customEmptyState"}}
-									{{else if (has-block "emptyMessage")}}
-										{{yield to="emptyMessage"}}
-									{{else}}
-										<UlxEmptyState
-											@headerText={{this.emptyStateHeaderText}}
-											@subHeaderText={{this.emptyStateSubHeaderText}}
-											@iconName={{this.emptyStateIconName}}
-											@iconSize="s32"
-										/>
-									{{/if}}
-								</:emptyMessage>
-							</TableBody>
+								<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+							</TableEmptyState>
 						{{/if}}
-
-						{{! Main data body }}
-						<TableBody
-							@rows={{this.pagedData}}
-							@columns={{this.orderedColumns}}
-							@columnWidths={{this._columnWidths}}
-							@dataKey={{@dataKey}}
-							@loading={{@loading}}
-							@selectionMode={{@selectionMode}}
-							@selection={{@selection}}
-							@expandedRows={{@expandedRows}}
-							@editMode={{@editMode}}
-							@editingRows={{this.editingRows}}
-							@editingCell={{this.editingCell}}
-							@rowClassName={{@rowClassName}}
-							@showManageColumns={{@showManageColumns}}
-							@hasOptionCell={{has-block "optionCell"}}
-							@emptyMessage={{@emptyMessage}}
-							@onSelectionChange={{this.handleSelectionChange}}
-							@onRowToggle={{this.handleRowToggle}}
-							@onRowEditInit={{this.handleRowEditInit}}
-							@onRowEditSave={{this.handleRowEditSave}}
-							@onRowEditCancel={{this.handleRowEditCancel}}
-							@onCellEditInit={{this.handleCellEditInit}}
-							@onCellEditComplete={{this.handleCellEditComplete}}
-							@onRowReorder={{this.handleRowReorder}}
-							@onRowClick={{this.handleRowClick}}
-							@onRowDoubleClick={{this.handleRowDoubleClick}}
-							@onContextMenu={{this.handleContextMenu}}
-						>
-							<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
-							<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
-							<:emptyMessage>
-								{{#if (has-block "customEmptyState")}}
-									{{yield to="customEmptyState"}}
-								{{else if (has-block "emptyMessage")}}
-									{{yield to="emptyMessage"}}
-								{{else}}
-									<UlxEmptyState
-										@headerText={{this.emptyStateHeaderText}}
-										@subHeaderText={{this.emptyStateSubHeaderText}}
-										@iconName={{this.emptyStateIconName}}
-										@iconSize="s32"
-									/>
-								{{/if}}
-							</:emptyMessage>
-						</TableBody>
-
-						<TableFooter
-							@columns={{this.orderedColumns}}
-							@showManageColumns={{@showManageColumns}}
-							@hasOptionCell={{has-block "optionCell"}}
-						/>
-					</table>
-				</div>
+					</:emptyMessage>
+				</TableGridShell>
 			{{/if}}
 
 			{{! Loading overlay }}
-			{{#if @loading}}
-				<div
-					class="datatable-loading-overlay"
-					aria-live="polite"
-					aria-label={{t "aria.table.loading"}}
-				>
-					{{#if (has-block "loadingOverlay")}}
-						{{yield to="loadingOverlay"}}
-					{{else}}
-						<UlxProgressSpinner @size="l-size" />
-					{{/if}}
-				</div>
-			{{/if}}
+			<TableLoadingOverlay @loading={{@loading}}>
+				<:loadingOverlay>{{yield to="loadingOverlay"}}</:loadingOverlay>
+			</TableLoadingOverlay>
 
 			{{! Bottom paginator }}
-			{{#if this.showPaginatorBottom}}
-				<div class="datatable-paginator">
-					<UlxPaginator
-						@totalRecords={{this.paginatorTotalRecords}}
-						@rows={{this.rows}}
-						@first={{this.first}}
-						@rowsPerPageOptions={{@rowsPerPageOptions}}
-						@template={{@paginatorTemplate}}
-						@currentPageReportTemplate={{@currentPageReportTemplate}}
-						@onPageChange={{this.handlePageChange}}
-					>
-						<:left>{{yield to="paginatorLeft"}}</:left>
-						<:right>{{yield to="paginatorRight"}}</:right>
-					</UlxPaginator>
-				</div>
-			{{/if}}
+			<TablePaginatorRow
+				@visible={{this.showPaginatorBottom}}
+				@totalRecords={{this.paginatorTotalRecords}}
+				@rows={{this.rows}}
+				@first={{this.first}}
+				@rowsPerPageOptions={{@rowsPerPageOptions}}
+				@template={{this.tablePaginatorTemplate}}
+				@currentPageReportTemplate={{@currentPageReportTemplate}}
+				@onPageChange={{this.handlePageChange}}
+			>
+				<:left>{{yield to="paginatorLeft"}}</:left>
+				<:right>{{yield to="paginatorRight"}}</:right>
+			</TablePaginatorRow>
 
 			{{! Custom table footer area }}
 			{{#if (has-block "footer")}}
@@ -1764,184 +1478,13 @@ export default class UlxTable extends Component {
 				</div>
 			{{/if}}
 
-			{{! Manage columns panel (in UlxPopup, anchored to trigger button) }}
-			{{#if (and this.showManagePanel this.manageColumnsTriggerElement)}}
-				<UlxPopup
-					@visible={{this.showManagePanel}}
-					@target={{this.manageColumnsTriggerElement}}
-					@position="position-bottom-right"
-					@size="l-size"
-					@closable={{true}}
-					@bodyClassName="p-0"
-					@title={{t "lbl.manage.columns"}}
-					@onHide={{this.closeManageColumns}}
-					@ariaLabel={{t "lbl.manage.columns"}}
-					@hideTertiaryButton={{false}}
-					@tertiaryButtonLabel={{t "lbl.reset.to.default"}}
-					@tertiaryButtonIcon="reset-icon"
-					@cancelButtonLabel={{t "lbl.cancel"}}
-					@doneButtonLabel={{t "lbl.save"}}
-					@onTertiary={{this.handleManageColumnsReset}}
-					@onCancel={{this.closeManageColumns}}
-					@onDone={{this.invokeManageColumnsApply}}
-				>
-					<ManageColumns
-						@allColumns={{this.allColumns}}
-						@visibleColumns={{this.visibleColumns}}
-						@onApply={{this.handleManageColumnsApply}}
-						@onClose={{this.closeManageColumns}}
-						@onReset={{this.handleManageColumnsReset}}
-						@registerRef={{this.setManageColumnsRef}}
-					/>
-				</UlxPopup>
-			{{/if}}
-
-			{{! Filter bubble edit popup }}
-			{{#if (and this.activeBubble this.filterBubbleTriggerEl)}}
-				<UlxPopup
-					@visible={{true}}
-					@target={{this.filterBubbleTriggerEl}}
-					@position="position-bottom-left"
-					@size="m-size"
-					@dismissable={{true}}
-					@onHide={{this.closeFilterBubble}}
-					@ariaLabel={{t "lbl.filter"}}
-					@hideFooter={{true}}
-				>
-					{{#if (eq this.activeBubble.type "column")}}
-						<FilterOverlay
-							@column={{this.activeBubble.col}}
-							@filterMeta={{this.activeBubble.meta}}
-							@onApply={{this.applyFilterFromBubble}}
-							@onClear={{this.deleteFilterFromBubble}}
-							@onClose={{this.closeFilterBubble}}
-						/>
-					{{else}}
-						<div class="flex flex-col gap-3">
-							<div class="flex justify-between items-center">
-								<span class="popup-title">{{this.activeBubble.label}}</span>
-								<UlxIconButton
-									@variant="danger"
-									@text={{true}}
-									@size="s-size"
-									@iconLeft="delete-icon-02"
-									@iconComponentClass="bs-icons1"
-									@label={{t "lbl.delete.filter"}}
-									@onClick={{fn this.deleteFilterFromBubble this.activeBubble.field}}
-								/>
-							</div>
-
-							<div class="ulx-checkbox-group">
-								{{#each this.activeBubble.group.options as |opt|}}
-									<UlxCheckboxItem
-										@itemLabel={{opt.label}}
-										@checked={{this.isFilterPaneOptionChecked
-											this.activeBubble.group.key
-											opt.value
-										}}
-										@onChange={{fn
-											this.updateFilterPaneSelection
-											this.activeBubble.group.key
-											opt.value
-										}}
-									/>
-								{{/each}}
-							</div>
-
-							<div class="flex justify-end">
-								<UlxButton
-									@variant="primary"
-									@size="s-size"
-									@label={{t "lbl.apply.filter"}}
-									@onClick={{fn this.applyPaneFilterFromBubble this.activeBubble.field}}
-								/>
-							</div>
-						</div>
-					{{/if}}
-				</UlxPopup>
-			{{/if}}
-
-			{{! Filter overlay (menu mode) – portaled to body, position: absolute in document }}
-			{{#if (and this.filterOverlayColumn this.filterOverlayPortalTarget)}}
-				{{#in-element this.filterOverlayPortalTarget insertBefore=null}}
-					<div
-						class="ulx-datatable-filter-overlay-wrapper"
-						style={{this.filterOverlayWrapperStyle}}
-						role="presentation"
-					>
-						<FilterOverlay
-							@column={{this.filterOverlayColumn}}
-							@filterMeta={{this.filterMetaFor this.filterOverlayColumn}}
-							@onApply={{this.handleFilterApply}}
-							@onClear={{this.handleFilterClear}}
-							@onClose={{this.closeFilterOverlay}}
-						/>
-					</div>
-				{{/in-element}}
-			{{/if}}
-
-			{{! Sort options popover (toolbar sort button) }}
-			{{#if (and this.showSortPopover this.sortPopoverTriggerElement)}}
-				<UlxPopup
-					@visible={{this.showSortPopover}}
-					@target={{this.sortPopoverTriggerElement}}
-					@position="position-bottom-center"
-					@size="xs-size"
-					@dismissable={{true}}
-					@closable={{true}}
-					@onHide={{this.closeSortPopover}}
-					@ariaLabel={{t "lbl.sort"}}
-				>
-					<div class="fs-popup p-1">
-						<SortOptions
-							@sortBy={{this.sortByString}}
-							@sortOptions={{@sortOptions}}
-							@onChange={{this.handleSortByChange}}
-						/>
-					</div>
-				</UlxPopup>
-			{{/if}}
-
-			{{! Filter slide pane (toolbar filter button: UlxAccordion + UlxCheckbox) }}
-			{{#if this.hasFilterGroups}}
-				<UlxSlidePane
-					@visible={{this.filterPaneOpen}}
-					@title={{t "lbl.filter"}}
-					@position="right"
-					@contentClassName="p-0"
-					@onHide={{this.closeFilterPane}}
-					@onCancel={{this.closeFilterPane}}
-					@onDone={{this.applyFilterPane}}
-					@cancelButtonLabel={{t "lbl.close"}}
-					@doneButtonLabel={{t "lbl.apply.filter"}}
-				>
-					<:body>
-						<UlxAccordion
-							@items={{this.filterAccordionModel}}
-							@multiple={{true}}
-							@toggleIconPosition="right"
-							@variant="elevated"
-							@size="m-size"
-						>
-							<:content as |item idx|>
-								{{#let (this.getFilterGroupAt idx) as |group|}}
-									{{#if group}}
-										<div class={{this.filterPaneGroupClass}}>
-											{{#each group.options as |opt|}}
-												<UlxCheckboxItem
-													@itemLabel={{opt.label}}
-													@checked={{this.isFilterPaneOptionChecked group.key opt.value}}
-													@onChange={{fn this.updateFilterPaneSelection group.key opt.value}}
-												/>
-											{{/each}}
-										</div>
-									{{/if}}
-								{{/let}}
-							</:content>
-						</UlxAccordion>
-					</:body>
-				</UlxSlidePane>
-			{{/if}}
+			<TableOverlays
+				@manageColumns={{this.manageColumnsOverlayConfig}}
+				@filterBubble={{this.filterBubbleOverlayConfig}}
+				@filterOverlay={{this.filterOverlayConfig}}
+				@sortPopover={{this.sortPopoverConfig}}
+				@filterPane={{this.filterPaneOverlayConfig}}
+			/>
 		</div>
 	</template>
 }

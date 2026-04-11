@@ -7,6 +7,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxDivider from "../ulx-divider/index.gjs";
 import { t } from "../../utils/i18n.js";
 import { getComponentClass } from "../../utils/component-config.js";
+import { parseSortBy, formatSortBy } from "./utils.js";
 
 /**
  * Sort options overlay for UlxTable toolbar: choose sort criterion (radio) and order (asc/desc).
@@ -19,17 +20,11 @@ import { getComponentClass } from "../../utils/component-config.js";
  */
 export default class SortOptions extends Component {
 	get sortByKey() {
-		const sortBy = this.args.sortBy;
-		if (!sortBy || typeof sortBy !== "string") return "";
-		const [key] = sortBy.split(":");
-		return key ?? "";
+		return parseSortBy(this.args.sortBy).field ?? "";
 	}
 
 	get sortByOrder() {
-		const sortBy = this.args.sortBy;
-		if (!sortBy || typeof sortBy !== "string") return "asc";
-		const [, order] = sortBy.split(":");
-		return order === "desc" ? "desc" : "asc";
+		return parseSortBy(this.args.sortBy).order === -1 ? "desc" : "asc";
 	}
 
 	get isAsc() {
@@ -53,13 +48,13 @@ export default class SortOptions extends Component {
 	@action
 	onSortCriterionChange(item, checked) {
 		if (!checked || !this.args.onChange) return;
-		this.args.onChange(`${item.value}:${this.sortByOrder}`);
+		this.args.onChange(formatSortBy(item.value, this.sortByOrder === "desc" ? -1 : 1));
 	}
 
 	@action
 	updateOrderBy(orderBy) {
 		if (!this.args.onChange) return;
-		this.args.onChange(`${this.sortByKey}:${orderBy}`);
+		this.args.onChange(formatSortBy(this.sortByKey, orderBy === "desc" ? -1 : 1));
 	}
 
 	<template>
@@ -81,7 +76,7 @@ export default class SortOptions extends Component {
 					@iconComponentClass="bs-icons1"
 					@iconSize="s14"
 					@size="compact"
-					@variant="secondary"
+					@variant="basic"
 					@text={{true}}
 					@customClass={{if
 						this.isAsc
@@ -99,7 +94,7 @@ export default class SortOptions extends Component {
 					@iconSize="s14"
 					@text={{true}}
 					@size="compact"
-					@variant="secondary"
+					@variant="basic"
 					@customClass={{if
 						this.isAsc
 						""
