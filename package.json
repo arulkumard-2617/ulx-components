@@ -19,13 +19,13 @@
 		"babel.config.json"
 	],
 	"scripts": {
-		"build": "rollup --config config/rollup.config.mjs",
+		"ulxEditor": "npm run ulxEditor --prefix ulx",
+		"build": "npm run ulxEditor && rollup --config config/rollup.config.mjs",
 		"lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
 		"lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
 		"lint:js": "eslint . --cache",
 		"lint:js:fix": "eslint . --fix",
-		"prepack": "rollup --config config/rollup.config.mjs",
-		"prepare": "rollup --config config/rollup.config.mjs",
+		"prepare": "npm run build",
 		"start": "rollup --config config/rollup.config.mjs --watch",
 		"test": "echo 'A v2 addon does not have tests, run tests in test-app'"
 	},
