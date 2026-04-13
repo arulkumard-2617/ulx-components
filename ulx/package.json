@@ -20,9 +20,9 @@
 		"destroy": "node src/scripts/create.js destroy",
 		"ulsBuild:guls": "ULS_APP=guls npm run ulsBuild",
 		"ulsDev:guls": "ULS_APP=guls npm run ulsDev:watch",
-		"ulx-init": "node ./node_modules/ULS_V2.0/node_modules/ulx-v2/src/scripts/uls.js init",
-		"ulx-config": "node ./node_modules/ULS_V2.0/node_modules/ulx-v2/src/scripts/update-config.mjs",
-		"ulx-update-config": "node ./node_modules/ULS_V2.0/node_modules/ulx-v2/src/scripts/update-config.mjs",
+		"ulx-init": "node ./node_modules/uls_v2/node_modules/ulx-v2/src/scripts/uls.js init",
+		"ulx-config": "node ./node_modules/uls_v2/node_modules/ulx-v2/src/scripts/update-config.mjs",
+		"ulx-update-config": "node ./node_modules/uls_v2/node_modules/ulx-v2/src/scripts/update-config.mjs",
 		"ulsBuild:editor": "ULS_APP=editor npm run ulsBuild",
 		"ulsDev:editor": "ULS_APP=editor npm run ulsDev:watch",
 		"ulsBuild:foundation": "ULS_APP=foundation npm run ulsBuild",
@@ -36,8 +36,8 @@
 		"sync-docs": "npm run sync-snippets-once && npm run generate:component-api",
 		"ulsBuild:onair": "ULS_APP=onair npm run ulsBuild",
 		"ulsDev:onair": "ULS_APP=onair npm run ulsDev:watch",
-		"generate:utill-schema": "node node_modules/ULS_V2.0/src/scripts/schema/generate-util-schema.mjs src/demo/ulx-ember/app/data/util-schema.js",
-		"generate:utill-nav-schema": "node node_modules/ULS_V2.0/src/scripts/schema/generate-util-nav.mjs src/demo/ulx-ember/app/data/util-nav-schema.js"
+		"generate:utill-schema": "node node_modules/uls_v2/src/scripts/schema/generate-util-schema.mjs src/demo/ulx-ember/app/data/util-schema.js",
+		"generate:utill-nav-schema": "node node_modules/uls_v2/src/scripts/schema/generate-util-nav.mjs src/demo/ulx-ember/app/data/util-nav-schema.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -46,7 +46,7 @@
 	"dependencies": {
 		"clsx": "^2.1.1",
 		"primereact": "^10.9.7",
-		"ULS_V2.0": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#master"
+		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {
 		"chokidar": "^4.0.1",

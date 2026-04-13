@@ -49,10 +49,10 @@ const cssVarPrefix =
 const nodeModulesPath = resolve(ulxRoot, 'node_modules');
 const stylesRoot = resolve(ulxRoot, stylesPath);
 const entryDir = dirname(entryFile);
-const ulsPackagePath = resolve(__dirname, '../../ULS_V2.0/node_modules/ulx-v2');
+const uiPackagePath = resolve(ulxRoot, 'node_modules/uls_v2');
+const ulsPackagePath = resolve(uiPackagePath, 'node_modules/ulx-v2');
 const ulsStylesPath = resolve(ulsPackagePath, 'src/styles');
 const ulsOverridesPath = resolve(ulsStylesPath, 'ulx-overrides/less/ulx-primereact');
-const uiPackagePath = resolve(__dirname, '../../ULS_V2.0');
 
 async function compileCSS() {
 	try {
