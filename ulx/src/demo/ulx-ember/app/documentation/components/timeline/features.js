@@ -9,13 +9,15 @@ import {
   OppositeDemo,
   TemplateDemo,
   HorizontalDemo,
+  MilestoneDemo,
   // Sources
   ImportSource,
   BasicSource,
   AlignmentSource,
   OppositeSource,
   TemplateSource,
-  HorizontalSource
+  HorizontalSource,
+  MilestoneSource
 } from './imports';
 
 export const TimelineFeatureItems = [
@@ -53,6 +55,26 @@ export const TimelineFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "milestone",
+    sectionNav: "Milestone tracker",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "Use <code>@customClass=\"milestone-tracker\"</code> on the root for a milestone-style line: only <code>state=\"completed\"</code> is styled (check marker and primary connector). Other items use the default grey ring and dot (for example <code>upcoming</code>)."
+      }
+    },
+    demo: {
+      component: MilestoneDemo,
+      props: {
+        source: MilestoneSource,
+        snippetName: "milestone",
         language: "handlebars"
       }
     }

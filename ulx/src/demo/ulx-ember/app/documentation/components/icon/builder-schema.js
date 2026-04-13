@@ -2,9 +2,7 @@
 // Icon Builder Schema
 // ==========================================================================
 // Drives the ComponentBuilder for the Icon doc page. Size, layers, and spin
-// options are taken from icon-tokens.js, which is generated from
-// @ulx-builder comments in ulx-v2/.../less/elements/icon.less.
-// Run: node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]
+// options come from app/tokens/icon-tokens.js.
 
 import iconTokens from '../../../tokens/icon-tokens';
 import {
