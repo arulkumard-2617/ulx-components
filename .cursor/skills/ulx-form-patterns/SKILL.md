@@ -40,8 +40,8 @@ description: Build forms with ulx-components using established composition patte
 - `UlxField` + `UlxRadio`
 - `UlxField` + `UlxToggle`
 - `UlxField` + `UlxPassword`
-- `UlxFieldSet @layout="grid"` for denser layouts
-- `UlxFieldSet @layout="stack"` for simpler vertical groups
+- `UlxFieldSet @customClass="ulx-grid ..."` (e.g. column templates and gap) for denser layouts
+- `UlxFieldSet @customClass="flex flex-col ..."` for simpler vertical groups
 
 ## Verification
 

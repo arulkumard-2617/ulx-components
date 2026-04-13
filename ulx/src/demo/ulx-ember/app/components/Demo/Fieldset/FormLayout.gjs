@@ -249,9 +249,8 @@ export default class DemoFieldsetFormLayout extends Component {
       <:default>
         <UlxFieldSet
           class="col-12 w-full"
-          @layout="stack"
           @legend="Basic information"
-          @customClass="gap-6"
+          @customClass="flex flex-col gap-6"
         >
           <UlxField
             @fieldId="demo-fieldset-form-app-name"
@@ -301,8 +300,7 @@ export default class DemoFieldsetFormLayout extends Component {
         <UlxFieldSet
           class="col-12 w-full"
           @legend="Location & contact"
-          @layout="stack"
-          @customClass="gap-6"
+          @customClass="flex flex-col gap-6"
         >
           <UlxField
             @label="Country"

@@ -32,4 +32,3 @@ export default class ExtendedPaletteTagDemo extends Component {
     </div>
   </template>
 }
-

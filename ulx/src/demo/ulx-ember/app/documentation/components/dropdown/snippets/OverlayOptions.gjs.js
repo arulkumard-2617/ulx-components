@@ -52,7 +52,7 @@ export default class DemoDropdownOverlayOptions extends Component {
     <div class="ulx-form m-size flex flex-col gap-8 mb-14">
       <div class="ulx-grid gap-8">
         <UlxField
-          @label={{t 'lbl.dropdown.context.self'}}
+          @label={{t "lbl.dropdown.context.self"}}
           @fieldId="dropdown-context-self"
           @fieldClass="col-4"
           as |field|
@@ -63,12 +63,12 @@ export default class DemoDropdownOverlayOptions extends Component {
             @value={{this.selectedLocalCity}}
             @onChange={{this.setSelectedLocalCity}}
             @context="self"
-            @placeholder={{t 'msg.dropdown.placeholder.city'}}
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
           />
         </UlxField>
 
         <UlxField
-          @label={{t 'lbl.dropdown.context.body'}}
+          @label={{t "lbl.dropdown.context.body"}}
           @fieldId="dropdown-context-body"
           @fieldClass="col-4"
           as |field|
@@ -81,22 +81,25 @@ export default class DemoDropdownOverlayOptions extends Component {
             @context="body"
             @boundary="window"
             @scrollContext="window"
-            @placeholder={{t 'msg.dropdown.placeholder.city'}}
+            @placeholder={{t "msg.dropdown.placeholder.city"}}
           />
         </UlxField>
       </div>
 
       <div class="flex flex-col gap-2">
         <div class="text-13 fg-secondary">
-          {{t 'msg.dropdown.overlay.scroll.help'}}
+          {{t "msg.dropdown.overlay.scroll.help"}}
         </div>
 
-        <div class="h-170 overflow-auto border rounded p-4" {{this.scrollHostRef}}>
+        <div
+          class="h-170 overflow-auto border rounded p-4"
+          {{this.scrollHostRef}}
+        >
           <div class="flex flex-col gap-8">
             <div class="h-170"></div>
 
             <UlxField
-              @label={{t 'lbl.dropdown.boundary.scroll'}}
+              @label={{t "lbl.dropdown.boundary.scroll"}}
               @fieldId="dropdown-context-scroll"
               @fieldClass="w-full"
               as |field|
@@ -110,7 +113,7 @@ export default class DemoDropdownOverlayOptions extends Component {
                 @boundary={{this.scrollHostElement}}
                 @scrollContext={{this.scrollHostElement}}
                 @filter={{true}}
-                @placeholder={{t 'msg.dropdown.search.cities'}}
+                @placeholder={{t "msg.dropdown.search.cities"}}
               />
             </UlxField>
 
