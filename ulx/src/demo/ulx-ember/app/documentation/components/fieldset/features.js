@@ -11,7 +11,7 @@ import {
   BasicSource,
   LayoutSource,
   BlocksSource,
-  FormLayoutSource,
+  FormLayoutSource
 } from './imports';
 
 export const FieldsetFeatureItems = [
@@ -23,17 +23,17 @@ export const FieldsetFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>import</code> section shows how to import <code>UlxFieldSet</code> from <code>ulx-components</code>.',
-      },
+          'The <code>import</code> section shows how to import <code>UlxFieldSet</code> from <code>ulx-components</code>.'
+      }
     },
     demo: {
       component: null,
       props: {
         source: ImportSource,
         snippetName: 'import',
-        language: 'jsx',
-      },
-    },
+        language: 'jsx'
+      }
+    }
   },
   {
     id: 'basic',
@@ -43,17 +43,17 @@ export const FieldsetFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Wrapped in <code>UlxForm</code> for <code>@size</code>. <code>@layout="grid"</code> (default) adds <code>ulx-grid</code> on <code>fieldset-wrapper</code>; use <code>@customClass</code> for gaps. See <strong>Grid and stack</strong> for stack layout.',
-      },
+          'Wrapped in <code>UlxForm</code> for <code>@size</code>. <code>@layout="grid"</code> (default) adds <code>ulx-grid</code> on <code>fieldset-wrapper</code>; use <code>@customClass</code> for gaps. See <strong>Grid and stack</strong> for stack layout.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'layout',
@@ -63,17 +63,17 @@ export const FieldsetFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Two groups in one <code>UlxForm</code>: <code>@layout="grid"</code> (ulx-grid on <code>fieldset-wrapper</code>) vs <code>@layout="stack"</code> (<code>flex flex-col</code> on <code>fieldset-wrapper</code>).',
-      },
+          'Two groups in one <code>UlxForm</code>: <code>@layout="grid"</code> (ulx-grid on <code>fieldset-wrapper</code>) vs <code>@layout="stack"</code> (<code>flex flex-col</code> on <code>fieldset-wrapper</code>).'
+      }
     },
     demo: {
       component: LayoutDemo,
       props: {
         source: LayoutSource,
         snippetName: 'layout',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'blocks',
@@ -83,17 +83,17 @@ export const FieldsetFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>&lt;:legend&gt;</code>, <code>&lt;:description&gt;</code>, and <code>&lt;:actions&gt;</code> for richer markup. Main fields must be wrapped in <code>&lt;:default&gt;</code> when other named blocks are present.',
-      },
+          'Use <code>&lt;:legend&gt;</code>, <code>&lt;:description&gt;</code>, and <code>&lt;:actions&gt;</code> for richer markup. Main fields must be wrapped in <code>&lt;:default&gt;</code> when other named blocks are present.'
+      }
     },
     demo: {
       component: BlocksDemo,
       props: {
         source: BlocksSource,
         snippetName: 'blocks',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'form-layout',
@@ -103,18 +103,18 @@ export const FieldsetFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Nest fieldsets in <code>UlxForm</code> (<code>@size</code>, <code>@customClass</code> such as <code>flex flex-col gap-8</code> — not <code>ulx-grid</code> on the form). Second group uses <code>@layout="stack"</code>. Use <code>&lt;:default&gt;</code> with <code>&lt;:actions&gt;</code>.',
-      },
+          'Nest fieldsets in <code>UlxForm</code> (<code>@size</code>, <code>@customClass</code> such as <code>flex flex-col gap-8</code> — not <code>ulx-grid</code> on the form). Second group uses <code>@layout="stack"</code>. Use <code>&lt;:default&gt;</code> with <code>&lt;:actions&gt;</code>.'
+      }
     },
     demo: {
       component: FormLayoutDemo,
       props: {
         source: FormLayoutSource,
         snippetName: 'formLayout',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function FieldsetFeatures() {

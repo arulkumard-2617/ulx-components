@@ -20,8 +20,8 @@ export default {
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough',
-    },
+      id: 'passthrough'
+    }
   ],
 
   importMsg: "import { UlxFieldSet } from 'ulx-components'",
@@ -29,6 +29,6 @@ export default {
   accessibility: {
     description:
       'Use a visible legend or associate the group with surrounding headings via aria-labelledby on the fieldset when the legend is visually hidden.',
-    example: '<UlxFieldSet @legend="Section title">...</UlxFieldSet>',
-  },
+    example: '<UlxFieldSet @legend="Section title">...</UlxFieldSet>'
+  }
 };

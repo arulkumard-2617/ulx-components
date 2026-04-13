@@ -8,7 +8,7 @@ export default class ComponentsFieldsetRoute extends Route {
     return {
       features: FieldsetFeatureItems,
       meta,
-      builderSchema,
+      builderSchema
     };
   }
 }
