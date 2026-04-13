@@ -376,7 +376,6 @@ export default defineConfig(({ mode }) => {
 		// The build process will handle creating necessary files
 		config.build.rollupOptions = {
 			input: dummyInput,
-			external: ['primereact/utils'],
 			output: {
 				format: 'es',
 				// Suppress JS output - we only want CSS from the plugin
@@ -399,7 +398,6 @@ export default defineConfig(({ mode }) => {
 			minify: true,
 			emptyOutDir: false,
 			rollupOptions: {
-				external: ['primereact/utils'],
 				output: {
 					format: 'es',
 					entryFileNames: 'passthrough.js'
@@ -440,7 +438,6 @@ export default defineConfig(({ mode }) => {
 		config.build.outDir = resolve(__dirname, 'dist/js');
 		config.build.minify = true;
 		config.build.rollupOptions = {
-			external: ['primereact/utils'],
 			output: {
 				format: 'es',
 				entryFileNames: 'passthrough.js'
@@ -460,7 +457,6 @@ export default defineConfig(({ mode }) => {
 		config.build.lib = false;
 		config.build.rollupOptions = {
 			input: dummyInput,
-			external: ['primereact/utils'],
 			output: {
 				format: 'es',
 				// Suppress JS output - we only want CSS from the plugin
