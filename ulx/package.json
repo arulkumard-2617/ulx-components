@@ -45,7 +45,8 @@
 	"description": "",
 	"dependencies": {
 		"clsx": "^2.1.1",
-		"primereact": "^10.9.7"
+		"primereact": "^10.9.7",
+		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {
 		"chokidar": "^4.0.1",
