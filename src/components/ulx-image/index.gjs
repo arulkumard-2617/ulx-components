@@ -129,7 +129,11 @@ export default class UlxImage extends Component {
 			>
 				{{#if this.loadFailed}}
 					{{#if this.isMeaningful}}
-						<span class="flex items-center justify-center w-full min-h-40 text-12 fg-secondary" role="img" aria-label={{this.failureAriaLabel}}></span>
+						<span
+							class="flex items-center justify-center w-full min-h-40 text-12 fg-secondary"
+							role="img"
+							aria-label={{this.failureAriaLabel}}
+						></span>
 					{{/if}}
 				{{else}}
 					<img

@@ -28,7 +28,7 @@ const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
  * @param {(event: SubmitEvent) => void} [onSubmit] - Submit handler; prevents default navigation when set.
  * @param {(event: Event) => void} [onReset] - Reset handler.
  * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class).
- * @param {string} [customClass] - Extra CSS classes on the form root. Avoid `ulx-grid` here; use `UlxFieldSet` `@layout="grid"` (and `@customClass` on the fieldset wrapper) for field groups.
+ * @param {string} [customClass] - Extra CSS classes on the form root. Avoid `ulx-grid` here; use `UlxFieldSet` `@customClass` on the fieldset content wrapper (e.g. `ulx-grid`, `flex flex-col`) for field groups.
  * @param {string} [actionsClass] - Extra classes on the actions wrapper (base `ulx-form-actions`).
  * @param {string} [dataQa] - Optional root `data-qa` (default `ulx-form`).
  * @block default - Primary form content.
@@ -39,7 +39,7 @@ export default class UlxForm extends Component {
 		return getComponentClass("form");
 	}
 
-	/** Optional size from `FORM_SIZE_CLASSES`, then `customClass` (spacing/stack utilities only; grid layout belongs on `UlxFieldSet`). */
+	/** Optional size from `FORM_SIZE_CLASSES`, then `customClass` (spacing/stack utilities only; field group layout belongs on `UlxFieldSet` `@customClass`). */
 	get rootClasses() {
 		const { size, customClass } = this.args;
 

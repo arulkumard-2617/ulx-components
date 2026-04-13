@@ -10,6 +10,7 @@ import {
   RouterDemo,
   CommandDemo,
   AccessibilityDemo,
+  CardTabsDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -18,6 +19,7 @@ import {
   RouterSource,
   CommandSource,
   AccessibilitySource,
+  CardTabsSource,
 } from './imports';
 
 export const TabMenuFeatureItems = [
@@ -156,6 +158,26 @@ export const TabMenuFeatureItems = [
       props: {
         source: AccessibilitySource,
         snippetName: "accessibility",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "card-tabs",
+    sectionNav: "Card Tabs",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Card Tabs</code> demo shows the <code>card-tabs</code> variant with icon-based cards and a disabled tab.",
+      }
+    },
+    demo: {
+      component: CardTabsDemo,
+      props: {
+        source: CardTabsSource,
+        snippetName: "card-tabs",
         language: "handlebars"
       }
     }

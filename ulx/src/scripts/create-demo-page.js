@@ -138,25 +138,20 @@ export default class Components${categoryPascal}${pascalName}Controller extends 
 
   tabs = [
     { id: 'features', label: 'FEATURES' },
-    { id: 'theming', label: 'THEMING' },
-    { id: 'builder', label: 'BUILDER' },
-    { id: 'passthrough', label: 'PASS THROUGH' }
+    { id: 'params', label: 'PARAMS' },
+    { id: 'architecture', label: 'ARCHITECTURE' }
   ];
 
   get isFeaturesTab() {
     return this.activeTab === 'features';
   }
 
-  get isThemingTab() {
-    return this.activeTab === 'theming';
+  get isParamsTab() {
+    return this.activeTab === 'params';
   }
 
-  get isPassthroughTab() {
-    return this.activeTab === 'passthrough';
-  }
-
-  get isBuilderTab() {
-    return this.activeTab === 'builder';
+  get isArchitectureTab() {
+    return this.activeTab === 'architecture';
   }
 
   @action
@@ -177,7 +172,7 @@ if (fs.existsSync(controllerFilePath)) {
 // 3. Create template file
 const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"}}
 
-<Common::DocMain::ComponentLayout
+<DocShared::DocMain::ComponentLayout
   @title={{@model.meta.header}}
   @description={{@model.meta.subHeader}}
   @tabs={{this.tabs}}
@@ -185,39 +180,9 @@ const templateContent = `{{page-title "${displayName} - ULS Ember Documentation"
   @onTabChange={{this.onTabChange}}
 >
   {{#if this.isFeaturesTab}}
-    <Common::DocMain::DocPanel @features={{@model.features}} />
-  {{else if this.isThemingTab}}
-    <div class="doc-section">
-      <Common::DocMain::FoundationSection
-        @id="components-${category}-${kebabName}-theming"
-        @title="Theming"
-        @subtitle="Theming documentation for ${displayName} component."
-      >
-        <p class="fg-text-secondary">Theming content goes here.</p>
-      </Common::DocMain::FoundationSection>
-    </div>
-  {{else if this.isBuilderTab}}
-    <Common::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview>
-        <div class="pd6 fg-text-secondary font-size12">
-          Preview not configured yet. Update
-          <code>app/documentation/components/${category}/${kebabName}/builder-schema.js</code>
-          and this template to render the component with the generated props.
-        </div>
-      </:preview>
-    </Common::DocMain::ComponentBuilder>
-  {{else if this.isPassthroughTab}}
-    <div class="doc-section">
-      <Common::DocMain::FoundationSection
-        @id="components-${category}-${kebabName}-passthrough"
-        @title="Pass Through"
-        @subtitle="Pass Through props documentation for ${displayName} component."
-      >
-        <p class="fg-text-secondary">Pass Through content goes here.</p>
-      </Common::DocMain::FoundationSection>
-    </div>
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
   {{/if}}
-</Common::DocMain::ComponentLayout>
+</DocShared::DocMain::ComponentLayout>
 `;
 
 const templateFilePath = path.join(templatesPath, `${kebabName}.hbs`);
@@ -255,19 +220,14 @@ export default {
       id: 'features'
     },
     {
-      name: 'Theming',
-      route: '/theming',
-      id: 'theming'
+      name: 'Params',
+      route: '/params',
+      id: 'params'
     },
     {
-      name: 'Builder',
-      route: '/builder',
-      id: 'builder'
-    },
-    {
-      name: 'Pass Through',
-      route: '/passthrough',
-      id: 'passthrough'
+      name: 'Architecture',
+      route: '/architecture',
+      id: 'architecture'
     }
   ],
 

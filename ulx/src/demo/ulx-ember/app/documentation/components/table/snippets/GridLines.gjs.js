@@ -55,7 +55,9 @@ export default class DemoTableGridLines extends Component {
   @tracked selectedView = 'striped';
 
   get isStriped() {
-    return this.selectedView === 'striped' || this.selectedView === 'striped-grid';
+    return (
+      this.selectedView === 'striped' || this.selectedView === 'striped-grid'
+    );
   }
 
   get isGridlines() {

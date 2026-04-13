@@ -14,7 +14,7 @@ import {
   tooltip,
   UlxIcon,
   UlxToast,
-  UlxMultiSelect
+  UlxMultiSelect,
 } from 'ulx-components';
 
 const CITIES = [
@@ -101,8 +101,8 @@ export default class StackedModalDemo extends Component {
         variant: 'info',
         summary: 'Stacked overlay demo',
         detail: 'Press ESC — this toast closes before the modal.',
-        closable: true
-      }
+        closable: true,
+      },
     ];
   }
 
@@ -210,7 +210,8 @@ export default class StackedModalDemo extends Component {
       <:body>
         <div class="flex flex-col gap-4">
           <p class="text-13 fg-secondary">
-            ESC closes the topmost overlay first. Toasts close before modal or slide pane. Open a toast, then press ESC to see toast close first.
+            ESC closes the topmost overlay first. Toasts close before modal or
+            slide pane. Open a toast, then press ESC to see toast close first.
           </p>
           <UlxButton
             @label="Open modal"
@@ -283,7 +284,10 @@ export default class StackedModalDemo extends Component {
                 {{tooltip "Tooltip on the right" position="right"}}
                 @label="Right"
               />
-              <UlxButton {{tooltip "Tooltip on the top" position="top"}} @label="Top" />
+              <UlxButton
+                {{tooltip "Tooltip on the top" position="top"}}
+                @label="Top"
+              />
               <UlxButton
                 {{tooltip "Tooltip on the bottom" position="bottom"}}
                 @label="Bottom"
@@ -326,7 +330,8 @@ export default class StackedModalDemo extends Component {
       @registerRef={{this.setPopupRef}}
     >
       <:body>
-        <p class="p-4 mb-0">This popup is stacked above the modal. Press ESC to close this first.</p>
+        <p class="p-4 mb-0">This popup is stacked above the modal. Press ESC to
+          close this first.</p>
       </:body>
     </UlxPopup>
 
