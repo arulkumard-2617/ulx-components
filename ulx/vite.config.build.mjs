@@ -40,8 +40,7 @@ let globalLessFileWatchers = [];
 let globalRebuildTimeout = null;
 
 // Find UI package and ULS paths (auto-detected)
-// Find UI package and ULS paths (auto-detected)
-const uiPackagePath = resolve(__dirname, '../ULS_V2.0');
+const uiPackagePath = resolve(__dirname, 'node_modules/uls_v2');
 const ulsPackagePath = resolve(uiPackagePath, 'node_modules/ulx-v2');
 
 // Custom LESS build plugin (regular + minified)
