@@ -10,7 +10,7 @@ import {
 
 <template>
   <UlxForm @size="m-size">
-    <UlxFieldSet class="col-12" @layout="grid" @customClass="gap-6">
+    <UlxFieldSet class="col-12" @customClass="ulx-grid gap-6">
       <:legend>
         <span class="fg-text">{{t "lbl.doc.fieldset.section.blocks"}}</span>
       </:legend>
