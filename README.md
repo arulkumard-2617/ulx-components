@@ -26,7 +26,7 @@ pnpm add ulx-components
 
 ### CSS (`dev-releases`)
 
-Built styles (`dev-releases/css/ulx-editor.min.css`) are **included in the published npm package** (`package.json` `files` includes `dev-releases`). They are produced by `npm run ulxEditor` in the `ulx/` package (see `ulx/package.json`), and the root package runs that before Rollup via **`npm run build`** and the **`prepare`** lifecycle (runs during `npm pack`, `npm publish`, and `npm install` in this repo). The minified file is gitignored; run **`npm install` inside `ulx/`** before packing or publishing so LESS, `glob`, and `ULS_V2.0` resolve.
+Built styles (`dev-releases/css/ulx-editor.min.css`) are **included in the published npm package** (`package.json` `files` includes `dev-releases`). They are produced by `npm run ulxEditor` in the `ulx/` package (see `ulx/package.json`), and the root package runs that before Rollup via **`npm run build`** and the **`prepare`** lifecycle (runs during `npm pack`, `npm publish`, and `npm install` in this repo). The minified file is gitignored. **`npm run build` / `prepare`** runs `config/ensure-ulx-editor-css.cjs` when `ulx/` is present (git installs): it runs **`npm install --prefix ulx`** then **`ulxEditor`**, so `less` and `ULS_V2.0` resolve without a manual `cd ulx`. Published packages omit `ulx/` and ship pre-built `dev-releases/` instead.
 
 Host apps should load this as a separate stylesheet (not via Ember `vendor.css`), for example by copying `dev-releases/css/ulx-editor.min.css` into their static `/styles/` output.
 
