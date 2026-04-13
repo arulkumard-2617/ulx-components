@@ -4,10 +4,9 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
   <UlxForm @size="m-size" @customClass="flex flex-col gap-8">
     <UlxFieldSet
       class="w-full"
-      @layout="grid"
       @legend={{t "lbl.doc.fieldset.layout.grid"}}
       @description={{t "msg.doc.fieldset.layout.grid"}}
-      @customClass="col-2 gap-6"
+      @customClass="ulx-grid col-2 gap-6"
     >
       <UlxField
         @label={{t "lbl.doc.fieldset.name"}}
@@ -34,10 +33,9 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
 
     <UlxFieldSet
       class="w-full"
-      @layout="stack"
       @legend={{t "lbl.doc.fieldset.layout.stack"}}
       @description={{t "msg.doc.fieldset.layout.stack"}}
-      @customClass="gap-4"
+      @customClass="flex flex-col gap-4"
     >
       <UlxField
         @label={{t "lbl.doc.fieldset.demo.line1"}}
