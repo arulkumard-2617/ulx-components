@@ -39,7 +39,10 @@ export default class DynamicMessagesDemo extends Component {
         />
       </div>
     </div>
-    <UlxBannerMessage @message={{this.message}} @onRemove={{this.removeMessage}} />
+    <UlxBannerMessage
+      @message={{this.message}}
+      @onRemove={{this.removeMessage}}
+    />
   </template>
 }
 

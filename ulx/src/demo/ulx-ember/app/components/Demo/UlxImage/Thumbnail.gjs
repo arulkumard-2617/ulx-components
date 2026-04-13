@@ -4,8 +4,12 @@ import { UlxImage, t } from 'ulx-components';
 <template>
   <div class="ulx-grid col-1 gap-6">
     <div>
-      <h6 class="bold-font mb-2">{{t "lbl.doc.image.thumb.landscape.heading"}}</h6>
-      <p class="text-12 fg-secondary mb-3">{{t "msg.doc.image.thumb.landscape.intro"}}</p>
+      <h6 class="bold-font mb-2">{{t
+          "lbl.doc.image.thumb.landscape.heading"
+        }}</h6>
+      <p class="text-12 fg-secondary mb-3">{{t
+          "msg.doc.image.thumb.landscape.intro"
+        }}</p>
       <div class="flex wrap gap-4 items-end">
         <UlxImage
           @src="https://randomuser.me/api/portraits/women/12.jpg"
@@ -40,8 +44,12 @@ import { UlxImage, t } from 'ulx-components';
       </div>
     </div>
     <div>
-      <h6 class="bold-font mb-2">{{t "lbl.doc.image.thumb.portrait.heading"}}</h6>
-      <p class="text-12 fg-secondary mb-3">{{t "msg.doc.image.thumb.portrait.intro"}}</p>
+      <h6 class="bold-font mb-2">{{t
+          "lbl.doc.image.thumb.portrait.heading"
+        }}</h6>
+      <p class="text-12 fg-secondary mb-3">{{t
+          "msg.doc.image.thumb.portrait.intro"
+        }}</p>
       <div class="flex wrap gap-4 items-end">
         <UlxImage
           @src="https://randomuser.me/api/portraits/men/11.jpg"

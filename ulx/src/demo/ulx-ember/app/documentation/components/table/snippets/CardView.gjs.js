@@ -283,7 +283,7 @@ export default class DemoTableCardView extends Component {
           <:detailed>
             <div class="flex gap-4">
               <div class="col-3">
-                <div class="relative w-250 h-170 rounded-md overflow-hidden">
+                <div class="relative w-252 h-172 rounded-md overflow-hidden">
                   <img
                     src="/default-map.png"
                     alt="Event location map"

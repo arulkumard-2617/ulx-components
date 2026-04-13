@@ -4,10 +4,9 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
 <template>
   <UlxForm @size="m-size">
     <UlxFieldSet
-      @layout="grid"
       @legend={{t "lbl.doc.fieldset.legend.contact"}}
       @description={{t "msg.doc.fieldset.desc.contact"}}
-      @customClass="gap-6"
+      @customClass="ulx-grid gap-6"
     >
       <UlxField
         @label={{t "lbl.doc.fieldset.name"}}

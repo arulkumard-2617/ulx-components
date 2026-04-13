@@ -6,22 +6,21 @@ import { resolveRootDataQa } from "../../utils/data-qa";
 
 /**
  * Semantic `<fieldset>` + `<legend>` group for related controls with optional description,
- * layout wrapper, and optional actions slot. Form-level sizing belongs on `UlxForm` (`@size`), not here.
+ * content wrapper, and optional actions slot. Form-level sizing belongs on `UlxForm` (`@size`), not here.
  *
  * Subregions: `field-legend`, `field-description`, `fieldset-wrapper`, `fieldset-actions`.
  * Pass `aria-*`, `name`, `disabled`, etc. via `...attributes` on the fieldset.
  *
- * ## Layout
- * - `@layout="grid"` (default) — wrapper gets `getComponentClass('grid')` (e.g. `ulx-grid`). Add templates and gaps via `@customClass` on the wrapper (e.g. `col-2 gap-6`).
- * - `@layout="stack"` — wrapper uses `flex` and `flex-col` (ULS utilities) for a vertical stack.
- * - `@customClass` — extra classes on the content wrapper (grid/stack region), not on `<fieldset>`. Pass root classes via `class` / `...attributes` on the component.
+ * ## Content wrapper
+ * The wrapper (`fieldset-wrapper`) does not apply a built-in layout. Pass layout utilities on
+ * `@customClass` (e.g. `ulx-grid col-2 gap-6`, or `flex flex-col gap-4`). Root `<fieldset>` classes go
+ * via `class` / `...attributes` on the component.
  *
  * @class UlxFieldSet
  * @param {string} [legend] - Legend text (or use the `legend` block).
  * @param {string} [description] - Optional description (or use the `description` block).
- * @param {'grid'|'stack'} [layout='grid'] - Content layout inside the fieldset wrapper region.
  * @param {boolean} [disabled] - Disables all nested controls.
- * @param {string} [customClass] - Extra classes on the fieldset **content wrapper** (e.g. `gap-6`, `col-2`).
+ * @param {string} [customClass] - Extra classes on the fieldset **content wrapper** (layout utilities such as `ulx-grid`, `flex`, `gap-*`, `col-*`).
  * @param {string} [actionsClass] - Extra classes on the fieldset actions region.
  * @param {string} [dataQa] - Optional root `data-qa` (default `ulx-fieldset`).
  * @block default - Fields and controls (inside the wrapper region). With any other named block (`legend`, `description`, `actions`), use `<:default>` explicitly for this content.
@@ -34,25 +33,14 @@ export default class UlxFieldSet extends Component {
 		return getComponentClass("fieldset");
 	}
 
-	get gridLayoutClass() {
-		return getComponentClass("grid");
-	}
-
 	get rootClasses() {
 		return this.baseClass;
 	}
 
 	get wrapperClasses() {
-		const { layout = "grid", customClass } = this.args;
+		const { customClass } = this.args;
 
 		const parts = ["fieldset-wrapper"];
-
-		if (layout === "stack") {
-			parts.push("stacked");
-		} else {
-			parts.push(this.gridLayoutClass);
-		}
-
 		customClass && parts.push(customClass);
 
 		return joinClassNames(...parts);

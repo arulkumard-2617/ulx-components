@@ -102,7 +102,10 @@ export default class BasicPopupDemo extends Component {
             aria-haspopup="dialog"
             aria-expanded="{{this.isPopupVisible}}"
             {{on "click" (fn this.openPopup "self" "window" "window")}}
-            {{on "keydown" (fn this.handleTriggerKeyDown "self" "window" "window")}}
+            {{on
+              "keydown"
+              (fn this.handleTriggerKeyDown "self" "window" "window")
+            }}
           />
         </div>
 
@@ -114,7 +117,10 @@ export default class BasicPopupDemo extends Component {
             aria-haspopup="dialog"
             aria-expanded="{{this.isPopupVisible}}"
             {{on "click" (fn this.openPopup "body" "window" "window")}}
-            {{on "keydown" (fn this.handleTriggerKeyDown "body" "window" "window")}}
+            {{on
+              "keydown"
+              (fn this.handleTriggerKeyDown "body" "window" "window")
+            }}
           />
         </div>
       </div>
@@ -124,7 +130,10 @@ export default class BasicPopupDemo extends Component {
           {{t "msg.popup.overlay.scroll.help"}}
         </div>
 
-        <div class="h-170 overflow-auto border rounded p-4" {{this.scrollHostRef}}>
+        <div
+          class="h-170 overflow-auto border rounded p-4"
+          {{this.scrollHostRef}}
+        >
           <div class="flex flex-col gap-8">
             <div class="h-170"></div>
 
