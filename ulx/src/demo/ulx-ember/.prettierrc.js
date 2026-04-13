@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  trailingComma: 'none',
   plugins: ['prettier-plugin-ember-template-tag'],
   overrides: [
     {

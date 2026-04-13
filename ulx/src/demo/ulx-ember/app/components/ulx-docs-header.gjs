@@ -486,13 +486,24 @@ export default class UlxDocsHeaderComponent extends Component {
         {{if this.isSticky 'sticky' ''}}"
       {{this.setupScrollObserver}}
     >
-      <header class="ulx-container-fluid flex items-center justify-between">
-        <div class="t-left">
+      <header class="px-5 flex items-center justify-between">
+        <div class="t-left flex gap-2 items-center">
           <div class="t-logo">
             <h3 class="bold-font">ULX
-              <span class="fg-primary">EMBER</span>
+              <span class="fg-primary">COMPONENTS</span>
             </h3>
           </div>
+
+          <UlxIconButton
+            @href="/downloads/ulx-ai-skills-and-rules.zip"
+            @label="Download AI Skills and Rules"
+            @iconLeft="download-icon"
+            @iconComponentClass="bs-icons1"
+            @variant="secondary"
+            @size="xs-size"
+            download="ulx-ai-skills-and-rules.zip"
+            aria-label="Download AI Skills and Rules"
+          />
         </div>
 
         <div class="t-right flex items-center gap-2">
@@ -580,7 +591,8 @@ export default class UlxDocsHeaderComponent extends Component {
           <div class="ulx-grid col-1 gap-3">
             <UlxAccordion
               @items={{this.accessibilitySections}}
-              @variant="flat"
+              @variant="elevated"
+              @toggleIconPosition="right"
               @size="m-size"
             >
               <:content as |paneSection|>

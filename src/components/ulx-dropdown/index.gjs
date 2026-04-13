@@ -1146,6 +1146,13 @@ export default class UlxDropdown extends Component {
 														</div>
 													</span>
 												{{else}}
+													<span
+														class="dropdown-item-label
+															{{if (this.isOptionSelected option) 'selected' ''}}
+															{{if (this.isOptionDisabled option) 'disabled' ''}}"
+													>
+														{{this.getOptionLabel option}}
+													</span>
 													{{#if (and @checkmark (this.isOptionSelected option))}}
 														<UlxIcon
 															@type="font"
@@ -1154,13 +1161,6 @@ export default class UlxDropdown extends Component {
 															aria-hidden="true"
 														/>
 													{{/if}}
-													<span
-														class="dropdown-item-label
-															{{if (this.isOptionSelected option) 'selected' ''}}
-															{{if (this.isOptionDisabled option) 'disabled' ''}}"
-													>
-														{{this.getOptionLabel option}}
-													</span>
 												{{/if}}
 											</li>
 										{{/let}}
@@ -1202,6 +1202,13 @@ export default class UlxDropdown extends Component {
 													</div>
 												</span>
 											{{else}}
+												<span
+													class="dropdown-item-label
+														{{if (this.isOptionSelected option) 'selected' ''}}
+														{{if (this.isOptionDisabled option) 'disabled' ''}}"
+												>
+													{{this.getOptionLabel option}}
+												</span>
 												{{#if (and @checkmark (this.isOptionSelected option))}}
 													<UlxIcon
 														@type="font"
@@ -1210,13 +1217,6 @@ export default class UlxDropdown extends Component {
 														aria-hidden="true"
 													/>
 												{{/if}}
-												<span
-													class="dropdown-item-label
-														{{if (this.isOptionSelected option) 'selected' ''}}
-														{{if (this.isOptionDisabled option) 'disabled' ''}}"
-												>
-													{{this.getOptionLabel option}}
-												</span>
 											{{/if}}
 										</li>
 									{{/let}}

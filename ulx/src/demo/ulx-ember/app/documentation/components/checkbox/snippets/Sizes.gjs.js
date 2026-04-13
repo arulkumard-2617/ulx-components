@@ -18,7 +18,7 @@ export default class SizesCheckboxDemo extends Component {
   @action
   handleSizeChange(item, checked) {
     this.sizeItems = this.sizeItems.map((entry) =>
-      entry === item ? { ...entry, checked } : entry
+      entry === item ? { ...entry, checked } : entry,
     );
   }
 
@@ -42,6 +42,5 @@ export default class SizesCheckboxDemo extends Component {
     </div>
   </template>
 }
-
 
 `;

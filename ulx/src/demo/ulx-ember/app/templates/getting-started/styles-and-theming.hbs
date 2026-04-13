@@ -1,0 +1,80 @@
+{{page-title "Styles and Theming - ULX Ember Documentation"}}
+
+<DocShared::DocMain::FoundationLayout
+  @title={{t "lbl.styles.and.theming"}}
+  @description={{t "msg.getting.started.styles.and.theming.description"}}
+>
+  <div class="doc-panel-wrapper flex justify-between">
+    <div class="doc-panel grow w-full">
+      <DocShared::DocMain::FoundationSection
+        @id="styles-and-theming-foundation"
+        @title={{t "lbl.getting.started.styling.foundation"}}
+      >
+        <p class="mt-0 mb-5 fg-text-secondary text-16">
+          {{t "msg.getting.started.styles.foundation"}}
+        </p>
+        <p class="mt-0 mb-0 text-16">
+          {{t "msg.getting.started.styles.body.plain"}}
+        </p>
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="styles-and-theming-themes"
+        @title={{t "lbl.getting.started.themes.and.root.classes"}}
+      >
+        <p class="mt-0 mb-5 fg-text-secondary text-16">
+          {{t "msg.getting.started.styles.themes"}}
+        </p>
+        <DocShared::DocMain::CodePreview
+          @source='<body class="ulx-default-mode ulx-cardinal-theme">'
+          @language="html"
+        />
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="styles-and-theming-overrides"
+        @title={{t "lbl.getting.started.overrides.and.order"}}
+      >
+        <div class="ulx-grid col-1 gap-4 mt-4">
+          <div class="flex items-center gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.styles.override.rule.1"}}
+            </p>
+          </div>
+          <div class="flex items-center gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.styles.override.rule.2"}}
+            </p>
+          </div>
+          <div class="flex items-center gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              {{t "msg.getting.started.styles.override.rule.3"}}
+            </p>
+          </div>
+        </div>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+    <DocShared::DocMain::DocSectionNav @features={{@model.sections}} />
+  </div>
+</DocShared::DocMain::FoundationLayout>

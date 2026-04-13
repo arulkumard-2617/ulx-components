@@ -40,5 +40,4 @@ export default class StatusLabelsTagDemo extends Component {
   </template>
 }
 
-
 `;

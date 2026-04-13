@@ -182,6 +182,56 @@ export function paginateItems(items, first, rows) {
 	return items.slice(first, first + rows);
 }
 
+/**
+ * Runs the table processing pipeline in fixed order:
+ * filter -> sort -> paginate.
+ */
+export function processAndPaginateData({
+	rawData,
+	lazy = false,
+	filters = {},
+	globalFilterFields = [],
+	sortMode = 'single',
+	sortField = null,
+	sortOrder = 1,
+	multiSortMeta = [],
+	paginator = false,
+	first = 0,
+	rows = 10
+}) {
+	if (lazy) {
+		return {
+			processedData: rawData ?? [],
+			pagedData: rawData ?? []
+		};
+	}
+
+	let processedData = rawData ?? [];
+	if (Object.keys(filters).length > 0) {
+		processedData = filterItems(processedData, filters, globalFilterFields);
+	}
+
+	if (sortMode === 'multiple') {
+		if (multiSortMeta?.length) {
+			processedData = multiSortItems(processedData, multiSortMeta);
+		}
+	} else if (sortField) {
+		processedData = sortItems(processedData, sortField, sortOrder);
+	}
+
+	const pagedData = paginator ? paginateItems(processedData, first, rows) : processedData;
+	return { processedData, pagedData };
+}
+
+export function resolveGlobalFilterFields(allColumns = [], globalFilterFields) {
+	if (Array.isArray(globalFilterFields) && globalFilterFields.length > 0) {
+		return globalFilterFields;
+	}
+	return allColumns
+		.filter((column) => column.field && !isSpecialColumn(column))
+		.map((column) => column.filterField ?? column.field);
+}
+
 // ─── State persistence ────────────────────────────────────────────────────────
 
 export function saveTableState(key, storage = 'session', state) {
@@ -203,6 +253,11 @@ export function loadTableState(key, storage = 'session') {
 	} catch {
 		return null;
 	}
+}
+
+export function resolvePersistenceStorage(stateStorage, moduleName, stateKey) {
+	if (stateStorage) return stateStorage;
+	return moduleName && !stateKey ? 'local' : 'session';
 }
 
 export function saveColumnWidths(key, widths) {
@@ -260,6 +315,136 @@ export function parseSortBy(sortByStr) {
 	if (!sortByStr || typeof sortByStr !== 'string') return { field: null, order: 1 };
 	const [field, dir] = sortByStr.split(':');
 	return { field: field || null, order: dir === 'desc' ? -1 : 1 };
+}
+
+/**
+ * Formats sort state to "field:asc|desc".
+ * Returns empty string when field is missing.
+ */
+export function formatSortBy(field, order = 1) {
+	if (!field) return '';
+	return `${field}:${order === -1 ? 'desc' : 'asc'}`;
+}
+
+/**
+ * Computes the next single-sort state for a clicked field.
+ */
+export function getNextSingleSortState({
+	currentField,
+	currentOrder = 1,
+	nextField,
+	removableSort = false
+}) {
+	if (currentField !== nextField) {
+		return { sortField: nextField, sortOrder: 1, cleared: false };
+	}
+
+	if (currentOrder === 1) {
+		return { sortField: nextField, sortOrder: -1, cleared: false };
+	}
+
+	if (removableSort) {
+		return { sortField: null, sortOrder: 1, cleared: true };
+	}
+
+	return { sortField: nextField, sortOrder: 1, cleared: false };
+}
+
+/**
+ * Computes the next multi-sort meta list for a clicked field.
+ */
+export function getNextMultiSortMeta(multiSortMeta = [], field, removableSort = false) {
+	const next = [...multiSortMeta];
+	const idx = next.findIndex((meta) => meta.field === field);
+
+	if (idx === -1) {
+		next.push({ field, order: 1 });
+		return next;
+	}
+
+	if (next[idx].order === 1) {
+		next[idx] = { field, order: -1 };
+		return next;
+	}
+
+	if (removableSort) {
+		next.splice(idx, 1);
+		return next;
+	}
+
+	next[idx] = { field, order: 1 };
+	return next;
+}
+
+/**
+ * Builds "in" filter metadata from checkbox selections.
+ * Returns null when selections are empty.
+ */
+export function buildInFilterMeta(values) {
+	if (!Array.isArray(values) || values.length === 0) return null;
+	return { value: values, matchMode: 'in' };
+}
+
+/**
+ * Applies one selection group into a filters object.
+ */
+export function applySelectionToFilters(filters, field, values) {
+	const updated = { ...filters };
+	const meta = buildInFilterMeta(values);
+	if (meta) updated[field] = meta;
+	else delete updated[field];
+	return updated;
+}
+
+/**
+ * Applies multiple selection groups into a filters object.
+ */
+export function applySelectionMapToFilters(filters, selections = {}) {
+	let updated = { ...filters };
+	for (const [field, values] of Object.entries(selections)) {
+		updated = applySelectionToFilters(updated, field, values);
+	}
+	return updated;
+}
+
+/**
+ * Computes visible columns from optional persisted field set.
+ */
+export function resolveVisibleColumns(allColumns = [], visibleFields = null) {
+	if (!visibleFields) return allColumns;
+	return allColumns.filter((column) => {
+		if (isSpecialColumn(column)) return true;
+		if (column.manageable === false) return true;
+		return visibleFields.has(column.field);
+	});
+}
+
+/**
+ * Applies persisted order to a visible-column list.
+ */
+export function resolveOrderedColumns(visibleColumns = [], persistedOrder = null) {
+	if (!persistedOrder) return visibleColumns;
+	const orderedFields = persistedOrder.map((column) => column?.field).filter(Boolean);
+	const fieldIndex = new Map(orderedFields.map((field, index) => [field, index]));
+	return [...visibleColumns].sort((a, b) => {
+		const ia = fieldIndex.get(a.field);
+		const ib = fieldIndex.get(b.field);
+		if (ia == null && ib == null) return 0;
+		if (ia == null) return 1;
+		if (ib == null) return -1;
+		return ia - ib;
+	});
+}
+
+/**
+ * Rehydrates persisted column order against current column set.
+ */
+export function rehydrateColumnOrder(allColumns = [], persistedFields = []) {
+	if (!Array.isArray(persistedFields)) return null;
+	const columnMap = new Map(
+		allColumns.filter((column) => column?.field).map((column) => [column.field, column])
+	);
+	return persistedFields.map((field) => columnMap.get(field)).filter(Boolean);
 }
 
 // ─── Row reorder ──────────────────────────────────────────────────────────────

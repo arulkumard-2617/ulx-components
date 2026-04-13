@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
+import { schedule } from "@ember/runloop";
 import { inject as service } from "@ember/service";
 import { and, not } from "ember-truth-helpers";
 import { modifier } from "ember-modifier";
@@ -617,9 +618,14 @@ export default class UlxPopup extends Component {
 		this.args.registerRef?.(this);
 
 		return () => {
-			this.modalStack?.unregisterModal(this);
+			const stack = this.modalStack;
+			const instance = this;
 			this.containerElement = null;
 			this.args.registerRef?.(null);
+			/* Avoid mutating modalStack.modals during the same flush as getters that read it (e.g. slide pane z-index). */
+			schedule("actions", () => {
+				stack?.unregisterModal(instance);
+			});
 		};
 	});
 

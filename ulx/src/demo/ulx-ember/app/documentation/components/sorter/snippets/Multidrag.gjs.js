@@ -11,7 +11,7 @@ export default class MultidragSorterDemo extends Component {
   @tracked items = [...ITEMS];
 
   @action
-  handleSort(event) {
+  handleEnd(event) {
     const { oldIndicies = [], newIndicies = [], oldIndex, newIndex } = event;
     const reorderedItems = [...this.items];
 
@@ -45,15 +45,16 @@ export default class MultidragSorterDemo extends Component {
   <template>
     <UlxSorter
       @items={{this.items}}
-      @onSort={{this.handleSort}}
       @options={{hash
         multiDrag=true
-        selectedClass="selected"
+        selectedClass="is-selected"
         fallbackTolerance=3
+        animation=150
+        onEnd=this.handleEnd
       }}
       as |item|
     >
-      {{item}}
+      <span class="text-14 fg-text">{{item}}</span>
     </UlxSorter>
   </template>
 }

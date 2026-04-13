@@ -35,6 +35,7 @@ alwaysApply: true
 - **Component structure**: Use class-based Glimmer components with an embedded template (`.gjs`). Put each component in its own folder under `src/components/` (e.g. `src/components/ulx-button/`).
 - **Arguments**: Document public API with JSDoc `@param` on the component class. Use `this.args.*` or getters that read from `this.args`; do not mutate `this.args`.
 - **Named blocks**: Named blocks **MUST** start with lowercase (e.g. `<:icon>`, `<:header>`, not `<:Icon>`). This is required in Ember for `.gjs` and strict mode: block names are treated as regular identifiers, and uppercase names can conflict with component/helper resolution.
+- **Named blocks and default content**: If a component invocation uses **any** named block (`<:something>`), it must not also use **implicit** default content (sibling markup or `as |yield|` on the opening tag for that default). Put everything that would have been the default body inside **`<:default>`** (and **`as |hash|`** on **`<:default>`** when the component yields into the default block). Example: `<Component><:label>…</:label><:default as |ctx|>…</:default></Component>`—never `<Component as |ctx|><:label>…</:label>…plain content…</Component>`.
 - **Accessibility**: When using PrimeReact as reference, implement the same a11y behavior (ARIA attributes, keyboard support, focus management) in the Ember component.
 - **Avoid** Don't add any comments related to primereact
 - **Must** In the demo page, for the severity case use instead that as Variant not severity

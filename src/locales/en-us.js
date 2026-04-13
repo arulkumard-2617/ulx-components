@@ -312,6 +312,13 @@ const enUs = {
 	'lbl.doc.features': 'FEATURES',
 	'lbl.doc.params': 'PARAMS',
 	'lbl.doc.architecture': 'AECHITECTURE',
+	'lbl.doc.params.type': 'Type',
+	'lbl.doc.params.scope': 'Scope',
+	'lbl.doc.params.required': 'Required',
+	'lbl.doc.params.default': 'Default',
+	'lbl.doc.params.description': 'Description',
+	'lbl.doc.params.yes': 'Yes',
+	'lbl.doc.params.no': 'No',
 	'lbl.doc.theming': 'THEMING',
 	'lbl.doc.builder': 'BUILDER',
 	'lbl.doc.pass.through': 'PASS THROUGH',
@@ -424,6 +431,7 @@ const enUs = {
 	'lbl.paginator.choose': 'Choose',
 	'lbl.paginator.previous': 'Previous',
 	'lbl.paginator.next': 'Next',
+	'lbl.paginator.recordsPerPage': 'Records per Page',
 
 	// ── SelectButton demo ────────────────────────────────────
 	'demo.selectbutton.off': 'Off',
@@ -460,6 +468,151 @@ const enUs = {
 	'lbl.theming': 'Theming',
 	'lbl.pass.through': 'Pass Through',
 	'msg.getting.started': 'Getting started',
+	'msg.getting.started.description':
+		'Start here to understand what ULX is, who it is for, and the minimum setup needed to render styled components backed by ULS_V2.',
+	'msg.getting.started.overview.page.description':
+		'Understand what ULX is, how it relates to ULS_V2, and who should start here first.',
+	'msg.getting.started.overview.intro':
+		'ULX is a component library built on top of ULS_V2, our design system.',
+	'msg.getting.started.overview.callout':
+		'Need deeper internal guidance for docs authoring, demo pages, or variations?',
+	'lbl.getting.started.ulx.plus': 'ULX +',
+	'msg.getting.started.overview.hero.title':
+		'ULX is a component library built on top of ULS_V2, our design system.',
+	'msg.getting.started.overview.hero.body':
+		'ULS_V2 provides the visual foundation such as styles, themes, utilities, and shared design patterns. ULX builds on top of that foundation and exposes Ember components that teams can use directly in applications.',
+	'lbl.introduction': 'Introduction',
+	'lbl.getting.started.advantages.of.ulx': 'Advantages of ULX',
+	'lbl.getting.started.reusable.components': 'Reusable Components',
+	'msg.getting.started.reusable.components': 'No need to rebuild UI patterns for each app.',
+	'msg.getting.started.reusable.components.long':
+		'Teams can use shared Ember components instead of rebuilding the same interface patterns in every app.',
+	'lbl.getting.started.consistency': 'Consistency',
+	'msg.getting.started.consistency': 'Shared class contracts maintain consistent styles.',
+	'msg.getting.started.consistency.long':
+		'ULX stays aligned with ULS_V2 styles, themes, and design decisions so product UI remains visually consistent.',
+	'lbl.getting.started.maintainability': 'Maintainability',
+	'msg.getting.started.maintainability': 'Easier visual updates via common styles and components.',
+	'msg.getting.started.maintainability.long':
+		'Updates are easier to manage because common behavior and shared styling live in one system instead of many app-specific implementations.',
+	'lbl.getting.started.faster.development': 'Faster Development',
+	'msg.getting.started.faster.development': 'Ready-to-use building blocks for faster UI workflow.',
+	'msg.getting.started.faster.development.long':
+		'Teams can move faster with ready-to-use building blocks for forms, navigation, overlays, data display, and feedback patterns.',
+	'lbl.getting.started.shared.foundation': 'Shared foundation',
+	'msg.getting.started.shared.foundation':
+		'ULX combines Ember component APIs with the ULS_V2 design foundation, making the system easier to adopt across products.',
+	'lbl.getting.started.explore.next': 'Explore next',
+	'lbl.getting.started.components': 'Components',
+	'lbl.getting.started.application.developers': 'Application Developers',
+	'msg.getting.started.application.developers': 'Install ULX and build UI in their apps.',
+	'msg.getting.started.application.developers.long':
+		'This path is for developers who want to install ULX, load the required styles, and start using components in their applications.',
+	'lbl.getting.started.new.team.members': 'New Team Members',
+	'msg.getting.started.new.team.members': 'Understand ULX + ULS_V2 system.',
+	'msg.getting.started.new.team.members.long':
+		'This page also helps new team members understand how ULX depends on ULS_V2 and how the design system is applied in practice.',
+	'lbl.getting.started.deeper.guidance': 'Need deeper internal guidance?',
+	'msg.getting.started.use.docs.walkthrough': 'Use the Docs Walkthrough page.',
+	'msg.getting.started.audience.intro':
+		'The overview page is intended to help both product consumers and internal team members understand where ULX fits and when to use it.',
+	'msg.getting.started.quick.start.body':
+		'Use the steps below to render your first ULX component with the required stylesheet and theme classes.',
+	'msg.getting.started.quick.start.page.description':
+		'Get ULX installed, load the required stylesheet, and render your first component quickly.',
+	'msg.getting.started.quick.start.install.package':
+		'Install the ULX package from npm before importing any components.',
+	'msg.getting.started.quick.start.load.stylesheet':
+		'Load the built stylesheet so ULX components render with the expected ULS_V2 styles.',
+	'msg.getting.started.quick.start.apply.theme.classes':
+		'Apply the required root theme classes so colors, tokens, and theme appearance are activated.',
+	'msg.getting.started.quick.start.use.first.component':
+		'Import a component from the package and render it in your template to confirm the setup is working.',
+	'msg.getting.started.quick.start.component.imports':
+		'Import the components you need directly from the package entry point.',
+	'msg.getting.started.quick.start.theme.setup':
+		'Use the correct root theme classes so the component library picks up the expected visual theme.',
+	'msg.getting.started.installation.body':
+		'Install the package from npm, import the components you need from <code>ulx-components</code>, load the built stylesheet from <code>dev-releases</code>, and apply the required theme classes on the page root.<br /><br />If the stylesheet is missing, components may render functionally but will not look correct.',
+	'lbl.styles.and.theming': 'Styles and Theming',
+	'msg.getting.started.styles.and.theming.description':
+		'Learn how ULX uses ULS_V2 styles, how themes are applied, and where overrides should live.',
+	'lbl.getting.started.styling.foundation': 'Foundation',
+	'msg.getting.started.styles.foundation':
+		'ULX is not a standalone styling system. It is built to work on top of ULS_V2 and reuse its class contracts, utilities, themes, and visual patterns.',
+	'msg.getting.started.styles.body.plain':
+		'ULX provides Ember component behavior and public APIs, while ULS_V2 provides the underlying visual language. That relationship is what keeps the system consistent across apps.',
+	'lbl.getting.started.themes.and.root.classes': 'Themes and root classes',
+	'msg.getting.started.styles.themes':
+		'Theme classes are applied on the page root, commonly on <code>body</code>. Without the correct root classes, colors, tokens, and theme-specific appearance may not match expected ULX output.',
+	'lbl.getting.started.overrides.and.order': 'Overrides and order',
+	'msg.getting.started.styles.override.rule.1':
+		'Do not modify core styles directly; use the intended override layer.',
+	'msg.getting.started.styles.override.rule.2':
+		'Keep import and override order predictable so base styles load before customizations.',
+	'msg.getting.started.styles.override.rule.3':
+		'Prefer system-level alignment over one-off app-specific hacks whenever possible.',
+	'msg.getting.started.styles.body':
+		'ULX is not a standalone styling system. It is built to work on top of <strong>ULS_V2</strong>.<br /><br /><ul><li>ULS_V2 provides the foundational styles, utilities, and themes.</li><li>ULX components use those styling conventions and shared class names.</li><li>ULX ships compiled CSS so applications can consume it directly.</li><li>Theme classes control the active visual theme.</li></ul><br />When customization is needed, prefer the intended override layer instead of modifying core styles directly.',
+	'msg.getting.started.common.mistakes.page.description':
+		'Avoid the most common setup issues that make ULX appear broken or inconsistent.',
+	'msg.getting.started.common.mistakes.body.intro':
+		'Most early issues with ULX are setup issues rather than component issues.',
+	'msg.getting.started.common.mistakes.item.1':
+		'Using ULX components without loading the stylesheet.',
+	'msg.getting.started.common.mistakes.item.2': 'Using the wrong stylesheet filename or path.',
+	'msg.getting.started.common.mistakes.item.3':
+		'Forgetting to apply the required theme classes on the page root.',
+	'msg.getting.started.common.mistakes.item.4':
+		'Treating ULX as independent from ULS_V2 when styling or customizing.',
+	'msg.getting.started.common.mistakes.item.5':
+		'Adding custom overrides before confirming that the base ULX setup is correct.',
+	'msg.getting.started.common.mistakes.body':
+		'These are the most common setup issues:<br /><br /><ul><li>Using ULX components without loading the stylesheet.</li><li>Using the wrong stylesheet filename.</li><li>Forgetting to apply the required theme classes on <code>body</code>.</li><li>Treating ULX as independent from ULS_V2.</li><li>Adding overrides before confirming the base setup is correct.</li></ul>',
+	'lbl.who.is.this.for': 'Who is this for',
+	'lbl.quick.start': 'Quick Start',
+	'lbl.quick.fixes': 'Quick fixes',
+	'msg.getting.started.nav.quick.start':
+		'Set up ULX quickly, load the required stylesheet, and render your first component.',
+	'msg.getting.started.nav.styles.and.theming':
+		'Understand how ULX builds on ULS_V2 styles, themes, and overrides.',
+	'msg.getting.started.nav.common.mistakes':
+		'Review the most common setup problems and the fastest fixes.',
+	'msg.getting.started.nav.docs.walkthrough':
+		'Open the internal guide for demo-page authoring, docs updates, and variations.',
+	'msg.getting.started.nav.components':
+		'Jump into the component docs and start exploring the available ULX building blocks.',
+	'lbl.button': 'Button',
+	'lbl.install.package': 'Install the package',
+	'lbl.load.stylesheet': 'Load the stylesheet',
+	'lbl.apply.theme.classes': 'Apply theme classes',
+	'lbl.use.your.first.component': 'Use your first component',
+	'lbl.installation': 'Installation',
+	'lbl.component.imports': 'Component imports',
+	'lbl.theme.setup': 'Theme setup',
+	'lbl.uls.v2.styles.in.ulx': 'ULS_V2 styles in ULX',
+	'lbl.common.mistakes': 'Common mistakes',
+	'lbl.correct.stylesheet.path': 'Correct stylesheet path',
+	'lbl.required.theme.classes': 'Required theme classes',
+	'lbl.docs.walkthrough': 'Docs Walkthrough',
+	'msg.docs.walkthrough.description':
+		'Internal guide for running the docs app and scaffolding demo pages and variations.',
+	'msg.docs.walkthrough.prerequisites':
+		'Ensure you have <code>Node.js</code> (with npm) and <code>Git</code> installed. All create, destroy, and variation commands below must be run from the <code>ulx</code> project root, where the related scripts are defined.',
+	'msg.docs.walkthrough.run.documentation':
+		'From the <code>ulx-ember</code> demo app directory, run the dev server to view the docs and your new pages locally.',
+	'msg.docs.walkthrough.run.documentation.followup':
+		'Then open <code>localhost:4200</code>. New demo pages and variations appear under the relevant sidebar section.',
+	'msg.docs.walkthrough.create.demo.page':
+		'Scaffold a new demo page for a component. Use <code>--category</code> (for example: collections, elements, or modules) and optionally <code>--submodule</code> to match your docs structure.',
+	'msg.docs.walkthrough.delete.demo.page':
+		'Remove an existing demo page. Use the same <code>--category</code> value that was used when the page was created.',
+	'msg.docs.walkthrough.create.variations':
+		'Add a new variation such as Default, Controlled, or Disabled to a component demo. Pass both <code>--component</code> and <code>--variation</code>. The leading <code>--</code> forwards args to the underlying script.',
+	'msg.docs.walkthrough.delete.variations':
+		'Remove a specific variation from a component. Use this when a demo state is no longer needed or has been renamed.',
+	'msg.docs.walkthrough.next.steps':
+		'Use the sidebar to verify where your new documentation appears, then continue refining demos, snippets, and related documentation files as needed.',
 	'lbl.prerequisites': 'Prerequisites',
 	'msg.run.the.documentation': 'Run the documentation',
 	'lbl.create.demo.page': 'Create demo-page',
@@ -493,6 +646,41 @@ const enUs = {
 	'lbl.closable': 'Closable',
 	'lbl.custom.icon': 'Custom Icon',
 	'lbl.form': 'Form',
+	'lbl.doc.fieldset.title': 'Fieldset - ULS Ember Documentation',
+	'lbl.doc.fieldset.legend.contact': 'Contact',
+	'msg.doc.fieldset.desc.contact': 'We use these fields to identify your account.',
+	'lbl.doc.fieldset.legend.delivery': 'Delivery preferences',
+	'msg.doc.fieldset.desc.delivery': 'Choose how you want to hear from us.',
+	'lbl.doc.fieldset.name': 'Full name',
+	'lbl.doc.fieldset.email': 'Email',
+	'lbl.doc.fieldset.city': 'City',
+	'lbl.doc.fieldset.notify.email': 'Notify by email',
+	'lbl.doc.fieldset.section.blocks': 'Custom blocks',
+	'msg.doc.fieldset.desc.blocks':
+		'Legend, description, and actions can use named blocks for richer markup.',
+	'lbl.doc.fieldset.inline.help': 'Optional help for this group',
+	'lbl.doc.fieldset.form.aria': 'Sample registration form',
+	'lbl.doc.fieldset.legend.basic': 'Basic information',
+	'lbl.doc.fieldset.legend.location.contact': 'Location & contact',
+	'lbl.doc.fieldset.app.name': 'App name',
+	'lbl.doc.fieldset.app.description': 'App description',
+	'msg.doc.fieldset.tooltip.app.name':
+		'The public name shown to users when they install or open your app.',
+	'lbl.doc.fieldset.state': 'State / Province',
+	'lbl.doc.fieldset.phone': 'Phone',
+	'msg.doc.fieldset.placeholder.state': 'Select state or province',
+	'msg.doc.fieldset.placeholder.phone': '+1 555 123 4567',
+	'msg.doc.fieldset.phone.invalid': 'Enter a valid phone number (at least 7 digits).',
+	'msg.doc.fieldset.form.errors.summary': 'Please fix the errors below.',
+	'msg.doc.fieldset.form.success.summary': 'Form submitted successfully.',
+	'lbl.doc.fieldset.layout.grid': 'Grid layout',
+	'msg.doc.fieldset.layout.grid':
+		'Use @customClass on the fieldset content wrapper with ulx-grid and column templates (e.g. ulx-grid col-2 gap-6).',
+	'lbl.doc.fieldset.layout.stack': 'Stack layout',
+	'msg.doc.fieldset.layout.stack':
+		'Use @customClass with flex utilities on the fieldset content wrapper (e.g. flex flex-col gap-4).',
+	'lbl.doc.fieldset.demo.line1': 'Line one',
+	'lbl.doc.fieldset.demo.line2': 'Line two',
 	'lbl.template': 'Template',
 	'msg.inline.info': 'Inline info message.',
 	'msg.inline.success': 'Inline success message.',

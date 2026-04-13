@@ -37,5 +37,5 @@ const headerImage =
   </div>
 </template>
 
-`;
 
+`;

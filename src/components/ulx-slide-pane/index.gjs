@@ -168,20 +168,22 @@ export default class UlxSlidePane extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	get slidePaneZIndex() {
+		return this.args.visible ? this.modalStack.getZIndex(this) : null;
+	}
+
+	get maskStyle() {
+		const zIndex = this.slidePaneZIndex;
+		return zIndex != null ? `z-index: ${zIndex}` : "";
+	}
+
 	get slidePaneStyle() {
-		const { visible } = this.args;
-		const styles = [];
-
-		if (visible) {
-			const zIndex = this.modalStack.getZIndex(this);
-			styles.push(`z-index: ${zIndex}`);
-		}
-
-		return styles.join("; ");
+		const zIndex = this.slidePaneZIndex;
+		return zIndex != null ? `z-index: ${zIndex}` : "";
 	}
 
 	get closeOnBackdrop() {
-		return this.args.closeOnBackdrop ?? true;
+		return this.args.closeOnBackdrop ?? false;
 	}
 
 	get closeOnEscape() {
@@ -319,6 +321,7 @@ export default class UlxSlidePane extends Component {
 					<div
 						class={{this.maskClasses}}
 						data-qa={{this.getDataQa "mask"}}
+						style={{this.maskStyle}}
 						{{overlayLifecycle this this.overlayLifecycleOptions}}
 						{{on "click" this.handleBackdropClick}}
 						role="presentation"
@@ -338,30 +341,30 @@ export default class UlxSlidePane extends Component {
 								<div class={{this.headerWrapperClasses}} data-qa={{this.getDataQa "header"}}>
 									{{yield to="head"}}
 								</div>
-							{{else unless @hideHeader}}
-								<UlxSlidePaneHeader
-									@title={{@title}}
-									@showCloseButton={{this.showCloseButton}}
-									@showBackButton={{this.showBackInHeader}}
-									@onBack={{this.handleBack}}
-									@backButtonLabel={{@backButtonLabel}}
-									@backIconName={{@backIconName}}
-									@backButtonVariant={{@backButtonVariant}}
-									@backIconSize={{@backIconSize}}
-									@backIconComponentClass={{@backIconComponentClass}}
-									@showMaximizeButton={{this.maximizable}}
-									@isMaximized={{this.isMaximized}}
-									@onClose={{this.handleClose}}
-									@onMaximize={{this.handleMaximize}}
-									@closeIconName={{@closeIconName}}
-									@iconComponentClass={{@iconComponentClass}}
-									@iconVariant={{@iconVariant}}
-									@iconSize={{@iconSize}}
-									@maximizeIconName={{@maximizeIconName}}
-									@minimizeIconName={{@minimizeIconName}}
-									@headerClassName={{@headerClassName}}
-								/>
-							{{/if}}
+							{{else}}{{#unless @hideHeader}}
+									<UlxSlidePaneHeader
+										@title={{@title}}
+										@showCloseButton={{this.showCloseButton}}
+										@showBackButton={{this.showBackInHeader}}
+										@onBack={{this.handleBack}}
+										@backButtonLabel={{@backButtonLabel}}
+										@backIconName={{@backIconName}}
+										@backButtonVariant={{@backButtonVariant}}
+										@backIconSize={{@backIconSize}}
+										@backIconComponentClass={{@backIconComponentClass}}
+										@showMaximizeButton={{this.maximizable}}
+										@isMaximized={{this.isMaximized}}
+										@onClose={{this.handleClose}}
+										@onMaximize={{this.handleMaximize}}
+										@closeIconName={{@closeIconName}}
+										@iconComponentClass={{@iconComponentClass}}
+										@iconVariant={{@iconVariant}}
+										@iconSize={{@iconSize}}
+										@maximizeIconName={{@maximizeIconName}}
+										@minimizeIconName={{@minimizeIconName}}
+										@headerClassName={{@headerClassName}}
+									/>
+								{{/unless}}{{/if}}
 
 							{{#if (has-block "body")}}
 								<div
@@ -388,22 +391,22 @@ export default class UlxSlidePane extends Component {
 								>
 									{{yield to="footer"}}
 								</div>
-							{{else unless @hideFooter}}
-								<UlxSlidePaneFooter
-									@hideFooter={{@hideFooter}}
-									@hideCancelButton={{@hideCancelButton}}
-									@hideDoneButton={{@hideDoneButton}}
-									@showBackButton={{this.showBackInHeader}}
-									@cancelLabel={{@cancelButtonLabel}}
-									@doneLabel={{@doneButtonLabel}}
-									@submittingLabel={{@submittingLabel}}
-									@submitting={{this.isSubmitting}}
-									@onCancel={{this.handleCancel}}
-									@onDone={{this.handleDone}}
-									@onBack={{this.handleBack}}
-									@footerClassName={{@footerClassName}}
-								/>
-							{{/if}}
+							{{else}}{{#unless @hideFooter}}
+									<UlxSlidePaneFooter
+										@hideFooter={{@hideFooter}}
+										@hideCancelButton={{@hideCancelButton}}
+										@hideDoneButton={{@hideDoneButton}}
+										@showBackButton={{this.showBackInHeader}}
+										@cancelLabel={{@cancelButtonLabel}}
+										@doneLabel={{@doneButtonLabel}}
+										@submittingLabel={{@submittingLabel}}
+										@submitting={{this.isSubmitting}}
+										@onCancel={{this.handleCancel}}
+										@onDone={{this.handleDone}}
+										@onBack={{this.handleBack}}
+										@footerClassName={{@footerClassName}}
+									/>
+								{{/unless}}{{/if}}
 						</div>
 					</div>
 				{{/if}}

@@ -1,0 +1,244 @@
+{{page-title "Overview - ULX Ember Documentation"}}
+
+<DocShared::DocMain::FoundationLayout
+  @title={{t "lbl.overview"}}
+  @description={{t "msg.getting.started.overview.page.description"}}
+>
+  <div class="doc-panel-wrapper flex justify-between">
+    <div class="doc-panel grow w-full">
+      <DocShared::DocMain::FoundationSection
+        @id="overview-introduction"
+        @title={{t "lbl.introduction"}}
+      >
+        <p class="mt-0 mb-5 fg-text-secondary text-16">
+          {{t "msg.getting.started.overview.intro"}}
+        </p>
+        <p class="mt-0 mb-0 fg-text-secondary text-16">
+          {{t "msg.getting.started.overview.hero.body"}}
+        </p>
+        <div class="mt-6">
+          <UlxMessage @variant="info" @icon="info-icon">
+            <div class="flex flex-col gap-1">
+              <span>{{t "msg.getting.started.overview.callout"}}</span>
+              <LinkTo
+                @route="getting-started.docs-walkthrough"
+                class="ulx-button link text-button flex justify-start"
+              >
+                {{t "msg.getting.started.use.docs.walkthrough"}}
+              </LinkTo>
+
+            </div>
+          </UlxMessage>
+        </div>
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="overview-advantages"
+        @title={{t "lbl.getting.started.advantages.of.ulx"}}
+      >
+        <div class="ulx-grid col-1 gap-4 mt-4">
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.reusable.components"
+                }}:</span>
+              {{t "msg.getting.started.reusable.components.long"}}
+            </p>
+          </div>
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.consistency"
+                }}:</span>
+              {{t "msg.getting.started.consistency.long"}}
+            </p>
+          </div>
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.maintainability"
+                }}:</span>
+              {{t "msg.getting.started.maintainability.long"}}
+            </p>
+          </div>
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.faster.development"
+                }}:</span>
+              {{t "msg.getting.started.faster.development.long"}}
+            </p>
+          </div>
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.shared.foundation"
+                }}:</span>
+              {{t "msg.getting.started.shared.foundation"}}
+            </p>
+          </div>
+        </div>
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="overview-who-is-this-for"
+        @title={{t "lbl.who.is.this.for"}}
+      >
+        <p class="mt-0 mb-5 fg-text-secondary text-16">
+          {{t "msg.getting.started.audience.intro"}}
+        </p>
+        <div class="ulx-grid col-1 gap-4">
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.application.developers"
+                }}:</span>
+              {{t "msg.getting.started.application.developers.long"}}
+            </p>
+          </div>
+          <div class="flex items-start gap-1">
+            <UlxIcon
+              @customClass="fg-green"
+              @type="font"
+              @iconName="ls-tick-filled-icon"
+              @size="s28"
+              aria-hidden="true"
+            />
+            <p class="mt-0 mb-0 text-16">
+              <span class="bold-font">{{t
+                  "lbl.getting.started.new.team.members"
+                }}:</span>
+              {{t "msg.getting.started.new.team.members.long"}}
+            </p>
+          </div>
+        </div>
+      </DocShared::DocMain::FoundationSection>
+
+      <DocShared::DocMain::FoundationSection
+        @id="overview-next-steps"
+        @title={{t "lbl.getting.started.explore.next"}}
+      >
+        <div class="ulx-grid col-2 col-sm-1 gap-4">
+          <LinkTo
+            @route="getting-started.quick-start"
+            class="block decoration-none fg-text"
+          >
+            <UlxCard
+              @title={{t "lbl.quick.start"}}
+              @subTitle={{t "lbl.installation"}}
+              @appearance="outlined"
+              @interactive={{true}}
+              @hoverable={{true}}
+              @rounded={{true}}
+              @bodyClass="h-full bg-layer1"
+            >
+              <p class="fg-text-secondary text-14 mb-0">
+                {{t "msg.getting.started.nav.quick.start"}}
+              </p>
+            </UlxCard>
+          </LinkTo>
+
+          <LinkTo
+            @route="getting-started.styles-and-theming"
+            class="block decoration-none fg-text"
+          >
+            <UlxCard
+              @title={{t "lbl.styles.and.theming"}}
+              @subTitle={{t "lbl.getting.started.themes.and.root.classes"}}
+              @appearance="outlined"
+              @interactive={{true}}
+              @hoverable={{true}}
+              @rounded={{true}}
+              @bodyClass="h-full bg-layer1"
+            >
+              <p class="fg-text-secondary text-14 mb-0">
+                {{t "msg.getting.started.nav.styles.and.theming"}}
+              </p>
+            </UlxCard>
+          </LinkTo>
+
+          <LinkTo
+            @route="getting-started.docs-walkthrough"
+            class="block decoration-none fg-text"
+          >
+            <UlxCard
+              @title={{t "lbl.docs.walkthrough"}}
+              @subTitle={{t "lbl.next.steps"}}
+              @appearance="outlined"
+              @interactive={{true}}
+              @hoverable={{true}}
+              @rounded={{true}}
+              @bodyClass="h-full bg-layer1"
+            >
+              <p class="fg-text-secondary text-14 mb-0">
+                {{t "msg.getting.started.nav.docs.walkthrough"}}
+              </p>
+            </UlxCard>
+          </LinkTo>
+
+          <LinkTo
+            @route="components.button"
+            class="block decoration-none fg-text"
+          >
+            <UlxCard
+              @title={{t "lbl.getting.started.components"}}
+              @subTitle={{t "lbl.button"}}
+              @appearance="outlined"
+              @interactive={{true}}
+              @hoverable={{true}}
+              @rounded={{true}}
+              @bodyClass="h-full bg-layer1"
+            >
+              <p class="fg-text-secondary text-14 mb-0">
+                {{t "msg.getting.started.nav.components"}}
+              </p>
+            </UlxCard>
+          </LinkTo>
+        </div>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+    <DocShared::DocMain::DocSectionNav @features={{@model.sections}} />
+  </div>
+</DocShared::DocMain::FoundationLayout>

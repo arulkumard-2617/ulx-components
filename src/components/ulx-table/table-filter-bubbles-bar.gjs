@@ -1,0 +1,73 @@
+import Component from "@glimmer/component";
+import { fn } from "@ember/helper";
+import eq from "ember-truth-helpers/helpers/eq";
+import UlxButton from "../ulx-button/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
+import UlxIcon from "../ulx-icon/index.gjs";
+import UlxChip from "../ulx-chip/index.gjs";
+import { t } from "../../utils/i18n.js";
+
+export default class TableFilterBubblesBar extends Component {
+	get bubbles() {
+		return this.args.bubbles ?? [];
+	}
+
+	<template>
+		{{#if @visible}}
+			<div class="datatable-filter-bubbles-bar" role="group" aria-label={{t "lbl.filter"}}>
+				{{#each this.bubbles as |bubble|}}
+					<div class="datatable-filter-bubble-item">
+						<UlxButton
+							@variant="outlined"
+							@size="compact"
+							@customClass="filter-bubble-trigger"
+							@onClick={{fn @onOpenBubble bubble}}
+							aria-haspopup="true"
+							aria-expanded={{eq @activeField bubble.field}}
+						>
+							<:default>
+								<UlxChip @size="s-size" @customClass="filter-bubble-chip">
+									<UlxIcon
+										@iconName="filter-icon"
+										@componentClass="bs-icons1"
+										@type="font"
+										@size="s18"
+										aria-hidden="true"
+									/>
+									<span class="filter-bubble-label">
+										{{bubble.label}}:
+										<strong>{{bubble.displayValue}}</strong>
+									</span>
+									<UlxIcon
+										@iconName="down-arrow-filled-icon"
+										@componentClass="bs-icons1"
+										@type="font"
+										@size="s18"
+										aria-hidden="true"
+									/>
+								</UlxChip>
+							</:default>
+						</UlxButton>
+						<UlxIconButton
+							@variant="link"
+							@size="s-size"
+							@iconSize="s18"
+							@iconLeft="remove-icon"
+							@customClass="filter-bubble-remove-btn"
+							@onClick={{fn @onRemoveBubble bubble.field}}
+							aria-label={{t "lbl.delete.filter"}}
+						/>
+					</div>
+				{{/each}}
+				<UlxIconButton
+					@variant="danger"
+					@text={{true}}
+					@size="compact"
+					@iconLeft="delete-icon-02"
+					@label={{t "lbl.clear.filters"}}
+					@onClick={{@onClearAll}}
+				/>
+			</div>
+		{{/if}}
+	</template>
+}

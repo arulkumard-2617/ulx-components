@@ -15,6 +15,7 @@ export default class HorizontalDemoComponent extends Component {
         description: 'First radio option description',
         value: 'item1',
         selected: this.activeValue === 'item1',
+        itemClass: 'col-5',
       },
       {
         label: 'Item 2',
@@ -22,6 +23,7 @@ export default class HorizontalDemoComponent extends Component {
         description: 'Second radio option description',
         value: 'item2',
         selected: this.activeValue === 'item2',
+        itemClass: 'col-4',
       },
       {
         label: 'Item 3',
@@ -29,6 +31,7 @@ export default class HorizontalDemoComponent extends Component {
         description: 'Third radio option description',
         value: 'item3',
         selected: this.activeValue === 'item3',
+        itemClass: 'col-3',
       },
     ];
   }
@@ -44,7 +47,7 @@ export default class HorizontalDemoComponent extends Component {
       @items={{this.items}}
       @onSelect={{this.handleItemSelect}}
       @ariaLabel="Radio option group"
-      @horizontal={{true}}
+      @customClass="ulx-grid"
     />
   </template>
 }

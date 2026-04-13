@@ -15,9 +15,7 @@ export default class SingleAccordionDemo extends Component {
   @tracked activeIndexOutlined = null;
 
   get tabs() {
-    return [
-      { header: 'Show custom fields', content: LOREM_1 }
-    ];
+    return [{ header: 'Show custom fields', content: LOREM_1 }];
   }
 
   @action
@@ -50,7 +48,7 @@ export default class SingleAccordionDemo extends Component {
         @activeIndex={{this.activeIndexOutlined}}
         @onTabChange={{this.handleOutlinedTabChange}}
         @toggleIconPosition="right"
-        @variant="flat outlined"
+        @variant="outlined"
       >
         <:content as |item|>
           <p class="m-0">{{item.content}}</p>
@@ -59,4 +57,3 @@ export default class SingleAccordionDemo extends Component {
     </div>
   </template>
 }
-
