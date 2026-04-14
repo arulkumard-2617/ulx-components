@@ -9,6 +9,7 @@ export { default as AlignmentDemo } from '../../../components/Demo/Timeline/Alig
 export { default as OppositeDemo } from '../../../components/Demo/Timeline/Opposite';
 export { default as TemplateDemo } from '../../../components/Demo/Timeline/Template';
 export { default as HorizontalDemo } from '../../../components/Demo/Timeline/Horizontal';
+export { default as MilestoneDemo } from '../../../components/Demo/Timeline/Milestone';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -21,3 +22,4 @@ export { default as AlignmentSource } from './snippets/Alignment.gjs';
 export { default as OppositeSource } from './snippets/Opposite.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as HorizontalSource } from './snippets/Horizontal.gjs';
+export { default as MilestoneSource } from './snippets/Milestone.gjs';

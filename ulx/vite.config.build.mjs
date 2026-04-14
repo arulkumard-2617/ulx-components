@@ -40,8 +40,7 @@ let globalLessFileWatchers = [];
 let globalRebuildTimeout = null;
 
 // Find UI package and ULS paths (auto-detected)
-// Find UI package and ULS paths (auto-detected)
-const uiPackagePath = resolve(__dirname, '../ULS_V2.0');
+const uiPackagePath = resolve(__dirname, 'node_modules/uls_v2');
 const ulsPackagePath = resolve(uiPackagePath, 'node_modules/ulx-v2');
 
 // Custom LESS build plugin (regular + minified)
@@ -377,7 +376,6 @@ export default defineConfig(({ mode }) => {
 		// The build process will handle creating necessary files
 		config.build.rollupOptions = {
 			input: dummyInput,
-			external: ['primereact/utils'],
 			output: {
 				format: 'es',
 				// Suppress JS output - we only want CSS from the plugin
@@ -400,7 +398,6 @@ export default defineConfig(({ mode }) => {
 			minify: true,
 			emptyOutDir: false,
 			rollupOptions: {
-				external: ['primereact/utils'],
 				output: {
 					format: 'es',
 					entryFileNames: 'passthrough.js'
@@ -441,7 +438,6 @@ export default defineConfig(({ mode }) => {
 		config.build.outDir = resolve(__dirname, 'dist/js');
 		config.build.minify = true;
 		config.build.rollupOptions = {
-			external: ['primereact/utils'],
 			output: {
 				format: 'es',
 				entryFileNames: 'passthrough.js'
@@ -461,7 +457,6 @@ export default defineConfig(({ mode }) => {
 		config.build.lib = false;
 		config.build.rollupOptions = {
 			input: dummyInput,
-			external: ['primereact/utils'],
 			output: {
 				format: 'es',
 				// Suppress JS output - we only want CSS from the plugin

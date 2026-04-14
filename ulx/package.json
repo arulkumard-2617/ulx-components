@@ -3,41 +3,11 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"ulx-sync": "npx ulx-sync",
-		"ulsBuild": "vite build -c vite.config.build.mjs",
-		"ulsDev": "npm run ulsBuild",
-		"ulsBuild:css": "vite build -c vite.config.build.mjs -m less",
-		"ulsBuild:css:core": "vite build -c vite.config.build.mjs -m less-only",
-		"ulsBuild:js": "vite build -c vite.config.build.mjs -m js",
-		"ulsDev:watch": "ulx-watch-less",
-		"ulsDev:watch:vite": "vite build -c vite.config.build.mjs -m less -w",
-		"dev": "npm run ulsDev:watch",
-		"create": "node src/scripts/create.js",
-		"create:demo-page": "node src/scripts/create-demo-page.js",
-		"add-variation": "node src/scripts/create.js add-variation",
-		"destroy-variation": "node src/scripts/create.js destroy-variation",
-		"destroy": "node src/scripts/create.js destroy",
-		"ulsBuild:guls": "ULS_APP=guls npm run ulsBuild",
-		"ulsDev:guls": "ULS_APP=guls npm run ulsDev:watch",
-		"ulx-init": "node ./node_modules/ULS_V2.0/node_modules/ulx-v2/src/scripts/uls.js init",
-		"ulx-config": "node ./node_modules/ULS_V2.0/node_modules/ulx-v2/src/scripts/update-config.mjs",
-		"ulx-update-config": "node ./node_modules/ULS_V2.0/node_modules/ulx-v2/src/scripts/update-config.mjs",
-		"ulsBuild:editor": "ULS_APP=editor npm run ulsBuild",
-		"ulsDev:editor": "ULS_APP=editor npm run ulsDev:watch",
-		"ulsBuild:foundation": "ULS_APP=foundation npm run ulsBuild",
-		"ulsDev:foundation": "ULS_APP=foundation npm run ulsDev:watch",
 		"ulxEditor": "node src/scripts/less/ulx-editor-build.js",
 		"ulxEditor:watch": "node src/scripts/less/ulx-editor-build.js --watch",
-		"generate:component-api": "node src/scripts/generate-component-api.js",
-		"watch:component-api": "node src/scripts/generate-component-api.js --watch",
 		"sync-snippets": "node src/scripts/watch-snipper.js",
-		"sync-snippets-once": "node src/scripts/watch-snipper.js --once",
-		"sync-docs": "npm run sync-snippets-once && npm run generate:component-api",
-		"ulsBuild:onair": "ULS_APP=onair npm run ulsBuild",
-		"ulsDev:onair": "ULS_APP=onair npm run ulsDev:watch",
-		"generate:utill-schema": "node node_modules/ULS_V2.0/src/scripts/schema/generate-util-schema.mjs src/demo/ulx-ember/app/data/util-schema.js",
-		"generate:utill-nav-schema": "node node_modules/ULS_V2.0/src/scripts/schema/generate-util-nav.mjs src/demo/ulx-ember/app/data/util-nav-schema.js"
+		"generate:utill-schema": "node node_modules/uls_v2/src/scripts/schema/generate-util-schema.mjs src/demo/ulx-ember/app/data/util-schema.js",
+		"generate:utill-nav-schema": "node node_modules/uls_v2/src/scripts/schema/generate-util-nav.mjs src/demo/ulx-ember/app/data/util-nav-schema.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -45,17 +15,12 @@
 	"description": "",
 	"dependencies": {
 		"clsx": "^2.1.1",
-		"primereact": "^10.9.7",
-		"ULS_V2.0": "git+https://zrepository.zohocorpcloud.in/zohocorp/user/arulkumar.d/ULS_V2.0.git#master"
+		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {
 		"chokidar": "^4.0.1",
 		"ember-cli-less": "^3.0.2",
 		"less": "^4.4.2",
 		"vite": "^7.3.0"
-	},
-	"peerDependencies": {
-		"react": "^18.0.0 || ^19.0.0",
-		"react-dom": "^18.0.0 || ^19.0.0"
 	}
 }
