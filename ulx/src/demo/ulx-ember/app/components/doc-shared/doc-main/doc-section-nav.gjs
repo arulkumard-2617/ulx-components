@@ -84,13 +84,16 @@ export default class DocSectionNavComponent extends Component {
 
   <template>
     {{#if this.sections.length}}
-      <nav class="doc-section-nav" {{this.setupScrollObserver}}>
-        <ul>
+      <nav
+        class="nav-section-links sticky top-64 min-w-200 overflow-y-auto overflow-x-hidden"
+        {{this.setupScrollObserver}}
+      >
+        <ul class="list-reset p-0 m-0">
           {{#each this.sections as |section|}}
-            <li>
+            <li class="p-0 m-0">
               <a
                 href="#{{section.id}}"
-                class={{if (this.isActive section.id) "active" ""}}
+                class="block py-2 px-3 decoration-none text-sm border-s {{if (this.isActive section.id) "fg-primary border-primary bg-layer1" "fg-secondary border-default"}}"
                 {{on "click" (fn this.scrollToSection section.id)}}
               >
                 {{section.sectionNav}}

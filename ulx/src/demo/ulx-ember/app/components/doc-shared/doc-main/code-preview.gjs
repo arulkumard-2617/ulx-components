@@ -129,7 +129,7 @@ export default class CodePreviewComponent extends Component {
   }
 
   <template>
-    <div class="code-preview-container" ...attributes>
+    <div class="relative" ...attributes>
       {{#if @title}}
         <h5 class="mb-2 font-medium">{{@title}}</h5>
       {{/if}}
@@ -142,12 +142,12 @@ export default class CodePreviewComponent extends Component {
         {{#if @hasDemo}}
           <div class="demo-and-code">
             <div class="demo">
-              <div class="code-preview-container">
+              <div class="relative">
                 <div class="demo bg-default border p-8 mb-2 rounded-md">
                   {{yield}}
                 </div>
                 {{#if this.displayCode}}
-                  <div class="code-block">
+                  <div class="relative max-h-200 overflow-auto">
                     {{#if this.expanded}}
                       <CodeBlock
                         @code={{this.displayCode}}
@@ -159,10 +159,12 @@ export default class CodePreviewComponent extends Component {
                         @language={{this.effectiveLanguage}}
                       />
                     {{/if}}
-                    <div class="code-actions flex gap-4 py-1 px-3">
+                    <div
+                      class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded"
+                    >
                       <button
                         type="button"
-                        class="expand-btn {{if this.expanded 'is-expanded'}}"
+                        class="pointer {{if this.expanded 'is-expanded'}}"
                         {{on "click" this.toggleExpanded}}
                         aria-label={{if
                           this.expanded
@@ -171,7 +173,7 @@ export default class CodePreviewComponent extends Component {
                         }}
                       >
                         <svg
-                          class="fit-width-icon"
+                          class="fit-width-icon fg-white inline-block"
                           width="18"
                           height="18"
                           viewBox="0 0 24 24"
@@ -199,12 +201,12 @@ export default class CodePreviewComponent extends Component {
                       </button>
                       <button
                         type="button"
-                        class="copy-btn {{if this.copied 'is-copied'}}"
+                        class="{{if this.copied 'is-copied'}}"
                         aria-label={{t "lbl.copy.code"}}
                         {{on "click" this.copyCode}}
                       >
                         <svg
-                          class="copy-icon"
+                          class="copy-icon inline-block fg-white"
                           width="18"
                           height="18"
                           viewBox="0 0 24 24"
@@ -255,20 +257,20 @@ export default class CodePreviewComponent extends Component {
           </div>
         {{else}}
           {{#if this.displayCode}}
-            <div class="code-block">
+            <div class="relative max-h-200 overflow-auto">
               <CodeBlock
                 @code={{this.displayCode}}
                 @language={{this.effectiveLanguage}}
               />
-              <div class="code-actions flex gap-4 py-1 px-3">
+              <div class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded">
                 <button
                   type="button"
-                  class="copy-btn {{if this.copied 'is-copied'}}"
+                  class="pointer {{if this.copied 'is-copied'}}"
                   aria-label={{t "lbl.copy.code"}}
                   {{on "click" this.copyCode}}
                 >
                   <svg
-                    class="copy-icon"
+                    class="copy-icon inline-block fg-white"
                     width="18"
                     height="18"
                     viewBox="0 0 24 24"
@@ -317,12 +319,12 @@ export default class CodePreviewComponent extends Component {
         {{/if}}
       {{else}}
         {{#if this.displayCode}}
-          <div class="code-block">
+          <div class="relative max-h-200 overflow-auto">
             <CodeBlock
               @code={{this.displayCode}}
               @language={{this.effectiveLanguage}}
             />
-            <div class="code-actions flex gap-4 py-1 px-3">
+            <div class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded">
               <button
                 type="button"
                 aria-label={{t "lbl.copy.code"}}
