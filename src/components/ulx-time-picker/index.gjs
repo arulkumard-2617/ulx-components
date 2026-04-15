@@ -1,7 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { t } from "../../utils/i18n";
-import tHelper from "../../helpers/t";
+import tHelper from "../../helpers/ulx-t";
 import { buildInputGroupClass } from "../../utils/input-util";
 import flatpickrModifier from "../../modifiers/flatpickr";
 import UlxInput from "../ulx-input/index.gjs";
