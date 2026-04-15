@@ -35,6 +35,7 @@ export { default as UlxToggle } from './components/ulx-toggle/index.gjs';
 export { default as UlxDropdown } from './components/ulx-dropdown/index.gjs';
 export { default as UlxMultiSelect } from './components/ulx-multi-select/index.gjs';
 export { default as UlxRating } from './components/ulx-rating/index.gjs';
+export { default as UlxRichTextEditor } from './components/ulx-rich-text-editor/index.gjs';
 export { default as UlxSkeleton } from './components/ulx-skeleton/index.gjs';
 export { default as UlxEmptyState } from './components/ulx-empty-state/index.gjs';
 export { default as UlxPassword } from './components/ulx-password/index.gjs';

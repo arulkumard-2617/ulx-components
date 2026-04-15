@@ -34,6 +34,8 @@
     "@embroider/addon-shim": "^1.8.7",
     "decorator-transforms": "^2.0.0",
     "flatpickr": "^4.6.13",
+    "quill": "^2.0.3",
+    "quill-mention": "^6.1.1",
     "sortablejs": "^1.15.7"
   },
   "devDependencies": {
@@ -133,6 +135,7 @@
       "./components/ulx-radio/index.js": "./dist/_app_/components/ulx-radio/index.js",
       "./components/ulx-radio/radio-item.js": "./dist/_app_/components/ulx-radio/radio-item.js",
       "./components/ulx-rating/index.js": "./dist/_app_/components/ulx-rating/index.js",
+      "./components/ulx-rich-text-editor/index.js": "./dist/_app_/components/ulx-rich-text-editor/index.js",
       "./components/ulx-segment/index.js": "./dist/_app_/components/ulx-segment/index.js",
       "./components/ulx-segments-group/index.js": "./dist/_app_/components/ulx-segments-group/index.js",
       "./components/ulx-select-button/index.js": "./dist/_app_/components/ulx-select-button/index.js",

@@ -98,6 +98,7 @@
     "@ember/test-waiters": "^3.0.0",
     "ember-truth-helpers": "^4.0.3",
     "flatpickr": "^4.6.13",
+    "quill": "^2.0.3",
     "ulx-components": "file:../../../../"
   }
 }

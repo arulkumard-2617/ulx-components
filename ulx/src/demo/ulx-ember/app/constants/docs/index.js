@@ -54,6 +54,11 @@ export const DocNavItems = [
             route: 'components.textarea'
           },
           {
+            menuItem: 'RichTextEditor',
+            to: '/components/rich-text-editor',
+            route: 'components.rich-text-editor'
+          },
+          {
             menuItem: 'IconInput',
             to: '/components/ulx-icon-input',
             route: 'components.ulx-icon-input'

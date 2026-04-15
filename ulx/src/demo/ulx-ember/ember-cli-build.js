@@ -54,7 +54,10 @@ module.exports = function (defaults) {
     lessOptions: {
       paths: [
         path.resolve(__dirname, '../../styles/ulx'),
-        path.resolve(__dirname, '../../../node_modules')
+        // ulx-components/ulx/node_modules (existing)
+        path.resolve(__dirname, '../../../node_modules'),
+        // ulx-components/node_modules (workspace root) for deps like quill
+        path.resolve(__dirname, '../../../../../node_modules')
       ]
     },
     autoImport: {
@@ -71,6 +74,7 @@ module.exports = function (defaults) {
 
   app.import('node_modules/sortablejs/Sortable.js');
   app.import('node_modules/flatpickr/dist/flatpickr.min.css');
+  app.import('node_modules/quill/dist/quill.snow.css');
 
   return app.toTree();
 };

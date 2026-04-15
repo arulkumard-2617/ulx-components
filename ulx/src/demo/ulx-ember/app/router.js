@@ -67,6 +67,7 @@ Router.map(function () {
     this.route('toolbar');
     this.route('tooltip');
     this.route('tristate-checkbox');
+    this.route('rich-text-editor');
     this.route('ulx-icon-input');
     this.route('ulx-image');
   });
