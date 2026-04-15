@@ -116,17 +116,17 @@ export const DocNavItems = [
           {
             menuItem: 'DatePicker',
             to: '/components/date-picker',
-            route: 'components.date-picker',
+            route: 'components.date-picker'
           },
           {
             menuItem: 'DateRangePicker',
             to: '/components/date-range-picker',
-            route: 'components.date-range-picker',
+            route: 'components.date-range-picker'
           },
           {
             menuItem: 'TimePicker',
             to: '/components/time-picker',
-            route: 'components.time-picker',
+            route: 'components.time-picker'
           },
           {
             menuItem: 'Form',
