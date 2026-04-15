@@ -1,0 +1,22 @@
+export default `
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { UlxDateRangePicker } from 'ulx-components';
+
+export default class BasicDaterangeDemo extends Component {
+  @tracked value = [];
+
+  @action
+  onChange(dates) {
+    this.value = dates ?? [];
+  }
+
+  <template>
+    <div class="w-250">
+      <UlxDateRangePicker @value={{this.value}} @onChange={{this.onChange}} />
+    </div>
+  </template>
+}
+
+`;

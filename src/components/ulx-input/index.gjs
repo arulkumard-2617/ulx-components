@@ -24,8 +24,12 @@ import {
  * @param {string} [key] - Stable key or id; overrides `field.key` when set.
  * @param {string} [ariaDescribedBy] - Overrides `field.describedBy`.
  * @param {string} [ariaErrorMessage] - Overrides `field.errorId`.
+ * @param {boolean} [omitDomValue=false] - When true, the `value` attribute is not bound (for controls that manage the value externally, e.g. flatpickr).
  */
 export default class UlxInput extends Component {
+	get omitDomValue() {
+		return Boolean(this.args.omitDomValue);
+	}
 	// Rules
 	get rules() {
 		const { rules: rulesArg } = this.args;
@@ -74,7 +78,7 @@ export default class UlxInput extends Component {
 
 	// Classes
 	get inputClass() {
-		const { size = "m-size", disabled, readonly, customClass } = this.args;
+		const { size = "m-size", disabled, readonly, customClass, value } = this.args;
 
 		const parts = [
 			buildInputClass({
@@ -82,7 +86,8 @@ export default class UlxInput extends Component {
 				size,
 				invalid: this.isInvalid,
 				disabled,
-				readonly
+				readonly,
+				value
 			})
 		];
 
@@ -119,7 +124,7 @@ export default class UlxInput extends Component {
 
 		if (this.keyFilterPattern && !isSpecialKey(event)) {
 			const key = event.key;
-			const currentValue = event.target.value;
+			const currentValue = event.target.value ?? "";
 			const selectionStart = event.target.selectionStart;
 			const selectionEnd = event.target.selectionEnd;
 
@@ -163,7 +168,7 @@ export default class UlxInput extends Component {
 			id={{this.inputId}}
 			type={{this.inputType}}
 			class={{this.inputClass}}
-			value={{@value}}
+			value={{if this.omitDomValue undefined @value}}
 			placeholder={{@placeholder}}
 			disabled={{@disabled}}
 			readonly={{@readonly}}

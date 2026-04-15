@@ -6,6 +6,9 @@ export { default as UlxButton } from './components/ulx-button/index.gjs';
 export { default as UlxIconButton } from './components/ulx-icon-button/index.gjs';
 export { default as UlxBadgeButton } from './components/ulx-badge-button/index.gjs';
 export { default as UlxInput } from './components/ulx-input/index.gjs';
+export { default as UlxDatePicker } from './components/ulx-date-picker/index.gjs';
+export { default as UlxDateRangePicker } from './components/ulx-date-range-picker/index.gjs';
+export { default as UlxTimePicker } from './components/ulx-time-picker/index.gjs';
 export { default as UlxField } from './components/ulx-field/index.gjs';
 export { default as UlxFieldSet } from './components/ulx-fieldset/index.gjs';
 export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs';
@@ -32,6 +35,7 @@ export { default as UlxToggle } from './components/ulx-toggle/index.gjs';
 export { default as UlxDropdown } from './components/ulx-dropdown/index.gjs';
 export { default as UlxMultiSelect } from './components/ulx-multi-select/index.gjs';
 export { default as UlxRating } from './components/ulx-rating/index.gjs';
+export { default as UlxRichTextEditor } from './components/ulx-rich-text-editor/index.gjs';
 export { default as UlxSkeleton } from './components/ulx-skeleton/index.gjs';
 export { default as UlxEmptyState } from './components/ulx-empty-state/index.gjs';
 export { default as UlxPassword } from './components/ulx-password/index.gjs';
@@ -76,6 +80,7 @@ export { default as tSafeHelper } from './helpers/t-safe.js';
 export { default as ModalStackService } from './services/modal-stack.js';
 
 // Modifiers
+export { default as flatpickrModifier } from './modifiers/flatpickr.js';
 export { default as tooltip } from './modifiers/tooltip.js';
 export { default as overlayDismiss } from './modifiers/overlay-dismiss.js';
 export { default as sortable } from './modifiers/sortable.js';
