@@ -1,7 +1,7 @@
 // ==========================================================================
 // Builder Schema Helpers
 // ==========================================================================
-// Reusable utilities for creating component builder schemas from extracted tokens.
+// Reusable utilities for creating component builder schemas from token maps.
 // Used by icon, button, input, badge, and other component builders.
 //
 // Each component imports its own tokens file and uses these helpers to build options.

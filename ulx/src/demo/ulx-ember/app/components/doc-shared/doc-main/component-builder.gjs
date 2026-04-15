@@ -158,7 +158,7 @@ export default class ComponentBuilderComponent extends Component {
                 <p class="text-12 fg-text-secondary mt-0">{{t
                     "lbl.generated.code"
                   }}</p>
-                <div class="code-actions flex gap-4 py-1 px-3">
+                <div class="flex gap-4 py-1 px-3">
                   <button
                     type="button"
                     class="ulx-button link xs-size
@@ -174,7 +174,7 @@ export default class ComponentBuilderComponent extends Component {
                   </button>
                 </div>
               </div>
-              <div class="code-block">
+              <div class="relative max-h-200 overflow-auto">
                 <CodeBlock @code={{this.displayCode}} @language="markup" />
 
               </div>

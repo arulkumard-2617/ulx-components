@@ -1,5 +1,4 @@
-// Auto-generated from @ulx-builder comments in ulx-v2 .../less/elements/icon.less
-// Run: node scripts/extract-ulx-builder-tokens.js [path-to-icon.less]
+// Icon builder token groups for the Icon documentation (maintain alongside ulx icon.less @ulx-builder usage).
 
 export default {
   'normal size': [

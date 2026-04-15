@@ -34,20 +34,20 @@ export default class ComponentLayoutComponent extends Component {
   }
 
   <template>
-    <div class="doc-component-page">
+    <div class="min-w-0">
       {{#if @tabs}}
         <DocTab
           @tabs={{@tabs}}
           @activeTab={{@activeTab}}
           @onChange={{@onTabChange}}
         >
-          <div class="doc-component-page__header mb-8">
+          <div class="mb-8">
             <h1 class="mgt0 mb-2 bold-font">{{@title}}</h1>
             {{#if @description}}
               <p class="fg-text-secondary mgt0">{{@description}}</p>
             {{/if}}
           </div>
-          <div class="doc-component-page__content">
+          <div>
             {{#if this.isArchitectureTab}}
               <WorkInProgressNotice />
             {{else if this.isParamsTab}}
@@ -62,13 +62,13 @@ export default class ComponentLayoutComponent extends Component {
           </div>
         </DocTab>
       {{else}}
-        <div class="doc-component-page__header mb-8">
+        <div class="mb-8">
           <h1 class="mgt0 mb-2 bold-font">{{@title}}</h1>
           {{#if @description}}
             <p class="fg-text-secondary mgt0">{{@description}}</p>
           {{/if}}
         </div>
-        <div class="doc-component-page__content">
+        <div>
           {{yield}}
         </div>
       {{/if}}
