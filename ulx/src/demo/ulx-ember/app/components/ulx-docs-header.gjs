@@ -482,8 +482,8 @@ export default class UlxDocsHeaderComponent extends Component {
 
   <template>
     <div
-      class="ulsp-topbar bg-default border-b h-64 p-1 ulx-grid col-1 w-full
-        {{if this.isSticky 'sticky' ''}}"
+      class="relative top-0 left-0 z-20 bg-default border-b h-64 p-1 ulx-grid col-1 w-full
+        {{if this.isSticky 'fixed' ''}}"
       {{this.setupScrollObserver}}
     >
       <header class="px-5 flex items-center justify-between">

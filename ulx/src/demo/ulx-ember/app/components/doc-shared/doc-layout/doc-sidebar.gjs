@@ -252,7 +252,8 @@ export default class DocSidebarComponent extends Component {
 
   <template>
     <aside
-      class="ulsp-sidebar overflow-x-hidden overflow-y-auto border-e"
+      class="doc-sidebar flex flex-col p-0 sticky left-0 top-32 w-260 shrink-0 select-none overflow-x-hidden overflow-y-auto border-e"
+      style="height: calc(100vh - 5rem);"
       {{this.syncActiveItemFromRoute}}
     >
       <div class="px-5 bg-default py-3 sticky top-0 z-10">
@@ -266,17 +267,17 @@ export default class DocSidebarComponent extends Component {
           />
         </UlxIconInput>
       </div>
-      <nav class="sidebar-nav grow p-5">
-        <ol class="s-nav-list">
+      <nav class="grow p-5">
+        <ol class="p-0 m-0">
           {{#each this.filteredNavItems as |item|}}
-            <li class="s-nav-item mb-4" data-a11y="focus">
+            <li class="mb-4" data-a11y="focus">
               {{#if item.to}}
                 {{#if (this.hasChildren item)}}
                   {{! Parent with children - dropdown button only (not LinkTo) }}
                   <div class="flex items-center gap-2 w-full">
                     <button
                       type="button"
-                      class="s-nav-link flex items-center gap-2 text-start
+                      class="flex items-center gap-2 text-start
                         {{if
                           (this.isItemActive item this.currentPath)
                           'fg-primary'
@@ -285,16 +286,14 @@ export default class DocSidebarComponent extends Component {
                       {{on "click" (fn this.toggleItem item.menuTitle)}}
                     >
                       <span
-                        class="s-nav-link-icon w-32 h-32 flex items-center justify-center border rounded"
+                        class="w-32 h-32 flex items-center justify-center border rounded"
                       >
                         <i class={{item.icon}}></i>
                       </span>
-                      <span class="s-nav-link-text">
-                        <span class="bold-font">{{item.menuTitle}}</span>
-                      </span>
+                      <span class="bold-font">{{item.menuTitle}}</span>
                     </button>
                     <button
-                      class="s-nav-link-icon ms-auto ps-1"
+                      class="ms-auto ps-1"
                       {{on "click" (fn this.handleToggle item.menuTitle)}}
                       aria-label={{t
                         "msg.toggle.menu"
@@ -312,7 +311,7 @@ export default class DocSidebarComponent extends Component {
                   {{! Simple clickable link without children }}
                   <LinkTo
                     @route={{item.route}}
-                    class="s-nav-link flex items-center justify-start gap-2 w-full
+                    class="flex items-center justify-start gap-2 w-full
                       {{if
                         (this.isItemActive item this.currentPath)
                         'fg-primary'
@@ -321,25 +320,23 @@ export default class DocSidebarComponent extends Component {
                   >
                     {{#if item.icon}}
                       <span
-                        class="s-nav-link-icon w-32 h-32 flex items-center justify-center border rounded"
+                        class="w-32 h-32 flex items-center justify-center border rounded"
                       >
                         <i class={{item.icon}}></i>
                       </span>
                     {{/if}}
-                    <span class="s-nav-link-text">
-                      <span class="bold-font">{{item.menuTitle}}</span>
-                    </span>
+                    <span class="bold-font">{{item.menuTitle}}</span>
                   </LinkTo>
                 {{/if}}
               {{else}}
                 {{! Expandable item without 'to' - dropdown button only (not LinkTo) }}
                 <button
-                  class="s-nav-link flex items-center gap-2 w-full"
+                  class="flex items-center gap-2 w-full"
                   type="button"
                   {{on "click" (fn this.toggleItem item.menuTitle)}}
                 >
                   <span
-                    class="s-nav-link-icon w-32 h-32 flex items-center justify-center border rounded"
+                    class="w-32 h-32 flex items-center justify-center border rounded"
                   >
                     {{#if (this.hasCustomIcon item.menuTitle)}}
                       {{! template-lint-disable no-triple-curlies }}
@@ -350,10 +347,8 @@ export default class DocSidebarComponent extends Component {
                       <i class={{item.icon}}></i>
                     {{/if}}
                   </span>
-                  <span class="s-nav-link-text">
-                    <span class="bold-font">{{item.menuTitle}}</span>
-                  </span>
-                  <span class="s-nav-link-icon ms-auto">
+                  <span class="bold-font">{{item.menuTitle}}</span>
+                  <span class="ms-auto">
                     <i
                       class="menu-toggle-icon bs-icons1 down-arrow-icon s22
                         {{if (this.isExpanded item) 'rotate-180' ''}}"
@@ -364,21 +359,20 @@ export default class DocSidebarComponent extends Component {
 
               {{#if (this.hasChildren item)}}
                 <div
-                  class=""
                   style={{this.getAccordionStyle item}}
                   {{this.setContentRef item.menuTitle}}
                 >
-                  <ol class="s-nav-list mgt1 ps-2 py-3">
+                  <ol class="ps-2 py-3">
                     {{#each item.children as |childItem|}}
                       {{#if childItem.category}}
-                        <li class="s-nav-item pb-2 pt-2" data-a11y="focus">
+                        <li class="pb-2 pt-2" data-a11y="focus">
                           <div
-                            class="s-nav-category medium-font fg-text-secondary text-uppercase text-12"
+                            class="medium-font fg-text-secondary text-uppercase text-12"
                           >{{childItem.category}}</div>
                           {{#if childItem.items}}
-                            <ol class="s-nav-list pt-2">
+                            <ol class="p-0 m-0 pt-2">
                               {{#each childItem.items as |subItem|}}
-                                <li class="s-nav-item" data-a11y="focus">
+                                <li data-a11y="focus">
                                   {{#if subItem.slug}}
                                     <LinkTo
                                       @route={{subItem.route}}
@@ -403,7 +397,7 @@ export default class DocSidebarComponent extends Component {
                           {{/if}}
                         </li>
                       {{else}}
-                        <li class="s-nav-item" data-a11y="focus">
+                        <li data-a11y="focus">
                           <LinkTo
                             @route={{childItem.route}}
                             @activeClass="border-primary fg-primary"

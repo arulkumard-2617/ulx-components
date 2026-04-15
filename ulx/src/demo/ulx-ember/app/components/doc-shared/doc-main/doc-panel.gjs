@@ -10,8 +10,8 @@ export default class DocPanelComponent extends Component {
   }
 
   <template>
-    <div class="doc-panel-wrapper flex justify-between">
-      <div class="doc-panel grow w-full">
+    <div class="flex justify-between gap-8 items-start min-w-0">
+      <div class="grow w-full min-w-0">
         {{#if @features}}
           {{#each @features as |feature|}}
             <FoundationSection @id={{feature.id}} @title={{feature.sectionNav}}>

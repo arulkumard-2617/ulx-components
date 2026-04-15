@@ -12,7 +12,6 @@
   },
   "scripts": {
     "generate-docs": "cd ../../../ npm run generate:uls-schema",
-    "extract-tokens": "node scripts/extract-ulx-builder-tokens.js ../../../../node_modules/ulx-v2/src/styles/ulx-styles/less/elements/icon.less",
     "build": "ember build --environment=production --output-path=$(node -p \"require('path').join(require('os').tmpdir(), 'ulx-ember-dist')\")",
     "build:dist": "ember build --environment=production",
     "copy-dist-to-appsail": "node scripts/watch-dist.js --once",
