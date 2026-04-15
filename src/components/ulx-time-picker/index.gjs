@@ -29,6 +29,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
+ * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
@@ -104,13 +105,13 @@ export default class UlxTimePicker extends Component {
 	}
 
 	get wrapRootClass() {
-		const { size = "m-size", filled, disabled, invalid, customClass } = this.args;
+		const { size = "m-size", readonly, disabled, invalid, customClass } = this.args;
 
 		const parts = [
 			"flatpickr",
 			buildInputGroupClass({
 				size,
-				filled: Boolean(filled),
+				filled: Boolean(readonly),
 				disabled,
 				invalid: Boolean(invalid)
 			})
@@ -153,7 +154,6 @@ export default class UlxTimePicker extends Component {
 					@disabled={{@disabled}}
 					@readonly={{@readonly}}
 					@invalid={{@invalid}}
-					@filled={{@filled}}
 					@placeholder={{this.placeholderText}}
 					@customClass={{@customClass}}
 					@ariaDescribedBy={{@ariaDescribedBy}}
@@ -195,7 +195,6 @@ export default class UlxTimePicker extends Component {
 				@disabled={{@disabled}}
 				@readonly={{@readonly}}
 				@invalid={{@invalid}}
-				@filled={{@filled}}
 				@placeholder={{this.placeholderText}}
 				@customClass={{@customClass}}
 				@ariaDescribedBy={{@ariaDescribedBy}}

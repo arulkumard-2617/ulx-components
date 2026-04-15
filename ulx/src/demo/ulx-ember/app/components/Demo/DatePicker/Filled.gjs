@@ -16,7 +16,7 @@ export default class FilledDatepickerDemo extends Component {
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}
-        @filled={{true}}
+        @readonly={{true}}
       />
     </div>
   </template>

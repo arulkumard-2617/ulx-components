@@ -78,15 +78,7 @@ export default class UlxInput extends Component {
 
 	// Classes
 	get inputClass() {
-		const {
-			size = "m-size",
-			disabled,
-			readonly,
-			customClass,
-			filled,
-			floatLabel,
-			value
-		} = this.args;
+		const { size = "m-size", disabled, readonly, customClass, value } = this.args;
 
 		const parts = [
 			buildInputClass({
@@ -95,8 +87,6 @@ export default class UlxInput extends Component {
 				invalid: this.isInvalid,
 				disabled,
 				readonly,
-				filled,
-				floatLabel,
 				value
 			})
 		];
