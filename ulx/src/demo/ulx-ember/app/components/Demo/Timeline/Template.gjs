@@ -19,7 +19,7 @@ export default class TemplateTimelineDemo extends Component {
     return [
       {
         id: 'v4',
-        state: 'completed',
+        state: 'active',
         accordionItems: [
           {
             header: 'March 6, 2026',
@@ -104,7 +104,7 @@ export default class TemplateTimelineDemo extends Component {
     <div class="w-full max-w-500">
       <UlxTimeline
         @items={{this.versions}}
-        @customClass="state-tracker"
+        @customClass="milestone-tracker"
         @dataKey="id"
       >
         <:content as |row|>
