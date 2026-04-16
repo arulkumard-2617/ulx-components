@@ -4,8 +4,8 @@
 /**
  * When installing from git, `ulx/` exists but `ulx/node_modules` is not installed
  * by the root `npm install`, so `ulxEditor` would fail (e.g. Cannot find module 'less').
- * Published tarballs omit `ulx/` (see package.json `files`); then we skip this step
- * and rely on pre-built `dev-releases/css/ulx-editor.min.css`.
+ * We require `ulx/` to be present and rebuild `dev-releases/css/ulx-editor.min.css`
+ * so stale prebuilt CSS is never used silently.
  */
 
 const { existsSync } = require('fs');
@@ -16,7 +16,8 @@ const root = path.resolve(__dirname, '..');
 const ulxPkg = path.join(root, 'ulx', 'package.json');
 
 if (!existsSync(ulxPkg)) {
-	process.exit(0);
+	console.error('❌ Missing ulx/package.json. Refusing to use prebuilt ulx-editor CSS fallback.');
+	process.exit(1);
 }
 
 const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';

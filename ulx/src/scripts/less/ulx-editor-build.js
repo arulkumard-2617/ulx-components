@@ -15,7 +15,7 @@ const stylesPath = 'src/styles/ulx';
 const entryFile = resolve(ulxRoot, stylesPath, 'ulx-editor.less');
 // Write CSS to ulx-components/dev-releases/css
 const outDir = resolve(addonRoot, 'dev-releases/css');
-const outMinFile = resolve(outDir, 'ulx-editor.min.css');
+const outMinFile = resolve(outDir, 'ulx-editor1.css');
 
 // Command line arguments
 const isWatchMode = process.argv.includes('--watch') || process.argv.includes('-w');
