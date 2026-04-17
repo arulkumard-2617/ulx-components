@@ -15,6 +15,7 @@
 		"dist",
 		"src",
 		"config",
+		"dev-releases",
 		"babel.config.json"
 	],
 	"scripts": {
