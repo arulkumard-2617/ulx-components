@@ -1,5 +1,5 @@
 import QuillImport from 'quill';
-// import 'quill-mention/autoregister'; // Re-enable when quill-mention is approved in package.json.
+import 'quill-mention/autoregister';
 import { t } from './i18n';
 
 // Quill v2 exports a default in most bundlers; keep this tolerant.
@@ -401,34 +401,6 @@ function overrideListStyles(Parchment) {
 	Quill.register(ListItemExt);
 }
 
-/*
- * Restore @ mentions when quill-mention is approved: add "quill-mention" to package.json,
- * uncomment `import 'quill-mention/autoregister'` at top of this file, set default
- * `ignoreMentions` back to false if desired, and use this object as the fallback when
- * `!ignoreMentions && !('mention' in modules)`:
- *
- * {
- *   allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
- *   mentionDenotationChars: ['{'],
- *   showDenotationChar: false,
- *   getAllValues: () => suggestionWords,
- *   source: (searchTerm, renderList, mentionChar) => {
- *     const values = mentionChar === '{' ? suggestionWords : [];
- *     if (!searchTerm?.length) {
- *       renderList(values, searchTerm);
- *       return;
- *     }
- *     const matches = values.filter((v) =>
- *       String(v?.value ?? '')
- *         .toLowerCase()
- *         .includes(String(searchTerm).toLowerCase())
- *     );
- *     renderList(matches, searchTerm);
- *   },
- *   onSelect: (item, insertItem) => insertItem(item)
- * }
- */
-
 /**
  * Create a Quill editor instance with ULX-friendly defaults.
  *
@@ -442,7 +414,7 @@ function overrideListStyles(Parchment) {
  * @param {Object} [options.modules]
  * @param {string[]} [options.formats]
  * @param {number} [options.maxLength]
- * @param {boolean} [options.ignoreMentions=true]
+ * @param {boolean} [options.ignoreMentions=false]
  * @param {Array<{ id: string, value: string }>} [options.suggestionWords]
  * @param {Function} [options.openImagePicker] - Optional async image picker. Should resolve to an array of { [id]: url } or an array of urls.
  * @param {Function} [options.processWithZia] - Optional async text processor for zia handler.
@@ -461,7 +433,7 @@ export function createQuillInstance(
 		modules = {},
 		formats,
 		maxLength,
-		ignoreMentions = true,
+		ignoreMentions = false,
 		suggestionWords = [],
 		openImagePicker,
 		processWithZia,
@@ -472,8 +444,6 @@ export function createQuillInstance(
 	if (!contentElement) {
 		throw new Error('[UlxRichTextEditor] Missing content element for Quill init.');
 	}
-
-	void suggestionWords;
 
 	ensureQuillExtensionsRegistered();
 
@@ -489,7 +459,26 @@ export function createQuillInstance(
 	const resolvedMention =
 		ignoreMentions || Object.prototype.hasOwnProperty.call(modules, 'mention')
 			? modules.mention
-			: null;
+			: {
+					allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+					mentionDenotationChars: ['{'],
+					showDenotationChar: false,
+					getAllValues: () => suggestionWords,
+					source: (searchTerm, renderList, mentionChar) => {
+						const values = mentionChar === '{' ? suggestionWords : [];
+						if (!searchTerm?.length) {
+							renderList(values, searchTerm);
+							return;
+						}
+						const matches = values.filter((v) =>
+							String(v?.value ?? '')
+								.toLowerCase()
+								.includes(String(searchTerm).toLowerCase())
+						);
+						renderList(matches, searchTerm);
+					},
+					onSelect: (item, insertItem) => insertItem(item)
+				};
 
 	const configuration = {
 		modules: {
@@ -503,9 +492,9 @@ export function createQuillInstance(
 		formats: formats ?? [
 			...new Set(
 				getAllowedFormats(
-					(Array.isArray(resolvedToolbarPreset) ? resolvedToolbarPreset : DEFAULT_TOOLBAR).concat(
-						ignoreMentions ? [] : [{ mention: true }]
-					)
+					(Array.isArray(resolvedToolbarPreset) ? resolvedToolbarPreset : DEFAULT_TOOLBAR).concat({
+						mention: true
+					})
 				).concat(['custom-color', 'custom-size'])
 			)
 		]
@@ -756,7 +745,8 @@ export function createQuillInstance(
 	resolvedToolbar !== false && applyToolbarTitlesAndA11y();
 	resolvedToolbar !== false && quill.on?.('editor-change', scheduleToolbarA11yUpdate);
 
-	// Mentions: quill-mention is currently optional (see package.json + autoregister import). Default is ignoreMentions.
+	// Mentions: if quill-mention is not registered, Quill will throw during init.
+	// Consumers should add quill-mention and register it; otherwise set @ignoreMentions={{true}}.
 
 	// Prevent layout-breaking inline CSS vars from being pasted.
 	// (Ported from legacy rte-util.js clipboard matcher behavior.)
