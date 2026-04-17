@@ -5,9 +5,7 @@
 	"scripts": {
 		"ulxEditor": "node src/scripts/less/ulx-editor-build.js",
 		"ulxEditor:watch": "node src/scripts/less/ulx-editor-build.js --watch",
-		"sync-snippets": "node src/scripts/watch-snipper.js",
-		"generate:utill-schema": "node node_modules/uls_v2/src/scripts/schema/generate-util-schema.mjs src/demo/ulx-ember/app/data/util-schema.js",
-		"generate:utill-nav-schema": "node node_modules/uls_v2/src/scripts/schema/generate-util-nav.mjs src/demo/ulx-ember/app/data/util-nav-schema.js"
+		"sync-snippets": "node src/scripts/watch-snipper.js"
 	},
 	"keywords": [],
 	"author": "",
