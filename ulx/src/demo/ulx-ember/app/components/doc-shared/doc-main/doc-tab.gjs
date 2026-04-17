@@ -25,7 +25,7 @@ export default class DocTabComponent extends Component {
         @activeIndex={{this.activeIndex}}
         @onTabChange={{this.handleTabChange}}
         @tabId="doc-tabmenu"
-        @customClass="sticky l-size top-32 left-0 z-10 px-10 border-b bg-default"
+        @customClass="position-sticky l-size top-32 left-0 z-10 px-10 border-b bg-default"
       />
       <div class="py-12 px-10">
         {{yield @activeTab}}

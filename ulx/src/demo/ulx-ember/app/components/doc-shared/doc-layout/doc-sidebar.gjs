@@ -252,11 +252,11 @@ export default class DocSidebarComponent extends Component {
 
   <template>
     <aside
-      class="doc-sidebar flex flex-col p-0 sticky left-0 top-32 w-260 shrink-0 select-none overflow-x-hidden overflow-y-auto border-e"
+      class="doc-sidebar flex flex-col p-0 position-sticky left-0 top-32 w-260 shrink-0 select-none overflow-x-hidden overflow-y-auto border-e"
       style="height: calc(100vh - 5rem);"
       {{this.syncActiveItemFromRoute}}
     >
-      <div class="px-5 bg-default py-3 sticky top-0 z-10">
+      <div class="px-5 bg-default py-3 position-sticky top-0 z-10">
         <UlxIconInput @iconLeft="search-icon" @iconType="font">
           <UlxInput
             @value={{this.searchQuery}}
