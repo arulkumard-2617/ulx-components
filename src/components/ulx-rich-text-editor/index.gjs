@@ -18,7 +18,7 @@ import { createQuillInstance } from "../../utils/rte-util";
  * @param {boolean} [showHeader=true] - When false, toolbar is hidden/disabled.
  * @param {string} [placeholder] - Placeholder text (defaults to i18n key).
  * @param {string} [toolbarType="header"] - Named toolbar preset: prime, all, allWithZia, announcement, emailV1, email, header, headerWithZia, lite, superLite, formatOnly.
- * @param {boolean} [ignoreMentions=false] - When true, does not configure mention module even if available.
+ * @param {boolean} [ignoreMentions=true] - When true, does not configure mention module even if available.
  * @param {Array<{ id: string, value: string }>} [suggestionWords] - Mention suggestions when mention module is available.
  * @param {Function} [openImagePicker] - Optional async image picker used by toolbar image handler.
  * @param {Function} [processWithZia] - Optional async processor used by toolbar zia handler.
@@ -77,7 +77,7 @@ export default class UlxRichTextEditor extends Component {
 			modules,
 			formats,
 			maxLength,
-			ignoreMentions = false,
+			ignoreMentions = true,
 			suggestionWords,
 			openImagePicker,
 			processWithZia,

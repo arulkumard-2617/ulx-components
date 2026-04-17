@@ -14,8 +14,8 @@
 	"files": [
 		"dist",
 		"src",
-		"dev-releases",
 		"config",
+		"dev-releases",
 		"babel.config.json"
 	],
 	"scripts": {
@@ -34,9 +34,8 @@
 		"@embroider/addon-shim": "^1.8.7",
 		"decorator-transforms": "^2.0.0",
 		"flatpickr": "^4.6.13",
-    "quill": "^2.0.3",
-    "quill-mention": "^6.1.1",
-    "sortablejs": "^1.15.7"
+		"quill": "^2.0.3",
+		"sortablejs": "^1.15.7"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.7",
@@ -99,8 +98,8 @@
 			"./components/ulx-checkbox/index.js": "./dist/_app_/components/ulx-checkbox/index.js",
 			"./components/ulx-chip/index.js": "./dist/_app_/components/ulx-chip/index.js",
 			"./components/ulx-data-view/index.js": "./dist/_app_/components/ulx-data-view/index.js",
-      "./components/ulx-date-picker/index.js": "./dist/_app_/components/ulx-date-picker/index.js",
-      "./components/ulx-date-range-picker/index.js": "./dist/_app_/components/ulx-date-range-picker/index.js",
+			"./components/ulx-date-picker/index.js": "./dist/_app_/components/ulx-date-picker/index.js",
+			"./components/ulx-date-range-picker/index.js": "./dist/_app_/components/ulx-date-range-picker/index.js",
 			"./components/ulx-divider/index.js": "./dist/_app_/components/ulx-divider/index.js",
 			"./components/ulx-dropdown/index.js": "./dist/_app_/components/ulx-dropdown/index.js",
 			"./components/ulx-empty-state/index.js": "./dist/_app_/components/ulx-empty-state/index.js",
@@ -139,7 +138,7 @@
 			"./components/ulx-radio/index.js": "./dist/_app_/components/ulx-radio/index.js",
 			"./components/ulx-radio/radio-item.js": "./dist/_app_/components/ulx-radio/radio-item.js",
 			"./components/ulx-rating/index.js": "./dist/_app_/components/ulx-rating/index.js",
-      "./components/ulx-rich-text-editor/index.js": "./dist/_app_/components/ulx-rich-text-editor/index.js",
+			"./components/ulx-rich-text-editor/index.js": "./dist/_app_/components/ulx-rich-text-editor/index.js",
 			"./components/ulx-segment/index.js": "./dist/_app_/components/ulx-segment/index.js",
 			"./components/ulx-segments-group/index.js": "./dist/_app_/components/ulx-segments-group/index.js",
 			"./components/ulx-select-button/index.js": "./dist/_app_/components/ulx-select-button/index.js",
@@ -178,7 +177,7 @@
 			"./components/ulx-tieredmenu/menu-item.js": "./dist/_app_/components/ulx-tieredmenu/menu-item.js",
 			"./components/ulx-tieredmenu/menu-list.js": "./dist/_app_/components/ulx-tieredmenu/menu-list.js",
 			"./components/ulx-time-picker/index.js": "./dist/_app_/components/ulx-time-picker/index.js",
-      "./components/ulx-timeline/index.js": "./dist/_app_/components/ulx-timeline/index.js",
+			"./components/ulx-timeline/index.js": "./dist/_app_/components/ulx-timeline/index.js",
 			"./components/ulx-toast/index.js": "./dist/_app_/components/ulx-toast/index.js",
 			"./components/ulx-toggle/index.js": "./dist/_app_/components/ulx-toggle/index.js",
 			"./components/ulx-toolbar/index.js": "./dist/_app_/components/ulx-toolbar/index.js",
@@ -188,7 +187,7 @@
 			"./helpers/ulx-t.js": "./dist/_app_/helpers/ulx-t.js",
 			"./instance-initializers/sortable-plugins.js": "./dist/_app_/instance-initializers/sortable-plugins.js",
 			"./modifiers/append-to-body.js": "./dist/_app_/modifiers/append-to-body.js",
-      "./modifiers/flatpickr.js": "./dist/_app_/modifiers/flatpickr.js",
+			"./modifiers/flatpickr.js": "./dist/_app_/modifiers/flatpickr.js",
 			"./modifiers/overlay-dismiss.js": "./dist/_app_/modifiers/overlay-dismiss.js",
 			"./modifiers/overlay-lifecycle.js": "./dist/_app_/modifiers/overlay-lifecycle.js",
 			"./modifiers/overlay-portal.js": "./dist/_app_/modifiers/overlay-portal.js",
