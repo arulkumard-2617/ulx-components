@@ -28,7 +28,7 @@ import {
  * @param {string} [inputId] - Id for the hidden input; use with <label for=""> for a11y.
  * @param {string} [key] - When `inputId` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated id.
  * @param {string} [size="m-size"] - Size: s-size, m-size, l-size.
- * @param {string} [variant="primary"] - Color variant class (e.g. "primary", "green", etc.).
+ * @param {string} [variant="green"] - Color variant class (e.g. "green", "primary", etc.).
  * @param {string} [customClass] - Extra classes on root.
  * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-toggle").
  */
@@ -54,7 +54,7 @@ export default class UlxToggle extends Component {
 	}
 
 	get rootClasses() {
-		const { size = "m-size", variant = "primary", disabled = false, customClass } = this.args;
+		const { size = "m-size", variant = "green", disabled = false, customClass } = this.args;
 
 		const parts = [this.baseClass];
 		parts.push(size);

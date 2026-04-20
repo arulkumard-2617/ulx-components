@@ -88,8 +88,6 @@ select {
   }
 }
 
-
-
 .icon-check {
   stroke-dasharray: 20;
   stroke-dashoffset: 20;
@@ -142,7 +140,6 @@ select {
   transform: translateX(2px);
 }
 
-
 .component-builder-controls-col {
   min-width: 220px;
 }
@@ -163,7 +160,6 @@ select {
   white-space: pre;
   overflow-x: auto;
 }
-
 
 code[class*="language-"],
 pre[class*="language-"] {
@@ -261,6 +257,319 @@ pre.code-block-dark {
       > span {
         color: #858585;
       }
+    }
+  }
+}
+// icon overrides here
+// ==========================================================================
+// ICONS
+// ==========================================================================
+// Base icon element with size and color variations. Includes a circular
+// light-background style that scales with the icon size.
+
+.@{uls-icon-prefix} {
+  // Base layout
+  // Ensure icon glyph (often rendered via ::before by icon-font libs)
+  // always follows the computed color of the element (and therefore parent
+  // variations like tags, buttons, etc.).
+  color: inherit;
+  &::before {
+    color: currentColor !important;
+  }
+
+  // Support SVG elements - fill color matches icon color
+  svg {
+    fill: currentColor;
+  }
+
+  // ----------------------------------------------------------------------
+  // Size variations (font-size for icon fonts, width/height for SVG elements)
+  // @uls-builder normal size : s11, s12, s13, s14, s16, s18, s20, s22, s24, s26, s28, s30, s32
+  // ----------------------------------------------------------------------
+  &.s11 {
+    font-size: @font-size11 !important;
+    &svg {
+      width: @font-size11;
+      height: @font-size11;
+    }
+  }
+  &.s12 {
+    font-size: @font-size12 !important;
+    &svg {
+      width: @font-size12;
+      height: @font-size12;
+    }
+  }
+  &.s13 {
+    font-size: @font-size13 !important;
+    &svg {
+      width: @font-size13;
+      height: @font-size13;
+    }
+  }
+  &.s14 {
+    font-size: @font-size14 !important;
+    &svg {
+      width: @font-size14;
+      height: @font-size14;
+    }
+  }
+  &.s16 {
+    font-size: @font-size16 !important;
+    &svg {
+      width: @font-size16;
+      height: @font-size16;
+    }
+  }
+  &.s18 {
+    font-size: @font-size18 !important;
+    &svg {
+      width: @font-size18;
+      height: @font-size18;
+    }
+  }
+  &.s20 {
+    font-size: @font-size20 !important;
+    &svg {
+      width: @font-size20;
+      height: @font-size20;
+    }
+  }
+  &.s22 {
+    font-size: @font-size22 !important;
+    &svg {
+      width: @font-size22;
+      height: @font-size22;
+    }
+  }
+  &.s24 {
+    font-size: @font-size24 !important;
+    &svg {
+      width: @font-size24;
+      height: @font-size24;
+    }
+  }
+  &.s26 {
+    font-size: @font-size26 !important;
+    &svg {
+      width: @font-size26;
+      height: @font-size26;
+    }
+  }
+  &.s28 {
+    font-size: @font-size28 !important;
+    &svg {
+      width: @font-size28;
+      height: @font-size28;
+    }
+  }
+  &.s30 {
+    font-size: @font-size30 !important;
+    &svg {
+      width: @font-size30;
+      height: @font-size30;
+    }
+  }
+  &.s32 {
+    font-size: @font-size32 !important;
+    &svg {
+      width: @font-size32;
+      height: @font-size32;
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // Color variations (common semantic colors)
+  // @uls-builder colors : primary, success, warning, danger, info, muted, inverted
+  // ----------------------------------------------------------------------
+  &.primary {
+    color: @primary-color;
+    &::before {
+      color: @primary-color !important;
+    }
+  }
+  &.success {
+    color: @success-color;
+    &::before {
+      color: @success-color !important;
+    }
+  }
+  &.warning {
+    color: @warning-color;
+    &::before {
+      color: @warning-color !important;
+    }
+  }
+  &.danger {
+    color: @danger-color;
+    &::before {
+      color: @danger-color !important;
+    }
+  }
+  &.info {
+    color: @info-color;
+    &::before {
+      color: @info-color !important;
+    }
+  }
+  &.muted {
+    color: @tertiary-text-color;
+    &::before {
+      color: @tertiary-text-color !important;
+    }
+  }
+  &.inverted {
+    color: @inverted-fg-color;
+    &::before {
+      color: @inverted-fg-color !important;
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // Circular variant with light background
+  // ----------------------------------------------------------------------
+  &.circle {
+    border-radius: 50%;
+  }
+
+  &.rounded {
+    border-radius: @border-radius-lg;
+  }
+
+  &.circle,
+  &.square,
+  &.rounded {
+    font-size: @font-size-default;
+    background: ~"var(--@{uls-css-var-prefix}icon-bg)";
+    // ------------------------------------------------------------------
+    // Size modifiers for shaped icons (adjust background container size)
+    // Uses size variables; values represent total container size
+    // xs-size → @24px, s-size → @28px, m-size → @32px, l-size → @36px, xl-size → @40px
+    // ------------------------------------------------------------------
+    &.xs-size {
+      font-size: @font-size-mini;
+      inline-size: @24px;
+      block-size: @24px;
+    }
+
+    &.s-size {
+      font-size: @font-size-default;
+      inline-size: @28px;
+      block-size: @28px;
+    }
+
+    &.m-size {
+      font-size: @font-size-h5;
+      inline-size: @32px;
+      block-size: @32px;
+    }
+
+    &.l-size {
+      font-size: @font-size-h4;
+      inline-size: @36px;
+      block-size: @36px;
+    }
+
+    &.xl-size {
+      font-size: @font-size-h3;
+      inline-size: @40px;
+      block-size: @40px;
+    }
+
+    // 2xl → 7xl (mapped to xxl → xxxxxxxl to keep valid class names)
+    // 2xl
+    &.xl2 {
+      font-size: @font-size-h4;
+      inline-size: calc(1em + @36px);
+      block-size: calc(1em + @36px);
+    }
+    // 3xl
+    &.xl3 {
+      font-size: @font-size-h4;
+      inline-size: calc(1em + @40px);
+      block-size: calc(1em + @40px);
+    }
+    // 4xl
+    &.xl4 {
+      font-size: @font-size-h3;
+      inline-size: calc(1em + @44px);
+      block-size: calc(1em + @44px);
+    }
+    // 5xl
+    &.xl5 {
+      font-size: @font-size-h3;
+      inline-size: calc(1em + @48px);
+      block-size: calc(1em + @48px);
+    }
+    // 6xl
+    &.xl6 {
+      font-size: @font-size-h2;
+      inline-size: calc(1em + @52px);
+      block-size: calc(1em + @52px);
+    }
+    // 7xl
+    &.xl7 {
+      font-size: @font-size-h1;
+      inline-size: calc(1em + @56px);
+      block-size: calc(1em + @56px);
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // Background (light layer) helpers using CSS custom property
+  // Sets a light background and ensures icon color matches the intent
+  // @uls-builder layers : primary-layer, success-layer, warning-layer, danger-layer, info-layer
+  // ----------------------------------------------------------------------
+  &.primary-layer {
+    --@{uls-css-var-prefix}icon-bg: @bg-BlueLayer1;
+    color: @primary-color;
+    &::before {
+      color: @primary-color !important;
+    }
+  }
+  &.success-layer {
+    --@{uls-css-var-prefix}icon-bg: @bg-greenLayer1;
+    color: @success-color;
+    &::before {
+      color: @success-color !important;
+    }
+  }
+  &.warning-layer {
+    --@{uls-css-var-prefix}icon-bg: @bg-orangeLayer1;
+    color: @warning-color;
+    &::before {
+      color: @warning-color !important;
+    }
+  }
+  &.danger-layer {
+    --@{uls-css-var-prefix}icon-bg: @bg-redLayer1;
+    color: @danger-color;
+    &::before {
+      color: @danger-color !important;
+    }
+  }
+  &.info-layer {
+    --@{uls-css-var-prefix}icon-bg: @bg-BlueLayer1;
+    color: @info-color;
+    &::before {
+      color: @info-color !important;
+    }
+  }
+
+  // @uls-builder spin : spin-anim
+  &.spin-anim {
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+  }
+
+  @keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(359deg);
+      transform: rotate(359deg);
     }
   }
 }
