@@ -99,6 +99,11 @@ export default class ManageColumns extends Component {
 
 	@action
 	handleDragStart(index, event) {
+		const column = this.orderedColumns[index];
+		if (!column || this.isLocked(column)) {
+			event.preventDefault();
+			return;
+		}
 		this.dragFromIndex = index;
 		event.dataTransfer.effectAllowed = "move";
 		event.dataTransfer.setData("text/plain", String(index));
@@ -132,24 +137,26 @@ export default class ManageColumns extends Component {
 
 	@action
 	canMoveUp(col, index) {
-		return !this.isLocked(col) && index > 0;
+		return !this.isLocked(col) && this.findPreviousUnlockedIndex(index) !== null;
 	}
 
 	@action
 	canMoveDown(col, index) {
-		return !this.isLocked(col) && index < this.orderedColumns.length - 1;
+		return !this.isLocked(col) && this.findNextUnlockedIndex(index) !== null;
 	}
 
 	@action
 	handleMoveUp(col, index) {
 		if (!this.canMoveUp(col, index)) return;
-		this.reorderColumns(index, index - 1);
+		const targetIndex = this.findPreviousUnlockedIndex(index);
+		targetIndex !== null && this.reorderColumns(index, targetIndex);
 	}
 
 	@action
 	handleMoveDown(col, index) {
 		if (!this.canMoveDown(col, index)) return;
-		this.reorderColumns(index, index + 1);
+		const targetIndex = this.findNextUnlockedIndex(index);
+		targetIndex !== null && this.reorderColumns(index, targetIndex);
 	}
 
 	@action
@@ -168,13 +175,57 @@ export default class ManageColumns extends Component {
 
 	reorderColumns(fromIndex, toIndex) {
 		const cols = [...this.orderedColumns];
-		const [moved] = cols.splice(fromIndex, 1);
-		cols.splice(toIndex, 0, moved);
-		this.localOrder = cols;
+		const fromColumn = cols[fromIndex];
+		const toColumn = cols[toIndex];
+		if (!fromColumn || !toColumn) return;
+		if (this.isLocked(fromColumn) || this.isLocked(toColumn)) return;
+
+		const unlockedIndexes = [];
+		const unlockedColumns = [];
+
+		cols.forEach((column, index) => {
+			if (this.isLocked(column)) return;
+			unlockedIndexes.push(index);
+			unlockedColumns.push(column);
+		});
+
+		const fromUnlockedIndex = unlockedIndexes.indexOf(fromIndex);
+		const toUnlockedIndex = unlockedIndexes.indexOf(toIndex);
+		if (
+			fromUnlockedIndex === -1 ||
+			toUnlockedIndex === -1 ||
+			fromUnlockedIndex === toUnlockedIndex
+		) {
+			return;
+		}
+
+		const [moved] = unlockedColumns.splice(fromUnlockedIndex, 1);
+		unlockedColumns.splice(toUnlockedIndex, 0, moved);
+
+		const nextColumns = [...cols];
+		unlockedIndexes.forEach((index, unlockedIndex) => {
+			nextColumns[index] = unlockedColumns[unlockedIndex];
+		});
+
+		this.localOrder = nextColumns;
 		this.liveMessage = t("msg.table.column.moved", {
 			header: moved?.header ?? "",
 			position: toIndex + 1
 		});
+	}
+
+	findPreviousUnlockedIndex(index) {
+		for (let candidate = index - 1; candidate >= 0; candidate--) {
+			if (!this.isLocked(this.orderedColumns[candidate])) return candidate;
+		}
+		return null;
+	}
+
+	findNextUnlockedIndex(index) {
+		for (let candidate = index + 1; candidate < this.orderedColumns.length; candidate++) {
+			if (!this.isLocked(this.orderedColumns[candidate])) return candidate;
+		}
+		return null;
 	}
 
 	<template>
