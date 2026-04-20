@@ -40,6 +40,9 @@ Router.map(function () {
     this.route('paginator');
     this.route('panel-menu');
     this.route('password');
+    this.route('date-picker');
+    this.route('date-range-picker');
+    this.route('time-picker');
     this.route('popup');
     this.route('progressbar');
     this.route('progressspinner');
@@ -64,6 +67,7 @@ Router.map(function () {
     this.route('toolbar');
     this.route('tooltip');
     this.route('tristate-checkbox');
+    this.route('rich-text-editor');
     this.route('ulx-icon-input');
     this.route('ulx-image');
   });

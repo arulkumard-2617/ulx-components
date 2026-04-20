@@ -7,5 +7,5 @@ export default {
   importLine: "import { UlxFieldSet } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
-  stateToSnippet: () => '<UlxFieldSet @legend="Section">...</UlxFieldSet>',
+  stateToSnippet: () => '<UlxFieldSet @legend="Section">...</UlxFieldSet>'
 };

@@ -54,6 +54,11 @@ export const DocNavItems = [
             route: 'components.textarea'
           },
           {
+            menuItem: 'RichTextEditor',
+            to: '/components/rich-text-editor',
+            route: 'components.rich-text-editor'
+          },
+          {
             menuItem: 'IconInput',
             to: '/components/ulx-icon-input',
             route: 'components.ulx-icon-input'
@@ -107,6 +112,21 @@ export const DocNavItems = [
             menuItem: 'Fieldset',
             to: '/components/fieldset',
             route: 'components.fieldset'
+          },
+          {
+            menuItem: 'DatePicker',
+            to: '/components/date-picker',
+            route: 'components.date-picker'
+          },
+          {
+            menuItem: 'DateRangePicker',
+            to: '/components/date-range-picker',
+            route: 'components.date-range-picker'
+          },
+          {
+            menuItem: 'TimePicker',
+            to: '/components/time-picker',
+            route: 'components.time-picker'
           },
           {
             menuItem: 'Form',

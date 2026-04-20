@@ -7,7 +7,7 @@ const QUICK_START_SECTIONS = [
   { id: 'quick-start-use-your-first-component', sectionNav: 'Use your first component' },
   { id: 'quick-start-installation', sectionNav: 'Installation' },
   { id: 'quick-start-component-imports', sectionNav: 'Component imports' },
-  { id: 'quick-start-theme-setup', sectionNav: 'Theme setup' },
+  { id: 'quick-start-theme-setup', sectionNav: 'Theme setup' }
 ];
 
 export default class GettingStartedQuickStartRoute extends Route {
