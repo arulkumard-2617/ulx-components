@@ -86,30 +86,28 @@ export default class UlxOptionSegmentItem extends Component {
 	 */
 	get stableControlId() {
 		const { controlId } = this.args;
-		if (typeof controlId === "string" && controlId.length > 0) {
-			return controlId;
-		}
+		if (typeof controlId === "string" && controlId.length > 0) return controlId;
 
 		const fromKey = optionSegmentRowKey(
 			this.item,
 			this.args.itemIndex ?? 0,
 			this.args.segmentIdBase
 		);
-		if (typeof fromKey === "string" && fromKey.length > 0) {
-			return fromKey;
-		}
+		if (typeof fromKey === "string" && fromKey.length > 0) return fromKey;
 
 		return `ulx-option-segment-control-${guidFor(this)}`;
 	}
 
 	get hasVisibleTitle() {
-		return this.hasTitleBlock || (typeof this.title === "string" && this.title.length > 0);
+		return (
+			this.args.hasTitleBlock || (typeof this.item.title === "string" && this.item.title.length > 0)
+		);
 	}
 
 	get hasVisibleDescription() {
 		return (
-			this.hasDescriptionBlock ||
-			(typeof this.description === "string" && this.description.length > 0)
+			this.args.hasDescriptionBlock ||
+			(typeof this.item.description === "string" && this.item.description.length > 0)
 		);
 	}
 
@@ -123,27 +121,20 @@ export default class UlxOptionSegmentItem extends Component {
 
 	/** When there is no title region, expose a minimal inline label (e.g. string value). */
 	get fallbackItemLabel() {
-		if (this.hasVisibleTitle) {
-			return "";
-		}
-		const v = this.value;
+		if (this.hasVisibleTitle) return "";
+		const v = this.item.value;
 		return typeof v === "string" && v.length > 0 ? v : "";
 	}
 
 	get colorSwatchAriaLabel() {
-		if (!this.isColorSwatchType || this.hasVisibleTitle) {
-			return undefined;
-		}
-
-		const label = this.fallbackItemLabel || (typeof this.value === "string" ? this.value : "");
+		if (!this.isColorSwatchType || this.hasVisibleTitle) return undefined;
+		const label =
+			this.fallbackItemLabel || (typeof this.item.value === "string" ? this.item.value : "");
 		return typeof label === "string" && label.length > 0 ? label : undefined;
 	}
 
 	get colorSwatchAriaLabelledBy() {
-		if (!this.isColorSwatchType || !this.hasVisibleTitle || !this.optionTitleId) {
-			return undefined;
-		}
-
+		if (!this.isColorSwatchType || !this.hasVisibleTitle || !this.optionTitleId) return undefined;
 		return this.optionTitleId;
 	}
 
@@ -160,10 +151,7 @@ export default class UlxOptionSegmentItem extends Component {
 	}
 
 	get isCompact() {
-		if (typeof this.item.compact === "boolean") {
-			return this.item.compact;
-		}
-
+		if (typeof this.item.compact === "boolean") return this.item.compact;
 		return Boolean(this.args.compact);
 	}
 
@@ -182,60 +170,32 @@ export default class UlxOptionSegmentItem extends Component {
 
 	get optionColorInlineStyle() {
 		const raw = this.item.optionColorCode ?? this.item.colorCode;
-		if (typeof raw !== "string" || raw.length === 0) {
-			return undefined;
-		}
+		if (typeof raw !== "string" || raw.length === 0) return undefined;
 		return `--${NAMESPACE}-option-color-code: ${raw};`;
 	}
 
 	get itemRole() {
-		if (this.usesBuiltInToggleControl) {
-			return undefined;
-		}
-
-		if (this.isBasicType) {
-			return "button";
-		}
-
-		if (this.isCheckboxType || this.isTristateType) {
-			return "checkbox";
-		}
-
-		if (this.isRadioType || this.isColorSwatchType) {
-			return "radio";
-		}
-
+		if (this.usesBuiltInToggleControl) return undefined;
+		if (this.isBasicType) return "button";
+		if (this.isCheckboxType || this.isTristateType) return "checkbox";
+		if (this.isRadioType || this.isColorSwatchType) return "radio";
 		return undefined;
 	}
 
 	get isToggleRole() {
-		if (this.usesBuiltInToggleControl) {
-			return false;
-		}
-
+		if (this.usesBuiltInToggleControl) return false;
 		const role = this.itemRole;
 		return role === "radio" || role === "checkbox";
 	}
 
 	get tabIndex() {
-		if (this.usesBuiltInToggleControl) {
-			return undefined;
-		}
-
-		if (this.isDisabled) {
-			return -1;
-		}
-
-		if (this.isBasicType) {
-			return 0;
-		}
+		if (this.usesBuiltInToggleControl) return undefined;
+		if (this.isDisabled) return -1;
+		if (this.isBasicType) return 0;
 
 		if (this.isColorSwatchType) {
 			const targetId = this.args.radiogroupFocusMemberId;
-			if (typeof targetId !== "string" || targetId.length === 0) {
-				return -1;
-			}
-
+			if (typeof targetId !== "string" || targetId.length === 0) return -1;
 			return this.stableControlId === targetId ? 0 : -1;
 		}
 
@@ -243,23 +203,13 @@ export default class UlxOptionSegmentItem extends Component {
 	}
 
 	get ariaPressed() {
-		if (!this.isBasicType || this.usesBuiltInToggleControl) {
-			return undefined;
-		}
-
+		if (!this.isBasicType || this.usesBuiltInToggleControl) return undefined;
 		return this.isSelected ? "true" : "false";
 	}
 
 	get ariaChecked() {
-		if (this.usesBuiltInToggleControl) {
-			return undefined;
-		}
+		if (this.usesBuiltInToggleControl || !this.isToggleRole) return undefined;
 
-		if (!this.isToggleRole) {
-			return undefined;
-		}
-
-		// Tristate uses its own value for aria-checked
 		if (this.isTristateType) {
 			const v = this.tristateValue;
 			if (v === null) return "mixed";
@@ -270,52 +220,40 @@ export default class UlxOptionSegmentItem extends Component {
 	}
 
 	get ariaDisabled() {
-		if (this.usesBuiltInToggleControl) {
-			return undefined;
-		}
-
+		if (this.usesBuiltInToggleControl) return undefined;
 		return this.isDisabled ? "true" : undefined;
-	}
-
-	get title() {
-		return this.item.title;
-	}
-
-	get description() {
-		return this.item.description;
 	}
 
 	get hasNestedItems() {
 		return Array.isArray(this.item.nestedItems) && this.item.nestedItems.length > 0;
 	}
 
-	get nestedItems() {
-		return this.hasNestedItems ? this.item.nestedItems : [];
+	get hasControlSection() {
+		return (
+			this.args.hasControlBlock || this.isRadioType || this.isCheckboxType || this.isTristateType
+		);
 	}
 
-	get hasControlBlock() {
-		return Boolean(this.args.hasControlBlock);
+	/**
+	 * When true, the native control handles focus and keyboard; the card must not be
+	 * a second tab stop or ARIA toggle (avoids focus traps and double-toggle on Space/click).
+	 */
+	get usesBuiltInToggleControl() {
+		return (
+			this.hasControlSection &&
+			!this.args.hasControlBlock &&
+			(this.isRadioType || this.isCheckboxType || this.isTristateType)
+		);
 	}
 
-	get hasTitleBlock() {
-		return Boolean(this.args.hasTitleBlock);
-	}
-
-	get hasContentBlock() {
-		return Boolean(this.args.hasContentBlock);
-	}
-
-	get hasDescriptionBlock() {
-		return Boolean(this.args.hasDescriptionBlock);
+	get tristateValue() {
+		return this.item.tristateValue;
 	}
 
 	get hasNestedBlock() {
-		if (!this.args.hasNestedBlock) {
-			return false;
-		}
+		if (!this.args.hasNestedBlock) return false;
 
-		const item = this.item;
-
+		const { item } = this;
 		// When the consumer explicitly controls nesting via `item.hasNested`,
 		// only render the nested section when that flag is truthy.
 		if (item && Object.prototype.hasOwnProperty.call(item, "hasNested")) {
@@ -327,32 +265,9 @@ export default class UlxOptionSegmentItem extends Component {
 		return true;
 	}
 
-	get hasControlSection() {
-		return this.hasControlBlock || this.isRadioType || this.isCheckboxType || this.isTristateType;
-	}
-
-	/**
-	 * When true, the native control handles focus and keyboard; the card must not be
-	 * a second tab stop or ARIA toggle (avoids focus traps and double-toggle on Space/click).
-	 */
-	get usesBuiltInToggleControl() {
-		return (
-			this.hasControlSection &&
-			!this.hasControlBlock &&
-			(this.isRadioType || this.isCheckboxType || this.isTristateType)
-		);
-	}
-
-	get tristateValue() {
-		return this.item.tristateValue;
-	}
-
 	@action
 	handleControlCheckedChange(checked, event) {
-		if (this.isDisabled) {
-			return;
-		}
-
+		if (this.isDisabled) return;
 		if (typeof this.args.onSelect === "function") {
 			this.args.onSelect(checked, this.value, event, this.item);
 		}
@@ -360,10 +275,7 @@ export default class UlxOptionSegmentItem extends Component {
 
 	@action
 	handleTristateValueChange(nextValue, event) {
-		if (this.isDisabled) {
-			return;
-		}
-
+		if (this.isDisabled) return;
 		const callback = this.item?.onTristateChange;
 		if (typeof callback === "function") {
 			callback(nextValue, event, this.item);
@@ -372,9 +284,7 @@ export default class UlxOptionSegmentItem extends Component {
 
 	@action
 	handleSelect(event) {
-		if (this.isDisabled) {
-			return;
-		}
+		if (this.isDisabled) return;
 
 		if (typeof this.args.onSelect === "function") {
 			let nextSelected;
@@ -393,16 +303,12 @@ export default class UlxOptionSegmentItem extends Component {
 
 	@action
 	handleClick(event) {
-		if (this.isDisabled) {
-			return;
-		}
+		if (this.isDisabled) return;
 
 		// Built-in control: native input/label already toggles; ignore bubbled clicks from `.option-control`.
 		if (this.usesBuiltInToggleControl) {
 			const controlRoot = event.currentTarget?.querySelector?.(".option-control");
-			if (controlRoot?.contains(event.target)) {
-				return;
-			}
+			if (controlRoot?.contains(event.target)) return;
 		}
 
 		this.handleSelect(event);
@@ -410,9 +316,7 @@ export default class UlxOptionSegmentItem extends Component {
 
 	@action
 	handleKeyDown(event) {
-		if (this.isDisabled) {
-			return;
-		}
+		if (this.isDisabled) return;
 
 		if (this.isColorSwatchType && typeof this.args.onColorSwatchRadiogroupNavigate === "function") {
 			let intent;
@@ -435,11 +339,8 @@ export default class UlxOptionSegmentItem extends Component {
 		const keyboardActivatable =
 			(this.isToggleRole || this.isBasicType) && !this.usesBuiltInToggleControl;
 
-		if (!keyboardActivatable) {
-			return;
-		}
+		if (!keyboardActivatable) return;
 
-		// Activate on Space or Enter for keyboard users
 		if (event.key === " " || event.key === "Spacebar" || event.key === "Enter") {
 			event.preventDefault();
 			this.handleSelect(event);
@@ -470,7 +371,7 @@ export default class UlxOptionSegmentItem extends Component {
 		>
 			{{#if this.hasControlSection}}
 				<div class="option-control" data-qa={{this.getDataQa "control"}}>
-					{{#if this.hasControlBlock}}
+					{{#if this.args.hasControlBlock}}
 						{{yield this.item to="control"}}
 					{{else if this.isRadioType}}
 						<UlxRadio
@@ -513,35 +414,31 @@ export default class UlxOptionSegmentItem extends Component {
 			{{/if}}
 
 			<div class="option-content" data-qa={{this.getDataQa "content"}}>
-				{{#if this.hasContentBlock}}
+				{{#if this.args.hasContentBlock}}
 					{{yield this.item to="content"}}
 				{{/if}}
 
-				{{#if this.hasTitleBlock}}
+				{{#if this.hasVisibleTitle}}
 					<div class="option-title" data-qa={{this.getDataQa "title"}} id={{this.optionTitleId}}>
-						{{yield this.item to="title"}}
-					</div>
-				{{else if this.title}}
-					<div class="option-title" data-qa={{this.getDataQa "title"}} id={{this.optionTitleId}}>
-						{{this.title}}
+						{{#if this.args.hasTitleBlock}}
+							{{yield this.item to="title"}}
+						{{else}}
+							{{this.item.title}}
+						{{/if}}
 					</div>
 				{{/if}}
 
-				{{#if this.hasDescriptionBlock}}
+				{{#if this.hasVisibleDescription}}
 					<div
 						class="option-description"
 						data-qa={{this.getDataQa "description"}}
 						id={{this.optionDescriptionId}}
 					>
-						{{yield this.item to="description"}}
-					</div>
-				{{else if this.description}}
-					<div
-						class="option-description"
-						data-qa={{this.getDataQa "description"}}
-						id={{this.optionDescriptionId}}
-					>
-						{{this.description}}
+						{{#if this.args.hasDescriptionBlock}}
+							{{yield this.item to="description"}}
+						{{else}}
+							{{this.item.description}}
+						{{/if}}
 					</div>
 				{{/if}}
 
@@ -559,7 +456,7 @@ export default class UlxOptionSegmentItem extends Component {
 						data-qa={{this.getDataQa "nested"}}
 						{{on "click" this.stopNestedClickPropagation}}
 					>
-						{{#each this.nestedItems as |nestedItem|}}
+						{{#each this.item.nestedItems as |nestedItem|}}
 							<div class="option-nested-item">
 								{{nestedItem.label}}
 							</div>
