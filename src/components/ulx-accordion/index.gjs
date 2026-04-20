@@ -38,7 +38,9 @@ const TOGGLEABLE_PHASE_CLASSES = {
  * @param {string} [variant] - Visual: filled, elevated, flat
  * @param {string} [spacing] - compact, spacious
  * @param {string} [rounded] - rounded, square
- * @param {string} [customClass] - Extra CSS classes
+ * @param {string} [customClass] - Extra CSS classes on the root accordion element
+ * @param {string} [headerClass] - Extra CSS classes applied to every accordion-header element
+ * @param {string} [contentClass] - Extra CSS classes applied to every accordion-content element
  * @param {string} [expandIconName='down-stroke-icon-new'] - Font icon when tab is collapsed
  * @param {string} [collapseIconName='down-stroke-icon-new'] - Font icon when tab is expanded
  * @param {'left'|'right'} [toggleIconPosition='left'] - Position of the expand/collapse icon.
@@ -155,6 +157,8 @@ export default class UlxAccordion extends Component {
 		const parts = ["accordion-header"];
 		this.isTabSelected(index) && parts.push("active");
 		item?.disabled && parts.push("disabled");
+		this.args.headerClass && parts.push(this.args.headerClass);
+		item?.headerClass && parts.push(item.headerClass);
 		return joinClassNames(...parts);
 	}
 
@@ -361,6 +365,14 @@ export default class UlxAccordion extends Component {
 	}
 
 	@action
+	getContentClasses(item) {
+		const parts = ["accordion-content"];
+		this.args.contentClass && parts.push(this.args.contentClass);
+		item?.contentClass && parts.push(item.contentClass);
+		return joinClassNames(...parts);
+	}
+
+	@action
 	getContentMeta(item, index) {
 		return {
 			active: this.isTabSelected(index),
@@ -458,13 +470,13 @@ export default class UlxAccordion extends Component {
 							data-qa={{this.getDataQa "content"}}
 							{{this.accordionContentTransition index (this.isTabSelected index)}}
 						>
-							<div class="accordion-content">
-								{{#if (has-block "content")}}
-									{{yield item index (this.getContentMeta item index) to="content"}}
-								{{else}}
-									{{item.content}}
-								{{/if}}
-							</div>
+						<div class={{this.getContentClasses item}}>
+							{{#if (has-block "content")}}
+								{{yield item index (this.getContentMeta item index) to="content"}}
+							{{else}}
+								{{item.content}}
+							{{/if}}
+						</div>
 						</div>
 					{{/if}}
 				</div>
