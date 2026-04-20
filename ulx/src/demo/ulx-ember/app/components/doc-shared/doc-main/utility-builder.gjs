@@ -72,7 +72,7 @@ const POSITION_OPTIONS = [
   { value: 'relative', label: 'Relative' },
   { value: 'absolute', label: 'Absolute' },
   { value: 'fixed', label: 'Fixed' },
-  { value: 'sticky', label: 'Sticky' },
+  { value: 'position-sticky', label: 'Sticky' },
 ];
 const BOX_LAYOUT_SLUGS = ['padding', 'margin', 'gap', 'space'];
 

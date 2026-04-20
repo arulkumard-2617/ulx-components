@@ -85,7 +85,7 @@ export default class DocSectionNavComponent extends Component {
   <template>
     {{#if this.sections.length}}
       <nav
-        class="nav-section-links sticky top-64 min-w-200 overflow-y-auto overflow-x-hidden"
+        class="nav-section-links position-sticky top-64 min-w-200 overflow-y-auto overflow-x-hidden"
         {{this.setupScrollObserver}}
       >
         <ul class="list-reset p-0 m-0">
