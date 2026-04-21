@@ -42,6 +42,9 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [ariaLabel] - Accessible name for the group (recommended when no visible label).
  * @param {string} [customClass] - Additional CSS classes for the root.
  * @param {string} [dataQa] - Override for root element data-qa (default: "ulx-selectbutton").
+ *
+ * ## Named blocks
+ * - `<:item as |option|>` — replaces the entire button content for every option.
  */
 export default class UlxSelectButton extends Component {
 	get baseClass() {
@@ -182,6 +185,7 @@ export default class UlxSelectButton extends Component {
 
 		selected && parts.push("selected");
 		optionDisabled && parts.push("disabled");
+		option?.highlighted && parts.push("highlighted");
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
@@ -282,7 +286,7 @@ export default class UlxSelectButton extends Component {
 						>
 							{{this.getOptionLabel option}}
 						</span>
-					{{/if}}
+				{{/if}}
 				</button>
 			{{/each}}
 		</div>
