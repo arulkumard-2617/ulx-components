@@ -56,7 +56,7 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {boolean} visible - Controls pane visibility
  * @param {string} [position="right"] - Position: "left", "right", "top", "bottom"
  * @param {string} [title] - Pane title (used when no :head block)
- * @param {string} [size="m-size"] - Preset size: "s-size", "m-size", "l-size"
+ * @param {string} [size="l-size"] - Preset size: "s-size", "m-size", "l-size"
  * @param {boolean} [closeOnBackdrop=true] - Close when backdrop is clicked
  * @param {boolean} [closeOnEscape=true] - Close on Escape key
  * @param {boolean} [showCloseButton=true] - Show close button in header
@@ -138,7 +138,7 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get slidePaneClasses() {
-		const { size = "m-size" } = this.args;
+		const { size = "l-size" } = this.args;
 		const parts = [this.baseClass];
 
 		const dockedClass =
