@@ -1,6 +1,5 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { hash } from "@ember/helper";
 import { joinClassNames } from "../../utils/class-names";
 import { NAMESPACE, getComponentClass } from "../../utils/component-config";
 import { resolveRootDataQa } from "../../utils/data-qa";
@@ -96,7 +95,6 @@ function buildOptionSegmentId(namespace, idArg, key) {
  */
 export default class UlxOptionSegment extends Component {
 	get baseClass() {
-		// Updated to the group container class `.ulx-option-segments`
 		return getComponentClass("option-segments");
 	}
 
@@ -124,12 +122,8 @@ export default class UlxOptionSegment extends Component {
 		return this.type === "color-swatch";
 	}
 
-	get layout() {
-		return this.args.layout === "tile" ? "tile" : "stacked";
-	}
-
 	get isTileLayout() {
-		return this.layout === "tile";
+		return this.args.layout === "tile";
 	}
 
 	/**
@@ -140,17 +134,12 @@ export default class UlxOptionSegment extends Component {
 	 * `@selection="center"` is always explicit (never auto-defaulted).
 	 */
 	get resolvedSelection() {
-		if (this.isColorSwatchType) {
-			return null;
-		}
+		if (this.isColorSwatchType) return null;
 
-		const raw = this.args.selection;
-		if (typeof raw === "string" && isSelectionMode(raw)) {
-			return raw;
-		}
+		const { selection, hasControlBlock } = this.args;
+		if (typeof selection === "string" && isSelectionMode(selection)) return selection;
 
-		const basicOrCustomControl = this.isBasicType || this.args.hasControlBlock;
-		return basicOrCustomControl ? "corner" : "control";
+		return this.isBasicType || hasControlBlock ? "corner" : "control";
 	}
 
 	/**
@@ -158,22 +147,9 @@ export default class UlxOptionSegment extends Component {
 	 * Toggle groups use `radio-options` or `checkbox-options`.
 	 */
 	get groupTypeClass() {
-		if (this.args.hasControlBlock) {
-			return "basic";
-		}
-
-		if (this.isBasicType) {
-			return "basic";
-		}
-
-		if (this.isRadioType) {
-			return "radio-options";
-		}
-
-		if (this.isCheckboxType || this.isTristateType) {
-			return "checkbox-options";
-		}
-
+		if (this.args.hasControlBlock || this.isBasicType) return "basic";
+		if (this.isRadioType) return "radio-options";
+		if (this.isCheckboxType || this.isTristateType) return "checkbox-options";
 		return "basic";
 	}
 
@@ -193,33 +169,40 @@ export default class UlxOptionSegment extends Component {
 		return Array.isArray(this.args.items) && this.args.items.length > 0;
 	}
 
-	get segmentKey() {
-		return resolveKey(this, this.args.key);
-	}
-
 	get segmentIdBase() {
-		return buildOptionSegmentId(NAMESPACE, this.args.id, this.segmentKey);
-	}
-
-	get items() {
-		return this.hasItems ? this.args.items : [];
+		return buildOptionSegmentId(NAMESPACE, this.args.id, resolveKey(this, this.args.key));
 	}
 
 	/**
 	 * Stable row keys for `{{#each}}` so immutable item updates do not recreate
 	 * `UlxOptionSegmentItem` (avoids focus loss on the embedded input).
+	 * In single-item mode, wraps the args into a single-entry array so the template
+	 * needs no `{{#if hasItems}}` fork.
 	 */
 	get itemEntries() {
-		return this.items.map((item, index) => ({
-			item,
-			index,
-			rowKey: optionSegmentRowKey(item, index, this.segmentIdBase)
-		}));
-	}
+		if (this.hasItems) {
+			return this.args.items.map((item, index) => ({
+				item,
+				index,
+				rowKey: optionSegmentRowKey(item, index, this.segmentIdBase)
+			}));
+		}
 
-	/** Same id as row 0 in `itemEntries` (single-item mode has no `item.id` on the hash). */
-	get singleItemControlId() {
-		return optionSegmentRowKey({}, 0, this.segmentIdBase);
+		const singleRowKey = optionSegmentRowKey({}, 0, this.segmentIdBase);
+		return [
+			{
+				item: {
+					value: this.args.value,
+					selected: this.isSelected,
+					disabled: this.isDisabled,
+					compact: this.isCompact,
+					title: this.args.title,
+					description: this.args.description
+				},
+				index: 0,
+				rowKey: singleRowKey
+			}
+		];
 	}
 
 	get rootClasses() {
@@ -229,7 +212,7 @@ export default class UlxOptionSegment extends Component {
 			this.groupTypeClass,
 			this.isColorSwatchType && "color-swatch",
 			this.isTileLayout && "layout-tile",
-			this.layout === "stacked" && "layout-stacked",
+			!this.isTileLayout && "layout-stacked",
 			this.resolvedSelection && `selection-${this.resolvedSelection}`,
 			customClass
 		);
@@ -242,46 +225,16 @@ export default class UlxOptionSegment extends Component {
 	 * Can be overridden via `@role` when needed.
 	 */
 	get groupRole() {
-		if (this.args.role) {
-			return this.args.role;
-		}
-
-		if (this.isRadioType || this.isColorSwatchType) {
-			return "radiogroup";
-		}
-
-		return "group";
+		if (this.args.role) return this.args.role;
+		return this.isRadioType || this.isColorSwatchType ? "radiogroup" : "group";
 	}
 
 	/**
 	 * Enabled color-swatch entries in DOM order for radiogroup focus and keyboard navigation.
 	 */
 	get colorSwatchNavigateEntries() {
-		if (!this.isColorSwatchType) {
-			return [];
-		}
-
-		if (this.hasItems) {
-			return this.itemEntries.filter((e) => !this.isDisabled && !e.item.disabled);
-		}
-
-		if (this.isDisabled) {
-			return [];
-		}
-
-		return [
-			{
-				rowKey: this.singleItemControlId,
-				item: {
-					value: this.args.value,
-					selected: this.isSelected,
-					disabled: this.isDisabled,
-					compact: this.isCompact,
-					title: this.title,
-					description: this.description
-				}
-			}
-		];
+		if (!this.isColorSwatchType || this.isDisabled) return [];
+		return this.itemEntries.filter((e) => !e.item.disabled);
 	}
 
 	/**
@@ -289,28 +242,18 @@ export default class UlxOptionSegment extends Component {
 	 */
 	get colorSwatchRadiogroupFocusMemberId() {
 		const entries = this.colorSwatchNavigateEntries;
-		if (!entries.length) {
-			return undefined;
-		}
+		if (!entries.length) return undefined;
 
 		const selected = entries.find((e) => Boolean(e.item.selected));
-		if (selected) {
-			return selected.rowKey;
-		}
-
-		return entries[0].rowKey;
+		return selected ? selected.rowKey : entries[0].rowKey;
 	}
 
 	@action
 	handleColorSwatchRadiogroupNavigate(intent, fromControlId, event) {
-		if (!this.isColorSwatchType) {
-			return;
-		}
+		if (!this.isColorSwatchType) return;
 
 		const enabled = this.colorSwatchNavigateEntries;
-		if (!enabled.length) {
-			return;
-		}
+		if (!enabled.length) return;
 
 		const curIdx = enabled.findIndex((e) => e.rowKey === fromControlId);
 		let nextIdx = 0;
@@ -339,26 +282,6 @@ export default class UlxOptionSegment extends Component {
 		}
 	}
 
-	get title() {
-		return this.args.title;
-	}
-
-	get description() {
-		return this.args.description;
-	}
-
-	get ariaLabel() {
-		return this.args.ariaLabel;
-	}
-
-	get ariaLabelledBy() {
-		return this.args.ariaLabelledBy;
-	}
-
-	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
-	}
-
 	get rootDataQa() {
 		return resolveRootDataQa(this.args.dataQa, "option-segment");
 	}
@@ -379,68 +302,19 @@ export default class UlxOptionSegment extends Component {
 			class={{this.rootClasses}}
 			data-qa={{this.rootDataQa}}
 			role={{this.groupRole}}
-			aria-label={{this.ariaLabel}}
-			aria-labelledby={{this.ariaLabelledBy}}
-			aria-describedby={{this.ariaDescribedBy}}
+			aria-label={{this.args.ariaLabel}}
+			aria-labelledby={{this.args.ariaLabelledBy}}
+			aria-describedby={{this.args.ariaDescribedBy}}
 			...attributes
 		>
-			{{#if this.hasItems}}
-				{{#each this.itemEntries key="rowKey" as |entry|}}
-					<UlxOptionSegmentItem
-						@dataQa={{this.itemDataQaPrefix}}
-						@type={{this.type}}
-						@itemClass={{this.args.itemClass}}
-						@item={{entry.item}}
-						@itemIndex={{entry.index}}
-						@controlId={{entry.rowKey}}
-						@segmentIdBase={{this.segmentIdBase}}
-						@disabled={{this.isDisabled}}
-						@compact={{this.isCompact}}
-						@onSelect={{this.handleItemSelect}}
-						@radiogroupFocusMemberId={{this.colorSwatchRadiogroupFocusMemberId}}
-						@onColorSwatchRadiogroupNavigate={{this.handleColorSwatchRadiogroupNavigate}}
-						@hasControlBlock={{has-block "control"}}
-						@hasContentBlock={{has-block "content"}}
-						@hasTitleBlock={{has-block "title"}}
-						@hasDescriptionBlock={{has-block "description"}}
-						@hasNestedBlock={{has-block "nested"}}
-					>
-						<:control as |currentItem|>
-							{{yield currentItem to="control"}}
-						</:control>
-
-						<:content as |currentItem|>
-							{{yield currentItem to="content"}}
-						</:content>
-
-						<:title as |currentItem|>
-							{{yield currentItem to="title"}}
-						</:title>
-
-						<:description as |currentItem|>
-							{{yield currentItem to="description"}}
-						</:description>
-
-						<:nested as |currentItem|>
-							{{yield currentItem to="nested"}}
-						</:nested>
-					</UlxOptionSegmentItem>
-				{{/each}}
-			{{else}}
+			{{#each this.itemEntries key="rowKey" as |entry|}}
 				<UlxOptionSegmentItem
 					@dataQa={{this.itemDataQaPrefix}}
 					@type={{this.type}}
 					@itemClass={{this.args.itemClass}}
-					@item={{hash
-						value=this.args.value
-						selected=this.isSelected
-						disabled=this.isDisabled
-						compact=this.isCompact
-						title=this.title
-						description=this.description
-					}}
-					@itemIndex={{0}}
-					@controlId={{this.singleItemControlId}}
+					@item={{entry.item}}
+					@itemIndex={{entry.index}}
+					@controlId={{entry.rowKey}}
 					@segmentIdBase={{this.segmentIdBase}}
 					@disabled={{this.isDisabled}}
 					@compact={{this.isCompact}}
@@ -473,7 +347,7 @@ export default class UlxOptionSegment extends Component {
 						{{yield currentItem to="nested"}}
 					</:nested>
 				</UlxOptionSegmentItem>
-			{{/if}}
+			{{/each}}
 		</div>
 	</template>
 }
