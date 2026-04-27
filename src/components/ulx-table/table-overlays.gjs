@@ -11,8 +11,14 @@ import ManageColumns from "./manage-columns.gjs";
 import FilterOverlay from "./filter-overlay.gjs";
 import SortOptions from "./sort-options.gjs";
 import { t } from "../../utils/i18n.js";
+import { resolveRootDataQa } from "../../utils/data-qa";
 
+/** @param {string} [dataQa] - Root `data-qa` for overlay portal grouping (default: `ulx-table-overlays`). */
 export default class TableOverlays extends Component {
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table-overlays");
+	}
+
 	get manageColumns() {
 		return this.args.manageColumns ?? {};
 	}
@@ -50,6 +56,7 @@ export default class TableOverlays extends Component {
 	}
 
 	<template>
+		<div class="datatable-overlays-root" data-qa={{this.rootDataQa}} style="display: contents">
 		{{! Manage columns panel }}
 		{{#if this.showManageColumnsPopup}}
 			<UlxPopup
@@ -121,8 +128,15 @@ export default class TableOverlays extends Component {
 							{{#each this.filterBubble.activeBubble.group.options as |opt|}}
 								<UlxCheckboxItem
 									@itemLabel={{opt.label}}
-									@checked={{this.filterBubble.isOptionChecked this.filterBubble.activeBubble.group.key opt.value}}
-									@onChange={{fn this.filterBubble.onUpdateSelection this.filterBubble.activeBubble.group.key opt.value}}
+									@checked={{this.filterBubble.isOptionChecked
+										this.filterBubble.activeBubble.group.key
+										opt.value
+									}}
+									@onChange={{fn
+										this.filterBubble.onUpdateSelection
+										this.filterBubble.activeBubble.group.key
+										opt.value
+									}}
 								/>
 							{{/each}}
 						</div>
@@ -132,10 +146,7 @@ export default class TableOverlays extends Component {
 								@variant="primary"
 								@size="s-size"
 								@label={{t "lbl.apply.filter"}}
-								@onClick={{fn
-									this.filterBubble.onApplyPane
-									this.filterBubble.activeBubble.field
-								}}
+								@onClick={{fn this.filterBubble.onApplyPane this.filterBubble.activeBubble.field}}
 							/>
 						</div>
 					</div>
@@ -173,6 +184,7 @@ export default class TableOverlays extends Component {
 				@closable={{true}}
 				@onHide={{this.sortPopover.onClose}}
 				@ariaLabel={{t "lbl.sort"}}
+				@hideFooter={{true}}
 			>
 				<div class="fs-popup p-1">
 					<SortOptions
@@ -200,6 +212,8 @@ export default class TableOverlays extends Component {
 				<:body>
 					<UlxAccordion
 						@items={{this.filterPane.accordionModel}}
+						@activeIndex={{this.filterPane.accordionActiveIndex}}
+						@onTabChange={{this.filterPane.onAccordionChange}}
 						@multiple={{true}}
 						@toggleIconPosition="right"
 						@variant="elevated"
@@ -224,5 +238,6 @@ export default class TableOverlays extends Component {
 				</:body>
 			</UlxSlidePane>
 		{{/if}}
+		</div>
 	</template>
 }

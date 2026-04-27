@@ -3,14 +3,24 @@ import and from "ember-truth-helpers/helpers/and";
 import not from "ember-truth-helpers/helpers/not";
 import UlxCard from "../ulx-card/index.gjs";
 import TableEmptyState from "./table-empty-state.gjs";
+import { resolveRootDataQa } from "../../utils/data-qa";
 
+/** @param {string} [dataQa] - Root `data-qa` for the card view wrapper (default: `ulx-table-view-card`). */
 export default class TableViewCard extends Component {
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table-view-card");
+	}
+
 	get rows() {
 		return this.args.rows ?? [];
 	}
 
 	<template>
-		<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{@wrapperStyle}}>
+		<div
+			class="datatable-wrapper {{if @scrollable 'scrollable'}}"
+			style={{@wrapperStyle}}
+			data-qa={{this.rootDataQa}}
+		>
 			<div class="ulx-grid gap-4 col-{{@cardViewColumns}}">
 				{{#each this.rows as |row|}}
 					<UlxCard @bodyClass="p-0">{{yield row to="card"}}</UlxCard>

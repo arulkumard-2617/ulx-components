@@ -591,7 +591,7 @@ export default class TableBody extends Component {
 											<UlxIconButton
 												@text={{true}}
 												@variant="success"
-												@iconLeft="tick-thick-icon"
+												@iconLeft="tick-icon-01"
 												@iconSize="s20"
 												@customClass="datatable-row-save-button"
 												@onClick={{fn this.handleRowEditSave row}}

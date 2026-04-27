@@ -612,7 +612,7 @@ export default class UlxMultiSelect extends Component {
 				? this.args.zIndex
 				: resolvedContext === document.body
 					? getOverlayZIndexAboveMask(this.modalStack)
-					: 1;
+					: 2;
 		panelEl.style.setProperty("z-index", `${zIndex}`, "important");
 		panelEl.style.margin = "0";
 		panelEl.style.padding = "0";

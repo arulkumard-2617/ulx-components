@@ -4,14 +4,24 @@ import and from "ember-truth-helpers/helpers/and";
 import not from "ember-truth-helpers/helpers/not";
 import UlxDataView from "../ulx-data-view/index.gjs";
 import TableEmptyState from "./table-empty-state.gjs";
+import { resolveRootDataQa } from "../../utils/data-qa";
 
+/** @param {string} [dataQa] - Root `data-qa` for the detailed view wrapper (default: `ulx-table-view-detailed`). */
 export default class TableViewDetailed extends Component {
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table-view-detailed");
+	}
+
 	get rows() {
 		return this.args.rows ?? [];
 	}
 
 	<template>
-		<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{@wrapperStyle}}>
+		<div
+			class="datatable-wrapper {{if @scrollable 'scrollable'}}"
+			style={{@wrapperStyle}}
+			data-qa={{this.rootDataQa}}
+		>
 			{{#if (or @loading this.rows.length)}}
 				<UlxDataView @layout="list" @gridRole="list">
 					<:content>
