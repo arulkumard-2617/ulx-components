@@ -1382,6 +1382,8 @@ export default class UlxTable extends Component {
 				@template={{this.tablePaginatorTemplate}}
 				@currentPageReportTemplate={{@currentPageReportTemplate}}
 				@onPageChange={{this.handlePageChange}}
+				@hasLeft={{has-block "paginatorLeft"}}
+				@hasRight={{has-block "paginatorRight"}}
 			>
 				<:left>{{yield to="paginatorLeft"}}</:left>
 				<:right>{{yield to="paginatorRight"}}</:right>
@@ -1523,6 +1525,8 @@ export default class UlxTable extends Component {
 				@template={{this.tablePaginatorTemplate}}
 				@currentPageReportTemplate={{@currentPageReportTemplate}}
 				@onPageChange={{this.handlePageChange}}
+				@hasLeft={{has-block "paginatorLeft"}}
+				@hasRight={{has-block "paginatorRight"}}
 			>
 				<:left>{{yield to="paginatorLeft"}}</:left>
 				<:right>{{yield to="paginatorRight"}}</:right>

@@ -1,6 +1,4 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { UlxTable } from 'ulx-components';
 
 const generateProducts = () =>
@@ -24,7 +22,6 @@ const columns = [
 export default class DemoTablePaginator extends Component {
   products = generateProducts();
   columns = columns;
-  rowsPerPageOptions = [10, 25, 50];
 
   <template>
     <UlxTable
@@ -32,8 +29,6 @@ export default class DemoTablePaginator extends Component {
       @columns={{this.columns}}
       @dataKey="id"
       @paginator={{true}}
-      @rowsPerPageOptions={{this.rowsPerPageOptions}}
-      @sortMode="single"
     />
   </template>
 }

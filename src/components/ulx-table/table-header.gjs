@@ -236,25 +236,26 @@ export default class TableHeader extends Component {
 									>
 										{{#let (this.sortOrderFor (or col.sortField col.field)) as |order|}}
 											{{#if (eq order 1)}}
+
 												<UlxIcon
-													@componentClass="bs-icons1"
+													@componentClass="bs-icons1 ms-1 flex"
 													@type="font"
 													@iconName="ascending-icon"
-													@size="s16"
+													@size="s18"
 												/>
 											{{else if (eq order -1)}}
 												<UlxIcon
-													@componentClass="bs-icons1"
+													@componentClass="bs-icons1 ms-1 flex "
 													@type="font"
 													@iconName="descending-icon"
-													@size="s16"
+													@size="s18"
 												/>
 											{{else}}
 												<UlxIcon
-													@componentClass="bs-icons1"
+													@componentClass="bs-icons1 ms-1 flex "
 													@type="font"
 													@iconName="sort-icon"
-													@size="s16"
+													@size="s18"
 												/>
 											{{/if}}
 										{{/let}}

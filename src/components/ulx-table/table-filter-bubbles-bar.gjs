@@ -37,14 +37,14 @@ export default class TableFilterBubblesBar extends Component {
 							aria-expanded={{eq @activeField bubble.field}}
 						>
 							<:default>
-								<UlxChip @size="s-size" @customClass="filter-bubble-chip">
-									<UlxIcon
+								<UlxChip @size="s-size" @customClass="filter-bubble-chip px-2">
+									{{!<UlxIcon
 										@iconName="filter-icon"
 										@componentClass="bs-icons1"
 										@type="font"
 										@size="s18"
 										aria-hidden="true"
-									/>
+									/>}}
 									<span class="filter-bubble-label">
 										{{bubble.label}}:
 										<strong>{{bubble.displayValue}}</strong>
@@ -60,8 +60,10 @@ export default class TableFilterBubblesBar extends Component {
 										@variant="link"
 										@size="s-size"
 										@iconSize="s18"
-										@iconLeft="remove-icon"
-										@customClass="filter-bubble-remove-btn"
+										@pilled={{true}}
+										@iconComponentClass="bs-icons1"
+										@iconLeft="close-icon-01"
+										@customClass="filter-bubble-remove-btn icon compact"
 										@onClick={{fn @onRemoveBubble bubble.field}}
 										aria-label={{t "lbl.delete.filter"}}
 									/>
