@@ -108,29 +108,25 @@ export default class UlxModalFooter extends Component {
 				style={{this.footerStyle}}
 				...attributes
 			>
-				{{#if (has-block)}}
-					{{yield}}
-				{{else}}
-					{{#unless this.hideCancelButton}}
-						<UlxButton
-							@label={{this.cancelLabel}}
-							@variant="basic"
-							@disabled={{this.cancelButtonDisabled}}
-							data-qa="ulx-modal-cancel"
-							{{on "click" this.handleCancel}}
-						/>
-					{{/unless}}
+				{{#unless this.hideCancelButton}}
+					<UlxButton
+						@label={{this.cancelLabel}}
+						@variant="basic"
+						@disabled={{this.cancelButtonDisabled}}
+						data-qa="ulx-modal-cancel"
+						{{on "click" this.handleCancel}}
+					/>
+				{{/unless}}
 
-					{{#unless this.hideDoneButton}}
-						<UlxButton
-							@label={{this.doneLabel}}
-							@variant="primary"
-							@disabled={{this.doneButtonDisabled}}
-							data-qa="ulx-modal-done"
-							{{on "click" this.handleDone}}
-						/>
-					{{/unless}}
-				{{/if}}
+				{{#unless this.hideDoneButton}}
+					<UlxButton
+						@label={{this.doneLabel}}
+						@variant="primary"
+						@disabled={{this.doneButtonDisabled}}
+						data-qa="ulx-modal-done"
+						{{on "click" this.handleDone}}
+					/>
+				{{/unless}}
 			</div>
 		{{/unless}}
 	</template>
