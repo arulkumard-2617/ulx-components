@@ -165,7 +165,8 @@ import { t } from "../../utils/i18n.js";
  * @param {string|Function}[rowClassName]   - extra class string or fn(row)=>string
  *
  * ── State persistence ───────────────────────────────────────────────────────
- * @param {string}  [stateKey]              - localStorage/sessionStorage key
+ * @param {string}  [stateKey]              - localStorage/sessionStorage key; only column order and
+ *                                            column visibility are persisted under this key.
  * @param {string}  [moduleName]            - BSTable-compatible alias for stateKey. When used without
  *                                            stateStorage, state is persisted in localStorage.
  * @param {string}  [stateStorage='session'] - 'local' | 'session'
@@ -303,55 +304,18 @@ export default class UlxTable extends Component {
 
 		this._restoredStateKey = key;
 		const persistedState = loadTableState(key, this.persistenceStorage) ?? {};
-		this.args.sortField === undefined &&
-			("sortField" in persistedState || "sortOrder" in persistedState) &&
-			(this._sortField = persistedState.sortField ?? null);
-		this.args.sortOrder === undefined &&
-			typeof persistedState.sortOrder === "number" &&
-			(this._sortOrder = persistedState.sortOrder);
-		this.args.multiSortMeta === undefined &&
-			Array.isArray(persistedState.multiSortMeta) &&
-			(this._multiSortMeta = persistedState.multiSortMeta);
-		this.args.sortBy === undefined &&
-			typeof persistedState.sortBy === "string" &&
-			(this._sortByString = persistedState.sortBy);
-		this.args.filters === undefined &&
-			persistedState.filters &&
-			typeof persistedState.filters === "object" &&
-			(this._filters = persistedState.filters);
-		this.args.first === undefined &&
-			typeof persistedState.first === "number" &&
-			(this._first = persistedState.first);
-		this.args.rows === undefined &&
-			typeof persistedState.rows === "number" &&
-			(this._rows = persistedState.rows);
-		typeof persistedState.viewMode === "string" && (this._viewMode = persistedState.viewMode);
 		Array.isArray(persistedState.visibleColumnFields) &&
 			(this._visibleColumnFields = new Set(persistedState.visibleColumnFields));
 		Array.isArray(persistedState.columnOrder) &&
 			(this._columnOrder = rehydrateColumnOrder(this.allColumns, persistedState.columnOrder));
-		persistedState.columnWidths &&
-			typeof persistedState.columnWidths === "object" &&
-			(this._columnWidths = persistedState.columnWidths);
 	}
 
 	get persistenceState() {
-		const sortByString = this._sortByString || this.args.sortBy || "";
-
 		return {
-			sortField: this._sortField ?? this.args.sortField ?? null,
-			sortOrder: this._sortOrder ?? this.args.sortOrder ?? 1,
-			multiSortMeta: this._multiSortMeta ?? this.args.multiSortMeta ?? [],
-			sortBy: sortByString,
-			filters: this._filters ?? this.args.filters ?? {},
-			first: this._first ?? this.args.first ?? 0,
-			rows: this._rows ?? this.args.rows ?? 10,
-			viewMode: this._viewMode ?? this.args.defaultView ?? "table",
 			visibleColumnFields: this._visibleColumnFields ? [...this._visibleColumnFields] : null,
 			columnOrder: Array.isArray(this._columnOrder)
 				? this._columnOrder.map((column) => column?.field).filter(Boolean)
-				: null,
-			columnWidths: this._columnWidths ?? {}
+				: null
 		};
 	}
 
