@@ -778,6 +778,7 @@ const enUs = {
 	'aria.table.view.toggle': 'View layout',
 	'aria.table.filter.column': 'Filter column {header}',
 	'aria.table.show.filter.menu': 'Show filter menu',
+	'aria.table.toolbar.filter.active': 'Filter, {count} active',
 	'aria.table.column.filter': 'Column filter',
 	'aria.table.filter.operator': 'Filter operator',
 	'aria.table.filter.match.mode': 'Filter match mode',

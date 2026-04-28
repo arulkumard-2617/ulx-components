@@ -4,15 +4,29 @@ import not from "ember-truth-helpers/helpers/not";
 import { getFieldValue } from "./utils.js";
 import { t } from "../../utils/i18n.js";
 import TableEmptyState from "./table-empty-state.gjs";
+import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 
+/** @param {string} [dataQa] - Root `data-qa` for the vertical view wrapper (default: `ulx-table-view-vertical`). */
 export default class TableViewVertical extends Component {
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table-view-vertical");
+	}
+
+	get tableDataQa() {
+		return buildDataQa(this.rootDataQa, "table");
+	}
+
 	get rows() {
 		return this.args.rows ?? [];
 	}
 
 	<template>
-		<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{@wrapperStyle}}>
-			<table class="{{@tableClass}} datatable-vertical" role="grid">
+		<div
+			class="datatable-wrapper {{if @scrollable 'scrollable'}}"
+			style={{@wrapperStyle}}
+			data-qa={{this.rootDataQa}}
+		>
+			<table class="{{@tableClass}} datatable-vertical" role="grid" data-qa={{this.tableDataQa}}>
 				{{#if @verticalLabelField}}
 					<thead>
 						<tr>

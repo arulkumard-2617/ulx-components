@@ -406,7 +406,7 @@ export default class UlxDropdown extends Component {
 					? this.args.zIndex
 					: resolvedContext === document.body
 						? getOverlayZIndexAboveMask(this.modalStack)
-						: 1;
+						: 2;
 			element.style.setProperty("z-index", `${zIndex}`, "important");
 			element.style.margin = "0";
 			element.style.padding = "0";
