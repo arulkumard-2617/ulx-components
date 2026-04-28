@@ -70,7 +70,7 @@ export default class TableToolbar extends Component {
 						<UlxButtonGroup @size="m-size" @customClass="uls-inline-popup">
 							{{#if @hasFilterGroups}}
 								<UlxBadgeButton
-									@size="m-size"
+									@size="xl-size"
 									@badge={{if (gt @activeFilterCount 0) @activeFilterCount}}
 									@badgeType="circle"
 									@onClick={{@onOpenFilterPane}}
@@ -88,7 +88,7 @@ export default class TableToolbar extends Component {
 											@iconName="filter-icon"
 											@type="font"
 											@componentClass="bs-icons1"
-											@size="s14"
+											@size="s16"
 											aria-hidden="true"
 										/>
 									</:prefix>
@@ -96,7 +96,7 @@ export default class TableToolbar extends Component {
 							{{/if}}
 							{{#if (and @sortOptions (gt @sortOptions.length 0))}}
 								<UlxBadgeButton
-									@size="m-size"
+									@size="xl-size"
 									@onClick={{@onOpenSortPopover}}
 									@customClass="icon-only"
 									aria-label={{t "lbl.sort"}}
@@ -107,7 +107,7 @@ export default class TableToolbar extends Component {
 											@iconName="sort-icon"
 											@type="font"
 											@componentClass="bs-icons1"
-											@size="s14"
+											@size="s16"
 											aria-hidden="true"
 										/>
 									</:prefix>
@@ -115,7 +115,7 @@ export default class TableToolbar extends Component {
 							{{/if}}
 							{{#if @showManageColumns}}
 								<UlxBadgeButton
-									@size="m-size"
+									@size="xl-size"
 									@onClick={{@onOpenManageColumns}}
 									@customClass="icon-only"
 									aria-label={{t "lbl.columns"}}
@@ -125,7 +125,7 @@ export default class TableToolbar extends Component {
 											@iconName="columns-icon"
 											@type="font"
 											@componentClass="bs-icons1"
-											@size="s14"
+											@size="s16"
 											aria-hidden="true"
 										/>
 									</:prefix>
