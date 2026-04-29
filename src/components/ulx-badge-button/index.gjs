@@ -43,7 +43,6 @@ export default class UlxBadgeButton extends Component {
 			@customClass={{@customClass}}
 			...attributes
 		>
-			<:prefix>{{yield to="prefix"}}</:prefix>
 			<:suffix>
 				{{#if this.showBadge}}
 					<UlxBadge

@@ -5,6 +5,7 @@ import { on } from "@ember/modifier";
 import { registerDestructor } from "@ember/destroyable";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../utils/component-config";
+import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 
 const RIPPLE_SIZE = 80;
 const RIPPLE_DURATION_MS = 200;
@@ -179,6 +180,10 @@ export default class UlxButton extends Component {
 		}
 	}
 
+	get loadingIconClass() {
+		return `${this.baseClass}-loading-icon left`;
+	}
+
 	get labelClass() {
 		return "button-label";
 	}
@@ -245,6 +250,10 @@ export default class UlxButton extends Component {
 			>
 				{{#if (has-block "prefix")}}
 					{{yield to="prefix"}}
+				{{else if this.effectiveLoading}}
+					<span class={{this.loadingIconClass}} aria-hidden="true">
+						<UlxProgressSpinner @size={{@size}} aria-hidden="true" />
+					</span>
 				{{/if}}
 
 				{{#if (has-block "default")}}
@@ -281,6 +290,10 @@ export default class UlxButton extends Component {
 			>
 				{{#if (has-block "prefix")}}
 					{{yield to="prefix"}}
+				{{else if this.effectiveLoading}}
+					<span class={{this.loadingIconClass}} aria-hidden="true">
+						<UlxProgressSpinner @size={{@size}} aria-hidden="true" />
+					</span>
 				{{/if}}
 
 				{{#if (has-block "default")}}
