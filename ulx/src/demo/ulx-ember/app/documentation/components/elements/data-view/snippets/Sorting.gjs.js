@@ -2,43 +2,40 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import {
   UlxDataView,
   UlxDropdown,
   UlxField,
-  UlxIconButton,
+  UlxButton,
   UlxRating,
   UlxTag,
   UlxIcon,
-  t
 } from 'ulx-components';
 import {
   getProductsData,
-  getProductImageUrl
+  getProductImageUrl,
 } from 'ulx-ember/data/product-service';
 
 const STATUS_VARIANT = {
   INSTOCK: 'success',
   LOWSTOCK: 'warning',
-  OUTOFSTOCK: 'danger'
+  OUTOFSTOCK: 'danger',
 };
 
 const SORT_OPTIONS = [
-  { labelKey: 'lbl.doc.dataview.sort.priceLowToHigh', value: 'price:asc' },
-  { labelKey: 'lbl.doc.dataview.sort.priceHighToLow', value: 'price:desc' },
-  { labelKey: 'lbl.doc.dataview.sort.nameAZ', value: 'name:asc' },
-  { labelKey: 'lbl.doc.dataview.sort.nameZA', value: 'name:desc' }
+  { label: 'Price Low to High', value: 'price:asc' },
+  { label: 'Price High to Low', value: 'price:desc' },
+  { label: 'Name A to Z', value: 'name:asc' },
+  { label: 'Name Z to A', value: 'name:desc' },
 ];
 
 export default class DemoDataViewSorting extends Component {
   @tracked sortConfig = 'price:asc';
 
   get sortOptions() {
-    return SORT_OPTIONS.map((option) => ({
-      label: t(option.labelKey),
-      value: option.value
-    }));
+    return SORT_OPTIONS;
   }
 
   get sortField() {
@@ -91,9 +88,9 @@ export default class DemoDataViewSorting extends Component {
   <template>
     <UlxDataView>
       <:header>
-        <div class="ulx-form m-size ulx-grid gap-12">
+        <div class="ulx-form m-size ulx-grid gap-12 mb-14">
           <UlxField
-            @label={{t "lbl.doc.dataview.sort.label"}}
+            @label="Sorting"
             @key="dataview-sorting"
             @fieldClass="col-4"
           >
@@ -105,7 +102,7 @@ export default class DemoDataViewSorting extends Component {
                 @options={{this.sortOptions}}
                 @value={{this.sortConfig}}
                 @onChange={{this.onSortChange}}
-                @placeholder={{t "lbl.doc.dataview.sort.placeholder"}}
+                @placeholder="Select sort order"
               />
             </:default>
           </UlxField>
@@ -118,13 +115,13 @@ export default class DemoDataViewSorting extends Component {
               <img
                 src={{this.getProductImageUrl product.image}}
                 alt=""
-                class="w-96 h-96 rounded shadow-md object-cover"
+                class="w-96 h-96 rounded shadow-lg object-cover"
                 aria-hidden="true"
               />
 
               <div class="flex items-center gap-4 justify-between w-full">
                 <div class="flex gap-3 flex-col">
-                  <div class="text-20 bold-font">{{product.name}}</div>
+                  <div class="font-size20 bold-font">{{product.name}}</div>
                   <UlxRating
                     @value={{product.rating}}
                     @readOnly={{true}}
@@ -139,7 +136,7 @@ export default class DemoDataViewSorting extends Component {
                         @ariaLabel="tag icon"
                         @type="font"
                       />
-                      <span class="semibold-font">Accessories</span>
+                      <span class="font-semibold">Accessories</span>
                     </span>
                     <UlxTag
                       @value={{product.inventoryStatus}}
@@ -150,16 +147,16 @@ export default class DemoDataViewSorting extends Component {
                 </div>
 
                 <div class="flex flex-col items-center gap-3 justify-start">
-                  <span class="text-24 semibold-font">
+                  <span class="font-size24 font-semibold">
                     \${{product.price}}
                   </span>
-                  <UlxIconButton
-                    @label={{t "lbl.doc.dataview.addToCart"}}
-                    @iconLeft="order-icon"
+                  <UlxButton
                     @iconComponentClass="bs-icons1"
                     @iconSize="s18"
+                    @icon="order-icon"
                     @variant="primary"
-                    @onClick={{fn this.addToCart product}}
+                    aria-label={{"Add to cart"}}
+                    {{on "click" (fn this.addToCart product)}}
                   />
                 </div>
               </div>

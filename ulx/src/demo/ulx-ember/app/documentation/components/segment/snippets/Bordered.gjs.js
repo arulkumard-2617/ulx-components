@@ -21,7 +21,7 @@ export default class BorderedDemoComponent extends Component {
 
   <template>
     <div class="bordered-demo">
-      <h3 class="mb-1">{{t "msg.colored.border.segments"}}</h3>
+      <h3 class="mb-1">{{"Colored Border Segments"}}</h3>
       <p class="mb-5">Segments with colored borders on specific sides (3px
         width)</p>
       <div class="flex flex-col gap-5">

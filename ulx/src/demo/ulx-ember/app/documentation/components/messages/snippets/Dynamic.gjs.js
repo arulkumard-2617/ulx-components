@@ -31,7 +31,7 @@ export default class DynamicMessagesDemo extends Component {
   <template>
     <div class="flex flex-column gap-2">
       <div class="flex gap-2">
-        <UlxButton @label={{t "lbl.show"}} @onClick={{this.showMessage}} />
+        <UlxButton @label="Show" @onClick={{this.showMessage}} />
         <UlxButton
           @label={{t "lbl.clear"}}
           @variant="secondary"

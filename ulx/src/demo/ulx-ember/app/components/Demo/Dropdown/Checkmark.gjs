@@ -26,7 +26,7 @@ export default class DemoDropdownCheckmark extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.checkmark"}}
+        @label="Checkmark"
         @fieldId="dropdown-checkmark"
         @fieldClass="col-4"
         as |field|
@@ -36,7 +36,7 @@ export default class DemoDropdownCheckmark extends Component {
           @options={{this.cities}}
           @value={{this.selectedCity}}
           @onChange={{this.setSelectedCity}}
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @placeholder="Select a city"
           @checkmark={{true}}
         />
       </UlxField>

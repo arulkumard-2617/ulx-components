@@ -28,9 +28,9 @@ export default class BasicRadioDemo extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.with.label"}}
+        @label="With Label"
         @rules={{this.requiredRules}}
-        @helpText={{t "lbl.help.text"}}
+        @helpText="Help text"
         @fieldClass="col-12"
         @fieldId="radio-with-label"
         as |field|
@@ -43,7 +43,7 @@ export default class BasicRadioDemo extends Component {
       </UlxField>
 
       <div class="col-12">
-        {{t "lbl.selected"}}:
+        {{"Selected:"}}:
         <strong>{{this.selectedValue}}</strong>
       </div>
     </div>

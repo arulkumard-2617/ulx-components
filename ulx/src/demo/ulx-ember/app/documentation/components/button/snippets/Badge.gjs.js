@@ -4,7 +4,7 @@ import { UlxBadgeButton, t } from 'ulx-components';
 <template>
   <div class="flex gap-3 items-center flex-wrap">
     <UlxBadgeButton
-      @label="Message"
+      @label="Messages"
       @badgeVariant="danger"
       @badgeSize="xs-size"
       @badge="2"

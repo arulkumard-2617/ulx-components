@@ -72,7 +72,7 @@ export default class PositionsPopupDemo extends Component {
 
   <template>
     <div class="flex flex-col gap-6">
-      <p class="mb-0">{{t "msg.popup.positions.help"}}</p>
+      <p class="mb-0">{{"Click a button to open the popup at that position. This demo keeps the popup in the body context so each placement is easy to compare."}}</p>
       <div class="gap-8 flex flex-wrap">
         {{#each this.positions as |position|}}
           <UlxButton
@@ -98,8 +98,8 @@ export default class PositionsPopupDemo extends Component {
         @variant="elevated"
         @dismissable={{true}}
         @closeOnEscape={{true}}
-        @ariaLabel={{t "lbl.position"}}
-        @title={{t "lbl.position"}}
+        @ariaLabel="Position"
+        @title="Position"
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
         @hideFooter={{true}}
@@ -107,7 +107,7 @@ export default class PositionsPopupDemo extends Component {
         <:default>
           <div class="flex flex-col gap-2">
             <p class="mb-0">
-              <span class="bold-font">{{t "lbl.selected"}}</span>
+              <span class="bold-font">{{"Selected:"}}</span>
               {{this.activePosition}}
             </p>
           </div>

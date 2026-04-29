@@ -37,7 +37,7 @@ export default class DemoMultiselectAccessibility extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.multiselect.accessible"}}
+        @label="Accessible MultiSelect"
         @fieldId="a11y-multiselect"
         @fieldClass="col-4"
         as |field|
@@ -52,8 +52,8 @@ export default class DemoMultiselectAccessibility extends Component {
           @allowAddition={{true}}
           @showClose={{true}}
           @onAddItem={{this.addCity}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
-          aria-label={{t "msg.multiselect.choose.items"}}
+          @placeholder="Select cities"
+          aria-label={{"Choose items"}}
         />
       </UlxField>
     </div>

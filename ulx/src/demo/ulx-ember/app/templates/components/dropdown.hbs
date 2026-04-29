@@ -1,4 +1,4 @@
-{{page-title (t "lbl.doc.dropdown.title")}}
+{{page-title "Dropdown - ULS Ember Documentation"}}
 
 <DocShared::DocMain::ComponentLayout
   @title={{@model.meta.header}}
@@ -13,10 +13,10 @@
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection
         @id="components-elements-dropdown-theming"
-        @title={{t "lbl.theming"}}
-        @subtitle={{t "msg.theming.subtitle" component="Dropdown"}}
+        @title="Theming"
+        @subtitle="Theming documentation for Dropdown component."
       >
-        <p class="fg-text-secondary">{{t "msg.theming.content.goes.here"}}</p>
+        <p class="fg-text-secondary">{{"Theming content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
   {{else if this.isBuilderTab}}
@@ -51,12 +51,10 @@
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection
         @id="components-elements-dropdown-passthrough"
-        @title={{t "lbl.pass.through"}}
-        @subtitle={{t "msg.pass.through.subtitle" component="Dropdown"}}
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for Dropdown component."
       >
-        <p class="fg-text-secondary">{{t
-            "msg.pass.through.content.goes.here"
-          }}</p>
+        <p class="fg-text-secondary">{{"Pass Through content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
   {{/if}}

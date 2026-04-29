@@ -9,9 +9,9 @@ export default class BasicTristateCheckboxDemo extends Component {
   @tracked value = false;
 
   get stateLabel() {
-    if (this.value === true) return t('lbl.tristate.checked');
-    if (this.value === null) return t('lbl.tristate.indeterminate');
-    return t('lbl.tristate.unchecked');
+    if (this.value === true) return "Checked";
+    if (this.value === null) return "Indeterminate";
+    return "Unchecked";
   }
 
   @action
@@ -26,10 +26,7 @@ export default class BasicTristateCheckboxDemo extends Component {
         @value={{this.value}}
         @onValueChange={{this.handleValueChange}}
         @hideLabel={{true}}
-        aria-label={{t
-          "aria.tristate.checkbox.state"
-          (hash state=this.stateLabel)
-        }}
+        aria-label={{"Tri-state checkbox: this.stateLabel)"}}
       />
     </div>
   </template>

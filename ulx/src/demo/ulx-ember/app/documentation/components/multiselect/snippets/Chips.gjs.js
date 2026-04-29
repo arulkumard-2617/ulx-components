@@ -27,7 +27,7 @@ export default class DemoMultiselectChips extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.multiselect.chips"}}
+        @label="Chips"
         @fieldId="multiselect-chips"
         @fieldClass="col-6"
         as |field|
@@ -39,7 +39,7 @@ export default class DemoMultiselectChips extends Component {
           @onChange={{this.setSelected}}
           @selectAll={{true}}
           @display="chip"
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         />
       </UlxField>
     </div>

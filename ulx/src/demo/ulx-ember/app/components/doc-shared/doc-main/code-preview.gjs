@@ -168,8 +168,8 @@ export default class CodePreviewComponent extends Component {
                         {{on "click" this.toggleExpanded}}
                         aria-label={{if
                           this.expanded
-                          (t "lbl.collapse.code")
-                          (t "lbl.expand.code")
+                          "Collapse code"
+                          "Expand code"
                         }}
                       >
                         <svg
@@ -202,7 +202,7 @@ export default class CodePreviewComponent extends Component {
                       <button
                         type="button"
                         class="{{if this.copied 'is-copied'}}"
-                        aria-label={{t "lbl.copy.code"}}
+                        aria-label={{"Copy code"}}
                         {{on "click" this.copyCode}}
                       >
                         <svg
@@ -266,7 +266,7 @@ export default class CodePreviewComponent extends Component {
                 <button
                   type="button"
                   class="pointer {{if this.copied 'is-copied'}}"
-                  aria-label={{t "lbl.copy.code"}}
+                  aria-label={{"Copy code"}}
                   {{on "click" this.copyCode}}
                 >
                   <svg
@@ -327,13 +327,13 @@ export default class CodePreviewComponent extends Component {
             <div class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded">
               <button
                 type="button"
-                aria-label={{t "lbl.copy.code"}}
+                aria-label={{"Copy code"}}
                 {{on "click" this.copyCode}}
               >
                 {{#if this.copied}}
-                  {{t "lbl.copied"}}
+                  {{"Copied"}}
                 {{else}}
-                  {{t "lbl.copy"}}
+                  {{"Copy"}}
                 {{/if}}
               </button>
             </div>

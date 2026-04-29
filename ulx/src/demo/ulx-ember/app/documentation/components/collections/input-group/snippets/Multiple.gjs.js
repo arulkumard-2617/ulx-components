@@ -1,120 +1,61 @@
 export default `
-import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
-import { UlxInput, UlxField, UlxInputGroup, UlxIcon, UlxDropdown, UlxButton, t } from 'ulx-components';
+import { UlxInput, UlxField, UlxInputGroup, UlxIcon, t } from 'ulx-components';
 
-const COUNTRIES = [
-  { label: 'India', value: 'IN' },
-  { label: 'United States', value: 'US' },
-  { label: 'United Kingdom', value: 'GB' },
-];
+<template>
+  <div class="ulx-form m-size ulx-grid gap-8 mb-14">
 
-export default class DemoInputGroupMultiple extends Component {
-  @tracked selectedCountry = 'IN';
+    {{! PRICE INPUT }}
+    <UlxField @fieldClass="col-12" as |field|>
+      <UlxInputGroup
+        @startAddonClass="text-addon"
+        @endAddonClass="text-addon"
+      >
 
-  get countries() {
-    return COUNTRIES;
-  }
+        <:start>
+          $
+        </:start>
 
-  @action
-  setSelectedCountry(value) {
-    this.selectedCountry = value;
-  }
+        <:input>
+          <UlxInput
+            @field={{field}}
+            placeholder={{"Price"}}
+            aria-label={{"Price"}}
+          />
+        </:input>
 
-  <template>
-    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
+        <:end>
+          .00
+        </:end>
 
-      {{! PRICE INPUT }}
-      <UlxField @fieldClass="col-12" as |field|>
-        <UlxInputGroup
-          @startAddonClass="text-addon"
-          @endAddonClass="text-addon"
-        >
+      </UlxInputGroup>
+    </UlxField>
 
-          <:start>
-            $
-          </:start>
+    {{! SEARCH INPUT }}
+    <UlxField @fieldClass="col-12" as |field|>
+      <UlxInputGroup @startAddonClass="icon-addon">
 
-          <:input>
-            <UlxInput
-              @field={{field}}
-              placeholder={{t "lbl.price"}}
-              aria-label={{t "lbl.price"}}
-            />
-          </:input>
+        <:start>
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="ls-tick-icon"
+            @size="s18"
+            @ariaLabel="search icon"
+          />
+        </:start>
 
-          <:end>
-            .00
-          </:end>
+        <:input>
+          <UlxInput
+            @field={{field}}
+            placeholder={{t "lbl.search"}}
+            aria-label={{t "lbl.search"}}
+          />
+        </:input>
 
-        </UlxInputGroup>
-      </UlxField>
+      </UlxInputGroup>
+    </UlxField>
 
-      {{! SEARCH INPUT }}
-      <UlxField @fieldClass="col-12" as |field|>
-        <UlxInputGroup @startAddonClass="icon-addon">
-
-          <:start>
-            <UlxIcon
-              @componentClass="bs-icons1"
-              @type="font"
-              @iconName="ls-tick-icon"
-              @size="s18"
-              @ariaLabel="search icon"
-            />
-          </:start>
-
-          <:input>
-            <UlxInput
-              @field={{field}}
-              placeholder={{t "lbl.search"}}
-              aria-label={{t "lbl.search"}}
-            />
-          </:input>
-
-        </UlxInputGroup>
-      </UlxField>
-
-      {{! DROPDOWN LEFT, BUTTON RIGHT }}
-      <UlxField @fieldClass="col-12" as |field|>
-        <UlxInputGroup
-          @startAddonClass="dropdown-addon"
-          @endAddonClass="button-addon"
-        >
-
-          <:start>
-            <UlxDropdown
-              @options={{this.countries}}
-              @value={{this.selectedCountry}}
-              @onChange={{this.setSelectedCountry}}
-              @size="m-size"
-              aria-label="Country code"
-              @customClass="w-152"
-            />
-          </:start>
-
-          <:input>
-            <UlxInput
-              @field={{field}}
-              placeholder="Enter phone number"
-              aria-label="Phone number"
-            />
-          </:input>
-
-          <:end>
-            <UlxButton
-              @label="Verify"
-              @variant="primary"
-              @size="m-size"
-            />
-          </:end>
-
-        </UlxInputGroup>
-      </UlxField>
-
-    </div>
-  </template>
-}
+  </div>
+</template>
 
 `;

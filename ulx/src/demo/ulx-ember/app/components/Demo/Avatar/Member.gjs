@@ -4,7 +4,7 @@ import { UlxAvatar, t } from 'ulx-components';
 <template>
   <div class="flex flex-col gap-6">
     <div>
-      <h6 class="bold-font mb-3">{{t "lbl.image.avatar"}}</h6>
+      <h6 class="bold-font mb-3">{{"Image avatar"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @memberProfile={{hash
@@ -39,7 +39,7 @@ import { UlxAvatar, t } from 'ulx-components';
     </div>
 
     <div>
-      <h6 class="bold-font mb-3">{{t "lbl.initials.fallback"}}</h6>
+      <h6 class="bold-font mb-3">{{"Initials fallback"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @memberProfile={{hash
@@ -70,7 +70,7 @@ import { UlxAvatar, t } from 'ulx-components';
     </div>
 
     <div>
-      <h6 class="bold-font mb-3">{{t "lbl.anonymous.avatar"}}</h6>
+      <h6 class="bold-font mb-3">{{"Anonymous avatar"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @memberProfile={{hash isAnnon=true}}

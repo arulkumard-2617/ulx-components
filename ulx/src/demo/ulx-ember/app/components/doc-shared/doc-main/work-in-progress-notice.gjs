@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { t } from 'ulx-components';
 import FoundationSection from './foundation-section';
 
 export default class WorkInProgressNoticeComponent extends Component {
@@ -7,10 +6,10 @@ export default class WorkInProgressNoticeComponent extends Component {
     <div class="doc-section">
       <FoundationSection
         @id="doc-tab-work-in-progress"
-        @title={{t "msg.doc.section.work.in.progress.title"}}
+        @title="Work in progress"
       >
         <p class="fg-text-secondary mgt0 mb-0">
-          {{t "msg.doc.section.work.in.progress.body"}}
+          {{"Documentation for this tab is not available yet and will be added in a future update."}}
         </p>
       </FoundationSection>
     </div>

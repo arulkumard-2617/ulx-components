@@ -24,7 +24,7 @@ export default class DemoDropdownAccessibility extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.accessible"}}
+        @label="Accessible dropdown"
         @fieldId="a11y-dropdown"
         @fieldClass="col-4"
         as |field|
@@ -34,8 +34,8 @@ export default class DemoDropdownAccessibility extends Component {
           @options={{this.cities}}
           @value={{this.selectedCity}}
           @onChange={{this.setSelectedCity}}
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
-          aria-label={{t "msg.dropdown.choose.city"}}
+          @placeholder="Select a city"
+          aria-label={{"Choose a city"}}
         />
       </UlxField>
     </div>

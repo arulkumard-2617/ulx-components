@@ -16,7 +16,7 @@ export default class DemoDropdownDisabled extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.disabled"}}
+        @label="Disabled"
         @fieldId="dropdown-disabled"
         @fieldClass="col-4"
         as |field|
@@ -26,7 +26,7 @@ export default class DemoDropdownDisabled extends Component {
           @options={{this.cities}}
           @value="NY"
           @disabled={{true}}
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @placeholder="Select a city"
         />
       </UlxField>
     </div>

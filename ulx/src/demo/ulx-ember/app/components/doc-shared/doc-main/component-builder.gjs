@@ -146,30 +146,26 @@ export default class ComponentBuilderComponent extends Component {
         <div class="flex grow flex-col gap-6 col-7">
           {{#if (has-block "preview")}}
             <div class="demo bg-default border p-8 rounded-md">
-              <p class="text-12 fg-text-secondary mt-0 mb-4">{{t
-                  "lbl.preview"
-                }}</p>
+              <p class="text-12 fg-text-secondary mt-0 mb-4">{{"Preview"}}</p>
               {{yield this.resolvedProps to="preview"}}
             </div>
           {{/if}}
           {{#if this.displayCode}}
             <div class="code-block-wrapper">
               <div class="flex items-center justify-between">
-                <p class="text-12 fg-text-secondary mt-0">{{t
-                    "lbl.generated.code"
-                  }}</p>
+                <p class="text-12 fg-text-secondary mt-0">{{"Generated code"}}</p>
                 <div class="flex gap-4 py-1 px-3">
                   <button
                     type="button"
                     class="ulx-button link xs-size
                       {{if this.copied 'is-copied'}}"
-                    aria-label={{t "lbl.copy.code"}}
+                    aria-label={{"Copy code"}}
                     {{on "click" this.copyCode}}
                   >
                     {{#if this.copied}}
-                      {{t "lbl.copied"}}
+                      {{"Copied"}}
                     {{else}}
-                      {{t "lbl.copy"}}
+                      {{"Copy"}}
                     {{/if}}
                   </button>
                 </div>
@@ -186,7 +182,7 @@ export default class ComponentBuilderComponent extends Component {
         <div
           class="col-5 component-builder-controls border rounded-md p-6 bg-default component-builder-controls-col"
         >
-          <h4 class="mt-0 mb-4 bold-font text-14">{{t "lbl.properties"}}</h4>
+          <h4 class="mt-0 mb-4 bold-font text-14">{{"Properties"}}</h4>
           {{#each this.propsWithOptions as |prop|}}
             <div class="mb-4">
               <label

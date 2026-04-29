@@ -1,24 +1,25 @@
 export default `
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import {
   UlxDataView,
-  UlxIconButton,
+  UlxButton,
   UlxRating,
   UlxTag,
   UlxIcon,
-  t
+  t,
 } from 'ulx-components';
 import {
   getProductsData,
-  getProductImageUrl
+  getProductImageUrl,
 } from 'ulx-ember/data/product-service';
 
 const STATUS_VARIANT = {
   INSTOCK: 'success',
   LOWSTOCK: 'warning',
-  OUTOFSTOCK: 'danger'
+  OUTOFSTOCK: 'danger',
 };
 
 export default class DemoDataViewBasic extends Component {
@@ -47,13 +48,13 @@ export default class DemoDataViewBasic extends Component {
               <img
                 src={{this.getProductImageUrl product.image}}
                 alt=""
-                class="w-96 h-96 rounded shadow-md object-cover"
+                class="w-96 h-96 rounded shadow-lg object-cover"
                 aria-hidden="true"
               />
 
               <div class="flex items-center gap-4 justify-between w-full">
                 <div class="flex gap-3 flex-col">
-                  <div class="text-20 bold-font">{{product.name}}</div>
+                  <div class="font-size20 bold-font">{{product.name}}</div>
                   <UlxRating
                     @value={{product.rating}}
                     @readOnly={{true}}
@@ -68,7 +69,7 @@ export default class DemoDataViewBasic extends Component {
                         @ariaLabel="tag icon"
                         @type="font"
                       />
-                      <span class="semibold-font">Accessories</span>
+                      <span class="font-semibold">Accessories</span>
                     </span>
                     <UlxTag
                       @value={{product.inventoryStatus}}
@@ -79,16 +80,16 @@ export default class DemoDataViewBasic extends Component {
                 </div>
 
                 <div class="flex flex-col items-center gap-3 justify-start">
-                  <span class="text-24 semibold-font">
+                  <span class="font-size24 font-semibold">
                     \${{product.price}}
                   </span>
-                  <UlxIconButton
-                    @label={{t "lbl.doc.dataview.addToCart"}}
-                    @iconLeft="order-icon"
+                  <UlxButton
                     @iconComponentClass="bs-icons1"
                     @iconSize="s18"
+                    @icon="order-icon"
                     @variant="primary"
-                    @onClick={{fn this.addToCart product}}
+                    aria-label={{"Add to cart"}}
+                    {{on "click" (fn this.addToCart product)}}
                   />
                 </div>
               </div>

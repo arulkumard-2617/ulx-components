@@ -20,7 +20,7 @@ export default class BasicMessagesDemo extends Component {
         <UlxButton
           @variant="primary"
           @outlined={{true}}
-          @label={{t "lbl.view.more.details"}}
+          @label="View More Details"
         />
       </:action>
     </UlxBannerMessage>

@@ -2,7 +2,7 @@ export default `import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
-import { UlxMultiSelect, UlxField, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
@@ -51,7 +51,7 @@ export default class DemoMultiselectOverlayOptions extends Component {
     <div class="ulx-form m-size flex flex-col gap-8 mb-14">
       <div class="ulx-grid gap-8">
         <UlxField
-          @label={{t 'lbl.dropdown.context.self'}}
+          @label="Context: self"
           @fieldId="multiselect-context-self"
           @fieldClass="col-4"
           as |field|
@@ -62,12 +62,12 @@ export default class DemoMultiselectOverlayOptions extends Component {
             @value={{this.selectedLocal}}
             @onChange={{this.setSelectedLocal}}
             @context="self"
-            @placeholder={{t 'msg.dropdown.placeholder.city'}}
+            @placeholder="Select a city"
           />
         </UlxField>
 
         <UlxField
-          @label={{t 'lbl.dropdown.context.body'}}
+          @label="Context: body"
           @fieldId="multiselect-context-body"
           @fieldClass="col-4"
           as |field|
@@ -80,14 +80,14 @@ export default class DemoMultiselectOverlayOptions extends Component {
             @context="body"
             @boundary="window"
             @scrollContext="window"
-            @placeholder={{t 'msg.dropdown.placeholder.city'}}
+            @placeholder="Select a city"
           />
         </UlxField>
       </div>
 
       <div class="flex flex-col gap-2">
         <div class="text-13 fg-secondary">
-          {{t 'msg.dropdown.overlay.scroll.help'}}
+          Open the dropdown below, then scroll this container to see <code>@scrollContext</code> keep the panel aligned while it stays open.
         </div>
 
         <div class="h-170 overflow-auto border rounded p-4" {{this.scrollHostRef}}>
@@ -95,7 +95,7 @@ export default class DemoMultiselectOverlayOptions extends Component {
             <div class="h-170"></div>
 
             <UlxField
-              @label={{t 'lbl.dropdown.boundary.scroll'}}
+              @label="Boundary and scrollContext"
               @fieldId="multiselect-context-scroll"
               @fieldClass="w-full"
               as |field|
@@ -109,7 +109,7 @@ export default class DemoMultiselectOverlayOptions extends Component {
                 @boundary={{this.scrollHostElement}}
                 @scrollContext={{this.scrollHostElement}}
                 @filter={{true}}
-                @placeholder={{t 'msg.dropdown.search.cities'}}
+                @placeholder="Search cities"
               />
             </UlxField>
 

@@ -26,7 +26,7 @@ export default class ColorsToggleDemo extends Component {
           @checked={{this.checkedPrimary}}
           @onCheckedChange={{this.handlePrimaryChange}}
         />
-        <span>{{t "lbl.primary"}}</span>
+        <span>{{"Primary"}}</span>
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle

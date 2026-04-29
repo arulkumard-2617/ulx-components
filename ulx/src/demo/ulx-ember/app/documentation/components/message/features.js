@@ -37,7 +37,7 @@ const section = (id, sectionNav, content, Demo, Source, snippetName) => ({
 export const MessageFeatureItems = [
   section(
     'import',
-    t('lbl.doc.section.import'),
+    "Import",
     'The <code>import</code> property is used to import the <code>UlxMessage</code> component.',
     null,
     ImportSource,
@@ -45,39 +45,39 @@ export const MessageFeatureItems = [
   ),
   section(
     'basic',
-    t('lbl.doc.section.basic'),
-    t('msg.message.basic.desc'),
+    "Basic",
+    "Inline message with variant and optional icon.",
     BasicDemo,
     BasicSource,
     'basic'
   ),
   section(
     'variant',
-    t('lbl.variant'),
-    t('msg.message.variant.desc'),
+    "Variant",
+    "Message variant (info, success, warn, error).",
     VariantDemo,
     VariantSource,
     'variant'
   ),
   section(
     'form',
-    t('lbl.form'),
-    t('msg.message.form.desc'),
+    "Form",
+    "Message used in form validation context.",
     FormDemo,
     FormSource,
     'form'
   ),
   section(
     'template',
-    t('lbl.template'),
-    t('msg.message.template.desc'),
+    "Template",
+    "Custom content via default block.",
     TemplateDemo,
     TemplateSource,
     'template'
   ),
   section(
     'accessibility',
-    t('lbl.doc.section.accessibility'),
+    "Accessibility",
     'Message uses role="alert", aria-live="polite", aria-atomic="true".',
     AccessibilityDemo,
     AccessibilitySource,

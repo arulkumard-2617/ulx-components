@@ -7,8 +7,8 @@ export default class VariantMessagesDemo extends Component {
     return {
       id: '1',
       variant: 'info',
-      summary: t('lbl.info'),
-      detail: t('lbl.info.message'),
+      summary: "Info",
+      detail: "Info message.",
     };
   }
 
@@ -16,8 +16,8 @@ export default class VariantMessagesDemo extends Component {
     return {
       id: '2',
       variant: 'success',
-      summary: t('lbl.success'),
-      detail: t('lbl.success.message'),
+      summary: "Success",
+      detail: "Success message.",
       icon: 'documents-filled-icon',
     };
   }
@@ -26,8 +26,8 @@ export default class VariantMessagesDemo extends Component {
     return {
       id: '3',
       variant: 'warn',
-      summary: t('lbl.warn'),
-      detail: t('lbl.warn.message'),
+      summary: "Warn",
+      detail: "Warn message.",
       icon: 'enhance-icon',
     };
   }
@@ -36,8 +36,8 @@ export default class VariantMessagesDemo extends Component {
     return {
       id: '4',
       variant: 'error',
-      summary: t('lbl.error'),
-      detail: t('lbl.error.message'),
+      summary: "Error",
+      detail: "Error message.",
       icon: 'documents-filled-icon',
     };
   }
@@ -53,7 +53,7 @@ export default class VariantMessagesDemo extends Component {
           <UlxButton
             @variant="primary"
             @outlined={{true}}
-            @label={{t "lbl.view.more.details"}}
+            @label="View More Details"
           />
         </:action>
       </UlxBannerMessage>
@@ -66,7 +66,7 @@ export default class VariantMessagesDemo extends Component {
           <UlxButton
             @variant="primary"
             @outlined={{true}}
-            @label={{t "lbl.view.more.details"}}
+            @label="View More Details"
           />
         </:action>
       </UlxBannerMessage>
@@ -79,7 +79,7 @@ export default class VariantMessagesDemo extends Component {
           <UlxButton
             @variant="primary"
             @outlined={{true}}
-            @label={{t "lbl.view.more.details"}}
+            @label="View More Details"
           />
         </:action>
       </UlxBannerMessage>
@@ -92,7 +92,7 @@ export default class VariantMessagesDemo extends Component {
           <UlxButton
             @variant="primary"
             @outlined={{true}}
-            @label={{t "lbl.view.more.details"}}
+            @label="View More Details"
           />
         </:action>
       </UlxBannerMessage>

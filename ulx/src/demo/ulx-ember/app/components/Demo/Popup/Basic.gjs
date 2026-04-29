@@ -15,24 +15,24 @@ export default class BasicPopupDemo extends Component {
   @tracked scrollHostElement = null;
   popupRef = null;
 
-  get currentContextLabelKey() {
+  get currentContextLabel() {
     if (this.popupContext === 'self') {
-      return 'lbl.dropdown.context.self';
+      return 'Context: self';
     }
 
     if (this.popupContext === 'body') {
-      return 'lbl.dropdown.context.body';
+      return 'Context: body';
     }
 
-    return 'lbl.dropdown.boundary.scroll';
+    return 'Boundary and scrollContext';
   }
 
-  get currentDescriptionKey() {
+  get currentDescription() {
     if (this.popupContext === this.scrollHostElement) {
-      return 'msg.popup.overlay.scroll.help';
+      return 'Open the popup inside this scrollable container, then scroll to see @scrollContext keep it aligned while it stays open.';
     }
 
-    return 'msg.popup.overlay.options.doc';
+    return 'Use @context to choose where the popup is rendered. You can keep it inline with the trigger or portal it to the document body.';
   }
 
   scrollHostRef = modifier((element) => {
@@ -94,9 +94,9 @@ export default class BasicPopupDemo extends Component {
     <div class="ulx-form m-size flex flex-col gap-8 mb-14">
       <div class="ulx-grid gap-8">
         <div class="col-4 flex flex-col gap-3">
-          <div class="text-13 bold-font">{{t "lbl.dropdown.context.self"}}</div>
+          <div class="text-13 bold-font">{{"Context: self"}}</div>
           <UlxButton
-            @label={{t "lbl.open.popup"}}
+            @label="Open popup"
             @variant="secondary"
             aria-haspopup="dialog"
             aria-expanded="{{this.isPopupVisible}}"
@@ -109,9 +109,9 @@ export default class BasicPopupDemo extends Component {
         </div>
 
         <div class="col-4 flex flex-col gap-3">
-          <div class="text-13 bold-font">{{t "lbl.dropdown.context.body"}}</div>
+          <div class="text-13 bold-font">{{"Context: body"}}</div>
           <UlxButton
-            @label={{t "lbl.open.popup"}}
+            @label="Open popup"
             @variant="primary"
             aria-haspopup="dialog"
             aria-expanded="{{this.isPopupVisible}}"
@@ -126,7 +126,7 @@ export default class BasicPopupDemo extends Component {
 
       <div class="flex flex-col gap-2">
         <div class="text-13 fg-secondary">
-          {{t "msg.popup.overlay.scroll.help"}}
+          {{"Open the popup inside this scrollable container, then scroll to see @scrollContext keep it aligned while it stays open."}}
         </div>
 
         <div
@@ -138,7 +138,7 @@ export default class BasicPopupDemo extends Component {
 
             <div class="flex">
               <UlxButton
-                @label={{t "lbl.dropdown.boundary.scroll"}}
+                @label="Boundary and scrollContext"
                 @variant="secondary"
                 aria-haspopup="dialog"
                 aria-expanded="{{this.isPopupVisible}}"
@@ -179,8 +179,8 @@ export default class BasicPopupDemo extends Component {
         @variant="elevated"
         @dismissable={{true}}
         @closeOnEscape={{true}}
-        @ariaLabel={{t "lbl.popup"}}
-        @title={{t "lbl.popup"}}
+        @ariaLabel="Popup"
+        @title="Popup"
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
         @cancelButtonLabel={{t "lbl.cancel"}}
@@ -191,11 +191,11 @@ export default class BasicPopupDemo extends Component {
         <:body>
           <div class="flex flex-col gap-3">
             <p class="mb-0">
-              <span class="bold-font">{{t "lbl.selected"}}</span>
-              {{t this.currentContextLabelKey}}
+              <span class="bold-font">{{"Selected:"}}</span>
+              {{this.currentContextLabel}}
             </p>
             <p class="mb-0">
-              {{t this.currentDescriptionKey}}
+              {{this.currentDescription}}
             </p>
           </div>
         </:body>

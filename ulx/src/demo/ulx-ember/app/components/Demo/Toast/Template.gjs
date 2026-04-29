@@ -15,7 +15,7 @@ export default class TemplateToastDemo extends Component {
       {
         id: `msg-${Date.now()}-template`,
         variant: 'success',
-        summary: t('msg.send.report'),
+        summary: "Can you send me the report?",
         sticky: true,
       },
     ];
@@ -36,10 +36,10 @@ export default class TemplateToastDemo extends Component {
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}}>
         <:content as |message|>
           <div class="flex flex-col gap-4">
-            <span class="fw-semibold">{{t "lbl.amy.elsner"}}</span>
+            <span class="fw-semibold">{{"Amy Elsner"}}</span>
             <div class="fw-medium">{{message.summary}}</div>
             <UlxButton
-              @label={{t "lbl.reply"}}
+              @label="Reply"
               @variant="success"
               @size="s-size"
               {{on "click" (fn this.removeMessage message)}}

@@ -323,7 +323,7 @@ export default class DemoFormTemplate extends Component {
       {
         id: `social-added-${Date.now()}`,
         variant: 'success',
-        summary: t('lbl.success'),
+        summary: "Success",
         detail: 'Social handle added.',
         life: 3000
       }

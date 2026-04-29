@@ -24,7 +24,7 @@ export default class DemoSelectButtonBasic extends Component {
       @options={{this.options}}
       @value={{this.value}}
       @onChange={{this.onChange}}
-      @ariaLabel={{t "demo.selectbutton.choose.option"}}
+      @ariaLabel="Choose option"
     />
   </template>
 }

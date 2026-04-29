@@ -4,8 +4,8 @@ import { t } from 'ulx-components';
 
 <template>
   <UlxMessage @variant="info" @icon="info-icon">
-    <strong>{{t "lbl.message"}}:</strong>
-    {{t "msg.message.template.desc"}}
+    <strong>{{"Message"}}:</strong>
+    {{"Custom content via default block."}}
   </UlxMessage>
 </template>
 

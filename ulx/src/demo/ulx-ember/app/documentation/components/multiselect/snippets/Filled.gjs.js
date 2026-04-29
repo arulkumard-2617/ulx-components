@@ -25,7 +25,7 @@ export default class DemoMultiselectFilled extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.filled"}}
+        @label="Filled"
         @fieldId="multiselect-filled"
         @fieldClass="col-4"
       >
@@ -39,7 +39,7 @@ export default class DemoMultiselectFilled extends Component {
             @onChange={{this.setSelected}}
             @selectAll={{true}}
             @filled={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
+            @placeholder="Select cities"
           />
         </:default>
       </UlxField>

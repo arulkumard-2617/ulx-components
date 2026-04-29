@@ -6,25 +6,25 @@ export default class NamedblocksDemoComponent extends Component {
   get items() {
     return [
       {
-        label: t('lbl.overview'),
-        avatarLabel: t('lbl.overview'),
+        label: "Overview",
+        avatarLabel: "Overview",
         imageUrl:
           'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
       },
       {
-        label: t('lbl.activity'),
-        tagLabel: t('lbl.new'),
+        label: "Activity",
+        tagLabel: "New",
         tagVariant: 'primary',
       },
       {
-        label: t('lbl.team'),
-        avatarLabel: t('lbl.team'),
+        label: "Team",
+        avatarLabel: "Team",
         badgeValue: 5,
         badgeVariant: 'success',
       },
       {
-        label: t('lbl.settings'),
-        avatarLabel: t('lbl.settings'),
+        label: "Settings",
+        avatarLabel: "Settings",
         badgeValue: null,
         badgeVariant: 'secondary',
       },
@@ -35,7 +35,7 @@ export default class NamedblocksDemoComponent extends Component {
     <UlxTabmenu
       @items={{this.items}}
       @tabId="namedblocks-tabmenu"
-      @ariaLabel={{t "lbl.tabmenu.profileNavigation"}}
+      @ariaLabel="Profile tab navigation"
     >
       <:item as |item|>
         <div class="flex items-center gap-2">

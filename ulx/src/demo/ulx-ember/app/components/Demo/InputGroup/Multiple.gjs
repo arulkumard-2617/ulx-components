@@ -38,8 +38,8 @@ export default class DemoInputGroupMultiple extends Component {
           <:input>
             <UlxInput
               @field={{field}}
-              placeholder={{t "lbl.price"}}
-              aria-label={{t "lbl.price"}}
+              placeholder={{"Price"}}
+              aria-label={{"Price"}}
             />
           </:input>
 

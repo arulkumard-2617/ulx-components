@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { on } from '@ember/modifier';
 import { modifier } from 'ember-modifier';
-import { fn } from '@ember/helper';
+import { fn, concat } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import { DocNavItems } from '../../../constants/docs';
 import { t, UlxIconInput, UlxInput } from 'ulx-components';
@@ -295,10 +295,7 @@ export default class DocSidebarComponent extends Component {
                     <button
                       class="ms-auto ps-1"
                       {{on "click" (fn this.handleToggle item.menuTitle)}}
-                      aria-label={{t
-                        "msg.toggle.menu"
-                        menuTitle=item.menuTitle
-                      }}
+                      aria-label={{concat 'Toggle ' item.menuTitle ' menu'}}
                       type="button"
                     >
                       <i
