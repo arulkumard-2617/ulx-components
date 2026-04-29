@@ -1,28 +1,15 @@
-import config from 'ulx-ember/config/environment';
-import { bootstrapTranslations } from 'ulx-components';
+import i18n from 'ulx-components/utils/i18n';
 import ulxEnUsMessages from 'ulx-ember/message-resources/ulx-en-us';
 
-const DEFAULT_LOCALE = 'en-us';
-
-function resolveDemoLocale() {
-  const appLocale = config?.APP?.ulxDemoLocale;
-  if (typeof appLocale === 'string' && appLocale.trim()) {
-    return appLocale;
-  }
-
-  if (typeof window !== 'undefined') {
-    const runtimeLocale = window?.eventzLocale || window?.EVENTZ_LOCALE;
-    if (typeof runtimeLocale === 'string' && runtimeLocale.trim()) {
-      return runtimeLocale;
-    }
-  }
-
-  return DEFAULT_LOCALE;
-}
-
 export function initialize() {
-  const locale = resolveDemoLocale();
-  bootstrapTranslations(locale, ulxEnUsMessages);
+  i18n.t = (key, params = {}) => {
+    const template = ulxEnUsMessages[key] ?? key;
+    return template.replace(/\{(\w+)\}/g, (match, name) => {
+      return Object.prototype.hasOwnProperty.call(params, name)
+        ? String(params[name])
+        : match;
+    });
+  };
 }
 
 export default {

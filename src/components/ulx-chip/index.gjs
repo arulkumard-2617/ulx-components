@@ -2,7 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { getComponentClass } from "../../utils/component-config";
-import { t } from "../../utils/i18n";
+import i18n from "../../utils/i18n";
 import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
@@ -49,7 +49,7 @@ export default class UlxChip extends Component {
 	}
 
 	get imageAltText() {
-		return this.args.imageAlt ?? t("label.image");
+		return this.args.imageAlt ?? i18n.t("label.image");
 	}
 
 	get removeValue() {
@@ -58,7 +58,7 @@ export default class UlxChip extends Component {
 	}
 
 	get removeButtonAriaLabel() {
-		return t("label.remove");
+		return i18n.t("label.remove");
 	}
 
 	get rootDataQa() {
