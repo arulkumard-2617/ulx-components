@@ -1,43 +1,44 @@
 import { htmlSafe } from '@ember/template';
-import enUs from '../locales/en-us';
 
 /**
  * Lightweight i18n utility for ULX components.
  *
  * Features:
  *  - Flat key-value translations (no nesting).
- *  - {param} interpolation: `t("aria.more.members", { count: 3 })` → `"3 more members"`.
+ *  - Host-owned catalog registration via `addTranslations()`.
+ *  - Host-owned locale selection via `setLocale()`.
+ *  - {param} interpolation: `t("lbl.a11y.more.members", { count: 3 })` -> `"3 more members"`.
  *  - `tSafe()` returns an `htmlSafe` string for rendering trusted HTML.
- *  - Locale switching at runtime via `setLocale()` / `getLocale()`.
- *  - `addTranslations()` lets consuming apps merge or override keys.
+ *  - Optional one-step bootstrap via `bootstrapTranslations()`.
+ *
+ * ULX does not auto-load locale files. Consumer apps (e.g. Eventz) must
+ * register translations and set locale during boot.
  *
  * @module utils/i18n
  */
 
 /** Registry of loaded locale maps. */
-const _locales = {
-	'en-us': enUs
-};
+const _locales = {};
 
 /** Currently active locale key. */
-let _currentLocale = 'en-us';
+let _currentLocale = null;
 
 // ── Public API ──────────────────────────────────────────────
 
 /**
  * Look up a translation key and interpolate parameters.
  *
- * @param {string} key   - Flat translation key (e.g. "lbl.loading").
+ * @param {string} key   - Flat translation key (e.g. "label.loading").
  * @param {Object} [params] - Key-value pairs to interpolate into the string.
  * @returns {string} The resolved (interpolated) string, or the raw key if not found.
  *
  * @example
- *   t("lbl.loading");                                   // "Loading"
+ *   t("label.loading");                                 // "Loading"
  *   t("msg.more.members", { count: 3 });                // "3 more members"
  *   t("unknown.key");                                    // "unknown.key" (fallback)
  */
 export function t(key, params) {
-	const map = _locales[_currentLocale] ?? _locales['en-us'] ?? {};
+	const map = (_currentLocale && _locales[_currentLocale]) ?? {};
 	const template = map[key];
 
 	if (template === undefined) {
@@ -74,17 +75,23 @@ export function tSafe(key, params) {
  * @throws {Error} If the locale has not been registered.
  *
  * @example
- *   addTranslations("es", esTranslations);
- *   setLocale("es");
+ *   // Eventz-provided locale at runtime
+ *   const eventzLocale = "es";
+ *   addTranslations(eventzLocale, esTranslations);
+ *   setLocale(eventzLocale);
  */
 export function setLocale(locale) {
-	if (!_locales[locale]) {
+	const normalizedLocale = _normalizeLocale(locale);
+	if (!normalizedLocale) {
+		throw new Error('[ulx-i18n] setLocale(locale) requires a non-empty locale string.');
+	}
+	if (!_locales[normalizedLocale]) {
 		throw new Error(
-			`[ulx-i18n] Locale "${locale}" is not registered. ` +
-				`Call addTranslations("${locale}", translations) first.`
+			`[ulx-i18n] Locale "${normalizedLocale}" is not registered. ` +
+				`Call addTranslations("${normalizedLocale}", translations) first.`
 		);
 	}
-	_currentLocale = locale;
+	_currentLocale = normalizedLocale;
 }
 
 /**
@@ -102,7 +109,7 @@ export function getLocale() {
  *
  * This is the primary extension point for consuming apps:
  *  - Add a new language:       `addTranslations("es", esMap)`
- *  - Override addon defaults:  `addTranslations("en-us", { "lbl.loading": "Please wait…" })`
+ *  - Merge host dictionary:    `addTranslations("en-us", eventzMessages)`
  *
  * @param {string} locale       - Locale code.
  * @param {Object} translations - Flat key-value map.
@@ -110,13 +117,35 @@ export function getLocale() {
  * @example
  *   // app/instance-initializers/i18n.js
  *   import { addTranslations } from "ulx-components/utils/i18n";
- *   import es from "../locales/es";
+ *   import eventzMessages from "../message-resources/eventz";
  *   export function initialize() {
- *     addTranslations("es", es);
+ *     addTranslations("en-us", eventzMessages);
  *   }
  */
 export function addTranslations(locale, translations) {
-	_locales[locale] = { ...(_locales[locale] ?? {}), ...translations };
+	const normalizedLocale = _normalizeLocale(locale);
+	if (!normalizedLocale) {
+		throw new Error('[ulx-i18n] addTranslations(locale, translations) requires a locale string.');
+	}
+	if (!translations || typeof translations !== 'object' || Array.isArray(translations)) {
+		throw new Error(
+			`[ulx-i18n] addTranslations("${normalizedLocale}", translations) requires a plain object map.`
+		);
+	}
+
+	_locales[normalizedLocale] = { ...(_locales[normalizedLocale] ?? {}), ...translations };
+}
+
+/**
+ * Convenience helper to register a locale map and activate it in one call.
+ * Useful for demo or standalone environments where Eventz is not present.
+ *
+ * @param {string} locale
+ * @param {Object} translations
+ */
+export function bootstrapTranslations(locale, translations) {
+	addTranslations(locale, translations);
+	setLocale(locale);
 }
 
 /**
@@ -126,7 +155,7 @@ export function addTranslations(locale, translations) {
  * @returns {boolean}
  */
 export function hasTranslation(key) {
-	const map = _locales[_currentLocale] ?? _locales['en-us'] ?? {};
+	const map = (_currentLocale && _locales[_currentLocale]) ?? {};
 	return key in map;
 }
 
@@ -144,4 +173,19 @@ function _interpolate(template, params) {
 	return template.replace(/\{(\w+)\}/g, (match, name) => {
 		return name in params ? String(params[name]) : match;
 	});
+}
+
+/**
+ * Normalizes locale strings so Java-style tags (`en_US`) and BCP 47-style
+ * tags (`en-us`) resolve to the same registry bucket.
+ *
+ * @param {string} locale
+ * @returns {string | null}
+ */
+function _normalizeLocale(locale) {
+	if (typeof locale !== 'string') {
+		return null;
+	}
+	const value = locale.trim().toLowerCase().replace(/_/g, '-');
+	return value || null;
 }

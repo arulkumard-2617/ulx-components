@@ -77,7 +77,7 @@ export default class UlxAvatar extends Component {
 		const profile = this.memberProfile;
 
 		if (this.isAnonymous) {
-			return t("lbl.anonymous.user");
+			return t("label.anonymous");
 		}
 
 		const { fullName } = this.args;
@@ -350,7 +350,7 @@ export default class UlxAvatar extends Component {
 	}
 
 	get imageAlt() {
-		return this.args.imageAlt ?? this.ariaLabel ?? this.label ?? t("lbl.image");
+		return this.args.imageAlt ?? this.ariaLabel ?? this.label ?? t("label.image");
 	}
 
 	buildInitials(source) {

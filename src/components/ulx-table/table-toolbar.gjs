@@ -57,7 +57,7 @@ export default class TableToolbar extends Component {
 										@globalFilterPlaceholder
 										(t "msg.table.global.filter.placeholder")
 									}}
-									aria-label={{t "aria.table.global.filter"}}
+									aria-label={{t "lbl.a11y.table.global.filter"}}
 								/>
 							</UlxIconInput>
 						</div>
@@ -79,7 +79,7 @@ export default class TableToolbar extends Component {
 									@customClass={{if (gt @activeFilterCount 0) "highlighted icon-only" "icon-only"}}
 									aria-label={{if
 										(gt @activeFilterCount 0)
-										(t "aria.table.toolbar.filter.active" count=@activeFilterCount)
+										(t "lbl.a11y.table.toolbar.filter.active" count=@activeFilterCount)
 										(t "lbl.filter")
 									}}
 								>
@@ -139,7 +139,7 @@ export default class TableToolbar extends Component {
 								@onChange={{@onViewToggleChange}}
 								@size="m-size"
 								@variant="primary"
-								@ariaLabel={{t "aria.table.view.toggle"}}
+								@ariaLabel={{t "lbl.a11y.table.view.toggle"}}
 							>
 								<:item as |option|>
 									<UlxIcon

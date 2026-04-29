@@ -244,7 +244,7 @@ export default class UlxProgressBar extends Component {
 			<div
 				class={{this.rootClasses}}
 				role="progressbar"
-				aria-valuetext={{if this.isIndeterminate (t "lbl.loading")}}
+				aria-valuetext={{if this.isIndeterminate (t "label.loading")}}
 				aria-valuenow={{this.ariaValueNow}}
 				aria-valuemin={{if this.isIndeterminate undefined 0}}
 				aria-valuemax={{if this.isIndeterminate undefined 100}}

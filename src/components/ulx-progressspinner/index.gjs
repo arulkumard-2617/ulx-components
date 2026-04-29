@@ -36,7 +36,7 @@ export default class UlxProgressSpinner extends Component {
 	}
 
 	get ariaLabelText() {
-		return this.args.ariaLabel ?? t("lbl.loading");
+		return this.args.ariaLabel ?? t("label.loading");
 	}
 
 	get sizeClass() {

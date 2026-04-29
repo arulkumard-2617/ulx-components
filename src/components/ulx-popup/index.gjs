@@ -868,7 +868,7 @@ export default class UlxPopup extends Component {
 						type="button"
 						class="popup-close-button"
 						data-qa={{this.getDataQa "close"}}
-						aria-label={{t "lbl.close"}}
+						aria-label={{t "label.close"}}
 						{{on "click" this.handleCloseClick}}
 					>
 						<span class="popup-close-icon" aria-hidden="true"></span>

@@ -3,6 +3,7 @@ import { t as translate } from '../utils/i18n';
 
 /**
  * Template helper that resolves a translation key with optional interpolation.
+ * Translations are provided by the host app via `addTranslations` and `setLocale`.
  *
  * Usage in .gjs templates:
  *

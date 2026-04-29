@@ -33,7 +33,7 @@ export default class TableViewVertical extends Component {
 							<th
 								class="datatable-vertical-corner"
 								scope="col"
-								aria-label={{t "aria.table.vertical.corner"}}
+								aria-label={{t "lbl.a11y.table.vertical.corner"}}
 							></th>
 							{{#each this.rows as |row|}}
 								<th class="datatable-vertical-col-header" scope="col">

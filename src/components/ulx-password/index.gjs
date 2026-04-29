@@ -242,7 +242,7 @@ export default class UlxPassword extends Component {
 	}
 
 	get toggleAriaLabel() {
-		return this.unmasked ? t("lbl.password.hide") : t("lbl.password.show");
+		return this.unmasked ? t("label.hide.password") : t("label.show.password");
 	}
 
 	// --------------------------

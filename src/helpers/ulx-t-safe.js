@@ -4,6 +4,7 @@ import { tSafe } from '../utils/i18n';
 /**
  * Template helper that resolves a translation key and returns an htmlSafe string.
  * Use this only when the translation value contains trusted HTML markup.
+ * Translations are provided by the host app via `addTranslations` and `setLocale`.
  *
  * Usage in .gjs templates:
  *

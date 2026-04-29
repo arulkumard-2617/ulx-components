@@ -530,13 +530,13 @@ export default class TableBody extends Component {
 										<UlxCheckbox
 											@checked={{this.isRowSelected row}}
 											@onCheckedChange={{fn this.handleCheckboxChange row}}
-											aria-label={{t "aria.table.select.row" index=index}}
+											aria-label={{t "lbl.a11y.table.select.row" index=index}}
 										/>
 									{{else if (eq col.selectionMode "single")}}
 										<UlxRadio
 											@checked={{this.isRowSelected row}}
 											@onCheckedChange={{fn this.handleRadioChange row}}
-											aria-label={{t "aria.table.select.row" index=index}}
+											aria-label={{t "lbl.a11y.table.select.row" index=index}}
 										/>
 									{{/if}}
 								</td>
@@ -558,8 +558,8 @@ export default class TableBody extends Component {
 										aria-expanded={{this.isRowExpanded row}}
 										aria-label={{if
 											(this.isRowExpanded row)
-											(t "aria.table.collapse.row")
-											(t "aria.table.expand.row")
+											(t "lbl.a11y.table.collapse.row")
+											(t "lbl.a11y.table.expand.row")
 										}}
 									/>
 								</td>
@@ -569,7 +569,7 @@ export default class TableBody extends Component {
 									role="gridcell"
 									style="width: 3rem; cursor: grab"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
-									aria-label={{t "aria.table.drag.reorder"}}
+									aria-label={{t "lbl.a11y.table.drag.reorder"}}
 								>
 									<UlxIcon
 										@componentClass="bs-icons1"
@@ -595,7 +595,7 @@ export default class TableBody extends Component {
 												@iconSize="s20"
 												@customClass="datatable-row-save-button"
 												@onClick={{fn this.handleRowEditSave row}}
-												aria-label={{t "aria.table.save.row"}}
+												aria-label={{t "lbl.a11y.table.save.row"}}
 											/>
 											<UlxIconButton
 												@text={{true}}
@@ -604,7 +604,7 @@ export default class TableBody extends Component {
 												@iconSize="s18"
 												@customClass="datatable-row-cancel-button"
 												@onClick={{fn this.handleRowEditCancel row}}
-												aria-label={{t "aria.table.cancel.editing"}}
+												aria-label={{t "lbl.a11y.table.cancel.editing"}}
 											/>
 										</div>
 									{{else}}
@@ -617,7 +617,7 @@ export default class TableBody extends Component {
 												@iconSize="s18"
 												@customClass="datatable-row-editor-init-button"
 												@onClick={{fn this.handleRowEditInit row}}
-												aria-label={{t "aria.table.edit.row"}}
+												aria-label={{t "lbl.a11y.table.edit.row"}}
 											/>
 										</div>
 									{{/if}}

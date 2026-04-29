@@ -201,7 +201,7 @@ export default class TableHeader extends Component {
 									@value={{this.headerCheckboxValue}}
 									@onValueChange={{this.handleHeaderCheckbox}}
 									@hideLabel={{true}}
-									aria-label={{t "aria.table.select.all"}}
+									aria-label={{t "lbl.a11y.table.select.all"}}
 								/>
 							{{/if}}
 						</th>
@@ -274,7 +274,7 @@ export default class TableHeader extends Component {
 										@iconLeft="filter-icon"
 										@customClass={{this.filterButtonClass col}}
 										@onClick={{fn this.handleFilterMenuOpen col}}
-										aria-label={{t "aria.table.filter.column" header=col.header}}
+										aria-label={{t "lbl.a11y.table.filter.column" header=col.header}}
 									/>
 								{{/if}}
 
@@ -334,14 +334,14 @@ export default class TableHeader extends Component {
 														this.handleMultiSelectFilter
 														(or col.filterField col.field)
 													}}
-													aria-label={{t "aria.table.filter.column" header=col.header}}
+													aria-label={{t "lbl.a11y.table.filter.column" header=col.header}}
 												/>
 											{{else}}
 												<UlxInput
 													@value={{this.filterValueFor (or col.filterField col.field)}}
 													@onInput={{fn this.handleFilterInput (or col.filterField col.field)}}
 													placeholder={{or col.filterPlaceholder (t "lbl.search")}}
-													aria-label={{t "aria.table.filter.column" header=col.header}}
+													aria-label={{t "lbl.a11y.table.filter.column" header=col.header}}
 												/>
 											{{/if}}
 										</div>
@@ -353,7 +353,7 @@ export default class TableHeader extends Component {
 											@onClick={{fn this.handleFilterMenuOpen col}}
 											aria-haspopup="true"
 											aria-expanded={{this.isFilterMenuOpen col}}
-											aria-label={{t "aria.table.show.filter.menu"}}
+											aria-label={{t "lbl.a11y.table.show.filter.menu"}}
 										/>
 										<UlxIconButton
 											@variant="secondary"

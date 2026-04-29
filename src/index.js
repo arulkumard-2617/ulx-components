@@ -67,7 +67,15 @@ export { default as UlxSorter } from './components/ulx-sorter/index.gjs';
 export { default as UlxSorterItem } from './components/ulx-sorter/item.gjs';
 
 // ── i18n utilities ──────────────────────────────────────────
-export { t, tSafe, setLocale, getLocale, addTranslations, hasTranslation } from './utils/i18n.js';
+export {
+	t,
+	tSafe,
+	setLocale,
+	getLocale,
+	addTranslations,
+	hasTranslation,
+	bootstrapTranslations
+} from './utils/i18n.js';
 
 export { validate } from './utils/validation-util.js';
 export { getConstraintValue, isRulesRequired } from './utils/input-util.js';

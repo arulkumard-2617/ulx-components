@@ -10,7 +10,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *
  * ## WCAG
  * - Root uses `aria-label` from `@label` when present for meaningful chips.
- * - Remove button has an accessible name (default from `t("lbl.remove")`) so screen readers announce it.
+ * - Remove button has an accessible name (default from `t("label.remove")`) so screen readers announce it.
  * - Keyboard: Enter and Space activate the remove button (native); Backspace also triggers removal.
  * - Decorative icons use `aria-hidden="true"`.
  *
@@ -18,7 +18,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [label] - Main text shown in the chip.
  * @param {string} [icon] - Icon name/class for UlxIcon (e.g. font class); renders before label.
  * @param {string} [image] - Image URL; when set, renders before label (avatar-style).
- * @param {string} [imageAlt] - Alt text for the image; defaults to t("lbl.image") when omitted.
+ * @param {string} [imageAlt] - Alt text for the image; defaults to t("label.image") when omitted.
  * @param {boolean} [removable=false] - When true, shows remove control and wires click/keyboard.
  * @param {string} [removeIcon] - Icon name for remove button; defaults to close icon from bs-icons1.
  * @param {Function} [onRemove] - Callback (event, value) when remove is triggered; value is label, image, or icon context.
@@ -49,7 +49,7 @@ export default class UlxChip extends Component {
 	}
 
 	get imageAltText() {
-		return this.args.imageAlt ?? t("lbl.image");
+		return this.args.imageAlt ?? t("label.image");
 	}
 
 	get removeValue() {
@@ -58,7 +58,7 @@ export default class UlxChip extends Component {
 	}
 
 	get removeButtonAriaLabel() {
-		return t("lbl.remove");
+		return t("label.remove");
 	}
 
 	get rootDataQa() {

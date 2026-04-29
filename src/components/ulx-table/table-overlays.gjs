@@ -72,8 +72,8 @@ export default class TableOverlays extends Component {
 				@hideTertiaryButton={{false}}
 				@tertiaryButtonLabel={{t "lbl.reset.to.default"}}
 				@tertiaryButtonIcon="reset-icon"
-				@cancelButtonLabel={{t "lbl.cancel"}}
-				@doneButtonLabel={{t "lbl.save"}}
+				@cancelButtonLabel={{t "label.cancel"}}
+				@doneButtonLabel={{t "label.save"}}
 				@onTertiary={{this.manageColumns.onReset}}
 				@onCancel={{this.manageColumns.onClose}}
 				@onDone={{this.manageColumns.onInvokeApply}}
@@ -206,7 +206,7 @@ export default class TableOverlays extends Component {
 				@onHide={{this.filterPane.onClose}}
 				@onCancel={{this.filterPane.onClose}}
 				@onDone={{this.filterPane.onApply}}
-				@cancelButtonLabel={{t "lbl.close"}}
+				@cancelButtonLabel={{t "label.close"}}
 				@doneButtonLabel={{t "lbl.apply.filter"}}
 			>
 				<:body>
