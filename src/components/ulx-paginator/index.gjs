@@ -45,6 +45,7 @@ import {
  * @param {boolean} [showRecordsPerPageLabel=true] - When true, show text before the rows-per-page dropdown.
  * @param {boolean} [hasLeft] - When true together with <:left>, render the left slot.
  * @param {boolean} [hasRight] - When true together with <:right>, render the right slot.
+ * @param {boolean} [showFirstLastNav=false] - When true, renders the first and last page navigation buttons.
  *
  * Named blocks (lowercase) override default UI when provided:
  * - <:firstPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
@@ -280,6 +281,10 @@ export default class UlxPaginator extends Component {
 		return this.args.showRecordsPerPageLabel !== false;
 	}
 
+	get showFirstLastNav() {
+		return this.args.showFirstLastNav ?? false;
+	}
+
 	@action
 	changePage(first, rows) {
 		const baseRows = rows ?? this.rows;
@@ -358,7 +363,7 @@ export default class UlxPaginator extends Component {
 
 				{{#each this.templateKeys as |segment|}}
 					{{#if (eq segment this.templateKey.FIRST_PAGE_LINK)}}
-						{{#if this.showNavigationControls}}
+						{{#if (and this.showNavigationControls this.showFirstLastNav)}}
 							{{#if (has-block "firstPageLink")}}
 								{{yield this.firstPageLinkConfig to="firstPageLink"}}
 							{{else}}
@@ -397,7 +402,7 @@ export default class UlxPaginator extends Component {
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.LAST_PAGE_LINK)}}
-						{{#if this.showNavigationControls}}
+						{{#if (and this.showNavigationControls this.showFirstLastNav)}}
 							{{#if (has-block "lastPageLink")}}
 								{{yield this.lastPageLinkConfig to="lastPageLink"}}
 							{{else}}

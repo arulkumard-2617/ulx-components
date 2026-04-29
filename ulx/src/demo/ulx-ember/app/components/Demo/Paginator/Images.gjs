@@ -28,7 +28,10 @@ export default class ImagesPaginatorDemo extends Component {
   }
 
   <template>
-    <div class="flex items-center gap-4 fxd-flex-col">
+    <div class="flex flex-col gap-10">
+      <div>
+        <img alt={{this.imageAlt}} src={{this.imageSrc}} class="max-w-260" />
+      </div>
       <UlxPaginator
         @totalRecords={{this.totalRecords}}
         @rows={{this.rows}}
@@ -36,9 +39,6 @@ export default class ImagesPaginatorDemo extends Component {
         @template={{this.imagesTemplate}}
         @onPageChange={{this.onPageChange}}
       />
-      <div class="text-center">
-        <img alt={{this.imageAlt}} src={{this.imageSrc}} class="max-w-100" />
-      </div>
     </div>
   </template>
 }

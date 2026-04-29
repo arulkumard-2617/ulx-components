@@ -20,13 +20,12 @@ const validations = {
 
     format: {
       with: TEXT_PATTERN_ALT,
-      allowBlank: false,
+      allowEmpty: false,
       msg: "Enter a valid contact name.",
     },
 
     maxLength: {
       value: 120,
-      allowBlank: true,
       msg: t('msg.validation.max.length', { max: 120 }),
     },
   },
@@ -36,7 +35,7 @@ const validations = {
 
     format: {
       with: EMAIL_PATTERN,
-      allowBlank: false,
+      allowEmpty: false,
       msg: "Enter a valid email address.",
     },
   },

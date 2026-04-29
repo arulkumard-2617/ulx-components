@@ -1,7 +1,5 @@
 export default `
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import { UlxTable } from 'ulx-components';
 
 const generateProducts = () =>
@@ -15,17 +13,16 @@ const generateProducts = () =>
   }));
 
 const columns = [
-  { field: 'code',     header: 'Code' },
-  { field: 'name',     header: 'Name' },
+  { field: 'code', header: 'Code' },
+  { field: 'name', header: 'Name' },
   { field: 'category', header: 'Category' },
-  { field: 'price',    header: 'Price ($)' },
+  { field: 'price', header: 'Price ($)' },
   { field: 'quantity', header: 'Qty' },
 ];
 
 export default class DemoTablePaginator extends Component {
   products = generateProducts();
   columns = columns;
-  rowsPerPageOptions = [10, 25, 50];
 
   <template>
     <UlxTable
@@ -33,10 +30,6 @@ export default class DemoTablePaginator extends Component {
       @columns={{this.columns}}
       @dataKey="id"
       @paginator={{true}}
-      @rowsPerPageOptions={{this.rowsPerPageOptions}}
-      @currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      @paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
-      @sortMode="single"
     />
   </template>
 }

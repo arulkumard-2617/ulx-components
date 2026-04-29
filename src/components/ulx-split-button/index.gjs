@@ -236,6 +236,7 @@ export default class UlxSplitButton extends Component {
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
+						@loading={{@loading}}
 						@variant={{this.variantValue}}
 						@pilled={{@pilled}}
 						@text={{@text}}
@@ -254,6 +255,7 @@ export default class UlxSplitButton extends Component {
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
+						@loading={{@loading}}
 						@variant={{this.variantValue}}
 						@pilled={{@pilled}}
 						@text={{@text}}
@@ -273,6 +275,7 @@ export default class UlxSplitButton extends Component {
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
+						@loading={{@loading}}
 						@variant={{this.variantValue}}
 						@pilled={{@pilled}}
 						@text={{@text}}
@@ -291,6 +294,7 @@ export default class UlxSplitButton extends Component {
 						@iconComponentClass={{@iconComponentClass}}
 						@iconSize={{@iconSize}}
 						@disabled={{this.isDisabled}}
+						@loading={{@loading}}
 						@variant={{this.variantValue}}
 						@pilled={{@pilled}}
 						@text={{@text}}
@@ -334,6 +338,7 @@ export default class UlxSplitButton extends Component {
 					@items={{this.menuItems}}
 					@popup={{true}}
 					@visible={{this.menuVisible}}
+					@align="end"
 					@target={{this.dropdownTarget}}
 					@customClass={{this.menuCustomClassName}}
 					@onHide={{this.hideMenu}}

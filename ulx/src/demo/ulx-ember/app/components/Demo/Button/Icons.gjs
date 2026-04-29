@@ -15,6 +15,7 @@ export default class DemoButtonIcons extends Component {
         @iconLeft="ls-tick-icon"
         @iconSize="s22"
         @iconComponentClass="bs-icons1"
+        @loading={{true}}
       />
       <UlxIconButton
         @label="Submit"

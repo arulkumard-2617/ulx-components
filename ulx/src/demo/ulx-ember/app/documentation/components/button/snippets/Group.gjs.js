@@ -1,29 +1,49 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxButtonGroup, UlxIconButton } from 'ulx-components';
+import { UlxButtonGroup, UlxBadgeButton, UlxIcon } from 'ulx-components';
 
 export default class DemoButtonGroup extends Component {
   <template>
     <div class="flex items-center wrap gap-md">
       <UlxButtonGroup @orientation="horizontal" @size="m-size">
-        <UlxIconButton
-          @label="Save"
-          @iconLeft="ls-tick-icon"
-          @iconSize="s18"
-          @iconComponentClass="bs-icons1"
-        />
-        <UlxIconButton
-          @label="Delete"
-          @iconLeft="delete-icon"
-          @iconSize="s18"
-          @iconComponentClass="bs-icons1"
-        />
-        <UlxIconButton
-          @label="Cancel"
-          @iconLeft="close-icon-01"
-          @iconSize="s18"
-          @iconComponentClass="bs-icons1"
-        />
+        <UlxBadgeButton
+          @badge={{2}}
+          @badgeType="circle"
+          @badgeSize="h-16 w-16 text-xs"
+          @customClass="highlighted icon-only"
+        >
+          <:prefix>
+            <UlxIcon
+              @iconName="filter-icon"
+              @type="font"
+              @componentClass="bs-icons1"
+              @size="s18"
+              aria-hidden="true"
+            />
+          </:prefix>
+        </UlxBadgeButton>
+        <UlxBadgeButton @customClass="icon-only">
+          <:prefix>
+            <UlxIcon
+              @iconName="sort-icon"
+              @type="font"
+              @componentClass="bs-icons1"
+              @size="s18"
+              aria-hidden="true"
+            />
+          </:prefix>
+        </UlxBadgeButton>
+        <UlxBadgeButton @customClass="icon-only">
+          <:prefix>
+            <UlxIcon
+              @iconName="columns-icon"
+              @type="font"
+              @componentClass="bs-icons1"
+              @size="s18"
+              aria-hidden="true"
+            />
+          </:prefix>
+        </UlxBadgeButton>
       </UlxButtonGroup>
     </div>
   </template>

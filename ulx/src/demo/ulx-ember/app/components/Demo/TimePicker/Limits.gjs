@@ -12,7 +12,7 @@ export default class LimitsTimeDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxTimePicker
         @hourFormat="24"
         @value={{this.value}}

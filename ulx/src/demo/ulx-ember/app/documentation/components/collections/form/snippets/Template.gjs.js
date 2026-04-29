@@ -21,7 +21,7 @@ import {
   UlxSlider,
   UlxRating,
   UlxOptionSegment,
-  t,
+  t
 } from 'ulx-components';
 
 const REQUIRED_RULES = { required: true };
@@ -30,39 +30,39 @@ const COUNTRIES = [
   { label: 'United States', value: 'US' },
   { label: 'India', value: 'IN' },
   { label: 'United Kingdom', value: 'GB' },
-  { label: 'Germany', value: 'DE' },
+  { label: 'Germany', value: 'DE' }
 ];
 
 const SOCIAL_PLATFORMS = [
   { label: 'X', value: 'x' },
   { label: 'LinkedIn', value: 'linkedin' },
   { label: 'GitHub', value: 'github' },
-  { label: 'Website', value: 'website' },
+  { label: 'Website', value: 'website' }
 ];
 
 const DIAL_CODES = [
   { label: '+1', value: '+1' },
   { label: '+91', value: '+91' },
   { label: '+44', value: '+44' },
-  { label: '+49', value: '+49' },
+  { label: '+49', value: '+49' }
 ];
 
 const NOTIFICATION_OPTIONS = [
   { label: 'Email', value: 'email' },
   { label: 'SMS', value: 'sms' },
-  { label: 'Push', value: 'push' },
+  { label: 'Push', value: 'push' }
 ];
 
 const CONTACT_METHODS = [
   { label: 'Email', value: 'email' },
   { label: 'Phone', value: 'phone' },
-  { label: 'WhatsApp', value: 'whatsapp' },
+  { label: 'WhatsApp', value: 'whatsapp' }
 ];
 
 const FREQUENCY_OPTIONS = [
   { title: 'Daily', value: 'daily', description: 'Updates every day' },
   { title: 'Weekly', value: 'weekly', description: 'A weekly summary' },
-  { title: 'Monthly', value: 'monthly', description: 'A monthly digest' },
+  { title: 'Monthly', value: 'monthly', description: 'A monthly digest' }
 ];
 
 const INTEREST_OPTIONS = [
@@ -70,9 +70,9 @@ const INTEREST_OPTIONS = [
   {
     title: 'Engineering',
     value: 'engineering',
-    description: 'Frontend, backend',
+    description: 'Frontend, backend'
   },
-  { title: 'Product', value: 'product', description: 'PM, strategy' },
+  { title: 'Product', value: 'product', description: 'PM, strategy' }
 ];
 
 const LANGUAGE_OPTIONS = [
@@ -80,13 +80,13 @@ const LANGUAGE_OPTIONS = [
   { label: 'TypeScript', value: 'ts' },
   { label: 'Python', value: 'python' },
   { label: 'Go', value: 'go' },
-  { label: 'Rust', value: 'rust' },
+  { label: 'Rust', value: 'rust' }
 ];
 
 const ACCOUNT_TYPE_OPTIONS = [
   { label: 'Individual', value: 'individual' },
   { label: 'Business', value: 'business' },
-  { label: 'Enterprise', value: 'enterprise' },
+  { label: 'Enterprise', value: 'enterprise' }
 ];
 
 export default class DemoFormTemplate extends Component {
@@ -144,7 +144,7 @@ export default class DemoFormTemplate extends Component {
     return NOTIFICATION_OPTIONS.map((opt) => ({
       label: opt.label,
       value: opt.value,
-      checked: this.notificationChannels.includes(opt.value),
+      checked: this.notificationChannels.includes(opt.value)
     }));
   }
 
@@ -152,7 +152,7 @@ export default class DemoFormTemplate extends Component {
     return CONTACT_METHODS.map((opt) => ({
       label: opt.label,
       value: opt.value,
-      checked: this.contactMethod === opt.value,
+      checked: this.contactMethod === opt.value
     }));
   }
 
@@ -161,7 +161,7 @@ export default class DemoFormTemplate extends Component {
       title: opt.title,
       value: opt.value,
       description: opt.description,
-      selected: this.frequency === opt.value,
+      selected: this.frequency === opt.value
     }));
   }
 
@@ -170,7 +170,7 @@ export default class DemoFormTemplate extends Component {
       title: opt.title,
       value: opt.value,
       description: opt.description,
-      selected: this.interests.includes(opt.value),
+      selected: this.interests.includes(opt.value)
     }));
   }
 
@@ -326,8 +326,8 @@ export default class DemoFormTemplate extends Component {
         variant: 'success',
         summary: "Success",
         detail: 'Social handle added.',
-        life: 3000,
-      },
+        life: 3000
+      }
     ];
   }
 
@@ -340,8 +340,8 @@ export default class DemoFormTemplate extends Component {
         id: \`form-template-submit-\${Date.now()}\`,
         variant: 'success',
         summary: 'Saved.',
-        life: 3000,
-      },
+        life: 3000
+      }
     ];
   }
 
@@ -627,7 +627,7 @@ export default class DemoFormTemplate extends Component {
                 @onChange={{this.handleProfileCompletionChange}}
                 @min={{0}}
                 @max={{100}}
-                @size="w-250 s-size"
+                @size="w-252 s-size"
               />
               <span>{{this.profileCompletion}}%</span>
             </div>

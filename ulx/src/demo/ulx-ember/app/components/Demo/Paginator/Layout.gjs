@@ -15,14 +15,12 @@ export default class LayoutPaginatorDemo extends Component {
   }
 
   <template>
-    <div class="flex items-center gap-4">
-      <UlxPaginator
-        @totalRecords={{this.totalRecords}}
-        @rows={{this.rows}}
-        @first={{this.first}}
-        @template={{this.layoutTemplate}}
-        @onPageChange={{this.onPageChange}}
-      />
-    </div>
+    <UlxPaginator
+      @totalRecords={{this.totalRecords}}
+      @rows={{this.rows}}
+      @first={{this.first}}
+      @template={{this.layoutTemplate}}
+      @onPageChange={{this.onPageChange}}
+    />
   </template>
 }

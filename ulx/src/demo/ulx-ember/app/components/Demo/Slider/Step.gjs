@@ -12,11 +12,11 @@ export default class StepSliderDemo extends Component {
   }
 
   <template>
-    <div class="ulx-flex ulx-flex-col gap-2">
-      <div class="ulx-flex ulx-items-center gap-2">
-        <span class="text-12 fg-secondary">{{t 'lbl.value'}}:</span>
+    <div class="flex flex-col gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-12 fg-secondary">{{t "lbl.value"}}:</span>
         <span class="text-12 font-semibold">{{this.value}}</span>
-        <span class="text-12 fg-secondary">({{t 'lbl.step'}}: 10)</span>
+        <span class="text-12 fg-secondary">({{t "lbl.step"}}: 10)</span>
       </div>
       <UlxSlider
         @value={{this.value}}
@@ -28,4 +28,3 @@ export default class StepSliderDemo extends Component {
     </div>
   </template>
 }
-

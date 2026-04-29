@@ -7,9 +7,15 @@ import { modifier } from 'ember-modifier';
 import { UlxTieredmenu, UlxButton } from 'ulx-components';
 
 export default class PopupTieredmenuDemo extends Component {
-  @tracked isMenuVisible = false;
-  @tracked buttonElement = null;
-  menuRef = null;
+  // align="start" menu state
+  @tracked isStartMenuVisible = false;
+  @tracked startButtonElement = null;
+  startMenuRef = null;
+
+  // align="end" menu state
+  @tracked isEndMenuVisible = false;
+  @tracked endButtonElement = null;
+  endMenuRef = null;
 
   get items() {
     return [
@@ -47,32 +53,58 @@ export default class PopupTieredmenuDemo extends Component {
     ];
   }
 
+  // --- align="start" handlers ---
   @action
-  setMenuRef(componentInstance) {
-    this.menuRef = componentInstance;
+  setStartMenuRef(componentInstance) {
+    this.startMenuRef = componentInstance;
   }
 
   @action
-  toggleMenu(event) {
+  toggleStartMenu(event) {
     event?.stopPropagation();
-    if (this.isMenuVisible) {
-      this.menuRef?.hide(event);
+    if (this.isStartMenuVisible) {
+      this.startMenuRef?.hide(event);
     } else {
-      this.isMenuVisible = true;
-      this.menuRef?.show?.(event);
+      this.isStartMenuVisible = true;
+      this.startMenuRef?.show?.(event);
     }
   }
 
-  setButtonRef = modifier((element) => {
-    this.buttonElement = element;
+  setStartButtonRef = modifier((element) => {
+    this.startButtonElement = element;
     return () => {};
   });
 
   @action
-  hideMenu() {
-    console.log('closed');
-    // Called by tiered menu when exit animation finishes → set visible false then
-    this.isMenuVisible = false;
+  hideStartMenu() {
+    this.isStartMenuVisible = false;
+  }
+
+  // --- align="end" handlers ---
+  @action
+  setEndMenuRef(componentInstance) {
+    this.endMenuRef = componentInstance;
+  }
+
+  @action
+  toggleEndMenu(event) {
+    event?.stopPropagation();
+    if (this.isEndMenuVisible) {
+      this.endMenuRef?.hide(event);
+    } else {
+      this.isEndMenuVisible = true;
+      this.endMenuRef?.show?.(event);
+    }
+  }
+
+  setEndButtonRef = modifier((element) => {
+    this.endButtonElement = element;
+    return () => {};
+  });
+
+  @action
+  hideEndMenu() {
+    this.isEndMenuVisible = false;
   }
 
   @action
@@ -81,27 +113,52 @@ export default class PopupTieredmenuDemo extends Component {
   }
 
   <template>
-    <div class="">
-      <UlxButton
-        @label="Show Menu"
-        @variant="primary"
-        {{on "click" this.toggleMenu}}
-        {{this.setButtonRef}}
-        aria-haspopup="menu"
-        aria-expanded={{this.isMenuVisible}}
-        aria-controls="tieredmenu-popup"
-      />
+    <div class="flex gap-10 flex-wrap">
+      <div>
+        <UlxButton
+          @label="Align Start"
+          @variant="primary"
+          {{on "click" this.toggleStartMenu}}
+          {{this.setStartButtonRef}}
+          aria-haspopup="menu"
+          aria-expanded={{this.isStartMenuVisible}}
+          aria-controls="tieredmenu-popup-start"
+        />
+        <UlxTieredmenu
+          id="tieredmenu-popup-start"
+          @items={{this.items}}
+          @popup={{true}}
+          @visible={{this.isStartMenuVisible}}
+          @align="start"
+          @target={{this.startButtonElement}}
+          @onHide={{this.hideStartMenu}}
+          @registerRef={{this.setStartMenuRef}}
+          @onItemSelect={{this.handleItemSelect}}
+        />
+      </div>
 
-      <UlxTieredmenu
-        id="tieredmenu-popup"
-      @items={{this.items}}
-        @popup={{true}}
-        @visible={{this.isMenuVisible}}
-        @target={{this.buttonElement}}
-        @onHide={{this.hideMenu}}
-        @registerRef={{this.setMenuRef}}
-        @onItemSelect={{this.handleItemSelect}}
-      />
+      <div>
+        <UlxButton
+          @label="Align End"
+          @variant="primary"
+          {{on "click" this.toggleEndMenu}}
+          {{this.setEndButtonRef}}
+          aria-haspopup="menu"
+          aria-expanded={{this.isEndMenuVisible}}
+          aria-controls="tieredmenu-popup-end"
+        />
+        <UlxTieredmenu
+          id="tieredmenu-popup-end"
+          @items={{this.items}}
+          @popup={{true}}
+          @visible={{this.isEndMenuVisible}}
+          @align="end"
+          @target={{this.endButtonElement}}
+          @onHide={{this.hideEndMenu}}
+          @registerRef={{this.setEndMenuRef}}
+          @onItemSelect={{this.handleItemSelect}}
+        />
+      </div>
     </div>
   </template>
 }

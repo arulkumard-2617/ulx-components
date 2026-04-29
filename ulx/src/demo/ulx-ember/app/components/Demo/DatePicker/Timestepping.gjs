@@ -12,7 +12,7 @@ export default class TimesteppingDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}

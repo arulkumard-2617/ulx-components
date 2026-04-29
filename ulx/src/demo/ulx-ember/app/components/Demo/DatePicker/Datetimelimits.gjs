@@ -12,7 +12,7 @@ export default class DatetimelimitsDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="flex flex-col gap-4 w-250">
+    <div class="flex flex-col gap-4 w-252">
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}

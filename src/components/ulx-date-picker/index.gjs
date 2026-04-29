@@ -18,6 +18,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
  * @param {'single'|'multiple'} [mode='single']
  * @param {boolean} [showIcon=false]
+ * @param {string} [triggerIcon='calendar-icon02'] - Icon name for the trigger button (only used when `showIcon` is true)
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
@@ -138,6 +139,10 @@ export default class UlxDatePicker extends Component {
 		this.args.onChange?.(selectedDates, dateStr);
 	}
 
+	get triggerIcon() {
+		return this.args.triggerIcon ?? "calendar-icon02";
+	}
+
 	get placeholderText() {
 		const { placeholder } = this.args;
 		return placeholder ?? t("lbl.datepicker.placeholder");
@@ -174,18 +179,18 @@ export default class UlxDatePicker extends Component {
 					...attributes
 				/>
 				{{#if @showIcon}}
-					<span class="inputgroup-addon button-addon contents">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-toggle
 							@type="button"
 							@variant="white"
-							@iconLeft="calendar-icon02"
+							@iconLeft={{this.triggerIcon}}
 							aria-label={{tHelper "lbl.datepicker.toggle"}}
 						/>
 					</span>
 				{{/if}}
 				{{#if @showClearButton}}
-					<span class="inputgroup-addon button-addon contents">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-clear
 							@type="button"

@@ -7,7 +7,7 @@ export default class DisablerangeDatepickerDemo extends Component {
   @tracked value = null;
   disable = [
     { from: '2026-04-01', to: '2026-05-01' },
-    { from: '2026-09-01', to: '2026-10-01' },
+    { from: '2026-09-01', to: '2026-10-01' }
   ];
 
   @action
@@ -16,7 +16,7 @@ export default class DisablerangeDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}
