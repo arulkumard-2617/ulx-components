@@ -39,6 +39,8 @@ export default class TemplatePaginatorDemo extends Component {
           @template={{this.template1}}
           @rowsPerPageOptions={{this.rowsPerPageOptions1}}
           @onPageChange={{this.onPageChange1}}
+          @hasLeft={{true}}
+          @hasRight={{true}}
         >
           <:left>
             <UlxIconButton

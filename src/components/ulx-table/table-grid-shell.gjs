@@ -3,15 +3,29 @@ import TableHeader from "./table-header.gjs";
 import TableBody from "./table-body.gjs";
 import TableFooter from "./table-footer.gjs";
 import TableEmptyState from "./table-empty-state.gjs";
+import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 
+/** @param {string} [dataQa] - Root `data-qa` for the grid wrapper (default: `ulx-table-grid`). */
 export default class TableGridShell extends Component {
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table-grid");
+	}
+
+	get tableDataQa() {
+		return buildDataQa(this.rootDataQa, "table");
+	}
+
 	get frozenRows() {
 		return this.args.frozenRows ?? [];
 	}
 
 	<template>
-		<div class="datatable-wrapper {{if @scrollable 'scrollable'}}" style={{@wrapperStyle}}>
-			<table class={{@tableClass}} style={{@tableStyle}} role="grid">
+		<div
+			class="datatable-wrapper {{if @scrollable 'scrollable'}}"
+			style={{@wrapperStyle}}
+			data-qa={{this.rootDataQa}}
+		>
+			<table class={{@tableClass}} style={{@tableStyle}} role="grid" data-qa={{this.tableDataQa}}>
 				<TableHeader
 					@columns={{@columns}}
 					@columnWidths={{@columnWidths}}

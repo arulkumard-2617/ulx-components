@@ -1,17 +1,24 @@
 import Component from "@glimmer/component";
-import { on } from "@ember/modifier";
 import and from "ember-truth-helpers/helpers/and";
 import gt from "ember-truth-helpers/helpers/gt";
 import or from "ember-truth-helpers/helpers/or";
+import UlxBadgeButton from "../ulx-badge-button/index.gjs";
 import UlxButtonGroup from "../ulx-button-group/index.gjs";
-import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconInput from "../ulx-icon-input/index.gjs";
 import UlxSelectButton from "../ulx-select-button/index.gjs";
 import { t } from "../../utils/i18n.js";
+import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 
+/** @param {string} [dataQa] - Root `data-qa` for the toolbar (default: `ulx-table-toolbar`). */
 export default class TableToolbar extends Component {
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table-toolbar");
+	}
+
+	getDataQa = (part) => buildDataQa(this.rootDataQa, part);
+
 	get showRightCluster() {
 		return (
 			this.args.hasFilterGroups ||
@@ -27,16 +34,20 @@ export default class TableToolbar extends Component {
 
 	<template>
 		{{#if @visible}}
-			<div class="header-toolbar datatable-toolbar">
-				<div class="datatable-toolbar-left">
+			<div class="header-toolbar datatable-toolbar" data-qa={{this.rootDataQa}}>
+				<div class="datatable-toolbar-left flex gap-4">
 					{{yield to="preLeftMenu"}}
 					{{#if @showGlobalFilter}}
-						<div class="datatable-globalfilter" role="search">
+						<div
+							class="datatable-globalfilter"
+							role="search"
+							data-qa={{this.getDataQa "global-filter"}}
+						>
 							<UlxIconInput
 								@iconLeft="search-icon"
 								@iconType="font"
 								@iconClass="bs-icons1"
-								@iconSize="s14"
+								@iconSize="s8"
 							>
 								<UlxInput
 									@key="datatable-global-filter"
@@ -58,35 +69,67 @@ export default class TableToolbar extends Component {
 					{{#if this.showRightCluster}}
 						<UlxButtonGroup @size="m-size" @customClass="uls-inline-popup">
 							{{#if @hasFilterGroups}}
-								<UlxIconButton
-									@variant="outlined"
-									@size="m-size"
-									@iconLeft="filter-icon"
-									@iconComponentClass="bs-icons1"
-									aria-label={{t "lbl.filter"}}
-									{{on "click" @onOpenFilterPane}}
-								/>
+								<UlxBadgeButton
+									@size="xl-size"
+									@badge={{if (gt @activeFilterCount 0) @activeFilterCount}}
+									@badgeType="circle"
+									@onClick={{@onOpenFilterPane}}
+									@badgeCustomClass="h-16 w-16 "
+									@badgeSize="text-xs"
+									@customClass={{if (gt @activeFilterCount 0) "highlighted icon-only" "icon-only"}}
+									aria-label={{if
+										(gt @activeFilterCount 0)
+										(t "aria.table.toolbar.filter.active" count=@activeFilterCount)
+										(t "lbl.filter")
+									}}
+								>
+									<:prefix>
+										<UlxIcon
+											@iconName="filter-icon"
+											@type="font"
+											@componentClass="bs-icons1"
+											@size="s16"
+											aria-hidden="true"
+										/>
+									</:prefix>
+								</UlxBadgeButton>
 							{{/if}}
 							{{#if (and @sortOptions (gt @sortOptions.length 0))}}
-								<UlxIconButton
-									@variant="outlined"
-									@size="m-size"
-									@iconLeft="sort-icon"
-									@iconComponentClass="bs-icons1"
+								<UlxBadgeButton
+									@size="xl-size"
+									@onClick={{@onOpenSortPopover}}
+									@customClass="icon-only"
 									aria-label={{t "lbl.sort"}}
 									aria-expanded={{@showSortPopover}}
-									{{on "click" @onOpenSortPopover}}
-								/>
+								>
+									<:prefix>
+										<UlxIcon
+											@iconName="sort-icon"
+											@type="font"
+											@componentClass="bs-icons1"
+											@size="s16"
+											aria-hidden="true"
+										/>
+									</:prefix>
+								</UlxBadgeButton>
 							{{/if}}
 							{{#if @showManageColumns}}
-								<UlxIconButton
-									@variant="outlined"
-									@size="m-size"
-									@iconLeft="columns-icon"
-									@iconComponentClass="bs-icons1"
+								<UlxBadgeButton
+									@size="xl-size"
+									@onClick={{@onOpenManageColumns}}
+									@customClass="icon-only"
 									aria-label={{t "lbl.columns"}}
-									{{on "click" @onOpenManageColumns}}
-								/>
+								>
+									<:prefix>
+										<UlxIcon
+											@iconName="columns-icon"
+											@type="font"
+											@componentClass="bs-icons1"
+											@size="s16"
+											aria-hidden="true"
+										/>
+									</:prefix>
+								</UlxBadgeButton>
 							{{/if}}
 						</UlxButtonGroup>
 						{{#if this.showViewToggle}}

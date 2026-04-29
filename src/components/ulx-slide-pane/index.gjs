@@ -80,6 +80,7 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {string} [cancelButtonLabel="Cancel"] - Default cancel button label
  * @param {string} [doneButtonLabel="Confirm"] - Default done button label
  * @param {string} [submittingLabel] - Done button label during async submit
+ * @param {boolean} [doneButtonDisabled=false] - Disable default footer Done button (e.g. conditional submit)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
  * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {string} [maskClassName] - Extra class for mask/backdrop
@@ -341,7 +342,8 @@ export default class UlxSlidePane extends Component {
 								<div class={{this.headerWrapperClasses}} data-qa={{this.getDataQa "header"}}>
 									{{yield to="head"}}
 								</div>
-							{{else}}{{#unless @hideHeader}}
+							{{else}}
+								{{#unless @hideHeader}}
 									<UlxSlidePaneHeader
 										@title={{@title}}
 										@showCloseButton={{this.showCloseButton}}
@@ -364,7 +366,8 @@ export default class UlxSlidePane extends Component {
 										@minimizeIconName={{@minimizeIconName}}
 										@headerClassName={{@headerClassName}}
 									/>
-								{{/unless}}{{/if}}
+								{{/unless}}
+							{{/if}}
 
 							{{#if (has-block "body")}}
 								<div
@@ -391,7 +394,8 @@ export default class UlxSlidePane extends Component {
 								>
 									{{yield to="footer"}}
 								</div>
-							{{else}}{{#unless @hideFooter}}
+							{{else}}
+								{{#unless @hideFooter}}
 									<UlxSlidePaneFooter
 										@hideFooter={{@hideFooter}}
 										@hideCancelButton={{@hideCancelButton}}
@@ -401,12 +405,14 @@ export default class UlxSlidePane extends Component {
 										@doneLabel={{@doneButtonLabel}}
 										@submittingLabel={{@submittingLabel}}
 										@submitting={{this.isSubmitting}}
+										@doneButtonDisabled={{@doneButtonDisabled}}
 										@onCancel={{this.handleCancel}}
 										@onDone={{this.handleDone}}
 										@onBack={{this.handleBack}}
 										@footerClassName={{@footerClassName}}
 									/>
-								{{/unless}}{{/if}}
+								{{/unless}}
+							{{/if}}
 						</div>
 					</div>
 				{{/if}}

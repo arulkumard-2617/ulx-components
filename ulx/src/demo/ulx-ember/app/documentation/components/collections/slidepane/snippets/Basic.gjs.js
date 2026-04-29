@@ -18,6 +18,13 @@ export default class BasicSlidepaneDemo extends Component {
     this.isVisible = false;
   }
 
+  @action
+  handleDone() {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 1500);
+    });
+  }
+
   <template>
     <div class="flex items-center gap-4">
       <UlxButton
@@ -31,10 +38,13 @@ export default class BasicSlidepaneDemo extends Component {
         @title="Basic Slide Pane"
         @position="right"
         @onHide={{this.closePane}}
+        @onDone={{this.handleDone}}
+        @submittingLabel="Saving…"
       >
         <p>This is the default body content. You can pass any content in the
           <code>&lt;:body&gt;</code>
-          block.</p>
+          block. Confirm returns a promise: the Done button shows loading until
+          it resolves, then the pane closes.</p>
       </UlxSlidePane>
     </div>
   </template>

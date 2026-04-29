@@ -89,7 +89,8 @@ export default class AsyncExampleDemoComponent extends Component {
         <p>This modal demonstrates async operations with proper loading states:</p>
         <ul style="margin-left: 1.5rem;">
           <li><strong>Promise handling</strong>: onDone returns a Promise</li>
-          <li><strong>Loading state</strong>: Buttons disabled during save</li>
+          <li><strong>Loading state</strong>: Done button shows loading; buttons
+            disabled during save</li>
           <li><strong>Auto-close</strong>: Closes automatically on success</li>
           <li><strong>Error handling</strong>: Stays open on error with message</li>
         </ul>

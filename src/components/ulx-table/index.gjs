@@ -26,6 +26,7 @@ import {
 	saveTableState,
 	loadTableState
 } from "./utils.js";
+import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import UlxButton from "../ulx-button/index.gjs";
 import TableToolbar from "./table-toolbar.gjs";
 import TableFilterBubblesBar from "./table-filter-bubbles-bar.gjs";
@@ -77,6 +78,7 @@ import { t } from "../../utils/i18n.js";
  * @param {boolean} [scrollable]     - enable overflow scroll with sticky header
  * @param {string}  [scrollHeight]   - CSS height for scroll container (e.g. '400px')
  * @param {string}  [customClass]    - extra classes on root element
+ * @param {string}  [dataQa]         - Optional root `data-qa` override (default: `ulx-table`). Subregions use this value as the prefix.
  * @param {string}  [layout='horizontal'] - 'horizontal' (default) | 'vertical'. In vertical layout,
  *                                          each row represents a column/property and each column
  *                                          represents a data record (transposed table).
@@ -163,7 +165,8 @@ import { t } from "../../utils/i18n.js";
  * @param {string|Function}[rowClassName]   - extra class string or fn(row)=>string
  *
  * ── State persistence ───────────────────────────────────────────────────────
- * @param {string}  [stateKey]              - localStorage/sessionStorage key
+ * @param {string}  [stateKey]              - localStorage/sessionStorage key; only column order and
+ *                                            column visibility are persisted under this key.
  * @param {string}  [moduleName]            - BSTable-compatible alias for stateKey. When used without
  *                                            stateStorage, state is persisted in localStorage.
  * @param {string}  [stateStorage='session'] - 'local' | 'session'
@@ -249,6 +252,8 @@ export default class UlxTable extends Component {
 	// ─── Filter slide pane (filterGroups) ──────────────────────────────────────
 	@tracked filterPaneOpen = false;
 	@tracked _filterPaneSelections = {};
+	/** null = all accordion groups expanded; set when the user toggles a section. */
+	@tracked _filterPaneAccordionActive = null;
 
 	// ─── Filter bubble popup ──────────────────────────────────────────────────
 	@tracked activeFilterBubbleField = null;
@@ -299,55 +304,18 @@ export default class UlxTable extends Component {
 
 		this._restoredStateKey = key;
 		const persistedState = loadTableState(key, this.persistenceStorage) ?? {};
-		this.args.sortField === undefined &&
-			("sortField" in persistedState || "sortOrder" in persistedState) &&
-			(this._sortField = persistedState.sortField ?? null);
-		this.args.sortOrder === undefined &&
-			typeof persistedState.sortOrder === "number" &&
-			(this._sortOrder = persistedState.sortOrder);
-		this.args.multiSortMeta === undefined &&
-			Array.isArray(persistedState.multiSortMeta) &&
-			(this._multiSortMeta = persistedState.multiSortMeta);
-		this.args.sortBy === undefined &&
-			typeof persistedState.sortBy === "string" &&
-			(this._sortByString = persistedState.sortBy);
-		this.args.filters === undefined &&
-			persistedState.filters &&
-			typeof persistedState.filters === "object" &&
-			(this._filters = persistedState.filters);
-		this.args.first === undefined &&
-			typeof persistedState.first === "number" &&
-			(this._first = persistedState.first);
-		this.args.rows === undefined &&
-			typeof persistedState.rows === "number" &&
-			(this._rows = persistedState.rows);
-		typeof persistedState.viewMode === "string" && (this._viewMode = persistedState.viewMode);
 		Array.isArray(persistedState.visibleColumnFields) &&
 			(this._visibleColumnFields = new Set(persistedState.visibleColumnFields));
 		Array.isArray(persistedState.columnOrder) &&
 			(this._columnOrder = rehydrateColumnOrder(this.allColumns, persistedState.columnOrder));
-		persistedState.columnWidths &&
-			typeof persistedState.columnWidths === "object" &&
-			(this._columnWidths = persistedState.columnWidths);
 	}
 
 	get persistenceState() {
-		const sortByString = this._sortByString || this.args.sortBy || "";
-
 		return {
-			sortField: this._sortField ?? this.args.sortField ?? null,
-			sortOrder: this._sortOrder ?? this.args.sortOrder ?? 1,
-			multiSortMeta: this._multiSortMeta ?? this.args.multiSortMeta ?? [],
-			sortBy: sortByString,
-			filters: this._filters ?? this.args.filters ?? {},
-			first: this._first ?? this.args.first ?? 0,
-			rows: this._rows ?? this.args.rows ?? 10,
-			viewMode: this._viewMode ?? this.args.defaultView ?? "table",
 			visibleColumnFields: this._visibleColumnFields ? [...this._visibleColumnFields] : null,
 			columnOrder: Array.isArray(this._columnOrder)
 				? this._columnOrder.map((column) => column?.field).filter(Boolean)
-				: null,
-			columnWidths: this._columnWidths ?? {}
+				: null
 		};
 	}
 
@@ -356,6 +324,13 @@ export default class UlxTable extends Component {
 		if (!key) return;
 		saveTableState(key, this.persistenceStorage, this.persistenceState);
 	}
+
+	get rootDataQa() {
+		return resolveRootDataQa(this.args.dataQa, "table");
+	}
+
+	/** Bound so template / helper invocations always see the component instance (`this`). */
+	getDataQa = (part) => buildDataQa(this.rootDataQa, part);
 
 	get rootClasses() {
 		const {
@@ -575,10 +550,7 @@ export default class UlxTable extends Component {
 	 * Omit first/last links to match standard table footer pagination.
 	 */
 	get tablePaginatorTemplate() {
-		return (
-			this.args.paginatorTemplate ??
-			"PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
-		);
+		return this.args.paginatorTemplate ?? "PrevPageLink PageLinks NextPageLink RowsPerPageDropdown";
 	}
 
 	// ─── View mode (table / detailed / card) ──────────────────────────────────
@@ -727,6 +699,18 @@ export default class UlxTable extends Component {
 		return this.filterGroups.map((g) => ({ header: g.heading ?? g.key }));
 	}
 
+	get filterPaneAccordionActiveIndex() {
+		if (this._filterPaneAccordionActive != null) {
+			return this._filterPaneAccordionActive;
+		}
+		return this.filterGroups.map((_, i) => i);
+	}
+
+	@action
+	onFilterPaneAccordionChange(detail) {
+		this._filterPaneAccordionActive = detail.index;
+	}
+
 	@action
 	getFilterGroupAt(index) {
 		return this.filterGroups[index] ?? null;
@@ -765,7 +749,8 @@ export default class UlxTable extends Component {
 				displayValue: labels.join(", "),
 				type: "pane",
 				meta,
-				group
+				group,
+				selectionCount: values.length
 			});
 			processedFields.add(group.key);
 		}
@@ -778,6 +763,16 @@ export default class UlxTable extends Component {
 			if (!meta) continue;
 			const constraints = meta.constraints ?? [{ value: meta.value, matchMode: meta.matchMode }];
 			const ruleCount = constraints.length;
+			let selectionCount = 0;
+			for (const c of constraints) {
+				const v = c?.value;
+				if (v == null || v === "") continue;
+				if (Array.isArray(v)) {
+					selectionCount += v.filter((x) => x != null && x !== "").length;
+				} else {
+					selectionCount += 1;
+				}
+			}
 			const firstValue = constraints[0]?.value;
 			const displayValue =
 				ruleCount > 1
@@ -792,12 +787,18 @@ export default class UlxTable extends Component {
 				ruleCount,
 				type: "column",
 				meta,
-				col
+				col,
+				selectionCount
 			});
 			processedFields.add(field);
 		}
 
 		return bubbles;
+	}
+
+	/** Total applied filter values (e.g. checked pane options), not number of groups/columns. */
+	get activeFilterSelectionCount() {
+		return this.activeFilterBubbles.reduce((n, b) => n + (b.selectionCount ?? 0), 0);
 	}
 
 	get activeBubble() {
@@ -930,18 +931,21 @@ export default class UlxTable extends Component {
 			sel[key] = Array.isArray(val) ? [...val] : val != null && val !== "" ? [val] : [];
 		});
 		this._filterPaneSelections = sel;
+		this._filterPaneAccordionActive = null;
 		this.filterPaneOpen = true;
 	}
 
 	@action
 	closeFilterPane() {
 		this.filterPaneOpen = false;
+		this._filterPaneAccordionActive = null;
 	}
 
 	@action
 	applyFilterPane() {
 		const updated = applySelectionMapToFilters(this.filters, this._filterPaneSelections);
 		this.filterPaneOpen = false;
+		this._filterPaneAccordionActive = null;
 		this.commitFilterUpdate(updated);
 		this.args.onFilterApply?.(this._filterPaneSelections);
 	}
@@ -1247,6 +1251,8 @@ export default class UlxTable extends Component {
 			onClose: this.closeFilterPane,
 			onApply: this.applyFilterPane,
 			accordionModel: this.filterAccordionModel,
+			accordionActiveIndex: this.filterPaneAccordionActiveIndex,
+			onAccordionChange: this.onFilterPaneAccordionChange,
 			getGroupAt: this.getFilterGroupAt,
 			groupClass: this.filterPaneGroupClass,
 			isOptionChecked: this.isFilterPaneOptionChecked,
@@ -1255,10 +1261,16 @@ export default class UlxTable extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}} ...attributes aria-busy={{if @loading "true"}}>
+		<div
+			class={{this.rootClasses}}
+			...attributes
+			data-qa={{this.rootDataQa}}
+			data-module-name={{@moduleName}}
+			aria-busy={{if @loading "true"}}
+		>
 			{{! Custom table header area }}
 			{{#if (has-block "header")}}
-				<div class="header-toolbar">
+				<div class="header-toolbar" data-qa={{this.getDataQa "header"}}>
 					{{yield to="header"}}
 				</div>
 			{{/if}}
@@ -1274,10 +1286,12 @@ export default class UlxTable extends Component {
 							(has-block "preRightMenu")
 							(has-block "postRightMenu")
 						}}
+						@dataQa={{this.getDataQa "toolbar"}}
 						@showGlobalFilter={{@showGlobalFilter}}
 						@globalFilterValue={{this.globalFilterValue}}
 						@globalFilterPlaceholder={{@globalFilterPlaceholder}}
 						@hasFilterGroups={{this.hasFilterGroups}}
+						@activeFilterCount={{this.activeFilterSelectionCount}}
 						@sortOptions={{@sortOptions}}
 						@showManageColumns={{@showManageColumns}}
 						@showToggleViews={{@showToggleViews}}
@@ -1300,7 +1314,7 @@ export default class UlxTable extends Component {
 
 			{{! Row-mode clear filters bar }}
 			{{#if this.showClearFiltersBar}}
-				<div class="datatable-clear-filters-bar py-2">
+				<div class="datatable-clear-filters-bar py-2" data-qa={{this.getDataQa "clear-filters-bar"}}>
 					<UlxButton
 						@variant="text"
 						@label={{t "lbl.clear.filters"}}
@@ -1313,6 +1327,7 @@ export default class UlxTable extends Component {
 			{{! Filter bubbles bar — shown whenever any filter is active }}
 			<TableFilterBubblesBar
 				@visible={{this.showFilterBubblesBar}}
+				@dataQa={{this.getDataQa "filter-bubbles"}}
 				@bubbles={{this.activeFilterBubbles}}
 				@activeField={{this.activeFilterBubbleField}}
 				@onOpenBubble={{this.openFilterBubble}}
@@ -1323,6 +1338,7 @@ export default class UlxTable extends Component {
 			{{! Top paginator }}
 			<TablePaginatorRow
 				@visible={{this.showPaginatorTop}}
+				@dataQa={{this.getDataQa "paginator-top"}}
 				@totalRecords={{this.paginatorTotalRecords}}
 				@rows={{this.rows}}
 				@first={{this.first}}
@@ -1330,6 +1346,8 @@ export default class UlxTable extends Component {
 				@template={{this.tablePaginatorTemplate}}
 				@currentPageReportTemplate={{@currentPageReportTemplate}}
 				@onPageChange={{this.handlePageChange}}
+				@hasLeft={{has-block "paginatorLeft"}}
+				@hasRight={{has-block "paginatorRight"}}
 			>
 				<:left>{{yield to="paginatorLeft"}}</:left>
 				<:right>{{yield to="paginatorRight"}}</:right>
@@ -1339,6 +1357,7 @@ export default class UlxTable extends Component {
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
 				<TableViewDetailed
 					@loading={{@loading}}
+					@dataQa={{this.getDataQa "view-detailed"}}
 					@rows={{this.pagedData}}
 					@scrollable={{@scrollable}}
 					@wrapperStyle={{this.wrapperStyle}}
@@ -1352,6 +1371,7 @@ export default class UlxTable extends Component {
 			{{else if (and (eq this.viewMode "card") (has-block "card"))}}
 				<TableViewCard
 					@loading={{@loading}}
+					@dataQa={{this.getDataQa "view-card"}}
 					@rows={{this.pagedData}}
 					@cardViewColumns={{this.cardViewColumns}}
 					@scrollable={{@scrollable}}
@@ -1366,6 +1386,7 @@ export default class UlxTable extends Component {
 			{{else if this.isVertical}}
 				<TableViewVertical
 					@loading={{@loading}}
+					@dataQa={{this.getDataQa "view-vertical"}}
 					@rows={{this.pagedData}}
 					@tableClass={{this.tableClass}}
 					@verticalLabelField={{@verticalLabelField}}
@@ -1382,6 +1403,7 @@ export default class UlxTable extends Component {
 			{{else}}
 				<TableGridShell
 					@rows={{this.pagedData}}
+					@dataQa={{this.getDataQa "grid"}}
 					@frozenRows={{this.frozenData}}
 					@columns={{this.orderedColumns}}
 					@columnWidths={{this._columnWidths}}
@@ -1452,13 +1474,14 @@ export default class UlxTable extends Component {
 			{{/if}}
 
 			{{! Loading overlay }}
-			<TableLoadingOverlay @loading={{@loading}}>
+			<TableLoadingOverlay @loading={{@loading}} @dataQa={{this.getDataQa "loading-overlay"}}>
 				<:loadingOverlay>{{yield to="loadingOverlay"}}</:loadingOverlay>
 			</TableLoadingOverlay>
 
 			{{! Bottom paginator }}
 			<TablePaginatorRow
 				@visible={{this.showPaginatorBottom}}
+				@dataQa={{this.getDataQa "paginator-bottom"}}
 				@totalRecords={{this.paginatorTotalRecords}}
 				@rows={{this.rows}}
 				@first={{this.first}}
@@ -1466,6 +1489,8 @@ export default class UlxTable extends Component {
 				@template={{this.tablePaginatorTemplate}}
 				@currentPageReportTemplate={{@currentPageReportTemplate}}
 				@onPageChange={{this.handlePageChange}}
+				@hasLeft={{has-block "paginatorLeft"}}
+				@hasRight={{has-block "paginatorRight"}}
 			>
 				<:left>{{yield to="paginatorLeft"}}</:left>
 				<:right>{{yield to="paginatorRight"}}</:right>
@@ -1473,12 +1498,13 @@ export default class UlxTable extends Component {
 
 			{{! Custom table footer area }}
 			{{#if (has-block "footer")}}
-				<div class="datatable-footer">
+				<div class="datatable-footer" data-qa={{this.getDataQa "footer"}}>
 					{{yield to="footer"}}
 				</div>
 			{{/if}}
 
 			<TableOverlays
+				@dataQa={{this.getDataQa "overlays"}}
 				@manageColumns={{this.manageColumnsOverlayConfig}}
 				@filterBubble={{this.filterBubbleOverlayConfig}}
 				@filterOverlay={{this.filterOverlayConfig}}

@@ -93,7 +93,7 @@ export default class UlxCheckboxItem extends Component {
 	}
 
 	get checkboxIconName() {
-		if (this.isChecked && !this.isIndeterminate) return "tick-thick-icon";
+		if (this.isChecked && !this.isIndeterminate) return "tick-icon-01";
 		if (this.isUncheckedWithIcon) return this.args.uncheckIconName;
 		return undefined;
 	}
@@ -151,12 +151,7 @@ export default class UlxCheckboxItem extends Component {
 					/>
 				{{else if this.isIndeterminate}}
 					<UlxIcon @customClass={{this.checkboxIconClass}} @size={{this.checkboxIconSize}}>
-						<svg
-							xmlns={{SVG_NAMESPACE}}
-							viewBox="0 0 24 24"
-							fill="none"
-							focusable="false"
-						>
+						<svg xmlns={{SVG_NAMESPACE}} viewBox="0 0 24 24" fill="none" focusable="false">
 							<line
 								x1="6"
 								y1="12"
