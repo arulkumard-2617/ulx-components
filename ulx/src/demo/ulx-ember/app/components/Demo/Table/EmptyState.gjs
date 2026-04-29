@@ -51,7 +51,7 @@ export default class DemoTableEmptyState extends Component {
 
   <template>
     <div class="mb-2 flex gap-2">
-      <UlxButton @label={{t "lbl.reset"}} @onClick={{this.resetProducts}} />
+      <UlxButton @label="Reset" @onClick={{this.resetProducts}} />
       <UlxButton
         @label={{t "lbl.clear"}}
         @variant="basic"

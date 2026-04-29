@@ -3,12 +3,12 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
 <template>
   <UlxForm @size="m-size">
     <UlxFieldSet
-      @legend={{t "lbl.doc.fieldset.legend.contact"}}
-      @description={{t "msg.doc.fieldset.desc.contact"}}
+      @legend="Contact"
+      @description="We use these fields to identify your account."
       @customClass="ulx-grid gap-6"
     >
       <UlxField
-        @label={{t "lbl.doc.fieldset.name"}}
+        @label="Full name"
         @fieldId="demo-fieldset-basic-name"
         @fieldClass="col-6"
         as |field|
@@ -17,11 +17,11 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
           @field={{field}}
           @size="m-size"
           autocomplete="name"
-          placeholder={{t "lbl.doc.fieldset.name"}}
+          placeholder={{"Full name"}}
         />
       </UlxField>
       <UlxField
-        @label={{t "lbl.doc.fieldset.email"}}
+        @label="Email"
         @fieldId="demo-fieldset-basic-email"
         @fieldClass="col-6"
         as |field|
@@ -31,7 +31,7 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
           @size="m-size"
           type="email"
           autocomplete="email"
-          placeholder={{t "lbl.doc.fieldset.email"}}
+          placeholder={{"Email"}}
         />
       </UlxField>
     </UlxFieldSet>

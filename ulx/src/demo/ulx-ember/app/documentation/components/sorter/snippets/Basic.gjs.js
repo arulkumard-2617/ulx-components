@@ -65,14 +65,14 @@ export default class BasicSorterDemo extends Component {
             @icon="edit-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
-            @label={{t "lbl.update"}}
-            aria-label={{t "lbl.update"}}
+            @label="Update"
+            aria-label={{"Update"}}
           />
           <UlxIconButton
             @iconLeft="delete-icon-01"
             @iconSize="s18"
             @iconComponentClass="bs-icons1"
-            aria-label={{t "lbl.delete"}}
+            aria-label={{"Delete"}}
           />
         </:actions>
       </UlxSorterItem>

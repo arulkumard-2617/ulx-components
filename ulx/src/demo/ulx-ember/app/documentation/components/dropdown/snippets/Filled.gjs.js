@@ -25,7 +25,7 @@ export default class DemoDropdownFilled extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.filled"}}
+        @label="Filled"
         @fieldId="dropdown-filled"
         @fieldClass="col-4"
       >
@@ -38,7 +38,7 @@ export default class DemoDropdownFilled extends Component {
             @value={{this.selectedCity}}
             @onChange={{this.setSelectedCity}}
             @filled={{true}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
+            @placeholder="Select a city"
           />
         </:default>
       </UlxField>

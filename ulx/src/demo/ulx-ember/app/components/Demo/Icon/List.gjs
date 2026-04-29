@@ -96,14 +96,14 @@ export default class DemoIconList extends Component {
       <div class="flex items-center gap-3 mb-8">
         <input
           type="text"
-          placeholder={{t "msg.search.icons.placeholder"}}
+          placeholder={{"Search icons..."}}
           class="ulx-input"
-          aria-label={{t "lbl.search.icons"}}
+          aria-label={{"Search icons"}}
           value={{this.query}}
           {{this.on "input" this.updateQuery}}
         />
         <span class="text-sm ulx-tag">{{this.filteredIcons.length}}
-          {{t "lbl.icons"}}</span>
+          {{"icons"}}</span>
       </div>
 
       {{#if this.filteredIcons.length}}
@@ -122,9 +122,7 @@ export default class DemoIconList extends Component {
           {{/each}}
         </div>
       {{else}}
-        <div class="text-center fg-text-muted py-6 border-t">{{t
-            "msg.no.icons.found"
-          }}</div>
+        <div class="text-center fg-text-muted py-6 border-t">{{"No icons found"}}</div>
       {{/if}}
     </div>
   </template>

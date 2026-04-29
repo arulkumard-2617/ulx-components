@@ -30,7 +30,7 @@ export default class EmptyStateWithDropdownDemo extends Component {
       <UlxDropdown
         @options={{this.filterOptions}}
         @value={{this.selectedFilter}}
-        @placeholder={{t "lbl.show"}}
+        @placeholder="Show"
         @onChange={{this.setSelectedFilter}}
       />
     </UlxEmptyState>

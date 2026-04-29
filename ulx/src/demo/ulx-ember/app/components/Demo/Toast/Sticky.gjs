@@ -46,12 +46,12 @@ export default class StickyToastDemo extends Component {
     <div class="">
       <div class="fx gap8 flxw">
         <UlxButton
-          @label={{t "lbl.sticky"}}
+          @label="Sticky"
           @variant="success"
           {{on "click" this.showSticky}}
         />
         <UlxButton
-          @label={{t "lbl.auto.close.3s"}}
+          @label="Auto-close (3s)"
           @variant="success"
           {{on "click" this.showWithLife}}
         />

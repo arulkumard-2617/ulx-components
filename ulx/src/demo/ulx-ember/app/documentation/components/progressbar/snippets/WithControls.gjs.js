@@ -14,7 +14,7 @@ export default class WithControlsProgressBarDemo extends Component {
 
   <template>
     <div class="pda4 flex flex-col gap-4">
-      <p class="fg-text-secondary">{{t "msg.progress.adjust.preference"}}</p>
+      <p class="fg-text-secondary">{{"Adjust the value based on your preference."}}</p>
       <UlxProgressBar
         @showControls={{true}}
         @value={{this.value}}

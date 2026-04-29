@@ -18,8 +18,10 @@ export default class BasicModalDemo extends Component {
   }
 
   @action
-  handleConfirm() {
-    this.isVisible = false;
+  handleDone() {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 1500);
+    });
   }
 
   <template>
@@ -36,11 +38,13 @@ export default class BasicModalDemo extends Component {
         @onHide={{this.closeModal}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Confirm"
-        @onDone={{this.handleConfirm}}
+        @onDone={{this.handleDone}}
         @onCancel={{this.closeModal}}
+        @submittingLabel="Saving…"
       >
         <p>This is the default body content. You can pass any content as the
-          default block.</p>
+          default block. Confirm returns a promise: the Done button shows loading
+          until it resolves, then the modal closes.</p>
         <UlxIcon
           {{tooltip "Icon Tooltip" position="top"}}
           @componentClass="bs-icons1"

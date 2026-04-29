@@ -14,14 +14,14 @@ export default class DemoPasswordBasic extends Component {
   <template>
     <form class="ulx-form m-size ulx-grid gap-12 mb-14">
 
-      <UlxField @fieldClass="col-6" @label={{t "lbl.password"}} as |field|>
+      <UlxField @fieldClass="col-6" @label="Password" as |field|>
         <UlxPassword
           @field={{field}}
           @value={{this.value}}
           @onInput={{this.handleInput}}
           @feedback={{false}}
           @toggleMask={{false}}
-          @placeholder={{t "lbl.enter.password"}}
+          @placeholder="Enter password"
         />
       </UlxField>
 

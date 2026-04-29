@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../ulx-button/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { joinClassNames } from "../../utils/class-names";
 import { t } from "../../utils/i18n";
 
@@ -14,7 +15,8 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
 
 /**
  * Modal footer subcomponent.
- * Displays action buttons (typically Cancel and Confirm/Done).
+ * Displays action buttons (typically Cancel and Confirm/Done). The default Done
+ * control uses `UlxIconButton` so async loading shows the affix spinner.
  * Can be customized using the :footer named block on UlxModal.
  *
  * ## Usage
@@ -108,29 +110,26 @@ export default class UlxModalFooter extends Component {
 				style={{this.footerStyle}}
 				...attributes
 			>
-				{{#if (has-block)}}
-					{{yield}}
-				{{else}}
-					{{#unless this.hideCancelButton}}
-						<UlxButton
-							@label={{this.cancelLabel}}
-							@variant="basic"
-							@disabled={{this.cancelButtonDisabled}}
-							data-qa="ulx-modal-cancel"
-							{{on "click" this.handleCancel}}
-						/>
-					{{/unless}}
+				{{#unless this.hideCancelButton}}
+					<UlxButton
+						@label={{this.cancelLabel}}
+						@variant="basic"
+						@disabled={{this.cancelButtonDisabled}}
+						data-qa="ulx-modal-cancel"
+						{{on "click" this.handleCancel}}
+					/>
+				{{/unless}}
 
-					{{#unless this.hideDoneButton}}
-						<UlxButton
-							@label={{this.doneLabel}}
-							@variant="primary"
-							@disabled={{this.doneButtonDisabled}}
-							data-qa="ulx-modal-done"
-							{{on "click" this.handleDone}}
-						/>
-					{{/unless}}
-				{{/if}}
+				{{#unless this.hideDoneButton}}
+					<UlxIconButton
+						@label={{this.doneLabel}}
+						@variant="primary"
+						@loading={{this.submitting}}
+						@disabled={{this.doneButtonDisabled}}
+						@dataQa="ulx-modal-done"
+						@onClick={{this.handleDone}}
+					/>
+				{{/unless}}
 			</div>
 		{{/unless}}
 	</template>

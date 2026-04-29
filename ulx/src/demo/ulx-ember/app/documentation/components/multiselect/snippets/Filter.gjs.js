@@ -27,7 +27,7 @@ export default class DemoMultiselectFilter extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.filter"}}
+        @label="Filter"
         @fieldId="multiselect-filter"
         @fieldClass="col-4"
         as |field|
@@ -41,7 +41,7 @@ export default class DemoMultiselectFilter extends Component {
           @selectAllLabel=""
           @filter={{true}}
           @filterPlaceholder={{t "msg.multiselect.filter.placeholder"}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         />
       </UlxField>
     </div>

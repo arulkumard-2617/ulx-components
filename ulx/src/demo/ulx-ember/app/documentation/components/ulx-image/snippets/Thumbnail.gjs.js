@@ -5,74 +5,66 @@ import { UlxImage, t } from 'ulx-components';
 <template>
   <div class="ulx-grid col-1 gap-6">
     <div>
-      <h6 class="bold-font mb-2">{{t
-          "lbl.doc.image.thumb.landscape.heading"
-        }}</h6>
-      <p class="text-12 fg-secondary mb-3">{{t
-          "msg.doc.image.thumb.landscape.intro"
-        }}</p>
+      <h6 class="bold-font mb-2">{{"16:9 fixed thumbs (thumb-landscape-*)"}}</h6>
+      <p class="text-12 fg-secondary mb-3">{{"ULS presets for wide list cells and banners. Use @thumbLandscape: xs, s, m, l, or xl."}}</p>
       <div class="flex wrap gap-4 items-end">
         <UlxImage
           @src="https://randomuser.me/api/portraits/women/12.jpg"
-          @alt={{t "msg.doc.image.thumb.landscape.alt" (hash size="xs")}}
+          @alt="Wide thumbnail sample, xs preset"
           @thumbLandscape="xs"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/women/28.jpg"
-          @alt={{t "msg.doc.image.thumb.landscape.alt" (hash size="s")}}
+          @alt="Wide thumbnail sample, s preset"
           @thumbLandscape="s"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/women/44.jpg"
-          @alt={{t "msg.doc.image.thumb.landscape.alt" (hash size="m")}}
+          @alt="Wide thumbnail sample, m preset"
           @thumbLandscape="m"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/women/56.jpg"
-          @alt={{t "msg.doc.image.thumb.landscape.alt" (hash size="l")}}
+          @alt="Wide thumbnail sample, l preset"
           @thumbLandscape="l"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/women/72.jpg"
-          @alt={{t "msg.doc.image.thumb.landscape.alt" (hash size="xl")}}
+          @alt="Wide thumbnail sample, xl preset"
           @thumbLandscape="xl"
           @shape="rounded"
         />
       </div>
     </div>
     <div>
-      <h6 class="bold-font mb-2">{{t
-          "lbl.doc.image.thumb.portrait.heading"
-        }}</h6>
-      <p class="text-12 fg-secondary mb-3">{{t
-          "msg.doc.image.thumb.portrait.intro"
-        }}</p>
+      <h6 class="bold-font mb-2">{{"9:16 fixed thumbs (thumb-portrait-*)"}}</h6>
+      <p class="text-12 fg-secondary mb-3">{{"ULS presets for narrow phone-style mockups. Use @thumbPortrait: xs, s, m, or l."}}</p>
       <div class="flex wrap gap-4 items-end">
         <UlxImage
           @src="https://randomuser.me/api/portraits/men/11.jpg"
-          @alt={{t "msg.doc.image.thumb.portrait.alt" (hash size="xs")}}
+          @alt="Tall thumbnail sample, xs preset"
           @thumbPortrait="xs"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/men/24.jpg"
-          @alt={{t "msg.doc.image.thumb.portrait.alt" (hash size="s")}}
+          @alt="Tall thumbnail sample, s preset"
           @thumbPortrait="s"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/men/37.jpg"
-          @alt={{t "msg.doc.image.thumb.portrait.alt" (hash size="m")}}
+          @alt="Tall thumbnail sample, m preset"
           @thumbPortrait="m"
           @shape="rounded"
         />
         <UlxImage
           @src="https://randomuser.me/api/portraits/men/50.jpg"
-          @alt={{t "msg.doc.image.thumb.portrait.alt" (hash size="l")}}
+          @alt="Tall thumbnail sample, l preset"
           @thumbPortrait="l"
           @shape="rounded"
         />

@@ -15,28 +15,27 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validations = {
   newContactName: {
-    required: t('msg.error.name.required'),
+    required: "This field is required.",
 
     format: {
       with: TEXT_PATTERN_ALT,
-      allowBlank: false,
-      msg: t('msg.error.enter.valid.contact.name'),
+      allowEmpty: false,
+      msg: "Enter a valid contact name.",
     },
 
     maxLength: {
       value: 120,
-      allowBlank: true,
       msg: t('msg.validation.max.length', { max: 120 }),
     },
   },
 
   newContactEmail: {
-    required: t('msg.email.list.empty'),
+    required: "Email is required.",
 
     format: {
       with: EMAIL_PATTERN,
-      allowBlank: false,
-      msg: t('msg.enter.valid.email'),
+      allowEmpty: false,
+      msg: "Enter a valid email address.",
     },
   },
 };
@@ -93,9 +92,9 @@ export default class Demo extends Component {
     >
       <:default>
         <UlxField
-          @label={{t "lbl.name"}}
+          @label="Name"
           @tooltipMessage="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout"
-          @helpText={{t "msg.input.help"}}
+          @helpText="Use 3–20 characters. Letters and numbers only."
           @rules={{this.validations.newContactName}}
           @error={{this.errors.newContactName}}
           @fieldId="newContactName"
@@ -106,14 +105,14 @@ export default class Demo extends Component {
             @field={{field}}
             @value={{this.newContactName}}
             @onInput={{this.updateNewContactName}}
-            placeholder={{t "lbl.enter.name"}}
-            aria-label={{t "lbl.name"}}
+            placeholder={{"Enter name"}}
+            aria-label={{"Name"}}
           />
         </UlxField>
 
         <UlxField
-          @label={{t "lbl.email"}}
-          @helpText={{t "msg.input.help"}}
+          @label="Email"
+          @helpText="Use 3–20 characters. Letters and numbers only."
           @rules={{this.validations.newContactEmail}}
           @error={{this.errors.newContactEmail}}
           @fieldId="newContactEmail"
@@ -124,8 +123,8 @@ export default class Demo extends Component {
             @field={{field}}
             @value={{this.newContactEmail}}
             @onInput={{this.updateNewContactEmail}}
-            placeholder={{t "lbl.enter.email"}}
-            aria-label={{t "lbl.email"}}
+            placeholder={{"Enter email address"}}
+            aria-label={{"Email"}}
           />
         </UlxField>
       </:default>
@@ -133,7 +132,7 @@ export default class Demo extends Component {
       <:actions>
         <UlxButton
           @type="button"
-          @label={{t "lbl.submit"}}
+          @label="Submit"
           @variant="primary"
           @onClick={{this.handleSubmit}}
         />

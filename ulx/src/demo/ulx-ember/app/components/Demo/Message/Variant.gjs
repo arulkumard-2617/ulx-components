@@ -4,26 +4,26 @@ import { t } from 'ulx-components';
 <template>
   <div class="flex flex-wrap items-center justify-center gap-4">
     <UlxMessage
-      @text={{t "msg.inline.success"}}
+      @text="Inline success message."
       @variant="success"
       @icon="tick-icon-01"
     />
     <UlxMessage
-      @text={{t "msg.inline.info"}}
+      @text="Inline info message."
       @variant="info"
       @icon="info-icon"
     />
     <UlxMessage
-      @text={{t "msg.inline.warn"}}
+      @text="Inline warning message."
       @variant="warn"
       @icon="sp-danger-filled-icon"
     />
     <UlxMessage
-      @text={{t "msg.inline.error"}}
+      @text="Inline error message."
       @variant="error"
       @icon="info-icon"
     />
-    <UlxMessage @text={{t "msg.inline.secondary"}} @variant="secondary" />
-    <UlxMessage @text={{t "msg.inline.contrast"}} @variant="contrast" />
+    <UlxMessage @text="Secondary Message" @variant="secondary" />
+    <UlxMessage @text="Contrast Message" @variant="contrast" />
   </div>
 </template>

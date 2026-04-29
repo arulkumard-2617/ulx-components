@@ -25,8 +25,8 @@ export default class DemoDropdownInvalid extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.invalid"}}
-        @error={{t "msg.dropdown.error.here"}}
+        @label="Invalid"
+        @error="Error message here"
         @fieldId="dropdown-invalid"
         @fieldClass="col-4"
         as |field|
@@ -37,7 +37,7 @@ export default class DemoDropdownInvalid extends Component {
           @value={{this.selectedCity}}
           @onChange={{this.setSelectedCity}}
           @invalid={{true}}
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @placeholder="Select a city"
         />
       </UlxField>
     </div>

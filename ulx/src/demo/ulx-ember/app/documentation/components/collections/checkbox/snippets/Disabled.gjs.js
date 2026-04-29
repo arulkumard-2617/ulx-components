@@ -22,9 +22,9 @@ export default class WithlabelDemoComponent extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.with.label"}}
+        @label="With Label"
         @rules={{this.requiredRules}}
-        @helpText={{t "lbl.help.text"}}
+        @helpText="Help text"
         @fieldClass="col-12"
         @fieldId="checkbox-disabled"
         as |field|

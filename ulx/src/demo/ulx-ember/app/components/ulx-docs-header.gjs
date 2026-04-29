@@ -653,9 +653,9 @@ export default class UlxDocsHeaderComponent extends Component {
                                 @iconComponentClass="bs-icons1"
                                 @iconSize="s18"
                                 @variant="link"
-                                @label={{t "lbl.reset"}}
+                                @label="Reset"
                                 @onClick={{this.resetSaturation}}
-                                aria-label={{t "lbl.reset"}}
+                                aria-label={{"Reset"}}
                                 @size="s-size"
                               />
                             </div>

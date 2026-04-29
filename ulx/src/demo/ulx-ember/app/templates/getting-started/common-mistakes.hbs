@@ -1,17 +1,17 @@
 {{page-title "Common Mistakes - ULX Ember Documentation"}}
 
 <DocShared::DocMain::FoundationLayout
-  @title={{t "lbl.common.mistakes"}}
-  @description={{t "msg.getting.started.common.mistakes.page.description"}}
+  @title="Common mistakes"
+  @description="Avoid the most common setup issues that make ULX appear broken or inconsistent."
 >
   <div class="flex justify-between gap-8 items-start min-w-0">
     <div class="grow w-full min-w-0">
       <DocShared::DocMain::FoundationSection
         @id="common-mistakes-list"
-        @title={{t "lbl.common.mistakes"}}
+        @title="Common mistakes"
       >
         <p class="mt-0 mb-5 fg-text-secondary text-16">
-          {{t "msg.getting.started.common.mistakes.body.intro"}}
+          {{"Most early issues with ULX are setup issues rather than component issues."}}
         </p>
         <div class="ulx-grid col-1 gap-4 mt-4">
           <div class="flex items-center gap-1">
@@ -23,7 +23,7 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              {{t "msg.getting.started.common.mistakes.item.1"}}
+              {{"Using ULX components without loading the stylesheet."}}
             </p>
           </div>
           <div class="flex items-center gap-1">
@@ -35,7 +35,7 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              {{t "msg.getting.started.common.mistakes.item.2"}}
+              {{"Using the wrong stylesheet filename or path."}}
             </p>
           </div>
           <div class="flex items-center gap-1">
@@ -47,7 +47,7 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              {{t "msg.getting.started.common.mistakes.item.3"}}
+              {{"Forgetting to apply the required theme classes on the page root."}}
             </p>
           </div>
           <div class="flex items-center gap-1">
@@ -59,7 +59,7 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              {{t "msg.getting.started.common.mistakes.item.4"}}
+              {{"Treating ULX as independent from ULS_V2 when styling or customizing."}}
             </p>
           </div>
           <div class="flex items-center gap-1">
@@ -71,7 +71,7 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              {{t "msg.getting.started.common.mistakes.item.5"}}
+              {{"Adding custom overrides before confirming that the base ULX setup is correct."}}
             </p>
           </div>
         </div>
@@ -79,8 +79,8 @@
 
       <DocShared::DocMain::FoundationSection
         @id="common-mistakes-correct-stylesheet-path"
-        @title={{t "lbl.correct.stylesheet.path"}}
-        @subtitle={{t "msg.getting.started.quick.start.load.stylesheet"}}
+        @title="Correct stylesheet path"
+        @subtitle="Load the built stylesheet so ULX components render with the expected ULS_V2 styles."
       >
         <DocShared::DocMain::CodePreview
           @source="dev-releases/css/ulx-editor.min.css"
@@ -90,8 +90,8 @@
 
       <DocShared::DocMain::FoundationSection
         @id="common-mistakes-required-theme-classes"
-        @title={{t "lbl.required.theme.classes"}}
-        @subtitle={{t "msg.getting.started.quick.start.apply.theme.classes"}}
+        @title="Required theme classes"
+        @subtitle="Apply the required root theme classes so colors, tokens, and theme appearance are activated."
       >
         <DocShared::DocMain::CodePreview
           @source='<body class="ulx-default-mode ulx-cardinal-theme">'

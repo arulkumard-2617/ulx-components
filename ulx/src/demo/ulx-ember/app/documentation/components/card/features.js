@@ -33,7 +33,7 @@ const section = (id, sectionNav, content, Demo, Source, snippetName, language = 
 export const CardFeatureItems = [
   section(
     'import',
-    t('lbl.doc.section.import'),
+    "Import",
     'The <code>import</code> snippet shows how to import the <code>UlxCard</code> component.',
     null,
     ImportSource,
@@ -42,24 +42,24 @@ export const CardFeatureItems = [
   ),
   section(
     'basic',
-    t('lbl.doc.section.basic'),
-    t('msg.card.basic.desc'),
+    "Basic",
+    "Card with optional header, title, subtitle, body, and footer content.",
     BasicDemo,
     BasicSource,
     'basic'
   ),
   section(
     'advanced',
-    t('lbl.advanced'),
-    t('msg.card.advanced.desc'),
+    "Advanced",
+    "Card with custom header and footer based on PrimeReact Card advanced example.",
     AdvancedDemo,
     AdvancedSource,
     'advanced'
   ),
   section(
     'accessibility',
-    t('lbl.doc.section.accessibility'),
-    t('msg.card.accessibility.desc'),
+    "Accessibility",
+    "Use role=\"region\" with aria-label when the card should be announced as a landmark.",
     AccessibilityDemo,
     AccessibilitySource,
     'accessibility'

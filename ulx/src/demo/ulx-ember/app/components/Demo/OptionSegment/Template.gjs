@@ -40,28 +40,28 @@ export default class DemoOptionSegmentTemplate extends Component {
     return [
       {
         value: 'home',
-        label: t('demo.optionsegment.home'),
+        label: "Home",
         icon: 'home-icon-01',
         fixed: true,
       },
       {
         value: 'agenda',
-        label: t('demo.optionsegment.agenda'),
+        label: "Agenda",
         icon: 'agenda-icon',
       },
       {
         value: 'scan',
-        label: t('demo.optionsegment.scan'),
+        label: "Scan",
         icon: 'split_booth',
       },
       {
         value: 'messages',
-        label: t('demo.optionsegment.messages'),
+        label: "Messages",
         icon: 'split_booth',
       },
       {
         value: 'profile',
-        label: t('demo.optionsegment.profile'),
+        label: "Profile",
         icon: 'split_booth',
         fixed: true,
       },
@@ -92,15 +92,13 @@ export default class DemoOptionSegmentTemplate extends Component {
   <template>
     <div class="flex flex-col gap-6">
       <div class="flex flex-col gap-2">
-        <div class="text-16 fw-600">{{t
-            "demo.optionsegment.navigation.items"
-          }}</div>
+        <div class="text-16 fw-600">{{"Navigation Items"}}</div>
         <div class="text-13 fg-secondary">
-          {{t "demo.optionsegment.note.fixed.items"}}
+          {{"Home and Profile are fixed"}}
           &nbsp;•&nbsp;
-          {{t "demo.optionsegment.note.select.up.to.3"}}
+          {{"Select up to 3 items from available options below"}}
           &nbsp;•&nbsp;
-          {{t "demo.optionsegment.note.preview.first.5"}}
+          {{"Preview shows first 5 items"}}
         </div>
       </div>
 
@@ -108,7 +106,7 @@ export default class DemoOptionSegmentTemplate extends Component {
         @type="basic"
         @items={{this.selectedPreviewItems}}
         @onSelect={{this.handleItemClick}}
-        @ariaLabel={{t "demo.optionsegment.selected.preview"}}
+        @ariaLabel="Selected navigation items preview"
         @customClass="flex flex-row"
       >
         <:content as |item|>

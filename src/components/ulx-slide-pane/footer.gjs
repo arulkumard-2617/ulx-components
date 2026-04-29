@@ -2,11 +2,13 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import UlxButton from "../ulx-button/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { t } from "../../utils/i18n";
 
 /**
  * Slide pane footer subcomponent.
- * Displays action buttons (typically Cancel and Confirm/Done).
+ * Displays action buttons (typically Cancel and Confirm/Done). The default Done
+ * control uses `UlxIconButton` so async loading shows the affix spinner.
  * Can be customized using the :footer named block on UlxSlidePane.
  *
  * @class UlxSlidePaneFooter
@@ -113,11 +115,12 @@ export default class UlxSlidePaneFooter extends Component {
 					{{/unless}}
 
 					{{#unless this.hideDoneButton}}
-						<UlxButton
+						<UlxIconButton
 							@label={{this.doneLabel}}
 							@variant="primary"
+							@loading={{this.submitting}}
 							@disabled={{this.doneButtonDisabled}}
-							{{on "click" this.handleDone}}
+							@onClick={{this.handleDone}}
 						/>
 					{{/unless}}
 				{{/if}}

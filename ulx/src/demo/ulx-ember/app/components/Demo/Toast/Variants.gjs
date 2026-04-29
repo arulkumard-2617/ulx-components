@@ -14,8 +14,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-elevated`,
         variant: 'info',
-        summary: t('lbl.elevated'),
-        detail: t('lbl.variant.elevated'),
+        summary: "Elevated",
+        detail: "Variant: elevated",
         type: 'elevated',
       },
     ];
@@ -28,8 +28,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-flat`,
         variant: 'success',
-        summary: t('lbl.flat'),
-        detail: t('lbl.variant.flat'),
+        summary: "Flat",
+        detail: "Variant: flat",
         type: 'flat',
       },
     ];
@@ -42,8 +42,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-outlined`,
         variant: 'warn',
-        summary: t('lbl.outlined'),
-        detail: t('lbl.variant.outlined'),
+        summary: "Outlined",
+        detail: "Variant: outlined",
         type: 'outlined',
         sticky: true,
       },
@@ -57,7 +57,7 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-withicon`,
         variant: 'info',
-        summary: t('lbl.with.icon'),
+        summary: "With icon",
         detail: 'showIcon: true',
         showIcon: true,
       },
@@ -71,8 +71,8 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-sticky`,
         variant: 'info',
-        summary: t('lbl.sticky'),
-        detail: t('msg.does.not.auto.close'),
+        summary: "Sticky",
+        detail: "Does not auto-close",
         sticky: true,
       },
     ];
@@ -87,26 +87,26 @@ export default class VariantsToastDemo extends Component {
     <div class="">
       <div class="fx gap8 flxw">
         <UlxButton
-          @label={{t "lbl.elevated"}}
+          @label="Elevated"
           @variant="primary"
           {{on "click" this.showElevated}}
         />
         <UlxButton
-          @label={{t "lbl.flat"}}
+          @label="Flat"
           @variant="success"
           {{on "click" this.showFlat}}
         />
         <UlxButton
-          @label={{t "lbl.outlined"}}
+          @label="Outlined"
           @variant="warning"
           {{on "click" this.showOutlined}}
         />
         <UlxButton
-          @label={{t "lbl.with.icon"}}
+          @label="With icon"
           @variant="secondary"
           {{on "click" this.showWithIcon}}
         />
-        <UlxButton @label={{t "lbl.sticky"}} {{on "click" this.showSticky}} />
+        <UlxButton @label="Sticky" {{on "click" this.showSticky}} />
       </div>
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>

@@ -11,12 +11,12 @@ export default class TypesToastDemo extends Component {
   @action
   addMessage(variant) {
     const labels = {
-      info: t('lbl.info'),
-      success: t('lbl.success'),
-      warn: t('lbl.warning'),
-      error: t('lbl.error'),
-      secondary: t('lbl.secondary'),
-      contrast: t('lbl.contrast'),
+      info: "Info",
+      success: "Success",
+      warn: "Warning",
+      error: "Error",
+      secondary: "Secondary",
+      contrast: "Contrast",
     };
     this.messages = [
       ...this.messages,
@@ -38,32 +38,32 @@ export default class TypesToastDemo extends Component {
     <div class="">
       <div class="fx gap8 flxw">
         <UlxButton
-          @label={{t "lbl.info"}}
+          @label="Info"
           @variant="info"
           {{on "click" (fn this.addMessage "info")}}
         />
         <UlxButton
-          @label={{t "lbl.success"}}
+          @label="Success"
           @variant="success"
           {{on "click" (fn this.addMessage "success")}}
         />
         <UlxButton
-          @label={{t "lbl.warn"}}
+          @label="Warn"
           @variant="warning"
           {{on "click" (fn this.addMessage "warn")}}
         />
         <UlxButton
-          @label={{t "lbl.error"}}
+          @label="Error"
           @variant="danger"
           {{on "click" (fn this.addMessage "error")}}
         />
         <UlxButton
-          @label={{t "lbl.secondary"}}
+          @label="Secondary"
           @variant="secondary"
           {{on "click" (fn this.addMessage "secondary")}}
         />
         <UlxButton
-          @label={{t "lbl.contrast"}}
+          @label="Contrast"
           {{on "click" (fn this.addMessage "contrast")}}
         />
       </div>

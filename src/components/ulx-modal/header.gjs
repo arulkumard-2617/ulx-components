@@ -95,14 +95,11 @@ export default class UlxModalHeader extends Component {
 
 	<template>
 		<div class={{this.headerRootClasses}} data-qa="ulx-modal-header" ...attributes>
-			{{#if (has-block)}}
-				{{yield}}
-			{{else}}
+			{{#if @title}}
 				<h4 class="dialog-title" id="modal-title">
 					{{@title}}
 				</h4>
 			{{/if}}
-
 			<div class="dialog-header-icons">
 				{{#if this.showMaximizeButton}}
 					<UlxIconButton

@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import and from "ember-truth-helpers/helpers/and";
 import { eq } from "ember-truth-helpers";
 import { getComponentClass } from "../../utils/component-config";
 import { joinClassNames } from "../../utils/class-names";
@@ -42,6 +43,8 @@ import {
  * @param {string} [customClass] - Extra CSS class for root
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-paginator".
  * @param {boolean} [showRecordsPerPageLabel=true] - When true, show text before the rows-per-page dropdown.
+ * @param {boolean} [hasLeft] - When true together with <:left>, render the left slot.
+ * @param {boolean} [hasRight] - When true together with <:right>, render the right slot.
  *
  * Named blocks (lowercase) override default UI when provided:
  * - <:firstPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
@@ -51,8 +54,8 @@ import {
  * - <:pageLinks> - yields { pageLinks, currentPage, totalPages, goToPageNumber }
  * - <:currentPageReport> - yields { text, first, last, totalRecords, currentPage, totalPages }
  * - <:rowsPerPageDropdown> - yields { value, options, onChange, disabled }
- * - <:left> - content before paginator controls
- * - <:right> - content after paginator controls
+ * - <:left> - content before paginator controls (shown only when @hasLeft is true and <:left> is provided)
+ * - <:right> - content after paginator controls (shown only when @hasRight is true and <:right> is provided)
  */
 export default class UlxPaginator extends Component {
 	templateKey = TEMPLATE_KEY;
@@ -120,8 +123,22 @@ export default class UlxPaginator extends Component {
 		return this.isLastPage || this.isEmpty;
 	}
 
+	get showNavigationControls() {
+		return this.totalPages > 1;
+	}
+
 	get templateKeys() {
-		return parseTemplateKeys(this.args.template, DEFAULT_TEMPLATE);
+		const templateKeys = parseTemplateKeys(this.args.template, DEFAULT_TEMPLATE);
+		const prevIndex = templateKeys.indexOf(this.templateKey.PREV_PAGE_LINK);
+		const nextIndex = templateKeys.indexOf(this.templateKey.NEXT_PAGE_LINK);
+
+		if (prevIndex >= 0 && nextIndex < 0) {
+			templateKeys.splice(prevIndex + 1, 0, this.templateKey.NEXT_PAGE_LINK);
+		} else if (nextIndex >= 0 && prevIndex < 0) {
+			templateKeys.splice(nextIndex, 0, this.templateKey.PREV_PAGE_LINK);
+		}
+
+		return templateKeys;
 	}
 
 	get pageLinkBoundaries() {
@@ -265,10 +282,24 @@ export default class UlxPaginator extends Component {
 
 	@action
 	changePage(first, rows) {
-		const r = rows ?? this.rows;
-		if (r <= 0) return;
+		const baseRows = rows ?? this.rows;
+		const r =
+			typeof baseRows === "number" && Number.isFinite(baseRows) ? baseRows : Number(baseRows);
+		if (!Number.isFinite(r) || r <= 0) return;
+
 		const totalPages = computeTotalPages(this.totalRecords, r);
 		const p = computePageFromFirst(r, first);
+
+		// With no records, totalPages is 0 but rows-per-page / first=0 must still notify the parent.
+		if (totalPages === 0) {
+			if (first !== 0) return;
+			const { onPageChange } = this.args;
+			if (typeof onPageChange === "function") {
+				onPageChange({ first: 0, rows: r, page: 0, totalPages: 0 });
+			}
+			return;
+		}
+
 		if (p < 0 || p >= totalPages) return;
 
 		const { onPageChange } = this.args;
@@ -321,65 +352,75 @@ export default class UlxPaginator extends Component {
 				data-qa={{this.rootDataQa}}
 				...attributes
 			>
-				{{#if (has-block "left")}}
+				{{#if (and @hasLeft (has-block "left"))}}
 					<div class="paginator-left" data-qa="{{this.rootDataQa}}-left">{{yield to="left"}}</div>
 				{{/if}}
 
 				{{#each this.templateKeys as |segment|}}
 					{{#if (eq segment this.templateKey.FIRST_PAGE_LINK)}}
-						{{#if (has-block "firstPageLink")}}
-							{{yield this.firstPageLinkConfig to="firstPageLink"}}
-						{{else}}
-							<PaginatorDefaultNavButton
-								@kind="first"
-								@config={{this.firstPageLinkConfig}}
-								@rootDataQa={{this.rootDataQa}}
-							/>
+						{{#if this.showNavigationControls}}
+							{{#if (has-block "firstPageLink")}}
+								{{yield this.firstPageLinkConfig to="firstPageLink"}}
+							{{else}}
+								<PaginatorDefaultNavButton
+									@kind="first"
+									@config={{this.firstPageLinkConfig}}
+									@rootDataQa={{this.rootDataQa}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.PREV_PAGE_LINK)}}
-						{{#if (has-block "prevPageLink")}}
-							{{yield this.prevPageLinkConfig to="prevPageLink"}}
-						{{else}}
-							<PaginatorDefaultNavButton
-								@kind="prev"
-								@config={{this.prevPageLinkConfig}}
-								@rootDataQa={{this.rootDataQa}}
-							/>
+						{{#if this.showNavigationControls}}
+							{{#if (has-block "prevPageLink")}}
+								{{yield this.prevPageLinkConfig to="prevPageLink"}}
+							{{else}}
+								<PaginatorDefaultNavButton
+									@kind="prev"
+									@config={{this.prevPageLinkConfig}}
+									@rootDataQa={{this.rootDataQa}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.NEXT_PAGE_LINK)}}
-						{{#if (has-block "nextPageLink")}}
-							{{yield this.nextPageLinkConfig to="nextPageLink"}}
-						{{else}}
-							<PaginatorDefaultNavButton
-								@kind="next"
-								@config={{this.nextPageLinkConfig}}
-								@rootDataQa={{this.rootDataQa}}
-							/>
+						{{#if this.showNavigationControls}}
+							{{#if (has-block "nextPageLink")}}
+								{{yield this.nextPageLinkConfig to="nextPageLink"}}
+							{{else}}
+								<PaginatorDefaultNavButton
+									@kind="next"
+									@config={{this.nextPageLinkConfig}}
+									@rootDataQa={{this.rootDataQa}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.LAST_PAGE_LINK)}}
-						{{#if (has-block "lastPageLink")}}
-							{{yield this.lastPageLinkConfig to="lastPageLink"}}
-						{{else}}
-							<PaginatorDefaultNavButton
-								@kind="last"
-								@config={{this.lastPageLinkConfig}}
-								@rootDataQa={{this.rootDataQa}}
-							/>
+						{{#if this.showNavigationControls}}
+							{{#if (has-block "lastPageLink")}}
+								{{yield this.lastPageLinkConfig to="lastPageLink"}}
+							{{else}}
+								<PaginatorDefaultNavButton
+									@kind="last"
+									@config={{this.lastPageLinkConfig}}
+									@rootDataQa={{this.rootDataQa}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.PAGE_LINKS)}}
-						{{#if (has-block "pageLinks")}}
-							{{yield this.pageLinksYield to="pageLinks"}}
-						{{else}}
-							<PaginatorDefaultPageLinks
-								@pageLinks={{this.pageLinks}}
-								@currentPageOneBased={{this.currentPageOneBased}}
-								@rootDataQa={{this.rootDataQa}}
-								@goToPageNumber={{this.goToPageNumber}}
-							/>
+						{{#if this.showNavigationControls}}
+							{{#if (has-block "pageLinks")}}
+								{{yield this.pageLinksYield to="pageLinks"}}
+							{{else}}
+								<PaginatorDefaultPageLinks
+									@pageLinks={{this.pageLinks}}
+									@currentPageOneBased={{this.currentPageOneBased}}
+									@rootDataQa={{this.rootDataQa}}
+									@goToPageNumber={{this.goToPageNumber}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.CURRENT_PAGE_REPORT)}}
@@ -408,7 +449,7 @@ export default class UlxPaginator extends Component {
 					{{/if}}
 				{{/each}}
 
-				{{#if (has-block "right")}}
+				{{#if (and @hasRight (has-block "right"))}}
 					<div class="paginator-end" data-qa="{{this.rootDataQa}}-right">{{yield to="right"}}</div>
 				{{/if}}
 			</div>

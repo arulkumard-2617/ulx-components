@@ -18,8 +18,8 @@ import { UlxInput, UlxField, UlxInputGroup, UlxIcon, t } from 'ulx-components';
         <:input>
           <UlxInput
             @field={{field}}
-            placeholder={{t "lbl.price"}}
-            aria-label={{t "lbl.price"}}
+            placeholder={{"Price"}}
+            aria-label={{"Price"}}
           />
         </:input>
 
