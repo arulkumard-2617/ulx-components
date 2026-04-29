@@ -86,9 +86,9 @@ const NameEmailCell = <template>
 
 const StatusCell = <template>
   {{#if (eq @row.status "JOINED")}}
-    <span class="fg-text-secondary">{{t "lbl.joined"}}</span>
+    <span class="fg-text-secondary">{{"Joined"}}</span>
   {{else}}
-    <span class="fg-text-secondary">{{t "lbl.invited"}}
+    <span class="fg-text-secondary">{{"Invited"}}
       {{@row.invitedOn}}</span>
   {{/if}}
 </template>;

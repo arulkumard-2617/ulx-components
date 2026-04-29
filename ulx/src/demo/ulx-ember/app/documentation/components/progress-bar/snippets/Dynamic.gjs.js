@@ -40,8 +40,8 @@ export default class DynamicProgressBarDemo extends Component {
         {
           id: \`msg-\${Date.now()}\`,
           severity: 'info',
-          summary: t('lbl.success'),
-          detail: t('lbl.process.completed'),
+          summary: "Success",
+          detail: "Process Completed",
         },
       ];
       this.clearInterval();

@@ -5,12 +5,12 @@ import DropdownOverlayOptionsSource from './demo-sources/dropdown-overlay-option
 
 export const DropdownOverlayFeatureItem = {
   id: 'overlay-options',
-  sectionNav: t('lbl.dropdown.overlay.options'),
+  sectionNav: "Overlay Options",
   sectionDesc: {
     component: RichText,
     props: {
       as: 'span',
-      content: t('msg.dropdown.overlay.options.doc')
+      content: "Use <code>@context</code> to choose where the panel is rendered. Combine <code>@boundary</code> and <code>@scrollContext</code> to keep the overlay inside a scrollable container and reposition it while that container scrolls."
     }
   },
   demo: {

@@ -61,12 +61,12 @@ export default class DemoDataViewLayout extends Component {
         <div class="flex justify-end w-full">
           <UlxButton
             @variant={{if (eq this.layout "list") "primary" "secondary"}}
-            @label={{t "lbl.doc.dataview.layout.list"}}
+            @label="List"
             {{on "click" this.setList}}
           />
           <UlxButton
             @variant={{if (eq this.layout "grid") "primary" "secondary"}}
-            @label={{t "lbl.doc.dataview.layout.grid"}}
+            @label="Grid"
             {{on "click" this.setGrid}}
           />
         </div>
@@ -103,7 +103,7 @@ export default class DemoDataViewLayout extends Component {
                           @iconName="brands-icon"
                           @componentClass="bs-icons1"
                           @size="s12"
-                          @ariaLabel={{t "lbl.doc.dataview.tagIcon"}}
+                          @ariaLabel="Tag icon"
                           @type="font"
                         />
                         <span class="font-semibold">
@@ -130,7 +130,7 @@ export default class DemoDataViewLayout extends Component {
                       @icon="order-icon"
                       @variant="primary"
                       @disabled={{eq product.inventoryStatus "OUTOFSTOCK"}}
-                      aria-label={{t "lbl.doc.dataview.addToCart"}}
+                      aria-label={{"Add to cart"}}
                       {{on "click" (fn this.addToCart product)}}
                     />
                   </div>
@@ -144,7 +144,7 @@ export default class DemoDataViewLayout extends Component {
                       @iconName="brands-icon"
                       @componentClass="bs-icons1"
                       @size="s12"
-                      @ariaLabel={{t "lbl.doc.dataview.tagIcon"}}
+                      @ariaLabel="Tag icon"
                       @type="font"
                     />
                     <span class="font-semibold">
@@ -183,7 +183,7 @@ export default class DemoDataViewLayout extends Component {
                     @icon="order-icon"
                     @variant="primary"
                     @disabled={{eq product.inventoryStatus "OUTOFSTOCK"}}
-                    aria-label={{t "lbl.doc.dataview.addToCart"}}
+                    aria-label={{"Add to cart"}}
                     {{on "click" (fn this.addToCart product)}}
                   />
                 </div>

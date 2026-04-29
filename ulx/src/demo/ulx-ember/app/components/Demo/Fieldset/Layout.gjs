@@ -4,12 +4,12 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
   <UlxForm @size="m-size" @customClass="flex flex-col gap-8">
     <UlxFieldSet
       class="w-full"
-      @legend={{t "lbl.doc.fieldset.layout.grid"}}
-      @description={{t "msg.doc.fieldset.layout.grid"}}
+      @legend="Grid layout"
+      @description="Use @customClass on the fieldset content wrapper with ulx-grid and column templates (e.g. ulx-grid col-2 gap-6)."
       @customClass="ulx-grid col-2 gap-6"
     >
       <UlxField
-        @label={{t "lbl.doc.fieldset.name"}}
+        @label="Full name"
         @fieldId="demo-fieldset-layout-grid-name"
         @fieldClass="field"
         as |field|
@@ -17,7 +17,7 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
         <UlxInput @field={{field}} @size="m-size" autocomplete="name" />
       </UlxField>
       <UlxField
-        @label={{t "lbl.doc.fieldset.email"}}
+        @label="Email"
         @fieldId="demo-fieldset-layout-grid-email"
         @fieldClass="field"
         as |field|
@@ -33,12 +33,12 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
 
     <UlxFieldSet
       class="w-full"
-      @legend={{t "lbl.doc.fieldset.layout.stack"}}
-      @description={{t "msg.doc.fieldset.layout.stack"}}
+      @legend="Stack layout"
+      @description="Use @customClass with flex utilities on the fieldset content wrapper (e.g. flex flex-col gap-4)."
       @customClass="flex flex-col gap-4"
     >
       <UlxField
-        @label={{t "lbl.doc.fieldset.demo.line1"}}
+        @label="Line one"
         @fieldId="demo-fieldset-layout-stack-a"
         @fieldClass="field"
         as |field|
@@ -46,7 +46,7 @@ import { UlxForm, UlxFieldSet, UlxField, UlxInput, t } from 'ulx-components';
         <UlxInput @field={{field}} @size="m-size" />
       </UlxField>
       <UlxField
-        @label={{t "lbl.doc.fieldset.demo.line2"}}
+        @label="Line two"
         @fieldId="demo-fieldset-layout-stack-b"
         @fieldClass="field"
         as |field|

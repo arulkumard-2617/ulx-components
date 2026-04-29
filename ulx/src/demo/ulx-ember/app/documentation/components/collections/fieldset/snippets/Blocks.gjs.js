@@ -12,18 +12,18 @@ import {
   <UlxForm @size="m-size">
     <UlxFieldSet class="col-12" @customClass="ulx-grid gap-6">
       <:legend>
-        <span class="fg-text">{{t "lbl.doc.fieldset.section.blocks"}}</span>
+        <span class="fg-text">{{"Custom blocks"}}</span>
       </:legend>
       <:description>
-        <p class="help-text">{{t "msg.doc.fieldset.desc.blocks"}}</p>
+        <p class="help-text">{{"Legend, description, and actions can use named blocks for richer markup."}}</p>
       </:description>
 
       <:default>
         <UlxField
-          @label={{t "lbl.doc.fieldset.city"}}
+          @label="City"
           @fieldId="demo-fieldset-blocks-city"
           @fieldClass="col-12"
-          @helpText={{t "lbl.doc.fieldset.inline.help"}}
+          @helpText="Optional help for this group"
           as |field|
         >
           <UlxInput
@@ -38,7 +38,7 @@ import {
         <div class="flex gap-4">
           <UlxButton
             @type="button"
-            @label={{t "lbl.secondary"}}
+            @label="Secondary"
             @variant="secondary"
           />
         </div>

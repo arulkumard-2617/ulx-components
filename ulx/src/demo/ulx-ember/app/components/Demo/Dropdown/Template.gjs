@@ -35,7 +35,7 @@ export default class DemoDropdownTemplate extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.template"}}
+        @label="Template"
         @fieldId="dropdown-template"
         @fieldClass="col-4"
         as |field|
@@ -48,7 +48,7 @@ export default class DemoDropdownTemplate extends Component {
           @optionLabel="label"
           @optionValue="value"
           @optionImageUrl="imageUrl"
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @placeholder="Select a city"
         >
         <:value as |ctx|>
           {{#if ctx.selectedOption}}
@@ -83,12 +83,9 @@ export default class DemoDropdownTemplate extends Component {
         </:item>
         <:footer as |ctx|>
           {{#if ctx.selectedOption}}
-            <span>{{t
-                "msg.dropdown.country.selected"
-                name=ctx.selectedOption.label
-              }}</span>
+            <span>{{"ctx.selectedOption.label selected."}}</span>
           {{else}}
-            <span>{{t "msg.dropdown.no.country.selected"}}</span>
+            <span>{{"No country selected."}}</span>
           {{/if}}
         </:footer>
         <:icon as |ctx|>

@@ -11,7 +11,6 @@ import {
   UlxRating,
   UlxTag,
   UlxIcon,
-  t,
 } from 'ulx-components';
 import {
   getProductsData,
@@ -25,20 +24,17 @@ const STATUS_VARIANT = {
 };
 
 const SORT_OPTIONS = [
-  { labelKey: 'lbl.doc.dataview.sort.priceLowToHigh', value: 'price:asc' },
-  { labelKey: 'lbl.doc.dataview.sort.priceHighToLow', value: 'price:desc' },
-  { labelKey: 'lbl.doc.dataview.sort.nameAZ', value: 'name:asc' },
-  { labelKey: 'lbl.doc.dataview.sort.nameZA', value: 'name:desc' },
+  { label: 'Price Low to High', value: 'price:asc' },
+  { label: 'Price High to Low', value: 'price:desc' },
+  { label: 'Name A to Z', value: 'name:asc' },
+  { label: 'Name Z to A', value: 'name:desc' },
 ];
 
 export default class DemoDataViewSorting extends Component {
   @tracked sortConfig = 'price:asc';
 
   get sortOptions() {
-    return SORT_OPTIONS.map((option) => ({
-      label: t(option.labelKey),
-      value: option.value,
-    }));
+    return SORT_OPTIONS;
   }
 
   get sortField() {
@@ -93,7 +89,7 @@ export default class DemoDataViewSorting extends Component {
       <:header>
         <div class="ulx-form m-size ulx-grid gap-12 mb-14">
           <UlxField
-            @label={{t "lbl.doc.dataview.sort.label"}}
+            @label="Sorting"
             @key="dataview-sorting"
             @fieldClass="col-4"
           >
@@ -105,7 +101,7 @@ export default class DemoDataViewSorting extends Component {
                 @options={{this.sortOptions}}
                 @value={{this.sortConfig}}
                 @onChange={{this.onSortChange}}
-                @placeholder={{t "lbl.doc.dataview.sort.placeholder"}}
+                @placeholder="Select sort order"
               />
             </:default>
           </UlxField>
@@ -158,7 +154,7 @@ export default class DemoDataViewSorting extends Component {
                     @iconSize="s18"
                     @icon="order-icon"
                     @variant="primary"
-                    aria-label={{t "lbl.doc.dataview.addToCart"}}
+                    aria-label={{"Add to cart"}}
                     {{on "click" (fn this.addToCart product)}}
                   />
                 </div>

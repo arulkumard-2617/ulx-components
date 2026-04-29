@@ -14,26 +14,26 @@ export default class MultipleToastDemo extends Component {
       {
         id: `msg-${now}-1`,
         variant: 'info',
-        summary: t('lbl.info'),
-        detail: t('lbl.info.message'),
+        summary: "Info",
+        detail: "Info message.",
       },
       {
         id: `msg-${now}-2`,
         variant: 'success',
-        summary: t('lbl.success'),
-        detail: t('lbl.success.message'),
+        summary: "Success",
+        detail: "Success message.",
       },
       {
         id: `msg-${now}-3`,
         variant: 'warn',
-        summary: t('lbl.warn'),
-        detail: t('lbl.warn.message'),
+        summary: "Warn",
+        detail: "Warn message.",
       },
       {
         id: `msg-${now}-4`,
         variant: 'error',
-        summary: t('lbl.error'),
-        detail: t('lbl.error.message'),
+        summary: "Error",
+        detail: "Error message.",
       },
     ];
     this.messages = [...this.messages, ...newMessages];
@@ -47,7 +47,7 @@ export default class MultipleToastDemo extends Component {
   <template>
     <div class="">
       <UlxButton
-        @label={{t "lbl.multiple"}}
+        @label="Multiple"
         @variant="warning"
         {{on "click" this.showMultiple}}
       />

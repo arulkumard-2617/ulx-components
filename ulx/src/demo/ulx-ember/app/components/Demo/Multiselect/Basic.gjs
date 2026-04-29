@@ -59,7 +59,7 @@ export default class DemoMultiselectBasic extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxField
-        @label={{t "lbl.multiselect.basic"}}
+        @label="Basic"
         @fieldId="multiselect-basic"
         @fieldClass="col-6"
         as |field|
@@ -70,7 +70,7 @@ export default class DemoMultiselectBasic extends Component {
           @value={{this.selected}}
           @onChange={{this.setSelected}}
           @showClear={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         />
       </UlxField>
 
@@ -88,7 +88,7 @@ export default class DemoMultiselectBasic extends Component {
           @selectAll={{true}}
           @filter={{true}}
           @showClear={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         />
       </UlxField>
     </div>

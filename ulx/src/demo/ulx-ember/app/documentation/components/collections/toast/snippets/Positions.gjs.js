@@ -35,7 +35,7 @@ export default class PositionsToastDemo extends Component {
     const newMessage = {
       id: \`msg-\${Date.now()}-\${pos}\`,
       variant: 'info',
-      summary: t('lbl.position'),
+      summary: "Position",
       detail: t('msg.toast.at.position', { position: pos }),
     };
     this.messagesByPosition = {

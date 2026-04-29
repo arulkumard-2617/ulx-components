@@ -12,15 +12,15 @@ export default class RouterDemoComponent extends Component {
   get items() {
     return [
       {
-        label: t('lbl.tabmenu'),
+        label: "Tab Menu",
         route: 'components.tab-menu',
       },
       {
-        label: t('lbl.walkthrough'),
+        label: "Walkthrough",
         route: 'getting-started.docs-walkthrough',
       },
       {
-        label: t('lbl.utilities'),
+        label: "Utilities",
         route: 'utilities.index',
       },
     ];
@@ -53,7 +53,7 @@ export default class RouterDemoComponent extends Component {
   <template>
     <div class="flex items-center justify-between mb-4">
       <p id="router-tabmenu-description" class="fg-text-secondary">
-        {{t "msg.router.tabmenu.description"}}
+        {{"This demo shows TabMenu with LinkTo routing. Click tabs to navigate between routes. The active tab is automatically synced with the current route."}}
       </p>
     </div>
     <UlxTabmenu

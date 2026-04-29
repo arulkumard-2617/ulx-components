@@ -11,7 +11,7 @@ export default class AccessibilityChipDemo extends Component {
 
   <template>
     <UlxChip
-      @label={{t "msg.chip.removable.label"}}
+      @label="Removable chip"
       @removable={{true}}
       @onRemove={{this.handleRemove}}
     />

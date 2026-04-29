@@ -4,10 +4,10 @@ import { UlxInput, UlxField, UlxIconInput, UlxIcon, t } from 'ulx-components';
   <div class="ulx-form m-size ulx-grid gap-12 mb-14">
 
     <UlxField
-      @label={{t "lbl.calendar"}}
+      @label="Calendar"
       @fieldId="icon-input-calendar"
       @fieldClass="col-6"
-      @helpText={{t "msg.input.help"}}
+      @helpText="Use 3–20 characters. Letters and numbers only."
       as |field|
     >
       <UlxIconInput
@@ -15,11 +15,11 @@ import { UlxInput, UlxField, UlxIconInput, UlxIcon, t } from 'ulx-components';
         @iconType="font"
         @iconSize="s18"
         @size="m-size"
-        @iconAriaLabel={{t "lbl.calendar"}}
+        @iconAriaLabel="Calendar"
       >
 
         <:icon>
-          <UlxIcon @ariaLabel={{t "lbl.calendar"}} @size="s20">
+          <UlxIcon @ariaLabel="Calendar" @size="s20">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -39,8 +39,8 @@ import { UlxInput, UlxField, UlxIconInput, UlxIcon, t } from 'ulx-components';
         <:input>
           <UlxInput
             @field={{field}}
-            placeholder={{t "lbl.calendar"}}
-            aria-label={{t "lbl.calendar"}}
+            placeholder={{"Calendar"}}
+            aria-label={{"Calendar"}}
           />
         </:input>
 

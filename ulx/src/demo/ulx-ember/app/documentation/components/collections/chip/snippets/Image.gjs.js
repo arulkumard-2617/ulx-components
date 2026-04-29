@@ -18,13 +18,13 @@ export default class DemoChipImage extends Component {
   <template>
     <div class="flex flex-wrap gap-4">
       <UlxChip
-        @label={{t "msg.chip.with.image"}}
+        @label="With image"
         @image={{AVATAR_IMAGE}}
         @imageAlt={{t "lbl.image"}}
       />
       {{#if this.showImageWithClose}}
         <UlxChip
-          @label={{t "msg.chip.with.image.and.close"}}
+          @label="With image and close icon"
           @image={{AVATAR_IMAGE}}
           @imageAlt={{t "lbl.image"}}
           @removable={{true}}

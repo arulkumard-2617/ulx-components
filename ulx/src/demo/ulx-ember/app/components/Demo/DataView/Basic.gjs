@@ -87,7 +87,7 @@ export default class DemoDataViewBasic extends Component {
                     @iconSize="s18"
                     @icon="order-icon"
                     @variant="primary"
-                    aria-label={{t "lbl.doc.dataview.addToCart"}}
+                    aria-label={{"Add to cart"}}
                     {{on "click" (fn this.addToCart product)}}
                   />
                 </div>

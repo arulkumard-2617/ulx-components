@@ -24,8 +24,8 @@ export default class DemoMultiselectInvalid extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.invalid"}}
-        @error={{t "msg.dropdown.error.here"}}
+        @label="Invalid"
+        @error="Error message here"
         @fieldId="multiselect-invalid"
         @fieldClass="col-4"
         as |field|
@@ -37,7 +37,7 @@ export default class DemoMultiselectInvalid extends Component {
           @onChange={{this.setSelected}}
           @selectAll={{true}}
           @invalid={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         />
       </UlxField>
     </div>

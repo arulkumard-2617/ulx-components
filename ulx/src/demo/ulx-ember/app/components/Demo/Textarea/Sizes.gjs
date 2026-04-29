@@ -18,7 +18,7 @@ export default class DemoTextareaSizes extends Component {
       {{#each this.sizes as |item index|}}
         <UlxField
           @label={{item.label}}
-          @helpText={{t "msg.input.help"}}
+          @helpText="Use 3–20 characters. Letters and numbers only."
           @fieldId={{concat "textarea-size-" index}}
           @fieldClass="col-12"
           as |field|

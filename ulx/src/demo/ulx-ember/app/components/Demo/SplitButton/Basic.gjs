@@ -17,8 +17,8 @@ export default class DemoSplitButtonBasic extends Component {
             {
               id: `msg-${Date.now()}-up`,
               severity: 'success',
-              summary: t('lbl.updated'),
-              detail: t('lbl.data.updated'),
+              summary: "Updated",
+              detail: "Data Updated",
             },
           ];
         },
@@ -32,8 +32,8 @@ export default class DemoSplitButtonBasic extends Component {
             {
               id: `msg-${Date.now()}-del`,
               severity: 'warn',
-              summary: t('lbl.deleted'),
-              detail: t('lbl.data.deleted'),
+              summary: "Deleted",
+              detail: "Data Deleted",
             },
           ];
         },
@@ -60,8 +60,8 @@ export default class DemoSplitButtonBasic extends Component {
       {
         id: `msg-${Date.now()}`,
         severity: 'success',
-        summary: t('lbl.success'),
-        detail: t('lbl.data.saved'),
+        summary: "Success",
+        detail: "Data Saved",
       },
     ];
   }

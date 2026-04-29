@@ -9,28 +9,28 @@ export default class CardTabsTabMenuDemo extends Component {
   get items() {
     return [
       {
-        label: t('lbl.dashboard'),
+        label: "Dashboard",
         icon: 'bullet-list-icon',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's20',
       },
       {
-        label: t('lbl.transactions'),
+        label: "Transactions",
         icon: 'list-view-icon',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's20',
       },
       {
-        label: t('lbl.products'),
+        label: "Products",
         icon: 'waitlist-icon',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's20',
       },
       {
-        label: t('lbl.messages'),
+        label: "Messages",
         icon: 'waitlist-icon',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
@@ -52,7 +52,7 @@ export default class CardTabsTabMenuDemo extends Component {
       @onTabChange={{this.handleTabChange}}
       @variant="card-tabs"
       @tabId="card-tabs-tabmenu"
-      @ariaLabel={{t "lbl.tabmenu.navigation"}}
+      @ariaLabel="Tab menu navigation"
     />
   </template>
 }

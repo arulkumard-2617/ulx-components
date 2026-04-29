@@ -13,13 +13,13 @@ export default class DemoSplitButtonIcons extends Component {
         label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
         command: () =>
-          this.addMessage('success', t('lbl.updated'), t('lbl.data.updated')),
+          this.addMessage('success', "Updated", "Data Updated"),
       },
       {
         label: 'Delete',
         icon: 'bs-icons1 close-icon-01',
         command: () =>
-          this.addMessage('warn', t('lbl.deleted'), t('lbl.data.deleted')),
+          this.addMessage('warn', "Deleted", "Data Deleted"),
       },
     ];
   }
@@ -39,8 +39,8 @@ export default class DemoSplitButtonIcons extends Component {
       {
         id: \`msg-\${Date.now()}\`,
         severity: 'success',
-        summary: t('lbl.success'),
-        detail: t('lbl.data.saved'),
+        summary: "Success",
+        detail: "Data Saved",
       },
     ];
   }

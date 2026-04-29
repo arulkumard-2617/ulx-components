@@ -26,7 +26,7 @@ export default class DemoDropdownFilter extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.filter"}}
+        @label="Filter"
         @fieldId="dropdown-filter"
         @fieldClass="col-6"
         as |field|
@@ -37,8 +37,8 @@ export default class DemoDropdownFilter extends Component {
           @value={{this.selectedCity}}
           @onChange={{this.setSelectedCity}}
           @filter={{true}}
-          @filterPlaceholder={{t "msg.dropdown.search.cities"}}
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @filterPlaceholder="Search cities"
+          @placeholder="Select a city"
         />
       </UlxField>
     </div>

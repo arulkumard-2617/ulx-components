@@ -39,7 +39,7 @@ export default class DemoPasswordInvalid extends Component {
     >
 
       <UlxField
-        @label={{t "lbl.password"}}
+        @label="Password"
         @fieldClass="w-300"
         @fieldId="password"
         @error={{this.error}}
@@ -50,7 +50,7 @@ export default class DemoPasswordInvalid extends Component {
           @value={{this.value}}
           @onInput={{this.handleInput}}
           @feedback={{false}}
-          @placeholder={{t "lbl.enter.password"}}
+          @placeholder="Enter password"
         />
 
       </UlxField>

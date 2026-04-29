@@ -69,12 +69,12 @@ export default class ToolbarCustomDemo extends Component {
       {
         value: 'list',
         icon: 'list-view-icon',
-        label: t('demo.toolbar.view.list'),
+        label: "List view",
       },
       {
         value: 'grid',
         icon: 'grid-view-icon',
-        label: t('demo.toolbar.view.grid'),
+        label: "Grid view",
       },
     ];
   }
@@ -123,10 +123,10 @@ export default class ToolbarCustomDemo extends Component {
               @options={{this.sortByOptions}}
               @optionLabel="label"
               @optionValue="value"
-              @placeholder={{t "demo.toolbar.sortBy"}}
+              @placeholder="Sort by"
               @onChange={{this.onSortByChange}}
               @size="s-size"
-              aria-label={{t "demo.toolbar.sortBy"}}
+              aria-label={{"Sort by"}}
             />
           </div>
         </:start>
@@ -169,7 +169,7 @@ export default class ToolbarCustomDemo extends Component {
               @optionValue="value"
               @variant="secondary"
               @size="m-size"
-              @ariaLabel={{t "demo.toolbar.view.layout"}}
+              @ariaLabel="Layout"
             >
               <:item as |option|>
                 <UlxIcon

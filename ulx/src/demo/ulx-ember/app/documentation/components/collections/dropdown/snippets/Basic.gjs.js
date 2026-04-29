@@ -27,7 +27,7 @@ export default class DemoDropdownBasic extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.label.text"}}
+        @label="Label Text"
         @fieldId="city-basic"
         @fieldClass="col-4"
         as |field|
@@ -37,7 +37,7 @@ export default class DemoDropdownBasic extends Component {
           @options={{this.cities}}
           @value={{this.selectedCity}}
           @onChange={{this.setSelectedCity}}
-          @placeholder={{t "msg.dropdown.placeholder.city"}}
+          @placeholder="Select a city"
         />
       </UlxField>
     </div>

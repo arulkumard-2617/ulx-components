@@ -12,12 +12,12 @@ export default class DemoSplitButtonVariants extends Component {
       {
         label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
-        command: () => this.addMessage(t('lbl.updated')),
+        command: () => this.addMessage("Updated"),
       },
       {
         label: 'Delete',
         icon: 'bs-icons1 close-icon-01',
-        command: () => this.addMessage(t('lbl.deleted')),
+        command: () => this.addMessage("Deleted"),
       },
     ];
   }
@@ -37,8 +37,8 @@ export default class DemoSplitButtonVariants extends Component {
       {
         id: \`msg-\${Date.now()}\`,
         severity: 'success',
-        summary: t('lbl.success'),
-        detail: t('lbl.data.saved'),
+        summary: "Success",
+        detail: "Data Saved",
       },
     ];
   }

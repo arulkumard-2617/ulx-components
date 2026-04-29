@@ -11,28 +11,28 @@ export default class ControlledTabMenuDemo extends Component {
   get items() {
     return [
       {
-        label: t('lbl.dashboard'),
+        label: "Dashboard",
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's18',
       },
       {
-        label: t('lbl.transactions'),
+        label: "Transactions",
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's18',
       },
       {
-        label: t('lbl.products'),
+        label: "Products",
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
         iconSize: 's18',
       },
       {
-        label: t('lbl.messages'),
+        label: "Messages",
         icon: 'home-icon-01',
         iconType: 'font',
         iconComponentClass: 'bs-icons1',
@@ -67,13 +67,13 @@ export default class ControlledTabMenuDemo extends Component {
   <template>
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-2">
-        <span class="fg-text-secondary">{{t "lbl.activate"}}:</span>
+        <span class="fg-text-secondary">{{"Activate:"}}:</span>
         {{#each this.buttons as |btn|}}
           <UlxButton
             @label={{btn.label}}
             @variant={{if (this.isActiveButton btn.index) "primary" "basic"}}
             @size="s-size"
-            aria-label={{t "msg.activate.tab" label=btn.label}}
+            aria-label={{"Activate tab btn.label"}}
             aria-pressed={{this.isActiveButton btn.index}}
             {{on "click" (fn this.setActiveIndex btn.index)}}
           />
@@ -85,7 +85,7 @@ export default class ControlledTabMenuDemo extends Component {
       @activeIndex={{this.activeIndex}}
       @onTabChange={{this.handleTabChange}}
       @tabId="controlled-tabmenu"
-      @ariaLabel={{t "lbl.tabmenu.navigation"}}
+      @ariaLabel="Tab menu navigation"
     />
   </template>
 }

@@ -35,8 +35,8 @@ export default class DemoMultiselectFloatLabel extends Component {
             @onChange={{this.setSelected}}
             @selectAll={{true}}
             @floatLabel={{true}}
-            @placeholder={{t "msg.multiselect.placeholder.city"}}
-            @label={{t "lbl.dropdown.float.label.city"}}
+            @placeholder="Select cities"
+            @label="Select a City"
           />
         </:default>
       </UlxField>

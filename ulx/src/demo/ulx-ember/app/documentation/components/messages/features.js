@@ -1,7 +1,6 @@
 // ==========================================================================
 // Messages Feature Items
 // ==========================================================================
-import { t } from 'ulx-components';
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
@@ -35,7 +34,7 @@ const section = (id, sectionNav, content, Demo, Source, snippetName) => ({
 export const MessagesFeatureItems = [
   section(
     'import',
-    t('lbl.doc.section.import'),
+    "Import",
     'The <code>import</code> property is used to import the <code>UlxMessages</code> component.',
     null,
     ImportSource,
@@ -43,32 +42,32 @@ export const MessagesFeatureItems = [
   ),
   section(
     'basic',
-    t('lbl.doc.section.basic'),
-    t('msg.messages.basic.desc'),
+    "Basic",
+    "Messages container with a list of messages.",
     BasicDemo,
     BasicSource,
     'basic'
   ),
   section(
     'variant',
-    t('lbl.variant'),
-    t('msg.messages.variant.desc'),
+    "Variant",
+    "Each message can have a variant.",
     VariantDemo,
     VariantSource,
     'variant'
   ),
   section(
     'dynamic',
-    t('lbl.dynamic'),
-    t('msg.messages.dynamic.desc'),
+    "Dynamic",
+    "Add or remove messages dynamically.",
     DynamicDemo,
     DynamicSource,
     'dynamic'
   ),
   section(
     'closable',
-    t('lbl.closable'),
-    t('msg.messages.closable.desc'),
+    "Closable",
+    "Messages can be closable.",
     ClosableDemo,
     ClosableSource,
     'closable'

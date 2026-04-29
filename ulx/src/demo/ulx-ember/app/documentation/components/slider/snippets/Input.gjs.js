@@ -28,7 +28,7 @@ export default class InputSliderDemo extends Component {
       <div class="w-300">
         <UlxInput
           @value={{this.value}}
-          @label={{t "lbl.value"}}
+          @label="Value"
           @type="number"
           @keyfilter="int"
           @onInput={{this.handleInputChange}}

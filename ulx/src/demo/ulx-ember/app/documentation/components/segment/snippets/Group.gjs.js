@@ -5,7 +5,7 @@ import { UlxSegmentsGroup, UlxSegment, t } from 'ulx-components';
   <div class="group-demo">
     <UlxSegmentsGroup @customClass="mb-12">
       <UlxSegment @variant="green">
-        <p>{{t "msg.first.segment"}}</p>
+        <p>{{"First segment in the group"}}</p>
       </UlxSegment>
       <UlxSegment>
         <p>It is a long established fact that a reader will be distracted by the

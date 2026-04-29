@@ -35,12 +35,12 @@ export default class DemoDataViewLoading extends Component {
         <div class="flex justify-end w-full">
           <UlxButton
             @variant={{if (eq this.layout "list") "primary" "secondary"}}
-            @label={{t "lbl.doc.dataview.layout.list"}}
+            @label="List"
             {{on "click" this.setList}}
           />
           <UlxButton
             @variant={{if (eq this.layout "grid") "primary" "secondary"}}
-            @label={{t "lbl.doc.dataview.layout.grid"}}
+            @label="Grid"
             {{on "click" this.setGrid}}
           />
         </div>

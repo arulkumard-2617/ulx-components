@@ -1,0 +1,23 @@
+---
+description: Demos and docs must not add i18n keys or demo-only t() usage; inline English in ulx-ember
+globs: ulx/src/demo/ulx-ember/**/*
+alwaysApply: false
+---
+
+# ULX demo and docs: no new i18n for copy
+
+**`src/locales/en-us.js` is for the published addon** (keys used under `src/` at runtime). **Demos and documentation are not allowed to grow that file** or introduce translation keys for doc-only wording.
+
+## Do
+
+- Use **plain string literals** in templates and JS for demo titles, placeholders, `aria-label`, snippet text, notices, and example copy (`"Save"`, `{{"Example"}}`, `@description="..."`, etc.).
+- When updating demos or snippets, **never add keys to `src/locales/en-us.js`** just to localize demo text.
+
+## Do not
+
+- Add **`t("…")`** calls in `ulx/src/demo/ulx-ember/` for strings that exist **only** in demos/docs (that would imply new locale entries).
+- Add or request **new message keys** in `en-us.js` for demonstration or documentation purposes.
+
+## Rare exception
+
+Using **`t(...)` only when deliberately exercising an existing addon key** already present in **`src/locales/en-us.js`** (e.g. proving a shipped default label). If in doubt, **inline English** instead of expanding the addon locale.

@@ -2,5 +2,5 @@ import { UlxMessage } from 'ulx-components';
 import { t } from 'ulx-components';
 
 <template>
-  <UlxMessage @text={{t "msg.inline.info"}} @icon="info-icon" />
+  <UlxMessage @text="Inline info message." @icon="info-icon" />
 </template>
