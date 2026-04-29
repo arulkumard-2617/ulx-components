@@ -17,15 +17,13 @@ export default class BasicPaginatorDemo extends Component {
   }
 
   <template>
-    <div class="flex items-center gap-4">
-      <UlxPaginator
-        @totalRecords={{this.totalRecords}}
-        @rows={{this.rows}}
-        @first={{this.first}}
-        @rowsPerPageOptions={{this.rowsPerPageOptions}}
-        @onPageChange={{this.onPageChange}}
-      />
-    </div>
+    <UlxPaginator
+      @totalRecords={{this.totalRecords}}
+      @rows={{this.rows}}
+      @first={{this.first}}
+      @rowsPerPageOptions={{this.rowsPerPageOptions}}
+      @onPageChange={{this.onPageChange}}
+    />
   </template>
 }
 

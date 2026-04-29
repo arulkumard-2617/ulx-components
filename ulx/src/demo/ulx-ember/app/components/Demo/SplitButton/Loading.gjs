@@ -5,19 +5,20 @@ import { UlxSplitButton, UlxToast, t } from 'ulx-components';
 
 export default class DemoSplitButtonLoading extends Component {
   @tracked messages = [];
+  @tracked isLoading = false;
 
   get items() {
     return [
       {
         label: 'Update',
         icon: 'bs-icons1 session-settings-icon',
-        command: () => this.addMessage(t('lbl.updated')),
+        command: () => this.addMessage(t('lbl.updated'))
       },
       {
         label: 'Delete',
         icon: 'bs-icons1 close-icon-01',
-        command: () => this.addMessage(t('lbl.deleted')),
-      },
+        command: () => this.addMessage(t('lbl.deleted'))
+      }
     ];
   }
 
@@ -25,22 +26,24 @@ export default class DemoSplitButtonLoading extends Component {
   addMessage(detail) {
     this.messages = [
       ...this.messages,
-      { id: `msg-${Date.now()}`, severity: 'success', summary: detail, detail },
+      { id: `msg-${Date.now()}`, severity: 'success', summary: detail, detail }
     ];
   }
 
   @action
   save() {
+    this.isLoading = true;
     return new Promise((resolve) => {
       setTimeout(() => {
+        this.isLoading = false;
         this.messages = [
           ...this.messages,
           {
             id: `msg-${Date.now()}`,
             severity: 'success',
             summary: t('lbl.success'),
-            detail: t('lbl.data.saved'),
-          },
+            detail: t('lbl.data.saved')
+          }
         ];
         resolve();
       }, 2000);
@@ -61,6 +64,7 @@ export default class DemoSplitButtonLoading extends Component {
         @iconSize="s22"
         @items={{this.items}}
         @onClick={{this.save}}
+        @loading={{this.isLoading}}
       />
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
     </div>

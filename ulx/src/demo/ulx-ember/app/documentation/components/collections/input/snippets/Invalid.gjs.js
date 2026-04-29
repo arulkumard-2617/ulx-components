@@ -50,6 +50,7 @@ export default class DemoInputInvalid extends Component {
       @customClass="ulx-grid mb-14"
       novalidate
       @onSubmit={{this.handleSubmit}}
+      @actionsClass="col-12"
     >
       <:default>
         <UlxField
@@ -70,7 +71,7 @@ export default class DemoInputInvalid extends Component {
       </:default>
 
       <:actions>
-        <UlxButton @type="submit" @label="Submit" />
+        <UlxButton @type="submit" @label="Submit" @customClass="col-12" />
       </:actions>
     </UlxForm>
   </template>

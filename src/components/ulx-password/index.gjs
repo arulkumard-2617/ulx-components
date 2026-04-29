@@ -372,6 +372,8 @@ export default class UlxPassword extends Component {
 						<UlxIconButton
 							@iconLeft={{this.toggleIconName}}
 							@iconSize="s18"
+							@variant="basic"
+							@size="xs-size compact"
 							@text={{true}}
 							@disabled={{@disabled}}
 							@onClick={{this.toggleMask}}

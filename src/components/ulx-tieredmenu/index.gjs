@@ -70,6 +70,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * @param {function} [onHide] - Callback when menu should be hidden (popup mode)
  * @param {function} [onShow] - Callback when menu is shown (popup mode)
  * @param {HTMLElement} [target] - Target element for popup positioning (button that triggers menu)
+ * @param {'start'|'end'} [align='start'] - Horizontal alignment of popup panel relative to trigger. 'start' aligns the menu's left edge to the trigger's left edge; 'end' aligns the menu's right edge to the trigger's right edge.
  * @param {string} [customClass] - Additional CSS classes
  * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
  * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-tieredmenu`).
@@ -729,57 +730,46 @@ export default class UlxTieredmenu extends Component {
 	}
 
 	/**
-	 * Aligns overlay to target element
+	 * Aligns overlay to target element.
+	 * Uses @align arg: 'start' (default) left-aligns menu to trigger, 'end' right-aligns menu to trigger.
+	 * Viewport overflow clamping applies after the initial alignment is computed.
 	 */
 	@action
 	alignOverlay() {
 		if (!this.containerElement || !this.targetElement) return;
 
+		const { align = "start" } = this.args;
 		const container = this.containerElement;
 		const target = this.targetElement;
 
-		// Get target position relative to viewport
 		const targetRect = target.getBoundingClientRect();
 
-		// Get container dimensions (may need to measure)
-		const containerRect = container.getBoundingClientRect();
-		const menuWidth = containerRect.width || container.offsetWidth || 180;
-		const menuHeight = containerRect.height || container.offsetHeight || 200;
+		// Use offsetWidth/offsetHeight — unaffected by CSS transforms (scale) so the
+		// measurement is accurate even while the enter animation is mid-scale.
+		const menuWidth = container.offsetWidth || 180;
+		const menuHeight = container.offsetHeight || 200;
 
-		// Calculate position relative to viewport
-		let top = targetRect.bottom;
-		let left = targetRect.left;
-
-		// Check if menu fits on screen
 		const viewportWidth = window.innerWidth;
 		const viewportHeight = window.innerHeight;
 		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
-		// Adjust horizontal position if needed
+		let top = targetRect.bottom;
+		// 'end': right edge of menu aligns with right edge of trigger
+		// 'start': left edge of menu aligns with left edge of trigger
+		let left = align === "end" ? targetRect.right - menuWidth : targetRect.left;
+
+		// Clamp horizontal: ensure menu stays within viewport bounds
 		if (left + menuWidth > viewportWidth - scrollbarWidth) {
-			// Try positioning to the left of target
-			const leftPosition = targetRect.right - menuWidth;
-			if (leftPosition >= 0) {
-				left = leftPosition;
-			} else {
-				// Not enough space, align to right edge
-				left = viewportWidth - menuWidth - scrollbarWidth - 10;
-			}
+			left = viewportWidth - menuWidth - scrollbarWidth - 10;
 		}
 		if (left < 0) {
 			left = 10;
 		}
 
-		// Adjust vertical position if needed
+		// Clamp vertical: flip above trigger if not enough space below
 		if (top + menuHeight > viewportHeight) {
-			// Position above target instead
 			const topPosition = targetRect.top - menuHeight;
-			if (topPosition >= 0) {
-				top = topPosition;
-			} else {
-				// Not enough space above, position below but adjust
-				top = viewportHeight - menuHeight - 10;
-			}
+			top = topPosition >= 0 ? topPosition : viewportHeight - menuHeight - 10;
 		}
 		if (top < 0) {
 			top = 10;

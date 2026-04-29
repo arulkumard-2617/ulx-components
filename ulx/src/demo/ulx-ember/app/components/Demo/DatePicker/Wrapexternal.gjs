@@ -12,12 +12,13 @@ export default class WrapexternalDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}
         @showIcon={{true}}
         @showClearButton={{true}}
+        @triggerIcon="calendar-icon02"
       />
     </div>
   </template>

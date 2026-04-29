@@ -2,8 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { UlxPaginator, UlxButton, UlxDivider } from 'ulx-components';
+import { UlxPaginator, UlxIconButton, UlxDivider } from 'ulx-components';
 
 export default class TemplatePaginatorDemo extends Component {
   @tracked first1 = 0;
@@ -43,8 +42,8 @@ export default class TemplatePaginatorDemo extends Component {
           @onPageChange={{this.onPageChange1}}
         >
           <:left>
-            <UlxButton
-              @icon="star-icon"
+            <UlxIconButton
+              @iconLeft="left-arrow-icon"
               @iconComponentClass="bs-icons1"
               @iconSize="s18"
               @variant="secondary"
@@ -53,30 +52,28 @@ export default class TemplatePaginatorDemo extends Component {
             />
           </:left>
           <:prevPageLink as |opt|>
-            <button
-              type="button"
-              class="paginator-prev {{if opt.disabled 'disabled'}}"
-              disabled={{opt.disabled}}
-              {{on "click" opt.onClick}}
+            <UlxIconButton
+              @label="Previous"
+              @iconLeft={{opt.icon}}
+              @variant="basic"
+              @disabled={{opt.disabled}}
+              @onClick={{opt.onClick}}
               aria-label={{opt.ariaLabel}}
-            >
-              Previous
-            </button>
+            />
           </:prevPageLink>
           <:nextPageLink as |opt|>
-            <button
-              type="button"
-              class="paginator-next {{if opt.disabled 'disabled'}}"
-              disabled={{opt.disabled}}
-              {{on "click" opt.onClick}}
+            <UlxIconButton
+              @label="Next"
+              @iconRight={{opt.icon}}
+              @variant="basic"
+              @disabled={{opt.disabled}}
+              @onClick={{opt.onClick}}
               aria-label={{opt.ariaLabel}}
-            >
-              Next
-            </button>
+            />
           </:nextPageLink>
           <:right>
-            <UlxButton
-              @icon="search-icon"
+            <UlxIconButton
+              @iconLeft="search-icon"
               @iconComponentClass="bs-icons1"
               @iconSize="s18"
               @variant="primary"

@@ -42,6 +42,7 @@ import {
  * @param {string} [customClass] - Extra CSS class for root
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-paginator".
  * @param {boolean} [showRecordsPerPageLabel=true] - When true, show text before the rows-per-page dropdown.
+ * @param {boolean} [showFirstLastNav=false] - When true, renders the first and last page navigation buttons.
  *
  * Named blocks (lowercase) override default UI when provided:
  * - <:firstPageLink> - yields { icon, onClick, disabled, className, ariaLabel }
@@ -263,6 +264,10 @@ export default class UlxPaginator extends Component {
 		return this.args.showRecordsPerPageLabel !== false;
 	}
 
+	get showFirstLastNav() {
+		return this.args.showFirstLastNav ?? false;
+	}
+
 	@action
 	changePage(first, rows) {
 		const r = rows ?? this.rows;
@@ -327,14 +332,16 @@ export default class UlxPaginator extends Component {
 
 				{{#each this.templateKeys as |segment|}}
 					{{#if (eq segment this.templateKey.FIRST_PAGE_LINK)}}
-						{{#if (has-block "firstPageLink")}}
-							{{yield this.firstPageLinkConfig to="firstPageLink"}}
-						{{else}}
-							<PaginatorDefaultNavButton
-								@kind="first"
-								@config={{this.firstPageLinkConfig}}
-								@rootDataQa={{this.rootDataQa}}
-							/>
+						{{#if this.showFirstLastNav}}
+							{{#if (has-block "firstPageLink")}}
+								{{yield this.firstPageLinkConfig to="firstPageLink"}}
+							{{else}}
+								<PaginatorDefaultNavButton
+									@kind="first"
+									@config={{this.firstPageLinkConfig}}
+									@rootDataQa={{this.rootDataQa}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.PREV_PAGE_LINK)}}
@@ -360,14 +367,16 @@ export default class UlxPaginator extends Component {
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.LAST_PAGE_LINK)}}
-						{{#if (has-block "lastPageLink")}}
-							{{yield this.lastPageLinkConfig to="lastPageLink"}}
-						{{else}}
-							<PaginatorDefaultNavButton
-								@kind="last"
-								@config={{this.lastPageLinkConfig}}
-								@rootDataQa={{this.rootDataQa}}
-							/>
+						{{#if this.showFirstLastNav}}
+							{{#if (has-block "lastPageLink")}}
+								{{yield this.lastPageLinkConfig to="lastPageLink"}}
+							{{else}}
+								<PaginatorDefaultNavButton
+									@kind="last"
+									@config={{this.lastPageLinkConfig}}
+									@rootDataQa={{this.rootDataQa}}
+								/>
+							{{/if}}
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.PAGE_LINKS)}}

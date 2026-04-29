@@ -2,34 +2,33 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import {
   UlxDataView,
   UlxDropdown,
   UlxField,
-  UlxButton,
+  UlxIconButton,
   UlxRating,
   UlxTag,
   UlxIcon,
-  t,
+  t
 } from 'ulx-components';
 import {
   getProductsData,
-  getProductImageUrl,
+  getProductImageUrl
 } from 'ulx-ember/data/product-service';
 
 const STATUS_VARIANT = {
   INSTOCK: 'success',
   LOWSTOCK: 'warning',
-  OUTOFSTOCK: 'danger',
+  OUTOFSTOCK: 'danger'
 };
 
 const SORT_OPTIONS = [
   { labelKey: 'lbl.doc.dataview.sort.priceLowToHigh', value: 'price:asc' },
   { labelKey: 'lbl.doc.dataview.sort.priceHighToLow', value: 'price:desc' },
   { labelKey: 'lbl.doc.dataview.sort.nameAZ', value: 'name:asc' },
-  { labelKey: 'lbl.doc.dataview.sort.nameZA', value: 'name:desc' },
+  { labelKey: 'lbl.doc.dataview.sort.nameZA', value: 'name:desc' }
 ];
 
 export default class DemoDataViewSorting extends Component {
@@ -38,7 +37,7 @@ export default class DemoDataViewSorting extends Component {
   get sortOptions() {
     return SORT_OPTIONS.map((option) => ({
       label: t(option.labelKey),
-      value: option.value,
+      value: option.value
     }));
   }
 
@@ -92,7 +91,7 @@ export default class DemoDataViewSorting extends Component {
   <template>
     <UlxDataView>
       <:header>
-        <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+        <div class="ulx-form m-size ulx-grid gap-12">
           <UlxField
             @label={{t "lbl.doc.dataview.sort.label"}}
             @key="dataview-sorting"
@@ -119,13 +118,13 @@ export default class DemoDataViewSorting extends Component {
               <img
                 src={{this.getProductImageUrl product.image}}
                 alt=""
-                class="w-96 h-96 rounded shadow-lg object-cover"
+                class="w-96 h-96 rounded shadow-md object-cover"
                 aria-hidden="true"
               />
 
               <div class="flex items-center gap-4 justify-between w-full">
                 <div class="flex gap-3 flex-col">
-                  <div class="font-size20 bold-font">{{product.name}}</div>
+                  <div class="text-20 bold-font">{{product.name}}</div>
                   <UlxRating
                     @value={{product.rating}}
                     @readOnly={{true}}
@@ -140,7 +139,7 @@ export default class DemoDataViewSorting extends Component {
                         @ariaLabel="tag icon"
                         @type="font"
                       />
-                      <span class="font-semibold">Accessories</span>
+                      <span class="semibold-font">Accessories</span>
                     </span>
                     <UlxTag
                       @value={{product.inventoryStatus}}
@@ -151,16 +150,16 @@ export default class DemoDataViewSorting extends Component {
                 </div>
 
                 <div class="flex flex-col items-center gap-3 justify-start">
-                  <span class="font-size24 font-semibold">
+                  <span class="text-24 semibold-font">
                     \${{product.price}}
                   </span>
-                  <UlxButton
+                  <UlxIconButton
+                    @label={{t "lbl.doc.dataview.addToCart"}}
+                    @iconLeft="order-icon"
                     @iconComponentClass="bs-icons1"
                     @iconSize="s18"
-                    @icon="order-icon"
                     @variant="primary"
-                    aria-label={{t "lbl.doc.dataview.addToCart"}}
-                    {{on "click" (fn this.addToCart product)}}
+                    @onClick={{fn this.addToCart product}}
                   />
                 </div>
               </div>

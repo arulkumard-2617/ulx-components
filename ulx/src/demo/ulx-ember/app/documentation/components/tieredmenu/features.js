@@ -64,7 +64,7 @@ export const TieredmenuFeatureItems = [
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Popup</code> demo shows the Tieredmenu in popup/overlay mode, triggered by a button. Use <code>@popup={{true}}</code>, <code>@visible</code>, and <code>@onHide</code> to control visibility."
+        content: "The <code>Popup</code> demo shows the Tieredmenu in popup/overlay mode, triggered by a button. Use <code>@popup={{true}}</code>, <code>@visible</code>, and <code>@onHide</code> to control visibility. Use <code>@align=\"start\"</code> to left-align the menu to the trigger, or <code>@align=\"end\"</code> to right-align it."
       }
     },
     demo: {

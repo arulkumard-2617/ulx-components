@@ -8,6 +8,7 @@ import { eq } from 'ember-truth-helpers';
 import {
   UlxDataView,
   UlxButton,
+  UlxIconButton,
   UlxRating,
   UlxTag,
   UlxIcon,
@@ -86,13 +87,13 @@ export default class DemoDataViewLayout extends Component {
                 <img
                   src={{this.getProductImageUrl product.image}}
                   alt=""
-                  class="w-96 h-96 rounded shadow-lg object-cover"
+                  class="w-96 h-96 rounded shadow-md object-cover"
                   aria-hidden="true"
                 />
 
                 <div class="flex items-center gap-4 justify-between w-full">
                   <div class="flex gap-3 flex-col">
-                    <div class="font-size20 bold-font">{{product.name}}</div>
+                    <div class="text-20 bold-font">{{product.name}}</div>
                     <UlxRating
                       @value={{product.rating}}
                       @readOnly={{true}}
@@ -122,17 +123,17 @@ export default class DemoDataViewLayout extends Component {
                   </div>
 
                   <div class="flex flex-col items-center gap-3 justify-start">
-                    <span class="font-size24 font-semibold">
+                    <span class="text-24 semibold-font">
                       \${{product.price}}
                     </span>
-                    <UlxButton
+                    <UlxIconButton
+                      @label={{t "lbl.doc.dataview.addToCart"}}
+                      @iconLeft="order-icon"
                       @iconComponentClass="bs-icons1"
                       @iconSize="s18"
-                      @icon="order-icon"
                       @variant="primary"
                       @disabled={{eq product.inventoryStatus "OUTOFSTOCK"}}
-                      aria-label={{t "lbl.doc.dataview.addToCart"}}
-                      {{on "click" (fn this.addToCart product)}}
+                      @onClick={{fn this.addToCart product}}
                     />
                   </div>
                 </div>
@@ -159,14 +160,14 @@ export default class DemoDataViewLayout extends Component {
                   />
                 </div>
 
-                <div class="flex flex-col items-center gap-2 py5">
+                <div class="flex flex-col items-center gap-2 py-5">
                   <img
                     src={{this.getProductImageUrl product.image}}
                     alt=""
-                    class="w-96 h-96 rounded shadow-lg object-cover"
+                    class="w-96 h-96 rounded shadow-md object-cover"
                     aria-hidden="true"
                   />
-                  <div class="font-size20 bold-font">{{product.name}}</div>
+                  <div class="text-20 bold-font">{{product.name}}</div>
                   <UlxRating
                     @value={{product.rating}}
                     @readOnly={{true}}
@@ -175,17 +176,17 @@ export default class DemoDataViewLayout extends Component {
                 </div>
 
                 <div class="flex items-center gap-2 justify-between">
-                  <span class="font-size24 font-semibold">
+                  <span class="text-24 semibold-font">
                     \${{product.price}}
                   </span>
-                  <UlxButton
+                  <UlxIconButton
+                    @label={{t "lbl.doc.dataview.addToCart"}}
+                    @iconLeft="order-icon"
                     @iconComponentClass="bs-icons1"
                     @iconSize="s18"
-                    @icon="order-icon"
                     @variant="primary"
                     @disabled={{eq product.inventoryStatus "OUTOFSTOCK"}}
-                    aria-label={{t "lbl.doc.dataview.addToCart"}}
-                    {{on "click" (fn this.addToCart product)}}
+                    @onClick={{fn this.addToCart product}}
                   />
                 </div>
               </div>

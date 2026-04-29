@@ -197,26 +197,31 @@ export default class UlxAccordion extends Component {
 	getToggleableContentClasses(index) {
 		const selected = this.isTabSelected(index);
 		const phase = this.getContentTransitionState(index);
-		const prev = this.getPrevSelected(index);
 		const parts = ["accordion-toggleable-content"];
-		const isInitiallyExpanded = prev === undefined && selected && !phase;
+
+		// A panel is "initially expanded" when it is open on first render (no user interaction
+		// has started a transition yet) — identified by the modifier never having recorded this
+		// index (prevSelectedMap entry is absent) AND no transition phase being active.
+		const isInitiallyExpanded =
+			selected && !phase && this._prevSelectedMap?.get(index) === undefined;
 		isInitiallyExpanded && parts.push("initially-expanded");
 
-		const effectivePhase =
-			phase ??
-			(selected && prev === false ? "enter" : null) ??
-			(!selected && prev === true ? "exit" : null);
+		if (!isInitiallyExpanded) {
+			const phaseExtras = phase ? TOGGLEABLE_PHASE_CLASSES[phase] : null;
+			phaseExtras && parts.push(...phaseExtras);
+			!phase && selected && parts.push("expanded");
+		}
 
-		const phaseExtras = effectivePhase ? TOGGLEABLE_PHASE_CLASSES[effectivePhase] : null;
-		phaseExtras && parts.push(...phaseExtras);
-
-		!effectivePhase && selected && parts.push("expanded");
 		return joinClassNames(...parts);
 	}
 
 	/**
-	 * Drives `_contentTransition` from open/close edges; timings must stay aligned with accordion.less.
-	 * First paint for a panel does not animate (`prev === undefined`).
+	 * Advances transition phases after the DOM has painted.
+	 * `changeActiveIndex` sets the initial phase ("enter" / "exit") before the render;
+	 * this modifier advances it to "enter-active" / "exit-active" on the next frame.
+	 *
+	 * First paint for a pre-opened panel (activeIndex set before render) produces
+	 * `prev === undefined` — no animation runs and the panel is marked initially-expanded.
 	 */
 	accordionContentTransition = modifier((element, [index, selected]) => {
 		const map = this._prevSelectedMap ?? (this._prevSelectedMap = new Map());
@@ -228,11 +233,30 @@ export default class UlxAccordion extends Component {
 
 		if (prev === undefined) {
 			map.set(index, selected);
+			// Panel is mounting for the first time. If `changeActiveIndex` already set a
+			// transition phase (user just opened it), advance that phase. Otherwise this
+			// is a pre-opened panel on initial render — leave the phase empty so
+			// `getToggleableContentClasses` applies "initially-expanded" instead.
+			const existingPhase = this._contentTransition[index] ?? null;
+			if (existingPhase === "enter") {
+				rafId = requestAnimationFrame(() => {
+					rafId = null;
+					this._contentTransition = { ...this._contentTransition, [index]: "enter-active" };
+					enterActiveTimer = setTimeout(() => {
+						this._contentTransition = { ...this._contentTransition, [index]: "enter-done" };
+					}, ENTER_TIMEOUT_MS);
+				});
+				return () => {
+					rafId && cancelAnimationFrame(rafId);
+					enterActiveTimer && clearTimeout(enterActiveTimer);
+				};
+			}
 			return () => {};
 		}
 
 		if (selected && prev !== true) {
 			map.set(index, selected);
+			// Advance "enter" → "enter-active" after paint.
 			rafId = requestAnimationFrame(() => {
 				rafId = null;
 				this._contentTransition = { ...this._contentTransition, [index]: "enter-active" };
@@ -245,8 +269,10 @@ export default class UlxAccordion extends Component {
 				enterActiveTimer && clearTimeout(enterActiveTimer);
 			};
 		}
+
 		if (!selected && prev === true) {
 			map.set(index, selected);
+			// Advance "exit" → "exit-active" after paint.
 			rafId = requestAnimationFrame(() => {
 				rafId = null;
 				this._contentTransition = { ...this._contentTransition, [index]: "exit-active" };
@@ -300,6 +326,17 @@ export default class UlxAccordion extends Component {
 			newIndex = selected ? null : Number(index);
 		}
 		this.args.onTabChange?.({ originalEvent, index: newIndex });
+
+		// Kick off transition phases before the state change re-renders so the
+		// content element mounts/unmounts with the correct class already set.
+		if (!selected) {
+			// Opening: set "enter" now; modifier will advance to "enter-active" after paint.
+			this._contentTransition = { ...this._contentTransition, [index]: "enter" };
+		} else {
+			// Closing: set "exit" now so shouldRenderToggleableContent keeps content mounted.
+			this._contentTransition = { ...this._contentTransition, [index]: "exit" };
+		}
+
 		if (!this.isControlled) {
 			this._activeIndex = newIndex;
 		}
@@ -470,13 +507,13 @@ export default class UlxAccordion extends Component {
 							data-qa={{this.getDataQa "content"}}
 							{{this.accordionContentTransition index (this.isTabSelected index)}}
 						>
-						<div class={{this.getContentClasses item}}>
-							{{#if (has-block "content")}}
-								{{yield item index (this.getContentMeta item index) to="content"}}
-							{{else}}
-								{{item.content}}
-							{{/if}}
-						</div>
+							<div class={{this.getContentClasses item}}>
+								{{#if (has-block "content")}}
+									{{yield item index (this.getContentMeta item index) to="content"}}
+								{{else}}
+									{{item.content}}
+								{{/if}}
+							</div>
 						</div>
 					{{/if}}
 				</div>

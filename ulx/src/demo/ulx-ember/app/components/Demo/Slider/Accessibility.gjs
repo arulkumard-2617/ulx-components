@@ -12,8 +12,8 @@ export default class AccessibilitySliderDemo extends Component {
   }
 
   <template>
-    <div class="ulx-flex ulx-flex-col gap-2">
-      <div class="ulx-flex ulx-items-center gap-2">
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center gap-2">
         <label class="text-12 font-semibold" for="slider-a11y-1">
           {{t 'lbl.slider'}}
         </label>

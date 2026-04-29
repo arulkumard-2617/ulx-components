@@ -12,8 +12,12 @@ export default class Basic12TimeDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
-      <UlxTimePicker @hourFormat="12" @value={{this.value}} @onChange={{this.onChange}} />
+    <div class="w-252">
+      <UlxTimePicker
+        @hourFormat="12"
+        @value={{this.value}}
+        @onChange={{this.onChange}}
+      />
     </div>
   </template>
 }

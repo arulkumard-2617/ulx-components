@@ -8,7 +8,7 @@ export default class MilestoneTimelineDemo extends Component {
       {
         label: 'Submission Start Date',
         value: 'Feb 23, 2026 - 12:00 AM',
-        state: 'completed',
+        state: 'active',
       },
       {
         label: 'Submission End Date',
@@ -34,18 +34,14 @@ export default class MilestoneTimelineDemo extends Component {
   }
 
   <template>
-    <div class="">
-      <div class="primary ulx-segment border-default w-300">
-        <UlxTimeline @items={{this.events}} @customClass="milestone-tracker">
-          <:content as |item|>
-            <div class="flex flex-col gap-1">
-              <div class="text-sm fg-text-secondary">{{item.label}}</div>
-              <div class="h6 medium-font">{{item.value}}</div>
-            </div>
-          </:content>
-        </UlxTimeline>
-      </div>
-    </div>
+    <UlxTimeline @items={{this.events}} @customClass="milestone-tracker">
+      <:content as |item|>
+        <div class="flex flex-col gap-1">
+          <div class="text-sm fg-text-secondary">{{item.label}}</div>
+          <div class="medium-font">{{item.value}}</div>
+        </div>
+      </:content>
+    </UlxTimeline>
   </template>
 }
 

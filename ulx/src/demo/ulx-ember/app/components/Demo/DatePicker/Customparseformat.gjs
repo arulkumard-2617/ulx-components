@@ -17,7 +17,7 @@ export default class CustomparseformatDatepickerDemo extends Component {
       const m = String(date.getMonth() + 1).padStart(2, '0');
       const y = date.getFullYear();
       return d + '-' + m + '-' + y;
-    },
+    }
   };
 
   @action
@@ -26,7 +26,7 @@ export default class CustomparseformatDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}

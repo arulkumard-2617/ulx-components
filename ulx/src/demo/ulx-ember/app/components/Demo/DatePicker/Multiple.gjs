@@ -12,7 +12,7 @@ export default class MultipleDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxDatePicker
         @mode="multiple"
         @value={{this.value}}

@@ -9,11 +9,11 @@ export default class DisablefunctionDatepickerDemo extends Component {
   disable = [
     (d) => {
       return d.getDay() === 0 || d.getDay() === 6;
-    },
+    }
   ];
 
   flatpickrOptions = {
-    locale: { firstDayOfWeek: 1 },
+    locale: { firstDayOfWeek: 1 }
   };
 
   @action
@@ -22,7 +22,7 @@ export default class DisablefunctionDatepickerDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxDatePicker
         @value={{this.value}}
         @onChange={{this.onChange}}

@@ -90,6 +90,7 @@ export default class DemoInputGroupMultiple extends Component {
               @onChange={{this.setSelectedCountry}}
               @size="m-size"
               aria-label="Country code"
+              @customClass="w-152"
             />
           </:start>
 
