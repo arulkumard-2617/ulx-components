@@ -20,16 +20,6 @@ export default class TablePaginatorRow extends Component {
 		return !!this.args.visible;
 	}
 
-	get rowsPerPageOptions() {
-		const { rowsPerPageOptions } = this.args;
-
-		if (rowsPerPageOptions?.length) {
-			return rowsPerPageOptions;
-		}
-
-		return [10, 25, 50, 100, 200, 500];
-	}
-
 	<template>
 		{{#if this.isVisible}}
 			<div class="datatable-paginator" data-qa={{this.rootDataQa}}>
@@ -38,7 +28,7 @@ export default class TablePaginatorRow extends Component {
 					@totalRecords={{@totalRecords}}
 					@rows={{@rows}}
 					@first={{@first}}
-					@rowsPerPageOptions={{this.rowsPerPageOptions}}
+					@rowsPerPageOptions={{@rowsPerPageOptions}}
 					@template={{@template}}
 					@currentPageReportTemplate={{@currentPageReportTemplate}}
 					@onPageChange={{@onPageChange}}
