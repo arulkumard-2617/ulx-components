@@ -363,7 +363,7 @@ export default class UlxPaginator extends Component {
 
 				{{#each this.templateKeys as |segment|}}
 					{{#if (eq segment this.templateKey.FIRST_PAGE_LINK)}}
-						{{#if this.showNavigationControls}}
+						{{#if (and this.showNavigationControls this.showFirstLastNav)}}
 							{{#if (has-block "firstPageLink")}}
 								{{yield this.firstPageLinkConfig to="firstPageLink"}}
 							{{else}}
@@ -402,7 +402,7 @@ export default class UlxPaginator extends Component {
 						{{/if}}
 
 					{{else if (eq segment this.templateKey.LAST_PAGE_LINK)}}
-						{{#if this.showNavigationControls}}
+						{{#if (and this.showNavigationControls this.showFirstLastNav)}}
 							{{#if (has-block "lastPageLink")}}
 								{{yield this.lastPageLinkConfig to="lastPageLink"}}
 							{{else}}
