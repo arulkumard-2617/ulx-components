@@ -25,7 +25,7 @@ export default class DemoDropdownLoadingState extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.loading.state"}}
+        @label="Loading State"
         @fieldId="dropdown-loading"
         @fieldClass="col-4"
         as |field|

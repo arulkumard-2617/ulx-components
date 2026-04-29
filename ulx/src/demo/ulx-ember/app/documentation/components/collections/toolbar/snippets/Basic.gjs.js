@@ -30,7 +30,7 @@ export default class DemoToolbarBasic extends Component {
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             @customClass="me-5"
-            aria-label={{t "lbl.new"}}
+            aria-label={{"New"}}
           />
           <UlxButton
             @variant="primary"
@@ -38,7 +38,7 @@ export default class DemoToolbarBasic extends Component {
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             @customClass="me-5"
-            aria-label={{t "lbl.duplicate"}}
+            aria-label="Duplicate"
           />
           <UlxButton
             @variant="primary"
@@ -46,7 +46,7 @@ export default class DemoToolbarBasic extends Component {
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             @customClass="me-5"
-            aria-label={{t "lbl.delete"}}
+            aria-label={{"Delete"}}
           />
         </:start>
 
@@ -74,8 +74,8 @@ export default class DemoToolbarBasic extends Component {
             <UlxSplitButton
               @label={{t "lbl.save"}}
               @items={{array
-                (hash label=(t "lbl.update") icon="refresh-clockwise-icon-01")
-                (hash label=(t "lbl.delete") icon="delete-icon-01")
+                (hash label="Update" icon="refresh-clockwise-icon-01")
+                (hash label="Delete" icon="delete-icon-01")
               }}
               @size="s-size"
             />

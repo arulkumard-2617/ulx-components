@@ -28,7 +28,7 @@ export default class DemoDropdownFloatLabel extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxFloatLabel
         @customClass="col-4"
-        @label={{t "lbl.dropdown.float.label.city"}}
+        @label="Select a City"
         @value={{this.selectedCity}}
       >
         <:default as |fl|>
@@ -37,7 +37,7 @@ export default class DemoDropdownFloatLabel extends Component {
             @options={{this.cities}}
             @value={{this.selectedCity}}
             @onChange={{this.setSelectedCity}}
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
+            @placeholder="Select a city"
             @onFocus={{fl.onFocus}}
             @onBlur={{fl.onBlur}}
           />

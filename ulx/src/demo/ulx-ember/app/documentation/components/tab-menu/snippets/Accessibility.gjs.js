@@ -5,10 +5,10 @@ import { UlxTabmenu, t } from 'ulx-components';
 export default class AccessibilityTabMenuDemo extends Component {
   get items() {
     return [
-      { label: t('lbl.dashboard') },
-      { label: t('lbl.transactions') },
-      { label: t('lbl.products') },
-      { label: t('lbl.messages'), disabled: true },
+      { label: "Dashboard" },
+      { label: "Transactions" },
+      { label: "Products" },
+      { label: "Messages", disabled: true },
     ];
   }
 
@@ -17,7 +17,7 @@ export default class AccessibilityTabMenuDemo extends Component {
       <UlxTabmenu
         @items={{this.items}}
         @tabId="accessibility-tabmenu"
-        @ariaLabel={{t "lbl.tabmenu.navigation"}}
+        @ariaLabel="Tab menu navigation"
       />
     </div>
   </template>

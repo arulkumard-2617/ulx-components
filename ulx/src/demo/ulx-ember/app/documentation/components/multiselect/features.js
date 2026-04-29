@@ -51,7 +51,7 @@ const section = (id, sectionNav, content, Demo, Source, snippetName) => ({
 export const MultiselectFeatureItems = [
   section(
     'import',
-    t('lbl.doc.section.import'),
+    "Import",
     'The <code>import</code> property is used to import the <code>UlxMultiSelect</code> component.',
     null,
     ImportSource,
@@ -59,7 +59,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'basic',
-    t('lbl.doc.section.basic'),
+    "Basic",
     'The <code>Basic</code> demo shows basic usage of the MultiSelect with <code>@options</code>, <code>@value</code> (array), and <code>@onChange</code>.',
     BasicDemo,
     BasicSource,
@@ -75,7 +75,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'chips',
-    t('lbl.multiselect.chips'),
+    "Chips",
     'Use <code>@display="chip"</code> to show selected items as removable chips.',
     ChipsDemo,
     ChipsSource,
@@ -83,7 +83,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'group',
-    t('lbl.group'),
+    "Group",
     'Options can be organized in groups using <code>@optionGroupLabel</code> and <code>@optionGroupChildren</code>.',
     GroupDemo,
     GroupSource,
@@ -91,7 +91,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'template',
-    t('lbl.dropdown.template'),
+    "Template",
     'Customize rendering with the <code>:value</code> and <code>:item</code> named blocks.',
     TemplateDemo,
     TemplateSource,
@@ -99,7 +99,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'filter',
-    t('lbl.dropdown.filter'),
+    "Filter",
     'Enable <code>@filter</code> to show a search input inside the panel.',
     FilterDemo,
     FilterSource,
@@ -107,7 +107,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'allow-addition',
-    t('lbl.multiselect.allow.addition'),
+    "Allow addition",
     'Use <code>@allowAddition</code> and <code>@onAddItem</code> to show an Add button in the panel header; type in the filter and click Add (or press Enter) to create and select a new option.',
     AllowAdditionDemo,
     AllowAdditionSource,
@@ -115,7 +115,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'virtual-scroll',
-    t('lbl.dropdown.virtual.scroll'),
+    "Virtual Scroll",
     'Use <code>@virtualScrollerOptions</code> with <code>itemSize</code> to virtualize a long list (e.g. 100K items) for efficient rendering.',
     VirtualScrollDemo,
     VirtualScrollSource,
@@ -123,7 +123,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'loading-state',
-    t('lbl.loading.state'),
+    "Loading State",
     'Use <code>@loading</code> to show a loading indicator instead of the dropdown icon.',
     LoadingStateDemo,
     LoadingStateSource,
@@ -131,7 +131,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'invalid',
-    t('lbl.dropdown.invalid'),
+    "Invalid",
     'Use <code>@invalid</code> or <code>@error</code> to show invalid state.',
     InvalidDemo,
     InvalidSource,
@@ -139,7 +139,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'disabled',
-    t('lbl.dropdown.disabled'),
+    "Disabled",
     'Use <code>@disabled</code> to disable the MultiSelect.',
     DisabledDemo,
     DisabledSource,
@@ -147,7 +147,7 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'accessibility',
-    t('lbl.doc.section.accessibility'),
+    "Accessibility",
     'MultiSelect uses combobox and listbox with <code>aria-multiselectable</code>, keyboard navigation (Arrow keys, Enter, Space, Escape), and ARIA attributes.',
     AccessibilityDemo,
     AccessibilitySource,

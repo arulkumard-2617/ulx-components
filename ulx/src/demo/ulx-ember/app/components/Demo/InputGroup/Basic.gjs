@@ -11,7 +11,7 @@ import {
 
     <UlxField
       @fieldId="start-time"
-      @label={{t "lbl.start.time"}}
+      @label="Start Time"
       @fieldClass="col-3"
       as |field|
     >
@@ -20,8 +20,8 @@ import {
         <:input>
           <UlxInput
             @field={{field}}
-            placeholder={{t "lbl.start.time.placeholder"}}
-            aria-label={{t "lbl.start.time"}}
+            placeholder={{"12:00 AM"}}
+            aria-label={{"Start Time"}}
           />
         </:input>
 
@@ -32,7 +32,7 @@ import {
             @iconLeft="time-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
-            aria-label={{t "lbl.start.time"}}
+            aria-label={{"Start Time"}}
           />
         </:end>
 

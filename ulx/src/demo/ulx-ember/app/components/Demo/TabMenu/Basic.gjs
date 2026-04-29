@@ -8,10 +8,10 @@ export default class BasicTabMenuDemo extends Component {
 
   get items() {
     return [
-      { label: t('lbl.dashboard') },
-      { label: t('lbl.transactions') },
-      { label: t('lbl.products') },
-      { label: t('lbl.messages') },
+      { label: "Dashboard" },
+      { label: "Transactions" },
+      { label: "Products" },
+      { label: "Messages" },
     ];
   }
 
@@ -26,7 +26,7 @@ export default class BasicTabMenuDemo extends Component {
       @activeIndex={{this.activeIndex}}
       @onTabChange={{this.handleTabChange}}
       @tabId="basic-tabmenu"
-      @ariaLabel={{t "lbl.tabmenu.navigation"}}
+      @ariaLabel="Tab menu navigation"
     />
   </template>
 }

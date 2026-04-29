@@ -36,8 +36,8 @@ export default class DemoMultiselectAllowAddition extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.multiselect.tags"}}
-        @helpText={{t "msg.multiselect.tags.help"}}
+        @label="Tags"
+        @helpText="Use keywords or phrases that describe your event to help everyone find it easily. Separate multiple tags with commas."
         @fieldId="multiselect-allow-addition"
         @fieldClass="col-8"
         as |field|

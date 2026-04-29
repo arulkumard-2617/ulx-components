@@ -7,6 +7,6 @@ import { UlxEmptyState, UlxButton, t } from 'ulx-components';
     @iconName="event-past-icon"
     @iconSize="s32"
   >
-    <UlxButton @label={{t "lbl.show"}} />
+    <UlxButton @label="Show" />
   </UlxEmptyState>
 </template>

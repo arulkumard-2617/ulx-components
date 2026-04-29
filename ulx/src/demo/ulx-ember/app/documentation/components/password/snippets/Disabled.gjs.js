@@ -5,7 +5,7 @@ import { UlxPassword, UlxField, t } from 'ulx-components';
   <form class="ulx-form m-size ulx-grid gap-12 mb-14">
 
     <UlxField
-      @label={{t "lbl.password"}}
+      @label="Password"
       @fieldClass="col-12"
       @fieldId="password-disabled"
       as |field|
@@ -14,7 +14,7 @@ import { UlxPassword, UlxField, t } from 'ulx-components';
         @field={{field}}
         @disabled={{true}}
         @feedback={{false}}
-        @placeholder={{t "lbl.enter.password"}}
+        @placeholder="Enter password"
       />
 
     </UlxField>

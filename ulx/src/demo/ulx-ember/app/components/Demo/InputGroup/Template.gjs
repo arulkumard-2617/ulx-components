@@ -76,7 +76,7 @@ export default class DemoInputGroupTemplate extends Component {
     <div class="ulx-form m-size ulx-grid gap-x-4 gap-y-2">
 
       <UlxField
-        @label={{t "lbl.start.time"}}
+        @label="Start Time"
         @fieldId="start-time"
         @fieldClass="col-3"
       >
@@ -90,8 +90,8 @@ export default class DemoInputGroupTemplate extends Component {
               <UlxInput
                 @field={{field}}
                 @disabled={{this.isDisabled}}
-                placeholder={{t "lbl.start.time.placeholder"}}
-                aria-label={{t "lbl.start.time"}}
+                placeholder={{"12:00 AM"}}
+                aria-label={{"Start Time"}}
               />
             </:input>
 
@@ -103,7 +103,7 @@ export default class DemoInputGroupTemplate extends Component {
                 @iconComponentClass="bs-icons1"
                 @iconSize="s18"
                 @disabled={{this.isDisabled}}
-                aria-label={{t "lbl.start.time"}}
+                aria-label={{"Start Time"}}
               />
             </:end>
 
@@ -112,7 +112,7 @@ export default class DemoInputGroupTemplate extends Component {
 
         <:assistive>
           <UlxCheckbox
-            @itemLabel={{t "lbl.to.be.announced"}}
+            @itemLabel="To be announced"
             @checked={{this.isToBeAnnounced}}
             @onCheckedChange={{this.handleToBeAnnouncedChange}}
           />
@@ -120,7 +120,7 @@ export default class DemoInputGroupTemplate extends Component {
       </UlxField>
 
       {{! DURATION }}
-      <UlxField @label={{t "lbl.duration"}} @fieldClass="col-8">
+      <UlxField @label="Duration" @fieldClass="col-8">
 
         <div class="ulx-grid gap-3">
 
@@ -135,13 +135,13 @@ export default class DemoInputGroupTemplate extends Component {
                   @onChange={{this.updateHours}}
                   type="number"
                   @disabled={{this.isDisabled}}
-                  aria-label={{t "lbl.duration.hours"}}
+                  aria-label={{"Hours"}}
                 />
               </:input>
 
               <:end>
                 <span class="inputgroup-addon text-addon">
-                  {{t "lbl.hr"}}
+                  {{"Hr"}}
                 </span>
 
                 <span class="inputgroup-addon vertical-stack-addon">
@@ -155,7 +155,7 @@ export default class DemoInputGroupTemplate extends Component {
                       this.isDisabled
                       (eq this.hours this.hourMax)
                     }}
-                    aria-label={{t "lbl.increment"}}
+                    aria-label={{"Increment"}}
                   />
                   <UlxIconButton
                     @variant="basic"
@@ -167,7 +167,7 @@ export default class DemoInputGroupTemplate extends Component {
                       this.isDisabled
                       (eq this.hours this.hourMin)
                     }}
-                    aria-label={{t "lbl.decrement"}}
+                    aria-label={{"Decrement"}}
                   />
                 </span>
               </:end>
@@ -186,13 +186,13 @@ export default class DemoInputGroupTemplate extends Component {
                   @onChange={{this.updateMinutes}}
                   type="number"
                   @disabled={{this.isDisabled}}
-                  aria-label={{t "lbl.duration.minutes"}}
+                  aria-label={{"Minutes"}}
                 />
               </:input>
 
               <:end>
                 <span class="inputgroup-addon text-addon">
-                  {{t "lbl.min"}}
+                  {{"Mins"}}
                 </span>
 
                 <span class="inputgroup-addon vertical-stack-addon">
@@ -206,7 +206,7 @@ export default class DemoInputGroupTemplate extends Component {
                       this.isDisabled
                       (eq this.minutes this.minuteMax)
                     }}
-                    aria-label={{t "lbl.increment"}}
+                    aria-label={{"Increment"}}
                   />
                   <UlxIconButton
                     @variant="basic"
@@ -218,7 +218,7 @@ export default class DemoInputGroupTemplate extends Component {
                       this.isDisabled
                       (eq this.minutes this.minuteMin)
                     }}
-                    aria-label={{t "lbl.decrement"}}
+                    aria-label={{"Decrement"}}
                   />
                 </span>
               </:end>

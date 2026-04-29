@@ -14,7 +14,7 @@ export default class GroupDemoComponent extends Component {
   get error() {
     // Example validation: require at least one item to be checked.
     const hasAtLeastOneChecked = this.items.some((i) => i.checked);
-    return hasAtLeastOneChecked ? undefined : t('msg.select.at.least.one');
+    return hasAtLeastOneChecked ? undefined : "Select at least one option.";
   }
 
   @action
@@ -25,8 +25,8 @@ export default class GroupDemoComponent extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.group"}}
-        @helpText={{t "lbl.help.text"}}
+        @label="Group"
+        @helpText="Help text"
         @error={{this.error}}
         @fieldClass="col-12"
         @fieldId="checkbox-group"

@@ -32,7 +32,7 @@ export default class DemoSelectButtonDisabled extends Component {
         @value={{this.value2}}
         @onChange={{this.onChange2}}
         @optionLabel="name"
-        @ariaLabel={{t "demo.selectbutton.aria.secondGroup"}}
+        @ariaLabel="Second option group"
       />
     </div>
   </template>

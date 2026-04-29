@@ -6,8 +6,8 @@ const headerImage =
 <template>
   <div class="pda4">
     <UlxCard
-      @title={{t "lbl.card.advanced"}}
-      @subTitle={{t "lbl.card.subtitle"}}
+      @title="Advanced Card"
+      @subTitle="Card subtitle"
       @size="m-size"
       @appearance="elevated"
       @variant="primary"
@@ -22,14 +22,14 @@ const headerImage =
 
       <:content>
         <p class="fg-text-secondary text-14">
-          {{t "msg.card.basic.body"}}
+          {{"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum."}}
         </p>
       </:content>
 
       <:footer>
         <div class="ulx-card-actions">
           <UlxButton @label={{t "lbl.save"}} @variant="primary" />
-          <UlxButton @label={{t "lbl.delete"}} @variant="secondary" />
+          <UlxButton @label="Delete" @variant="secondary" />
         </div>
       </:footer>
     </UlxCard>

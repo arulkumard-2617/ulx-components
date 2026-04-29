@@ -5,24 +5,24 @@ import { t } from 'ulx-components';
 <template>
   <div class="flex items-center gap-2 mb-5">
     <UlxInput
-      @placeholder={{t "lbl.username"}}
+      @placeholder="Username"
       @invalid={{true}}
       @fieldClass="col-12"
     />
     <UlxMessage
-      @text={{t "msg.username.required"}}
+      @text="Username is required."
       @variant="error"
       @icon="close-stroke-icon"
     />
   </div>
   <div class="flex items-center gap-2 mb-5">
     <UlxInput
-      @placeholder={{t "lbl.email"}}
+      @placeholder="Email"
       @invalid={{true}}
       @fieldClass="col-12"
     />
     <UlxMessage
-      @text={{t "msg.email.required"}}
+      @text="Email is required."
       @variant="error"
       @icon="close-stroke-icon"
     />

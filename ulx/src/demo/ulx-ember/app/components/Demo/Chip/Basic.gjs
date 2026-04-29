@@ -6,10 +6,10 @@ import { t } from 'ulx-components';
 
 export default class BasicChipDemo extends Component {
   @tracked chips = [
-    { id: 1, label: t('lbl.chip.action'), removable: false },
-    { id: 2, label: t('lbl.chip.comedy'), removable: false },
-    { id: 3, label: t('lbl.chip.mystery'), removable: false },
-    { id: 4, label: t('lbl.chip.thriller'), removable: true },
+    { id: 1, label: "Action", removable: false },
+    { id: 2, label: "Comedy", removable: false },
+    { id: 3, label: "Mystery", removable: false },
+    { id: 4, label: "Thriller", removable: true },
   ];
 
   @action

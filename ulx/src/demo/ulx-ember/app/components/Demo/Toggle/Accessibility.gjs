@@ -26,7 +26,7 @@ export default class AccessibilityToggleDemo extends Component {
   <template>
     <div class="flex flex-col gap-4">
       <div class="flex align-items-center gap-2">
-        <label for="toggle-switch-1">{{t "lbl.toggle.remember.me"}}</label>
+        <label for="toggle-switch-1">{{"Remember Me"}}</label>
         <UlxToggle
           @inputId="toggle-switch-1"
           @checked={{this.checked1}}
@@ -34,7 +34,7 @@ export default class AccessibilityToggleDemo extends Component {
         />
       </div>
       <div class="flex align-items-center gap-2">
-        <span id="toggle-switch-2-label">{{t "lbl.toggle.remember.me"}}</span>
+        <span id="toggle-switch-2-label">{{"Remember Me"}}</span>
         <UlxToggle
           aria-labelledby="toggle-switch-2-label"
           @checked={{this.checked2}}
@@ -43,7 +43,7 @@ export default class AccessibilityToggleDemo extends Component {
       </div>
       <div>
         <UlxToggle
-          aria-label={{t "lbl.toggle.remember.me"}}
+          aria-label={{"Remember Me"}}
           @checked={{this.checked3}}
           @onCheckedChange={{this.handleChange3}}
         />

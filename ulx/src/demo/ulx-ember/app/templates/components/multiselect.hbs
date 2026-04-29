@@ -1,4 +1,4 @@
-{{page-title (t "lbl.doc.multiselect.title")}}
+{{page-title "MultiSelect - ULS Ember Documentation"}}
 
 <DocShared::DocMain::ComponentLayout
   @title={{@model.meta.header}}
@@ -13,10 +13,10 @@
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection
         @id="components-collections-multiselect-theming"
-        @title={{t "lbl.theming"}}
-        @subtitle={{t "msg.theming.subtitle" component="MultiSelect"}}
+        @title="Theming"
+        @subtitle="Theming documentation for MultiSelect component."
       >
-        <p class="fg-text-secondary">{{t "msg.theming.content.goes.here"}}</p>
+        <p class="fg-text-secondary">{{"Theming content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
   {{else if this.isBuilderTab}}
@@ -50,12 +50,10 @@
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection
         @id="components-collections-multiselect-passthrough"
-        @title={{t "lbl.pass.through"}}
-        @subtitle={{t "msg.pass.through.subtitle" component="MultiSelect"}}
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for MultiSelect component."
       >
-        <p class="fg-text-secondary">{{t
-            "msg.pass.through.content.goes.here"
-          }}</p>
+        <p class="fg-text-secondary">{{"Pass Through content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
   {{/if}}

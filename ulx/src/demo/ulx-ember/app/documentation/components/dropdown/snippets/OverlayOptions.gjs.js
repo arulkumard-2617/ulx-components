@@ -52,7 +52,7 @@ export default class DemoDropdownOverlayOptions extends Component {
     <div class="ulx-form m-size flex flex-col gap-8 mb-14">
       <div class="ulx-grid gap-8">
         <UlxField
-          @label={{t "lbl.dropdown.context.self"}}
+          @label="Context: self"
           @fieldId="dropdown-context-self"
           @fieldClass="col-4"
           as |field|
@@ -63,12 +63,12 @@ export default class DemoDropdownOverlayOptions extends Component {
             @value={{this.selectedLocalCity}}
             @onChange={{this.setSelectedLocalCity}}
             @context="self"
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
+            @placeholder="Select a city"
           />
         </UlxField>
 
         <UlxField
-          @label={{t "lbl.dropdown.context.body"}}
+          @label="Context: body"
           @fieldId="dropdown-context-body"
           @fieldClass="col-4"
           as |field|
@@ -81,14 +81,14 @@ export default class DemoDropdownOverlayOptions extends Component {
             @context="body"
             @boundary="window"
             @scrollContext="window"
-            @placeholder={{t "msg.dropdown.placeholder.city"}}
+            @placeholder="Select a city"
           />
         </UlxField>
       </div>
 
       <div class="flex flex-col gap-2">
         <div class="text-13 fg-secondary">
-          {{t "msg.dropdown.overlay.scroll.help"}}
+          {{"Open the dropdown below, then scroll this container to see <code>@scrollContext</code> keep the panel aligned while it stays open."}}
         </div>
 
         <div
@@ -99,7 +99,7 @@ export default class DemoDropdownOverlayOptions extends Component {
             <div class="h-170"></div>
 
             <UlxField
-              @label={{t "lbl.dropdown.boundary.scroll"}}
+              @label="Boundary and scrollContext"
               @fieldId="dropdown-context-scroll"
               @fieldClass="w-full"
               as |field|
@@ -113,7 +113,7 @@ export default class DemoDropdownOverlayOptions extends Component {
                 @boundary={{this.scrollHostElement}}
                 @scrollContext={{this.scrollHostElement}}
                 @filter={{true}}
-                @placeholder={{t "msg.dropdown.search.cities"}}
+                @placeholder="Search cities"
               />
             </UlxField>
 

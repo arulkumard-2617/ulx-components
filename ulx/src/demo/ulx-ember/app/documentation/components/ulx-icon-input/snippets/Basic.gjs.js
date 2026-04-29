@@ -30,8 +30,8 @@ import { UlxInput, UlxIconInput, t } from 'ulx-components';
         <UlxInput
           @key="demo-icon-input-email"
           type="email"
-          placeholder={{t "lbl.enter.email"}}
-          aria-label={{t "lbl.email"}}
+          placeholder={{"Enter email address"}}
+          aria-label={{"Email"}}
         />
       </UlxIconInput>
     </div>

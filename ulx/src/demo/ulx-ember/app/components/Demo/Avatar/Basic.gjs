@@ -4,7 +4,7 @@ import { UlxAvatar, t } from 'ulx-components';
 <template>
   <div class="ulx-grid col-2">
     <div class="">
-      <h6 class="bold-font mb-3">{{t "lbl.square"}}</h6>
+      <h6 class="bold-font mb-3">{{"Square"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @memberProfile={{hash fullName="U L" colorTheme="grey"}}
@@ -25,7 +25,7 @@ import { UlxAvatar, t } from 'ulx-components';
     </div>
 
     <div class="">
-      <h6 class="bold-font mb-3">{{t "lbl.circle"}}</h6>
+      <h6 class="bold-font mb-3">{{"Circle"}}</h6>
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @memberProfile={{hash fullName="Priya" colorTheme="grey"}}

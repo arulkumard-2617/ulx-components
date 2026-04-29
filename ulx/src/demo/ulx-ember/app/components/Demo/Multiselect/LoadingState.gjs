@@ -24,7 +24,7 @@ export default class DemoMultiselectLoadingState extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.loading.state"}}
+        @label="Loading State"
         @fieldId="multiselect-loading"
         @fieldClass="col-4"
         as |field|
@@ -36,7 +36,7 @@ export default class DemoMultiselectLoadingState extends Component {
           @onChange={{this.setSelected}}
           @selectAll={{true}}
           @loading={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         />
       </UlxField>
     </div>

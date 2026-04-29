@@ -25,7 +25,7 @@ export default class DemoSelectButtonInvalid extends Component {
       @value={{this.value}}
       @onChange={{this.onChange}}
       @invalid={{true}}
-      @ariaLabel={{t "demo.selectbutton.choose.option"}}
+      @ariaLabel="Choose option"
     />
   </template>
 }

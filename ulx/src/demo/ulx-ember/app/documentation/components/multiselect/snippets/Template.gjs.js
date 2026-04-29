@@ -27,7 +27,7 @@ export default class DemoMultiselectTemplate extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.template"}}
+        @label="Template"
         @fieldId="multiselect-template"
         @fieldClass="col-4"
         as |field|
@@ -38,7 +38,7 @@ export default class DemoMultiselectTemplate extends Component {
           @value={{this.selected}}
           @onChange={{this.setSelected}}
           @selectAll={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
         >
           <:value as |ctx|>
             {{#if ctx.selectedOptions.length}}

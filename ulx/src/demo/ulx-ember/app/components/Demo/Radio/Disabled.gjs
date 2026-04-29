@@ -22,7 +22,7 @@ export default class DisabledDemoComponent extends Component {
     // `UlxCheckbox` expects a *field-level* string error message (not per-item).
     // Example validation: require at least one item to be checked.
     const hasAtLeastOneChecked = this.items.some((i) => i.checked);
-    return hasAtLeastOneChecked ? undefined : t('msg.select.at.least.one');
+    return hasAtLeastOneChecked ? undefined : "Select at least one option.";
   }
 
   @action
@@ -35,9 +35,9 @@ export default class DisabledDemoComponent extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.with.label"}}
+        @label="With Label"
         @rules={{this.requiredRules}}
-        @helpText={{t "lbl.help.text"}}
+        @helpText="Help text"
         @error={{this.error}}
         @fieldClass="col-12"
         @fieldId="radio-disabled"
@@ -51,7 +51,7 @@ export default class DisabledDemoComponent extends Component {
       </UlxField>
 
       <div class="col-12">
-        {{t "lbl.selected"}}:
+        {{"Selected:"}}:
         <strong>{{this.selectedValue}}</strong>
       </div>
     </div>

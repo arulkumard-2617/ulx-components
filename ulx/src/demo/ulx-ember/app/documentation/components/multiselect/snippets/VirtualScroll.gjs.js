@@ -22,7 +22,7 @@ export default class DemoMultiselectVirtualScroll extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label={{t "lbl.dropdown.virtual.scroll"}}
+        @label="Virtual Scroll"
         @fieldId="multiselect-virtual-scroll"
         @fieldClass="col-4"
         as |field|
@@ -34,7 +34,7 @@ export default class DemoMultiselectVirtualScroll extends Component {
           @onChange={{this.setSelected}}
           @scrollHeight="300px"
           @selectAll={{true}}
-          @placeholder={{t "msg.dropdown.select.virtual"}}
+          @placeholder="Select (virtual scroll)"
         />
       </UlxField>
     </div>

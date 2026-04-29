@@ -56,7 +56,7 @@ export default class DemoMultiselectSize extends Component {
           @value={{this.selectedXs}}
           @onChange={{this.setSelectedXs}}
           @selectAll={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
           @size="xs-size"
         />
       </UlxField>
@@ -73,7 +73,7 @@ export default class DemoMultiselectSize extends Component {
           @value={{this.selectedS}}
           @onChange={{this.setSelectedS}}
           @selectAll={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
           @size="s-size"
         />
       </UlxField>
@@ -85,7 +85,7 @@ export default class DemoMultiselectSize extends Component {
           @value={{this.selectedM}}
           @onChange={{this.setSelectedM}}
           @selectAll={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
           @size="m-size"
         />
       </UlxField>
@@ -97,7 +97,7 @@ export default class DemoMultiselectSize extends Component {
           @value={{this.selectedL}}
           @onChange={{this.setSelectedL}}
           @selectAll={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
           @size="l-size"
         />
       </UlxField>
@@ -109,7 +109,7 @@ export default class DemoMultiselectSize extends Component {
           @value={{this.selectedXl}}
           @onChange={{this.setSelectedXl}}
           @selectAll={{true}}
-          @placeholder={{t "msg.multiselect.placeholder.city"}}
+          @placeholder="Select cities"
           @size="xl-size"
         />
       </UlxField>

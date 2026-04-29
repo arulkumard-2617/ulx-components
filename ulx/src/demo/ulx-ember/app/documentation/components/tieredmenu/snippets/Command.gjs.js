@@ -11,68 +11,68 @@ export default class CommandDemoComponent extends Component {
   get items() {
     return [
       {
-        label: t('lbl.show.toast.1'),
+        label: "Show toast 1",
         items: [
           {
-            label: t('lbl.info.toast'),
+            label: "Info toast",
             value: 'show1-info',
             toastVariant: 'info',
           },
           {
-            label: t('lbl.success.toast'),
+            label: "Success toast",
             value: 'show1-success',
             toastVariant: 'success',
           },
           {
-            label: t('lbl.danger.toast'),
+            label: "Danger toast",
             value: 'show1-danger',
             toastVariant: 'error',
           },
         ],
       },
       {
-        label: t('lbl.show.toast.2'),
+        label: "Show toast 2",
         items: [
           {
-            label: t('lbl.info.group'),
+            label: "Info group",
             items: [
               {
-                label: t('msg.info.toast.a'),
+                label: "Info toast A",
                 value: 'show2-info-a',
                 toastVariant: 'info',
               },
               {
-                label: t('msg.info.toast.b'),
+                label: "Info toast B",
                 value: 'show2-info-b',
                 toastVariant: 'info',
               },
             ],
           },
           {
-            label: t('lbl.success.group'),
+            label: "Success group",
             items: [
               {
-                label: t('msg.success.toast.a'),
+                label: "Success toast A",
                 value: 'show2-success-a',
                 toastVariant: 'success',
               },
               {
-                label: t('msg.success.toast.b'),
+                label: "Success toast B",
                 value: 'show2-success-b',
                 toastVariant: 'success',
               },
             ],
           },
           {
-            label: t('lbl.danger.group'),
+            label: "Danger group",
             items: [
               {
-                label: t('msg.danger.toast.a'),
+                label: "Danger toast A",
                 value: 'show2-danger-a',
                 toastVariant: 'error',
               },
               {
-                label: t('msg.danger.toast.b'),
+                label: "Danger toast B",
                 value: 'show2-danger-b',
                 toastVariant: 'error',
               },
@@ -81,7 +81,7 @@ export default class CommandDemoComponent extends Component {
         ],
       },
       {
-        label: t('lbl.without.toast'),
+        label: "Without toast",
       },
     ];
   }

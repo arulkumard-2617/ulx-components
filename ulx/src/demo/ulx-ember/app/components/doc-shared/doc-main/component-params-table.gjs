@@ -22,14 +22,14 @@ export default class ComponentParamsTableComponent extends Component {
             <table class="datatable-table" role="grid">
               <thead class="datatable-header">
                 <tr class="datatable-header-row">
-                  <th class="column-header-cell" scope="col">{{t "lbl.name"}}</th>
-                  <th class="column-header-cell" scope="col">{{t "lbl.doc.params.type"}}</th>
+                  <th class="column-header-cell" scope="col">{{"Name"}}</th>
+                  <th class="column-header-cell" scope="col">{{"Type"}}</th>
                   {{#if this.showScopeColumn}}
-                    <th class="column-header-cell" scope="col">{{t "lbl.doc.params.scope"}}</th>
+                    <th class="column-header-cell" scope="col">{{"Scope"}}</th>
                   {{/if}}
-                  <th class="column-header-cell" scope="col">{{t "lbl.doc.params.required"}}</th>
-                  <th class="column-header-cell" scope="col">{{t "lbl.doc.params.default"}}</th>
-                  <th class="column-header-cell" scope="col">{{t "lbl.doc.params.description"}}</th>
+                  <th class="column-header-cell" scope="col">{{"Required"}}</th>
+                  <th class="column-header-cell" scope="col">{{"Default"}}</th>
+                  <th class="column-header-cell" scope="col">{{"Description"}}</th>
                 </tr>
               </thead>
               <tbody class="datatable-tbody">
@@ -47,7 +47,7 @@ export default class ComponentParamsTableComponent extends Component {
                       </td>
                     {{/if}}
                     <td class="column-body-cell">
-                      {{if row.required (t "lbl.doc.params.yes") (t "lbl.doc.params.no")}}
+                      {{if row.required "Yes" "No"}}
                     </td>
                     <td class="column-body-cell">
                       <code>{{if row.hasDefaultValue row.defaultValue "-"}}</code>

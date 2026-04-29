@@ -1,15 +1,15 @@
 {{page-title "Quick Start - ULX Ember Documentation"}}
 
 <DocShared::DocMain::FoundationLayout
-  @title={{t "lbl.quick.start"}}
-  @description={{t "msg.getting.started.quick.start.page.description"}}
+  @title="Quick Start"
+  @description="Get ULX installed, load the required stylesheet, and render your first component quickly."
 >
   <div class="flex justify-between gap-8 items-start min-w-0">
     <div class="grow w-full min-w-0">
       <DocShared::DocMain::FoundationSection
         @id="quick-start-install-package"
-        @title={{t "lbl.install.package"}}
-        @subtitle={{t "msg.getting.started.quick.start.install.package"}}
+        @title="Install the package"
+        @subtitle="Install the ULX package from npm before importing any components."
       >
         <DocShared::DocMain::CodePreview
           @source="npm install ulx-components"
@@ -19,8 +19,8 @@
 
       <DocShared::DocMain::FoundationSection
         @id="quick-start-load-stylesheet"
-        @title={{t "lbl.load.stylesheet"}}
-        @subtitle={{t "msg.getting.started.quick.start.load.stylesheet"}}
+        @title="Load the stylesheet"
+        @subtitle="Load the built stylesheet so ULX components render with the expected ULS_V2 styles."
       >
         <DocShared::DocMain::CodePreview
           @source="dev-releases/css/ulx-editor.min.css"
@@ -30,8 +30,8 @@
 
       <DocShared::DocMain::FoundationSection
         @id="quick-start-apply-theme-classes"
-        @title={{t "lbl.apply.theme.classes"}}
-        @subtitle={{t "msg.getting.started.quick.start.apply.theme.classes"}}
+        @title="Apply theme classes"
+        @subtitle="Apply the required root theme classes so colors, tokens, and theme appearance are activated."
       >
         <DocShared::DocMain::CodePreview
           @source='<body class="ulx-default-mode ulx-cardinal-theme">'
@@ -41,8 +41,8 @@
 
       <DocShared::DocMain::FoundationSection
         @id="quick-start-use-your-first-component"
-        @title={{t "lbl.use.your.first.component"}}
-        @subtitle={{t "msg.getting.started.quick.start.use.first.component"}}
+        @title="Use your first component"
+        @subtitle="Import a component from the package and render it in your template to confirm the setup is working."
       >
         <DocShared::DocMain::CodePreview
           @source="import { UlxButton } from 'ulx-components';
@@ -56,17 +56,17 @@
 
       <DocShared::DocMain::FoundationSection
         @id="quick-start-installation"
-        @title={{t "lbl.installation"}}
+        @title="Installation"
       >
         <p class="mt-0 mb-5 fg-text-secondary text-16">
-          {{t "msg.getting.started.installation.body"}}
+          {{"Install the package from npm, import the components you need from <code>ulx-components</code>, load the built stylesheet from <code>dev-releases</code>, and apply the required theme classes on the page root.<br /><br />If the stylesheet is missing, components may render functionally but will not look correct."}}
         </p>
       </DocShared::DocMain::FoundationSection>
 
       <DocShared::DocMain::FoundationSection
         @id="quick-start-component-imports"
-        @title={{t "lbl.component.imports"}}
-        @subtitle={{t "msg.getting.started.quick.start.component.imports"}}
+        @title="Component imports"
+        @subtitle="Import the components you need directly from the package entry point."
       >
         <DocShared::DocMain::CodePreview
           @source="import { UlxButton, UlxInput, UlxDropdown } from 'ulx-components';"
@@ -76,8 +76,8 @@
 
       <DocShared::DocMain::FoundationSection
         @id="quick-start-theme-setup"
-        @title={{t "lbl.theme.setup"}}
-        @subtitle={{t "msg.getting.started.quick.start.theme.setup"}}
+        @title="Theme setup"
+        @subtitle="Use the correct root theme classes so the component library picks up the expected visual theme."
       >
         <DocShared::DocMain::CodePreview
           @source='<body class="ulx-default-mode ulx-cardinal-theme">'

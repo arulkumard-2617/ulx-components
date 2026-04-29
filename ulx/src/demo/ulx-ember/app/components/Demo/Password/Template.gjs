@@ -14,28 +14,28 @@ export default class DemoPasswordTemplate extends Component {
   <template>
     <form class="ulx-form m-size ulx-grid gap-12 mb-14">
 
-      <UlxField @fieldClass="col-4" @label={{t "lbl.password"}} as |field|>
+      <UlxField @fieldClass="col-4" @label="Password" as |field|>
         <UlxPassword
           @field={{field}}
           @value={{this.value}}
           @onInput={{this.handleInput}}
           @toggleMask={{true}}
-          @placeholder={{t "lbl.enter.password"}}
+          @placeholder="Enter password"
         >
           <:panel-header>
             <div class="bold-font">
-              {{t "lbl.password.pick"}}
+              {{"Pick a password"}}
             </div>
           </:panel-header>
           <:panel-footer>
             <p class="bold-font mb-2">
-              {{t "lbl.password.suggestions"}}
+              {{"Suggestions"}}
             </p>
             <ul class="pl-4 mt-0 text-12 line-height-3">
-              <li>{{t "msg.password.suggestion.lowercase"}}</li>
-              <li>{{t "msg.password.suggestion.uppercase"}}</li>
-              <li>{{t "msg.password.suggestion.numeric"}}</li>
-              <li>{{t "msg.password.suggestion.length"}}</li>
+              <li>{{"At least one lowercase"}}</li>
+              <li>{{"At least one uppercase"}}</li>
+              <li>{{"At least one numeric"}}</li>
+              <li>{{"Minimum 8 characters"}}</li>
             </ul>
           </:panel-footer>
         </UlxPassword>

@@ -1,30 +1,30 @@
 {{page-title "Overview - ULX Ember Documentation"}}
 
 <DocShared::DocMain::FoundationLayout
-  @title={{t "lbl.overview"}}
-  @description={{t "msg.getting.started.overview.page.description"}}
+  @title="Overview"
+  @description="Understand what ULX is, how it relates to ULS_V2, and who should start here first."
 >
   <div class="flex justify-between gap-8 items-start min-w-0">
     <div class="grow w-full min-w-0">
       <DocShared::DocMain::FoundationSection
         @id="overview-introduction"
-        @title={{t "lbl.introduction"}}
+        @title="Introduction"
       >
         <p class="mt-0 mb-5 fg-text-secondary text-16">
-          {{t "msg.getting.started.overview.intro"}}
+          {{"ULX is a component library built on top of ULS_V2, our design system."}}
         </p>
         <p class="mt-0 mb-0 fg-text-secondary text-16">
-          {{t "msg.getting.started.overview.hero.body"}}
+          {{"ULS_V2 provides the visual foundation such as styles, themes, utilities, and shared design patterns. ULX builds on top of that foundation and exposes Ember components that teams can use directly in applications."}}
         </p>
         <div class="mt-6">
           <UlxMessage @variant="info" @icon="info-icon">
             <div class="flex flex-col gap-1">
-              <span>{{t "msg.getting.started.overview.callout"}}</span>
+              <span>{{"Need deeper internal guidance for docs authoring, demo pages, or variations?"}}</span>
               <LinkTo
                 @route="getting-started.docs-walkthrough"
                 class="ulx-button link text-button flex justify-start"
               >
-                {{t "msg.getting.started.use.docs.walkthrough"}}
+                {{"Use the Docs Walkthrough page."}}
               </LinkTo>
 
             </div>
@@ -34,7 +34,7 @@
 
       <DocShared::DocMain::FoundationSection
         @id="overview-advantages"
-        @title={{t "lbl.getting.started.advantages.of.ulx"}}
+        @title="Advantages of ULX"
       >
         <div class="ulx-grid col-1 gap-4 mt-4">
           <div class="flex items-start gap-1">
@@ -46,10 +46,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.reusable.components"
-                }}:</span>
-              {{t "msg.getting.started.reusable.components.long"}}
+              <span class="bold-font">{{"Reusable Components"}}:</span>
+              {{"Teams can use shared Ember components instead of rebuilding the same interface patterns in every app."}}
             </p>
           </div>
           <div class="flex items-start gap-1">
@@ -61,10 +59,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.consistency"
-                }}:</span>
-              {{t "msg.getting.started.consistency.long"}}
+              <span class="bold-font">{{"Consistency"}}:</span>
+              {{"ULX stays aligned with ULS_V2 styles, themes, and design decisions so product UI remains visually consistent."}}
             </p>
           </div>
           <div class="flex items-start gap-1">
@@ -76,10 +72,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.maintainability"
-                }}:</span>
-              {{t "msg.getting.started.maintainability.long"}}
+              <span class="bold-font">{{"Maintainability"}}:</span>
+              {{"Updates are easier to manage because common behavior and shared styling live in one system instead of many app-specific implementations."}}
             </p>
           </div>
           <div class="flex items-start gap-1">
@@ -91,10 +85,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.faster.development"
-                }}:</span>
-              {{t "msg.getting.started.faster.development.long"}}
+              <span class="bold-font">{{"Faster Development"}}:</span>
+              {{"Teams can move faster with ready-to-use building blocks for forms, navigation, overlays, data display, and feedback patterns."}}
             </p>
           </div>
           <div class="flex items-start gap-1">
@@ -106,10 +98,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.shared.foundation"
-                }}:</span>
-              {{t "msg.getting.started.shared.foundation"}}
+              <span class="bold-font">{{"Shared foundation"}}:</span>
+              {{"ULX combines Ember component APIs with the ULS_V2 design foundation, making the system easier to adopt across products."}}
             </p>
           </div>
         </div>
@@ -117,10 +107,10 @@
 
       <DocShared::DocMain::FoundationSection
         @id="overview-who-is-this-for"
-        @title={{t "lbl.who.is.this.for"}}
+        @title="Who is this for"
       >
         <p class="mt-0 mb-5 fg-text-secondary text-16">
-          {{t "msg.getting.started.audience.intro"}}
+          {{"The overview page is intended to help both product consumers and internal team members understand where ULX fits and when to use it."}}
         </p>
         <div class="ulx-grid col-1 gap-4">
           <div class="flex items-start gap-1">
@@ -132,10 +122,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.application.developers"
-                }}:</span>
-              {{t "msg.getting.started.application.developers.long"}}
+              <span class="bold-font">{{"Application Developers"}}:</span>
+              {{"This path is for developers who want to install ULX, load the required styles, and start using components in their applications."}}
             </p>
           </div>
           <div class="flex items-start gap-1">
@@ -147,10 +135,8 @@
               aria-hidden="true"
             />
             <p class="mt-0 mb-0 text-16">
-              <span class="bold-font">{{t
-                  "lbl.getting.started.new.team.members"
-                }}:</span>
-              {{t "msg.getting.started.new.team.members.long"}}
+              <span class="bold-font">{{"New Team Members"}}:</span>
+              {{"This page also helps new team members understand how ULX depends on ULS_V2 and how the design system is applied in practice."}}
             </p>
           </div>
         </div>
@@ -158,7 +144,7 @@
 
       <DocShared::DocMain::FoundationSection
         @id="overview-next-steps"
-        @title={{t "lbl.getting.started.explore.next"}}
+        @title="Explore next"
       >
         <div class="ulx-grid col-2 col-sm-1 gap-4">
           <LinkTo
@@ -166,8 +152,8 @@
             class="block decoration-none fg-text"
           >
             <UlxCard
-              @title={{t "lbl.quick.start"}}
-              @subTitle={{t "lbl.installation"}}
+              @title="Quick Start"
+              @subTitle="Installation"
               @appearance="outlined"
               @interactive={{true}}
               @hoverable={{true}}
@@ -175,7 +161,7 @@
               @bodyClass="h-full bg-layer1"
             >
               <p class="fg-text-secondary text-14 mb-0">
-                {{t "msg.getting.started.nav.quick.start"}}
+                {{"Set up ULX quickly, load the required stylesheet, and render your first component."}}
               </p>
             </UlxCard>
           </LinkTo>
@@ -185,8 +171,8 @@
             class="block decoration-none fg-text"
           >
             <UlxCard
-              @title={{t "lbl.styles.and.theming"}}
-              @subTitle={{t "lbl.getting.started.themes.and.root.classes"}}
+              @title="Styles and Theming"
+              @subTitle="Themes and root classes"
               @appearance="outlined"
               @interactive={{true}}
               @hoverable={{true}}
@@ -194,7 +180,7 @@
               @bodyClass="h-full bg-layer1"
             >
               <p class="fg-text-secondary text-14 mb-0">
-                {{t "msg.getting.started.nav.styles.and.theming"}}
+                {{"Understand how ULX builds on ULS_V2 styles, themes, and overrides."}}
               </p>
             </UlxCard>
           </LinkTo>
@@ -204,8 +190,8 @@
             class="block decoration-none fg-text"
           >
             <UlxCard
-              @title={{t "lbl.docs.walkthrough"}}
-              @subTitle={{t "lbl.next.steps"}}
+              @title="Docs Walkthrough"
+              @subTitle="Next steps"
               @appearance="outlined"
               @interactive={{true}}
               @hoverable={{true}}
@@ -213,7 +199,7 @@
               @bodyClass="h-full bg-layer1"
             >
               <p class="fg-text-secondary text-14 mb-0">
-                {{t "msg.getting.started.nav.docs.walkthrough"}}
+                {{"Open the internal guide for demo-page authoring, docs updates, and variations."}}
               </p>
             </UlxCard>
           </LinkTo>
@@ -223,8 +209,8 @@
             class="block decoration-none fg-text"
           >
             <UlxCard
-              @title={{t "lbl.getting.started.components"}}
-              @subTitle={{t "lbl.button"}}
+              @title="Components"
+              @subTitle="Button"
               @appearance="outlined"
               @interactive={{true}}
               @hoverable={{true}}
@@ -232,7 +218,7 @@
               @bodyClass="h-full bg-layer1"
             >
               <p class="fg-text-secondary text-14 mb-0">
-                {{t "msg.getting.started.nav.components"}}
+                {{"Jump into the component docs and start exploring the available ULX building blocks."}}
               </p>
             </UlxCard>
           </LinkTo>

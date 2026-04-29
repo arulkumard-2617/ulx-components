@@ -49,7 +49,7 @@ const section = (id, sectionNav, content, Demo, Source, snippetName) => ({
 export const DropdownFeatureItems = [
   section(
     'import',
-    t('lbl.doc.section.import'),
+    "Import",
     'The <code>import</code> property is used to import the <code>UlxDropdown</code> component.',
     null,
     ImportSource,
@@ -57,7 +57,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'basic',
-    t('lbl.doc.section.basic'),
+    "Basic",
     'The <code>Basic</code> demo shows basic usage of the Dropdown with label, help text and field structure.',
     BasicDemo,
     BasicSource,
@@ -65,7 +65,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'checkmark',
-    t('lbl.dropdown.checkmark'),
+    "Checkmark",
     'Selected option can be shown with a checkmark using <code>@checkmark</code>.',
     CheckmarkDemo,
     CheckmarkSource,
@@ -73,7 +73,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'group',
-    t('lbl.group'),
+    "Group",
     'Options can be organized in groups using <code>@optionGroupLabel</code> and <code>@optionGroupChildren</code>.',
     GroupDemo,
     GroupSource,
@@ -81,7 +81,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'template',
-    t('lbl.dropdown.template'),
+    "Template",
     'Customize option rendering with the <code>:item</code> (and <code>:value</code>) named blocks.',
     TemplateDemo,
     TemplateSource,
@@ -89,7 +89,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'filter',
-    t('lbl.dropdown.filter'),
+    "Filter",
     'Enable <code>@filter</code> to show a search input inside the dropdown panel.',
     FilterDemo,
     FilterSource,
@@ -97,7 +97,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'clear-icon',
-    t('lbl.dropdown.clear.icon'),
+    "Clear Icon",
     'Use <code>@showClear</code> to display a clear icon when a value is selected.',
     ClearIconDemo,
     ClearIconSource,
@@ -105,7 +105,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'loading-state',
-    t('lbl.dropdown.loading.state'),
+    "Loading State",
     'Use <code>@loading</code> to show a loading indicator instead of the dropdown icon.',
     LoadingStateDemo,
     LoadingStateSource,
@@ -113,7 +113,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'virtual-scroll',
-    t('lbl.dropdown.virtual.scroll'),
+    "Virtual Scroll",
     'Use <code>@scrollHeight</code> to limit list height; suitable for large option lists.',
     VirtualScrollDemo,
     VirtualScrollSource,
@@ -121,7 +121,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'invalid',
-    t('lbl.dropdown.invalid'),
+    "Invalid",
     'Use <code>UlxField</code> for the error message; pass <code>@invalid</code> on the dropdown and <code>@ariaDescribedBy</code> / <code>@ariaErrorMessage</code> from the field control hash.',
     InvalidDemo,
     InvalidSource,
@@ -129,7 +129,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'disabled',
-    t('lbl.dropdown.disabled'),
+    "Disabled",
     'Use <code>@disabled</code> to disable the dropdown.',
     DisabledDemo,
     DisabledSource,
@@ -137,7 +137,7 @@ export const DropdownFeatureItems = [
   ),
   section(
     'accessibility',
-    t('lbl.doc.section.accessibility'),
+    "Accessibility",
     'Dropdown uses combobox and listbox roles, keyboard navigation (Arrow keys, Enter, Escape), and ARIA attributes for accessibility.',
     AccessibilityDemo,
     AccessibilitySource,
