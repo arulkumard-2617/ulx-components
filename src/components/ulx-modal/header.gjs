@@ -76,7 +76,7 @@ export default class UlxModalHeader extends Component {
 	}
 
 	get maximizeButtonAriaLabel() {
-		return this.args.isMaximized ? t("lbl.restore") : t("lbl.maximize");
+		return this.args.isMaximized ? t("label.restore") : t("lbl.maximize");
 	}
 
 	@action
@@ -124,7 +124,7 @@ export default class UlxModalHeader extends Component {
 						@iconSize={{this.iconSize}}
 						@text={{true}}
 						@customClass="dialog-close-button"
-						aria-label={{t "lbl.close"}}
+						aria-label={{t "label.close"}}
 						data-qa="ulx-modal-close"
 						{{on "click" this.handleClose}}
 					/>

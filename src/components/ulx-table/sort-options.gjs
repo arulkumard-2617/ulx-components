@@ -71,7 +71,7 @@ export default class SortOptions extends Component {
 			<UlxDivider />
 			<div class="flex flex-col items-start gap-3">
 				<UlxIconButton
-					@label={{t "lbl.ascending"}}
+					@label={{t "label.ascending"}}
 					@iconLeft="ascending-icon"
 					@iconComponentClass="bs-icons1"
 					@iconSize="s14"
@@ -84,7 +84,7 @@ export default class SortOptions extends Component {
 				/>
 
 				<UlxIconButton
-					@label={{t "lbl.descending"}}
+					@label={{t "label.descending"}}
 					@iconLeft="descending-icon"
 					@iconComponentClass="bs-icons1"
 					@iconSize="s14"

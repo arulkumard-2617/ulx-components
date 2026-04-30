@@ -1144,17 +1144,17 @@ export default class UlxTable extends Component {
 	}
 
 	getViewToggleOptions(hasDetailed, hasCard) {
-		const opts = [{ value: "table", label: t("aria.table.view.table"), icon: "grid-icon-master" }];
+		const opts = [{ value: "table", label: t("lbl.a11y.table.view.table"), icon: "grid-icon-master" }];
 		hasDetailed &&
 			opts.push({
 				value: "detailed",
-				label: t("aria.table.view.detailed"),
+				label: t("lbl.a11y.table.view.detailed"),
 				icon: "list-view-icon"
 			});
 		hasCard &&
 			opts.push({
 				value: "card",
-				label: t("aria.table.view.card"),
+				label: t("lbl.a11y.table.view.card"),
 				icon: "card-view-icon"
 			});
 		return opts;

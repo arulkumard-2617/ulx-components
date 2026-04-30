@@ -246,7 +246,7 @@ export default class UlxPaginator extends Component {
 			this.firstPageLinkIcon,
 			this.goToFirst,
 			this.navFirstPrevDisabled,
-			"aria.paginator.firstPage"
+			"lbl.a11y.paginator.firstPage"
 		);
 	}
 
@@ -256,7 +256,7 @@ export default class UlxPaginator extends Component {
 			this.prevPageLinkIcon,
 			this.goToPrev,
 			this.navFirstPrevDisabled,
-			"aria.paginator.prevPage"
+			"lbl.a11y.paginator.prevPage"
 		);
 	}
 
@@ -266,7 +266,7 @@ export default class UlxPaginator extends Component {
 			this.nextPageLinkIcon,
 			this.goToNext,
 			this.navNextLastDisabled,
-			"aria.paginator.nextPage"
+			"lbl.a11y.paginator.nextPage"
 		);
 	}
 
@@ -276,7 +276,7 @@ export default class UlxPaginator extends Component {
 			this.lastPageLinkIcon,
 			this.goToLast,
 			this.navNextLastDisabled,
-			"aria.paginator.lastPage"
+			"lbl.a11y.paginator.lastPage"
 		);
 	}
 
@@ -361,7 +361,7 @@ export default class UlxPaginator extends Component {
 			<div
 				class={{this.rootClasses}}
 				role="navigation"
-				aria-label={{t "aria.paginator.navigation"}}
+				aria-label={{t "lbl.a11y.paginator.navigation"}}
 				data-qa={{this.rootDataQa}}
 				...attributes
 			>

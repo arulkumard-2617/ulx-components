@@ -64,6 +64,15 @@ export default class MyPage extends Component {
 }
 ```
 
+## i18n Integration
+
+`ulx-components` emits translation keys only (`label.*`, `message.*`, `lbl.*`) and does not own production locale values.
+
+Parent applications must:
+- Provide translations for all ULX keys in their own locale pipeline.
+- Wire/override `ulx-components/utils/i18n` `t()` to the parent resolver.
+- Ensure the `{{t}}` helper resolves those same keys in host locale setup.
+
 ## Folder Structure
 
 ```

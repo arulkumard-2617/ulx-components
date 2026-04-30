@@ -35,11 +35,11 @@ export default class UlxPopupFooter extends Component {
 	}
 
 	get cancelLabel() {
-		return this.args.cancelLabel || t("lbl.cancel");
+		return this.args.cancelLabel || t("label.cancel");
 	}
 
 	get doneLabel() {
-		return this.args.doneLabel || t("lbl.confirm");
+		return this.args.doneLabel || t("label.confirm");
 	}
 
 	get showTertiaryButton() {

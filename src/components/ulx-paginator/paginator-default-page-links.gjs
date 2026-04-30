@@ -33,7 +33,7 @@ export default class PaginatorDefaultPageLinks extends Component {
 		<span
 			class="paginator-page-links"
 			role="group"
-			aria-label={{t "aria.paginator.pageLabel" page=this.currentPageOneBased}}
+			aria-label={{t "lbl.a11y.paginator.pageLabel" page=this.currentPageOneBased}}
 			data-qa="{{this.rootDataQa}}-page-links"
 		>
 			{{#each this.pageLinks as |pageNum|}}
@@ -42,7 +42,7 @@ export default class PaginatorDefaultPageLinks extends Component {
 					@label={{pageNum}}
 					@customClass="paginator-page-button {{if (eq pageNum this.currentPageOneBased) 'active'}}"
 					@onClick={{fn this.goToPageNumber pageNum}}
-					aria-label={{t "aria.paginator.pageLabel" page=pageNum}}
+					aria-label={{t "lbl.a11y.paginator.pageLabel" page=pageNum}}
 					aria-current={{if (eq pageNum this.currentPageOneBased) "page"}}
 				/>
 			{{/each}}

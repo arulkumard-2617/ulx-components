@@ -367,7 +367,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	get openTriggerAriaLabel() {
-		return t("aria.dropdown.open");
+		return t("lbl.a11y.dropdown.open");
 	}
 
 	get resolvedContext() {

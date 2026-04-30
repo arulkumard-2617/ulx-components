@@ -38,7 +38,7 @@ export default class PaginatorDefaultNavButton extends Component {
 		{{else if (eq this.kind "prev")}}
 			<UlxIconButton
 				@variant="basic"
-				@label={{t "lbl.paginator.previous"}}
+				@label={{t "label.previous"}}
 				@iconLeft={{this.config.icon}}
 				@customClass={{this.config.className}}
 				@disabled={{this.config.disabled}}
@@ -49,7 +49,7 @@ export default class PaginatorDefaultNavButton extends Component {
 		{{else if (eq this.kind "next")}}
 			<UlxIconButton
 				@variant="basic"
-				@label={{t "lbl.paginator.next"}}
+				@label={{t "label.next"}}
 				@iconRight={{this.config.icon}}
 				@customClass={{this.config.className}}
 				@disabled={{this.config.disabled}}

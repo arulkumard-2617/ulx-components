@@ -186,7 +186,7 @@ export default class FilterOverlay extends Component {
 		<div
 			class="ulx-datatable-filter-overlay menu-display"
 			role="dialog"
-			aria-label={{t "aria.table.column.filter"}}
+			aria-label={{t "lbl.a11y.table.column.filter"}}
 			{{on "keydown" this.handleOverlayKeydown}}
 		>
 			<div class="filter-overlay-header">
@@ -199,7 +199,7 @@ export default class FilterOverlay extends Component {
 					@iconComponentClass="bs-icons1"
 					@iconSize="s18"
 					@onClick={{@onClose}}
-					aria-label={{t "lbl.close"}}
+					aria-label={{t "label.close"}}
 				/>
 			</div>
 			{{#if this.hasMatchModes}}
@@ -210,7 +210,7 @@ export default class FilterOverlay extends Component {
 						@optionLabel="label"
 						@optionValue="value"
 						@onChange={{this.setOperator}}
-						aria-label={{t "aria.table.filter.operator"}}
+						aria-label={{t "lbl.a11y.table.filter.operator"}}
 					/>
 				</div>
 			{{/if}}
@@ -225,7 +225,7 @@ export default class FilterOverlay extends Component {
 								@optionLabel="label"
 								@optionValue="value"
 								@onChange={{fn this.updateConstraint index "matchMode"}}
-								aria-label={{t "aria.table.filter.match.mode"}}
+								aria-label={{t "lbl.a11y.table.filter.match.mode"}}
 							/>
 						{{/if}}
 
@@ -245,7 +245,7 @@ export default class FilterOverlay extends Component {
 								@filter={{true}}
 								@invalid={{and this.showValidation (not constraint.value.length)}}
 								@onChange={{fn this.updateConstraint index "value"}}
-								aria-label={{t "aria.table.filter.values"}}
+								aria-label={{t "lbl.a11y.table.filter.values"}}
 							/>
 						{{else}}
 							<UlxInput
@@ -254,7 +254,7 @@ export default class FilterOverlay extends Component {
 								@invalid={{and this.showValidation (this.isConstraintValueEmpty constraint)}}
 								@onKeydown={{this.handleFilterValueKeydown}}
 								{{on "input" (fn this.updateConstraintFromInput index)}}
-								aria-label={{t "aria.table.filter.value"}}
+								aria-label={{t "lbl.a11y.table.filter.value"}}
 							/>
 						{{/if}}
 
@@ -266,7 +266,7 @@ export default class FilterOverlay extends Component {
 								@iconSize="s14"
 								@customClass="filter-remove"
 								@onClick={{fn this.removeConstraint index}}
-								aria-label={{t "aria.table.remove.filter.rule"}}
+								aria-label={{t "lbl.a11y.table.remove.filter.rule"}}
 							/>
 						{{/if}}
 					</div>

@@ -50,7 +50,7 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
  */
 export default class UlxModalFooter extends Component {
 	get cancelLabel() {
-		return this.args.cancelLabel || t("lbl.cancel");
+		return this.args.cancelLabel || t("label.cancel");
 	}
 
 	get doneLabel() {
@@ -58,7 +58,7 @@ export default class UlxModalFooter extends Component {
 		if (submitting && submittingLabel) {
 			return submittingLabel;
 		}
-		return doneLabel || t("lbl.confirm");
+		return doneLabel || t("label.confirm");
 	}
 
 	get hideCancelButton() {

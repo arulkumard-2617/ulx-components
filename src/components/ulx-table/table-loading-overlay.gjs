@@ -18,7 +18,7 @@ export default class TableLoadingOverlay extends Component {
 			<div
 				class="datatable-loading-overlay"
 				aria-live="polite"
-				aria-label={{t "aria.table.loading"}}
+				aria-label={{t "lbl.a11y.table.loading"}}
 				data-qa={{this.rootDataQa}}
 			>
 				{{#if (has-block "loadingOverlay")}}

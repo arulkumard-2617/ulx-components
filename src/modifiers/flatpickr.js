@@ -266,8 +266,8 @@ function enhanceNavKeyboardAccess(fpInstance) {
 	const nextMonthButton = container.querySelector('.flatpickr-next-month');
 
 	[
-		{ navElement: prevMonthButton, labelKey: 'aria.datepicker.previousMonth' },
-		{ navElement: nextMonthButton, labelKey: 'aria.datepicker.nextMonth' }
+		{ navElement: prevMonthButton, labelKey: 'lbl.a11y.datepicker.previousMonth' },
+		{ navElement: nextMonthButton, labelKey: 'lbl.a11y.datepicker.nextMonth' }
 	]
 		.filter(({ navElement }) => navElement)
 		.forEach(({ navElement, labelKey }) => {
