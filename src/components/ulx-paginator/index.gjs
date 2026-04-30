@@ -22,16 +22,19 @@ import {
 	parseTemplateKeys
 } from "./utils.js";
 
+const DEFAULT_ROWS = 10;
+const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
+
 /**
  * Paginator component for paged content. Aligns with ULS paginator.less.
  * Uses UlxButton for first/prev/next/last and page number buttons; UlxDropdown for rows per page.
  *
  * @class UlxPaginator
  * @param {number} [totalRecords=0] - Total number of records
- * @param {number} [rows=0] - Rows per page
+ * @param {number} [rows=10] - Rows per page
  * @param {number} [first=0] - Zero-based index of first row to display
  * @param {number} [pageLinkSize=5] - Number of page links to show
- * @param {number[]} [rowsPerPageOptions] - Options for rows-per-page dropdown (e.g. [10, 20, 30])
+ * @param {number[]} [rowsPerPageOptions=[10, 25, 50, 100]] - Options for rows-per-page dropdown
  * @param {boolean} [alwaysShow=true] - Show paginator even when only one page
  * @param {string} [template] - Layout string, e.g. "FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
  * @param {string} [currentPageReportTemplate] - Report template; placeholders: {currentPage}, {totalPages}, {first}, {last}, {rows}, {totalRecords}
@@ -79,7 +82,11 @@ export default class UlxPaginator extends Component {
 	}
 
 	get rows() {
-		return this.args.rows ?? 0;
+		const { rows, rowsPerPageOptions } = this.args;
+		if (rows !== undefined && rows !== null) {
+			return rows;
+		}
+		return rowsPerPageOptions?.[0] ?? DEFAULT_ROWS;
 	}
 
 	get first() {
@@ -153,7 +160,8 @@ export default class UlxPaginator extends Component {
 	}
 
 	get rowsPerPageOptions() {
-		return mapRowsPerPageOptions(this.args.rowsPerPageOptions);
+		const { rowsPerPageOptions = DEFAULT_ROWS_PER_PAGE_OPTIONS } = this.args;
+		return mapRowsPerPageOptions(rowsPerPageOptions);
 	}
 
 	get reportFirst() {
@@ -238,7 +246,7 @@ export default class UlxPaginator extends Component {
 			this.firstPageLinkIcon,
 			this.goToFirst,
 			this.navFirstPrevDisabled,
-			"aria.paginator.firstPage"
+			"lbl.a11y.paginator.firstPage"
 		);
 	}
 
@@ -248,7 +256,7 @@ export default class UlxPaginator extends Component {
 			this.prevPageLinkIcon,
 			this.goToPrev,
 			this.navFirstPrevDisabled,
-			"aria.paginator.prevPage"
+			"lbl.a11y.paginator.prevPage"
 		);
 	}
 
@@ -258,7 +266,7 @@ export default class UlxPaginator extends Component {
 			this.nextPageLinkIcon,
 			this.goToNext,
 			this.navNextLastDisabled,
-			"aria.paginator.nextPage"
+			"lbl.a11y.paginator.nextPage"
 		);
 	}
 
@@ -268,7 +276,7 @@ export default class UlxPaginator extends Component {
 			this.lastPageLinkIcon,
 			this.goToLast,
 			this.navNextLastDisabled,
-			"aria.paginator.lastPage"
+			"lbl.a11y.paginator.lastPage"
 		);
 	}
 
@@ -353,7 +361,7 @@ export default class UlxPaginator extends Component {
 			<div
 				class={{this.rootClasses}}
 				role="navigation"
-				aria-label={{t "aria.paginator.navigation"}}
+				aria-label={{t "lbl.a11y.paginator.navigation"}}
 				data-qa={{this.rootDataQa}}
 				...attributes
 			>

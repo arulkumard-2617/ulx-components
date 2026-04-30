@@ -1,7 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { t } from "../../utils/i18n";
-import tHelper from "../../helpers/ulx-t";
 import { buildInputGroupClass } from "../../utils/input-util";
 import flatpickrModifier from "../../modifiers/flatpickr";
 import UlxInput from "../ulx-input/index.gjs";
@@ -169,7 +168,7 @@ export default class UlxTimePicker extends Component {
 							@type="button"
 							@variant="white"
 							@iconLeft="time-icon"
-							aria-label={{tHelper "lbl.timepicker.toggle"}}
+							aria-label={{t "lbl.timepicker.toggle"}}
 						/>
 					</span>
 				{{/if}}
@@ -180,7 +179,7 @@ export default class UlxTimePicker extends Component {
 							@type="button"
 							@variant="white"
 							@iconLeft="close-icon-01"
-							aria-label={{tHelper "lbl.datepicker.clear"}}
+							aria-label={{t "lbl.datepicker.clear"}}
 						/>
 					</span>
 				{{/if}}

@@ -49,7 +49,7 @@ export default class UlxDataView extends Component {
 		<div
 			class={{this.rootClasses}}
 			role="region"
-			aria-label={{t "aria.dataview.region"}}
+			aria-label={{t "lbl.a11y.dataview.region"}}
 			data-qa={{this.rootDataQa}}
 			...attributes
 		>

@@ -102,9 +102,9 @@ export default class UlxToggle extends Component {
 			/>
 			<div class={{this.sliderClasses}} aria-hidden="true" data-qa="ulx-toggle-slider">
 				{{#if @checked}}
-					<span class="on-lbl">{{t "lbl.toggle.on"}}</span>
+					<span class="on-lbl">{{t "label.on"}}</span>
 				{{else}}
-					<span class="off-lbl">{{t "lbl.toggle.off"}}</span>
+					<span class="off-lbl">{{t "label.off"}}</span>
 				{{/if}}
 			</div>
 		</div>

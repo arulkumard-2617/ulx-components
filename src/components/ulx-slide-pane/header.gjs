@@ -48,7 +48,7 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	get backButtonLabel() {
-		return this.args.backButtonLabel ?? t("lbl.back");
+		return this.args.backButtonLabel ?? t("label.back");
 	}
 
 	get backIconName() {
@@ -100,7 +100,7 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	get maximizeButtonAriaLabel() {
-		return this.args.isMaximized ? t("lbl.restore") : t("lbl.maximize");
+		return this.args.isMaximized ? t("label.restore") : t("lbl.maximize");
 	}
 
 	@action
@@ -155,7 +155,7 @@ export default class UlxSlidePaneHeader extends Component {
 						@iconSize={{this.iconSize}}
 						@text={{true}}
 						@customClass="slidepane-close-button"
-						aria-label={{t "lbl.close"}}
+						aria-label={{t "label.close"}}
 						{{on "click" this.handleClose}}
 					/>
 				{{/if}}

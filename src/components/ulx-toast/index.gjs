@@ -314,7 +314,7 @@ export default class UlxToast extends Component {
 			class={{this.containerClasses}}
 			data-qa={{this.rootDataQa}}
 			role="region"
-			aria-label={{t "lbl.notification"}}
+			aria-label={{t "label.notifications"}}
 			style={{this.toastContainerStyle}}
 			{{appendToBody this.destinationElement this.destinationElement}}
 			...attributes

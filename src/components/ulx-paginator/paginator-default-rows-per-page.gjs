@@ -40,7 +40,7 @@ export default class PaginatorDefaultRowsPerPage extends Component {
 	<template>
 		<div class="paginator-rpp" data-qa="{{this.rootDataQa}}-rpp">
 			{{#if this.showRecordsPerPageLabel}}
-				<span class="paginator-rpp-label">{{t "lbl.paginator.recordsPerPage"}}</span>
+				<span class="paginator-rpp-label">{{t "lbl.records.per.page"}}</span>
 			{{/if}}
 			<UlxDropdown
 				@value={{this.rows}}
@@ -51,7 +51,7 @@ export default class PaginatorDefaultRowsPerPage extends Component {
 				@disabled={{this.isEmpty}}
 				@onChange={{this.onRowsChange}}
 				@customClass="paginator-rpp-dropdown"
-				aria-label={{t "aria.paginator.rowsPerPage"}}
+				aria-label={{t "lbl.a11y.paginator.rowsPerPage"}}
 			/>
 		</div>
 	</template>

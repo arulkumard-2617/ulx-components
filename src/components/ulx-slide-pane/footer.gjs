@@ -31,7 +31,7 @@ import { t } from "../../utils/i18n";
  */
 export default class UlxSlidePaneFooter extends Component {
 	get cancelLabel() {
-		return this.args.cancelLabel || t("lbl.cancel");
+		return this.args.cancelLabel || t("label.cancel");
 	}
 
 	get doneLabel() {
@@ -39,7 +39,7 @@ export default class UlxSlidePaneFooter extends Component {
 		if (submitting && submittingLabel) {
 			return submittingLabel;
 		}
-		return doneLabel || t("lbl.confirm");
+		return doneLabel || t("label.confirm");
 	}
 
 	get hideCancelButton() {
@@ -55,7 +55,7 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	get backLabel() {
-		return this.args.backLabel || t("lbl.back");
+		return this.args.backLabel || t("label.back");
 	}
 
 	get submitting() {

@@ -81,7 +81,7 @@ export default class UlxRating extends Component {
 	}
 
 	get ariaLabelText() {
-		return this.args.ariaLabel ?? t("lbl.rating");
+		return this.args.ariaLabel ?? t("label.rating");
 	}
 
 	get starIndices() {

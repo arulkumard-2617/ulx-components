@@ -455,7 +455,7 @@ export default class UlxMultiSelect extends Component {
 
 	get selectAllItemLabel() {
 		const { selectAllLabel } = this.args;
-		return selectAllLabel !== undefined ? selectAllLabel : t("lbl.select.all");
+		return selectAllLabel !== undefined ? selectAllLabel : t("label.select.all");
 	}
 
 	get selectAllHeaderLabel() {
@@ -1299,7 +1299,7 @@ export default class UlxMultiSelect extends Component {
 												class="multiselect-token-icon"
 												role="button"
 												tabindex="0"
-												aria-label={{t "lbl.remove"}}
+												aria-label={{t "label.remove"}}
 												{{on "click" (fn this.removeChipOption option)}}
 												{{on "keydown" (fn this.onChipRemoveIconKeydown option)}}
 											/>
@@ -1402,7 +1402,7 @@ export default class UlxMultiSelect extends Component {
 								type="button"
 								class="multiselect-close-button"
 								data-qa="ulx-multiselect-close"
-								aria-label={{t "lbl.close"}}
+								aria-label={{t "label.close"}}
 								{{on "click" this.onCloseButtonInteract}}
 							>
 								<UlxIcon

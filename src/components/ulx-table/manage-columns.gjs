@@ -266,7 +266,7 @@ export default class ManageColumns extends Component {
 							@itemLabel={{col.header}}
 							@onChange={{fn this.toggleColumn col}}
 							@customClass="datatable-manage-columns-label"
-							aria-label={{t "aria.table.toggle.column" header=col.header}}
+							aria-label={{t "lbl.a11y.table.toggle.column" header=col.header}}
 						/>
 						<div class="drag-controls">
 							{{#if (this.isLocked col)}}
@@ -284,7 +284,7 @@ export default class ManageColumns extends Component {
 								@iconLeft="up-stroke-icon-new"
 								@disabled={{not (this.canMoveUp col index)}}
 								@onClick={{fn this.handleMoveUp col index}}
-								aria-label={{t "aria.table.move.column.up" header=col.header}}
+								aria-label={{t "lbl.a11y.table.move.column.up" header=col.header}}
 							/>
 							<UlxIconButton
 								@size="xs-size"
@@ -292,7 +292,7 @@ export default class ManageColumns extends Component {
 								@iconLeft="down-stroke-icon-new"
 								@disabled={{not (this.canMoveDown col index)}}
 								@onClick={{fn this.handleMoveDown col index}}
-								aria-label={{t "aria.table.move.column.down" header=col.header}}
+								aria-label={{t "lbl.a11y.table.move.column.down" header=col.header}}
 							/>
 						</div>
 					</li>
