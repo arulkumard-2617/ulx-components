@@ -9,5 +9,6 @@ import { UlxIconButton, t } from 'ulx-components';
       @iconComponentClass="bs-icons1"
       @loading={{true}}
     />
+    <UlxIconButton @label="Submit" @loading={{true}} />
   </div>
 </template>

@@ -742,16 +742,22 @@ export default class UlxTieredmenu extends Component {
 		const container = this.containerElement;
 		const target = this.targetElement;
 
+		// Temporarily remove the overlay from layout so its own size does not
+		// inflate body / trigger a scrollbar and skew viewport or target measurements.
+		const prevDisplay = container.style.display;
+		container.style.display = "none";
+
 		const targetRect = target.getBoundingClientRect();
+		const viewportWidth = window.innerWidth;
+		const viewportHeight = window.innerHeight;
+		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+		container.style.display = prevDisplay;
 
 		// Use offsetWidth/offsetHeight — unaffected by CSS transforms (scale) so the
 		// measurement is accurate even while the enter animation is mid-scale.
 		const menuWidth = container.offsetWidth || 180;
 		const menuHeight = container.offsetHeight || 200;
-
-		const viewportWidth = window.innerWidth;
-		const viewportHeight = window.innerHeight;
-		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
 		let top = targetRect.bottom;
 		// 'end': right edge of menu aligns with right edge of trigger
@@ -808,9 +814,6 @@ export default class UlxTieredmenu extends Component {
 		if (this.args.target) {
 			this.targetElement = this.args.target;
 		}
-
-		// Don't trigger show here - let watchVisibility handle it
-		// This modifier just sets up the reference
 
 		return () => {
 			this.modalStack?.unregisterModal(this);
@@ -919,18 +922,18 @@ export default class UlxTieredmenu extends Component {
 						this.targetElement = this.args.target;
 					}
 					// appendToBody may run after this modifier; wait until the node is under `document.body` before measuring/positioning.
-					const checkAndShow = () => {
-						if (element.parentNode === document.body || !this.isPopup) {
-							if (!TIEREDMENU_ENTER_STATES.has(this.animationState)) {
-								requestAnimationFrame(() => {
-									this.handleShow();
-								});
-							}
-						} else {
-							requestAnimationFrame(checkAndShow);
+				const checkAndShow = () => {
+					if (element.parentNode === document.body || !this.isPopup) {
+						if (!TIEREDMENU_ENTER_STATES.has(this.animationState)) {
+							requestAnimationFrame(() => {
+								this.handleShow();
+							});
 						}
-					};
-					checkAndShow();
+					} else {
+						requestAnimationFrame(checkAndShow);
+					}
+				};
+				checkAndShow();
 				}
 			}
 		} else {

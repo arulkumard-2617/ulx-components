@@ -329,7 +329,7 @@ export default class UlxSplitButton extends Component {
 			/>
 
 			<div
-				class="absolute tpfull lt0 z-1000 mt-2
+				class="absolute left-0 top-full z-1000 mt-2
 					{{if this.menuVisible 'visible transition fade in' 'hidden'}}"
 				data-qa={{this.menuDataQa}}
 			>
