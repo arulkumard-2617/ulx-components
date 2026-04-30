@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {
   UlxToolbar,
-  UlxButton,
+  UlxIconButton,
   UlxSplitButton,
   UlxIconInput,
   UlxInput,
@@ -23,29 +23,29 @@ export default class DemoToolbarBasic extends Component {
     <div class="pda4">
       <UlxToolbar>
         <:start>
-          <UlxButton
+          <UlxIconButton
             @variant="primary"
-            @icon="add-icon-01"
+            @iconLeft="add-icon-01"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             @customClass="me-5"
-            aria-label={{"New"}}
+            aria-label="New"
           />
-          <UlxButton
+          <UlxIconButton
             @variant="primary"
-            @icon="print-icon"
+            @iconLeft="print-icon"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             @customClass="me-5"
             aria-label="Duplicate"
           />
-          <UlxButton
+          <UlxIconButton
             @variant="primary"
-            @icon="delete-icon-01"
+            @iconLeft="delete-icon-01"
             @iconComponentClass="bs-icons1"
             @iconSize="s18"
             @customClass="me-5"
-            aria-label={{"Delete"}}
+            aria-label="Delete"
           />
         </:start>
 
@@ -73,7 +73,7 @@ export default class DemoToolbarBasic extends Component {
             <UlxSplitButton
               @label={{t "lbl.save"}}
               @items={{array
-                (hash label="Update" icon="refresh-clockwise-icon-01")
+                (hash label="Update" icon="update-icon-01")
                 (hash label="Delete" icon="delete-icon-01")
               }}
               @size="s-size"

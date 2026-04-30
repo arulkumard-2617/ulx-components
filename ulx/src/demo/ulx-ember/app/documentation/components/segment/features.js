@@ -10,14 +10,12 @@ import {
   BorderedDemo,
   
   GroupDemo,
-  LoadingDemo,
   DisabledDemo,// Sources
   ImportSource,
   BasicSource,
   VariantsSource,
   BorderedSource,
   GroupSource,
-  LoadingSource,
   DisabledSource} from './imports';
 
 export const SegmentFeatureItems = [
@@ -115,26 +113,6 @@ export const SegmentFeatureItems = [
       props: {
         source: GroupSource,
         snippetName: "group",
-        language: "handlebars"
-      }
-    }
-  }
-,
-  {
-    id: "loading",
-    sectionNav: "Loading",
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: "span",
-        content: "The <code>Loading</code> demo shows Loading usage of the Segment component."
-      }
-    },
-    demo: {
-      component: LoadingDemo,
-      props: {
-        source: LoadingSource,
-        snippetName: "loading",
         language: "handlebars"
       }
     }
