@@ -6,6 +6,7 @@ export { default as UlxButton } from './components/ulx-button/index.gjs';
 export { default as UlxIconButton } from './components/ulx-icon-button/index.gjs';
 export { default as UlxBadgeButton } from './components/ulx-badge-button/index.gjs';
 export { default as UlxInput } from './components/ulx-input/index.gjs';
+export { default as UlxChipInput } from './components/ulx-chip-input/index.gjs';
 export { default as UlxDatePicker } from './components/ulx-date-picker/index.gjs';
 export { default as UlxDateRangePicker } from './components/ulx-date-range-picker/index.gjs';
 export { default as UlxTimePicker } from './components/ulx-time-picker/index.gjs';

@@ -49,6 +49,11 @@ export const DocNavItems = [
             route: 'components.input'
           },
           {
+            menuItem: 'ChipInput',
+            to: '/components/chip-input',
+            route: 'components.chip-input'
+          },
+          {
             menuItem: 'Textarea',
             to: '/components/textarea',
             route: 'components.textarea'

@@ -15,7 +15,7 @@ import {
   KeyfilterSource,
   SizesSource,
   InvalidSource,
-  DisabledSource
+  DisabledSource,
 } from './imports';
 
 export const InputFeatureItems = [
