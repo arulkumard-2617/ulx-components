@@ -77,7 +77,6 @@ export default class TableFilterBubblesBar extends Component {
 					@variant="danger"
 					@text={{true}}
 					@size="compact"
-					@iconLeft="delete-icon-02"
 					@label={{t "lbl.clear.filters"}}
 					@onClick={{@onClearAll}}
 				/>

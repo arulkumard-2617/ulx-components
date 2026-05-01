@@ -202,7 +202,6 @@ export default class TableOverlays extends Component {
 				@visible={{this.filterPane.visible}}
 				@title={{t "lbl.filter"}}
 				@position="right"
-				@contentClassName="p-0"
 				@onHide={{this.filterPane.onClose}}
 				@onCancel={{this.filterPane.onClose}}
 				@onDone={{this.filterPane.onApply}}
@@ -217,7 +216,7 @@ export default class TableOverlays extends Component {
 						@multiple={{true}}
 						@toggleIconPosition="right"
 						@variant="elevated"
-						@size="m-size"
+						@size="s-size"
 					>
 						<:content as |item idx|>
 							{{#let (this.filterPane.getGroupAt idx) as |group|}}
