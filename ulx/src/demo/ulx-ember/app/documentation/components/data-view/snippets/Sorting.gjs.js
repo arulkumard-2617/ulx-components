@@ -8,27 +8,27 @@ import {
   UlxDataView,
   UlxDropdown,
   UlxField,
-  UlxButton,
+  UlxIconButton,
   UlxRating,
   UlxTag,
-  UlxIcon,
+  UlxIcon
 } from 'ulx-components';
 import {
   getProductsData,
-  getProductImageUrl,
+  getProductImageUrl
 } from 'ulx-ember/data/product-service';
 
 const STATUS_VARIANT = {
   INSTOCK: 'success',
   LOWSTOCK: 'warning',
-  OUTOFSTOCK: 'danger',
+  OUTOFSTOCK: 'danger'
 };
 
 const SORT_OPTIONS = [
   { label: 'Price Low to High', value: 'price:asc' },
   { label: 'Price High to Low', value: 'price:desc' },
   { label: 'Name A to Z', value: 'name:asc' },
-  { label: 'Name Z to A', value: 'name:desc' },
+  { label: 'Name Z to A', value: 'name:desc' }
 ];
 
 export default class DemoDataViewSorting extends Component {
@@ -88,7 +88,7 @@ export default class DemoDataViewSorting extends Component {
   <template>
     <UlxDataView>
       <:header>
-        <div class="ulx-form m-size ulx-grid gap-12 mb-14">
+        <div class="ulx-form m-size ulx-grid gap-12">
           <UlxField
             @label="Sorting"
             @key="dataview-sorting"
@@ -121,7 +121,7 @@ export default class DemoDataViewSorting extends Component {
 
               <div class="flex items-center gap-4 justify-between w-full">
                 <div class="flex gap-3 flex-col">
-                  <div class="font-size20 bold-font">{{product.name}}</div>
+                  <div class="text-20 bold-font">{{product.name}}</div>
                   <UlxRating
                     @value={{product.rating}}
                     @readOnly={{true}}
@@ -136,7 +136,7 @@ export default class DemoDataViewSorting extends Component {
                         @ariaLabel="tag icon"
                         @type="font"
                       />
-                      <span class="font-semibold">Accessories</span>
+                      <span class="semibold-font">Accessories</span>
                     </span>
                     <UlxTag
                       @value={{product.inventoryStatus}}
@@ -147,15 +147,15 @@ export default class DemoDataViewSorting extends Component {
                 </div>
 
                 <div class="flex flex-col items-center gap-3 justify-start">
-                  <span class="font-size24 font-semibold">
+                  <span class="text-24 semibold-font">
                     \${{product.price}}
                   </span>
-                  <UlxButton
+                  <UlxIconButton
+                    @iconLeft="order-icon"
                     @iconComponentClass="bs-icons1"
                     @iconSize="s18"
-                    @icon="order-icon"
                     @variant="primary"
-                    aria-label={{"Add to cart"}}
+                    aria-label="Add to cart"
                     {{on "click" (fn this.addToCart product)}}
                   />
                 </div>

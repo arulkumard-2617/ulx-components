@@ -28,13 +28,14 @@ export default class TableViewCard extends Component {
 			</div>
 			{{#if (and (not @loading) (not this.rows.length))}}
 				<div class="datatable-empty-message">
-					<TableEmptyState
-						@headerText={{@emptyStateHeaderText}}
-						@subHeaderText={{@emptyStateSubHeaderText}}
-						@iconName={{@emptyStateIconName}}
-					>
-						<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-					</TableEmptyState>
+				<TableEmptyState
+					@headerText={{@emptyStateHeaderText}}
+					@subHeaderText={{@emptyStateSubHeaderText}}
+					@iconName={{@emptyStateIconName}}
+					@hasCustomEmptyMessage={{@hasCustomEmptyMessage}}
+				>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableEmptyState>
 				</div>
 			{{/if}}
 		</div>

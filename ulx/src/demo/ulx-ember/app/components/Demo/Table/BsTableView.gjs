@@ -9,6 +9,7 @@ import {
   UlxButton,
   UlxAvatar,
   UlxSplitButton,
+  UlxSlidePane,
   t
 } from 'ulx-components';
 
@@ -135,6 +136,7 @@ export default class DemoTableBsTableView extends Component {
   filterGroups = filterGroups;
 
   @tracked sortBy = '';
+  @tracked invitePaneOpen = false;
 
   @action
   getRowActionModel(member) {
@@ -167,7 +169,17 @@ export default class DemoTableBsTableView extends Component {
 
   @action
   invitePortalMembers() {
-    window.alert?.('Invite Portal Members clicked (demo).');
+    this.invitePaneOpen = true;
+  }
+
+  @action
+  closeInvitePane() {
+    this.invitePaneOpen = false;
+  }
+
+  @action
+  sendInvite() {
+    this.invitePaneOpen = false;
   }
 
   @action
@@ -219,5 +231,50 @@ export default class DemoTableBsTableView extends Component {
         />
       </:optionCell>
     </UlxTable>
+
+    <UlxSlidePane
+      @visible={{this.invitePaneOpen}}
+      @title="Invite Portal Members"
+      @position="right"
+      @size="m-size"
+      @doneButtonLabel="Send Invite"
+      @cancelButtonLabel="Cancel"
+      @onHide={{this.closeInvitePane}}
+      @onDone={{this.sendInvite}}
+      @onCancel={{this.closeInvitePane}}
+    >
+      <:body>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1">
+            <span class="semibold-font">Email Address</span>
+            <span class="text-13 fg-text-secondary">Enter the email address of the person you want to invite.</span>
+            <input
+              type="email"
+              class="ulx-inputtext"
+              placeholder="e.g. member@example.com"
+              aria-label="Email address"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="semibold-font">Role</span>
+            <span class="text-13 fg-text-secondary">Select the role for the new member.</span>
+            <select class="ulx-dropdown" aria-label="Role">
+              <option value="">Select a role</option>
+              <option value="portal-admin">Portal Admin</option>
+              <option value="member">Member</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="semibold-font">Personal Message (optional)</span>
+            <textarea
+              class="ulx-inputtextarea"
+              rows="4"
+              placeholder="Add a personal note to the invitation email..."
+              aria-label="Personal message"
+            ></textarea>
+          </div>
+        </div>
+      </:body>
+    </UlxSlidePane>
   </template>
 }

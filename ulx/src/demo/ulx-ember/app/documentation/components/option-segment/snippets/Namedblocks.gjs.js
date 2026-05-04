@@ -15,7 +15,7 @@ export default class NamedblocksDemoComponent extends Component {
         title: 'Enhance messaging',
         description: 'Automatically optimize content for engagement.',
         selected: this.activeValue === 'enhance',
-        itemClass: 'relative',
+        itemClass: 'relative'
       },
       {
         value: 'view-delivery',
@@ -23,7 +23,7 @@ export default class NamedblocksDemoComponent extends Component {
         title: 'View delivery reports',
         description: 'Track message delivery and open status in real time.',
         selected: this.activeValue === 'view-delivery',
-        itemClass: 'relative',
+        itemClass: 'relative'
       },
       {
         value: 'bulk-code',
@@ -31,8 +31,8 @@ export default class NamedblocksDemoComponent extends Component {
         title: 'Bulk code actions',
         description: 'Apply configuration changes across multiple workflows.',
         selected: this.activeValue === 'bulk-code',
-        itemClass: 'relative',
-      },
+        itemClass: 'relative'
+      }
     ];
   }
 
@@ -54,7 +54,7 @@ export default class NamedblocksDemoComponent extends Component {
         <UlxIcon
           @type="font"
           @componentClass="bs-icons1"
-          @customClass="absolute rt10 tp6 primary s20"
+          @customClass="absolute right-10 top-6 primary s20"
           @iconName={{item.icon}}
           aria-hidden="true"
         />

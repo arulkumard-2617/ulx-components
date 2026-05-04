@@ -1366,51 +1366,54 @@ export default class UlxTable extends Component {
 
 			{{! Detailed, card, vertical and default grid views }}
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
-				<TableViewDetailed
-					@loading={{@loading}}
-					@dataQa={{this.getDataQa "view-detailed"}}
-					@rows={{this.pagedData}}
-					@scrollable={{@scrollable}}
-					@wrapperStyle={{this.wrapperStyle}}
-					@emptyStateHeaderText={{this.emptyStateHeaderText}}
-					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-					@emptyStateIconName={{this.emptyStateIconName}}
-				>
-					<:detailed as |row|>{{yield row to="detailed"}}</:detailed>
-					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-				</TableViewDetailed>
+			<TableViewDetailed
+				@loading={{@loading}}
+				@dataQa={{this.getDataQa "view-detailed"}}
+				@rows={{this.pagedData}}
+				@scrollable={{@scrollable}}
+				@wrapperStyle={{this.wrapperStyle}}
+				@emptyStateHeaderText={{this.emptyStateHeaderText}}
+				@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+				@emptyStateIconName={{this.emptyStateIconName}}
+				@hasCustomEmptyMessage={{has-block "emptyMessage"}}
+			>
+				<:detailed as |row|>{{yield row to="detailed"}}</:detailed>
+				<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+			</TableViewDetailed>
 			{{else if (and (eq this.viewMode "card") (has-block "card"))}}
-				<TableViewCard
-					@loading={{@loading}}
-					@dataQa={{this.getDataQa "view-card"}}
-					@rows={{this.pagedData}}
-					@cardViewColumns={{this.cardViewColumns}}
-					@scrollable={{@scrollable}}
-					@wrapperStyle={{this.wrapperStyle}}
-					@emptyStateHeaderText={{this.emptyStateHeaderText}}
-					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-					@emptyStateIconName={{this.emptyStateIconName}}
-				>
-					<:card as |row|>{{yield row to="card"}}</:card>
-					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-				</TableViewCard>
+			<TableViewCard
+				@loading={{@loading}}
+				@dataQa={{this.getDataQa "view-card"}}
+				@rows={{this.pagedData}}
+				@cardViewColumns={{this.cardViewColumns}}
+				@scrollable={{@scrollable}}
+				@wrapperStyle={{this.wrapperStyle}}
+				@emptyStateHeaderText={{this.emptyStateHeaderText}}
+				@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+				@emptyStateIconName={{this.emptyStateIconName}}
+				@hasCustomEmptyMessage={{has-block "emptyMessage"}}
+			>
+				<:card as |row|>{{yield row to="card"}}</:card>
+				<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+			</TableViewCard>
 			{{else if this.isVertical}}
-				<TableViewVertical
-					@loading={{@loading}}
-					@dataQa={{this.getDataQa "view-vertical"}}
-					@rows={{this.pagedData}}
-					@tableClass={{this.tableClass}}
-					@verticalLabelField={{@verticalLabelField}}
-					@verticalRows={{this.verticalRows}}
-					@getCellValue={{this.getCellValue}}
-					@scrollable={{@scrollable}}
-					@wrapperStyle={{this.wrapperStyle}}
-					@emptyStateHeaderText={{this.emptyStateHeaderText}}
-					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-					@emptyStateIconName={{this.emptyStateIconName}}
-				>
-					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-				</TableViewVertical>
+			<TableViewVertical
+				@loading={{@loading}}
+				@dataQa={{this.getDataQa "view-vertical"}}
+				@rows={{this.pagedData}}
+				@tableClass={{this.tableClass}}
+				@verticalLabelField={{@verticalLabelField}}
+				@verticalRows={{this.verticalRows}}
+				@getCellValue={{this.getCellValue}}
+				@scrollable={{@scrollable}}
+				@wrapperStyle={{this.wrapperStyle}}
+				@emptyStateHeaderText={{this.emptyStateHeaderText}}
+				@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+				@emptyStateIconName={{this.emptyStateIconName}}
+				@hasCustomEmptyMessage={{has-block "emptyMessage"}}
+			>
+				<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+			</TableViewVertical>
 			{{else}}
 				<TableGridShell
 					@rows={{this.pagedData}}
@@ -1441,15 +1444,12 @@ export default class UlxTable extends Component {
 					@expandedRows={{@expandedRows}}
 					@editMode={{@editMode}}
 					@editingRows={{this.editingRows}}
-					@editingCell={{this.editingCell}}
-					@rowClassName={{@rowClassName}}
-					@loading={{@loading}}
-					@emptyMessage={{@emptyMessage}}
-					@emptyStateHeaderText={{this.emptyStateHeaderText}}
-					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-					@emptyStateIconName={{this.emptyStateIconName}}
-					@onSort={{this.handleSort}}
-					@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
+				@editingCell={{this.editingCell}}
+				@rowClassName={{@rowClassName}}
+				@loading={{@loading}}
+				@emptyMessage={{@emptyMessage}}
+				@onSort={{this.handleSort}}
+				@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
 					@onFilterChange={{this.handleFilterChange}}
 					@onFilterMenuOpen={{this.handleFilterMenuOpen}}
 					@onColumnResizeStart={{this.handleColumnResizeStart}}
@@ -1476,6 +1476,7 @@ export default class UlxTable extends Component {
 								@headerText={{this.emptyStateHeaderText}}
 								@subHeaderText={{this.emptyStateSubHeaderText}}
 								@iconName={{this.emptyStateIconName}}
+								@hasCustomEmptyMessage={{has-block "emptyMessage"}}
 							>
 								<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
 							</TableEmptyState>

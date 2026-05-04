@@ -520,7 +520,7 @@ export default class TableBody extends Component {
 						{{#each @columns as |col colIdx|}}
 							{{#if col.selectionMode}}
 								<td
-									class="column-body-cell selection"
+									class="column-body-cell selection {{if (this.isRowSelected row) 'selected'}}"
 									role="gridcell"
 									style="width: 3rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
