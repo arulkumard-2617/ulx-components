@@ -119,6 +119,7 @@ export default class TableToolbar extends Component {
 									@onClick={{@onOpenManageColumns}}
 									@customClass="icon-only"
 									aria-label={{t "lbl.columns"}}
+									aria-expanded={{@showManageColumnsPopup}}
 								>
 									<:prefix>
 										<UlxIcon
