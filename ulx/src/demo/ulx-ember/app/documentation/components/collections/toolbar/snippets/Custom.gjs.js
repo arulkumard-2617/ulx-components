@@ -6,12 +6,13 @@ import { action } from '@ember/object';
 import {
   UlxToolbar,
   UlxButton,
+  UlxIconButton,
   UlxDropdown,
   UlxIcon,
   UlxIconInput,
   UlxInput,
   UlxSelectButton,
-  t,
+  t
 } from 'ulx-components';
 
 export default class ToolbarCustomDemo extends Component {
@@ -25,14 +26,14 @@ export default class ToolbarCustomDemo extends Component {
     return [
       { label: 'Date Created', value: 'dateCreated' },
       { label: 'Name', value: 'name' },
-      { label: 'Last Updated', value: 'updatedAt' },
+      { label: 'Last Updated', value: 'updatedAt' }
     ];
   }
 
   get sortOrderOptions() {
     return [
       { label: 'Ascending', value: 'asc' },
-      { label: 'Descending', value: 'desc' },
+      { label: 'Descending', value: 'desc' }
     ];
   }
 
@@ -41,7 +42,7 @@ export default class ToolbarCustomDemo extends Component {
       { label: 'All Image Types', value: 'all' },
       { label: 'PNG', value: 'png' },
       { label: 'JPG', value: 'jpg' },
-      { label: 'SVG', value: 'svg' },
+      { label: 'SVG', value: 'svg' }
     ];
   }
 
@@ -70,13 +71,13 @@ export default class ToolbarCustomDemo extends Component {
       {
         value: 'list',
         icon: 'list-view-icon',
-        label: "List view",
+        label: 'List view'
       },
       {
         value: 'grid',
         icon: 'grid-view-icon',
-        label: "Grid view",
-      },
+        label: 'Grid view'
+      }
     ];
   }
 
@@ -126,7 +127,6 @@ export default class ToolbarCustomDemo extends Component {
               @optionValue="value"
               @placeholder="Sort by"
               @onChange={{this.onSortByChange}}
-              @size="s-size"
               aria-label={{"Sort by"}}
             />
           </div>
@@ -153,9 +153,9 @@ export default class ToolbarCustomDemo extends Component {
               />
             </div>
 
-            <UlxButton
+            <UlxIconButton
               @variant="basic"
-              @icon="hamburger-icon"
+              @iconLeft="hamburger-icon"
               @iconComponentClass="bs-icons1"
               @iconSize="s18"
               @onClick={{this.onInfo}}

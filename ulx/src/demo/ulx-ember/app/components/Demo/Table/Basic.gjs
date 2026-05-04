@@ -32,7 +32,7 @@ const SPEAKERS = [
   },
   {
     id: 3,
-    name: 'Akila.K',
+    name: 'Akila K',
     email: 'akila.k@zohocorp.com',
     initials: 'AK',
     avatarVariant: 'green',
@@ -42,7 +42,7 @@ const SPEAKERS = [
   },
   {
     id: 4,
-    name: 'Arun.Bt',
+    name: 'Arun BT',
     email: 'arun.bt@zohocorp.com',
     initials: 'AR',
     avatarVariant: 'red',
@@ -68,6 +68,146 @@ const SPEAKERS = [
     avatarVariant: 'purple',
     invitedDaysAgo: 17,
     profileCompletion: 8,
+    status: 'INVITED',
+  },
+  {
+    id: 7,
+    name: 'Chandra Sekhar',
+    email: 'chandra.sekhar@zohocorp.com',
+    initials: 'CS',
+    avatarVariant: 'blue',
+    invitedDaysAgo: 12,
+    profileCompletion: 55,
+    status: 'INVITED',
+  },
+  {
+    id: 8,
+    name: 'Deepika R',
+    email: 'deepika.r@zohocorp.com',
+    initials: 'DR',
+    avatarVariant: 'pink',
+    invitedDaysAgo: 10,
+    profileCompletion: 70,
+    status: 'INVITED',
+  },
+  {
+    id: 9,
+    name: 'Ezhil Arasan',
+    email: 'ezhil.arasan@zohocorp.com',
+    initials: 'EA',
+    avatarVariant: 'teal',
+    invitedDaysAgo: 9,
+    profileCompletion: 30,
+    status: 'INVITED',
+  },
+  {
+    id: 10,
+    name: 'Fathima Nisha',
+    email: 'fathima.nisha@zohocorp.com',
+    initials: 'FN',
+    avatarVariant: 'green',
+    invitedDaysAgo: 8,
+    profileCompletion: 85,
+    status: 'INVITED',
+  },
+  {
+    id: 11,
+    name: 'Gowtham S',
+    email: 'gowtham.s@zohocorp.com',
+    initials: 'GS',
+    avatarVariant: 'red',
+    invitedDaysAgo: 7,
+    profileCompletion: 60,
+    status: 'INVITED',
+  },
+  {
+    id: 12,
+    name: 'Harini M',
+    email: 'harini.m@zohocorp.com',
+    initials: 'HM',
+    avatarVariant: 'orange',
+    invitedDaysAgo: 6,
+    profileCompletion: 20,
+    status: 'INVITED',
+  },
+  {
+    id: 13,
+    name: 'Imran Khan',
+    email: 'imran.khan@zohocorp.com',
+    initials: 'IK',
+    avatarVariant: 'purple',
+    invitedDaysAgo: 5,
+    profileCompletion: 45,
+    status: 'INVITED',
+  },
+  {
+    id: 14,
+    name: 'Janani P',
+    email: 'janani.p@zohocorp.com',
+    initials: 'JP',
+    avatarVariant: 'blue',
+    invitedDaysAgo: 4,
+    profileCompletion: 90,
+    status: 'INVITED',
+  },
+  {
+    id: 15,
+    name: 'Karthik R',
+    email: 'karthik.r@zohocorp.com',
+    initials: 'KR',
+    avatarVariant: 'teal',
+    invitedDaysAgo: 3,
+    profileCompletion: 15,
+    status: 'INVITED',
+  },
+  {
+    id: 16,
+    name: 'Lavanya S',
+    email: 'lavanya.s@zohocorp.com',
+    initials: 'LS',
+    avatarVariant: 'pink',
+    invitedDaysAgo: 3,
+    profileCompletion: 75,
+    status: 'INVITED',
+  },
+  {
+    id: 17,
+    name: 'Manikandan T',
+    email: 'manikandan.t@zohocorp.com',
+    initials: 'MT',
+    avatarVariant: 'green',
+    invitedDaysAgo: 2,
+    profileCompletion: 50,
+    status: 'INVITED',
+  },
+  {
+    id: 18,
+    name: 'Nithya Devi',
+    email: 'nithya.devi@zohocorp.com',
+    initials: 'ND',
+    avatarVariant: 'red',
+    invitedDaysAgo: 2,
+    profileCompletion: 35,
+    status: 'INVITED',
+  },
+  {
+    id: 19,
+    name: 'Pradeep Kumar',
+    email: 'pradeep.kumar@zohocorp.com',
+    initials: 'PK',
+    avatarVariant: 'orange',
+    invitedDaysAgo: 1,
+    profileCompletion: 65,
+    status: 'INVITED',
+  },
+  {
+    id: 20,
+    name: 'Ragavi B',
+    email: 'ragavi.b@zohocorp.com',
+    initials: 'RB',
+    avatarVariant: 'purple',
+    invitedDaysAgo: 1,
+    profileCompletion: 10,
     status: 'INVITED',
   },
 ];
@@ -166,6 +306,7 @@ export default class DemoTableBasic extends Component {
   filterGroups = filterGroups;
   rowActionItems = rowActionItems;
   sortOptions = sortOptions;
+  rowsPerPageOptions = [5, 10, 20];
 
   @tracked sortBy = 'name:asc';
 
@@ -188,6 +329,10 @@ export default class DemoTableBasic extends Component {
       @sortOptions={{this.sortOptions}}
       @sortBy={{this.sortBy}}
       @onSortByChange={{this.handleSortByChange}}
+      @paginator={{true}}
+      @rows={{10}}
+      @rowsPerPageOptions={{this.rowsPerPageOptions}}
+      @paginatorPosition="bottom"
     >
       <:postRightMenu>
         <div class="flex items-center gap-2">

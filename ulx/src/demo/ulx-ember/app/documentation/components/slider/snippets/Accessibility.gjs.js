@@ -15,26 +15,26 @@ export default class AccessibilitySliderDemo extends Component {
   <template>
     <div class="flex flex-col gap-2">
       <div class="flex items-center gap-2">
-        <label class="text-12 font-semibold" for="slider-a11y-1">
-          {{t 'lbl.slider'}}
+        <label class="text-12 semibold-font" for="slider-a11y-1">
+          {{t "lbl.slider"}}
         </label>
-        <span class="text-12 fg-secondary">{{t 'lbl.value'}}: {{this.value}}</span>
+        <span class="text-12 fg-secondary">{{t "lbl.value"}}:
+          {{this.value}}</span>
       </div>
 
       <UlxSlider
         @id="slider-a11y-1"
         @value={{this.value}}
         @onChange={{this.handleChange}}
-        @ariaLabel={{t 'lbl.slider'}}
+        @ariaLabel={{t "lbl.slider"}}
         @size="w-300 s-size"
       />
 
       <div class="text-12 fg-secondary">
-        {{t 'msg.slider.keyboard.hint'}}
+        {{t "msg.slider.keyboard.hint"}}
       </div>
     </div>
   </template>
 }
-
 
 `;

@@ -6,8 +6,12 @@ export default class TableEmptyState extends Component {
 		return this.args.iconSize ?? "s32";
 	}
 
+	get hasCustomContent() {
+		return !!this.args.hasCustomEmptyMessage;
+	}
+
 	<template>
-		{{#if (has-block "emptyMessage")}}
+		{{#if this.hasCustomContent}}
 			{{yield to="emptyMessage"}}
 		{{else}}
 			<UlxEmptyState

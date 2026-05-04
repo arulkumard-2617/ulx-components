@@ -2,7 +2,6 @@ import Component from "@glimmer/component";
 import TableHeader from "./table-header.gjs";
 import TableBody from "./table-body.gjs";
 import TableFooter from "./table-footer.gjs";
-import TableEmptyState from "./table-empty-state.gjs";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 
 /** @param {string} [dataQa] - Root `data-qa` for the grid wrapper (default: `ulx-table-grid`). */
@@ -81,15 +80,7 @@ export default class TableGridShell extends Component {
 					>
 						<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 						<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
-						<:emptyMessage>
-							<TableEmptyState
-								@headerText={{@emptyStateHeaderText}}
-								@subHeaderText={{@emptyStateSubHeaderText}}
-								@iconName={{@emptyStateIconName}}
-							>
-								<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-							</TableEmptyState>
-						</:emptyMessage>
+						<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
 					</TableBody>
 				{{/if}}
 
@@ -123,15 +114,7 @@ export default class TableGridShell extends Component {
 				>
 					<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 					<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>
-					<:emptyMessage>
-						<TableEmptyState
-							@headerText={{@emptyStateHeaderText}}
-							@subHeaderText={{@emptyStateSubHeaderText}}
-							@iconName={{@emptyStateIconName}}
-						>
-							<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-						</TableEmptyState>
-					</:emptyMessage>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
 				</TableBody>
 
 				<TableFooter

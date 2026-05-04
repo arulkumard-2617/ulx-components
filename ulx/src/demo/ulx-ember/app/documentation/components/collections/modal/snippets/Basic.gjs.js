@@ -44,8 +44,8 @@ export default class BasicModalDemo extends Component {
         @submittingLabel="Saving…"
       >
         <p>This is the default body content. You can pass any content as the
-          default block. Confirm returns a promise: the Done button shows loading
-          until it resolves, then the modal closes.</p>
+          default block. Confirm returns a promise: the Done button shows
+          loading until it resolves, then the modal closes.</p>
         <UlxIcon
           {{tooltip "Icon Tooltip" position="top"}}
           @componentClass="bs-icons1"
