@@ -9,7 +9,7 @@ import {
   UlxButton,
   UlxAvatar,
   UlxSplitButton,
-  t,
+  t
 } from 'ulx-components';
 
 const MEMBERS = [
@@ -19,7 +19,7 @@ const MEMBERS = [
     emailId: 'priya@test.com',
     role: 'not Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 01, 2026',
+    invitedOn: 'Mar 01, 2026'
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const MEMBERS = [
     emailId: 'aaru@zohocorp.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Feb 28, 2026',
+    invitedOn: 'Feb 28, 2026'
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ const MEMBERS = [
     emailId: 'sam@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 04, 2026',
+    invitedOn: 'Mar 04, 2026'
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const MEMBERS = [
     emailId: 'jordan@example.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 02, 2026',
+    invitedOn: 'Mar 02, 2026'
   },
   {
     id: 5,
@@ -51,8 +51,8 @@ const MEMBERS = [
     emailId: 'casey@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 04, 2026',
-  },
+    invitedOn: 'Mar 04, 2026'
+  }
 ];
 
 function initials(name) {
@@ -77,7 +77,7 @@ const NameEmailCell = <template>
       aria-hidden="true"
     />
     <div class="flex flex-col">
-      <span class="font-semibold">{{@row.name}}</span>
+      <span class="semibold-font">{{@row.name}}</span>
       <span class="text-13 fg-text-secondary">{{@row.emailId}}</span>
     </div>
   </div>
@@ -98,15 +98,15 @@ const columns = [
     header: 'Name & Email',
     sortable: true,
     manageable: false,
-    body: NameEmailCell,
+    body: NameEmailCell
   },
   { field: 'role', header: 'Role', sortable: true },
-  { field: 'status', header: 'Status', body: StatusCell },
+  { field: 'status', header: 'Status', body: StatusCell }
 ];
 
 const sortOptions = [
   { key: 'name', lbl: 'Name' },
-  { key: 'role', lbl: 'Role' },
+  { key: 'role', lbl: 'Role' }
 ];
 
 const filterGroups = [
@@ -115,17 +115,17 @@ const filterGroups = [
     heading: 'Status',
     options: [
       { value: 'INVITED', label: 'Invited' },
-      { value: 'JOINED', label: 'Joined' },
-    ],
+      { value: 'JOINED', label: 'Joined' }
+    ]
   },
   {
     key: 'role',
     heading: 'Role',
     options: [
       { value: 'Portal Admin', label: 'Portal Admin' },
-      { value: 'not Admin', label: 'Not Admin' },
-    ],
-  },
+      { value: 'not Admin', label: 'Not Admin' }
+    ]
+  }
 ];
 
 export default class DemoTableBsTableView extends Component {
@@ -145,8 +145,8 @@ export default class DemoTableBsTableView extends Component {
         command: () =>
           this.onRowActionSelect(member, {
             value: 'edit-role',
-            label: 'Edit Role',
-          }),
+            label: 'Edit Role'
+          })
       },
       {
         label: 'Resend Invitation',
@@ -154,9 +154,9 @@ export default class DemoTableBsTableView extends Component {
         command: () =>
           this.onRowActionSelect(member, {
             value: 'resend',
-            label: 'Resend Invitation',
-          }),
-      },
+            label: 'Resend Invitation'
+          })
+      }
     ];
   }
 

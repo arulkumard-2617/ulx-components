@@ -21,7 +21,7 @@ export default class RangeSliderDemo extends Component {
     <div class="flex flex-col gap-4">
       <div class="flex items-center gap-2">
         <span class="text-12 fg-secondary">{{t "lbl.range"}}:</span>
-        <span class="text-12 font-semibold">{{this.valueText}}</span>
+        <span class="text-12 semibold-font">{{this.valueText}}</span>
       </div>
       <UlxSlider
         @range={{true}}

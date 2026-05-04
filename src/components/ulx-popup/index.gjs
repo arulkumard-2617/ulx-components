@@ -500,8 +500,15 @@ export default class UlxPopup extends Component {
 		const target = this.targetElement;
 		const resolvedContext = this.resolvedContext;
 		const coordinateApi = buildOverlayCoordinateApi(resolvedContext, container);
+
+		// Temporarily remove the overlay from layout so its own size does not
+		// inflate body / trigger a scrollbar and skew viewport or target measurements.
+		const prevDisplay = container.style.display;
+		container.style.display = "none";
 		const targetRect = coordinateApi.fromViewportRect(target.getBoundingClientRect());
 		const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
+		container.style.display = prevDisplay;
+
 		const containerRect = container.getBoundingClientRect();
 		const popupWidth = containerRect.width || container.offsetWidth || 200;
 		const popupHeight = containerRect.height || container.offsetHeight || 100;

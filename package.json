@@ -97,6 +97,7 @@
       "./components/ulx-card/index.js": "./dist/_app_/components/ulx-card/index.js",
       "./components/ulx-checkbox/checkbox-item.js": "./dist/_app_/components/ulx-checkbox/checkbox-item.js",
       "./components/ulx-checkbox/index.js": "./dist/_app_/components/ulx-checkbox/index.js",
+      "./components/ulx-chip-input/index.js": "./dist/_app_/components/ulx-chip-input/index.js",
       "./components/ulx-chip/index.js": "./dist/_app_/components/ulx-chip/index.js",
       "./components/ulx-data-view/index.js": "./dist/_app_/components/ulx-data-view/index.js",
       "./components/ulx-date-picker/index.js": "./dist/_app_/components/ulx-date-picker/index.js",

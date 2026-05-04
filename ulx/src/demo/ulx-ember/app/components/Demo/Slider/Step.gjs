@@ -15,7 +15,7 @@ export default class StepSliderDemo extends Component {
     <div class="flex flex-col gap-4">
       <div class="flex items-center gap-2">
         <span class="text-12 fg-secondary">{{t "lbl.value"}}:</span>
-        <span class="text-12 font-semibold">{{this.value}}</span>
+        <span class="text-12 semibold-font">{{this.value}}</span>
         <span class="text-12 fg-secondary">({{t "lbl.step"}}: 10)</span>
       </div>
       <UlxSlider

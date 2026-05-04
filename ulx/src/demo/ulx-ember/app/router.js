@@ -31,6 +31,7 @@ Router.map(function () {
     this.route('form');
     this.route('icon');
     this.route('input');
+    this.route('chip-input');
     this.route('input-group');
     this.route('message');
     this.route('messages');

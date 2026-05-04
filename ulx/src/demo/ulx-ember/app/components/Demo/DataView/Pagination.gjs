@@ -6,22 +6,22 @@ import { fn } from '@ember/helper';
 import {
   UlxDataView,
   UlxPaginator,
-  UlxButton,
+  UlxIconButton,
   UlxRating,
   UlxTag,
   UlxIcon,
-  t,
+  t
 } from 'ulx-components';
 import { array } from '@ember/helper';
 import {
   getProductsData,
-  getProductImageUrl,
+  getProductImageUrl
 } from 'ulx-ember/data/product-service';
 
 const STATUS_VARIANT = {
   INSTOCK: 'success',
   LOWSTOCK: 'warning',
-  OUTOFSTOCK: 'danger',
+  OUTOFSTOCK: 'danger'
 };
 
 export default class DemoDataViewPagination extends Component {
@@ -74,7 +74,7 @@ export default class DemoDataViewPagination extends Component {
 
               <div class="flex items-center gap-4 justify-between w-full">
                 <div class="flex gap-3 flex-col">
-                  <div class="font-size20 bold-font">{{product.name}}</div>
+                  <div class="text-20 bold-font">{{product.name}}</div>
                   <UlxRating
                     @value={{product.rating}}
                     @readOnly={{true}}
@@ -89,7 +89,7 @@ export default class DemoDataViewPagination extends Component {
                         @ariaLabel="tag icon"
                         @type="font"
                       />
-                      <span class="font-semibold">Accessories</span>
+                      <span class="semibold-font">Accessories</span>
                     </span>
                     <UlxTag
                       @value={{product.inventoryStatus}}
@@ -100,15 +100,15 @@ export default class DemoDataViewPagination extends Component {
                 </div>
 
                 <div class="flex flex-col items-center gap-3 justify-start">
-                  <span class="font-size24 font-semibold">
+                  <span class="text-24 semibold-font">
                     ${{product.price}}
                   </span>
-                  <UlxButton
+                  <UlxIconButton
+                    @iconLeft="order-icon"
                     @iconComponentClass="bs-icons1"
                     @iconSize="s18"
-                    @icon="order-icon"
                     @variant="primary"
-                    aria-label={{"Add to cart"}}
+                    aria-label="Add to cart"
                     {{on "click" (fn this.addToCart product)}}
                   />
                 </div>

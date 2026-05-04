@@ -1,120 +1,142 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { on } from '@ember/modifier';
-import { eq, not } from 'ember-truth-helpers';
-import { UlxDataView, UlxButton, UlxSkeleton, t } from 'ulx-components';
+import { eq } from 'ember-truth-helpers';
+import { UlxDataView, UlxSelectButton, UlxSkeleton } from 'ulx-components';
 import { getProductsData } from 'ulx-ember/data/product-service';
 
 export default class DemoDataViewLoading extends Component {
-  @tracked layout = 'grid';
+  @tracked layout = 'list';
 
   get products() {
     return getProductsData().slice(0, 6);
   }
 
   get itemColClass() {
-    return this.layout === 'list'
-      ? 'col-12'
-      : 'col-4 col-sm-6 col-lg-12 col-xl-4';
+    return this.layout === 'list' ? 'col-12' : 'col-6 sm:col-6 lg:col-4';
+  }
+
+  get layoutOptions() {
+    return [
+      { label: 'List', value: 'list' },
+      { label: 'Grid', value: 'grid' },
+    ];
   }
 
   @action
-  setList() {
-    this.layout = 'list';
-  }
-
-  @action
-  setGrid() {
-    this.layout = 'grid';
+  onLayoutChange(value) {
+    this.layout = value ?? 'list';
   }
 
   <template>
     <UlxDataView @layout={{this.layout}} aria-busy={{true}}>
       <:header>
         <div class="flex justify-end w-full">
-          <UlxButton
-            @variant={{if (eq this.layout "list") "primary" "secondary"}}
-            @label="List"
-            {{on "click" this.setList}}
-          />
-          <UlxButton
-            @variant={{if (eq this.layout "grid") "primary" "secondary"}}
-            @label="Grid"
-            {{on "click" this.setGrid}}
+          <UlxSelectButton
+            @options={{this.layoutOptions}}
+            @value={{this.layout}}
+            @onChange={{this.onLayoutChange}}
+            @ariaLabel="Toggle layout"
           />
         </div>
       </:header>
       <:content>
-        {{#each this.products as |_product index|}}
-          <div class={{this.itemColClass}}>
-            {{#if (eq this.layout "list")}}
-              <div
-                class="flex flex-col items-center gap-4 p-10 layer1
-                  {{if (not (eq index 0)) 'border-t'}}"
-                aria-hidden="true"
-              >
-                <UlxSkeleton
-                  @size="4rem"
-                  @borderRadius="0.5rem"
-                  @customClass="shadow-lg"
-                />
-
+        <div class={{if (eq this.layout "grid") "ulx-grid p-5 gap-5"}}>
+          {{#each this.products as |_product index|}}
+            <div class={{this.itemColClass}}>
+              {{#if (eq this.layout "list")}}
                 <div
-                  class="flex flex-col items-center gap-4 justify-between w-full"
+                  class={{if
+                    (eq index 0)
+                    "flex p-5 items-center gap-4"
+                    "flex items-center gap-4 border-t p-5 layer1"
+                  }}
+                  aria-hidden="true"
                 >
-                  <div class="flex gap-3 flex-col">
+                  <UlxSkeleton
+                    @size="6rem"
+                    @borderRadius="0.5rem"
+                    @customClass="shadow-lg"
+                  />
+
+                  <div class="flex items-center gap-4 justify-between w-full">
+                    <div class="flex gap-3 flex-col w-full">
+                      <UlxSkeleton
+                        @height="1rem"
+                        @width="50%"
+                        @borderRadius="9999px"
+                      />
+                      <UlxSkeleton
+                        @height="1rem"
+                        @width="30%"
+                        @borderRadius="9999px"
+                      />
+                      <UlxSkeleton
+                        @height="1rem"
+                        @width="40%"
+                        @borderRadius="9999px"
+                      />
+                    </div>
+
+                    <div class="flex flex-col items-center gap-3 justify-start">
+                      <UlxSkeleton
+                        @height="1.5rem"
+                        @width="4rem"
+                        @borderRadius="9999px"
+                      />
+                      <UlxSkeleton @size="2rem" @borderRadius="0.25rem" />
+                    </div>
+                  </div>
+                </div>
+              {{else}}
+                <div
+                  class="flex flex-col p-10 border gap-5 rounded"
+                  aria-hidden="true"
+                >
+                  <div class="flex items-center gap-2 justify-between">
+                    <UlxSkeleton
+                      @height="1rem"
+                      @width="40%"
+                      @borderRadius="9999px"
+                    />
+                    <UlxSkeleton
+                      @height="1.25rem"
+                      @width="30%"
+                      @borderRadius="9999px"
+                    />
+                  </div>
+
+                  <div class="flex flex-col items-center gap-2">
+                    <UlxSkeleton
+                      @size="6rem"
+                      @borderRadius="0.5rem"
+                      @customClass="shadow-lg"
+                    />
                     <UlxSkeleton
                       @height="1rem"
                       @width="60%"
                       @borderRadius="9999px"
-                      @customClass="h-20 w-240 "
                     />
                     <UlxSkeleton
                       @height="1rem"
                       @width="40%"
                       @borderRadius="9999px"
-                      @customClass="h-20 w-240"
                     />
                   </div>
-                </div>
-              </div>
-            {{else}}
-              <div
-                class="flex flex-col p-6 border gap-4 rounded layer1"
-                aria-hidden="true"
-              >
-                <UlxSkeleton
-                  @height="1rem"
-                  @width="100%"
-                  @borderRadius="9999px"
-                />
 
-                <div class="flex justify-center">
-                  <UlxSkeleton @size="4rem" @borderRadius="0.5rem" />
+                  <div class="flex items-center gap-2 justify-between">
+                    <UlxSkeleton
+                      @height="1.5rem"
+                      @width="4rem"
+                      @borderRadius="9999px"
+                    />
+                    <UlxSkeleton @size="2rem" @borderRadius="0.25rem" />
+                  </div>
                 </div>
-
-                <div class="flex flex-col gap-2">
-                  <UlxSkeleton
-                    @height="1rem"
-                    @width="100%"
-                    @borderRadius="9999px"
-                  />
-                  <UlxSkeleton
-                    @height="1rem"
-                    @width="100%"
-                    @borderRadius="9999px"
-                  />
-                  <UlxSkeleton
-                    @height="1rem"
-                    @width="100%"
-                    @borderRadius="9999px"
-                  />
-                </div>
-              </div>
-            {{/if}}
-          </div>
-        {{/each}}
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
       </:content>
     </UlxDataView>
   </template>
