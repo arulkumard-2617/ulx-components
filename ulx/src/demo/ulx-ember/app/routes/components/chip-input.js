@@ -8,7 +8,7 @@ export default class ComponentsChipInputRoute extends Route {
     return {
       features: ChipInputFeatureItems,
       meta: meta,
-      builderSchema: builderSchema,
+      builderSchema: builderSchema
     };
   }
 }

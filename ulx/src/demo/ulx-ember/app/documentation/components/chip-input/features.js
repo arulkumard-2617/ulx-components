@@ -15,7 +15,7 @@ import {
   InvalidSource,
   MaxSource,
   SizesSource,
-  SeparatorSource,
+  SeparatorSource
 } from './imports';
 
 export const ChipInputFeatureItems = [

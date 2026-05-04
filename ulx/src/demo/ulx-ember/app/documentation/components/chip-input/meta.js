@@ -19,23 +19,23 @@ export default {
     {
       name: 'Features',
       route: '/features',
-      id: 'features',
+      id: 'features'
     },
     {
       name: 'Theming',
       route: '/theming',
-      id: 'theming',
+      id: 'theming'
     },
     {
       name: 'Builder',
       route: '/builder',
-      id: 'builder',
+      id: 'builder'
     },
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough',
-    },
+      id: 'passthrough'
+    }
   ],
 
   // Import message for the component
@@ -44,6 +44,6 @@ export default {
   // Accessibility information
   accessibility: {
     description: 'ChipInput is a group element. The inner text field has an aria-label. Each remove button is announced with the chip value.',
-    example: '<UlxChipInput @chips={{this.chips}} @onChipsChange={{this.updateChips}} />',
-  },
+    example: '<UlxChipInput @chips={{this.chips}} @onChipsChange={{this.updateChips}} />'
+  }
 };

@@ -7,5 +7,5 @@ export default {
   importLine: "import { UlxChipInput } from 'ulx-components';",
   props: [],
   stateToProps: () => ({}),
-  stateToSnippet: () => '<UlxChipInput />',
+  stateToSnippet: () => '<UlxChipInput />'
 };
