@@ -19,14 +19,16 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string[]} [chips=[]] - Controlled list of current chip values.
  * @param {Function} [onChipsChange] - Called with the updated chips array when chips are added or removed.
  * @param {string} [placeholder] - Placeholder text for the text field.
- * @param {string} [separator="Enter"] - Key that commits the typed value as a chip (e.g. "Enter", ",").
- * @param {boolean} [allowDuplicates=false] - When false, duplicate values are silently ignored.
+ * @param {string|string[]} [separator=["Enter", ","]] - Key(s) that commit the typed value as a chip.
+ *   Accepts a single key string (e.g. `","`) or an array of keys (e.g. `["Enter", ","]`).
+ *   `"Enter"` is committed on `keydown`; single printable characters (e.g. `","`) are committed
+ *   on `input` so the separator character itself is never included in the chip label. * @param {boolean} [allowDuplicates=false] - When false, duplicate values are silently ignored.
  * @param {number} [max] - Maximum number of chips allowed. Adding beyond this is ignored.
  * @param {boolean} [disabled=false] - Disables the entire control.
  * @param {boolean} [invalid=false] - Applies invalid visual state.
  * @param {string} [size="m-size"] - Size class applied to the root wrapper.
  * @param {string} [customClass] - Extra CSS classes for the root wrapper.
- * @param {string} [inputAriaLabel] - aria-label for the hidden text field.
+ * @param {string} [inputAriaLabel] - aria-label for the inner text field.
  */
 export default class UlxChipInput extends Component {
 	@tracked inputValue = "";
@@ -73,17 +75,24 @@ export default class UlxChipInput extends Component {
 		return this.args.inputAriaLabel ?? "Add chip";
 	}
 
+	get separatorKeys() {
+		const { separator = ["Enter", ","] } = this.args;
+		const keys = Array.isArray(separator) ? separator : [separator];
+		return keys;
+	}
+
 	@action
 	addChip(value) {
 		const trimmed = value.trim();
 		if (!trimmed || this.isDisabled || this.isAtMax) {
-			return;
+			return false;
 		}
 		const { allowDuplicates = false } = this.args;
 		if (!allowDuplicates && this.chips.includes(trimmed)) {
-			return;
+			return false;
 		}
 		this.args.onChipsChange?.([...this.chips, trimmed]);
+		return true;
 	}
 
 	@action
@@ -93,38 +102,54 @@ export default class UlxChipInput extends Component {
 		this.args.onChipsChange?.(next);
 	}
 
+	get charSeparators() {
+		return this.separatorKeys.filter((k) => k !== "Enter" && k.length === 1);
+	}
+
 	@action
 	handleKeydown(event) {
-		const { separator = "Enter" } = this.args;
-		const isSeparatorKey =
-			event.key === separator ||
-			(separator === "," && event.key === ",");
+		// Enter (and any other non-printable separator keys) — commit on keydown
+		// because the `input` event won't fire for Enter
+		const isEnterSeparator =
+			this.separatorKeys.includes(event.key) &&
+			!this.charSeparators.includes(event.key);
 
-		if (isSeparatorKey) {
+		if (isEnterSeparator) {
 			event.preventDefault();
-			this.addChip(this.inputValue);
-			this.inputValue = "";
+			const added = this.addChip(this.inputValue);
+			added && (this.inputValue = "");
 			return;
 		}
 
 		if (event.key === "Backspace" && !this.inputValue && this.chips.length > 0) {
 			event.preventDefault();
-			const next = this.chips.slice(0, -1);
-			this.args.onChipsChange?.(next);
+			this.args.onChipsChange?.(this.chips.slice(0, -1));
 		}
 	}
 
 	@action
 	handleInput(event) {
-		this.inputValue = event.target.value;
+		const raw = event.target.value;
 
-		const { separator = "Enter" } = this.args;
-		if (separator !== "Enter" && event.target.value.endsWith(separator)) {
-			const trimmed = event.target.value.slice(0, -1);
-			this.addChip(trimmed);
-			this.inputValue = "";
-			event.target.value = "";
+		if (this.charSeparators.length === 0) {
+			this.inputValue = raw;
+			return;
 		}
+
+		// Build a regex that splits on any char separator
+		const escaped = this.charSeparators
+			.map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+			.join("");
+		const parts = raw.split(new RegExp(`[${escaped}]`));
+
+		// All parts except the last get committed as chips
+		const toCommit = parts.slice(0, -1);
+		const remainder = parts[parts.length - 1] ?? "";
+
+		toCommit.forEach((part) => this.addChip(part));
+
+		this.inputValue = remainder;
+		event.target.value = remainder;
 	}
 
 	@action

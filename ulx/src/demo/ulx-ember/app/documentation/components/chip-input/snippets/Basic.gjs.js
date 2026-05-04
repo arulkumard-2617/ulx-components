@@ -16,10 +16,15 @@ export default class DemoChipInputBasic extends Component {
     <UlxForm @size="m-size" @customClass="ulx-grid gap-6 mb-14">
       <UlxFieldSet
         @legend="Favourite Cities"
-        @description="Type a city name and press Enter to add it as a chip."
+        @description="Type a city name and press Enter or , to add it as a chip."
         @customClass="ulx-grid gap-6"
       >
-        <UlxField @label="Cities" @fieldId="chip-input-basic" @fieldClass="col-12">
+        <UlxField
+          @label="Cities"
+          @helpText="Press Enter or , to add a chip."
+          @fieldId="chip-input-basic"
+          @fieldClass="col-12"
+        >
           <:default>
             <UlxChipInput
               @chips={{this.chips}}

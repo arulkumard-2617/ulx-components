@@ -8,12 +8,14 @@ import {
   InvalidDemo,
   MaxDemo,
   SizesDemo,
+  SeparatorDemo,
   ImportSource,
   BasicSource,
   DisabledSource,
   InvalidSource,
   MaxSource,
   SizesSource,
+  SeparatorSource,
 } from './imports';
 
 export const ChipInputFeatureItems = [
@@ -127,6 +129,25 @@ export const ChipInputFeatureItems = [
       props: {
         source: SizesSource,
         snippetName: "sizes",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "separator",
+    sectionNav: "Separator",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Use <code>@separator</code> to control which key commits a chip. Pass a single key string (e.g. <code>@separator=\",\"</code>) or an array of keys (e.g. <code>@separator={{array \"Enter\" \",\"}}</code>) to support multiple separators at once."
+      }
+    },
+    demo: {
+      component: SeparatorDemo,
+      props: {
+        source: SeparatorSource,
+        snippetName: "separator",
         language: "handlebars"
       }
     }

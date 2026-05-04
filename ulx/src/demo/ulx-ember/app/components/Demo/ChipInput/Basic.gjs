@@ -20,6 +20,7 @@ export default class DemoChipInputBasic extends Component {
       >
         <UlxField
           @label="Cities"
+          @helpText="Press Enter or , to add a chip."
           @fieldId="chip-input-basic"
           @fieldClass="col-12"
         >
