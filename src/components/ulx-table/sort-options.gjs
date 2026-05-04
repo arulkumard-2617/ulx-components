@@ -59,16 +59,17 @@ export default class SortOptions extends Component {
 
 	<template>
 		<div
-			class="{{this.ulxSortClass}} flex flex-col gp4 mgt1"
+			class="{{this.ulxSortClass}} flex flex-col gp3"
 			role="dialog"
 			aria-label={{t "lbl.sort"}}
 		>
 			<UlxRadio
 				@items={{this.radioItems}}
 				@onItemChange={{this.onSortCriterionChange}}
-				@groupClass="nmg-default"
 			/>
-			<UlxDivider />
+
+			<UlxDivider @customClass="m-0" />
+
 			<div class="flex flex-col items-start gap-3">
 				<UlxIconButton
 					@label={{t "label.ascending"}}
