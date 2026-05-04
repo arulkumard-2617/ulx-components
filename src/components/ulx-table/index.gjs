@@ -910,6 +910,11 @@ export default class UlxTable extends Component {
 	openSortPopover(event) {
 		const trigger = event?.currentTarget;
 		this.filterOverlayColumn = null;
+		if (this.showSortPopover) {
+			this.closeSortPopover();
+			return;
+		}
+		this.closeManageColumns();
 		this.sortPopoverTriggerElement = trigger ?? null;
 		this.showSortPopover = true;
 	}
@@ -1083,6 +1088,11 @@ export default class UlxTable extends Component {
 	// ─── Manage columns ────────────────────────────────────────────────────────
 	@action
 	openManageColumns(event) {
+		if (this.showManagePanel) {
+			this.closeManageColumns();
+			return;
+		}
+		this.closeSortPopover();
 		this.manageColumnsTriggerElement = event?.currentTarget ?? null;
 		this.showManagePanel = true;
 	}
@@ -1294,6 +1304,7 @@ export default class UlxTable extends Component {
 						@activeFilterCount={{this.activeFilterSelectionCount}}
 						@sortOptions={{@sortOptions}}
 						@showManageColumns={{@showManageColumns}}
+						@showManageColumnsPopup={{this.showManagePanel}}
 						@showToggleViews={{@showToggleViews}}
 						@showSortPopover={{this.showSortPopover}}
 						@viewOptions={{viewOpts}}
