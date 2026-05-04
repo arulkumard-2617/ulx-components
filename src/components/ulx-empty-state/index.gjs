@@ -45,11 +45,11 @@ export default class UlxEmptyState extends Component {
 	}
 
 	get headerDisplay() {
-		return this.args.headerText ? t(this.args.headerText) : "";
+		return this.args.headerText ?? "";
 	}
 
 	get subHeaderDisplay() {
-		return this.args.subHeaderText ? t(this.args.subHeaderText) : "";
+		return this.args.subHeaderText ?? "";
 	}
 
 	get rootDataQa() {
@@ -65,11 +65,7 @@ export default class UlxEmptyState extends Component {
 	}
 
 	<template>
-		<div
-			aria-label={{this.ariaLabel}}
-			data-qa={{this.rootDataQa}}
-			...attributes
-		>
+		<div aria-label={{this.ariaLabel}} data-qa={{this.rootDataQa}} ...attributes>
 			<div class={{this.rootClasses}}>
 				{{#if @iconName}}
 					<div class="empty-state-icon" data-qa="ulx-empty-state-icon">

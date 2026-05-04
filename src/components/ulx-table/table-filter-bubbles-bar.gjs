@@ -1,9 +1,9 @@
 import Component from "@glimmer/component";
 import { fn } from "@ember/helper";
 import eq from "ember-truth-helpers/helpers/eq";
+import gt from "ember-truth-helpers/helpers/gt";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
-import UlxIcon from "../ulx-icon/index.gjs";
 import UlxChip from "../ulx-chip/index.gjs";
 import { t } from "../../utils/i18n.js";
 import { resolveRootDataQa } from "../../utils/data-qa";
@@ -57,10 +57,10 @@ export default class TableFilterBubblesBar extends Component {
 										aria-hidden="true"
 									/> }}
 									<UlxIconButton
-										@variant="link"
+										@text={{true}}
+										@variant="basic"
 										@size="s-size"
-										@iconSize="s18"
-										@pilled={{true}}
+										@iconSize="s14"
 										@iconComponentClass="bs-icons1"
 										@iconLeft="close-icon-01"
 										@customClass="filter-bubble-remove-btn icon compact"
@@ -72,15 +72,18 @@ export default class TableFilterBubblesBar extends Component {
 						</UlxButton>
 
 					</div>
-				{{/each}}
+			{{/each}}
+			{{#if (gt this.bubbles.length 0)}}
 				<UlxIconButton
 					@variant="danger"
 					@text={{true}}
 					@size="compact"
 					@label={{t "lbl.clear.filters"}}
 					@onClick={{@onClearAll}}
+					@customClass="is-hover"
 				/>
-			</div>
-		{{/if}}
+			{{/if}}
+		</div>
+	{{/if}}
 	</template>
 }

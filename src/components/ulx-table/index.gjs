@@ -375,7 +375,6 @@ export default class UlxTable extends Component {
 	// ─── Sort (controlled vs uncontrolled) ───────────────────────────────────
 	// When sortOptions is provided, sort is driven by sortBy string "key:asc|desc".
 	get sortField() {
-		this.restorePersistedState();
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
 			return parseSortBy(this.args.sortBy ?? this._sortByString).field;
@@ -384,7 +383,6 @@ export default class UlxTable extends Component {
 	}
 
 	get sortOrder() {
-		this.restorePersistedState();
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
 			return parseSortBy(this.args.sortBy ?? this._sortByString).order;
@@ -393,7 +391,6 @@ export default class UlxTable extends Component {
 	}
 
 	get sortByString() {
-		this.restorePersistedState();
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
 			return this.args.sortBy ?? this._sortByString ?? "";
@@ -408,24 +405,20 @@ export default class UlxTable extends Component {
 	}
 
 	get multiSortMeta() {
-		this.restorePersistedState();
 		return this.args.multiSortMeta !== undefined ? this.args.multiSortMeta : this._multiSortMeta;
 	}
 
 	// ─── Filter (controlled vs uncontrolled) ────────────────────────────────
 	get filters() {
-		this.restorePersistedState();
 		return this.args.filters !== undefined ? this.args.filters : this._filters;
 	}
 
 	// ─── Pagination (controlled vs uncontrolled) ─────────────────────────────
 	get first() {
-		this.restorePersistedState();
 		return this.args.first !== undefined ? this.args.first : this._first;
 	}
 
 	get rows() {
-		this.restorePersistedState();
 		return this.args.rows !== undefined ? this.args.rows : this._rows;
 	}
 
@@ -616,7 +609,6 @@ export default class UlxTable extends Component {
 		if (this.sortMode === "multiple") {
 			const meta = getNextMultiSortMeta(this.multiSortMeta ?? [], field, removableSort);
 			this._multiSortMeta = meta;
-			this._first = 0;
 			this.persistState();
 			this.args.onSort?.({ multiSortMeta: meta });
 		} else {
@@ -631,7 +623,6 @@ export default class UlxTable extends Component {
 			this._sortOrder = sortOrder;
 			const sortByString = formatSortBy(sortField, sortOrder);
 			this._sortByString = sortByString;
-			this._first = 0;
 			this.persistState();
 			this.args.onSort?.(
 				cleared ? { field: null, order: null } : { field: sortField, order: sortOrder }
@@ -728,7 +719,7 @@ export default class UlxTable extends Component {
 	}
 
 	get showFilterBubblesBar() {
-		return this.hasActiveFilters;
+		return Object.keys(this.filters).some((k) => k !== "global");
 	}
 
 	get activeFilterBubbles() {
@@ -902,8 +893,10 @@ export default class UlxTable extends Component {
 	@action
 	handleSortByChange(sortByString) {
 		this._sortByString = sortByString;
+		this._first = 0;
 		this.persistState();
 		this.args.onSortByChange?.(sortByString);
+		this.args.first !== undefined && this.args.onPage?.({ first: 0, rows: this.rows, page: 0 });
 	}
 
 	@action
@@ -1154,7 +1147,9 @@ export default class UlxTable extends Component {
 	}
 
 	getViewToggleOptions(hasDetailed, hasCard) {
-		const opts = [{ value: "table", label: t("lbl.a11y.table.view.table"), icon: "grid-icon-master" }];
+		const opts = [
+			{ value: "table", label: t("lbl.a11y.table.view.table"), icon: "grid-icon-master" }
+		];
 		hasDetailed &&
 			opts.push({
 				value: "detailed",
@@ -1325,7 +1320,10 @@ export default class UlxTable extends Component {
 
 			{{! Row-mode clear filters bar }}
 			{{#if this.showClearFiltersBar}}
-				<div class="datatable-clear-filters-bar py-2" data-qa={{this.getDataQa "clear-filters-bar"}}>
+				<div
+					class="datatable-clear-filters-bar py-2"
+					data-qa={{this.getDataQa "clear-filters-bar"}}
+				>
 					<UlxButton
 						@variant="text"
 						@label={{t "lbl.clear.filters"}}
@@ -1366,54 +1364,54 @@ export default class UlxTable extends Component {
 
 			{{! Detailed, card, vertical and default grid views }}
 			{{#if (and (eq this.viewMode "detailed") (has-block "detailed"))}}
-			<TableViewDetailed
-				@loading={{@loading}}
-				@dataQa={{this.getDataQa "view-detailed"}}
-				@rows={{this.pagedData}}
-				@scrollable={{@scrollable}}
-				@wrapperStyle={{this.wrapperStyle}}
-				@emptyStateHeaderText={{this.emptyStateHeaderText}}
-				@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-				@emptyStateIconName={{this.emptyStateIconName}}
-				@hasCustomEmptyMessage={{has-block "emptyMessage"}}
-			>
-				<:detailed as |row|>{{yield row to="detailed"}}</:detailed>
-				<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-			</TableViewDetailed>
+				<TableViewDetailed
+					@loading={{@loading}}
+					@dataQa={{this.getDataQa "view-detailed"}}
+					@rows={{this.pagedData}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+					@hasCustomEmptyMessage={{has-block "emptyMessage"}}
+				>
+					<:detailed as |row|>{{yield row to="detailed"}}</:detailed>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableViewDetailed>
 			{{else if (and (eq this.viewMode "card") (has-block "card"))}}
-			<TableViewCard
-				@loading={{@loading}}
-				@dataQa={{this.getDataQa "view-card"}}
-				@rows={{this.pagedData}}
-				@cardViewColumns={{this.cardViewColumns}}
-				@scrollable={{@scrollable}}
-				@wrapperStyle={{this.wrapperStyle}}
-				@emptyStateHeaderText={{this.emptyStateHeaderText}}
-				@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-				@emptyStateIconName={{this.emptyStateIconName}}
-				@hasCustomEmptyMessage={{has-block "emptyMessage"}}
-			>
-				<:card as |row|>{{yield row to="card"}}</:card>
-				<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-			</TableViewCard>
+				<TableViewCard
+					@loading={{@loading}}
+					@dataQa={{this.getDataQa "view-card"}}
+					@rows={{this.pagedData}}
+					@cardViewColumns={{this.cardViewColumns}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+					@hasCustomEmptyMessage={{has-block "emptyMessage"}}
+				>
+					<:card as |row|>{{yield row to="card"}}</:card>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableViewCard>
 			{{else if this.isVertical}}
-			<TableViewVertical
-				@loading={{@loading}}
-				@dataQa={{this.getDataQa "view-vertical"}}
-				@rows={{this.pagedData}}
-				@tableClass={{this.tableClass}}
-				@verticalLabelField={{@verticalLabelField}}
-				@verticalRows={{this.verticalRows}}
-				@getCellValue={{this.getCellValue}}
-				@scrollable={{@scrollable}}
-				@wrapperStyle={{this.wrapperStyle}}
-				@emptyStateHeaderText={{this.emptyStateHeaderText}}
-				@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
-				@emptyStateIconName={{this.emptyStateIconName}}
-				@hasCustomEmptyMessage={{has-block "emptyMessage"}}
-			>
-				<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-			</TableViewVertical>
+				<TableViewVertical
+					@loading={{@loading}}
+					@dataQa={{this.getDataQa "view-vertical"}}
+					@rows={{this.pagedData}}
+					@tableClass={{this.tableClass}}
+					@verticalLabelField={{@verticalLabelField}}
+					@verticalRows={{this.verticalRows}}
+					@getCellValue={{this.getCellValue}}
+					@scrollable={{@scrollable}}
+					@wrapperStyle={{this.wrapperStyle}}
+					@emptyStateHeaderText={{this.emptyStateHeaderText}}
+					@emptyStateSubHeaderText={{this.emptyStateSubHeaderText}}
+					@emptyStateIconName={{this.emptyStateIconName}}
+					@hasCustomEmptyMessage={{has-block "emptyMessage"}}
+				>
+					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+				</TableViewVertical>
 			{{else}}
 				<TableGridShell
 					@rows={{this.pagedData}}
@@ -1444,12 +1442,12 @@ export default class UlxTable extends Component {
 					@expandedRows={{@expandedRows}}
 					@editMode={{@editMode}}
 					@editingRows={{this.editingRows}}
-				@editingCell={{this.editingCell}}
-				@rowClassName={{@rowClassName}}
-				@loading={{@loading}}
-				@emptyMessage={{@emptyMessage}}
-				@onSort={{this.handleSort}}
-				@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
+					@editingCell={{this.editingCell}}
+					@rowClassName={{@rowClassName}}
+					@loading={{@loading}}
+					@emptyMessage={{@emptyMessage}}
+					@onSort={{this.handleSort}}
+					@onHeaderCheckboxChange={{this.handleHeaderCheckboxChange}}
 					@onFilterChange={{this.handleFilterChange}}
 					@onFilterMenuOpen={{this.handleFilterMenuOpen}}
 					@onColumnResizeStart={{this.handleColumnResizeStart}}
