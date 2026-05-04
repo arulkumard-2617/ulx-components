@@ -47,12 +47,13 @@ export default class TableToolbar extends Component {
 								@iconLeft="search-icon"
 								@iconType="font"
 								@iconClass="bs-icons1"
-								@iconSize="s8"
+								@iconSize="s20"
 							>
 								<UlxInput
 									@key="datatable-global-filter"
 									@value={{@globalFilterValue}}
 									@onInput={{@onGlobalFilterInput}}
+									@customClass="w-352"
 									placeholder={{or
 										@globalFilterPlaceholder
 										(t "msg.table.global.filter.placeholder")

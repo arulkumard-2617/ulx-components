@@ -257,7 +257,7 @@ export default class ManageColumns extends Component {
 								@componentClass="bs-icons1"
 								@type="font"
 								@iconName="dragdrop-icon1"
-								@size="s14"
+								@size="s18"
 							/>
 						</span>
 						<UlxCheckbox

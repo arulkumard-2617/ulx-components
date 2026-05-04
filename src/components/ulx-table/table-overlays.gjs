@@ -181,12 +181,11 @@ export default class TableOverlays extends Component {
 				@position="position-bottom-center"
 				@size="xs-size"
 				@dismissable={{true}}
-				@closable={{true}}
 				@onHide={{this.sortPopover.onClose}}
 				@ariaLabel={{t "lbl.sort"}}
 				@hideFooter={{true}}
 			>
-				<div class="fs-popup p-1">
+				<div class="fs-popup">
 					<SortOptions
 						@sortBy={{this.sortPopover.sortBy}}
 						@sortOptions={{this.sortPopover.options}}
