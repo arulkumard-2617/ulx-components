@@ -36,6 +36,7 @@ export default class ManageColumns extends Component {
 	@tracked localOrder = null;
 	@tracked localVisible = null;
 	@tracked dragFromIndex = null;
+	@tracked dragOverIndex = null;
 	@tracked liveMessage = "";
 
 	get manageableColumns() {
@@ -122,34 +123,68 @@ export default class ManageColumns extends Component {
 			return;
 		}
 		this.dragFromIndex = index;
+		this.dragOverIndex = null;
 		event.dataTransfer.effectAllowed = "move";
 		event.dataTransfer.setData("text/plain", String(index));
 	}
 
 	@action
-	handleDragEnter(event) {
+	handleDragEnter(index, event) {
 		event.preventDefault();
 		event.dataTransfer.dropEffect = "move";
+		this.dragOverIndex = index;
 	}
 
 	@action
-	handleDragOver(event) {
+	handleDragOver(index, event) {
 		event.preventDefault();
 		event.dataTransfer.dropEffect = "move";
+		this.dragOverIndex = index;
 	}
 
 	@action
 	handleDrop(toIndex, event) {
 		event.preventDefault();
 		const fromIndex = this.dragFromIndex ?? Number(event.dataTransfer.getData("text/plain"));
-		if (Number.isNaN(fromIndex) || fromIndex === toIndex) return;
-		this.reorderColumns(fromIndex, toIndex);
+		let dropIndex = toIndex;
+		if (dropIndex === fromIndex && this.dragOverIndex !== null) {
+			dropIndex = this.dragOverIndex;
+		}
+		if (Number.isNaN(fromIndex) || fromIndex === dropIndex) return;
+		const resolvedToIndex = this.resolveDropTargetIndex(fromIndex, dropIndex);
+		resolvedToIndex !== null && this.reorderColumns(fromIndex, resolvedToIndex);
 		this.dragFromIndex = null;
+		this.dragOverIndex = null;
+	}
+
+	@action
+	handleListDragOver(event) {
+		event.preventDefault();
+		event.dataTransfer.dropEffect = "move";
+	}
+
+	@action
+	handleListDrop(event) {
+		event.preventDefault();
+		const fromIndex = this.dragFromIndex ?? Number(event.dataTransfer.getData("text/plain"));
+		if (Number.isNaN(fromIndex)) return;
+		const fallbackIndex = this.findLastUnlockedIndex();
+		const dropIndex = this.dragOverIndex ?? fallbackIndex;
+		if (dropIndex === null || fromIndex === dropIndex) return;
+		const resolvedToIndex = this.resolveDropTargetIndex(fromIndex, dropIndex);
+		resolvedToIndex !== null && this.reorderColumns(fromIndex, resolvedToIndex);
+		this.dragFromIndex = null;
+		this.dragOverIndex = null;
 	}
 
 	@action
 	handleDragEnd() {
+		if (this.dragFromIndex !== null && this.dragOverIndex !== null && this.dragFromIndex !== this.dragOverIndex) {
+			const resolvedToIndex = this.resolveDropTargetIndex(this.dragFromIndex, this.dragOverIndex);
+			resolvedToIndex !== null && this.reorderColumns(this.dragFromIndex, resolvedToIndex);
+		}
 		this.dragFromIndex = null;
+		this.dragOverIndex = null;
 	}
 
 	@action
@@ -231,6 +266,27 @@ export default class ManageColumns extends Component {
 		});
 	}
 
+	resolveDropTargetIndex(fromIndex, toIndex) {
+		const toColumn = this.orderedColumns[toIndex];
+		if (!toColumn) return null;
+		if (!this.isLocked(toColumn)) {
+			return toIndex;
+		}
+
+		const movingDown = toIndex > fromIndex;
+		const directionalIndex = movingDown
+			? this.findNextUnlockedIndex(toIndex)
+			: this.findPreviousUnlockedIndex(toIndex);
+		if (directionalIndex !== null) {
+			return directionalIndex;
+		}
+
+		const fallbackIndex = movingDown
+			? this.findPreviousUnlockedIndex(toIndex)
+			: this.findNextUnlockedIndex(toIndex);
+		return fallbackIndex;
+	}
+
 	findPreviousUnlockedIndex(index) {
 		for (let candidate = index - 1; candidate >= 0; candidate--) {
 			if (!this.isLocked(this.orderedColumns[candidate])) return candidate;
@@ -240,6 +296,13 @@ export default class ManageColumns extends Component {
 
 	findNextUnlockedIndex(index) {
 		for (let candidate = index + 1; candidate < this.orderedColumns.length; candidate++) {
+			if (!this.isLocked(this.orderedColumns[candidate])) return candidate;
+		}
+		return null;
+	}
+
+	findLastUnlockedIndex() {
+		for (let candidate = this.orderedColumns.length - 1; candidate >= 0; candidate--) {
 			if (!this.isLocked(this.orderedColumns[candidate])) return candidate;
 		}
 		return null;
@@ -256,15 +319,20 @@ export default class ManageColumns extends Component {
 					@size="s-size"
 				/>
 			{{/if}}
-			<ul class="ulx-drag" role="list">
+			<ul
+				class="ulx-drag"
+				role="list"
+				{{on "dragover" this.handleListDragOver}}
+				{{on "drop" this.handleListDrop}}
+			>
 				{{#each this.orderedColumns as |col index|}}
 					<li
 						class="drag-item {{if (this.isLocked col) 'locked'}}"
 						draggable={{if (not (this.isLocked col)) "true"}}
 						tabindex={{if (not (this.isLocked col)) "0" "-1"}}
 						{{on "dragstart" (fn this.handleDragStart index)}}
-						{{on "dragenter" this.handleDragEnter}}
-						{{on "dragover" this.handleDragOver}}
+						{{on "dragenter" (fn this.handleDragEnter index)}}
+						{{on "dragover" (fn this.handleDragOver index)}}
 						{{on "drop" (fn this.handleDrop index)}}
 						{{on "dragend" this.handleDragEnd}}
 						{{on "keydown" (fn this.handleItemKeyDown col index)}}
