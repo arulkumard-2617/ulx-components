@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "ulxEditor": "npm run ulxEditor --prefix ulx",
+    "ensure:ulx-editor-css": "node config/ensure-ulx-editor-css.cjs",
     "build": "node config/ensure-ulx-editor-css.cjs && npm run build:js",
     "build:js": "rollup --config config/rollup.config.mjs",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",

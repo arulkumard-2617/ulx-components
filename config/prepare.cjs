@@ -16,7 +16,7 @@ const missingRollupPkg = (output) => {
 	return match ? match[1] : null;
 };
 
-const css = run(['run', 'ulxEditor']);
+const css = run(['run', 'ensure:ulx-editor-css', '--', '--always-install']);
 if (css.status !== 0) {
 	process.exit(css.status ?? 1);
 }
