@@ -40,6 +40,8 @@ import TableEmptyState from "./table-empty-state.gjs";
 import TableOverlays from "./table-overlays.gjs";
 import { t } from "../../utils/i18n.js";
 
+const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
+
 /**
  * UlxTable — Full-featured data table component.
  *
@@ -473,14 +475,14 @@ export default class UlxTable extends Component {
 
 	get emptyStateHeaderText() {
 		if (this.shouldUseSearchEmptyState) {
-			return "msg.empty.state.title";
+			return t("msg.empty.state.title");
 		}
 
-		return this.args.emptyMessage ?? "msg.table.no.records";
+		return this.args.emptyMessage ?? t("msg.table.no.records");
 	}
 
 	get emptyStateSubHeaderText() {
-		return this.shouldUseSearchEmptyState ? "msg.empty.state.subtitle" : null;
+		return this.shouldUseSearchEmptyState ? t("msg.empty.state.subtitle") : null;
 	}
 
 	get emptyStateIconName() {
@@ -525,15 +527,29 @@ export default class UlxTable extends Component {
 		return this.args.paginatorPosition ?? "bottom";
 	}
 
+	get minimumPaginatorRows() {
+		const rowsPerPageOptions = this.args.rowsPerPageOptions ?? [];
+		const rowOptions = rowsPerPageOptions.filter((rowOption) => {
+			return typeof rowOption === "number" && Number.isFinite(rowOption) && rowOption > 0;
+		});
+
+		return rowOptions.length ? Math.min(...rowOptions) : DEFAULT_MINIMUM_PAGINATOR_ROWS;
+	}
+
+	get shouldShowPaginator() {
+		return this.args.paginator && this.paginatorTotalRecords > this.minimumPaginatorRows;
+	}
+
 	get showPaginatorTop() {
 		return (
-			this.args.paginator && (this.paginatorPosition === "top" || this.paginatorPosition === "both")
+			this.shouldShowPaginator &&
+			(this.paginatorPosition === "top" || this.paginatorPosition === "both")
 		);
 	}
 
 	get showPaginatorBottom() {
 		return (
-			this.args.paginator &&
+			this.shouldShowPaginator &&
 			(this.paginatorPosition === "bottom" || this.paginatorPosition === "both")
 		);
 	}
@@ -1305,6 +1321,7 @@ export default class UlxTable extends Component {
 						@viewOptions={{viewOpts}}
 						@viewMode={{this.effectiveViewModeForOptions this.viewMode viewOpts}}
 						@onGlobalFilterInput={{this.handleGlobalFilterInput}}
+						@filterPaneOpen={{this.filterPaneOpen}}
 						@onOpenFilterPane={{this.openFilterPane}}
 						@onOpenSortPopover={{this.openSortPopover}}
 						@onOpenManageColumns={{this.openManageColumns}}

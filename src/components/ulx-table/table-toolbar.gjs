@@ -84,8 +84,8 @@ export default class TableToolbar extends Component {
 									(t "lbl.a11y.table.toolbar.filter.active" count=@activeFilterCount)
 									(t "lbl.filter")
 								}}
-								{{tooltip (t "lbl.filter") position="bottom"}}
-							>
+							{{tooltip (t "lbl.filter") position="bottom" disabled=@filterPaneOpen}}
+						>
 								<:prefix>
 									<UlxIcon
 										@iconName="filter-icon"
@@ -104,7 +104,7 @@ export default class TableToolbar extends Component {
 								@customClass="icon-only"
 								aria-label={{t "lbl.sort"}}
 								aria-expanded={{@showSortPopover}}
-								{{tooltip (t "lbl.sort") position="bottom"}}
+								{{tooltip (t "lbl.sort") position="bottom" disabled=@showSortPopover}}
 							>
 								<:prefix>
 									<UlxIcon
@@ -124,7 +124,7 @@ export default class TableToolbar extends Component {
 								@customClass="icon-only"
 								aria-label={{t "lbl.columns"}}
 								aria-expanded={{@showManageColumnsPopup}}
-								{{tooltip (t "lbl.columns") position="bottom"}}
+								{{tooltip (t "lbl.columns") position="bottom" disabled=@showManageColumnsPopup}}
 							>
 								<:prefix>
 									<UlxIcon
