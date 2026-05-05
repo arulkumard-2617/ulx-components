@@ -21,7 +21,7 @@ import { isSpecialColumn } from "./utils.js";
  *
  * @param {Array} allColumns - full flex-col list (including hidden ones)
  * @param {Array} visibleColumns - currently visible columns
- * @param {Function} onApply - ({ columns }) => void  — called with updated visible columns
+ * @param {Function} onApply - ({ columns, visibleFields }) => void  — called with updated full order and visible fields
  * @param {Function} onClose - () => void
  * @param {Function} onReset - () => void
  * @param {Function} [registerRef] - (instance | null) => void — called with this component instance on mount, null on teardown
@@ -82,11 +82,28 @@ export default class ManageColumns extends Component {
 
 	@action
 	handleApply() {
-		const orderedVisible = this.orderedColumns.filter((c) => this.visibleSet.has(c.field));
-		const lockedCols = this.args.allColumns?.filter((c) => c.manageable === false) ?? [];
-		const nonManageableCols = this.args.allColumns?.filter((c) => isSpecialColumn(c)) ?? [];
-		const result = [...nonManageableCols, ...lockedCols, ...orderedVisible];
-		this.args.onApply?.({ columns: result });
+		const allColumns = this.args.allColumns ?? [];
+		const nonManageableCols = [];
+		const lockedCols = [];
+		const unlockedManageable = [];
+
+		allColumns.forEach((column) => {
+			if (isSpecialColumn(column)) {
+				nonManageableCols.push(column);
+				return;
+			}
+			this.isLocked(column) && lockedCols.push(column);
+		});
+
+		this.orderedColumns.forEach((column) => {
+			!this.isLocked(column) && unlockedManageable.push(column);
+		});
+
+		const result = [...nonManageableCols, ...lockedCols, ...unlockedManageable];
+		this.args.onApply?.({
+			columns: result,
+			visibleFields: [...this.visibleSet]
+		});
 		this.args.onClose?.();
 	}
 
