@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
+import { fn, array } from '@ember/helper';
 import eq from 'ember-truth-helpers/helpers/eq';
 import {
   UlxTable,
@@ -53,6 +53,62 @@ const MEMBERS = [
     role: 'not Admin',
     status: 'INVITED',
     invitedOn: 'Mar 04, 2026'
+  },
+  {
+    id: 6,
+    name: 'Morgan Blake',
+    emailId: 'morgan@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 05, 2026'
+  },
+  {
+    id: 7,
+    name: 'Alex Kim',
+    emailId: 'alex@example.com',
+    role: 'not Admin',
+    status: 'INVITED',
+    invitedOn: 'Mar 06, 2026'
+  },
+  {
+    id: 8,
+    name: 'Dana Cruz',
+    emailId: 'dana@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 07, 2026'
+  },
+  {
+    id: 9,
+    name: 'Riley Patel',
+    emailId: 'riley@example.com',
+    role: 'not Admin',
+    status: 'INVITED',
+    invitedOn: 'Mar 08, 2026'
+  },
+  {
+    id: 10,
+    name: 'Taylor Nguyen',
+    emailId: 'taylor@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 09, 2026'
+  },
+  {
+    id: 11,
+    name: 'Quinn Foster',
+    emailId: 'quinn@example.com',
+    role: 'not Admin',
+    status: 'INVITED',
+    invitedOn: 'Mar 10, 2026'
+  },
+  {
+    id: 12,
+    name: 'Skyler Adams',
+    emailId: 'skyler@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 11, 2026'
   }
 ];
 
@@ -209,6 +265,8 @@ export default class DemoTableBsTableView extends Component {
       @onSortByChange={{this.handleSortByChange}}
       @filterGroups={{this.filterGroups}}
       @showManageColumns={{true}}
+      @paginator={{true}}
+      @rowsPerPageOptions={{array 10 25 50 100}}
     >
       <:postRightMenu>
         <UlxButton
@@ -247,7 +305,8 @@ export default class DemoTableBsTableView extends Component {
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1">
             <span class="semibold-font">Email Address</span>
-            <span class="text-13 fg-text-secondary">Enter the email address of the person you want to invite.</span>
+            <span class="text-13 fg-text-secondary">Enter the email address of
+              the person you want to invite.</span>
             <input
               type="email"
               class="ulx-inputtext"
@@ -257,7 +316,8 @@ export default class DemoTableBsTableView extends Component {
           </div>
           <div class="flex flex-col gap-1">
             <span class="semibold-font">Role</span>
-            <span class="text-13 fg-text-secondary">Select the role for the new member.</span>
+            <span class="text-13 fg-text-secondary">Select the role for the new
+              member.</span>
             <select class="ulx-dropdown" aria-label="Role">
               <option value="">Select a role</option>
               <option value="portal-admin">Portal Admin</option>

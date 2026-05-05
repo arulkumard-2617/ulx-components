@@ -105,6 +105,16 @@ export default modifier(function tooltip(
 	const addedTabindex =
 		evt === 'both' || evt === 'focus' ? ensureFocusableForTooltip(element) : false;
 
+	// When this modifier is set up after being disabled (popup just closed), focus returns
+	// to the trigger element causing an immediate focusin. We suppress that focus-return
+	// tooltip by marking the element during teardown-while-disabled, and clearing the mark
+	// once we've handled (or skipped) the first focusin after re-enable.
+	const FOCUS_RETURN_ATTR = 'data-tooltip-suppress-focus';
+	let suppressFocusShow = !isDisabled && element.hasAttribute(FOCUS_RETURN_ATTR);
+	if (suppressFocusShow) {
+		element.removeAttribute(FOCUS_RETURN_ATTR);
+	}
+
 	function getAppendTarget() {
 		if (appendTarget === document.body) return document.body;
 		if (typeof appendTarget === 'string') {
@@ -199,6 +209,10 @@ export default modifier(function tooltip(
 
 	function onShow(e) {
 		if (e && !shouldShowForEvent(e.type)) return;
+		if (suppressFocusShow && (e?.type === 'focusin' || e?.type === 'focus')) {
+			suppressFocusShow = false;
+			return;
+		}
 		show();
 	}
 
@@ -226,6 +240,10 @@ export default modifier(function tooltip(
 	if (escapeClose) document.addEventListener('keydown', onEscape);
 
 	return () => {
+		// Mark element so the next modifier run (re-enabled) can suppress the focus-return focusin.
+		if (isDisabled) {
+			element.setAttribute(FOCUS_RETURN_ATTR, '');
+		}
 		clearTimeouts();
 		element.removeEventListener('mouseenter', onShow);
 		element.removeEventListener('mouseleave', onHide);
