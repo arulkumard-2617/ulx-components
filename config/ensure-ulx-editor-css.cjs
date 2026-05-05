@@ -14,6 +14,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const ulxPkg = path.join(root, 'ulx', 'package.json');
+const alwaysInstall = process.argv.includes('--always-install');
 
 if (!existsSync(ulxPkg)) {
 	console.error('❌ Missing ulx/package.json. Refusing to use prebuilt ulx-editor CSS fallback.');
@@ -22,11 +23,25 @@ if (!existsSync(ulxPkg)) {
 
 const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 const opts = { cwd: root, stdio: 'inherit', shell: true };
+const checkOpts = { cwd: root, stdio: 'ignore', shell: true };
 
-let r = spawnSync(npmCmd, ['install', '--prefix', 'ulx'], opts);
-if (r.status !== 0) {
-	process.exit(r.status ?? 1);
+const hasUlxDeps = () => {
+	const result = spawnSync(npmCmd, ['ls', '--prefix', 'ulx', 'less', 'uls_v2', '--depth=0'], checkOpts);
+	return result.status === 0;
+};
+
+if (alwaysInstall || !hasUlxDeps()) {
+	const r = spawnSync(
+		npmCmd,
+		['install', '--prefix', 'ulx', '--include=dev', '--include=peer', '--include=optional'],
+		opts
+	);
+	if (r.status !== 0) {
+		process.exit(r.status ?? 1);
+	}
+} else {
+	console.log('[ensure-ulx-editor-css] Reusing existing ulx dependencies for dev build.');
 }
 
-r = spawnSync(npmCmd, ['run', 'ulxEditor', '--prefix', 'ulx'], opts);
+const r = spawnSync(npmCmd, ['run', 'ulxEditor', '--prefix', 'ulx'], opts);
 process.exit(r.status ?? 0);
