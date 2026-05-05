@@ -45,13 +45,6 @@ import { getComponentClass } from "../../utils/component-config";
  * </UlxSegment>
  *
  * @example
- * // Vertical segment with header
- * <UlxSegment @type="vertical">
- *   <:header>Section Title</:header>
- *   <:default>Content here</:default>
- * </UlxSegment>
- *
- * @example
  * // Placeholder segment
  * <UlxSegment @type="placeholder" @inline={{false}}>
  *   <div class="segment-placeholder-content">
@@ -133,14 +126,6 @@ export default class UlxSegment extends Component {
 		return this.args.dataQa ?? "ulx-segment";
 	}
 
-	get headerDataQa() {
-		return `${this.rootDataQa}-header`;
-	}
-
-	get contentDataQa() {
-		return `${this.rootDataQa}-content`;
-	}
-
 	<template>
 		<div
 			class={{this.rootClasses}}
@@ -152,19 +137,7 @@ export default class UlxSegment extends Component {
 			aria-disabled="{{this.isDisabled}}"
 			...attributes
 		>
-			{{#if (has-block "header")}}
-				<div class="segment-header" data-qa={{this.headerDataQa}}>
-					{{yield to="header"}}
-				</div>
-			{{/if}}
-
-			{{#if (has-block "default")}}
-				<div class="segment-content" data-qa={{this.contentDataQa}}>
-					{{yield}}
-				</div>
-			{{else}}
-				{{yield}}
-			{{/if}}
+		{{yield}}
 		</div>
 	</template>
 }
