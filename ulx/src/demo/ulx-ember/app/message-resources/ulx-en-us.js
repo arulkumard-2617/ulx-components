@@ -101,7 +101,7 @@ const ulxEnUsMessages = {
   'lbl.slider.handleStart': 'Start',
   'lbl.sort': 'Sort',
   'lbl.sorter': 'Sorter',
-  'msg.dropdown.no.results': 'No results found.',
+  'label.no.results.found': 'No results found.',
   'lbl.timepicker.placeholder': 'Select time',
   'lbl.timepicker.toggle': 'Open time picker',
   'msg.empty.state.subtitle': 'Try adjusting your filters or search.',

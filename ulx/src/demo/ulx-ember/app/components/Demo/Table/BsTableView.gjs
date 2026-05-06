@@ -149,6 +149,22 @@ const StatusCell = <template>
   {{/if}}
 </template>;
 
+const DEPARTMENTS = ['Product', 'Operations', 'Finance', 'Sales', 'Support'];
+const REGIONS = ['India', 'US', 'EMEA', 'APAC', 'LATAM'];
+const TEAMS = ['Core', 'Growth', 'Platform', 'Enablement', 'Security'];
+const ACCESS_LEVELS = ['Standard', 'Elevated', 'Restricted', 'Auditor', 'Owner'];
+const LAST_ACTIVE = ['Today', 'Yesterday', '2 days ago', 'This week', 'Last week'];
+
+function valueById(values, row) {
+  return values[(row.id - 1) % values.length];
+}
+
+const DepartmentCell = <template>{{valueById DEPARTMENTS @row}}</template>;
+const RegionCell = <template>{{valueById REGIONS @row}}</template>;
+const TeamCell = <template>{{valueById TEAMS @row}}</template>;
+const AccessLevelCell = <template>{{valueById ACCESS_LEVELS @row}}</template>;
+const LastActiveCell = <template>{{valueById LAST_ACTIVE @row}}</template>;
+
 const columns = [
   {
     field: 'name',
@@ -158,6 +174,11 @@ const columns = [
     body: NameEmailCell
   },
   { field: 'role', header: 'Role', sortable: true },
+  { field: 'department', header: 'Department', body: DepartmentCell },
+  { field: 'region', header: 'Region', body: RegionCell },
+  { field: 'team', header: 'Team', body: TeamCell },
+  { field: 'accessLevel', header: 'Access Level', body: AccessLevelCell },
+  { field: 'lastActive', header: 'Last Active', body: LastActiveCell },
   { field: 'status', header: 'Status', body: StatusCell }
 ];
 

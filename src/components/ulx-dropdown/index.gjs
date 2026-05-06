@@ -1067,13 +1067,13 @@ export default class UlxDropdown extends Component {
 					>
 						<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
 							{{#if (eq this.visibleOptions.length 0)}}
-							<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
-								{{or
-									(and @filter @emptyFilterMessage)
-									@emptyMessage
-									(t "msg.dropdown.no.results")
-								}}
-							</li>
+								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
+									{{or
+										(and @filter @emptyFilterMessage)
+										@emptyMessage
+										(t "label.no.results.found")
+									}}
+								</li>
 							{{else if this.hasGroups}}
 								{{#each this.optionListWithGroups as |row|}}
 									{{#if (eq row.type "group")}}

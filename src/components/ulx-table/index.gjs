@@ -452,6 +452,11 @@ export default class UlxTable extends Component {
 		return resolveOrderedColumns(this.visibleColumns, this._columnOrder);
 	}
 
+	get allColumnsInManagedOrder() {
+		this.restorePersistedState();
+		return resolveOrderedColumns(this.allColumns, this._columnOrder);
+	}
+
 	// ─── Data pipeline ───────────────────────────────────────────────────────
 	get rawData() {
 		return this.args.value ?? [];
@@ -486,7 +491,7 @@ export default class UlxTable extends Component {
 	}
 
 	get emptyStateIconName() {
-		return this.shouldUseSearchEmptyState ? "event-past-icon" : null;
+		return this.shouldUseSearchEmptyState ? "search-empty-icon" : null;
 	}
 
 	get processedData() {
@@ -1119,10 +1124,10 @@ export default class UlxTable extends Component {
 	}
 
 	@action
-	handleManageColumnsApply({ columns }) {
-		const dataFields = new Set(
-			columns.filter((c) => c.field && !isSpecialColumn(c)).map((c) => c.field)
-		);
+	handleManageColumnsApply({ columns, visibleFields }) {
+		const dataFields = Array.isArray(visibleFields)
+			? new Set(visibleFields)
+			: new Set(columns.filter((c) => c.field && !isSpecialColumn(c)).map((c) => c.field));
 		this._visibleColumnFields = dataFields;
 		this._columnOrder = columns;
 		this.showManagePanel = false;
@@ -1217,7 +1222,7 @@ export default class UlxTable extends Component {
 		return {
 			visible: this.showManagePanel,
 			target: this.manageColumnsTriggerElement,
-			allColumns: this.allColumns,
+			allColumns: this.allColumnsInManagedOrder,
 			visibleColumns: this.visibleColumns,
 			onApply: this.handleManageColumnsApply,
 			onClose: this.closeManageColumns,
