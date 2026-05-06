@@ -10,7 +10,7 @@ export default class BasicMessagesDemo extends Component {
       summary: 'Complimentary Spaces Expiring Soon!',
       detail:
         "To continue using your complimentary Spaces beyond April 15, 2025 , you'll need to purchase and apply the necessary Space add-ons.",
-      icon: 'space-notification-icon',
+      icon: 'space-notification-icon'
     };
   }
 
