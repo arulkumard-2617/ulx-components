@@ -358,18 +358,28 @@ export default class UlxAvatar extends Component {
 			return undefined;
 		}
 
-		const parts = source.split(/\s+/).filter(Boolean).slice(0, 2);
+		const trimmed = source.trim();
 
-		if (parts.length === 0) {
+		if (!trimmed) {
 			return undefined;
 		}
 
-		const initials = parts
-			.map((part) => part[0])
-			.join("")
-			.toUpperCase();
+		const namesArray = trimmed.split(" ");
 
-		return initials;
+		let initials;
+
+		if (namesArray.length > 1) {
+			initials = namesArray
+				.flatMap((item) => (Boolean(item) ? item[0].toUpperCase() : []))
+				.slice(0, 2)
+				.join("");
+		} else {
+			initials = namesArray
+				.flatMap((item) => (Boolean(item) ? item.slice(0, 2).toUpperCase() : []))
+				.join("");
+		}
+
+		return initials || undefined;
 	}
 
 	@action
@@ -412,39 +422,39 @@ export default class UlxAvatar extends Component {
 	}
 
 	<template>
-			<span
-				class={{this.rootClasses}}
-				aria-hidden={{this.ariaHidden}}
-				role={{this.role}}
-				aria-label={{this.ariaLabel}}
-				aria-disabled={{if @disabled "true"}}
-				data-qa={{this.rootDataQa}}
-				tabindex={{this.tabindex}}
-				{{on "click" this.handleClick}}
-				...attributes
-			>
-				{{#if this.isImageType}}
-					<img
-						src={{this.resolvedImage}}
+		<span
+			class={{this.rootClasses}}
+			aria-hidden={{this.ariaHidden}}
+			role={{this.role}}
+			aria-label={{this.ariaLabel}}
+			aria-disabled={{if @disabled "true"}}
+			data-qa={{this.rootDataQa}}
+			tabindex={{this.tabindex}}
+			{{on "click" this.handleClick}}
+			...attributes
+		>
+			{{#if this.isImageType}}
+				<img
+					src={{this.resolvedImage}}
 					alt={{this.imageAlt}}
-						class="avatar-image"
-						{{on "load" this.handleImageLoad}}
-						{{on "error" this.handleImageError}}
+					class="avatar-image"
+					{{on "load" this.handleImageLoad}}
+					{{on "error" this.handleImageError}}
+				/>
+			{{else if this.isIconType}}
+				<span class="avatar-icon">
+					<UlxIcon
+						@iconName={{this.resolvedIconName}}
+						@type={{this.resolvedIconType}}
+						@componentClass={{@iconComponentClass}}
+						@ariaLabel={{@iconAriaLabel}}
 					/>
-				{{else if this.isIconType}}
-					<span class="avatar-icon">
-						<UlxIcon
-							@iconName={{this.resolvedIconName}}
-							@type={{this.resolvedIconType}}
-							@componentClass={{@iconComponentClass}}
-							@ariaLabel={{@iconAriaLabel}}
-						/>
-					</span>
-				{{else if this.isTextType}}
-					<span class="avatar-label">
-						{{this.label}}
-					</span>
-				{{/if}}
-			</span>
+				</span>
+			{{else if this.isTextType}}
+				<span class="avatar-label">
+					{{this.label}}
+				</span>
+			{{/if}}
+		</span>
 	</template>
 }

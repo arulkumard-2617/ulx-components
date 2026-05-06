@@ -491,7 +491,7 @@ export default class UlxTable extends Component {
 	}
 
 	get emptyStateIconName() {
-		return this.shouldUseSearchEmptyState ? "event-past-icon" : null;
+		return this.shouldUseSearchEmptyState ? "search-empty-icon" : null;
 	}
 
 	get processedData() {
