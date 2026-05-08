@@ -14,9 +14,6 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
  * @param {'12'|'24'} [hourFormat='24'] - Default for flatpickr `time_24hr` when `time_24hr` is omitted
  * @param {boolean} [time_24hr] - When set, overrides `hourFormat` for flatpickr 24h mode
- * @param {boolean} [showPopupHeader=true] - When true, injects title + hour-format hint into the flatpickr popup (time-only mode)
- * @param {boolean} [showHourFormatTag=false] - When true, shows the hour-format tag (e.g. 24H/12H) in the popup header
- * @param {string} [popupTitle] - Overrides default popup title (otherwise i18n `lbl.timepicker.placeholder`)
  * @param {Date|string} [minDate]
  * @param {Date|string} [maxDate]
  * @param {Array} [disable]
@@ -40,11 +37,6 @@ export default class UlxTimePicker extends Component {
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
-	}
-
-	get popupTitleText() {
-		const { popupTitle } = this.args;
-		return popupTitle ?? t("lbl.timepicker.placeholder");
 	}
 
 	get fpOptions() {
@@ -74,8 +66,6 @@ export default class UlxTimePicker extends Component {
 			flatpickrOptions = {}
 		} = this.args;
 
-		const { onReady: userOnReady, ...flatpickrRest } = flatpickrOptions;
-
 		const o = {
 			mode: "single",
 			dateFormat: dateFormat ?? (hourFormat === "12" ? "h:i K" : "H:i"),
@@ -99,11 +89,7 @@ export default class UlxTimePicker extends Component {
 			defaultDate,
 			clickOpens,
 			enableSeconds,
-			...flatpickrRest,
-			onReady: (selectedDates, dateStr, fpInst) => {
-				userOnReady?.(selectedDates, dateStr, fpInst);
-				this.injectTimePickerHeader(fpInst);
-			}
+			...flatpickrOptions
 		};
 
 		if (this.useWrap) {
@@ -138,50 +124,6 @@ export default class UlxTimePicker extends Component {
 	@action
 	handleDatesChange(selectedDates, dateStr) {
 		this.args.onChange?.(selectedDates, dateStr);
-	}
-
-	@action
-	injectTimePickerHeader(fpInst) {
-		const { showPopupHeader = true, showHourFormatTag = false } = this.args;
-
-		if (!showPopupHeader || !fpInst?.calendarContainer) {
-			return;
-		}
-
-		const cfg = fpInst.config;
-		if (!cfg?.enableTime || !cfg?.noCalendar) {
-			return;
-		}
-
-		const container = fpInst.calendarContainer;
-		if (container.querySelector(".time-picker-header")) {
-			return;
-		}
-
-		const tagText = cfg.time_24hr ? t("lbl.timepicker.format24") : t("lbl.timepicker.format12");
-
-		const header = document.createElement("div");
-		header.className = "time-picker-header";
-
-		const title = document.createElement("div");
-		title.className = "time-picker-field-label";
-		title.textContent = this.popupTitleText;
-
-		header.appendChild(title);
-
-		if (showHourFormatTag) {
-			const hourFormatRow = document.createElement("div");
-			hourFormatRow.className = "hour-format";
-
-			const tag = document.createElement("span");
-			tag.className = "hour-format-tag";
-			tag.textContent = tagText;
-
-			hourFormatRow.appendChild(tag);
-			header.appendChild(hourFormatRow);
-		}
-
-		container.insertBefore(header, container.firstChild);
 	}
 
 	get placeholderText() {
@@ -225,6 +167,8 @@ export default class UlxTimePicker extends Component {
 							data-toggle
 							@type="button"
 							@variant="white"
+							@iconSize="s18"
+							@customClass="timepicker-action"
 							@iconLeft="time-icon"
 							aria-label={{t "lbl.timepicker.toggle"}}
 						/>
@@ -237,6 +181,7 @@ export default class UlxTimePicker extends Component {
 							@type="button"
 							@variant="white"
 							@iconLeft="close-icon-01"
+							@customClass="timepicker-action"
 							aria-label={{t "lbl.datepicker.clear"}}
 						/>
 					</span>
