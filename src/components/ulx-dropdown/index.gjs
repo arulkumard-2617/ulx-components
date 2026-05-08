@@ -1083,41 +1083,43 @@ export default class UlxDropdown extends Component {
 							{{else if this.hasGroups}}
 								{{#each this.optionListWithGroups as |row|}}
 									{{#if (eq row.type "group")}}
-										<li
-											class="dropdown-item-group"
-											role="presentation"
-											aria-hidden="true"
-											data-qa="ulx-dropdown-group"
-										>
-											{{#if (has-block "group")}}
-												{{yield (hash label=row.label group=row.group) to="group"}}
-											{{else}}
-												<span>
-													<div class="flex items-center">
-														{{#if row.group.imageUrl}}
-															<img
-																src={{row.group.imageUrl}}
-																alt={{row.label}}
-																class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
-																style="width: 18px;"
-																aria-hidden="true"
-															/>
-														{{/if}}
-														{{#if row.group.icon}}
-															<span aria-hidden="true">
-																<UlxIcon
-																	@type="font"
-																	@iconName={{row.group.icon}}
-																	@componentClass="bs-icons1"
-																	@size="s24"
+										{{#if (or row.label row.group.imageUrl row.group.icon (has-block "group"))}}
+											<li
+												class="dropdown-item-group"
+												role="presentation"
+												aria-hidden="true"
+												data-qa="ulx-dropdown-group"
+											>
+												{{#if (has-block "group")}}
+													{{yield (hash label=row.label group=row.group) to="group"}}
+												{{else}}
+													<span>
+														<div class="flex items-center">
+															{{#if row.group.imageUrl}}
+																<img
+																	src={{row.group.imageUrl}}
+																	alt={{row.label}}
+																	class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
+																	style="width: 18px;"
+																	aria-hidden="true"
 																/>
-															</span>
-														{{/if}}
-														<div>{{row.label}}</div>
-													</div>
-												</span>
-											{{/if}}
-										</li>
+															{{/if}}
+															{{#if row.group.icon}}
+																<span aria-hidden="true">
+																	<UlxIcon
+																		@type="font"
+																		@iconName={{row.group.icon}}
+																		@componentClass="bs-icons1"
+																		@size="s24"
+																	/>
+																</span>
+															{{/if}}
+															<div>{{row.label}}</div>
+														</div>
+													</span>
+												{{/if}}
+											</li>
+										{{/if}}
 									{{else}}
 										{{#let row.entry.item as |option|}}
 											<li
