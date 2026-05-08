@@ -8,11 +8,15 @@ import UlxSplitButton from "../ulx-split-button/index.gjs";
  * First item is the main action; additional items appear in the split dropdown.
  *
  * @class UlxActionButtons
- * @param {object[]} [actionButtons] - `{ label, action, customParam?, icon? }`; empty or missing renders nothing.
+ * @param {object[]} [actionButtons] - `{ label, action, customParam?, icon?, dataQa? }`; empty or missing renders nothing. Optional `dataQa` is passed through to each split-dropdown menu item (tiered menu row `data-qa`).
  * @param {string} [variant='primary'] - Passed to the underlying Ulx controls.
  * @param {boolean} [outlined=false]
  * @param {string} [size='m-size']
  * @param {boolean} [disabled=false]
+ * @param {string} [tieredMenuDataQa] - Optional UlxTieredmenu root `data-qa` (see {@link UlxSplitButton} `@tieredMenuDataQa`).
+ * @param {string} [dataQa] - Optional root `data-qa` for {@link UlxSplitButton} / {@link UlxButton} (e.g. `speakers-toolbar-add-speaker` → split default `…-default`, dropdown `…-dropdown`).
+ * @param {string} [defaultButtonDataQa] - Optional data-qa override for UlxSplitButton default button.
+ * @param {string} [dropdownButtonDataQa] - Optional data-qa override for UlxSplitButton dropdown button.
  */
 export default class UlxActionButtons extends Component {
 	get actionButtonsList() {
@@ -31,7 +35,8 @@ export default class UlxActionButtons extends Component {
 		return this.actionButtonsList.slice(1).map((actionButton) => ({
 			label: actionButton.label,
 			icon: actionButton.icon,
-			command: () => this.triggerActionButton(actionButton)
+			command: () => this.triggerActionButton(actionButton),
+			...(actionButton.dataQa ? { dataQa: actionButton.dataQa } : {})
 		}));
 	}
 
@@ -82,6 +87,10 @@ export default class UlxActionButtons extends Component {
 					@onClick={{this.handlePrimaryAction}}
 					@items={{this.secondaryActionButtons}}
 					@disabled={{this.disabled}}
+					@dataQa={{@dataQa}}
+					@defaultButtonDataQa={{@defaultButtonDataQa}}
+					@dropdownButtonDataQa={{@dropdownButtonDataQa}}
+					@tieredMenuDataQa={{@tieredMenuDataQa}}
 				/>
 			{{else}}
 				<UlxButton
@@ -91,6 +100,7 @@ export default class UlxActionButtons extends Component {
 					@size={{this.size}}
 					@onClick={{this.handlePrimaryAction}}
 					@disabled={{this.disabled}}
+					@dataQa={{@dataQa}}
 				/>
 			{{/if}}
 		{{/if}}

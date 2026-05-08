@@ -26,6 +26,9 @@ import { t } from "../../utils/i18n";
  * @param {boolean} [submitting=false] - Disable both buttons during async operation
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
+ * @param {string} [cancelButtonDataQa] - data-qa for cancel button
+ * @param {string} [doneButtonDataQa] - data-qa for done button
+ * @param {string} [backButtonDataQa] - data-qa for back button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to slidepane-footer)
  */
@@ -102,7 +105,12 @@ export default class UlxSlidePaneFooter extends Component {
 					{{yield}}
 				{{else}}
 					{{#if this.showBackButton}}
-						<UlxButton @label={{this.backLabel}} @variant="basic" {{on "click" this.handleBack}} />
+						<UlxButton
+							@label={{this.backLabel}}
+							@variant="basic"
+							@dataQa={{@backButtonDataQa}}
+							{{on "click" this.handleBack}}
+						/>
 					{{/if}}
 
 					{{#unless this.hideCancelButton}}
@@ -110,6 +118,7 @@ export default class UlxSlidePaneFooter extends Component {
 							@label={{this.cancelLabel}}
 							@variant="basic"
 							@disabled={{this.cancelButtonDisabled}}
+							@dataQa={{@cancelButtonDataQa}}
 							{{on "click" this.handleCancel}}
 						/>
 					{{/unless}}
@@ -120,6 +129,7 @@ export default class UlxSlidePaneFooter extends Component {
 							@variant="primary"
 							@loading={{this.submitting}}
 							@disabled={{this.doneButtonDisabled}}
+							@dataQa={{@doneButtonDataQa}}
 							@onClick={{this.handleDone}}
 						/>
 					{{/unless}}

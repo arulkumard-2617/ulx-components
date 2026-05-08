@@ -80,6 +80,7 @@ export default class SortOptions extends Component {
 					@variant="basic"
 					@text={{true}}
 					@customClass={{if this.isAsc "fg-primary" ""}}
+					@dataQa="sort-ascending"
 					aria-pressed={{this.isAsc}}
 					@onClick={{fn this.updateOrderBy "asc"}}
 				/>
@@ -93,6 +94,7 @@ export default class SortOptions extends Component {
 					@size="compact"
 					@variant="basic"
 					@customClass={{if this.isAsc "" "fg-primary"}}
+					@dataQa="sort-descending"
 					aria-pressed={{not this.isAsc}}
 					@onClick={{fn this.updateOrderBy "desc"}}
 				/>
