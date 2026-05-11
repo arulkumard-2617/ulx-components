@@ -19,6 +19,8 @@ export default class TableOverlays extends Component {
 		return resolveRootDataQa(this.args.dataQa, "table-overlays");
 	}
 
+	getFilterOptionDataQa = (option) => option?.dataQa;
+
 	get manageColumns() {
 		return this.args.manageColumns ?? {};
 	}
@@ -184,6 +186,7 @@ export default class TableOverlays extends Component {
 				@onHide={{this.sortPopover.onClose}}
 				@ariaLabel={{t "lbl.sort"}}
 				@hideFooter={{true}}
+				@dataQa="sort-popover"
 			>
 				<div class="fs-popup">
 					<SortOptions
@@ -206,6 +209,9 @@ export default class TableOverlays extends Component {
 				@onDone={{this.filterPane.onApply}}
 				@cancelButtonLabel={{t "label.close"}}
 				@doneButtonLabel={{t "lbl.apply.filter"}}
+				@dataQa="filter-pane"
+				@cancelButtonDataQa="filter-pane-cancel"
+				@doneButtonDataQa="filter-pane-apply"
 			>
 				<:body>
 					<UlxAccordion
@@ -226,6 +232,7 @@ export default class TableOverlays extends Component {
 												@itemLabel={{opt.label}}
 												@checked={{this.filterPane.isOptionChecked group.key opt.value}}
 												@onChange={{fn this.filterPane.onUpdateSelection group.key opt.value}}
+												@dataQa={{this.getFilterOptionDataQa opt}}
 											/>
 										{{/each}}
 									</div>

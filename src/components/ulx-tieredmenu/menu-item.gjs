@@ -10,12 +10,18 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *
  * @class UlxTieredmenuMenuItem
  * @private
- * @param {string} [dataQa] - Optional per-item override from `item.dataQa` (full `data-qa` value).
+ * @param {string} [dataQa] - Optional per-item value from `item.dataQa` (full `data-qa` on the **button**; list row `li` keeps the default `getDataQa("item")`).
  * @param {function} getDataQa - Root `buildDataQa` wrapper (`"item"`, `"trigger"`, `"list"`, …).
  */
 export default class UlxTieredmenuMenuItem extends Component {
-	get itemDataQa() {
-		return this.args.dataQa ?? this.args.getDataQa("item");
+	/** List row wrapper; always the default item region (not the per-item `dataQa` from the model). */
+	get rowDataQa() {
+		return this.args.getDataQa("item");
+	}
+
+	/** Clickable control: per-item `item.dataQa` when set, else default trigger token. */
+	get triggerDataQa() {
+		return this.args.dataQa ?? this.args.getDataQa("trigger");
 	}
 
 	/** Model passes a single class string, e.g. `"bs-icons1 pdf-stroke-icon"` (font kit + glyph). */
@@ -49,7 +55,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 	<template>
 		<li
 			class={{@itemClasses}}
-			data-qa={{this.itemDataQa}}
+			data-qa={{this.rowDataQa}}
 			{{on "mouseenter" (fn @onMouseEnter @item @itemId @parentId)}}
 			{{on "mouseleave" (fn @onMouseLeave @itemId)}}
 		>
@@ -65,7 +71,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 				aria-controls={{if @hasSubmenu @submenuId}}
 				tabindex={{@tabindex}}
 				data-item-id={{@itemId}}
-				data-qa={{@getDataQa "trigger"}}
+				data-qa={{this.triggerDataQa}}
 				disabled={{@isDisabled}}
 				{{on "click" (fn @onClick @item @itemId @parentId)}}
 				{{on "keydown" (fn @onKeyDown @item @itemId @parentId)}}
