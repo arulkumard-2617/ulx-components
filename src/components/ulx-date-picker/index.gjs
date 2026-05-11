@@ -24,7 +24,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {string|object} [locale] - Flatpickr locale key or imported locale object (e.g. from `flatpickr/dist/l10n/...`)
  * @param {number} [minuteIncrement=5] - Minute step when `enableTime` is true
  * @param {number} [hourIncrement=1] - Hour step when `enableTime` is true
- * @param {string} [position='auto'] - Popup position (`auto`, `above`, `below`, `auto left`, etc.)
+ * @param {string} [position='auto'] - Popup position (`auto`, `above`, `below`, `top`, `bottom`, `auto left`, etc.)
  * @param {function|function[]} [onDayCreate] - Per-day hook merged with built-in a11y styling
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (hooks, plugins, etc.)
  * @param {function} [onFocus] - Forwarded to the inner input
@@ -33,6 +33,30 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
 export default class UlxDatePicker extends Component {
 	get mode() {
 		return this.args.mode ?? "single";
+	}
+
+	/**
+	 * Flatpickr expects `above`/`below`. Consumers commonly pass `top`/`bottom`
+	 * (and sometimes with alignment like `top left` / `top-left`), so normalize
+	 * those synonyms to keep popup positioning + arrow classes consistent.
+	 *
+	 * @param {unknown} position
+	 * @returns {unknown}
+	 */
+	normalizePosition(position) {
+		if (typeof position !== "string") {
+			return position;
+		}
+
+		// Normalize separators so `top-left` behaves like `top left`.
+		const normalized = position.trim().replace(/-/g, " ");
+
+		// Replace only whole words to avoid touching values like `auto`/`left`.
+		return normalized
+			.replace(/\btop\b/g, "above")
+			.replace(/\bbottom\b/g, "below")
+			.replace(/\s+/g, " ")
+			.trim();
 	}
 
 	get useWrap() {
@@ -70,13 +94,15 @@ export default class UlxDatePicker extends Component {
 			flatpickrOptions = {}
 		} = this.args;
 
+		const normalizedPosition = this.normalizePosition(position);
+
 		const o = {
 			mode: this.mode,
 			dateFormat,
 			locale,
 			minuteIncrement,
 			hourIncrement,
-			position,
+			position: normalizedPosition,
 			onDayCreate,
 			minDate,
 			maxDate,
