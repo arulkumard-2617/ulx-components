@@ -29,7 +29,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
- * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
+ * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (`onReady` is chained with header injection)
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
  */
@@ -167,6 +167,8 @@ export default class UlxTimePicker extends Component {
 							data-toggle
 							@type="button"
 							@variant="white"
+							@iconSize="s18"
+							@customClass="timepicker-action"
 							@iconLeft="time-icon"
 							aria-label={{t "lbl.timepicker.toggle"}}
 						/>
@@ -179,6 +181,7 @@ export default class UlxTimePicker extends Component {
 							@type="button"
 							@variant="white"
 							@iconLeft="close-icon-01"
+							@customClass="timepicker-action"
 							aria-label={{t "lbl.datepicker.clear"}}
 						/>
 					</span>
