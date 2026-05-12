@@ -81,6 +81,7 @@ export default class TableFilterBubblesBar extends Component {
 					@label={{t "lbl.clear.filters"}}
 					@onClick={{@onClearAll}}
 					@customClass="is-hover"
+					@dataQa="clear-filter"
 				/>
 			{{/if}}
 		</div>

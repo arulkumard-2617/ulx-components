@@ -234,6 +234,12 @@ export default class UlxDropdown extends Component {
 	}
 
 	@action
+	getOptionDataQa(option, index) {
+		const optionDataQa = option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
+		return optionDataQa || `ulx-dropdown-option-${index}`;
+	}
+
+	@action
 	getFlagClass(code) {
 		return code ? `flag flag-${String(code).toLowerCase()}` : "";
 	}
@@ -1119,7 +1125,7 @@ export default class UlxDropdown extends Component {
 											<li
 												role="option"
 												id="{{this.triggerId}}-item-{{row.flatIndex}}"
-												data-qa={{concat "ulx-dropdown-option-" row.flatIndex}}
+												data-qa={{this.getOptionDataQa option row.flatIndex}}
 												class="dropdown-item grouped
 													{{if
 														(and
@@ -1178,7 +1184,7 @@ export default class UlxDropdown extends Component {
 										<li
 											role="option"
 											id="{{this.triggerId}}-item-{{index}}"
-											data-qa={{concat "ulx-dropdown-option-" index}}
+											data-qa={{this.getOptionDataQa option index}}
 											class="dropdown-item
 												{{if
 													(and (eq index this.focusedOptionIndex) this.showOptionKeyboardFocusRing)

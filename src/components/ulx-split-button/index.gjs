@@ -44,6 +44,10 @@ import UlxTieredmenu from "../ulx-tieredmenu/index.gjs";
  * @param {string} [size] - Size class (e.g. s-size, m-size, l-size). Omit for m-size.
  * @param {string} [id] - Root element id (for aria-controls)
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-splitbutton".
+ * @param {string} [defaultButtonDataQa] - Optional data-qa override for the default (main) button.
+ * @param {string} [dropdownButtonDataQa] - Optional data-qa override for the dropdown trigger button.
+ * @param {string} [dividerDataQa] - Optional data-qa override for the divider element.
+ * @param {string} [tieredMenuDataQa] - Optional root `data-qa` for the embedded {@link UlxTieredmenu}. The list element uses `buildDataQa(root, "list")` (e.g. `speaker-menu` → `speaker-menu-list`). Omit for default `ulx-tieredmenu` / `ulx-tieredmenu-list`.
  */
 export default class UlxSplitButton extends Component {
 	@tracked menuVisible = false;
@@ -77,15 +81,15 @@ export default class UlxSplitButton extends Component {
 	}
 
 	get defaultButtonDataQa() {
-		return `${this.rootDataQa}-default`;
+		return this.args.defaultButtonDataQa ?? `${this.rootDataQa}-default`;
 	}
 
 	get dividerDataQa() {
-		return `${this.rootDataQa}-divider`;
+		return this.args.dividerDataQa ?? `${this.rootDataQa}-divider`;
 	}
 
 	get dropdownButtonDataQa() {
-		return `${this.rootDataQa}-dropdown`;
+		return this.args.dropdownButtonDataQa ?? `${this.rootDataQa}-dropdown`;
 	}
 
 	get menuDataQa() {
@@ -348,6 +352,7 @@ export default class UlxSplitButton extends Component {
 			>
 				<UlxTieredmenu
 					id={{this.menuId}}
+					@dataQa={{@tieredMenuDataQa}}
 					@items={{this.menuItems}}
 					@popup={{true}}
 					@visible={{this.menuVisible}}
