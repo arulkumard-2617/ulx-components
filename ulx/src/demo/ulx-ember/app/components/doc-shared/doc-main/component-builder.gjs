@@ -23,7 +23,7 @@ export default class ComponentBuilderComponent extends Component {
     const props = schema?.props ?? [];
     this.stateSnapshot = props.reduce(
       (acc, p) => ({ ...acc, [p.key]: p.default }),
-      {},
+      {}
     );
   }
 
@@ -91,8 +91,8 @@ export default class ComponentBuilderComponent extends Component {
           isCheckbox: prop.type === 'checkbox',
           resolvedOptions: opts.map((opt) => ({
             ...opt,
-            selected: currentValue === opt.value,
-          })),
+            selected: currentValue === opt.value
+          }))
         };
       });
   }
@@ -153,7 +153,9 @@ export default class ComponentBuilderComponent extends Component {
           {{#if this.displayCode}}
             <div class="code-block-wrapper">
               <div class="flex items-center justify-between">
-                <p class="text-12 fg-text-secondary mt-0">{{"Generated code"}}</p>
+                <p
+                  class="text-12 fg-text-secondary mt-0"
+                >{{"Generated code"}}</p>
                 <div class="flex gap-4 py-1 px-3">
                   <button
                     type="button"
@@ -170,7 +172,7 @@ export default class ComponentBuilderComponent extends Component {
                   </button>
                 </div>
               </div>
-              <div class="relative max-h-200 overflow-auto">
+              <div class="relative">
                 <CodeBlock @code={{this.displayCode}} @language="markup" />
 
               </div>
