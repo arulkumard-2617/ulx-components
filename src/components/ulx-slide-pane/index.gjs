@@ -98,6 +98,9 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {string} [maximizeIconName="expand-icon"] - Icon for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon for restore button (when maximized)
  * @param {string} [dataQa] - Override root data-qa attribute
+ * @param {string} [cancelButtonDataQa] - data-qa for default footer cancel button
+ * @param {string} [doneButtonDataQa] - data-qa for default footer done button
+ * @param {string} [backButtonDataQa] - data-qa for default footer back button
  */
 export default class UlxSlidePane extends Component {
 	@service modalStack;
@@ -403,6 +406,9 @@ export default class UlxSlidePane extends Component {
 										@showBackButton={{this.showBackInHeader}}
 										@cancelLabel={{@cancelButtonLabel}}
 										@doneLabel={{@doneButtonLabel}}
+										@cancelButtonDataQa={{@cancelButtonDataQa}}
+										@doneButtonDataQa={{@doneButtonDataQa}}
+										@backButtonDataQa={{@backButtonDataQa}}
 										@submittingLabel={{@submittingLabel}}
 										@submitting={{this.isSubmitting}}
 										@doneButtonDisabled={{@doneButtonDisabled}}

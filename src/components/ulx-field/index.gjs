@@ -153,6 +153,7 @@ export default class UlxField extends Component {
 			{{else if this.hasError}}
 				<div
 					id="{{this.fieldId}}-error"
+					data-qa="{{this.fieldId}}-error"
 					class="error-message fg-red"
 					role="alert"
 					aria-atomic="true"

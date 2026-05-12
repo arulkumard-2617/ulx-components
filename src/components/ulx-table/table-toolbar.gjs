@@ -42,7 +42,7 @@ export default class TableToolbar extends Component {
 						<div
 							class="datatable-globalfilter"
 							role="search"
-							data-qa={{this.getDataQa "global-filter"}}
+							data-qa="search"
 						>
 							<UlxIconInput
 								@iconLeft="search-icon"
@@ -55,6 +55,7 @@ export default class TableToolbar extends Component {
 									@value={{@globalFilterValue}}
 									@onInput={{@onGlobalFilterInput}}
 									@customClass="w-352"
+									data-qa="search-input"
 									placeholder={{or
 										@globalFilterPlaceholder
 										(t "msg.table.global.filter.placeholder")
@@ -69,10 +70,15 @@ export default class TableToolbar extends Component {
 				<div class="datatable-toolbar-right flex gap-4">
 					{{yield to="preRightMenu"}}
 					{{#if this.showRightCluster}}
-						<UlxButtonGroup @size="m-size" @customClass="uls-inline-popup">
+						<UlxButtonGroup
+							@size="m-size"
+							@customClass="uls-inline-popup"
+							@dataQa={{this.getDataQa "icon-button-group"}}
+						>
 						{{#if @hasFilterGroups}}
 							<UlxBadgeButton
 								@size="xl-size"
+								@dataQa="filter"
 								@badge={{if (gt @activeFilterCount 0) @activeFilterCount}}
 								@badgeType="circle"
 								@onClick={{@onOpenFilterPane}}
@@ -100,7 +106,8 @@ export default class TableToolbar extends Component {
 						{{#if (and @sortOptions (gt @sortOptions.length 0))}}
 							<UlxBadgeButton
 								@size="xl-size"
-								@onClick={{@onOpenSortPopover}}
+								@dataQa="sort"
+									@onClick={{@onOpenSortPopover}}
 								@customClass="icon-only"
 								aria-label={{t "lbl.sort"}}
 								aria-expanded={{@showSortPopover}}
@@ -120,6 +127,7 @@ export default class TableToolbar extends Component {
 						{{#if @showManageColumns}}
 							<UlxBadgeButton
 								@size="xl-size"
+								@dataQa="manage-columns"
 								@onClick={{@onOpenManageColumns}}
 								@customClass="icon-only"
 								aria-label={{t "lbl.columns"}}

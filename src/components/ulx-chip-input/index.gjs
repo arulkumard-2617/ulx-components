@@ -29,6 +29,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {string} [size="m-size"] - Size class applied to the root wrapper.
  * @param {string} [customClass] - Extra CSS classes for the root wrapper.
  * @param {string} [inputAriaLabel] - aria-label for the inner text field.
+ * @param {string} [dataQa] - Optional root data-qa attribute.
  */
 export default class UlxChipInput extends Component {
 	@tracked inputValue = "";
@@ -163,6 +164,7 @@ export default class UlxChipInput extends Component {
 			class={{this.rootClasses}}
 			role="group"
 			aria-label={{@ariaLabel}}
+			data-qa={{@dataQa}}
 			{{on "click" this.handleWrapperClick}}
 		>
 			{{#each this.chips as |chip index|}}
