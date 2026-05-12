@@ -6,6 +6,7 @@ import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../utils/component-config";
 import { getAdjacentFocusableInDocument } from "../../utils/focus-util";
+import { setPendingOverlayReturnFocusElement } from "../../utils/overlay-helpers";
 import overlayDismiss from "../../modifiers/overlay-dismiss";
 import { t } from "../../utils/i18n";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
@@ -54,6 +55,9 @@ export default class UlxSplitButton extends Component {
 
 	/** When Tab closes the menu from the trigger, focus target after tieredmenu `onHide`. */
 	_tabOutFocus = null;
+
+	/** When an item action opens another overlay, ignore the follow-up tieredmenu hide focus restore. */
+	_skipFocusRestoreOnNextHide = false;
 
 	get splitButtonRootClass() {
 		return getComponentClass("splitbutton");
@@ -193,11 +197,18 @@ export default class UlxSplitButton extends Component {
 
 	@action
 	hideMenu(detail) {
+		const shouldSkipFocusRestore = detail?.skipFocusRestore || this._skipFocusRestoreOnNextHide;
 		const tieredmenuTabOutTarget = detail?.nextFocusable;
 		const dropdownTabOutTarget = this._tabOutFocus;
+		if (!detail?.skipFocusRestore) {
+			this._skipFocusRestoreOnNextHide = false;
+		}
 		this._tabOutFocus = null;
 		this.menuVisible = false;
 		if (typeof this.args.onHide === "function") this.args.onHide();
+		if (shouldSkipFocusRestore) {
+			return;
+		}
 		if (tieredmenuTabOutTarget) {
 			return;
 		}
@@ -214,7 +225,9 @@ export default class UlxSplitButton extends Component {
 
 	@action
 	handleItemSelect() {
-		this.hideMenu();
+		setPendingOverlayReturnFocusElement(this.dropdownTarget);
+		this._skipFocusRestoreOnNextHide = true;
+		this.hideMenu({ skipFocusRestore: true });
 	}
 
 	<template>
