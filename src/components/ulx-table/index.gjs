@@ -5,7 +5,7 @@ import { inject as service } from "@ember/service";
 import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
 import eq from "ember-truth-helpers/helpers/eq";
-import { getComponentClass } from "../../utils/component-config.js";
+import { getComponentClass } from "../../utils/component-config";
 import {
 	exportCSV,
 	reorderArray,
@@ -25,7 +25,7 @@ import {
 	rehydrateColumnOrder,
 	saveTableState,
 	loadTableState
-} from "./utils.js";
+} from "./utils";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import UlxButton from "../ulx-button/index.gjs";
 import TableToolbar from "./table-toolbar.gjs";
@@ -94,6 +94,7 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * @param {Array}   [multiSortMeta]         - controlled multi-sort: [{field, order}]
  * @param {boolean} [removableSort]         - third click removes sort
  * @param {Function}[onSort]                - ({field, order, multiSortMeta}) => void (lazy)
+ * @param {Function}[sortFunction]          - custom comparator: (leftRow, rightRow, { field, order, getFieldValue, compareValues, multiSortMeta }) => number
  * Toolbar sort dropdown (bs-table style): when provided, shows Sort button and drives sort from "key:asc|desc".
  * @param {Array<{key: string, lbl: string}>} [sortOptions] - options for sort criterion dropdown
  * @param {string}  [sortBy]                - controlled sort string "key:asc" | "key:desc"
@@ -512,6 +513,7 @@ export default class UlxTable extends Component {
 			sortField: this.sortField,
 			sortOrder: this.sortOrder,
 			multiSortMeta: this.multiSortMeta,
+			sortFunction: this.args.sortFunction,
 			paginator: this.args.paginator,
 			first: this.first,
 			rows: this.rows

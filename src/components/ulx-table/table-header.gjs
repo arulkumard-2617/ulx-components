@@ -139,7 +139,7 @@ export default class TableHeader extends Component {
 	handleSort(col, event) {
 		if (!col.sortable) return;
 		if (event?.target?.closest?.(".datatable-column-filter")) return;
-		this.args.onSort?.(col.sortField ?? col.field, col);
+		this.args.onSort?.(col.sortField ?? col.field);
 	}
 
 	@action

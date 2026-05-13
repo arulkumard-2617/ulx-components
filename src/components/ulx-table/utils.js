@@ -1,3 +1,5 @@
+import { get } from '@ember/object';
+
 /**
  * UlxTable utilities — client-side sort, filter, paginate, state persistence, and helpers.
  */
@@ -20,27 +22,33 @@ export function isSpecialColumn(col) {
  */
 export function getFieldValue(row, field) {
 	if (!field || row == null) return undefined;
-	const parts = String(field).split('.');
-	let val = row;
-	for (const part of parts) {
-		if (val == null) return undefined;
-		val = val[part];
-	}
-	return val;
+	return get(row, String(field));
 }
 
 // ─── Sort ─────────────────────────────────────────────────────────────────────
 
-export function compareValues(a, b) {
-	if (a == null && b == null) return 0;
-	if (a == null) return -1;
-	if (b == null) return 1;
-	if (typeof a === 'string' && typeof b === 'string') {
-		return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+export function compareValues(firstValue, secondValue) {
+	if (firstValue == null && secondValue == null) return 0;
+	if (firstValue == null) return -1;
+	if (secondValue == null) return 1;
+	if (typeof firstValue === 'string' && typeof secondValue === 'string') {
+		return firstValue.localeCompare(secondValue, undefined, { numeric: true, sensitivity: 'base' });
 	}
-	if (a < b) return -1;
-	if (a > b) return 1;
+	if (firstValue < secondValue) return -1;
+	if (firstValue > secondValue) return 1;
 	return 0;
+}
+
+function runCustomSortComparator(sortFunction, { leftRow, rightRow, field, order, multiSortMeta }) {
+	if (typeof sortFunction !== 'function') return null;
+	const cmp = sortFunction(leftRow, rightRow, {
+		field,
+		order,
+		multiSortMeta,
+		getFieldValue,
+		compareValues
+	});
+	return Number.isFinite(cmp) ? cmp : null;
 }
 
 /**
@@ -48,14 +56,23 @@ export function compareValues(a, b) {
  * @param {Array} items
  * @param {string} sortField
  * @param {1|-1} sortOrder  1 = asc, -1 = desc
+ * @param {Function} [sortFunction]
  * @returns {Array} new sorted array
  */
-export function sortItems(items, sortField, sortOrder = 1) {
+export function sortItems(items, sortField, sortOrder = 1, sortFunction) {
 	if (!items || !sortField) return items ?? [];
-	return [...items].sort((a, b) => {
-		const va = getFieldValue(a, sortField);
-		const vb = getFieldValue(b, sortField);
-		return compareValues(va, vb) * sortOrder;
+	return [...items].sort((leftRow, rightRow) => {
+		const customCmp = runCustomSortComparator(sortFunction, {
+			leftRow,
+			rightRow,
+			field: sortField,
+			order: sortOrder,
+			multiSortMeta: []
+		});
+		if (customCmp != null) return customCmp;
+		const leftCellValue = getFieldValue(leftRow, sortField);
+		const rightCellValue = getFieldValue(rightRow, sortField);
+		return compareValues(leftCellValue, rightCellValue) * sortOrder;
 	});
 }
 
@@ -63,16 +80,28 @@ export function sortItems(items, sortField, sortOrder = 1) {
  * Multi-column client-side sort.
  * @param {Array} items
  * @param {Array<{field: string, order: 1|-1}>} multiSortMeta
+ * @param {Function} [sortFunction]
  * @returns {Array} new sorted array
  */
-export function multiSortItems(items, multiSortMeta) {
+export function multiSortItems(items, multiSortMeta, sortFunction) {
 	if (!items) return [];
 	if (!multiSortMeta || !multiSortMeta.length) return items;
-	return [...items].sort((a, b) => {
+	return [...items].sort((leftRow, rightRow) => {
 		for (const { field, order = 1 } of multiSortMeta) {
-			const va = getFieldValue(a, field);
-			const vb = getFieldValue(b, field);
-			const cmp = compareValues(va, vb) * order;
+			const customCmp = runCustomSortComparator(sortFunction, {
+				leftRow,
+				rightRow,
+				field,
+				order,
+				multiSortMeta
+			});
+			if (customCmp != null) {
+				if (customCmp !== 0) return customCmp;
+				continue;
+			}
+			const leftCellValue = getFieldValue(leftRow, field);
+			const rightCellValue = getFieldValue(rightRow, field);
+			const cmp = compareValues(leftCellValue, rightCellValue) * order;
 			if (cmp !== 0) return cmp;
 		}
 		return 0;
@@ -140,8 +169,8 @@ export function filterItems(items, filters, globalFilterFields) {
 				if (!globalValue) continue;
 				const matchMode = filterMeta?.matchMode ?? 'contains';
 				const fields = globalFilterFields ?? [];
-				const matched = fields.some((f) => {
-					const cellValue = getFieldValue(row, f);
+				const matched = fields.some((fieldPath) => {
+					const cellValue = getFieldValue(row, fieldPath);
 					return matchesConstraint(cellValue, { value: globalValue, matchMode });
 				});
 				if (!matched) return false;
@@ -153,10 +182,10 @@ export function filterItems(items, filters, globalFilterFields) {
 			// Advanced: { operator, constraints }
 			if (filterMeta.constraints) {
 				const { operator = 'and', constraints } = filterMeta;
-				const valid = constraints.filter((c) => c.value != null && c.value !== '');
+				const valid = constraints.filter((constraint) => constraint.value != null && constraint.value !== '');
 				if (!valid.length) continue;
 				const cellValue = getFieldValue(row, key);
-				const results = valid.map((c) => matchesConstraint(cellValue, c));
+				const results = valid.map((constraint) => matchesConstraint(cellValue, constraint));
 				const pass = operator === 'or' ? results.some(Boolean) : results.every(Boolean);
 				if (!pass) return false;
 			} else {
@@ -195,6 +224,7 @@ export function processAndPaginateData({
 	sortField = null,
 	sortOrder = 1,
 	multiSortMeta = [],
+	sortFunction,
 	paginator = false,
 	first = 0,
 	rows = 10
@@ -213,10 +243,10 @@ export function processAndPaginateData({
 
 	if (sortMode === 'multiple') {
 		if (multiSortMeta?.length) {
-			processedData = multiSortItems(processedData, multiSortMeta);
+			processedData = multiSortItems(processedData, multiSortMeta, sortFunction);
 		}
 	} else if (sortField) {
-		processedData = sortItems(processedData, sortField, sortOrder);
+		processedData = sortItems(processedData, sortField, sortOrder, sortFunction);
 	}
 
 	const pagedData = paginator ? paginateItems(processedData, first, rows) : processedData;
@@ -288,10 +318,10 @@ export function loadColumnWidths(key) {
  * @param {string} filename
  */
 export function exportCSV(columns, data, filename = 'export.csv') {
-	const exportCols = columns.filter((c) => c.field && !isSpecialColumn(c));
-	const headers = exportCols.map((c) => JSON.stringify(String(c.header ?? c.field ?? '')));
+	const exportCols = columns.filter((column) => column.field && !isSpecialColumn(column));
+	const headers = exportCols.map((column) => JSON.stringify(String(column.header ?? column.field ?? '')));
 	const rows = data.map((row) =>
-		exportCols.map((c) => JSON.stringify(String(getFieldValue(row, c.field) ?? ''))).join(',')
+		exportCols.map((column) => JSON.stringify(String(getFieldValue(row, column.field) ?? ''))).join(',')
 	);
 	const csv = [headers.join(','), ...rows].join('\n');
 	const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -426,13 +456,13 @@ export function resolveOrderedColumns(visibleColumns = [], persistedOrder = null
 	if (!persistedOrder) return visibleColumns;
 	const orderedFields = persistedOrder.map((column) => column?.field).filter(Boolean);
 	const fieldIndex = new Map(orderedFields.map((field, index) => [field, index]));
-	return [...visibleColumns].sort((a, b) => {
-		const ia = fieldIndex.get(a.field);
-		const ib = fieldIndex.get(b.field);
-		if (ia == null && ib == null) return 0;
-		if (ia == null) return 1;
-		if (ib == null) return -1;
-		return ia - ib;
+	return [...visibleColumns].sort((leftColumn, rightColumn) => {
+		const leftIndex = fieldIndex.get(leftColumn.field);
+		const rightIndex = fieldIndex.get(rightColumn.field);
+		if (leftIndex == null && rightIndex == null) return 0;
+		if (leftIndex == null) return 1;
+		if (rightIndex == null) return -1;
+		return leftIndex - rightIndex;
 	});
 }
 

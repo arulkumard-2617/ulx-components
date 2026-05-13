@@ -1,6 +1,5 @@
 export default `
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxTable } from 'ulx-components';
 
@@ -71,10 +70,39 @@ const multiColumns = [
   { field: 'quantity', header: 'Qty', sortable: true },
 ];
 
+const CATEGORY_PRIORITY = {
+  Accessories: 1,
+  Clothing: 2,
+  Fitness: 3,
+};
+
 export default class DemoTableSort extends Component {
   products = PRODUCTS;
   columns = columns;
   multiColumns = multiColumns;
+
+  @action
+  customSort(a, b, { field, order, getFieldValue, compareValues }) {
+    const valueA = getFieldValue(a, field);
+    const valueB = getFieldValue(b, field);
+
+    if (field === 'category') {
+      const categoryRankA = CATEGORY_PRIORITY[valueA] ?? Number.MAX_SAFE_INTEGER;
+      const categoryRankB = CATEGORY_PRIORITY[valueB] ?? Number.MAX_SAFE_INTEGER;
+      return compareValues(categoryRankA, categoryRankB) * order;
+    }
+
+    if (field === 'quantity') {
+      const isOutOfStockA = valueA === 0;
+      const isOutOfStockB = valueB === 0;
+
+      if (isOutOfStockA !== isOutOfStockB) {
+        return isOutOfStockA ? 1 : -1;
+      }
+    }
+
+    return compareValues(valueA, valueB) * order;
+  }
 
   <template>
     <div>
@@ -97,6 +125,18 @@ export default class DemoTableSort extends Component {
           @dataKey="id"
           @sortMode="multiple"
           @removableSort={{true}}
+        />
+      </div>
+
+      <div class="mt-8">
+        <h4 class="h5 mb-2">Custom Sort Function</h4>
+        <UlxTable
+          @value={{this.products}}
+          @columns={{this.columns}}
+          @dataKey="id"
+          @sortMode="single"
+          @removableSort={{true}}
+          @sortFunction={{this.customSort}}
         />
       </div>
     </div>
