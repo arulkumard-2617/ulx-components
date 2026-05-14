@@ -1,1 +1,71 @@
 // dialog overrides here
+.ulx-dialog.ulx-panel-modal {
+	>.dialog-content {
+		padding: 0 !important;
+	}
+
+	.panel-container {
+		display: flex;
+
+		.panel-content {
+			padding: 28px;
+			flex: auto;
+			max-height: 452px;
+			overflow: auto;
+		}
+
+		.panel-nav {
+			max-width: 252px;
+			min-width: 252px;
+			width: 252px;
+			padding: 20px;
+			background-color: @default-background;
+			border-right: 1px solid @default-border-color;
+			border-left: 1px solid @default-border-color;
+			flex: 1;
+
+			&.blue-bg1 {
+				background-color: @bg-layer2;
+			}
+
+			.uls-vertical-menu {
+				.menu-items {
+					padding: 0;
+				}
+			}
+		}
+	}
+
+	//panel nav size
+	&.wt-212 {
+		.panel-nav {
+			width: 212px;
+			min-width: 212px;
+			max-width: 212px;
+		}
+	}
+
+	&.wt-328 {
+		.panel-nav {
+			width: 328px;
+			min-width: 328px;
+			max-width: 328px;
+		}
+	}
+
+	&.wt-180 {
+		.panel-nav {
+			width: 180px;
+			min-width: 180px;
+			max-width: 180px;
+		}
+	}
+
+	&.wt-300 {
+		.panel-nav {
+			width: 303px;
+			min-width: 303px;
+			max-width: 303px;
+		}
+	}
+}

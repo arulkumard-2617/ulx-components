@@ -45,6 +45,7 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
  * @param {boolean} [submitting=false] - Disable both buttons during async operation
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
+ * @param {string} [cancelButtonCustomClass] - Extra class on the cancel button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to dialog-footer)
  */
@@ -114,6 +115,7 @@ export default class UlxModalFooter extends Component {
 					<UlxButton
 						@label={{this.cancelLabel}}
 						@variant="basic"
+						@customClass={{@cancelButtonCustomClass}}
 						@disabled={{this.cancelButtonDisabled}}
 						data-qa="ulx-modal-cancel"
 						{{on "click" this.handleCancel}}
