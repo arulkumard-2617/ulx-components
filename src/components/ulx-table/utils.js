@@ -1,7 +1,7 @@
 import { get } from '@ember/object';
 
 /**
- * UlxTable utilities — client-side sort, filter, paginate, state persistence, and helpers.
+ * UlxTable utilities — client-side sort, filter, paginate, optional local state persistence, and helpers.
  */
 
 // ─── Column helpers ──────────────────────────────────────────────────────────
@@ -39,9 +39,12 @@ export function compareValues(firstValue, secondValue) {
 	return 0;
 }
 
-function runCustomSortComparator(sortFunction, { leftRow, rightRow, field, order, multiSortMeta }) {
+export const ASC = 'asc';
+export const DESC = 'desc';
+
+function runCustomSortComparator(sortFunction, { item1, item2, field, order, multiSortMeta }) {
 	if (typeof sortFunction !== 'function') return null;
-	const cmp = sortFunction(leftRow, rightRow, {
+	const cmp = sortFunction(item1, item2, {
 		field,
 		order,
 		multiSortMeta,
@@ -55,42 +58,44 @@ function runCustomSortComparator(sortFunction, { leftRow, rightRow, field, order
  * Single-field client-side sort.
  * @param {Array} items
  * @param {string} sortField
- * @param {1|-1} sortOrder  1 = asc, -1 = desc
+ * @param {'asc'|'desc'} sortOrder
  * @param {Function} [sortFunction]
  * @returns {Array} new sorted array
  */
-export function sortItems(items, sortField, sortOrder = 1, sortFunction) {
+export function sortItems(items, sortField, sortOrder = ASC, sortFunction) {
 	if (!items || !sortField) return items ?? [];
-	return [...items].sort((leftRow, rightRow) => {
+	const sortDirection = sortOrder === DESC ? -1 : 1;
+	return [...items].sort((item1, item2) => {
 		const customCmp = runCustomSortComparator(sortFunction, {
-			leftRow,
-			rightRow,
+			item1,
+			item2,
 			field: sortField,
 			order: sortOrder,
 			multiSortMeta: []
 		});
 		if (customCmp != null) return customCmp;
-		const leftCellValue = getFieldValue(leftRow, sortField);
-		const rightCellValue = getFieldValue(rightRow, sortField);
-		return compareValues(leftCellValue, rightCellValue) * sortOrder;
+		const item1Value = getFieldValue(item1, sortField);
+		const item2Value = getFieldValue(item2, sortField);
+		return compareValues(item1Value, item2Value) * sortDirection;
 	});
 }
 
 /**
  * Multi-column client-side sort.
  * @param {Array} items
- * @param {Array<{field: string, order: 1|-1}>} multiSortMeta
+ * @param {Array<{field: string, order: 'asc'|'desc'}>} multiSortMeta
  * @param {Function} [sortFunction]
  * @returns {Array} new sorted array
  */
 export function multiSortItems(items, multiSortMeta, sortFunction) {
 	if (!items) return [];
 	if (!multiSortMeta || !multiSortMeta.length) return items;
-	return [...items].sort((leftRow, rightRow) => {
-		for (const { field, order = 1 } of multiSortMeta) {
+	return [...items].sort((item1, item2) => {
+		for (const { field, order = ASC } of multiSortMeta) {
+			const sortDirection = order === DESC ? -1 : 1;
 			const customCmp = runCustomSortComparator(sortFunction, {
-				leftRow,
-				rightRow,
+				item1,
+				item2,
 				field,
 				order,
 				multiSortMeta
@@ -99,9 +104,9 @@ export function multiSortItems(items, multiSortMeta, sortFunction) {
 				if (customCmp !== 0) return customCmp;
 				continue;
 			}
-			const leftCellValue = getFieldValue(leftRow, field);
-			const rightCellValue = getFieldValue(rightRow, field);
-			const cmp = compareValues(leftCellValue, rightCellValue) * order;
+			const item1Value = getFieldValue(item1, field);
+			const item2Value = getFieldValue(item2, field);
+			const cmp = compareValues(item1Value, item2Value) * sortDirection;
 			if (cmp !== 0) return cmp;
 		}
 		return 0;
@@ -222,7 +227,7 @@ export function processAndPaginateData({
 	globalFilterFields = [],
 	sortMode = 'single',
 	sortField = null,
-	sortOrder = 1,
+	sortOrder = ASC,
 	multiSortMeta = [],
 	sortFunction,
 	paginator = false,
@@ -262,47 +267,21 @@ export function resolveGlobalFilterFields(allColumns = [], globalFilterFields) {
 		.map((column) => column.filterField ?? column.field);
 }
 
-// ─── State persistence ────────────────────────────────────────────────────────
+// ─── State persistence (localStorage) ─────────────────────────────────────────
 
-export function saveTableState(key, storage = 'session', state) {
+export function saveTableState(key, state) {
 	if (!key) return;
 	try {
-		const store = storage === 'local' ? localStorage : sessionStorage;
-		store.setItem(key, JSON.stringify(state));
+		localStorage.setItem(key, JSON.stringify(state));
 	} catch {
 		// noop
 	}
 }
 
-export function loadTableState(key, storage = 'session') {
+export function loadTableState(key) {
 	if (!key) return null;
 	try {
-		const store = storage === 'local' ? localStorage : sessionStorage;
-		const raw = store.getItem(key);
-		return raw ? JSON.parse(raw) : null;
-	} catch {
-		return null;
-	}
-}
-
-export function resolvePersistenceStorage(stateStorage, moduleName, stateKey) {
-	if (stateStorage) return stateStorage;
-	return moduleName && !stateKey ? 'local' : 'session';
-}
-
-export function saveColumnWidths(key, widths) {
-	if (!key) return;
-	try {
-		sessionStorage.setItem(`${key}_widths`, JSON.stringify(widths));
-	} catch {
-		// noop
-	}
-}
-
-export function loadColumnWidths(key) {
-	if (!key) return null;
-	try {
-		const raw = sessionStorage.getItem(`${key}_widths`);
+		const raw = localStorage.getItem(key);
 		return raw ? JSON.parse(raw) : null;
 	} catch {
 		return null;
@@ -339,21 +318,21 @@ export function exportCSV(columns, data, filename = 'export.csv') {
 
 /**
  * Parses a "field:asc" / "field:desc" sort string into { field, order }.
- * Returns { field: null, order: 1 } for empty/invalid input.
+ * Returns { field: null, order: 'asc' } for empty/invalid input.
  */
 export function parseSortBy(sortByStr) {
-	if (!sortByStr || typeof sortByStr !== 'string') return { field: null, order: 1 };
+	if (!sortByStr || typeof sortByStr !== 'string') return { field: null, order: ASC };
 	const [field, dir] = sortByStr.split(':');
-	return { field: field || null, order: dir === 'desc' ? -1 : 1 };
+	return { field, order: dir === DESC ? DESC : ASC };
 }
 
 /**
  * Formats sort state to "field:asc|desc".
  * Returns empty string when field is missing.
  */
-export function formatSortBy(field, order = 1) {
+export function formatSortBy(field, order = ASC) {
 	if (!field) return '';
-	return `${field}:${order === -1 ? 'desc' : 'asc'}`;
+	return `${field}:${order}`;
 }
 
 /**
@@ -361,23 +340,23 @@ export function formatSortBy(field, order = 1) {
  */
 export function getNextSingleSortState({
 	currentField,
-	currentOrder = 1,
+	currentOrder = ASC,
 	nextField,
 	removableSort = false
 }) {
 	if (currentField !== nextField) {
-		return { sortField: nextField, sortOrder: 1, cleared: false };
+		return { sortField: nextField, sortOrder: ASC, cleared: false };
 	}
 
-	if (currentOrder === 1) {
-		return { sortField: nextField, sortOrder: -1, cleared: false };
+	if (currentOrder === ASC) {
+		return { sortField: nextField, sortOrder: DESC, cleared: false };
 	}
 
 	if (removableSort) {
-		return { sortField: null, sortOrder: 1, cleared: true };
+		return { sortField: null, sortOrder: ASC, cleared: true };
 	}
 
-	return { sortField: nextField, sortOrder: 1, cleared: false };
+	return { sortField: nextField, sortOrder: ASC, cleared: false };
 }
 
 /**
@@ -388,12 +367,12 @@ export function getNextMultiSortMeta(multiSortMeta = [], field, removableSort = 
 	const idx = next.findIndex((meta) => meta.field === field);
 
 	if (idx === -1) {
-		next.push({ field, order: 1 });
+		next.push({ field, order: ASC });
 		return next;
 	}
 
-	if (next[idx].order === 1) {
-		next[idx] = { field, order: -1 };
+	if (next[idx].order === ASC) {
+		next[idx] = { field, order: DESC };
 		return next;
 	}
 
@@ -402,7 +381,7 @@ export function getNextMultiSortMeta(multiSortMeta = [], field, removableSort = 
 		return next;
 	}
 
-	next[idx] = { field, order: 1 };
+	next[idx] = { field, order: ASC };
 	return next;
 }
 

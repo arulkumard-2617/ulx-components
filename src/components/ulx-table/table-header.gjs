@@ -13,6 +13,7 @@ import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import { t } from "../../utils/i18n.js";
+import { ASC, DESC } from "./utils.js";
 
 /**
  * Internal thead for UlxTable.
@@ -39,6 +40,10 @@ export default class TableHeader extends Component {
 		return sortField === field ? (sortOrder ?? 0) : 0;
 	};
 
+	isAscending = (order) => order === ASC;
+
+	isDescending = (order) => order === DESC;
+
 	sortBadgeFor = (field) => {
 		const { sortMode, multiSortMeta } = this.args;
 		if (sortMode !== "multiple") return null;
@@ -48,15 +53,15 @@ export default class TableHeader extends Component {
 
 	sortIconClass = (field) => {
 		const order = this.sortOrderFor(field);
-		if (order === 1) return "asc";
-		if (order === -1) return "desc";
+		if (this.isAscending(order)) return "asc";
+		if (this.isDescending(order)) return "desc";
 		return "";
 	};
 
 	ariaSort = (field) => {
 		const order = this.sortOrderFor(field);
-		if (order === 1) return "ascending";
-		if (order === -1) return "descending";
+		if (this.isAscending(order)) return "ascending";
+		if (this.isDescending(order)) return "descending";
 		return "none";
 	};
 
@@ -235,7 +240,7 @@ export default class TableHeader extends Component {
 										aria-hidden="true"
 									>
 										{{#let (this.sortOrderFor (or col.sortField col.field)) as |order|}}
-											{{#if (eq order 1)}}
+											{{#if (this.isAscending order)}}
 
 												<UlxIcon
 													@componentClass="bs-icons1 ms-1 flex"
@@ -243,7 +248,7 @@ export default class TableHeader extends Component {
 													@iconName="ascending-icon"
 													@size="s18"
 												/>
-											{{else if (eq order -1)}}
+											{{else if (this.isDescending order)}}
 												<UlxIcon
 													@componentClass="bs-icons1 ms-1 flex "
 													@type="font"
