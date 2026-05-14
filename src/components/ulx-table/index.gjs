@@ -701,7 +701,9 @@ export default class UlxTable extends Component {
 	}
 
 	get filterAccordionModel() {
-		return this.filterGroups.map((g) => ({ header: g.heading ?? g.key }));
+		return this.filterGroups.map((filterGroup) => ({
+			header: filterGroup.heading ?? filterGroup.key
+		}));
 	}
 
 	get filterPaneAccordionActiveIndex() {
