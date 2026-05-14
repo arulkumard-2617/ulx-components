@@ -311,12 +311,28 @@ function normalizeDayCreateHooks(userOnDayCreate) {
 }
 
 /**
+ * Applies an optional component-provided display formatter after flatpickr updates its input.
+ *
+ * @param {import('flatpickr').Instance | null | undefined} fpInstance
+ * @param {unknown} formatDisplayValue
+ */
+function applyFormattedDisplayValue(fpInstance, formatDisplayValue) {
+	if (!fpInstance || typeof formatDisplayValue !== 'function') return;
+	const nextDisplayValue = formatDisplayValue(fpInstance.selectedDates, fpInstance);
+	if (nextDisplayValue == null) return;
+	const displayValue = String(nextDisplayValue);
+	if (fpInstance.input) fpInstance.input.value = displayValue;
+	if (fpInstance.altInput) fpInstance.altInput.value = displayValue;
+}
+
+/**
  * Initializes or updates flatpickr on an `<input>` or a `wrap` container element.
  *
  * Named args:
  * - `options` — flatpickr config (merged into instance); `onChange` is wrapped to also call `onDatesChange`
  * - `values` — bound value(s) synced via setDate (Date, string, or array by mode)
  * - `onDatesChange(selectedDates, dateStr, instance)` — Ember-friendly change callback
+ * - `formatDisplayValue(selectedDates, instance)` — optional display-only input value formatter
  * - `disabled` — disables the visible input(s)
  * - `readOnlyInput` — when true, sets `allowInput: false` (overrides options.allowInput)
  */
@@ -335,7 +351,13 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 
 	modify(element, _positional, named) {
 		const safeNamed = named ?? {};
-		const { options: userOptions = {}, values, disabled = false, readOnlyInput } = safeNamed;
+		const {
+			options: userOptions = {},
+			values,
+			disabled = false,
+			readOnlyInput,
+			formatDisplayValue
+		} = safeNamed;
 
 		const {
 			onChange: userOnChange,
@@ -355,6 +377,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			onChange: (selectedDates, dateStr, fpInst) => {
 				userOnChange?.(selectedDates, dateStr, fpInst);
 				safeNamed.onDatesChange?.(selectedDates, dateStr, fpInst);
+				applyFormattedDisplayValue(fpInst, formatDisplayValue);
 			},
 			onOpen: (selectedDates, dateStr, fpInst) => {
 				userOnOpen?.(selectedDates, dateStr, fpInst);
@@ -365,6 +388,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			onReady: (selectedDates, dateStr, fpInst) => {
 				userOnReady?.(selectedDates, dateStr, fpInst);
 				applyYearTabIndex(fpInst);
+				applyFormattedDisplayValue(fpInst, formatDisplayValue);
 			}
 		};
 
@@ -404,6 +428,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 
 			this._flatpickrInstance = Flatpickr(element, createCfg);
 			applyFlatpickrA11yEnhancements(this, this._flatpickrInstance);
+			applyFormattedDisplayValue(this._flatpickrInstance, formatDisplayValue);
 			this._lastElement = element;
 			this._lastSettableOptions = snapshotSettableOptions(restSpread);
 		} else {
@@ -426,6 +451,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			if (!selectedDatesEqual(currentSelectedDates, normalized, mode)) {
 				this._flatpickrInstance.setDate(normalized.length ? normalized : null, false);
 			}
+			applyFormattedDisplayValue(this._flatpickrInstance, formatDisplayValue);
 		}
 
 		const pickerInstance = this._flatpickrInstance;
