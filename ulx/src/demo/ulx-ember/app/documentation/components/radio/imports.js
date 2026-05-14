@@ -9,6 +9,7 @@ export { default as WithlabelDemo } from '../../../components/Demo/Radio/Withlab
 export { default as InvalidDemo } from '../../../components/Demo/Radio/Invalid';
 export { default as DisabledDemo } from '../../../components/Demo/Radio/Disabled';
 export { default as HorizontalDemo } from '../../../components/Demo/Radio/Horizontal';
+export { default as PanelGroupDemo } from '../../../components/Demo/Radio/PanelGroup';
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
 
@@ -20,3 +21,4 @@ export { default as WithlabelSource } from './snippets/Withlabel.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';
 export { default as HorizontalSource } from './snippets/Horizontal.gjs';
+export { default as PanelGroupSource } from './snippets/PanelGroup.gjs';

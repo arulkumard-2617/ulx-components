@@ -140,6 +140,7 @@
       "./components/ulx-popup/index.js": "./dist/_app_/components/ulx-popup/index.js",
       "./components/ulx-progress-bar/index.js": "./dist/_app_/components/ulx-progress-bar/index.js",
       "./components/ulx-progressspinner/index.js": "./dist/_app_/components/ulx-progressspinner/index.js",
+      "./components/ulx-radio-panel-group/index.js": "./dist/_app_/components/ulx-radio-panel-group/index.js",
       "./components/ulx-radio/index.js": "./dist/_app_/components/ulx-radio/index.js",
       "./components/ulx-radio/radio-item.js": "./dist/_app_/components/ulx-radio/radio-item.js",
       "./components/ulx-rating/index.js": "./dist/_app_/components/ulx-rating/index.js",

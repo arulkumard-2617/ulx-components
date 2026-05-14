@@ -1,5 +1,6 @@
 import { modifier } from 'ember-modifier';
 import {
+	consumePendingOverlayReturnFocusElement,
 	hasClosableToastInDom,
 	isTopModalInstance,
 	scheduleOverlayInitialFocus
@@ -117,7 +118,8 @@ export default modifier((maskElement, [componentInstance, options]) => {
 			});
 		}, 0);
 
-		setPreviousActiveElement && setPreviousActiveElement(document.activeElement);
+		setPreviousActiveElement &&
+			setPreviousActiveElement(consumePendingOverlayReturnFocusElement() ?? document.activeElement);
 
 		releaseBodyScroll = acquireBodyScrollLock(blockScroll);
 
@@ -180,6 +182,7 @@ export default modifier((maskElement, [componentInstance, options]) => {
 					}
 
 					event.preventDefault();
+					event.stopPropagation();
 					if (onEscape) {
 						onEscape();
 					} else if (onHide) {
