@@ -55,9 +55,9 @@ export default class TableFooter extends Component {
 						{{/if}}
 					{{/each}}
 
-				{{#if @hasOptionCell}}
-					<td class="datatable-flex-col-footer-cell" style="width: 6rem"></td>
-				{{/if}}
+					{{#if @hasOptionCell}}
+						<td class="datatable-flex-col-footer-cell" style="width: 10rem"></td>
+					{{/if}}
 				</tr>
 			</tfoot>
 		{{/if}}

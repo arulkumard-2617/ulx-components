@@ -33,6 +33,7 @@ let actionMenuInstanceCounter = 0;
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-action-menu".
  * @param {string} [id] - Optional base id used to derive overlay id.
  * @param {string} [triggerAriaLabel] - Accessible name override for icon-only usage.
+ * @param {string} [triggerCustomClass] - Extra classes on the trigger `UlxButton` when an icon is shown (merged after layout utilities).
  */
 export default class UlxActionMenu extends Component {
 	@tracked isMenuVisible = false;
@@ -87,6 +88,16 @@ export default class UlxActionMenu extends Component {
 
 	get hasIcon() {
 		return Boolean(this.args.icon);
+	}
+
+	/** utill.less flex utilities so prefix icon + label stay on one row in narrow cells */
+	get triggerButtonCustomClass() {
+		const layout = "flex flex-nowrap items-center gap-2";
+		const extra = this.args.triggerCustomClass;
+		if (!this.hasIcon) {
+			return extra;
+		}
+		return extra ? `${layout} ${extra}` : layout;
 	}
 
 	get iconClassName() {
@@ -187,6 +198,7 @@ export default class UlxActionMenu extends Component {
 						@outlined={{@outlined}}
 						@pilled={{@pilled}}
 						@loading={{@loading}}
+						@customClass={{this.triggerButtonCustomClass}}
 						@elementRef={{this.triggerRef}}
 						@onClick={{this.toggleMenu}}
 						@dataQa={{this.triggerDataQa}}
@@ -217,6 +229,7 @@ export default class UlxActionMenu extends Component {
 						@outlined={{@outlined}}
 						@pilled={{@pilled}}
 						@loading={{@loading}}
+						@customClass={{this.triggerButtonCustomClass}}
 						@elementRef={{this.triggerRef}}
 						@onClick={{this.toggleMenu}}
 						@dataQa={{this.triggerDataQa}}

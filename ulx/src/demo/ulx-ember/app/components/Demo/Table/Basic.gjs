@@ -1,11 +1,14 @@
+/* eslint-disable no-console */
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { fn } from '@ember/helper';
 import {
   UlxTable,
   UlxAvatar,
   UlxButton,
   UlxSplitButton,
+  UlxActionMenu,
   UlxProgressBar
 } from 'ulx-components';
 
@@ -315,6 +318,11 @@ export default class DemoTableBasic extends Component {
     this.sortBy = value;
   }
 
+  @action
+  handleRowAction(row, item) {
+    console.log('Row action:', row?.name, item?.label);
+  }
+
   <template>
     <UlxTable
       @value={{this.speakers}}
@@ -348,13 +356,13 @@ export default class DemoTableBasic extends Component {
 
       <:optionCell as |row|>
         <div class="flex items-center justify-end">
-          <UlxSplitButton
-            @label="Edit"
-            @variant="basic"
-            @outlined={{true}}
-            @size="s-size"
+          <UlxActionMenu
+            @label="Actions"
+            @icon="session-settings-icon"
             @items={{this.rowActionItems}}
-            aria-label="Actions for {{row.name}}"
+            @variant="secondary"
+            @outlined={{true}}
+            @onItemSelect={{fn this.handleRowAction row}}
           />
         </div>
       </:optionCell>

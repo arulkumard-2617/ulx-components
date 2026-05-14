@@ -187,7 +187,9 @@ export function filterItems(items, filters, globalFilterFields) {
 			// Advanced: { operator, constraints }
 			if (filterMeta.constraints) {
 				const { operator = 'and', constraints } = filterMeta;
-				const valid = constraints.filter((constraint) => constraint.value != null && constraint.value !== '');
+				const valid = constraints.filter(
+					(constraint) => constraint.value != null && constraint.value !== ''
+				);
 				if (!valid.length) continue;
 				const cellValue = getFieldValue(row, key);
 				const results = valid.map((constraint) => matchesConstraint(cellValue, constraint));
@@ -298,9 +300,13 @@ export function loadTableState(key) {
  */
 export function exportCSV(columns, data, filename = 'export.csv') {
 	const exportCols = columns.filter((column) => column.field && !isSpecialColumn(column));
-	const headers = exportCols.map((column) => JSON.stringify(String(column.header ?? column.field ?? '')));
+	const headers = exportCols.map((column) =>
+		JSON.stringify(String(column.header ?? column.field ?? ''))
+	);
 	const rows = data.map((row) =>
-		exportCols.map((column) => JSON.stringify(String(getFieldValue(row, column.field) ?? ''))).join(',')
+		exportCols
+			.map((column) => JSON.stringify(String(getFieldValue(row, column.field) ?? '')))
+			.join(',')
 	);
 	const csv = [headers.join(','), ...rows].join('\n');
 	const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });

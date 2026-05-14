@@ -297,7 +297,7 @@ export default class TableHeader extends Component {
 				{{/each}}
 
 				{{#if @hasOptionCell}}
-					<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+					<th class="column-header-cell" scope="col" style="width: 10rem"></th>
 				{{/if}}
 
 			</tr>
@@ -374,7 +374,7 @@ export default class TableHeader extends Component {
 						{{/if}}
 					{{/each}}
 					{{#if @hasOptionCell}}
-						<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+						<th class="column-header-cell" scope="col" style="width: 10rem"></th>
 					{{/if}}
 				</tr>
 			{{/if}}
