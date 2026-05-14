@@ -61,7 +61,7 @@ export default class DemoTablePreSort extends Component {
   columns = columns;
 
   @tracked sortField = 'price';
-  @tracked sortOrder = -1;
+  @tracked sortOrder = 'desc';
 
   @action
   handleSort({ field, order }) {
@@ -70,7 +70,7 @@ export default class DemoTablePreSort extends Component {
       this.sortOrder = order;
     } else {
       this.sortField = null;
-      this.sortOrder = 1;
+      this.sortOrder = 'asc';
     }
   }
 
