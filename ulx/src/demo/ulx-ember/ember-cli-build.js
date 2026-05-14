@@ -53,11 +53,9 @@ module.exports = function (defaults) {
     // Add options here
     lessOptions: {
       paths: [
-        path.resolve(__dirname, '../../styles/ulx'),
-        // ulx-components/ulx/node_modules (existing)
+        path.resolve(__dirname, '../../../../styles'),
         path.resolve(__dirname, '../../../node_modules'),
-        // ulx-components/node_modules (workspace root) for deps like quill
-        path.resolve(__dirname, '../../../../../node_modules')
+        path.resolve(__dirname, '../../../../node_modules')
       ]
     },
     autoImport: {

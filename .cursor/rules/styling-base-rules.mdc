@@ -6,8 +6,8 @@ alwaysApply: true
 
 ## Prefix and naming
 
-- **Component prefixes (`@uls-prefix`)**: Component/root classes that come from ULX (e.g. `ulx-table`, `ulx-dataview`, `ulx-grid`) are generated via the configured `@uls-prefix` (currently `ulx-`, see `ulx/src/styles/ulx/foundation/overrides/base/prefix-vars.overrides.less`). **Do not hardcode new `uls-...` component/root classes** in templates; use the existing ULX components and their base classes instead.
-- **Utility classes from `utill.less`**: Low-level utility classes (spacing, flex, width/height, colors, etc.) defined in `ulx/node_modules/ULS_V2.0/src/styles/uls-styles/less/base/utill.less` (e.g. `flex`, `gap-4`, `text-13`, `fg-secondary`, `w-250`) are used **as-is** — they intentionally have no `ulx-` prefix. You may freely compose these existing utilities in templates, but **do not invent new utility names** there; add them in `utill.less` (or an overrides file) if truly needed.
+- **Component prefixes (`@uls-prefix`)**: Component/root classes that come from ULX (e.g. `ulx-table`, `ulx-dataview`, `ulx-grid`) are generated via the configured `@uls-prefix` (currently `ulx-`, see `styles/foundation/overrides/base/prefix-vars.overrides.less`). **Do not hardcode new `uls-...` component/root classes** in templates; use the existing ULX components and their base classes instead.
+- **Utility classes from `utill.less`**: Low-level utility classes (spacing, flex, width/height, colors, etc.) defined in `node_modules/uls_v2/src/styles/uls-styles/less/base/utill.less` (e.g. `flex`, `gap-4`, `text-13`, `fg-secondary`, `w-250`) are used **as-is** — they intentionally have no `ulx-` prefix. You may freely compose these existing utilities in templates, but **do not invent new utility names** there; add them in `utill.less` (or an overrides file) if truly needed.
 - **New classes in app code**: When you must add a new semantic class in demos or overrides, prefer:
   - Reusing existing utilities from `utill.less`, or
   - Attaching a new class via ULX styles that follows the `@uls-prefix` pattern (component-level), not by introducing ad-hoc `uls-...` names in templates.

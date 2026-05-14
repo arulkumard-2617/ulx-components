@@ -26,8 +26,13 @@ const opts = { cwd: root, stdio: 'inherit', shell: true };
 const checkOpts = { cwd: root, stdio: 'ignore', shell: true };
 
 const hasUlxDeps = () => {
-	const result = spawnSync(npmCmd, ['ls', '--prefix', 'ulx', 'less', 'uls_v2', '--depth=0'], checkOpts);
-	return result.status === 0;
+	const lessOk = spawnSync(npmCmd, ['ls', '--prefix', 'ulx', 'less', '--depth=0'], checkOpts);
+	const ulsOk = spawnSync(npmCmd, ['ls', 'uls_v2', '--depth=0'], {
+		cwd: root,
+		stdio: 'ignore',
+		shell: true
+	});
+	return lessOk.status === 0 && ulsOk.status === 0;
 };
 
 if (alwaysInstall || !hasUlxDeps()) {
