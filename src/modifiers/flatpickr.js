@@ -319,6 +319,7 @@ function normalizeDayCreateHooks(userOnDayCreate) {
  * - `onDatesChange(selectedDates, dateStr, instance)` — Ember-friendly change callback
  * - `disabled` — disables the visible input(s)
  * - `readOnlyInput` — when true, sets `allowInput: false` (overrides options.allowInput)
+ * - `calendarSurfaceClass` — optional string added to `instance.calendarContainer` after init/update (e.g. from `getComponentClass('calendar')` in ULX)
  */
 export default class FlatpickrModifier extends ClassBasedModifier {
 	_flatpickrInstance = null;
@@ -335,7 +336,13 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 
 	modify(element, _positional, named) {
 		const safeNamed = named ?? {};
-		const { options: userOptions = {}, values, disabled = false, readOnlyInput } = safeNamed;
+		const {
+			options: userOptions = {},
+			values,
+			disabled = false,
+			readOnlyInput,
+			calendarSurfaceClass
+		} = safeNamed;
 
 		const {
 			onChange: userOnChange,
@@ -431,5 +438,13 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 		const pickerInstance = this._flatpickrInstance;
 		if (pickerInstance?.input) pickerInstance.input.disabled = Boolean(disabled);
 		if (pickerInstance?.altInput) pickerInstance.altInput.disabled = Boolean(disabled);
+
+		if (
+			typeof calendarSurfaceClass === 'string' &&
+			calendarSurfaceClass.trim() !== '' &&
+			pickerInstance?.calendarContainer
+		) {
+			pickerInstance.calendarContainer.classList.add(calendarSurfaceClass.trim());
+		}
 	}
 }

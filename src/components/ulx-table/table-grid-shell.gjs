@@ -48,6 +48,7 @@ export default class TableGridShell extends Component {
 					@onFilterMenuOpen={{@onFilterMenuOpen}}
 					@onColumnResizeStart={{@onColumnResizeStart}}
 					@onManageColumns={{@onManageColumns}}
+					@headerClass={{@headerClass}}
 				/>
 
 				{{#if this.frozenRows.length}}
