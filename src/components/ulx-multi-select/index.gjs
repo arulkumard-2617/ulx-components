@@ -105,6 +105,7 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * @param {Function} [onFilter] - (filterValue) => void when filter input changes.
  * @param {boolean} [allowAddition=false] - When true, show an Add button in the panel header tied to the filter input.
  * @param {Function} [onAddItem] - (filterValue) => void | Promise<void>; when the Add button is clicked; only invoked if the trimmed filter does not match an existing option label or value.
+ * @param {boolean} [closeOnAddItem=false] - Close the panel after Add is clicked. Useful when Add opens another overlay.
  * @param {Function} [onShow] - When overlay opens.
  * @param {Function} [onHide] - When overlay closes.
  * @param {Function} [onSelectAll] - Optional (event, checked) => void; when provided overrides default select-all.
@@ -913,6 +914,12 @@ export default class UlxMultiSelect extends Component {
 		const result = handler(query);
 		this.filterValue = "";
 		this.args.onFilter?.("");
+		if (this.args.closeOnAddItem) {
+			this.overlayVisible = false;
+			this.keyboardNavigationMode = "header";
+			this.args.onHide?.();
+			return;
+		}
 		if (result != null && typeof result.then === "function") {
 			Promise.resolve(result).finally(() => {
 				this.enterHeaderMode();
@@ -991,7 +998,13 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	@action
+	stopFilterKeyEventPropagation(event) {
+		event.stopPropagation();
+	}
+
+	@action
 	onFilterKeydown(event) {
+		event.stopPropagation();
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
@@ -1385,6 +1398,8 @@ export default class UlxMultiSelect extends Component {
 									placeholder={{or @filterPlaceholder (t "msg.multiselect.filter.placeholder")}}
 									{{on "input" this.onFilterInput}}
 									{{on "keydown" this.onFilterKeydown}}
+									{{on "keypress" this.stopFilterKeyEventPropagation}}
+									{{on "keyup" this.stopFilterKeyEventPropagation}}
 								/>
 							</div>
 							{{#if @allowAddition}}

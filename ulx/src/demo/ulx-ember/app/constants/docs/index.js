@@ -159,6 +159,11 @@ export const DocNavItems = [
             menuItem: 'SplitButton',
             to: '/components/split-button',
             route: 'components.split-button'
+          },
+          {
+            menuItem: 'ActionMenu',
+            to: '/components/action-menu',
+            route: 'components.action-menu'
           }
         ]
       },

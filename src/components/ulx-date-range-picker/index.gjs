@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
+import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
@@ -17,6 +18,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
+ * @param {boolean} [showStartDateOnly=false] - When true, the input displays only the selected range start date.
+ * @param {boolean} [showEndDateOnly=false] - When true, the input displays only the selected range end date. Do not set both with true.
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {boolean} [enableTime]
@@ -111,6 +114,32 @@ export default class UlxDateRangePicker extends Component {
 		return Array.isArray(value) ? value : [];
 	}
 
+	@action
+	formatDisplayValue(selectedDates, pickerInstance) {
+		const displayFormat = pickerInstance.config.altInput
+			? pickerInstance.config.altFormat
+			: pickerInstance.config.dateFormat;
+
+		if (this.args.showStartDateOnly === true) {
+			const startDate = selectedDates?.[0];
+			
+			if (!startDate) {
+				return "";
+			}
+			return pickerInstance.formatDate(startDate, displayFormat);
+		}
+
+		if (this.args.showEndDateOnly === true) {
+			const endDate = selectedDates?.[1];
+			if (!endDate) {
+				return "";
+			}
+			return pickerInstance.formatDate(endDate, displayFormat);
+		}
+
+		return null;
+	}
+
 	get wrapRootClass() {
 		const { size = "m-size", readonly, disabled, invalid, customClass } = this.args;
 
@@ -139,6 +168,10 @@ export default class UlxDateRangePicker extends Component {
 		return placeholder ?? t("lbl.daterangepicker.placeholder");
 	}
 
+	get flatpickrCalendarSurfaceClass() {
+		return getComponentClass("calendar");
+	}
+
 	<template>
 		{{#if this.useWrap}}
 			<div
@@ -147,8 +180,10 @@ export default class UlxDateRangePicker extends Component {
 					options=this.fpOptions
 					values=this.syncValue
 					onDatesChange=this.handleDatesChange
+					formatDisplayValue=this.formatDisplayValue
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 			>
 				<UlxInput
@@ -212,8 +247,10 @@ export default class UlxDateRangePicker extends Component {
 					options=this.fpOptions
 					values=this.syncValue
 					onDatesChange=this.handleDatesChange
+					formatDisplayValue=this.formatDisplayValue
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 				...attributes
 			/>

@@ -13,10 +13,16 @@ import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import { t } from "../../utils/i18n.js";
+import { ASC, DESC } from "./utils.js";
 
 /**
  * Internal thead for UlxTable.
  * Handles: sort headers, column resize, filter row, selection header, manage-columns button.
+ *
+ * @param {Object<number|string, string>} [headerClass] - Map of 0-based column index in `@columns` to extra
+ * class string(s) for that header `<th>` (title and filter rows). Option column uses `@columns.length`.
+ * Each column object may also set optional `headerClass` (string) for that column's header cell only;
+ * `headerClassName` is a deprecated alias (same merge order: `headerClass` wins when both are set).
  */
 export default class TableHeader extends Component {
 	// ─── Debounce timer for row filter inputs ─────────────────────────────────
@@ -39,6 +45,10 @@ export default class TableHeader extends Component {
 		return sortField === field ? (sortOrder ?? 0) : 0;
 	};
 
+	isAscending = (order) => order === ASC;
+
+	isDescending = (order) => order === DESC;
+
 	sortBadgeFor = (field) => {
 		const { sortMode, multiSortMeta } = this.args;
 		if (sortMode !== "multiple") return null;
@@ -48,15 +58,15 @@ export default class TableHeader extends Component {
 
 	sortIconClass = (field) => {
 		const order = this.sortOrderFor(field);
-		if (order === 1) return "asc";
-		if (order === -1) return "desc";
+		if (this.isAscending(order)) return "asc";
+		if (this.isDescending(order)) return "desc";
 		return "";
 	};
 
 	ariaSort = (field) => {
 		const order = this.sortOrderFor(field);
-		if (order === 1) return "ascending";
-		if (order === -1) return "descending";
+		if (this.isAscending(order)) return "ascending";
+		if (this.isDescending(order)) return "descending";
 		return "none";
 	};
 
@@ -69,7 +79,23 @@ export default class TableHeader extends Component {
 		return v != null && v !== "";
 	};
 
-	headerCellClass = (col) => {
+	headerClassForIndex = (index) => {
+		const { headerClass: map } = this.args;
+		if (map == null) return "";
+		const raw = map[index] ?? map[String(index)];
+		if (typeof raw !== "string") return "";
+		const trimmed = raw.trim();
+		return trimmed;
+	};
+
+	headerThStaticCellClass = (index, ...classes) => {
+		const parts = classes.filter(Boolean);
+		const extra = this.headerClassForIndex(index);
+		extra && parts.push(extra);
+		return parts.join(" ");
+	};
+
+	headerCellClass = (col, index) => {
 		const base = "column-header-cell";
 		if (!col) return base;
 		const parts = [base];
@@ -83,7 +109,10 @@ export default class TableHeader extends Component {
 			!col.expander &&
 			parts.push("resizable");
 		col.frozen && parts.push(`frozen-${col.alignFrozen ?? "left"}`);
-		col.headerClassName && parts.push(col.headerClassName);
+		const colHeaderExtra = col.headerClass ?? col.headerClassName;
+		colHeaderExtra && parts.push(colHeaderExtra);
+		const extra = this.headerClassForIndex(index);
+		extra && parts.push(extra);
 		return parts.filter(Boolean).join(" ");
 	};
 
@@ -139,7 +168,7 @@ export default class TableHeader extends Component {
 	handleSort(col, event) {
 		if (!col.sortable) return;
 		if (event?.target?.closest?.(".datatable-column-filter")) return;
-		this.args.onSort?.(col.sortField ?? col.field, col);
+		this.args.onSort?.(col.sortField ?? col.field);
 	}
 
 	@action
@@ -195,7 +224,10 @@ export default class TableHeader extends Component {
 					{{#if (not col)}}
 						{{! skip undefined column entries }}
 					{{else if col.selectionMode}}
-						<th class="column-header-cell selection" scope="col" style="width: 3rem">
+						<th
+							class={{this.headerThStaticCellClass index "column-header-cell" "selection"}}
+							scope="col"
+						>
 							{{#if (this.isMultiSelectionMode col)}}
 								<UlxTristateCheckbox
 									@value={{this.headerCheckboxValue}}
@@ -206,14 +238,14 @@ export default class TableHeader extends Component {
 							{{/if}}
 						</th>
 					{{else if col.expander}}
-						<th class="column-header-cell" scope="col" style="width: 3rem"></th>
+						<th class={{this.headerThStaticCellClass index "column-header-cell"}} scope="col"></th>
 					{{else if col.rowReorder}}
-						<th class="column-header-cell" scope="col" style="width: 3rem"></th>
+						<th class={{this.headerThStaticCellClass index "column-header-cell"}} scope="col"></th>
 					{{else if col.rowEditor}}
-						<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+						<th class={{this.headerThStaticCellClass index "column-header-cell"}} scope="col"></th>
 					{{else}}
 						<th
-							class={{this.headerCellClass col}}
+							class={{this.headerCellClass col index}}
 							style={{this.headerCellStyle col}}
 							scope="col"
 							tabindex={{if col.sortable "0"}}
@@ -235,7 +267,7 @@ export default class TableHeader extends Component {
 										aria-hidden="true"
 									>
 										{{#let (this.sortOrderFor (or col.sortField col.field)) as |order|}}
-											{{#if (eq order 1)}}
+											{{#if (this.isAscending order)}}
 
 												<UlxIcon
 													@componentClass="bs-icons1 ms-1 flex"
@@ -243,7 +275,7 @@ export default class TableHeader extends Component {
 													@iconName="ascending-icon"
 													@size="s18"
 												/>
-											{{else if (eq order -1)}}
+											{{else if (this.isDescending order)}}
 												<UlxIcon
 													@componentClass="bs-icons1 ms-1 flex "
 													@type="font"
@@ -292,7 +324,10 @@ export default class TableHeader extends Component {
 				{{/each}}
 
 				{{#if @hasOptionCell}}
-					<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+					<th
+						class={{this.headerThStaticCellClass @columns.length "column-header-cell"}}
+						scope="col"
+					></th>
 				{{/if}}
 
 			</tr>
@@ -300,19 +335,31 @@ export default class TableHeader extends Component {
 			{{! Separate filter row — rendered below header row when filterDisplay="row" }}
 			{{#if (eq @filterDisplay "row")}}
 				<tr class="datatable-header-row">
-					{{#each @columns as |col|}}
+					{{#each @columns as |col index|}}
 						{{#if (not col)}}
 							{{! skip undefined column entries }}
 						{{else if col.selectionMode}}
-							<th class="column-header-cell selection" scope="col" style="width: 3rem"></th>
+							<th
+								class={{this.headerThStaticCellClass index "column-header-cell" "selection"}}
+								scope="col"
+							></th>
 						{{else if col.expander}}
-							<th class="column-header-cell" scope="col" style="width: 3rem"></th>
+							<th
+								class={{this.headerThStaticCellClass index "column-header-cell"}}
+								scope="col"
+							></th>
 						{{else if col.rowReorder}}
-							<th class="column-header-cell" scope="col" style="width: 3rem"></th>
+							<th
+								class={{this.headerThStaticCellClass index "column-header-cell"}}
+								scope="col"
+							></th>
 						{{else if col.rowEditor}}
-							<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+							<th
+								class={{this.headerThStaticCellClass index "column-header-cell"}}
+								scope="col"
+							></th>
 						{{else}}
-							<th class="column-header-cell" scope="col">
+							<th class={{this.headerThStaticCellClass index "column-header-cell"}} scope="col">
 								{{#if col.filter}}
 									<div class="datatable-column-filter">
 										<div class="datatable-filter-input">
@@ -369,7 +416,10 @@ export default class TableHeader extends Component {
 						{{/if}}
 					{{/each}}
 					{{#if @hasOptionCell}}
-						<th class="column-header-cell" scope="col" style="width: 6rem"></th>
+						<th
+							class={{this.headerThStaticCellClass @columns.length "column-header-cell"}}
+							scope="col"
+						></th>
 					{{/if}}
 				</tr>
 			{{/if}}

@@ -16,6 +16,7 @@ Router.map(function () {
   });
 
   this.route('components', function () {
+    this.route('action-menu');
     this.route('accordion');
     this.route('avatar');
     this.route('badge');
