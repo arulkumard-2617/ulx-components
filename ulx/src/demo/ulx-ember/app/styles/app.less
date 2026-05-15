@@ -378,7 +378,6 @@ pre.code-block-dark {
     }
   }
 
-
   // @uls-builder spin : spin-anim
   &.spin-anim {
     -webkit-animation: spin 2s infinite linear;
@@ -394,5 +393,20 @@ pre.code-block-dark {
       -webkit-transform: rotate(359deg);
       transform: rotate(359deg);
     }
+  }
+}
+
+.ulx-dark-mode .demo-and-code {
+  :not(pre) > code[class*="language-"],
+  pre[class*="language-"] {
+    background: var(--ulx-input-bg-color);
+  }
+}
+
+.demo-and-code {
+  :not(pre) > code[class*="language-"],
+  pre[class*="language-"] {
+    border-radius: 12px;
+    max-height: 210px;
   }
 }

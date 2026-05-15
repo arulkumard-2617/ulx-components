@@ -53,7 +53,7 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * ```js
  * const columns = [
  *   { field: 'code',   header: 'Code',   sortable: true },
- *   { field: 'price',  header: 'Price',  sortable: true, body: PriceCell },
+ *   { field: 'price',  header: 'Price',  sortable: true, body: PriceCell, headerClass: 'text-end' },
  *   { selectionMode: 'multiple' },   // checkbox column
  *   { expander: true },              // row expansion toggle
  * ];
@@ -71,11 +71,16 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * @param {Array}   columns          - column definition array (see above). Use manageable: false on a
  *                                    column to make it mandatory (always visible, cannot be disabled in manage columns).
  * @param {boolean} [showManageColumns=false] - show manage-columns button (shown even when only one column is enabled)
+ * @param {Object<number|string, string>} [headerClass] - Optional map from 0-based column index in @columns
+ *                                    to extra class string(s) for that header th (title row and filter row when used).
+ *                                    Trailing option column (when <:optionCell> is present) uses index @columns.length.
+ *                                    Each column may include optional `headerClass` (string). Deprecated column alias: `headerClassName`.
  *
  * ── Layout ──────────────────────────────────────────────────────────────────
  * @param {string}  [size]           - 'xs-size' | 's-size' | 'm-size' | 'l-size' | 'xl-size'
  * @param {boolean} [stripedRows]    - alternating row backgrounds
  * @param {boolean} [showGridlines]  - borders on all cells
+ * @param {boolean} [fixedLayout]    - apply table-layout: fixed via 'table-fixed' class
  * @param {boolean} [scrollable]     - enable overflow scroll with sticky header
  * @param {string}  [scrollHeight]   - CSS height for scroll container (e.g. '400px')
  * @param {string}  [customClass]    - extra classes on root element
@@ -349,10 +354,11 @@ export default class UlxTable extends Component {
 	}
 
 	get tableClass() {
-		const { stripedRows, showGridlines } = this.args;
+		const { stripedRows, showGridlines, fixedLayout } = this.args;
 		const parts = ["datatable-table"];
 		stripedRows && parts.push("striped");
 		showGridlines && parts.push("gridlines");
+		fixedLayout && parts.push("table-fixed");
 		return parts.filter(Boolean).join(" ");
 	}
 
@@ -1476,6 +1482,7 @@ export default class UlxTable extends Component {
 					@onRowClick={{this.handleRowClick}}
 					@onRowDoubleClick={{this.handleRowDoubleClick}}
 					@onContextMenu={{if @onContextMenu this.handleContextMenu}}
+					@headerClass={{@headerClass}}
 				>
 					<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 					<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>

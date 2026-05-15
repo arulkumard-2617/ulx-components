@@ -156,7 +156,7 @@ export default class CodePreviewComponent extends Component {
                   {{yield}}
                 </div>
                 {{#if this.displayCode}}
-                  <div class="relative max-h-200 overflow-auto">
+                  <div class="relative">
                     {{#if this.expanded}}
                       <CodeBlock
                         @code={{this.displayCode}}
@@ -266,7 +266,7 @@ export default class CodePreviewComponent extends Component {
           </div>
         {{else}}
           {{#if this.displayCode}}
-            <div class="relative max-h-200 overflow-auto">
+            <div class="relative">
               <CodeBlock
                 @code={{this.displayCode}}
                 @language={{this.effectiveLanguage}}
@@ -328,7 +328,7 @@ export default class CodePreviewComponent extends Component {
         {{/if}}
       {{else}}
         {{#if this.displayCode}}
-          <div class="relative max-h-200 overflow-auto">
+          <div class="relative">
             <CodeBlock
               @code={{this.displayCode}}
               @language={{this.effectiveLanguage}}
