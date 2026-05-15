@@ -26,9 +26,18 @@ export default class CodePreviewComponent extends Component {
       return '';
     }
 
-    const match = source.match(/<template>[\s\S]*?<\/template>/m);
-
-    return match ? match[0].trim() : '';
+    const code = String(source);
+    const openTag = '<template>';
+    const closeTag = '</template>';
+    const start = code.indexOf(openTag);
+    if (start === -1) {
+      return '';
+    }
+    const end = code.lastIndexOf(closeTag);
+    if (end === -1 || end < start) {
+      return '';
+    }
+    return code.slice(start, end + closeTag.length).trim();
   }
 
   @action
@@ -147,7 +156,7 @@ export default class CodePreviewComponent extends Component {
                   {{yield}}
                 </div>
                 {{#if this.displayCode}}
-                  <div class="relative max-h-200 overflow-auto">
+                  <div class="relative">
                     {{#if this.expanded}}
                       <CodeBlock
                         @code={{this.displayCode}}
@@ -257,7 +266,7 @@ export default class CodePreviewComponent extends Component {
           </div>
         {{else}}
           {{#if this.displayCode}}
-            <div class="relative max-h-200 overflow-auto">
+            <div class="relative">
               <CodeBlock
                 @code={{this.displayCode}}
                 @language={{this.effectiveLanguage}}
@@ -319,7 +328,7 @@ export default class CodePreviewComponent extends Component {
         {{/if}}
       {{else}}
         {{#if this.displayCode}}
-          <div class="relative max-h-200 overflow-auto">
+          <div class="relative">
             <CodeBlock
               @code={{this.displayCode}}
               @language={{this.effectiveLanguage}}
