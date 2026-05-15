@@ -46,7 +46,7 @@ export default class ModalStackService extends Service {
 	 * @returns {number} The calculated z-index
 	 */
 	getZIndex(modalInstance) {
-		const baseZIndex = modalInstance?.args?.zIndexBase || 1100;
+		const baseZIndex = modalInstance?.args?.zIndexBase || 2100;
 		const index = this.modals.indexOf(modalInstance);
 		return index === -1 ? baseZIndex : baseZIndex + index * 10;
 	}
@@ -59,7 +59,7 @@ export default class ModalStackService extends Service {
 	 */
 	getZIndexAboveMask(modalInstance) {
 		const instance = modalInstance ?? this.topModal;
-		const base = instance ? this.getZIndex(instance) : 1100;
+		const base = instance ? this.getZIndex(instance) : 2100;
 		return Math.max(base + 1001, this.MASK_Z_INDEX + 1);
 	}
 
