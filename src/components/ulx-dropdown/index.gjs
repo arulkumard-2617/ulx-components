@@ -27,6 +27,8 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
+const MIN_FILTER_OPTION_COUNT = 5;
+
 /**
  * Dropdown select: single selection from a list with optional filter, groups, templates.
  * Supports: basic, checkmark, group, template, filter, clear icon, loading, invalid, disabled.
@@ -52,7 +54,7 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [loading=false] - Shows progress spinner instead of dropdown icon.
  * @param {boolean} [invalid=false] - Invalid state styling.
  * @param {unknown} [error] - When truthy, treated like invalid for styling (same as `UlxInput`); message is not rendered here.
- * @param {boolean} [filter=false] - Show filter input in panel.
+ * @param {boolean} [filter=false] - Show filter input in panel when there are at least 5 options.
  * @param {boolean} [showClear=false] - Show clear icon when value is set.
  * @param {boolean} [checkmark=false] - Show checkmark on selected item.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
@@ -288,9 +290,15 @@ export default class UlxDropdown extends Component {
 		return this.hasGroups ? this.flatOptions : (this.args.options ?? []);
 	}
 
+	get shouldShowFilter() {
+		return this.args.filter === true && this.unfilteredOptions.length >= MIN_FILTER_OPTION_COUNT;
+	}
+
 	get visibleOptions() {
 		const sourceOptionsList = this.unfilteredOptions;
-		const normalizedFilterValue = (this.filterValue ?? "").trim().toLowerCase();
+		const normalizedFilterValue = this.shouldShowFilter
+			? (this.filterValue ?? "").trim().toLowerCase()
+			: "";
 		if (!normalizedFilterValue) return sourceOptionsList;
 
 		if (this.hasGroups) {
@@ -544,7 +552,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	get shouldFocusPanelFilterOnOpen() {
-		return !!this.args.filter;
+		return this.shouldShowFilter;
 	}
 
 	get hasHeaderFocusableControls() {
@@ -1041,7 +1049,7 @@ export default class UlxDropdown extends Component {
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
 				>
-					{{#if (and @filter)}}
+					{{#if this.shouldShowFilter}}
 						<div class="dropdown-filter-container">
 							<UlxIcon
 								@type="font"
@@ -1075,7 +1083,7 @@ export default class UlxDropdown extends Component {
 							{{#if (eq this.visibleOptions.length 0)}}
 								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
 									{{or
-										(and @filter @emptyFilterMessage)
+										(and this.shouldShowFilter @emptyFilterMessage)
 										@emptyMessage
 										(t "label.no.results.found")
 									}}

@@ -261,7 +261,7 @@ export default class DemoFieldsetFormLayout extends Component {
           >
             <:label>
               <span class="flex justify-between items-center gap-4 w-full">
-                <span>App name</span>
+                <span>App name</span> 
               </span>
             </:label>
             <:default as |field|>

@@ -101,6 +101,8 @@ const BODY_OVERFLOW_STYLE = {
  * @param {boolean} [autoCloseOnDone=true] - Auto-close modal after onDone promise resolves successfully
  * @param {boolean} [autoCloseOnCancel=false] - Auto-close modal after onCancel completes
  * @param {string} [cancelButtonLabel] - Cancel label (defaults to i18n cancel)
+ * @param {string} [cancelButtonCustomClass] - Extra class on the default footer cancel button
+ * @param {boolean} [doneButtonDisabled=false] - Disable the default footer done/confirm button
  * @param {string} [doneButtonLabel] - Confirm label (defaults to i18n confirm)
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
@@ -493,7 +495,9 @@ export default class UlxModal extends Component {
 										@hideCancelButton={{@hideCancelButton}}
 										@hideDoneButton={{@hideDoneButton}}
 										@cancelLabel={{@cancelButtonLabel}}
+										@cancelButtonCustomClass={{@cancelButtonCustomClass}}
 										@doneLabel={{@doneButtonLabel}}
+										@doneButtonDisabled={{@doneButtonDisabled}}
 										@submittingLabel={{@submittingLabel}}
 										@submitting={{this.isSubmitting}}
 										@onCancel={{this.handleCancel}}

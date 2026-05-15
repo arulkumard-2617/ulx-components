@@ -24,7 +24,7 @@ export default class SortOptions extends Component {
 	}
 
 	get sortByOrder() {
-		return parseSortBy(this.args.sortBy).order === -1 ? "desc" : "asc";
+		return parseSortBy(this.args.sortBy).order;
 	}
 
 	get isAsc() {
@@ -48,13 +48,13 @@ export default class SortOptions extends Component {
 	@action
 	onSortCriterionChange(item, checked) {
 		if (!checked || !this.args.onChange) return;
-		this.args.onChange(formatSortBy(item.value, this.sortByOrder === "desc" ? -1 : 1));
+		this.args.onChange(formatSortBy(item.value, this.sortByOrder));
 	}
 
 	@action
 	updateOrderBy(orderBy) {
 		if (!this.args.onChange) return;
-		this.args.onChange(formatSortBy(this.sortByKey, orderBy === "desc" ? -1 : 1));
+		this.args.onChange(formatSortBy(this.sortByKey, orderBy));
 	}
 
 	<template>
