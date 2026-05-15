@@ -8,5 +8,5 @@ export default {
   props: [],
   stateToProps: () => ({}),
   stateToSnippet: () =>
-    '<UlxActionMenu @label="Actions" @items={{items}} @onItemSelect={{onSelect}} />',
+    '<UlxActionMenu @label="Actions" @items={{items}} @onItemSelect={{onSelect}} />'
 };

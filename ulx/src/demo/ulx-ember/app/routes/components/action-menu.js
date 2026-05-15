@@ -8,7 +8,7 @@ export default class ComponentsElementsActionMenuRoute extends Route {
     return {
       features: ActionMenuFeatureItems,
       meta,
-      builderSchema,
+      builderSchema
     };
   }
 }

@@ -17,23 +17,23 @@ export default {
     {
       name: 'Features',
       route: '/features',
-      id: 'features',
+      id: 'features'
     },
     {
       name: 'Theming',
       route: '/theming',
-      id: 'theming',
+      id: 'theming'
     },
     {
       name: 'Builder',
       route: '/builder',
-      id: 'builder',
+      id: 'builder'
     },
     {
       name: 'Pass Through',
       route: '/passthrough',
-      id: 'passthrough',
-    },
+      id: 'passthrough'
+    }
   ],
 
   importMsg: "import { UlxActionMenu } from 'ulx-components'",
@@ -42,6 +42,6 @@ export default {
     description:
       'ActionMenu exposes a trigger with aria-expanded and aria-controls; menu items follow menu keyboard patterns.',
     example:
-      '<UlxActionMenu @label="Actions" @items={{items}} @onItemSelect={{this.onSelect}} />',
-  },
+      '<UlxActionMenu @label="Actions" @items={{items}} @onItemSelect={{this.onSelect}} />'
+  }
 };
