@@ -76,7 +76,6 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  *                                    to extra class string(s) for that header th (title row and filter row when used).
  *                                    Trailing option column (when <:optionCell> is present) uses index @columns.length.
  *                                    Each column may include optional `headerClass` (string). Deprecated column alias: `headerClassName`.
- * @param {Object<number|string, string>} [thClassByIndex] - Deprecated alias for `headerClass`; ignored when `headerClass` is set.
  *
  * ── Layout ──────────────────────────────────────────────────────────────────
  * @param {string}  [size]           - 'xs-size' | 's-size' | 'm-size' | 'l-size' | 'xl-size'
@@ -1493,7 +1492,6 @@ export default class UlxTable extends Component {
 					@onRowDoubleClick={{this.handleRowDoubleClick}}
 					@onContextMenu={{this.handleContextMenu}}
 					@headerClass={{@headerClass}}
-					@thClassByIndex={{@thClassByIndex}}
 				>
 					<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
 					<:optionCell as |row|>{{yield row to="optionCell"}}</:optionCell>

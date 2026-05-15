@@ -273,7 +273,7 @@ const columns = [
     field: 'profileCompletion',
     header: 'Profile Status',
     sortable: false,
-    headerClass: 'min-w-200',
+    headerClass: 'min-w-320',
     body: ProfileStatusCell
   }
 ];

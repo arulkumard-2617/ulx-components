@@ -22,7 +22,6 @@ import { t } from "../../utils/i18n.js";
  * class string(s) for that header `<th>` (title and filter rows). Option column uses `@columns.length`.
  * Each column object may also set optional `headerClass` (string) for that column's header cell only;
  * `headerClassName` is a deprecated alias (same merge order: `headerClass` wins when both are set).
- * @param {Object<number|string, string>} [thClassByIndex] - Deprecated; same as `headerClass`. If both are set, `headerClass` wins.
  */
 export default class TableHeader extends Component {
 	// ─── Debounce timer for row filter inputs ─────────────────────────────────
@@ -76,7 +75,7 @@ export default class TableHeader extends Component {
 	};
 
 	headerClassForIndex = (index) => {
-		const map = this.args.headerClass ?? this.args.thClassByIndex;
+		const { headerClass: map } = this.args;
 		if (map == null) return "";
 		const raw = map[index] ?? map[String(index)];
 		if (typeof raw !== "string") return "";
