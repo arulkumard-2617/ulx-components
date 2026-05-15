@@ -1,45 +1,61 @@
 export default `
-import { UlxDivider, UlxInput, UlxButton } from 'ulx-components';
+import {
+  UlxDivider,
+  UlxForm,
+  UlxField,
+  UlxInput,
+  UlxButton
+} from 'ulx-components';
 
 <template>
-  <div class="card">
-    <div class="flex wrap">
-      <div class="w-full md-w-1-3 flex flex-col center-all gap-3 py-10">
-        <div class="flex wrap center-all gap-2">
-          <div class="w200">
-            <UlxInput
-              @label="Username"
-              @size="m-size"
-              placeholder="Username"
-              aria-label="Username"
-            />
-          </div>
-        </div>
+  <div class="ulx-grid items-center gap-4">
+    <div class="col-5">
+      <UlxForm
+        @size="m-size"
+        @customClass="flex flex-col items-center gap-4"
+        aria-label="Login form"
+      >
+        <UlxField
+          @label="Username"
+          @fieldId="divider-login-username"
+          @fieldClass="w200"
+          as |field|
+        >
+          <UlxInput
+            @field={{field}}
+            @size="m-size"
+            placeholder="Username"
+            aria-label="Username"
+          />
+        </UlxField>
 
-        <div class="flex wrap center-all gap-2">
-          <div class="w200">
-            <UlxInput
-              @label="Password"
-              @size="m-size"
-              @type="password"
-              placeholder="Password"
-              aria-label="Password"
-            />
-          </div>
-        </div>
+        <UlxField
+          @label="Password"
+          @fieldId="divider-login-password"
+          @fieldClass="w200"
+          as |field|
+        >
+          <UlxInput
+            @field={{field}}
+            @size="m-size"
+            @type="password"
+            placeholder="Password"
+            aria-label="Password"
+          />
+        </UlxField>
 
         <UlxButton @label="Login" @variant="primary" />
-      </div>
+      </UlxForm>
+    </div>
 
-      <div class="w-full md-w-1-3 flex center-all py-10">
-        <UlxDivider @layout="vertical">
-          <div class="bold-font">OR</div>
-        </UlxDivider>
-      </div>
+    <div class="col-2 flex justify-center h-full">
+      <UlxDivider @layout="vertical">
+        <div class="bold-font">OR</div>
+      </UlxDivider>
+    </div>
 
-      <div class="w-full md-w-1-3 flex center-all py-10">
-        <UlxButton @label="Sign Up" @variant="success" />
-      </div>
+    <div class="col-5 flex justify-center">
+      <UlxButton @label="Sign Up" @variant="success" />
     </div>
   </div>
 </template>

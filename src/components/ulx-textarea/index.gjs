@@ -22,6 +22,9 @@ import {
  * @param {string} [key] - Stable key or id; overrides `field.key` when set.
  * @param {string} [ariaDescribedBy] - Overrides `field.describedBy`.
  * @param {string} [ariaErrorMessage] - Overrides `field.errorId`.
+ * @param {function} [onInput] - Invoked on native input with `(value, event)`.
+ * @param {function} [onChange] - Invoked on native change with `(value, event)`.
+ * @param {function} [onBlur] - Invoked on native blur with `(value, event)`.
  */
 export default class UlxTextarea extends Component {
 	get rules() {
@@ -124,14 +127,12 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleInput(event) {
-		this.args.onInput?.(event);
+		this.args.onInput?.(event.target.value, event);
 	}
 
 	@action
 	handleChange(event) {
-		if (this.args.onChange) {
-			this.args.onChange(event);
-		}
+		this.args.onChange?.(event.target.value, event);
 	}
 
 	@action
@@ -141,7 +142,7 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleBlur(event) {
-		this.args.onBlur?.(event);
+		this.args.onBlur?.(event.target.value, event);
 	}
 
 	<template>
