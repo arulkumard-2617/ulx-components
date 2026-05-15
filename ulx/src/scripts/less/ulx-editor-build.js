@@ -11,8 +11,8 @@ const less = require('less');
 // addonRoot → ulx-components root (one level above ulx)
 const ulxRoot = resolve(__dirname, '../../..');
 const addonRoot = resolve(ulxRoot, '..');
-const stylesPath = 'src/styles/ulx';
-const entryFile = resolve(ulxRoot, stylesPath, 'ulx-editor.less');
+const stylesRoot = resolve(addonRoot, 'styles');
+const entryFile = resolve(stylesRoot, 'ulx-editor.less');
 // Write CSS to ulx-components/dev-releases/css
 const outDir = resolve(addonRoot, 'dev-releases/css');
 const outMinFile = resolve(outDir, 'ulx-editor.min.css');
@@ -46,10 +46,9 @@ const cssVarPrefix =
 	ulxConfig.cssVarPrefixes?.[appName] || ulxConfig.cssVarPrefix || ulxConfig.prefix || 'ulx-';
 
 // Paths for LESS compilation (similar to vite config)
-const nodeModulesPath = resolve(ulxRoot, 'node_modules');
-const stylesRoot = resolve(ulxRoot, stylesPath);
+const nodeModulesPath = resolve(addonRoot, 'node_modules');
 const entryDir = dirname(entryFile);
-const uiPackagePath = resolve(ulxRoot, 'node_modules/uls_v2');
+const uiPackagePath = resolve(addonRoot, 'node_modules/uls_v2');
 const ulsPackagePath = resolve(uiPackagePath, 'node_modules/ulx-v2');
 const ulsStylesPath = resolve(ulsPackagePath, 'src/styles');
 const ulsOverridesPath = resolve(ulsStylesPath, 'ulx-overrides/less/ulx-primereact');
