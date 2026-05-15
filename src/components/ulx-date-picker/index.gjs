@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
+import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
@@ -173,6 +174,10 @@ export default class UlxDatePicker extends Component {
 		return placeholder ?? t("lbl.datepicker.placeholder");
 	}
 
+	get flatpickrCalendarSurfaceClass() {
+		return getComponentClass("calendar");
+	}
+
 	<template>
 		{{#if this.useWrap}}
 			<div
@@ -183,6 +188,7 @@ export default class UlxDatePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 			>
 				<UlxInput
@@ -248,6 +254,7 @@ export default class UlxDatePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 				...attributes
 			/>

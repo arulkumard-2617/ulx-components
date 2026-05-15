@@ -14,7 +14,7 @@ import {
   UlxToggle,
   UlxIcon,
   UlxProgressBar,
-  t,
+  t
 } from 'ulx-components';
 
 export default class UlxDocsHeaderComponent extends Component {
@@ -42,7 +42,7 @@ export default class UlxDocsHeaderComponent extends Component {
       { label: 'Lato', value: 'lato' },
       { label: 'Lato2 ', value: 'lato2' },
       { label: 'Roboto', value: 'roboto' },
-      { label: 'Manrope', value: 'manrope' },
+      { label: 'Manrope', value: 'manrope' }
     ];
   }
 
@@ -77,7 +77,7 @@ export default class UlxDocsHeaderComponent extends Component {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       const savedTheme = localStorage.getItem('ulx-theme');
       const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)',
+        '(prefers-color-scheme: dark)'
       ).matches;
 
       if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
@@ -95,28 +95,28 @@ export default class UlxDocsHeaderComponent extends Component {
       {
         label: 'Default',
         value: 'default',
-        badgeVariant: 'ulx-theme-badge-default',
+        badgeVariant: 'ulx-theme-badge-default'
       },
       {
         label: 'Cobalt',
         value: 'cobalt-theme',
-        badgeVariant: 'ulx-theme-badge-cobalt',
+        badgeVariant: 'ulx-theme-badge-cobalt'
       },
       {
         label: 'Fern',
         value: 'fern-theme',
-        badgeVariant: 'ulx-theme-badge-fern',
+        badgeVariant: 'ulx-theme-badge-fern'
       },
       {
         label: 'Cardinal',
         value: 'cardinal-theme',
-        badgeVariant: 'ulx-theme-badge-cardinal',
+        badgeVariant: 'ulx-theme-badge-cardinal'
       },
       {
         label: 'Tangerine',
         value: 'tangerine-theme',
-        badgeVariant: 'ulx-theme-badge-tangerine',
-      },
+        badgeVariant: 'ulx-theme-badge-tangerine'
+      }
     ];
   }
 
@@ -140,13 +140,13 @@ export default class UlxDocsHeaderComponent extends Component {
         selectedColor: 2,
         selectedColorValue: {
           '--ulx-ba-sepia': '0%',
-          '--ulx-ba-grayscale': '0%',
+          '--ulx-ba-grayscale': '0%'
         },
         readingGuideValue: 0,
         readingLineValue: 0,
         selectedScrZoomValue: 1,
         toggleSwitchLabel: false,
-        selectedTextSpacing: 1,
+        selectedTextSpacing: 1
       }
     );
   }
@@ -183,26 +183,26 @@ export default class UlxDocsHeaderComponent extends Component {
         header: 'Vision',
         id: 'vision',
         isVision: true,
-        iconName: 'view-icon',
+        iconName: 'view-icon'
       },
       {
         header: 'Hearing',
         id: 'hearing',
         isHearing: true,
-        iconName: 'hearing-icon',
+        iconName: 'hearing-icon'
       },
       {
         header: 'Mobility',
         id: 'mobility',
         isMobility: true,
-        iconName: 'mobility-icon',
+        iconName: 'mobility-icon'
       },
       {
         header: 'Learning',
         id: 'learning',
         isLearning: true,
-        iconName: 'read-icon',
-      },
+        iconName: 'read-icon'
+      }
     ];
   }
 
@@ -211,7 +211,7 @@ export default class UlxDocsHeaderComponent extends Component {
     return [
       { value: '70%', label: 'Low', selected: value < 100 },
       { value: '100%', label: 'Default', selected: value === 100 },
-      { value: '135%', label: 'High', selected: value > 100 },
+      { value: '135%', label: 'High', selected: value > 100 }
     ];
   }
 
@@ -220,7 +220,7 @@ export default class UlxDocsHeaderComponent extends Component {
     return [
       { value: 1, label: 'Default', selected: current === 1 },
       { value: 2, label: 'Medium', selected: current === 2 },
-      { value: 3, label: 'Large', selected: current === 3 },
+      { value: 3, label: 'Large', selected: current === 3 }
     ];
   }
 
@@ -230,7 +230,7 @@ export default class UlxDocsHeaderComponent extends Component {
       { value: 0.8, label: 'Aa-', selected: current < 0.9 },
       { value: 1, label: '100%', selected: current === 1 },
       { value: 1.2, label: 'Aa+', selected: current > 1 && current <= 1.2 },
-      { value: 1.5, label: 'Aa+', selected: current > 1.2 },
+      { value: 1.5, label: 'Aa+', selected: current > 1.2 }
     ];
   }
 
@@ -239,7 +239,7 @@ export default class UlxDocsHeaderComponent extends Component {
     return [
       { value: 10, label: 'Level 1', selected: current === 10 },
       { value: 20, label: 'Level 2', selected: current === 20 },
-      { value: 30, label: 'Level 3', selected: current === 30 },
+      { value: 30, label: 'Level 3', selected: current === 30 }
     ];
   }
 
@@ -248,7 +248,7 @@ export default class UlxDocsHeaderComponent extends Component {
     return [
       { value: 200, label: 'Level 1', selected: current === 200 },
       { value: 400, label: 'Level 2', selected: current === 400 },
-      { value: 600, label: 'Level 3', selected: current === 600 },
+      { value: 600, label: 'Level 3', selected: current === 600 }
     ];
   }
 
@@ -264,7 +264,7 @@ export default class UlxDocsHeaderComponent extends Component {
       { label: '75%', value: 0.75, selected: current === 0.75 },
       { label: '100%', value: 1, selected: current === 1 },
       { label: '125%', value: 1.25, selected: current === 1.25 },
-      { label: '150%', value: 1.5, selected: current === 1.5 },
+      { label: '150%', value: 1.5, selected: current === 1.5 }
     ];
   }
 
@@ -282,7 +282,7 @@ export default class UlxDocsHeaderComponent extends Component {
         'ulx-cobalt-theme',
         'ulx-fern-theme',
         'ulx-cardinal-theme',
-        'ulx-tangerine-theme',
+        'ulx-tangerine-theme'
       ];
       themeClasses.forEach((themeClass) => body.classList.remove(themeClass));
       if (nextTheme !== 'default') {
@@ -378,7 +378,7 @@ export default class UlxDocsHeaderComponent extends Component {
     if (typeof document !== 'undefined' && document.documentElement) {
       document.documentElement.style.setProperty(
         '--ulx-ba-saturate',
-        `${defaultVal}%`,
+        `${defaultVal}%`
       );
     }
     this.accessibility.setSaturationValue(defaultVal);
@@ -393,7 +393,7 @@ export default class UlxDocsHeaderComponent extends Component {
       if (typeof document !== 'undefined' && document.documentElement) {
         document.documentElement.style.setProperty(
           '--ulx-ba-saturate',
-          `${clamped}%`,
+          `${clamped}%`
         );
       }
       this.accessibility.setSaturationValue(clamped);
@@ -409,7 +409,7 @@ export default class UlxDocsHeaderComponent extends Component {
       const value = Math.min(200, Math.max(0, Number(saturationPercent)));
       document.documentElement.style.setProperty(
         '--ulx-ba-saturate',
-        `${value}%`,
+        `${value}%`
       );
     }
   });
@@ -512,6 +512,7 @@ export default class UlxDocsHeaderComponent extends Component {
             @options={{this.fontOptions}}
             @value={{this.selectedFont}}
             @onChange={{this.handleFontChange}}
+            @customClass="w-200"
           >
             <:value as |ctx|>
               <span>{{ctx.selectedLabel}}</span>
@@ -528,6 +529,7 @@ export default class UlxDocsHeaderComponent extends Component {
             @options={{this.themeOptions}}
             @value={{this.selectedTheme}}
             @onChange={{this.handleThemeChange}}
+            @customClass="w-152"
           >
             <:value as |ctx|>
               <div class="flex items-center gap-2">
