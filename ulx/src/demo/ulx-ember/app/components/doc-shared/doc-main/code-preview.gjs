@@ -26,9 +26,18 @@ export default class CodePreviewComponent extends Component {
       return '';
     }
 
-    const match = source.match(/<template>[\s\S]*?<\/template>/m);
-
-    return match ? match[0].trim() : '';
+    const code = String(source);
+    const openTag = '<template>';
+    const closeTag = '</template>';
+    const start = code.indexOf(openTag);
+    if (start === -1) {
+      return '';
+    }
+    const end = code.lastIndexOf(closeTag);
+    if (end === -1 || end < start) {
+      return '';
+    }
+    return code.slice(start, end + closeTag.length).trim();
   }
 
   @action

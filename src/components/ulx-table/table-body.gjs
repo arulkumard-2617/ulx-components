@@ -583,7 +583,6 @@ export default class TableBody extends Component {
 								<td
 									class="column-body-cell"
 									role="gridcell"
-									style="width: 6rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
 								>
 									{{#if (this.isRowEditing row)}}
@@ -657,7 +656,7 @@ export default class TableBody extends Component {
 							<td
 								class="column-body-cell datatable-option-cell"
 								role="gridcell"
-								style="width: 6rem"
+								style="width: 10rem"
 								tabindex="-1"
 							>
 								{{yield row to="optionCell"}}

@@ -89,7 +89,8 @@
 		"app-js": {
 			"./components/ulx-accordion/index.js": "./dist/_app_/components/ulx-accordion/index.js",
 			"./components/ulx-action-buttons/index.js": "./dist/_app_/components/ulx-action-buttons/index.js",
-			"./components/ulx-avatar-group/index.js": "./dist/_app_/components/ulx-avatar-group/index.js",
+			"./components/ulx-action-menu/index.js": "./dist/_app_/components/ulx-action-menu/index.js",
+      "./components/ulx-avatar-group/index.js": "./dist/_app_/components/ulx-avatar-group/index.js",
 			"./components/ulx-avatar/index.js": "./dist/_app_/components/ulx-avatar/index.js",
 			"./components/ulx-badge-button/index.js": "./dist/_app_/components/ulx-badge-button/index.js",
 			"./components/ulx-badge/index.js": "./dist/_app_/components/ulx-badge/index.js",

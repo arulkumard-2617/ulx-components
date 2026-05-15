@@ -5,7 +5,7 @@ import { inject as service } from "@ember/service";
 import and from "ember-truth-helpers/helpers/and";
 import or from "ember-truth-helpers/helpers/or";
 import eq from "ember-truth-helpers/helpers/eq";
-import { getComponentClass } from "../../utils/component-config.js";
+import { getComponentClass } from "../../utils/component-config";
 import {
 	exportCSV,
 	reorderArray,
@@ -18,14 +18,13 @@ import {
 	applySelectionToFilters,
 	applySelectionMapToFilters,
 	processAndPaginateData,
-	resolvePersistenceStorage,
 	resolveGlobalFilterFields,
 	resolveVisibleColumns,
 	resolveOrderedColumns,
 	rehydrateColumnOrder,
 	saveTableState,
 	loadTableState
-} from "./utils.js";
+} from "./utils";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import UlxButton from "../ulx-button/index.gjs";
 import TableToolbar from "./table-toolbar.gjs";
@@ -95,10 +94,11 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * ── Sort ────────────────────────────────────────────────────────────────────
  * @param {string}  [sortMode='single']     - 'single' | 'multiple'
  * @param {string}  [sortField]             - controlled sort field
- * @param {1|-1}    [sortOrder]             - controlled sort order (1=asc, -1=desc)
- * @param {Array}   [multiSortMeta]         - controlled multi-sort: [{field, order}]
+ * @param {'asc'|'desc'} [sortOrder]        - controlled sort order
+ * @param {Array<{field: string, order: 'asc'|'desc'}>} [multiSortMeta] - controlled multi-sort
  * @param {boolean} [removableSort]         - third click removes sort
  * @param {Function}[onSort]                - ({field, order, multiSortMeta}) => void (lazy)
+ * @param {Function}[sortFunction]          - custom comparator: (item1, item2, { field, order, getFieldValue, compareValues, multiSortMeta }) => number
  * Toolbar sort dropdown (bs-table style): when provided, shows Sort button and drives sort from "key:asc|desc".
  * @param {Array<{key: string, lbl: string}>} [sortOptions] - options for sort criterion dropdown
  * @param {string}  [sortBy]                - controlled sort string "key:asc" | "key:desc"
@@ -172,11 +172,9 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * @param {string|Function}[rowClassName]   - extra class string or fn(row)=>string
  *
  * ── State persistence ───────────────────────────────────────────────────────
- * @param {string}  [stateKey]              - localStorage/sessionStorage key; only column order and
- *                                            column visibility are persisted under this key.
- * @param {string}  [moduleName]            - BSTable-compatible alias for stateKey. When used without
- *                                            stateStorage, state is persisted in localStorage.
- * @param {string}  [stateStorage='session'] - 'local' | 'session'
+ * @param {string}  [stateKey]              - localStorage key; only column order and column visibility
+ *                                            are persisted under this key.
+ * @param {string}  [moduleName]            - BSTable-compatible alias for stateKey.
  *
  * ── Frozen rows ─────────────────────────────────────────────────────────────
  * @param {Array}   [frozenValue]           - rows always shown at top
@@ -224,7 +222,7 @@ export default class UlxTable extends Component {
 
 	// ─── Internal sort state (uncontrolled) ──────────────────────────────────
 	@tracked _sortField = null;
-	@tracked _sortOrder = 1;
+	@tracked _sortOrder = "asc";
 	@tracked _multiSortMeta = [];
 
 	// ─── Internal filter state (uncontrolled) ────────────────────────────────
@@ -300,17 +298,12 @@ export default class UlxTable extends Component {
 		return this.args.stateKey ?? this.args.moduleName ?? null;
 	}
 
-	get persistenceStorage() {
-		const { stateStorage, moduleName, stateKey } = this.args;
-		return resolvePersistenceStorage(stateStorage, moduleName, stateKey);
-	}
-
 	restorePersistedState() {
 		const key = this.persistenceKey;
 		if (!key || this._restoredStateKey === key) return;
 
 		this._restoredStateKey = key;
-		const persistedState = loadTableState(key, this.persistenceStorage) ?? {};
+		const persistedState = loadTableState(key) ?? {};
 		Array.isArray(persistedState.visibleColumnFields) &&
 			(this._visibleColumnFields = new Set(persistedState.visibleColumnFields));
 		Array.isArray(persistedState.columnOrder) &&
@@ -329,7 +322,7 @@ export default class UlxTable extends Component {
 	persistState() {
 		const key = this.persistenceKey;
 		if (!key) return;
-		saveTableState(key, this.persistenceStorage, this.persistenceState);
+		saveTableState(key, this.persistenceState);
 	}
 
 	get rootDataQa() {
@@ -395,7 +388,9 @@ export default class UlxTable extends Component {
 		if (opts?.length) {
 			return parseSortBy(this.args.sortBy ?? this._sortByString).order;
 		}
-		return this.args.sortOrder !== undefined ? this.args.sortOrder : this._sortOrder;
+		const { sortOrder } = this.args;
+		const resolvedSortOrder = sortOrder !== undefined ? sortOrder : this._sortOrder;
+		return resolvedSortOrder === "desc" ? "desc" : "asc";
 	}
 
 	get sortByString() {
@@ -518,6 +513,7 @@ export default class UlxTable extends Component {
 			sortField: this.sortField,
 			sortOrder: this.sortOrder,
 			multiSortMeta: this.multiSortMeta,
+			sortFunction: this.args.sortFunction,
 			paginator: this.args.paginator,
 			first: this.first,
 			rows: this.rows
@@ -625,18 +621,16 @@ export default class UlxTable extends Component {
 	commitFilterUpdate(updated) {
 		this._filters = updated;
 		this._first = 0;
-		this.persistState();
 		this.args.lazy && this.args.onFilter?.({ filters: updated });
 	}
 
 	@action
 	handleSort(field) {
 		const { removableSort } = this.args;
-
+		debugger;
 		if (this.sortMode === "multiple") {
 			const meta = getNextMultiSortMeta(this.multiSortMeta ?? [], field, removableSort);
 			this._multiSortMeta = meta;
-			this.persistState();
 			this.args.onSort?.({ multiSortMeta: meta });
 		} else {
 			const next = getNextSingleSortState({
@@ -650,7 +644,6 @@ export default class UlxTable extends Component {
 			this._sortOrder = sortOrder;
 			const sortByString = formatSortBy(sortField, sortOrder);
 			this._sortByString = sortByString;
-			this.persistState();
 			this.args.onSort?.(
 				cleared ? { field: null, order: null } : { field: sortField, order: sortOrder }
 			);
@@ -714,7 +707,9 @@ export default class UlxTable extends Component {
 	}
 
 	get filterAccordionModel() {
-		return this.filterGroups.map((g) => ({ header: g.heading ?? g.key }));
+		return this.filterGroups.map((filterGroup) => ({
+			header: filterGroup.heading ?? filterGroup.key
+		}));
 	}
 
 	get filterPaneAccordionActiveIndex() {
@@ -921,7 +916,6 @@ export default class UlxTable extends Component {
 	handleSortByChange(sortByString) {
 		this._sortByString = sortByString;
 		this._first = 0;
-		this.persistState();
 		this.args.onSortByChange?.(sortByString);
 		this.args.first !== undefined && this.args.onPage?.({ first: 0, rows: this.rows, page: 0 });
 	}
@@ -1011,7 +1005,6 @@ export default class UlxTable extends Component {
 	handlePageChange(event) {
 		this._first = event.first;
 		this._rows = event.rows;
-		this.persistState();
 		this.args.onPage?.(event);
 	}
 
@@ -1102,7 +1095,6 @@ export default class UlxTable extends Component {
 		document.removeEventListener("mousemove", this._onResizeMove);
 		document.removeEventListener("mouseup", this._onResizeEnd);
 		this._resizingColField = null;
-		this.persistState();
 	};
 
 	// ─── Manage columns ────────────────────────────────────────────────────────
@@ -1170,7 +1162,6 @@ export default class UlxTable extends Component {
 	@action
 	setViewMode(mode) {
 		this._viewMode = mode;
-		this.persistState();
 	}
 
 	getViewToggleOptions(hasDetailed, hasCard) {
@@ -1490,7 +1481,7 @@ export default class UlxTable extends Component {
 					@onRowReorder={{this.handleRowReorder}}
 					@onRowClick={{this.handleRowClick}}
 					@onRowDoubleClick={{this.handleRowDoubleClick}}
-					@onContextMenu={{this.handleContextMenu}}
+					@onContextMenu={{if @onContextMenu this.handleContextMenu}}
 					@headerClass={{@headerClass}}
 				>
 					<:rowExpansion as |row|>{{yield row to="rowExpansion"}}</:rowExpansion>
