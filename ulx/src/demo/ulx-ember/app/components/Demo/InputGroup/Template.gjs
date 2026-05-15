@@ -34,15 +34,15 @@ export default class DemoInputGroupTemplate extends Component {
     return this.isToBeAnnounced;
   }
 
-  @action updateHours(e) {
-    const num = Number(e.target.value);
+  @action updateHours(value) {
+    const num = Number(value);
     if (!Number.isNaN(num)) {
       this.hours = Math.max(this.hourMin, Math.min(this.hourMax, num));
     }
   }
 
-  @action updateMinutes(e) {
-    const num = Number(e.target.value);
+  @action updateMinutes(value) {
+    const num = Number(value);
     if (!Number.isNaN(num)) {
       this.minutes = Math.max(this.minuteMin, Math.min(this.minuteMax, num));
     }
