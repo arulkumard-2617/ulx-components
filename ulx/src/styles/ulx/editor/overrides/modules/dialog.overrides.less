@@ -73,22 +73,9 @@
 .ulx-dialog.ed-pricing-upgrade-modal {
 	border-radius: 8px;
 
-	>.header {
-		display: none;
-	}
-
-	>.content {
+	>.dialog-content {
 		padding: 0;
 		border-radius: 8px;
-	}
-
-	.plan-cancel-icon {
-		position: absolute;
-		right: 20px;
-		top: 20px;
-		z-index: 1;
-		cursor: var(--zdr-cursor-pointer, pointer);
-		font-size: 20px;
 	}
 
 	.pricing-plan-content {
@@ -115,7 +102,7 @@
 		height: 376px;
 		width: 100%;
 		background-image: url('../images/ed-pricing-upgrade-bg.png');
-		background-size: contain;
+		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: bottom;
 		display: flex;
