@@ -90,6 +90,8 @@ export default class DemoTextareaBasic extends Component {
         @helpText="Use 3–20 characters. Letters and numbers only."
         @rules={{this.validations.newContactName}}
         @error={{this.errors.newContactName}}
+        @showCharacterCount={{true}}
+        @value={{this.newContactName}}
         @fieldId="newContactName"
         @fieldClass="col-6"
         as |field|
