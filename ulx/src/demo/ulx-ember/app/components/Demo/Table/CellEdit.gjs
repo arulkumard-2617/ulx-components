@@ -20,8 +20,8 @@ class TextEditor extends Component {
   }
 
   @action
-  handleInput(event) {
-    this.localValue = event.target.value;
+  handleInput(value) {
+    this.localValue = value;
   }
 
   @action
@@ -64,8 +64,8 @@ class PriceEditor extends Component {
   }
 
   @action
-  handleInput(event) {
-    this.localValue = event.target.value;
+  handleInput(value) {
+    this.localValue = value;
   }
 
   @action

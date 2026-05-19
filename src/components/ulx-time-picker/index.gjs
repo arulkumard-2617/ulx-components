@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
+import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
@@ -29,7 +30,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
- * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (`onReady` is chained with header injection)
+ * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
  */
@@ -131,6 +132,10 @@ export default class UlxTimePicker extends Component {
 		return placeholder ?? t("lbl.timepicker.placeholder");
 	}
 
+	get flatpickrTimePickerSurfaceClass() {
+		return getComponentClass("timepicker");
+	}
+
 	<template>
 		{{#if this.useWrap}}
 			<div
@@ -141,6 +146,7 @@ export default class UlxTimePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 			>
 				<UlxInput
@@ -209,6 +215,7 @@ export default class UlxTimePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 				...attributes
 			/>

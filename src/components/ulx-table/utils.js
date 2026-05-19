@@ -1,5 +1,7 @@
+import { get } from '@ember/object';
+
 /**
- * UlxTable utilities — client-side sort, filter, paginate, state persistence, and helpers.
+ * UlxTable utilities — client-side sort, filter, paginate, optional local state persistence, and helpers.
  */
 
 // ─── Column helpers ──────────────────────────────────────────────────────────
@@ -20,59 +22,91 @@ export function isSpecialColumn(col) {
  */
 export function getFieldValue(row, field) {
 	if (!field || row == null) return undefined;
-	const parts = String(field).split('.');
-	let val = row;
-	for (const part of parts) {
-		if (val == null) return undefined;
-		val = val[part];
-	}
-	return val;
+	return get(row, String(field));
 }
 
 // ─── Sort ─────────────────────────────────────────────────────────────────────
 
-export function compareValues(a, b) {
-	if (a == null && b == null) return 0;
-	if (a == null) return -1;
-	if (b == null) return 1;
-	if (typeof a === 'string' && typeof b === 'string') {
-		return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+export function compareValues(firstValue, secondValue) {
+	if (firstValue == null && secondValue == null) return 0;
+	if (firstValue == null) return -1;
+	if (secondValue == null) return 1;
+	if (typeof firstValue === 'string' && typeof secondValue === 'string') {
+		return firstValue.localeCompare(secondValue, undefined, { numeric: true, sensitivity: 'base' });
 	}
-	if (a < b) return -1;
-	if (a > b) return 1;
+	if (firstValue < secondValue) return -1;
+	if (firstValue > secondValue) return 1;
 	return 0;
+}
+
+export const ASC = 'asc';
+export const DESC = 'desc';
+
+function runCustomSortComparator(sortFunction, { item1, item2, field, order, multiSortMeta }) {
+	if (typeof sortFunction !== 'function') return null;
+	const cmp = sortFunction(item1, item2, {
+		field,
+		order,
+		multiSortMeta,
+		getFieldValue,
+		compareValues
+	});
+	return Number.isFinite(cmp) ? cmp : null;
 }
 
 /**
  * Single-field client-side sort.
  * @param {Array} items
  * @param {string} sortField
- * @param {1|-1} sortOrder  1 = asc, -1 = desc
+ * @param {'asc'|'desc'} sortOrder
+ * @param {Function} [sortFunction]
  * @returns {Array} new sorted array
  */
-export function sortItems(items, sortField, sortOrder = 1) {
+export function sortItems(items, sortField, sortOrder = ASC, sortFunction) {
 	if (!items || !sortField) return items ?? [];
-	return [...items].sort((a, b) => {
-		const va = getFieldValue(a, sortField);
-		const vb = getFieldValue(b, sortField);
-		return compareValues(va, vb) * sortOrder;
+	const sortDirection = sortOrder === DESC ? -1 : 1;
+	return [...items].sort((item1, item2) => {
+		const customCmp = runCustomSortComparator(sortFunction, {
+			item1,
+			item2,
+			field: sortField,
+			order: sortOrder,
+			multiSortMeta: []
+		});
+		if (customCmp != null) return customCmp;
+		const item1Value = getFieldValue(item1, sortField);
+		const item2Value = getFieldValue(item2, sortField);
+		return compareValues(item1Value, item2Value) * sortDirection;
 	});
 }
 
 /**
  * Multi-column client-side sort.
  * @param {Array} items
- * @param {Array<{field: string, order: 1|-1}>} multiSortMeta
+ * @param {Array<{field: string, order: 'asc'|'desc'}>} multiSortMeta
+ * @param {Function} [sortFunction]
  * @returns {Array} new sorted array
  */
-export function multiSortItems(items, multiSortMeta) {
+export function multiSortItems(items, multiSortMeta, sortFunction) {
 	if (!items) return [];
 	if (!multiSortMeta || !multiSortMeta.length) return items;
-	return [...items].sort((a, b) => {
-		for (const { field, order = 1 } of multiSortMeta) {
-			const va = getFieldValue(a, field);
-			const vb = getFieldValue(b, field);
-			const cmp = compareValues(va, vb) * order;
+	return [...items].sort((item1, item2) => {
+		for (const { field, order = ASC } of multiSortMeta) {
+			const sortDirection = order === DESC ? -1 : 1;
+			const customCmp = runCustomSortComparator(sortFunction, {
+				item1,
+				item2,
+				field,
+				order,
+				multiSortMeta
+			});
+			if (customCmp != null) {
+				if (customCmp !== 0) return customCmp;
+				continue;
+			}
+			const item1Value = getFieldValue(item1, field);
+			const item2Value = getFieldValue(item2, field);
+			const cmp = compareValues(item1Value, item2Value) * sortDirection;
 			if (cmp !== 0) return cmp;
 		}
 		return 0;
@@ -140,8 +174,8 @@ export function filterItems(items, filters, globalFilterFields) {
 				if (!globalValue) continue;
 				const matchMode = filterMeta?.matchMode ?? 'contains';
 				const fields = globalFilterFields ?? [];
-				const matched = fields.some((f) => {
-					const cellValue = getFieldValue(row, f);
+				const matched = fields.some((fieldPath) => {
+					const cellValue = getFieldValue(row, fieldPath);
 					return matchesConstraint(cellValue, { value: globalValue, matchMode });
 				});
 				if (!matched) return false;
@@ -153,10 +187,12 @@ export function filterItems(items, filters, globalFilterFields) {
 			// Advanced: { operator, constraints }
 			if (filterMeta.constraints) {
 				const { operator = 'and', constraints } = filterMeta;
-				const valid = constraints.filter((c) => c.value != null && c.value !== '');
+				const valid = constraints.filter(
+					(constraint) => constraint.value != null && constraint.value !== ''
+				);
 				if (!valid.length) continue;
 				const cellValue = getFieldValue(row, key);
-				const results = valid.map((c) => matchesConstraint(cellValue, c));
+				const results = valid.map((constraint) => matchesConstraint(cellValue, constraint));
 				const pass = operator === 'or' ? results.some(Boolean) : results.every(Boolean);
 				if (!pass) return false;
 			} else {
@@ -193,8 +229,9 @@ export function processAndPaginateData({
 	globalFilterFields = [],
 	sortMode = 'single',
 	sortField = null,
-	sortOrder = 1,
+	sortOrder = ASC,
 	multiSortMeta = [],
+	sortFunction,
 	paginator = false,
 	first = 0,
 	rows = 10
@@ -213,10 +250,10 @@ export function processAndPaginateData({
 
 	if (sortMode === 'multiple') {
 		if (multiSortMeta?.length) {
-			processedData = multiSortItems(processedData, multiSortMeta);
+			processedData = multiSortItems(processedData, multiSortMeta, sortFunction);
 		}
 	} else if (sortField) {
-		processedData = sortItems(processedData, sortField, sortOrder);
+		processedData = sortItems(processedData, sortField, sortOrder, sortFunction);
 	}
 
 	const pagedData = paginator ? paginateItems(processedData, first, rows) : processedData;
@@ -232,47 +269,21 @@ export function resolveGlobalFilterFields(allColumns = [], globalFilterFields) {
 		.map((column) => column.filterField ?? column.field);
 }
 
-// ─── State persistence ────────────────────────────────────────────────────────
+// ─── State persistence (localStorage) ─────────────────────────────────────────
 
-export function saveTableState(key, storage = 'session', state) {
+export function saveTableState(key, state) {
 	if (!key) return;
 	try {
-		const store = storage === 'local' ? localStorage : sessionStorage;
-		store.setItem(key, JSON.stringify(state));
+		localStorage.setItem(key, JSON.stringify(state));
 	} catch {
 		// noop
 	}
 }
 
-export function loadTableState(key, storage = 'session') {
+export function loadTableState(key) {
 	if (!key) return null;
 	try {
-		const store = storage === 'local' ? localStorage : sessionStorage;
-		const raw = store.getItem(key);
-		return raw ? JSON.parse(raw) : null;
-	} catch {
-		return null;
-	}
-}
-
-export function resolvePersistenceStorage(stateStorage, moduleName, stateKey) {
-	if (stateStorage) return stateStorage;
-	return moduleName && !stateKey ? 'local' : 'session';
-}
-
-export function saveColumnWidths(key, widths) {
-	if (!key) return;
-	try {
-		sessionStorage.setItem(`${key}_widths`, JSON.stringify(widths));
-	} catch {
-		// noop
-	}
-}
-
-export function loadColumnWidths(key) {
-	if (!key) return null;
-	try {
-		const raw = sessionStorage.getItem(`${key}_widths`);
+		const raw = localStorage.getItem(key);
 		return raw ? JSON.parse(raw) : null;
 	} catch {
 		return null;
@@ -288,10 +299,14 @@ export function loadColumnWidths(key) {
  * @param {string} filename
  */
 export function exportCSV(columns, data, filename = 'export.csv') {
-	const exportCols = columns.filter((c) => c.field && !isSpecialColumn(c));
-	const headers = exportCols.map((c) => JSON.stringify(String(c.header ?? c.field ?? '')));
+	const exportCols = columns.filter((column) => column.field && !isSpecialColumn(column));
+	const headers = exportCols.map((column) =>
+		JSON.stringify(String(column.header ?? column.field ?? ''))
+	);
 	const rows = data.map((row) =>
-		exportCols.map((c) => JSON.stringify(String(getFieldValue(row, c.field) ?? ''))).join(',')
+		exportCols
+			.map((column) => JSON.stringify(String(getFieldValue(row, column.field) ?? '')))
+			.join(',')
 	);
 	const csv = [headers.join(','), ...rows].join('\n');
 	const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -309,21 +324,21 @@ export function exportCSV(columns, data, filename = 'export.csv') {
 
 /**
  * Parses a "field:asc" / "field:desc" sort string into { field, order }.
- * Returns { field: null, order: 1 } for empty/invalid input.
+ * Returns { field: null, order: 'asc' } for empty/invalid input.
  */
 export function parseSortBy(sortByStr) {
-	if (!sortByStr || typeof sortByStr !== 'string') return { field: null, order: 1 };
+	if (!sortByStr || typeof sortByStr !== 'string') return { field: null, order: ASC };
 	const [field, dir] = sortByStr.split(':');
-	return { field: field || null, order: dir === 'desc' ? -1 : 1 };
+	return { field, order: dir === DESC ? DESC : ASC };
 }
 
 /**
  * Formats sort state to "field:asc|desc".
  * Returns empty string when field is missing.
  */
-export function formatSortBy(field, order = 1) {
+export function formatSortBy(field, order = ASC) {
 	if (!field) return '';
-	return `${field}:${order === -1 ? 'desc' : 'asc'}`;
+	return `${field}:${order}`;
 }
 
 /**
@@ -331,23 +346,23 @@ export function formatSortBy(field, order = 1) {
  */
 export function getNextSingleSortState({
 	currentField,
-	currentOrder = 1,
+	currentOrder = ASC,
 	nextField,
 	removableSort = false
 }) {
 	if (currentField !== nextField) {
-		return { sortField: nextField, sortOrder: 1, cleared: false };
+		return { sortField: nextField, sortOrder: ASC, cleared: false };
 	}
 
-	if (currentOrder === 1) {
-		return { sortField: nextField, sortOrder: -1, cleared: false };
+	if (currentOrder === ASC) {
+		return { sortField: nextField, sortOrder: DESC, cleared: false };
 	}
 
 	if (removableSort) {
-		return { sortField: null, sortOrder: 1, cleared: true };
+		return { sortField: null, sortOrder: ASC, cleared: true };
 	}
 
-	return { sortField: nextField, sortOrder: 1, cleared: false };
+	return { sortField: nextField, sortOrder: ASC, cleared: false };
 }
 
 /**
@@ -358,12 +373,12 @@ export function getNextMultiSortMeta(multiSortMeta = [], field, removableSort = 
 	const idx = next.findIndex((meta) => meta.field === field);
 
 	if (idx === -1) {
-		next.push({ field, order: 1 });
+		next.push({ field, order: ASC });
 		return next;
 	}
 
-	if (next[idx].order === 1) {
-		next[idx] = { field, order: -1 };
+	if (next[idx].order === ASC) {
+		next[idx] = { field, order: DESC };
 		return next;
 	}
 
@@ -372,7 +387,7 @@ export function getNextMultiSortMeta(multiSortMeta = [], field, removableSort = 
 		return next;
 	}
 
-	next[idx] = { field, order: 1 };
+	next[idx] = { field, order: ASC };
 	return next;
 }
 
@@ -426,13 +441,13 @@ export function resolveOrderedColumns(visibleColumns = [], persistedOrder = null
 	if (!persistedOrder) return visibleColumns;
 	const orderedFields = persistedOrder.map((column) => column?.field).filter(Boolean);
 	const fieldIndex = new Map(orderedFields.map((field, index) => [field, index]));
-	return [...visibleColumns].sort((a, b) => {
-		const ia = fieldIndex.get(a.field);
-		const ib = fieldIndex.get(b.field);
-		if (ia == null && ib == null) return 0;
-		if (ia == null) return 1;
-		if (ib == null) return -1;
-		return ia - ib;
+	return [...visibleColumns].sort((leftColumn, rightColumn) => {
+		const leftIndex = fieldIndex.get(leftColumn.field);
+		const rightIndex = fieldIndex.get(rightColumn.field);
+		if (leftIndex == null && rightIndex == null) return 0;
+		if (leftIndex == null) return 1;
+		if (rightIndex == null) return -1;
+		return leftIndex - rightIndex;
 	});
 }
 

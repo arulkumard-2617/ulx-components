@@ -46,8 +46,8 @@ export default class ToolbarCustomDemo extends Component {
   }
 
   @action
-  onSearchInput(event) {
-    this.search = event?.target?.value ?? '';
+  onSearchInput(value) {
+    this.search = value ?? '';
   }
 
   @action

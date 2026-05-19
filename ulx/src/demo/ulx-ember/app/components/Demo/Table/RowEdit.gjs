@@ -36,9 +36,9 @@ const initProducts = () => [
 
 class NameEditor extends Component {
   @action
-  handleInput(event) {
+  handleInput(value) {
     const { row, field, onChange } = this.args;
-    onChange?.({ row, field, value: event.target.value });
+    onChange?.({ row, field, value });
   }
   <template>
     <UlxInput
@@ -52,9 +52,9 @@ class NameEditor extends Component {
 
 class PriceEditor extends Component {
   @action
-  handleInput(event) {
+  handleInput(inputValue) {
     const { row, field, onChange } = this.args;
-    const value = Number(event.target.value);
+    const value = Number(inputValue);
     onChange?.({ row, field, value });
   }
   <template>
