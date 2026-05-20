@@ -14,6 +14,7 @@
 	"files": [
 		"dist",
 		"src",
+		"styles",
 		"config",
 		"dev-releases",
 		"babel.config.json"
@@ -37,7 +38,8 @@
 		"decorator-transforms": "^2.0.0",
 		"flatpickr": "^4.6.13",
 		"quill": "^2.0.3",
-		"sortablejs": "^1.15.7"
+		"sortablejs": "^1.15.7",
+		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.7",
@@ -90,7 +92,7 @@
 			"./components/ulx-accordion/index.js": "./dist/_app_/components/ulx-accordion/index.js",
 			"./components/ulx-action-buttons/index.js": "./dist/_app_/components/ulx-action-buttons/index.js",
 			"./components/ulx-action-menu/index.js": "./dist/_app_/components/ulx-action-menu/index.js",
-      "./components/ulx-avatar-group/index.js": "./dist/_app_/components/ulx-avatar-group/index.js",
+			"./components/ulx-avatar-group/index.js": "./dist/_app_/components/ulx-avatar-group/index.js",
 			"./components/ulx-avatar/index.js": "./dist/_app_/components/ulx-avatar/index.js",
 			"./components/ulx-badge-button/index.js": "./dist/_app_/components/ulx-badge-button/index.js",
 			"./components/ulx-badge/index.js": "./dist/_app_/components/ulx-badge/index.js",

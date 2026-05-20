@@ -15,8 +15,8 @@ export default class DemoToolbarBasic extends Component {
   @tracked search = '';
 
   @action
-  onSearchInput(event) {
-    this.search = event.target.value;
+  onSearchInput(value) {
+    this.search = value;
   }
 
   <template>

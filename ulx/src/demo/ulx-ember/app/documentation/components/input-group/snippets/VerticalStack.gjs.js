@@ -29,16 +29,16 @@ export default class DemoInputGroupVerticalStack extends Component {
   }
 
   @action
-  updateHours(event) {
-    const num = Number(event.target.value);
+  updateHours(value) {
+    const num = Number(value);
     if (!Number.isNaN(num)) {
       this.hours = Math.max(this.hourMin, Math.min(this.hourMax, num));
     }
   }
 
   @action
-  updateMinutes(event) {
-    const num = Number(event.target.value);
+  updateMinutes(value) {
+    const num = Number(value);
     if (!Number.isNaN(num)) {
       this.minutes = Math.max(this.minuteMin, Math.min(this.minuteMax, num));
     }

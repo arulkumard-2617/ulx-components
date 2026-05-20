@@ -20,7 +20,10 @@ import {
  * @param {string} [fieldClass] - Extra classes on the root `.field` wrapper.
  * @param {string} [fieldId] - Stable id for the control, help, and error nodes. Auto-generated when omitted.
  * @param {string} [label] - Plain-text label (or use the `label` block).
- * @param {string} [labelRightText] - Optional text rendered in the label-right slot. Overrides rules metadata.
+ * @param {string} [labelRightText] - Optional text rendered in the label-right slot. Overrides rules metadata and character count.
+ * @param {boolean} [showCharacterCount=false] - When true and `@rules` includes `maxLength`, shows live `current / max` in the label-right slot.
+ * @param {string|number} [value] - Current control value used to derive character count when `@showCharacterCount` is true.
+ * @param {number} [characterCount] - Optional explicit current length; overrides length derived from `@value`.
  * @param {string} [helpText] - Help copy rendered below the control (linked via `aria-describedby`).
  * @param {string} [error] - Error copy; when set, invalid region is shown and linked via `aria-errormessage`.
  * @param {string} [tooltipMessage] - Optional info icon tooltip next to the label.
@@ -52,13 +55,40 @@ export default class UlxField extends Component {
 		return getConstraintValue(this.rules, "maxLength");
 	}
 
+	get showCharacterCount() {
+		return Boolean(this.args.showCharacterCount);
+	}
+
+	get currentCharacterCount() {
+		const { characterCount, value } = this.args;
+
+		if (typeof characterCount === "number" && Number.isFinite(characterCount)) {
+			return Math.max(0, Math.floor(characterCount));
+		}
+
+		if (value == null) {
+			return 0;
+		}
+
+		return String(value).length;
+	}
+
 	get hasMeta() {
-		return this.args.labelRightText != null || this.minLength != null || this.maxLength != null;
+		return (
+			this.args.labelRightText != null ||
+			this.minLength != null ||
+			this.maxLength != null ||
+			(this.showCharacterCount && this.maxLength != null)
+		);
 	}
 
 	get metaText() {
 		if (this.args.labelRightText != null) {
 			return this.args.labelRightText;
+		}
+
+		if (this.showCharacterCount && this.maxLength != null) {
+			return `${this.currentCharacterCount} / ${this.maxLength}`;
 		}
 
 		const parts = [];

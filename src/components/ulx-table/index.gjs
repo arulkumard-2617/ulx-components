@@ -820,11 +820,11 @@ export default class UlxTable extends Component {
 	}
 
 	@action
-	handleGlobalFilterInput(event) {
-		const value = event?.target?.value ?? "";
+	handleGlobalFilterInput(value) {
+		const nextValue = value ?? "";
 		this._globalFilterTimer && clearTimeout(this._globalFilterTimer);
 		this._globalFilterTimer = setTimeout(() => {
-			this._applyGlobalFilter(value);
+			this._applyGlobalFilter(nextValue);
 		}, 300);
 	}
 
