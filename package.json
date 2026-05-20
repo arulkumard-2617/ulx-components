@@ -181,6 +181,7 @@
 			"./components/ulx-table/utils.js": "./dist/_app_/components/ulx-table/utils.js",
 			"./components/ulx-tabmenu/index.js": "./dist/_app_/components/ulx-tabmenu/index.js",
 			"./components/ulx-tag/index.js": "./dist/_app_/components/ulx-tag/index.js",
+			"./components/ulx-temp/index.js": "./dist/_app_/components/ulx-temp/index.js",
 			"./components/ulx-textarea/index.js": "./dist/_app_/components/ulx-textarea/index.js",
 			"./components/ulx-tieredmenu/index.js": "./dist/_app_/components/ulx-tieredmenu/index.js",
 			"./components/ulx-tieredmenu/menu-item.js": "./dist/_app_/components/ulx-tieredmenu/menu-item.js",
