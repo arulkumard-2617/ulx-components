@@ -70,6 +70,7 @@ const MIN_FILTER_OPTION_COUNT = 5;
  * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
  * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that closes the overlay immediately.
  * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
+ * @param {string} [filterDataQa] - `data-qa` on the panel filter input when `@filter` is true (default `ulx-dropdown-filter`).
  * @param {string} [id] - Id for the trigger (for label `for` / ARIA).
  * @param {string} [key] - When `@id` is omitted, used as the trigger id (e.g. `@key={{field.key}}` with `UlxField`).
  * @param {string} [ariaDescribedBy] - `aria-describedby` ids (e.g. from `UlxField` control hash).
@@ -116,6 +117,16 @@ export default class UlxDropdown extends Component {
 
 	get rootDataQa() {
 		return this.args.dataQa ?? "ulx-dropdown";
+	}
+
+	get filterInputDataQa() {
+		const { filterDataQa } = this.args;
+
+		if (typeof filterDataQa === "string" && filterDataQa.length) {
+			return filterDataQa;
+		}
+
+		return "ulx-dropdown-filter";
 	}
 
 	get baseClass() {
@@ -563,7 +574,7 @@ export default class UlxDropdown extends Component {
 		const panelRoot = this.panelElement;
 		if (!panelRoot) return [];
 		const acc = [];
-		const filterInput = panelRoot.querySelector("[data-qa='ulx-dropdown-filter']");
+		const filterInput = panelRoot.querySelector(".dropdown-filter-input");
 		if (filterInput && !filterInput.disabled && filterInput.offsetParent !== null) {
 			acc.push(filterInput);
 		}
@@ -577,7 +588,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	focusFilterInput() {
-		const filterInput = this.panelElement?.querySelector("[data-qa='ulx-dropdown-filter']");
+		const filterInput = this.panelElement?.querySelector(".dropdown-filter-input");
 		if (!filterInput || filterInput.disabled) return false;
 		filterInput.focus?.({ preventScroll: true });
 		return true;
@@ -1061,7 +1072,7 @@ export default class UlxDropdown extends Component {
 							<input
 								type="text"
 								class="dropdown-filter-input"
-								data-qa="ulx-dropdown-filter"
+								data-qa={{this.filterInputDataQa}}
 								value={{this.filterValue}}
 								placeholder={{@filterPlaceholder}}
 								{{on "input" this.onFilterInput}}

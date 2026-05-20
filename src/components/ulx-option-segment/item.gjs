@@ -26,6 +26,7 @@ import UlxTristateCheckbox from "../ulx-tristate-checkbox/index.gjs";
  *   - {string} [title]
  *   - {string} [description]
  *   - {string} [id] - Unique id for the embedded control when items can reorder; otherwise derived from `@segmentIdBase` + `@itemIndex`.
+ *   - {string} [dataQa] - Optional root `data-qa` for this option card (overrides parent `dataQa` prefix).
  *   - {string} [itemClass] - Per-item CSS class for the item root (merged after group `itemClass` from parent)
  *   - {string} [optionColorCode] - Sets `--ulx-option-color-code` when the group uses **color-swatch** (`segments.less`).
  *   - {string} [colorCode] - Alias of **optionColorCode**.
@@ -68,6 +69,12 @@ export default class UlxOptionSegmentItem extends Component {
 	}
 
 	get rootDataQa() {
+		const { dataQa } = this.item;
+
+		if (typeof dataQa === "string" && dataQa.length > 0) {
+			return dataQa;
+		}
+
 		return resolveRootDataQa(this.args.dataQa, "option-segment-item");
 	}
 
