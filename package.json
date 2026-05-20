@@ -20,8 +20,8 @@
 		"babel.config.json"
 	],
 	"scripts": {
-		"ulxEditor": "npm run ulxEditor --prefix ulx",
-		"build:css": "npm run ulxEditor --prefix ulx",
+		"ulxEditor": "node config/ulx-editor-build.js",
+		"build:css": "npm run ulxEditor",
 		"build": "npm run build:css && npm run build:js",
 		"build:js": "rollup --config config/rollup.config.mjs",
 		"lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
