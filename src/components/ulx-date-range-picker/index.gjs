@@ -4,6 +4,12 @@ import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
 import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
+import {
+	resolveFlatpickrDateFormat,
+	coercePickerWallDate,
+	buildPickerSyncDates,
+	zonedDateFromPickerDay
+} from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
@@ -18,8 +24,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
- * @param {boolean} [showStartDateOnly=false] - When true, the input displays only the selected range start date.
- * @param {boolean} [showEndDateOnly=false] - When true, the input displays only the selected range end date. Do not set both with true.
+ * @param {boolean} [showStartDateOnly=false] - When true, the input displays only the selected range start date. The popup closes after one selection (split start/end field UX).
+ * @param {boolean} [showEndDateOnly=false] - When true, the input displays only the selected range end date. Do not set both with true. The popup closes after one selection (split start/end field UX).
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {boolean} [enableTime]
@@ -35,6 +41,10 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ * @param {string} [timezone] - IANA zone; converts `@value` / bounds to wall calendar dates for flatpickr
+ * @param {{ start: Date|import('moment').Moment, end: Date|import('moment').Moment }|Array} [range] - Full event range for calendar highlighting when `@value` is a single bound (split start/end fields)
+ * @param {string|number} [preserveTime] - Internal time combined with the selected range day on change when `@timezone` is set
+ * @param {string} [preserveTimeFormat='HHmm'] - Parse format for `@preserveTime`
  */
 export default class UlxDateRangePicker extends Component {
 	get useWrap() {
@@ -74,14 +84,14 @@ export default class UlxDateRangePicker extends Component {
 
 		const o = {
 			mode: "range",
-			dateFormat,
+			dateFormat: resolveFlatpickrDateFormat(dateFormat),
 			locale,
 			minuteIncrement,
 			hourIncrement,
 			position,
 			onDayCreate,
-			minDate,
-			maxDate,
+			minDate: coercePickerWallDate(minDate, this.args.timezone),
+			maxDate: coercePickerWallDate(maxDate, this.args.timezone),
 			disable,
 			enable,
 			altInput,
@@ -110,7 +120,10 @@ export default class UlxDateRangePicker extends Component {
 	}
 
 	get syncValue() {
-		const { value } = this.args;
+		const { value, timezone, range } = this.args;
+		if (range != null || timezone) {
+			return buildPickerSyncDates(value, timezone, { range });
+		}
 		return Array.isArray(value) ? value : [];
 	}
 
@@ -122,7 +135,7 @@ export default class UlxDateRangePicker extends Component {
 
 		if (this.args.showStartDateOnly === true) {
 			const startDate = selectedDates?.[0];
-			
+
 			if (!startDate) {
 				return "";
 			}
@@ -159,8 +172,47 @@ export default class UlxDateRangePicker extends Component {
 	}
 
 	@action
-	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(selectedDates, dateStr);
+	handleDatesChange(selectedDates, dateStr, fpInst) {
+		const {
+			timezone,
+			preserveTime,
+			preserveTimeFormat = "HHmm",
+			showStartDateOnly,
+			showEndDateOnly,
+			onChange
+		} = this.args;
+
+		if (onChange) {
+			if (timezone && preserveTime != null && preserveTime !== "") {
+				const selectedWallDate = showEndDateOnly
+					? (selectedDates?.[1] ?? selectedDates?.[0])
+					: selectedDates?.[0];
+				if (selectedWallDate) {
+					const zoned = zonedDateFromPickerDay(
+						selectedWallDate,
+						preserveTime,
+						timezone,
+						preserveTimeFormat
+					);
+					onChange([zoned.toDate()], dateStr);
+				}
+			} else {
+				onChange(selectedDates, dateStr);
+			}
+		}
+
+		if (
+			(showStartDateOnly || showEndDateOnly) &&
+			selectedDates?.length &&
+			fpInst?.isOpen &&
+			!fpInst.config.inline &&
+			!fpInst.config.static &&
+			!fpInst.config.enableTime &&
+			!fpInst.isMobile
+		) {
+			fpInst.input?.focus?.();
+			fpInst.close();
+		}
 	}
 
 	get placeholderText() {
