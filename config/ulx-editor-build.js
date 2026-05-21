@@ -3,14 +3,13 @@
 
 const { resolve, dirname } = require('path');
 const { readFileSync, writeFileSync, mkdirSync, existsSync, watch } = require('fs');
-const less = require('less');
 
 // Configuration
-// Script lives at ulx/src/scripts/less/
+// Script lives at config/
+// addonRoot → ulx-components root
 // ulxRoot → ulx package root
-// addonRoot → ulx-components root (one level above ulx)
-const ulxRoot = resolve(__dirname, '../../..');
-const addonRoot = resolve(ulxRoot, '..');
+const addonRoot = resolve(__dirname, '..');
+const ulxRoot = resolve(addonRoot, 'ulx');
 const stylesRoot = resolve(addonRoot, 'styles');
 const entryFile = resolve(stylesRoot, 'ulx-editor.less');
 // Write CSS to ulx-components/dev-releases/css
@@ -20,17 +19,30 @@ const outMinFile = resolve(outDir, 'ulx-editor.min.css');
 // Command line arguments
 const isWatchMode = process.argv.includes('--watch') || process.argv.includes('-w');
 
+const loadPackage = (pkgName) => {
+	try {
+		return require(pkgName);
+	} catch (err) {
+		const pkgFromUlx = resolve(ulxRoot, 'node_modules', pkgName);
+		return require(pkgFromUlx);
+	}
+};
+
+const less = loadPackage('less');
+
 // Load ULX config if available
-// Script lives at ulx/src/scripts/less/ → need ../../../ to reach ulx/uls.config.cjs
 let ulxConfig = {};
 try {
-	const configPathFromScript = resolve(__dirname, '../../../uls.config.cjs');
+	const configPathFromScript = resolve(ulxRoot, 'uls.config.cjs');
 	const configPathFromCwd = resolve(process.cwd(), 'uls.config.cjs');
+	const configPathFromCwdUlx = resolve(process.cwd(), 'ulx', 'uls.config.cjs');
 	const configPath = existsSync(configPathFromScript)
 		? configPathFromScript
 		: existsSync(configPathFromCwd)
 			? configPathFromCwd
-			: null;
+			: existsSync(configPathFromCwdUlx)
+				? configPathFromCwdUlx
+				: null;
 	if (configPath) {
 		ulxConfig = require(configPath);
 	}
@@ -56,7 +68,7 @@ const ulsOverridesPath = resolve(ulsStylesPath, 'ulx-overrides/less/ulx-primerea
 async function compileCSS() {
 	try {
 		if (!existsSync(entryFile)) {
-			console.error(`❌ Entry file not found: ${entryFile}`);
+			console.error(`Entry file not found: ${entryFile}`);
 			process.exit(1);
 		}
 
@@ -66,7 +78,7 @@ async function compileCSS() {
 
 		const src = readFileSync(entryFile, 'utf8');
 
-		console.log(`🔄 Compiling ${entryFile}... (prefix: ${componentPrefix})`);
+		console.log(`Compiling ${entryFile}... (prefix: ${componentPrefix})`);
 
 		const minResult = await less.render(src, {
 			filename: entryFile,
@@ -91,11 +103,11 @@ async function compileCSS() {
 		}
 
 		writeFileSync(outMinFile, minResult.css, 'utf8');
-		console.log(`✅ LESS minified → ${outMinFile}`);
+		console.log(`LESS minified -> ${outMinFile}`);
 
 		return true;
 	} catch (error) {
-		console.error(`❌ LESS compilation failed:`, error.message);
+		console.error(`LESS compilation failed:`, error.message);
 		if (!isWatchMode) {
 			process.exit(1);
 		}
@@ -104,21 +116,21 @@ async function compileCSS() {
 }
 
 async function watchFiles() {
-	console.log(`👀 Watching for changes... (Ctrl+C to stop)`);
+	console.log(`Watching for changes... (Ctrl+C to stop)`);
 
 	// Watch the main entry file
 	if (existsSync(entryFile)) {
 		watch(entryFile, { persistent: true }, async (eventType) => {
 			if (eventType === 'change') {
-				console.log(`📝 File changed: ${entryFile}`);
+				console.log(`File changed: ${entryFile}`);
 				await compileCSS();
-				console.log(`✨ CSS updated automatically!`);
+				console.log(`CSS updated automatically`);
 			}
 		});
 	}
 
 	// Watch LESS files in styles directory
-	const { glob } = require('glob');
+	const { glob } = loadPackage('glob');
 	try {
 		const lessFiles = await glob(`${stylesRoot}/**/*.less`, {
 			ignore: ['node_modules/**', 'dist/**'],
@@ -129,16 +141,16 @@ async function watchFiles() {
 			if (existsSync(file)) {
 				watch(file, { persistent: true }, async (eventType) => {
 					if (eventType === 'change') {
-						console.log(`📝 File changed: ${file}`);
+						console.log(`File changed: ${file}`);
 						await compileCSS();
-						console.log(`✨ CSS updated automatically!`);
+						console.log(`CSS updated automatically`);
 					}
 				});
 			}
 		});
 
 		if (lessFiles.length > 0) {
-			console.log(`👀 Watching ${lessFiles.length} LESS files in ${stylesRoot}`);
+			console.log(`Watching ${lessFiles.length} LESS files in ${stylesRoot}`);
 		}
 	} catch (err) {
 		console.warn('Could not set up file watchers for LESS files');
@@ -156,16 +168,16 @@ async function watchFiles() {
 				if (existsSync(file)) {
 					watch(file, { persistent: true }, async (eventType) => {
 						if (eventType === 'change') {
-							console.log(`📝 ULS file changed: ${file}`);
+							console.log(`ULS file changed: ${file}`);
 							await compileCSS();
-							console.log(`✨ CSS updated automatically!`);
+							console.log(`CSS updated automatically`);
 						}
 					});
 				}
 			});
 
 			if (ulsLessFiles.length > 0) {
-				console.log(`👀 Watching ${ulsLessFiles.length} LESS files in ULS package`);
+				console.log(`Watching ${ulsLessFiles.length} LESS files in ULS package`);
 			}
 		}
 	} catch (err) {
@@ -175,19 +187,19 @@ async function watchFiles() {
 
 async function main() {
 	if (isWatchMode) {
-		console.log(`🚀 Starting ULX Editor watch mode`);
+		console.log(`Starting ULX Editor watch mode`);
 		await compileCSS();
 		await watchFiles();
 
 		// Keep the process running
 		process.on('SIGINT', () => {
-			console.log('\n👋 Stopping watch mode');
+			console.log('\nStopping watch mode');
 			process.exit(0);
 		});
 	} else {
-		console.log(`🚀 Building ULX Editor CSS`);
+		console.log(`Building ULX Editor CSS`);
 		await compileCSS();
-		console.log(`🎉 Build complete!`);
+		console.log(`Build complete`);
 	}
 }
 

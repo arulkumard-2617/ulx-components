@@ -3,8 +3,7 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"ulxEditor": "node src/scripts/less/ulx-editor-build.js",
-		"ulxEditor:watch": "node src/scripts/less/ulx-editor-build.js --watch",
+		"ulxEditor": "node ../config/ulx-editor-build.js",
 		"sync-snippets": "node src/scripts/watch-snipper.js"
 	},
 	"keywords": [],
