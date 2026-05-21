@@ -20,6 +20,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [showClearButton=false]
  * @param {boolean} [showStartDateOnly=false] - When true, the input displays only the selected range start date.
  * @param {boolean} [showEndDateOnly=false] - When true, the input displays only the selected range end date. Do not set both with true.
+ * @param {boolean} [allowSelectRange=true] - When false, keeps range calendar UI but only one date may be chosen per open (use with `@showStartDateOnly` / `@showEndDateOnly` for split pickers).
+ * @param {boolean} [oneClickClose=false] - When true with `@allowSelectRange`, closes after the first date click.
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {boolean} [enableTime]
@@ -40,6 +42,15 @@ export default class UlxDateRangePicker extends Component {
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
+	}
+
+	get allowSelectRange() {
+		return this.args.allowSelectRange !== false;
+	}
+
+	get boundRangeValue() {
+		const { value } = this.args;
+		return Array.isArray(value) ? value : [];
 	}
 
 	get fpOptions() {
@@ -69,11 +80,17 @@ export default class UlxDateRangePicker extends Component {
 			formatDate,
 			defaultDate,
 			clickOpens,
+			oneClickClose = false,
 			flatpickrOptions = {}
 		} = this.args;
 
+		const {
+			onChange: flatpickrOnChange,
+			mode: flatpickrModeOverride,
+			...flatpickrOptionsRest
+		} = flatpickrOptions;
+
 		const o = {
-			mode: "range",
 			dateFormat,
 			locale,
 			minuteIncrement,
@@ -99,7 +116,31 @@ export default class UlxDateRangePicker extends Component {
 			formatDate,
 			defaultDate,
 			clickOpens,
-			...flatpickrOptions
+			...flatpickrOptionsRest,
+			mode: flatpickrModeOverride ?? "range",
+			onChange: (selectedDates, dateStr, instance) => {
+				flatpickrOnChange?.(selectedDates, dateStr, instance);
+
+				const selectedCount = selectedDates?.length ?? 0;
+				if (!selectedCount || !instance) {
+					return;
+				}
+
+				if (!this.allowSelectRange) {
+					const normalizedRange = this.normalizeOutgoingRange(selectedDates);
+
+					if (normalizedRange?.length) {
+						instance.setDate(normalizedRange, false);
+					}
+
+					instance.close();
+					return;
+				}
+
+				if (oneClickClose && instance.close) {
+					instance.close();
+				}
+			}
 		};
 
 		if (this.useWrap) {
@@ -110,8 +151,7 @@ export default class UlxDateRangePicker extends Component {
 	}
 
 	get syncValue() {
-		const { value } = this.args;
-		return Array.isArray(value) ? value : [];
+		return this.boundRangeValue;
 	}
 
 	@action
@@ -122,7 +162,7 @@ export default class UlxDateRangePicker extends Component {
 
 		if (this.args.showStartDateOnly === true) {
 			const startDate = selectedDates?.[0];
-			
+
 			if (!startDate) {
 				return "";
 			}
@@ -158,9 +198,35 @@ export default class UlxDateRangePicker extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	normalizeOutgoingRange(selectedDates) {
+		if (this.allowSelectRange) {
+			return selectedDates;
+		}
+
+		const rangeValue = this.boundRangeValue;
+		const selectedCount = selectedDates?.length ?? 0;
+
+		if (!selectedCount) {
+			return selectedDates;
+		}
+
+		if (this.args.showStartDateOnly === true) {
+			const nextStartDate = selectedDates[0];
+			return [nextStartDate, rangeValue[1] ?? nextStartDate];
+		}
+
+		if (this.args.showEndDateOnly === true) {
+			const nextEndDate =
+				selectedCount >= 2 ? selectedDates[1] : selectedDates[0];
+			return [rangeValue[0] ?? nextEndDate, nextEndDate];
+		}
+
+		return selectedDates;
+	}
+
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(selectedDates, dateStr);
+		this.args.onChange?.(this.normalizeOutgoingRange(selectedDates), dateStr);
 	}
 
 	get placeholderText() {
