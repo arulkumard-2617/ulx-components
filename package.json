@@ -44,6 +44,7 @@
 		"babel-plugin-ember-template-compilation": "^2.2.1",
 		"decorator-transforms": "^2.0.0",
 		"flatpickr": "^4.6.13",
+		"less": "^4.6.4",
 		"quill": "^2.0.3",
 		"rollup": "^4.9.4",
 		"rollup-plugin-copy": "^3.5.0",
