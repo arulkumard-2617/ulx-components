@@ -166,6 +166,10 @@ export default class UlxDateRangePicker extends Component {
 	}
 
 	get syncValue() {
+		const { value, timezone, range } = this.args;
+		if (range != null || timezone) {
+			return buildPickerSyncDates(value, timezone, { range });
+		}
 		return this.boundRangeValue;
 	}
 
