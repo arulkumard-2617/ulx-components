@@ -11,6 +11,7 @@ import {
   ResponsiveDemo,
   WithoutoverlayDemo,
   StackedDemo,
+  ConfirmationServiceDemo,
   ImportSource,
   BasicSource,
   PositionSource,
@@ -19,7 +20,8 @@ import {
   LongcontentSource,
   ResponsiveSource,
   WithoutoverlaySource,
-  StackedSource
+  StackedSource,
+  ConfirmationServiceSource
 } from './imports';
 
 export const ModalFeatureItems = [
@@ -180,6 +182,26 @@ export const ModalFeatureItems = [
         language: "handlebars"
       }
     }
+  },
+  {
+    id: 'confirmation-service',
+    sectionNav: 'Confirmation service',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Mount <code>&lt;UlxConfirmationModal /&gt;</code> once in <code>application.hbs</code>, then call <code>this.modalManager.openModal()</code> from anywhere. No per-page <code>&lt;UlxModal&gt;</code> needed for confirm/delete flows.',
+      },
+    },
+    demo: {
+      component: ConfirmationServiceDemo,
+      props: {
+        source: ConfirmationServiceSource,
+        snippetName: 'confirmation-service',
+        language: 'handlebars',
+      },
+    },
   },
   {
     id: 'stacked',

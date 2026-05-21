@@ -58,6 +58,7 @@ export { default as UlxBannerMessage } from './components/ulx-banner-message/ind
 export { default as UlxDataView } from './components/ulx-data-view/index.gjs';
 export { default as UlxTable } from './components/ulx-table/index.gjs';
 export { default as UlxModal } from './components/ulx-modal/index.gjs';
+export { default as UlxConfirmationModal } from './components/ulx-confirmation-modal/index.gjs';
 export { default as UlxSlidePane } from './components/ulx-slide-pane/index.gjs';
 export { default as UlxPopup } from './components/ulx-popup/index.gjs';
 export { default as UlxTooltip } from './components/ulx-tooltip/index.gjs';
@@ -79,6 +80,7 @@ export { SVG_NAMESPACE } from './utils/svg-namespace.js';
 
 // Export services
 export { default as ModalStackService } from './services/modal-stack.js';
+export { default as ModalService } from './services/modal-manager.js';
 
 // Modifiers
 export { default as flatpickrModifier } from './modifiers/flatpickr.js';

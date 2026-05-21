@@ -104,6 +104,7 @@ const BODY_OVERFLOW_STYLE = {
  * @param {string} [cancelButtonCustomClass] - Extra class on the default footer cancel button
  * @param {boolean} [doneButtonDisabled=false] - Disable the default footer done/confirm button
  * @param {string} [doneButtonLabel] - Confirm label (defaults to i18n confirm)
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
  * @param {boolean} [hideHeader=false] - When true, hide the header
@@ -497,6 +498,7 @@ export default class UlxModal extends Component {
 										@cancelLabel={{@cancelButtonLabel}}
 										@cancelButtonCustomClass={{@cancelButtonCustomClass}}
 										@doneLabel={{@doneButtonLabel}}
+										@doneButtonVariant={{@doneButtonVariant}}
 										@doneButtonDisabled={{@doneButtonDisabled}}
 										@submittingLabel={{@submittingLabel}}
 										@submitting={{this.isSubmitting}}
