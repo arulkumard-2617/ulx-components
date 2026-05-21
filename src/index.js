@@ -21,7 +21,6 @@ export { default as UlxCheckbox } from './components/ulx-checkbox/index.gjs';
 export { default as UlxRadio } from './components/ulx-radio/index.gjs';
 export { default as UlxRadioPanelGroup } from './components/ulx-radio-panel-group/index.gjs';
 export { default as UlxTag } from './components/ulx-tag/index.gjs';
-export { default as UlxTemp } from './components/ulx-temp/index.gjs';
 export { default as UlxChip } from './components/ulx-chip/index.gjs';
 export { default as UlxBadge } from './components/ulx-badge/index.gjs';
 export { default as UlxDivider } from './components/ulx-divider/index.gjs';
