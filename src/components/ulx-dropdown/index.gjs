@@ -777,7 +777,13 @@ export default class UlxDropdown extends Component {
 	}
 
 	@action
+	stopFilterKeyEventPropagation(event) {
+		event.stopPropagation();
+	}
+
+	@action
 	onFilterKeydown(event) {
+		event.stopPropagation();
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
@@ -1066,13 +1072,15 @@ export default class UlxDropdown extends Component {
 								placeholder={{@filterPlaceholder}}
 								{{on "input" this.onFilterInput}}
 								{{on "keydown" this.onFilterKeydown}}
+								{{on "keypress" this.stopFilterKeyEventPropagation}}
+								{{on "keyup" this.stopFilterKeyEventPropagation}}
 							/>
 						</div>
 					{{/if}}
 					<div
 						class="dropdown-wrapper"
 						data-qa="ulx-dropdown-options-wrapper"
-						style="max-height: {{this.scrollHeightValue}};"
+						style="max-height: {{this.scrollHeightValue}};height: {{this.scrollHeightValue}};"
 						{{this.scrollFocusedIntoView
 							this.overlayVisible
 							this.focusedOptionIndex
