@@ -35,6 +35,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
+ * @param {'body'|'self'|HTMLElement|Function|string} [appendTo='body'] - Calendar mount target (prefer `body`; `self` misaligns because flatpickr uses document coordinates).
+ * @param {'window'|HTMLElement|Function|string} [scrollContext] - Scroll container to pin the popup inside (default: nearest `.editor-sc-parent` or scrollable ancestor).
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
  * @param {string|number} [internalTimeValue] - Model time string (e.g. `HHmm`) shown in the picker
@@ -71,8 +73,11 @@ export default class UlxTimePicker extends Component {
 			enableSeconds,
 			clickOpens,
 			hourFormat = "24",
+			appendTo,
 			flatpickrOptions = {}
 		} = this.args;
+
+		const { appendTo: flatpickrAppendTo, ...flatpickrOptionsRest } = flatpickrOptions;
 
 		const o = {
 			mode: "single",
@@ -97,7 +102,8 @@ export default class UlxTimePicker extends Component {
 			defaultDate,
 			clickOpens,
 			enableSeconds,
-			...flatpickrOptions
+			...flatpickrOptionsRest,
+			appendTo: flatpickrAppendTo ?? appendTo ?? "body"
 		};
 
 		if (this.useWrap) {
@@ -171,6 +177,7 @@ export default class UlxTimePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
 					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 			>
@@ -240,6 +247,7 @@ export default class UlxTimePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
 					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 				...attributes
