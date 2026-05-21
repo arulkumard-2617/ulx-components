@@ -75,6 +75,17 @@ export { t } from './utils/i18n.js';
 export { validate } from './utils/validation-util.js';
 export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
 export { SVG_NAMESPACE } from './utils/svg-namespace.js';
+export {
+	momentPatternToFlatpickrFormat,
+	resolveFlatpickrDateFormat,
+	wallCalendarDateInZone,
+	coercePickerWallDate,
+	buildPickerSyncDates,
+	normalizePickerRange,
+	zonedDateFromPickerDay,
+	hourStringToPickerTimeDate,
+	pickerTimeDateToInternalTime
+} from './utils/picker-datetime.js';
 
 // Export services
 export { default as ModalStackService } from './services/modal-stack.js';

@@ -4,6 +4,10 @@ import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
 import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
+import {
+	hourStringToPickerTimeDate,
+	pickerTimeDateToInternalTime
+} from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
@@ -33,6 +37,9 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ * @param {string|number} [internalTimeValue] - Model time string (e.g. `HHmm`) shown in the picker
+ * @param {string} [internalTimeFormat='HHmm'] - Parse/emit format for `@internalTimeValue`
+ * @param {boolean} [emitInternalTime=false] - When true, `onChange` receives internal time string in `selectedDates[0]`
  */
 export default class UlxTimePicker extends Component {
 	get useWrap() {
@@ -101,7 +108,11 @@ export default class UlxTimePicker extends Component {
 	}
 
 	get syncValue() {
-		return this.args.value ?? null;
+		const { value, internalTimeValue, internalTimeFormat = "HHmm" } = this.args;
+		if (internalTimeValue != null && internalTimeValue !== "") {
+			return hourStringToPickerTimeDate(internalTimeValue, internalTimeFormat);
+		}
+		return value ?? null;
 	}
 
 	get wrapRootClass() {
@@ -124,7 +135,21 @@ export default class UlxTimePicker extends Component {
 
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(selectedDates, dateStr);
+		const { emitInternalTime, internalTimeFormat = "HHmm", onChange } = this.args;
+		if (!onChange) {
+			return;
+		}
+
+		const selectedTime = selectedDates?.[0];
+		if (emitInternalTime && selectedTime) {
+			onChange(
+				[pickerTimeDateToInternalTime(selectedTime, internalTimeFormat)],
+				dateStr
+			);
+			return;
+		}
+
+		onChange(selectedDates, dateStr);
 	}
 
 	get placeholderText() {

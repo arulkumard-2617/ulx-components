@@ -4,6 +4,12 @@ import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
 import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
+import {
+	resolveFlatpickrDateFormat,
+	coercePickerWallDate,
+	buildPickerSyncDates,
+	zonedDateFromPickerDay
+} from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
@@ -30,6 +36,9 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last (hooks, plugins, etc.)
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ * @param {string} [timezone] - IANA zone; converts `@value` / bounds to wall calendar dates for flatpickr
+ * @param {string|number} [preserveTime] - Internal time (e.g. `HHmm`) combined with selected day on change when `@timezone` is set
+ * @param {string} [preserveTimeFormat='HHmm'] - Parse format for `@preserveTime`
  */
 export default class UlxDatePicker extends Component {
 	get mode() {
@@ -99,14 +108,14 @@ export default class UlxDatePicker extends Component {
 
 		const o = {
 			mode: this.mode,
-			dateFormat,
+			dateFormat: resolveFlatpickrDateFormat(dateFormat),
 			locale,
 			minuteIncrement,
 			hourIncrement,
 			position: normalizedPosition,
 			onDayCreate,
-			minDate,
-			maxDate,
+			minDate: coercePickerWallDate(minDate, this.args.timezone),
+			maxDate: coercePickerWallDate(maxDate, this.args.timezone),
 			disable,
 			enable,
 			altInput,
@@ -135,9 +144,18 @@ export default class UlxDatePicker extends Component {
 	}
 
 	get syncValue() {
-		const { value } = this.args;
+		const { value, timezone } = this.args;
 		if (this.mode === "multiple") {
+			if (timezone) {
+				const source = Array.isArray(value) ? value : [];
+				return source
+					.map((entry) => coercePickerWallDate(entry, timezone))
+					.filter((entry) => entry != null);
+			}
 			return Array.isArray(value) ? value : [];
+		}
+		if (timezone) {
+			return coercePickerWallDate(value, timezone);
 		}
 		return value ?? null;
 	}
@@ -162,7 +180,29 @@ export default class UlxDatePicker extends Component {
 
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(selectedDates, dateStr);
+		const { timezone, preserveTime, preserveTimeFormat = "HHmm", onChange } = this.args;
+		if (!onChange) {
+			return;
+		}
+
+		const selectedWallDate = selectedDates?.[0];
+		if (
+			timezone &&
+			preserveTime != null &&
+			preserveTime !== "" &&
+			selectedWallDate
+		) {
+			const zoned = zonedDateFromPickerDay(
+				selectedWallDate,
+				preserveTime,
+				timezone,
+				preserveTimeFormat
+			);
+			onChange([zoned.toDate()], dateStr);
+			return;
+		}
+
+		onChange(selectedDates, dateStr);
 	}
 
 	get triggerIcon() {
