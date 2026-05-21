@@ -6,8 +6,8 @@ module.exports = {
 	// Where your compiled assets live
 	srcPath: 'src',
 
-	// Centralized ULS styles directory
-	stylesPath: 'src/styles/uls',
+	// Centralized ULX styles directory (repo root, adjacent to addon src/)
+	stylesPath: '../styles',
 
 	// Framework demo scaffolding (primereact | ember)
 	framework: 'ember',

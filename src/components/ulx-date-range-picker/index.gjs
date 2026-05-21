@@ -4,6 +4,12 @@ import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
 import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
+import {
+	resolveFlatpickrDateFormat,
+	coercePickerWallDate,
+	buildPickerSyncDates,
+	zonedDateFromPickerDay
+} from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
@@ -37,6 +43,10 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ * @param {string} [timezone] - IANA zone; converts `@value` / bounds to wall calendar dates for flatpickr
+ * @param {{ start: Date|import('moment').Moment, end: Date|import('moment').Moment }|Array} [range] - Full event range for calendar highlighting when `@value` is a single bound (split start/end fields)
+ * @param {string|number} [preserveTime] - Internal time combined with the selected range day on change when `@timezone` is set
+ * @param {string} [preserveTimeFormat='HHmm'] - Parse format for `@preserveTime`
  */
 export default class UlxDateRangePicker extends Component {
 	get useWrap() {
@@ -91,14 +101,14 @@ export default class UlxDateRangePicker extends Component {
 		} = flatpickrOptions;
 
 		const o = {
-			dateFormat,
+			dateFormat: resolveFlatpickrDateFormat(dateFormat),
 			locale,
 			minuteIncrement,
 			hourIncrement,
 			position,
 			onDayCreate,
-			minDate,
-			maxDate,
+			minDate: coercePickerWallDate(minDate, this.args.timezone),
+			maxDate: coercePickerWallDate(maxDate, this.args.timezone),
 			disable,
 			enable,
 			altInput,

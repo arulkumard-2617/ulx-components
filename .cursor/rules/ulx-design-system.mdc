@@ -14,7 +14,7 @@ Guidance for **application** and **demo** code that **uses** ULX/ULS—not for i
 
 ## Overrides and extension
 
-- Put intentional brand or app-specific overrides in the **approved** override/theme locations (for example ULX editor overrides and foundation overrides under `ulx/src/styles/ulx/`, or your app’s documented override entry points)—not scattered in feature templates.
+- Put intentional brand or app-specific overrides in the **approved** override/theme locations (for example ULX editor overrides and foundation overrides under `styles/editor`, `styles/gulx`, and `styles/foundation`, or your app’s documented override entry points)—not scattered in feature templates.
 - Extend **tokens** or **utilities** in the proper LESS layers when something is missing; do not invent new utility class names in templates—add them only through the design system’s approved LESS entry points.
 
 ## Stable integration

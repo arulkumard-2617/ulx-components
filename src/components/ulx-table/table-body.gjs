@@ -522,7 +522,6 @@ export default class TableBody extends Component {
 								<td
 									class="column-body-cell selection {{if (this.isRowSelected row) 'selected'}}"
 									role="gridcell"
-									style="width: 3rem"
 									tabindex={{if (eq colIdx 0) "0" "-1"}}
 									{{on "click" this.stopPropagation}}
 								>
@@ -541,12 +540,7 @@ export default class TableBody extends Component {
 									{{/if}}
 								</td>
 							{{else if col.expander}}
-								<td
-									class="column-body-cell"
-									role="gridcell"
-									style="width: 3rem"
-									tabindex={{if (eq colIdx 0) "0" "-1"}}
-								>
+								<td class="column-body-cell" role="gridcell" tabindex={{if (eq colIdx 0) "0" "-1"}}>
 									<UlxIconButton
 										@text={{true}}
 										@variant="secondary"
@@ -580,11 +574,7 @@ export default class TableBody extends Component {
 									/>
 								</td>
 							{{else if col.rowEditor}}
-								<td
-									class="column-body-cell"
-									role="gridcell"
-									tabindex={{if (eq colIdx 0) "0" "-1"}}
-								>
+								<td class="column-body-cell" role="gridcell" tabindex={{if (eq colIdx 0) "0" "-1"}}>
 									{{#if (this.isRowEditing row)}}
 										<div class="datatable-row-editor editing" role="group">
 											<UlxIconButton

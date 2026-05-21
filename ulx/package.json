@@ -3,8 +3,7 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"ulxEditor": "node src/scripts/less/ulx-editor-build.js",
-		"ulxEditor:watch": "node src/scripts/less/ulx-editor-build.js --watch",
+		"ulxEditor": "node ../config/ulx-editor-build.js",
 		"sync-snippets": "node src/scripts/watch-snipper.js"
 	},
 	"keywords": [],
@@ -12,8 +11,7 @@
 	"license": "ISC",
 	"description": "",
 	"dependencies": {
-		"clsx": "^2.1.1",
-		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
+		"clsx": "^2.1.1"
 	},
 	"devDependencies": {
 		"chokidar": "^4.0.1",

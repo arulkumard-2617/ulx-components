@@ -108,7 +108,8 @@ const BODY_OVERFLOW_STYLE = {
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
  * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {number} [zIndexBase=1000] - Base z-index for modal stacking
- * @param {string} [maskQa] - Optional root `data-qa` on the mask (defaults to `ulx-modal-mask`).
+ * @param {string} [maskQa] - Optional `data-qa` on the mask (defaults to `ulx-modal-mask`).
+ * @param {string} [dataQa] - Optional `data-qa` on the dialog (defaults to `ulx-modal-dialog`).
  */
 export default class UlxModal extends Component {
 	@service modalStack;

@@ -627,7 +627,6 @@ export default class UlxTable extends Component {
 	@action
 	handleSort(field) {
 		const { removableSort } = this.args;
-		debugger;
 		if (this.sortMode === "multiple") {
 			const meta = getNextMultiSortMeta(this.multiSortMeta ?? [], field, removableSort);
 			this._multiSortMeta = meta;
