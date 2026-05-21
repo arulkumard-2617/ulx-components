@@ -26,7 +26,7 @@ pnpm add ulx-components
 
 ### CSS (`dev-releases`)
 
-Built styles (`dev-releases/css/ulx-editor.min.css`) are **included in the published npm package** (`package.json` `files` includes `dev-releases`). They are produced by `npm run ulxEditor` in the `ulx/` package (see `ulx/package.json`), and the root package runs that before Rollup via **`npm run build`** (`build:css` then `build:js`). The minified file is gitignored. Published packages omit `ulx/` and ship pre-built `dev-releases/` instead.
+Built styles (`dev-releases/css/ulx-editor.min.css`) are **included in the published npm package** (`package.json` `files` includes `dev-releases`). They are produced by **`npm run build:css`** at the repo root (or `npm run ulxEditor` from `ulx/`; see `ulx/package.json`), then Rollup via **`npm run build`** (`build:css` then `build:js`). The minified file is gitignored. Published packages omit `ulx/` and ship pre-built `dev-releases/` instead.
 
 Host apps should load this as a separate stylesheet (not via Ember `vendor.css`), for example by copying `dev-releases/css/ulx-editor.min.css` into their static `/styles/` output.
 

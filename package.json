@@ -20,15 +20,14 @@
 		"babel.config.json"
 	],
 	"scripts": {
-		"ulxEditor": "node config/ulx-editor-build.js",
-		"build:css": "npm run ulxEditor",
-		"build": "npm run build:css && npm run build:js",
+		"build:css": "node config/ulx-editor-build.js",
 		"build:js": "rollup --config config/rollup.config.mjs",
+		"prepare": "npm run build:css && npm run build:js",
+		"build": "npm run build:css && npm run build:js",
 		"lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
 		"lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
 		"lint:js": "eslint . --cache",
 		"lint:js:fix": "eslint . --fix",
-		"prepare": "npm run build:js",
 		"start": "rollup --config config/rollup.config.mjs --watch",
 		"test": "echo 'A v2 addon does not have tests, run tests in test-app'"
 	},
@@ -143,7 +142,7 @@
 			"./components/ulx-popup/index.js": "./dist/_app_/components/ulx-popup/index.js",
 			"./components/ulx-progress-bar/index.js": "./dist/_app_/components/ulx-progress-bar/index.js",
 			"./components/ulx-progressspinner/index.js": "./dist/_app_/components/ulx-progressspinner/index.js",
-      "./components/ulx-radio-panel-group/index.js": "./dist/_app_/components/ulx-radio-panel-group/index.js",
+			"./components/ulx-radio-panel-group/index.js": "./dist/_app_/components/ulx-radio-panel-group/index.js",
 			"./components/ulx-radio/index.js": "./dist/_app_/components/ulx-radio/index.js",
 			"./components/ulx-radio/radio-item.js": "./dist/_app_/components/ulx-radio/radio-item.js",
 			"./components/ulx-rating/index.js": "./dist/_app_/components/ulx-rating/index.js",
