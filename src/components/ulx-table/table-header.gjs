@@ -250,6 +250,7 @@ export default class TableHeader extends Component {
 							scope="col"
 							tabindex={{if col.sortable "0"}}
 							aria-sort={{if col.sortable (this.ariaSort (or col.sortField col.field))}}
+							data-qa={{or col.dataQa col.field}}
 							{{on "click" (fn this.handleSort col)}}
 							{{on "keydown" (fn this.handleSortKeydown col)}}
 						>
