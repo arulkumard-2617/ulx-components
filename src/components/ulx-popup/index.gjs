@@ -130,13 +130,14 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  * - **@dismissable** (default true): when true, clicking outside or resizing the window requests close.
  * - **@closable** (default false): when true, shows the close button on the popup chrome.
  * - **@closeOnEscape** (default true): when false, the root Escape handler does not request close.
+ * - **@autoFocus** (default true): when false, skip moving focus into the popup on open (useful combined with hover + click triggers so hover alone does not move focus).
  * - Parent controls `@visible`; this component never mutates it. It calls `@onHide` when it finishes exit.
  *
  * ## WCAG
  * - Root element uses `role="dialog"` with `aria-modal="false"` and `aria-hidden` reflecting visibility.
  * - With default header (`@title` and no `<:head>`), the title `<h6>` gets a stable unique `id` and the dialog sets `aria-labelledby` to it (unless `@ariaLabel` is set).
  * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name when not using the default title pattern.
- * - Focus is moved into the popup on open (first focusable element, or the popup container as fallback).
+ * - Focus is moved into the popup on open when **@autoFocus** is true (default): first focusable element, or the popup container as fallback. Set `@autoFocus` false for hover-triggered openings if you must avoid moving focus away from the current element.
  * - Escape closes the popup by default (unless @closeOnEscape is false) and returns focus to the trigger.
  *
  * @class UlxPopup
@@ -154,6 +155,7 @@ const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]
  * @param {boolean} [dismissable=true] - When true, clicking outside or resizing closes the popup.
  * @param {boolean} [closable=false] - When true, shows a close button in the popup.
  * @param {boolean} [closeOnEscape=true] - When true (default), Escape closes the popup.
+ * @param {boolean} [autoFocus=true] - When true (default), moves focus into the popup when it finishes opening (first focusable, or the dialog root). Set false when opening on pointer hover so hover does not steal keyboard focus from the document; keyboard and screen reader users can still move focus into the popup with Tab after activating the trigger where appropriate.
  * @param {string} [customClass] - Additional CSS classes applied to the root element.
  * @param {string} [ariaLabel] - Accessible label for the popup; maps to `aria-label` on root.
  * @param {function} [onShow] - Callback invoked when popup is shown (parent should set @visible).
@@ -252,6 +254,10 @@ export default class UlxPopup extends Component {
 	get isClosable() {
 		/* Popup close button is opt-in; Escape still follows @closeOnEscape + overlay-dismiss. */
 		return this.args.closable === true;
+	}
+
+	get shouldAutoFocusOnOpen() {
+		return this.args.autoFocus !== false;
 	}
 
 	get shouldRender() {
@@ -707,6 +713,7 @@ export default class UlxPopup extends Component {
 	/** After open, focus first focusable inside the dialog (or the root as fallback). */
 	focusFirstOnVisible = modifier((element, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
+		if (!this.shouldAutoFocusOnOpen) return;
 
 		const firstFocusable = element.querySelector(POPUP_FOCUSABLE_SELECTOR);
 

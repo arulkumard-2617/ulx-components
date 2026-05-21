@@ -35,6 +35,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {string} [position='auto'] - Popup position (`auto`, `above`, `below`, etc.)
  * @param {function|function[]} [onDayCreate] - Per-day hook merged with built-in a11y styling
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
+ * @param {'body'|'self'|HTMLElement|Function|string} [appendTo='body'] - Calendar mount target (prefer `body`; `self` misaligns because flatpickr uses document coordinates).
+ * @param {'window'|HTMLElement|Function|string} [scrollContext] - Scroll container to pin the popup inside (default: nearest `.editor-sc-parent` or scrollable ancestor).
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
  */
@@ -81,12 +83,14 @@ export default class UlxDateRangePicker extends Component {
 			defaultDate,
 			clickOpens,
 			oneClickClose = false,
+			appendTo,
 			flatpickrOptions = {}
 		} = this.args;
 
 		const {
 			onChange: flatpickrOnChange,
 			mode: flatpickrModeOverride,
+			appendTo: flatpickrAppendTo,
 			...flatpickrOptionsRest
 		} = flatpickrOptions;
 
@@ -117,6 +121,7 @@ export default class UlxDateRangePicker extends Component {
 			defaultDate,
 			clickOpens,
 			...flatpickrOptionsRest,
+			appendTo: flatpickrAppendTo ?? appendTo ?? "body",
 			mode: flatpickrModeOverride ?? "range",
 			onChange: (selectedDates, dateStr, instance) => {
 				flatpickrOnChange?.(selectedDates, dateStr, instance);
@@ -249,6 +254,7 @@ export default class UlxDateRangePicker extends Component {
 					formatDisplayValue=this.formatDisplayValue
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
 					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 			>
@@ -316,6 +322,7 @@ export default class UlxDateRangePicker extends Component {
 					formatDisplayValue=this.formatDisplayValue
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
 					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 				...attributes
