@@ -20,8 +20,7 @@
 		"babel.config.json"
 	],
 	"scripts": {
-		"ulxEditor": "node config/ulx-editor-build.js",
-		"build:css": "npm run ulxEditor",
+		"build:css": "node config/ulx-editor-build.js",
 		"build:js": "rollup --config config/rollup.config.mjs",
 		"prepare": "npm run build:css && npm run build:js",
 		"build": "npm run build:css && npm run build:js",
