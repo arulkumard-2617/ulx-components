@@ -653,11 +653,11 @@ export default class UlxMultiSelect extends Component {
 		const wrapperMax = useAbove ? maxWrapperAbove : maxWrapperBelow;
 
 		if (wrapperEl) {
+			wrapperEl.style.removeProperty("height");
 			wrapperEl.style.maxHeight = `${wrapperMax}px`;
-			wrapperEl.style.height = `${wrapperMax}px`;
 		}
 
-		const panelHeight = chromeH + wrapperMax;
+		const panelHeight = panelEl.offsetHeight || chromeH + wrapperMax;
 		const desiredTop = useAbove
 			? triggerRect.top - panelHeight - spacing
 			: triggerRect.bottom + spacing;
@@ -760,9 +760,21 @@ export default class UlxMultiSelect extends Component {
 		};
 		window.addEventListener("resize", onResize);
 		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
+
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined"
+				? new ResizeObserver(() => {
+						if (!this.overlayVisible) return;
+						requestAnimationFrame(alignPanel);
+					})
+				: null;
+
+		resizeObserver?.observe(element);
+
 		return () => {
 			window.removeEventListener("resize", onResize);
 			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+			resizeObserver?.disconnect();
 		};
 	});
 
@@ -1433,7 +1445,6 @@ export default class UlxMultiSelect extends Component {
 				{{/if}}
 				<div
 					class="multiselect-wrapper"
-					style="max-height: {{this.scrollHeightValue}};"
 					{{this.scrollFocusedIntoView
 						this.overlayVisible
 						this.focusedOptionIndex

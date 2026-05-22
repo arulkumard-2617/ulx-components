@@ -504,9 +504,20 @@ export default class UlxDropdown extends Component {
 		window.addEventListener("resize", onResize);
 		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined"
+				? new ResizeObserver(() => {
+						if (!this.overlayVisible) return;
+						requestAnimationFrame(alignPanelToTrigger);
+					})
+				: null;
+
+		resizeObserver?.observe(element);
+
 		return () => {
 			window.removeEventListener("resize", onResize);
 			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+			resizeObserver?.disconnect();
 		};
 	});
 
