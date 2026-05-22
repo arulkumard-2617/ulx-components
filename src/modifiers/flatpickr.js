@@ -1,7 +1,15 @@
 import ClassBasedModifier from 'ember-modifier';
 import { registerDestructor } from '@ember/destroyable';
 import Flatpickr from 'flatpickr';
-import { normalizeSelectedDates, selectedDatesEqual } from '../utils/flatpickr-helpers';
+import {
+	normalizeSelectedDates,
+	selectedDatesEqual,
+	ensureFlatpickrAppendContainerPosition,
+	resolveFlatpickrScrollTargets,
+	resolveFlatpickrLayout,
+	createFlatpickrScrollPinnedPosition,
+	debounceFlatpickr
+} from '../utils/flatpickr-helpers';
 import { FLATPICKR_SETTABLE_KEYS } from '../utils/flatpickr-options';
 import { t } from '../utils/i18n';
 
@@ -69,15 +77,143 @@ function pickrOptionValuesEqual(currentValue, previousValue) {
 function cleanupFlatpickrEnhancements(modifier) {
 	modifier._focusTrapCleanup?.();
 	modifier._focusTrapCleanup = null;
+	cleanupHeaderFieldArrowKeyGuards(modifier);
+}
+
+/**
+ * @param {import('flatpickr').Instance | null | undefined} fpInstance
+ * @returns {HTMLElement[]}
+ */
+function collectFlatpickrHeaderFields(fpInstance) {
+	if (!fpInstance?.calendarContainer) {
+		return [];
+	}
+
+	/** @type {HTMLElement[]} */
+	const fields = [];
+	const seen = new Set();
+
+	const addField = (field) => {
+		if (!(field instanceof HTMLElement) || seen.has(field)) {
+			return;
+		}
+		seen.add(field);
+		fields.push(field);
+	};
+
+	addField(fpInstance.currentYearElement);
+	for (const yearElement of fpInstance.yearElements ?? []) {
+		addField(yearElement);
+	}
+	for (const monthElement of fpInstance.monthElements ?? []) {
+		addField(monthElement);
+	}
+
+	const monthRegion = fpInstance.calendarContainer.querySelector('.flatpickr-months');
+	if (monthRegion) {
+		for (const input of monthRegion.querySelectorAll('input, select')) {
+			addField(input);
+		}
+	}
+
+	return fields;
+}
+
+/** @param {FlatpickrModifier} modifier */
+function cleanupHeaderFieldArrowKeyGuards(modifier) {
+	for (const { field, handler } of modifier._headerArrowKeyBindings) {
+		field.removeEventListener('keydown', handler);
+	}
+	modifier._headerArrowKeyBindings = [];
+}
+
+/**
+ * Stops flatpickr from moving focus to the day grid when Left/Right are used in header inputs.
+ *
+ * @param {FlatpickrModifier} modifier
+ * @param {import('flatpickr').Instance | null | undefined} fpInstance
+ */
+function installHeaderFieldArrowKeyGuards(modifier, fpInstance) {
+	cleanupHeaderFieldArrowKeyGuards(modifier);
+
+	if (!fpInstance || fpInstance.config.noCalendar || fpInstance.isMobile) {
+		return;
+	}
+
+	for (const field of collectFlatpickrHeaderFields(fpInstance)) {
+		/** @param {KeyboardEvent} event */
+		const handler = (event) => {
+			const keyPressed = event.key;
+			if (keyPressed !== 'ArrowLeft' && keyPressed !== 'ArrowRight') {
+				return;
+			}
+			event.stopPropagation();
+		};
+
+		field.addEventListener('keydown', handler);
+		modifier._headerArrowKeyBindings.push({ field, handler });
+	}
+}
+
+/** @param {FlatpickrModifier} modifier */
+function cleanupFlatpickrScrollReposition(modifier) {
+	modifier._scrollRepositionCleanup?.();
+	modifier._scrollRepositionCleanup = null;
+}
+
+/**
+ * Flatpickr positions with document coordinates but only listens to window resize.
+ * Reposition on scroll while portaled to `body` (document coordinates). Not used in scroll-pinned mode.
+ *
+ * @param {FlatpickrModifier} modifier
+ * @param {import('flatpickr').Instance} pickerInstance
+ * @param {HTMLElement} hostElement
+ * @param {'window'|HTMLElement|Function|string|undefined|null} scrollContext
+ * @returns {() => void}
+ */
+function installFlatpickrScrollReposition(modifier, pickerInstance, hostElement, scrollContext) {
+	if (modifier._scrollPinned) {
+		return () => {};
+	}
+	if (
+		pickerInstance.config.inline ||
+		pickerInstance.config.static ||
+		pickerInstance.isMobile
+	) {
+		return () => {};
+	}
+
+	const scrollTargets = resolveFlatpickrScrollTargets(scrollContext, hostElement);
+	const reposition = debounceFlatpickr(() => {
+		if (!pickerInstance.isOpen) {
+			return;
+		}
+		pickerInstance._positionCalendar?.();
+	}, 16);
+
+	for (const scrollTarget of scrollTargets) {
+		scrollTarget?.addEventListener?.('scroll', reposition, { capture: true, passive: true });
+	}
+
+	return () => {
+		for (const scrollTarget of scrollTargets) {
+			scrollTarget?.removeEventListener?.('scroll', reposition, { capture: true });
+		}
+	};
 }
 
 /** @param {FlatpickrModifier} modifier */
 function destroyPicker(modifier) {
 	cleanupFlatpickrEnhancements(modifier);
+	cleanupFlatpickrScrollReposition(modifier);
+	modifier._appendPositionRestore?.();
+	modifier._appendPositionRestore = null;
 	modifier._flatpickrInstance?.destroy();
 	modifier._flatpickrInstance = null;
 	modifier._lastElement = null;
 	modifier._lastSettableOptions = null;
+	modifier._resolvedAppendTo = null;
+	modifier._scrollPinned = false;
 }
 
 /**
@@ -290,6 +426,7 @@ function enhanceNavKeyboardAccess(fpInstance) {
 function applyFlatpickrA11yEnhancements(modifier, fpInstance) {
 	enhanceNavKeyboardAccess(fpInstance);
 	applyYearTabIndex(fpInstance);
+	installHeaderFieldArrowKeyGuards(modifier, fpInstance);
 	modifier._focusTrapCleanup?.();
 	modifier._focusTrapCleanup = installFocusTrap(fpInstance);
 }
@@ -336,14 +473,25 @@ function applyFormattedDisplayValue(fpInstance, formatDisplayValue) {
  * - `disabled` — disables the visible input(s)
  * - `readOnlyInput` — when true, sets `allowInput: false` (overrides options.allowInput)
  * - `calendarSurfaceClass` — optional string added to `instance.calendarContainer` after init/update (e.g. from `getComponentClass('calendar')` in ULX)
+ * - `scrollContext` — scroll container for scroll-pinned layout (default: nearest `.editor-sc-parent` or scrollable ancestor)
  */
 export default class FlatpickrModifier extends ClassBasedModifier {
 	_flatpickrInstance = null;
 	_lastElement = null;
 	/** @type {Record<string, unknown> | null} */
 	_lastSettableOptions = null;
+	/** @type {HTMLElement | null} */
+	_resolvedAppendTo = null;
+	/** @type {(() => void) | null} */
+	_appendPositionRestore = null;
 	/** @type {(() => void) | null} */
 	_focusTrapCleanup = null;
+	/** @type {Array<{ field: HTMLElement; handler: (event: KeyboardEvent) => void }>} */
+	_headerArrowKeyBindings = [];
+	/** @type {(() => void) | null} */
+	_scrollRepositionCleanup = null;
+	/** @type {boolean} */
+	_scrollPinned = false;
 
 	constructor(owner, args) {
 		super(owner, args);
@@ -358,7 +506,8 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			disabled = false,
 			readOnlyInput,
 			calendarSurfaceClass,
-			formatDisplayValue
+			formatDisplayValue,
+			scrollContext
 		} = safeNamed;
 
 		const {
@@ -366,6 +515,8 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			onOpen: userOnOpen,
 			onClose: userOnClose,
 			onReady: userOnReady,
+			onMonthChange: userOnMonthChange,
+			onYearChange: userOnYearChange,
 			onDayCreate: userOnDayCreate,
 			...rawRest
 		} = userOptions;
@@ -384,13 +535,35 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			onOpen: (selectedDates, dateStr, fpInst) => {
 				userOnOpen?.(selectedDates, dateStr, fpInst);
 				applyYearTabIndex(fpInst);
+				installHeaderFieldArrowKeyGuards(this, fpInst);
 				handleCalendarA11yOpen(selectedDates, dateStr, fpInst);
+				cleanupFlatpickrScrollReposition(this);
+				this._scrollRepositionCleanup = installFlatpickrScrollReposition(
+					this,
+					fpInst,
+					element,
+					scrollContext
+				);
 			},
-			onClose: userOnClose,
+			onClose: (selectedDates, dateStr, fpInst) => {
+				cleanupFlatpickrScrollReposition(this);
+				userOnClose?.(selectedDates, dateStr, fpInst);
+			},
 			onReady: (selectedDates, dateStr, fpInst) => {
 				userOnReady?.(selectedDates, dateStr, fpInst);
 				applyYearTabIndex(fpInst);
+				installHeaderFieldArrowKeyGuards(this, fpInst);
 				applyFormattedDisplayValue(fpInst, formatDisplayValue);
+			},
+			onMonthChange: (selectedDates, dateStr, fpInst) => {
+				userOnMonthChange?.(selectedDates, dateStr, fpInst);
+				applyYearTabIndex(fpInst);
+				installHeaderFieldArrowKeyGuards(this, fpInst);
+			},
+			onYearChange: (selectedDates, dateStr, fpInst) => {
+				userOnYearChange?.(selectedDates, dateStr, fpInst);
+				applyYearTabIndex(fpInst);
+				installHeaderFieldArrowKeyGuards(this, fpInst);
 			}
 		};
 
@@ -406,14 +579,25 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 		const previousInstanceMode = previousInstance?.config?.mode ?? 'single';
 		const previousInstanceWrap = Boolean(previousInstance?.config?.wrap);
 
+		const { resolvedAppendTo, scrollPinned } = resolveFlatpickrLayout(
+			config.appendTo,
+			scrollContext,
+			element
+		);
+		const userPosition = restSpread.position;
+
 		const needsRecreate =
 			!previousInstance ||
 			this._lastElement !== element ||
 			previousInstanceMode !== mode ||
-			previousInstanceWrap !== wrapNext;
+			previousInstanceWrap !== wrapNext ||
+			this._resolvedAppendTo !== resolvedAppendTo ||
+			this._scrollPinned !== scrollPinned;
 
 		if (needsRecreate) {
 			cleanupFlatpickrEnhancements(this);
+			this._appendPositionRestore?.();
+			this._appendPositionRestore = null;
 			previousInstance?.destroy();
 			this._flatpickrInstance = null;
 
@@ -425,9 +609,17 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			const isInline = Boolean(createCfg.inline);
 			const isStatic = Boolean(createCfg.static);
 			if (typeof document !== 'undefined' && !isInline && !isStatic) {
-				createCfg.appendTo = createCfg.appendTo ?? document.body;
+				createCfg.appendTo = resolvedAppendTo ?? document.body;
+				this._appendPositionRestore = ensureFlatpickrAppendContainerPosition(
+					createCfg.appendTo
+				);
+				if (scrollPinned && typeof userPosition !== 'function') {
+					createCfg.position = createFlatpickrScrollPinnedPosition(createCfg.appendTo);
+				}
 			}
 
+			this._resolvedAppendTo = resolvedAppendTo;
+			this._scrollPinned = scrollPinned;
 			this._flatpickrInstance = Flatpickr(element, createCfg);
 			applyFlatpickrA11yEnhancements(this, this._flatpickrInstance);
 			applyFormattedDisplayValue(this._flatpickrInstance, formatDisplayValue);
