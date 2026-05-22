@@ -37,12 +37,6 @@ const POPUP_HOVER_LEAVE_CLOSE_MS = 120;
 const POPUP_FOCUSABLE_SELECTOR =
 	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-/** Side placements; arrows use `--ulx-popup-side-arrow-top` so clamps still point at the anchor. */
-const POPUP_SIDE_POSITIONS = new Set(["position-left", "position-right"]);
-
-/** Minimum distance from the popup block edge to the side-arrow centroid (pixels). */
-const POPUP_SIDE_ARROW_EDGE_INSET = 16;
-
 /** When a bottom variant flips above the target, map root class to the matching top variant. */
 const POPUP_BOTTOM_TO_TOP_POSITION_CLASS = {
 	"position-bottom": "position-top",
@@ -140,7 +134,7 @@ const INTERACTION_WITH_DELEGATION = new Set(["hover", "click", "hover-click"]);
  * - elevated, flat, outlined
  *
  * ## Close behavior
- * - **@dismissable** (default true): when true, clicking outside requests close; viewport scroll, window resize, and popup layout changes reposition the anchored overlay while it stays open.
+ * - **@dismissable** (default true): when true, clicking outside or resizing the window requests close.
  * - **@closable** (default false): when true, shows a close button in the popup chrome.
  * - **@closeOnEscape** (default true): when false, the root Escape handler does not request close.
  * - **@autoFocus** optional: omit for smart defaults when **`@interactionMode`** is `hover-click` or `hover` (suppress initial focus after pointer hover-only opens). Explicit `false` disables focus moves; explicit `true` always focuses on open when not otherwise blocked.
@@ -166,7 +160,7 @@ const INTERACTION_WITH_DELEGATION = new Set(["hover", "click", "hover-click"]);
  * @param {string} [size='m-size'] - Size class: xs-size | s-size | m-size | l-size | xl-size.
  * @param {string} [variant] - Visual variant: elevated | flat | outlined.
  * @param {number} [zIndex] - Overlay z-index override.
- * @param {boolean} [dismissable=true] - When true, clicking outside closes the popup while open (anchored overlays still reposition on scroll or resize automatically).
+ * @param {boolean} [dismissable=true] - When true, clicking outside or resizing closes the popup.
  * @param {boolean} [closable=false] - When true, shows a close button in the popup.
  * @param {boolean} [closeOnEscape=true] - When true (default), Escape closes the popup.
  * @param {'manual'|'hover'|'click'|'hover-click'} [interactionMode='manual'] - When not `manual`, requires `<:trigger>`; **`hover`** / **`hover-click`**: **`mouseenter`**, **`mouseleave`**; **`focusout`** deferred hide matches **`mouseleave`** when opened via passive intent; **`hover`** also **`focusin`** to open by keyboard Tab; **`click`** / **`hover-click`**: **`click`** + **`keydown`** (**Enter** / **Space**).
@@ -406,11 +400,7 @@ export default class UlxPopup extends Component {
 
 		this._hoverLeaveCloseTimerId = setTimeout(() => {
 			this._hoverLeaveCloseTimerId = null;
-			if (
-				this.delegatedOpenedViaHover &&
-				this.isVisible &&
-				(!this.modalStack?.topModal || this.modalStack.topModal === this)
-			) {
+			if (this.delegatedOpenedViaHover && this.isVisible) {
 				this.hide();
 			}
 		}, POPUP_HOVER_LEAVE_CLOSE_MS);
@@ -614,7 +604,11 @@ export default class UlxPopup extends Component {
 				this.animationState = "exit-done";
 				this.modalStack?.unregisterModal(this);
 				this._clearZIndex();
-				if (this.targetElement && typeof this.targetElement.focus === "function") {
+				if (
+					!this.delegatedSuppressAutoFocusOnOpen &&
+					this.targetElement &&
+					typeof this.targetElement.focus === "function"
+				) {
 					this.targetElement.focus();
 				}
 				this.args.onHide?.();
@@ -793,22 +787,6 @@ export default class UlxPopup extends Component {
 		left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
 		top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
 
-		if (POPUP_SIDE_POSITIONS.has(basePosition) && popupHeight > 0) {
-			const targetMidY = targetRect.top + targetRect.height / 2;
-			let arrowCenterYFromPopupTop = targetMidY - top;
-			arrowCenterYFromPopupTop = clampOverlayValue(
-				arrowCenterYFromPopupTop,
-				POPUP_SIDE_ARROW_EDGE_INSET,
-				Math.max(POPUP_SIDE_ARROW_EDGE_INSET, popupHeight - POPUP_SIDE_ARROW_EDGE_INSET)
-			);
-			container.style.setProperty(
-				"--ulx-popup-side-arrow-top",
-				`${Math.round(arrowCenterYFromPopupTop)}px`
-			);
-		} else {
-			container.style.removeProperty("--ulx-popup-side-arrow-top");
-		}
-
 		if (coordinateApi.usesDocumentCoordinates) {
 			applyBodyAbsoluteFromViewport(container, top, left);
 		} else {
@@ -956,35 +934,20 @@ export default class UlxPopup extends Component {
 		}
 	});
 
-	/** Runs `_alignOverlay` when the scroll context scrolls, the window resizes, or the popup root resizes (`ResizeObserver`). */
-	repositionOnScroll = modifier((element, [isVisible, animationState]) => {
+	repositionOnScroll = modifier((_, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
 
-		const realign = () => {
-			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
+		const scrollTarget = this.resolvedScrollContext;
+		const handleScroll = () => {
 			if (this.isVisible && this.animationState === "enter-done") {
 				this._alignOverlay();
 			}
 		};
 
-		const scrollTarget = this.resolvedScrollContext;
-		scrollTarget?.addEventListener?.("scroll", realign);
-
-		window.addEventListener("resize", realign);
-
-		const resizeObserver =
-			typeof ResizeObserver !== "undefined"
-				? new ResizeObserver(() => {
-						requestAnimationFrame(realign);
-					})
-				: null;
-
-		resizeObserver?.observe(element);
+		scrollTarget?.addEventListener?.("scroll", handleScroll);
 
 		return () => {
-			scrollTarget?.removeEventListener?.("scroll", realign);
-			window.removeEventListener("resize", realign);
-			resizeObserver?.disconnect();
+			scrollTarget?.removeEventListener?.("scroll", handleScroll);
 		};
 	});
 
@@ -1025,19 +988,38 @@ export default class UlxPopup extends Component {
 		return () => element.removeEventListener("keydown", handleKeyDown);
 	});
 
-	/** Cancels deferred hover-dismiss when the pointer enters the anchored panel or when focus moves inside it (`Tab` into the popup). */
+	/** Bridges passive hover dismiss between the trigger and the anchored popup panel. */
 	popupHoverBridgeCancelLeave = modifier((element, [active]) => {
 		if (!active) {
 			return;
 		}
 
 		const cancel = () => this.cancelDelegatedHoverLeaveClose();
+		const schedule = () => this.scheduleDeferredPassiveDismissFromTrigger();
+		const handleFocusOut = (event) => {
+			const related = event.relatedTarget;
+
+			if (
+				related instanceof Node &&
+				(element.contains(related) ||
+					this.targetElement === related ||
+					this.targetElement?.contains?.(related))
+			) {
+				return;
+			}
+
+			this.scheduleDeferredPassiveDismissFromTrigger();
+		};
 
 		element.addEventListener("pointerenter", cancel);
+		element.addEventListener("pointerleave", schedule);
 		element.addEventListener("focusin", cancel);
+		element.addEventListener("focusout", handleFocusOut);
 		return () => {
 			element.removeEventListener("pointerenter", cancel);
+			element.removeEventListener("pointerleave", schedule);
 			element.removeEventListener("focusin", cancel);
+			element.removeEventListener("focusout", handleFocusOut);
 			cancel();
 		};
 	});
@@ -1081,6 +1063,26 @@ export default class UlxPopup extends Component {
 		};
 	});
 
+	/** When dismissable, window resize requests close (same idea as outside click). */
+	handleResize = modifier((_, [isVisible]) => {
+		if (!this.isDismissable) {
+			return;
+		}
+
+		const handle = () => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
+			if (isVisible && this.isVisible && this.isDismissable) {
+				this._handleHideInternal();
+			}
+		};
+
+		window.addEventListener("resize", handle);
+
+		return () => {
+			window.removeEventListener("resize", handle);
+		};
+	});
+
 	<template>
 		{{#if (and this.usesDelegatedTriggerInteractions (has-block "trigger"))}}
 			<span
@@ -1119,6 +1121,7 @@ export default class UlxPopup extends Component {
 					useTopModalGuard=true
 					componentForStack=this
 				}}
+				{{this.handleResize this.isVisible}}
 				{{on "keydown" this.handleRootKeyDown}}
 				...attributes
 			>
