@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxField, UlxInput, UlxRadioPanelGroup } from 'ulx-components';
+import { UlxDivider, UlxField, UlxInput, UlxRadioPanelGroup } from 'ulx-components';
 
 export default class RadioPanelGroupDemo extends Component {
   @tracked restrictionType = 'allow';
@@ -44,20 +44,31 @@ export default class RadioPanelGroupDemo extends Component {
           @items={{this.restrictionItems}}
           @value={{this.restrictionType}}
           @onChange={{this.setRestrictionType}}
-          @panelClass="ml-8 mt-3 pl-4"
+          @panelClass="mt-0"
+          @customClass="gap-3 flex flex-col mt-2"
         >
-          <UlxField
-            @label="Email Domains"
-            @helpText="Enter one or multiple email domains. Separate multiple email domains with a comma."
-            @fieldId="email-domains"
-            as |domainField|
-          >
-            <UlxInput
-              @field={{domainField}}
-              @value={{this.emailDomains}}
-              @onInput={{this.updateEmailDomains}}
+          <div class="flex gap-3">
+            <UlxDivider
+              @layout="vertical"
+              @variant="primary"
+              @customClass="radio-panel-divider m-0"
             />
-          </UlxField>
+
+            <div class="w-full py-4">
+              <UlxField
+                @label="Email Domains"
+                @helpText="Enter one or multiple email domains. Separate multiple email domains with a comma."
+                @fieldId="email-domains"
+                as |domainField|
+              >
+                <UlxInput
+                  @field={{domainField}}
+                  @value={{this.emailDomains}}
+                  @onInput={{this.updateEmailDomains}}
+                />
+              </UlxField>
+            </div>
+          </div>
         </UlxRadioPanelGroup>
       </UlxField>
     </div>

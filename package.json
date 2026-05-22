@@ -44,9 +44,10 @@
 		"@rollup/plugin-node-resolve": "^16.0.3",
 		"babel-plugin-ember-template-compilation": "^2.2.1",
 		"decorator-transforms": "^2.0.0",
-    "flatpickr": "^4.6.13","less": "^4.6.4",
-    "quill": "^2.0.3",
-    "rollup": "^4.9.4",
+		"flatpickr": "^4.6.13",
+		"less": "^4.6.4",
+		"quill": "^2.0.3",
+		"rollup": "^4.9.4",
 		"rollup-plugin-copy": "^3.5.0",
 		"sortablejs": "^1.15.7",
     "uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
@@ -71,15 +72,21 @@
     "prettier": "^3.1.1",
     "prettier-plugin-ember-template-tag": "^2.0.0",
 
-    "typescript": "^5.3.3"
-  },
+    "typescript": "^5.3.3",
+  "moment": "^2.29.0"},
   "peerDependencies": {
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "ember-cli": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
     "ember-modifier": "^4.1.0",
     "ember-source": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
-    "ember-truth-helpers": "^4.0.0"
+    "ember-truth-helpers": "^4.0.0",
+		"moment": "^2.29.0"
+	},
+	"peerDependenciesMeta": {
+		"moment": {
+			"optional": true
+		}
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

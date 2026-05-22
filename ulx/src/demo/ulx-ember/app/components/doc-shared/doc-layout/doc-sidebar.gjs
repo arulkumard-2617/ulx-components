@@ -53,7 +53,7 @@ export default class DocSidebarComponent extends Component {
       const hasMatchingRoute = item.children.some((childItem) => {
         if (childItem.items) {
           return childItem.items.some((subItem) =>
-            this.isRouteActive(subItem.to, currentPath),
+            this.isRouteActive(subItem.to, currentPath)
           );
         }
         return this.isRouteActive(childItem.to, currentPath);
@@ -224,11 +224,11 @@ export default class DocSidebarComponent extends Component {
           .map((child) => {
             if (child.category && child.items) {
               const filteredItems = child.items.filter((sub) =>
-                match(sub.menuItem),
+                match(sub.menuItem)
               );
               return {
                 ...child,
-                items: filteredItems.length ? filteredItems : child.items,
+                items: filteredItems.length ? filteredItems : child.items
               };
             }
             return child;
@@ -238,9 +238,9 @@ export default class DocSidebarComponent extends Component {
   }
 
   @action
-  handleSearchInput(event) {
+  handleSearchInput(value) {
     const prevHadQuery = (this.searchQuery ?? '').trim() !== '';
-    this.searchQuery = event.target?.value ?? '';
+    this.searchQuery = value ?? '';
     const nowHasQuery = (this.searchQuery ?? '').trim() !== '';
 
     if (prevHadQuery && !nowHasQuery) {
@@ -295,7 +295,7 @@ export default class DocSidebarComponent extends Component {
                     <button
                       class="ms-auto ps-1"
                       {{on "click" (fn this.handleToggle item.menuTitle)}}
-                      aria-label={{concat 'Toggle ' item.menuTitle ' menu'}}
+                      aria-label={{concat "Toggle " item.menuTitle " menu"}}
                       type="button"
                     >
                       <i

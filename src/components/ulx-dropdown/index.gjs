@@ -248,7 +248,8 @@ export default class UlxDropdown extends Component {
 
 	@action
 	getOptionDataQa(option, index) {
-		const optionDataQa = option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
+		const optionDataQa =
+			option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
 		return optionDataQa || `ulx-dropdown-option-${index}`;
 	}
 
@@ -504,9 +505,20 @@ export default class UlxDropdown extends Component {
 		window.addEventListener("resize", onResize);
 		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined"
+				? new ResizeObserver(() => {
+						if (!this.overlayVisible) return;
+						requestAnimationFrame(alignPanelToTrigger);
+					})
+				: null;
+
+		resizeObserver?.observe(element);
+
 		return () => {
 			window.removeEventListener("resize", onResize);
 			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+			resizeObserver?.disconnect();
 		};
 	});
 
@@ -788,7 +800,13 @@ export default class UlxDropdown extends Component {
 	}
 
 	@action
+	stopFilterKeyEventPropagation(event) {
+		event.stopPropagation();
+	}
+
+	@action
 	onFilterKeydown(event) {
+		event.stopPropagation();
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
@@ -1077,6 +1095,8 @@ export default class UlxDropdown extends Component {
 								placeholder={{@filterPlaceholder}}
 								{{on "input" this.onFilterInput}}
 								{{on "keydown" this.onFilterKeydown}}
+								{{on "keypress" this.stopFilterKeyEventPropagation}}
+								{{on "keyup" this.stopFilterKeyEventPropagation}}
 							/>
 						</div>
 					{{/if}}
