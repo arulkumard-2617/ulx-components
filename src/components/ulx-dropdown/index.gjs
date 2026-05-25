@@ -28,6 +28,9 @@ import { eq, and, not, or } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
 const MIN_FILTER_OPTION_COUNT = 5;
+const DROPDOWN_PANEL_POSITION_AUTO = "auto";
+const DROPDOWN_PANEL_POSITION_TOP = "top";
+const DROPDOWN_PANEL_POSITION_BOTTOM = "bottom";
 
 /**
  * Dropdown select: single selection from a list with optional filter, groups, templates.
@@ -69,6 +72,7 @@ const MIN_FILTER_OPTION_COUNT = 5;
  *   - `string`: a CSS selector resolved with `document.querySelector()`.
  * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
  * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that closes the overlay immediately.
+ * @param {'auto'|'top'|'bottom'} [position='auto'] - Panel placement relative to the trigger. `auto` picks above/below on first open and keeps that side until the overlay closes (filtering does not re-flip); `top` always opens above; `bottom` always opens below.
  * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
  * @param {string} [filterDataQa] - `data-qa` on the panel filter input when `@filter` is true (default `ulx-dropdown-filter`).
  * @param {string} [id] - Id for the trigger (for label `for` / ARIA).
@@ -107,6 +111,8 @@ export default class UlxDropdown extends Component {
 	@tracked triggerElement = null;
 	@tracked panelElement = null;
 	@tracked panelPosition = "below";
+	/** When `@position` is `auto`, locks above/below for the current open overlay session. */
+	lockedAutoPanelPlacement = null;
 
 	get triggerId() {
 		const { id, key } = this.args;
@@ -407,7 +413,71 @@ export default class UlxDropdown extends Component {
 		return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
 	}
 
-	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
+	get resolvedPanelPosition() {
+		const { position = DROPDOWN_PANEL_POSITION_AUTO } = this.args;
+		const normalizedPosition =
+			typeof position === "string" ? position.trim().toLowerCase() : DROPDOWN_PANEL_POSITION_AUTO;
+
+		if (
+			normalizedPosition === DROPDOWN_PANEL_POSITION_TOP ||
+			normalizedPosition === "above"
+		) {
+			return DROPDOWN_PANEL_POSITION_TOP;
+		}
+
+		if (
+			normalizedPosition === DROPDOWN_PANEL_POSITION_BOTTOM ||
+			normalizedPosition === "below"
+		) {
+			return DROPDOWN_PANEL_POSITION_BOTTOM;
+		}
+
+		return DROPDOWN_PANEL_POSITION_AUTO;
+	}
+
+	get filterPlaceholderLabel() {
+		return this.args.filterPlaceholder ?? t("label.search");
+	}
+
+	clearLockedAutoPanelPlacement() {
+		this.lockedAutoPanelPlacement = null;
+	}
+
+	resolveShouldPlaceAbove({
+		panelPositionPreference,
+		targetRect,
+		menuHeight,
+		fallbackBoundary,
+		spacing,
+		viewportPadding
+	}) {
+		if (panelPositionPreference === DROPDOWN_PANEL_POSITION_TOP) {
+			return true;
+		}
+
+		if (panelPositionPreference === DROPDOWN_PANEL_POSITION_BOTTOM) {
+			return false;
+		}
+
+		if (this.lockedAutoPanelPlacement != null) {
+			return this.lockedAutoPanelPlacement === DROPDOWN_PANEL_POSITION_TOP;
+		}
+
+		const initialTop = targetRect.bottom + spacing;
+		const spaceBelow =
+			fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
+		const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
+		const shouldPlaceAbove =
+			initialTop + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+
+		this.lockedAutoPanelPlacement = shouldPlaceAbove
+			? DROPDOWN_PANEL_POSITION_TOP
+			: DROPDOWN_PANEL_POSITION_BOTTOM;
+
+		return shouldPlaceAbove;
+	}
+
+	positionPanel = modifier((element, [when, triggerEl, panelPositionPreference, setPanelPosition]) => {
 		if (!when || !element) return;
 
 		const alignPanelToTrigger = () => {
@@ -456,10 +526,14 @@ export default class UlxDropdown extends Component {
 			}
 			left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
 
-			const spaceBelow = fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
-			const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
-			const shouldPlaceAbove =
-				top + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+			const shouldPlaceAbove = this.resolveShouldPlaceAbove({
+				panelPositionPreference,
+				targetRect,
+				menuHeight,
+				fallbackBoundary,
+				spacing,
+				viewportPadding
+			});
 
 			if (shouldPlaceAbove) {
 				top = targetRect.top - menuHeight - spacing;
@@ -663,6 +737,7 @@ export default class UlxDropdown extends Component {
 		if (!this.overlayVisible) return;
 		this.overlayVisible = false;
 		this.panelPosition = "below";
+		this.clearLockedAutoPanelPlacement();
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onHide?.();
 	}
@@ -709,10 +784,12 @@ export default class UlxDropdown extends Component {
 				this.focusedOptionIndex = 0;
 			}
 			this.panelPosition = "below";
+			this.clearLockedAutoPanelPlacement();
 			this.args.onShow?.();
 			this.focusAppropriateControlOnOpen();
 		} else {
 			this.panelPosition = "below";
+			this.clearLockedAutoPanelPlacement();
 			this.dismissKeyboardOptionFocusRing();
 			this.args.onHide?.();
 		}
@@ -736,6 +813,8 @@ export default class UlxDropdown extends Component {
 		if (this.isOptionDisabled(optionItem)) return;
 		const value = this.getOptionValue(optionItem);
 		this.overlayVisible = false;
+		this.panelPosition = "below";
+		this.clearLockedAutoPanelPlacement();
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(value);
 		this.args.onHide?.();
@@ -757,6 +836,8 @@ export default class UlxDropdown extends Component {
 		event?.preventDefault?.();
 		if (this.args.disabled) return;
 		this.overlayVisible = false;
+		this.panelPosition = "below";
+		this.clearLockedAutoPanelPlacement();
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(undefined);
 		this.args.onFilter?.("");
@@ -1061,7 +1142,12 @@ export default class UlxDropdown extends Component {
 					aria-hidden="false"
 					{{this.panelRef}}
 					{{overlayPortal this.overlayVisible this.resolvedContext}}
-					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
+					{{this.positionPanel
+						this.overlayVisible
+						this.triggerElement
+						this.resolvedPanelPosition
+						(fn this.setPanelPosition)
+					}}
 					{{on "pointerdown" this.onOptionPanelPointerIntent}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
@@ -1080,7 +1166,7 @@ export default class UlxDropdown extends Component {
 								class="dropdown-filter-input"
 								data-qa={{this.filterInputDataQa}}
 								value={{this.filterValue}}
-								placeholder={{@filterPlaceholder}}
+								placeholder={{this.filterPlaceholderLabel}}
 								{{on "input" this.onFilterInput}}
 								{{on "keydown" this.onFilterKeydown}}
 								{{on "keypress" this.stopFilterKeyEventPropagation}}
