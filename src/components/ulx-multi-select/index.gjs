@@ -68,6 +68,7 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * Named block <:chip> - Custom chip content per selected item. Receives (hash option label value).
  * @param {string} [placeholder] - Placeholder when nothing selected.
  * @param {string} [display='comma'] - 'comma' | 'chip' for selected display.
+ * @param {boolean} [chipWrap=false] - When true with `@display='chip'`, selected chips wrap to multiple lines instead of single-line truncation (ellipsis).
  * @param {number} [selectionLimit] - Max number of selections (optional).
  * @param {boolean} [disabled=false] - Disables the component.
  * @param {boolean} [loading=false] - Shows progress spinner in trigger.
@@ -163,7 +164,9 @@ export default class UlxMultiSelect extends Component {
 			error,
 			loading = false,
 			size = "m-size",
-			customClass
+			customClass,
+			display,
+			chipWrap = false
 		} = this.args;
 		const invalid = isInvalidState(invalidArg, error ?? this.fieldContext?.error);
 		const parts = [this.baseClass];
@@ -172,6 +175,7 @@ export default class UlxMultiSelect extends Component {
 		invalid && parts.push("invalid");
 		loading && parts.push("loading");
 		this.overlayVisible && parts.push("open");
+		chipWrap && display === "chip" && parts.push("chip-wrap");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
@@ -653,11 +657,11 @@ export default class UlxMultiSelect extends Component {
 		const wrapperMax = useAbove ? maxWrapperAbove : maxWrapperBelow;
 
 		if (wrapperEl) {
+			wrapperEl.style.removeProperty("height");
 			wrapperEl.style.maxHeight = `${wrapperMax}px`;
-			wrapperEl.style.height = `${wrapperMax}px`;
 		}
 
-		const panelHeight = chromeH + wrapperMax;
+		const panelHeight = panelEl.offsetHeight || chromeH + wrapperMax;
 		const desiredTop = useAbove
 			? triggerRect.top - panelHeight - spacing
 			: triggerRect.bottom + spacing;
@@ -760,9 +764,21 @@ export default class UlxMultiSelect extends Component {
 		};
 		window.addEventListener("resize", onResize);
 		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
+
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined"
+				? new ResizeObserver(() => {
+						if (!this.overlayVisible) return;
+						requestAnimationFrame(alignPanel);
+					})
+				: null;
+
+		resizeObserver?.observe(element);
+
 		return () => {
 			window.removeEventListener("resize", onResize);
 			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+			resizeObserver?.disconnect();
 		};
 	});
 
@@ -1433,7 +1449,6 @@ export default class UlxMultiSelect extends Component {
 				{{/if}}
 				<div
 					class="multiselect-wrapper"
-					style="max-height: {{this.scrollHeightValue}};"
 					{{this.scrollFocusedIntoView
 						this.overlayVisible
 						this.focusedOptionIndex

@@ -277,6 +277,7 @@ const columns = [
     field: 'profileCompletion',
     header: 'Profile Status',
     sortable: false,
+    headerClass: 'min-w-320',
     body: ProfileStatusCell
   }
 ];
@@ -358,14 +359,11 @@ export default class DemoTableBasic extends Component {
       <:optionCell as |row|>
         <div class="flex items-center justify-end">
           <UlxActionMenu
-            @icon="bs-icons1 session-settings-icon"
-            @triggerAriaLabel="Actions for {{row.name}}"
+            @label="Actions"
+            @icon="session-settings-icon"
             @items={{this.rowActionItems}}
-            @variant="basic"
+            @variant="secondary"
             @outlined={{true}}
-            @text={{true}}
-            @size="s-size"
-            @align="end"
             @onItemSelect={{fn this.handleRowAction row}}
           />
         </div>

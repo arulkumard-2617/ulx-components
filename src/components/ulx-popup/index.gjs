@@ -48,6 +48,32 @@ const POPUP_BOTTOM_TO_TOP_POSITION_CLASS = {
 /** Bottom placement keys; same as `POPUP_BOTTOM_TO_TOP_POSITION_CLASS` (auto-flip targets). */
 const POPUP_BOTTOM_POSITIONS = new Set(Object.keys(POPUP_BOTTOM_TO_TOP_POSITION_CLASS));
 
+/** Side placements; LESS uses `--ulx-popup-side-arrow-top` (`::before` / `::after` + translateY(-50%)). */
+const POPUP_SIDE_ARROW_POSITION_CLASSES = new Set(["position-left", "position-right"]);
+
+/**
+ * Keeps the side seam arrow on the anchor vertical midpoint when the panel is vertically clamped.
+ *
+ * @param {HTMLElement | null | undefined} container
+ * @param {string | null | undefined} placementClass
+ * @param {{ top: number; height: number }} targetRect - Same overlay space as `popupTopPx`.
+ * @param {number} popupTopPx
+ * @param {number} popupHeightPx
+ */
+function applyPopupSideArrowVar(container, placementClass, targetRect, popupTopPx, popupHeightPx) {
+	if (!container) return;
+	if (!placementClass || !POPUP_SIDE_ARROW_POSITION_CLASSES.has(placementClass) || popupHeightPx <= 0) {
+		container.style.removeProperty("--ulx-popup-side-arrow-top");
+		return;
+	}
+
+	const targetMidY = targetRect.top + targetRect.height / 2;
+	let pct = ((targetMidY - popupTopPx) / popupHeightPx) * 100;
+
+	pct = clampOverlayValue(pct, 8, 92);
+	container.style.setProperty("--ulx-popup-side-arrow-top", `${pct}%`);
+}
+
 /**
  * Viewport-space top/left for each `position-*` class; invalid keys fall back to bottom.
  *
@@ -787,6 +813,8 @@ export default class UlxPopup extends Component {
 		left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
 		top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
 
+		const placementClass = this._getPositionClassForPlacement(basePosition, placedAbove);
+
 		if (coordinateApi.usesDocumentCoordinates) {
 			applyBodyAbsoluteFromViewport(container, top, left);
 		} else {
@@ -794,7 +822,10 @@ export default class UlxPopup extends Component {
 		}
 
 		/* Remap bottom-* → top-* only when we auto-flipped; explicit top/left/right stay unchanged. */
-		this.currentPositionClass = this._getPositionClassForPlacement(basePosition, placedAbove);
+		this.currentPositionClass = placementClass;
+
+		const popupHeightForArrow = container.offsetHeight || popupHeight;
+		applyPopupSideArrowVar(container, placementClass, targetRect, top, popupHeightForArrow);
 	}
 
 	_getPositionClassForPlacement(originalPosition, placedAbove) {

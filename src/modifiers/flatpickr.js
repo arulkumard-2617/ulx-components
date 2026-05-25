@@ -74,7 +74,64 @@ function pickrOptionValuesEqual(currentValue, previousValue) {
 }
 
 /** @param {FlatpickrModifier} modifier */
+function cleanupSuppressOpenOnFocus(modifier) {
+	modifier._suppressOpenOnFocusCleanup?.();
+	modifier._suppressOpenOnFocusCleanup = null;
+}
+
+/**
+ * When `clickOpens` is false flatpickr does not open on pointer click; when we also suppressed
+ * the default focus→open pairing, reattach pointer open so mice still open the picker.
+ * When `allowInput` is false, Enter opens via flatpickr. When typing is enabled, Enter commits
+ * the field value instead, so ArrowDown opens the calendar while closed (combobox pattern).
+ *
+ * @param {FlatpickrModifier} modifier
+ * @param {import('flatpickr').Instance} fpInstance
+ */
+function installSuppressOpenOnFocus(modifier, fpInstance) {
+	cleanupSuppressOpenOnFocus(modifier);
+
+	if (
+		fpInstance.config.inline ||
+		fpInstance.config.static ||
+		fpInstance.isMobile ||
+		fpInstance.config.clickOpens
+	) {
+		return;
+	}
+
+	const input = fpInstance._input;
+	if (!(input instanceof HTMLElement)) {
+		return;
+	}
+
+	const openFromPointer = () => {
+		fpInstance.open();
+	};
+
+	/** @param {KeyboardEvent} event */
+	const openFromArrowDownEditableClosed = (event) => {
+		if (!fpInstance.config.allowInput || fpInstance.isOpen) return;
+
+		const key = event.key;
+		if (key !== 'ArrowDown' && key !== 'Down') return;
+
+		event.preventDefault();
+		fpInstance.open();
+	};
+
+	input.addEventListener('click', openFromPointer);
+	input.addEventListener('keydown', openFromArrowDownEditableClosed);
+
+	modifier._suppressOpenOnFocusCleanup = () => {
+		input.removeEventListener('click', openFromPointer);
+		input.removeEventListener('keydown', openFromArrowDownEditableClosed);
+	};
+}
+
+/** @param {FlatpickrModifier} modifier */
 function cleanupFlatpickrEnhancements(modifier) {
+	cleanupSuppressOpenOnFocus(modifier);
 	modifier._focusTrapCleanup?.();
 	modifier._focusTrapCleanup = null;
 	cleanupHeaderFieldArrowKeyGuards(modifier);
@@ -530,6 +587,7 @@ function applyFormattedDisplayValue(fpInstance, formatDisplayValue) {
  * - `readOnlyInput` — when true, sets `allowInput: false` (overrides options.allowInput)
  * - `calendarSurfaceClass` — optional string added to `instance.calendarContainer` after init/update (e.g. from `getComponentClass('calendar')` in ULX)
  * - `scrollContext` — scroll container for scroll-pinned layout (default: nearest `.editor-sc-parent` or scrollable ancestor)
+ * - `suppressOpenOnFocus` — when true and options do not explicitly set `clickOpens: true`, forces `clickOpens: false` and opens on pointer click on the input; Tab focus no longer opens by default. Enter opens when `allowInput` is false; when typing is enabled, ArrowDown opens while the popup is closed.
  */
 export default class FlatpickrModifier extends ClassBasedModifier {
 	_flatpickrInstance = null;
@@ -548,6 +606,8 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 	_scrollRepositionCleanup = null;
 	/** @type {boolean} */
 	_scrollPinned = false;
+	/** @type {(() => void) | null} */
+	_suppressOpenOnFocusCleanup = null;
 
 	constructor(owner, args) {
 		super(owner, args);
@@ -563,7 +623,8 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			readOnlyInput,
 			calendarSurfaceClass,
 			formatDisplayValue,
-			scrollContext
+			scrollContext,
+			suppressOpenOnFocus = false
 		} = safeNamed;
 
 		const {
@@ -577,6 +638,14 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			...rawRest
 		} = userOptions;
 		const restSpread = omitUndefinedKeys(rawRest);
+		if (
+			suppressOpenOnFocus &&
+			!restSpread.inline &&
+			!restSpread.static &&
+			restSpread.clickOpens !== true
+		) {
+			restSpread.clickOpens = false;
+		}
 
 		const dayCreateHooks = normalizeDayCreateHooks(userOnDayCreate);
 
@@ -678,6 +747,14 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			this._scrollPinned = scrollPinned;
 			this._flatpickrInstance = Flatpickr(element, createCfg);
 			applyFlatpickrA11yEnhancements(this, this._flatpickrInstance);
+			if (
+				suppressOpenOnFocus &&
+				!createCfg.inline &&
+				!createCfg.static &&
+				createCfg.clickOpens === false
+			) {
+				installSuppressOpenOnFocus(this, this._flatpickrInstance);
+			}
 			applyFormattedDisplayValue(this._flatpickrInstance, formatDisplayValue);
 			this._lastElement = element;
 			this._lastSettableOptions = snapshotSettableOptions(restSpread);

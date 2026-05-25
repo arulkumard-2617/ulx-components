@@ -254,7 +254,8 @@ export default class UlxDropdown extends Component {
 
 	@action
 	getOptionDataQa(option, index) {
-		const optionDataQa = option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
+		const optionDataQa =
+			option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
 		return optionDataQa || `ulx-dropdown-option-${index}`;
 	}
 
@@ -578,9 +579,20 @@ export default class UlxDropdown extends Component {
 		window.addEventListener("resize", onResize);
 		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined"
+				? new ResizeObserver(() => {
+						if (!this.overlayVisible) return;
+						requestAnimationFrame(alignPanelToTrigger);
+					})
+				: null;
+
+		resizeObserver?.observe(element);
+
 		return () => {
 			window.removeEventListener("resize", onResize);
 			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+			resizeObserver?.disconnect();
 		};
 	});
 
@@ -1177,7 +1189,7 @@ export default class UlxDropdown extends Component {
 					<div
 						class="dropdown-wrapper"
 						data-qa="ulx-dropdown-options-wrapper"
-						style="max-height: {{this.scrollHeightValue}};height: {{this.scrollHeightValue}};"
+						style="max-height: {{this.scrollHeightValue}};"
 						{{this.scrollFocusedIntoView
 							this.overlayVisible
 							this.focusedOptionIndex

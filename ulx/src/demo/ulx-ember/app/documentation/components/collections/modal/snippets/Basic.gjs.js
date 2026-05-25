@@ -3,10 +3,30 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { UlxModal, UlxButton, tooltip, UlxIcon } from 'ulx-components';
+import {
+  UlxModal,
+  UlxButton,
+  tooltip,
+  UlxIcon,
+  UlxDropdown,
+  UlxField,
+} from 'ulx-components';
+
+const CITIES = [
+  { label: 'New York', value: 'NY' },
+  { label: 'Rome', value: 'RM' },
+  { label: 'London', value: 'LDN' },
+  { label: 'Istanbul', value: 'IST' },
+  { label: 'Paris', value: 'PRS' },
+];
 
 export default class BasicModalDemo extends Component {
   @tracked isVisible = false;
+  @tracked selectedCity = null;
+
+  get cities() {
+    return CITIES;
+  }
 
   @action
   openModal() {
@@ -16,6 +36,11 @@ export default class BasicModalDemo extends Component {
   @action
   closeModal() {
     this.isVisible = false;
+  }
+
+  @action
+  setSelectedCity(value) {
+    this.selectedCity = value;
   }
 
   @action
@@ -46,6 +71,24 @@ export default class BasicModalDemo extends Component {
         <p>This is the default body content. You can pass any content as the
           default block. Confirm returns a promise: the Done button shows
           loading until it resolves, then the modal closes.</p>
+        <div class="ulx-form m-size mb-8">
+          <UlxField
+            @label="City"
+            @fieldId="modal-basic-city"
+            @fieldClass="col-12"
+            as |field|
+          >
+            <UlxDropdown
+              @field={{field}}
+              @options={{this.cities}}
+              @value={{this.selectedCity}}
+              @onChange={{this.setSelectedCity}}
+              @filter={{true}}
+              @filterPlaceholder="Search cities"
+              @placeholder="Select a city"
+            />
+          </UlxField>
+        </div>
         <UlxIcon
           {{tooltip "Icon Tooltip" position="top"}}
           @componentClass="bs-icons1"

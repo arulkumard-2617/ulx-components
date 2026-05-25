@@ -25,8 +25,8 @@ export default class DemoTextareaInvalid extends Component {
   }
 
   @action
-  handleInput(event) {
-    this.value = event.target.value;
+  handleInput(value) {
+    this.value = value;
 
     if (this.submitted) {
       this.error = this.validate(this.value);
