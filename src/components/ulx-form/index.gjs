@@ -11,6 +11,7 @@ const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
 
 /**
  * Semantic `<form>` container with ULX layout classes, optional action region, and form-level events.
+ * Use `@tag="div"` for auto-save/layout-only groups that should not have native form submit behavior.
  * Pass `aria-*`, `novalidate`, `method`, `action`, etc. via `...attributes`.
  *
  * ## Structure
@@ -27,6 +28,7 @@ const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
  * @class UlxForm
  * @param {false|(event: SubmitEvent) => void} [onSubmit=false] - Default `false` prevents implicit submit. Pass a function to handle submit after preventing default navigation.
  * @param {(event: Event) => void} [onReset] - Reset handler.
+ * @param {'form'|'div'} [tag='form'] - Root element. Use `div` to avoid native form submit behavior.
  * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class).
  * @param {string} [customClass] - Extra CSS classes on the form root. Avoid `ulx-grid` here; use `UlxFieldSet` `@customClass` on the fieldset content wrapper (e.g. `ulx-grid`, `flex flex-col`) for field groups.
  * @param {string} [actionsClass] - Extra classes on the actions wrapper (base `ulx-form-actions`).
@@ -63,6 +65,11 @@ export default class UlxForm extends Component {
 		return resolveRootDataQa(this.args.dataQa, "form");
 	}
 
+	get useFormTag() {
+		const { tag = "form" } = this.args;
+		return tag !== "div";
+	}
+
 	@action
 	handleSubmit(event) {
 		const { onSubmit = false } = this.args;
@@ -82,20 +89,32 @@ export default class UlxForm extends Component {
 	}
 
 	<template>
-		<form
-			class={{this.rootClasses}}
-			data-qa={{this.rootDataQa}}
-			{{on "submit" this.handleSubmit}}
-			{{on "reset" this.handleReset}}
-			...attributes
-		>
-			{{yield}}
+		{{#if this.useFormTag}}
+			<form
+				class={{this.rootClasses}}
+				data-qa={{this.rootDataQa}}
+				{{on "submit" this.handleSubmit}}
+				{{on "reset" this.handleReset}}
+				...attributes
+			>
+				{{yield}}
 
-			{{#if (has-block "actions")}}
-				<div class={{this.actionsClasses}}>
-					{{yield to="actions"}}
-				</div>
-			{{/if}}
-		</form>
+				{{#if (has-block "actions")}}
+					<div class={{this.actionsClasses}}>
+						{{yield to="actions"}}
+					</div>
+				{{/if}}
+			</form>
+		{{else}}
+			<div role="form" class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
+				{{yield}}
+
+				{{#if (has-block "actions")}}
+					<div class={{this.actionsClasses}}>
+						{{yield to="actions"}}
+					</div>
+				{{/if}}
+			</div>
+		{{/if}}
 	</template>
 }

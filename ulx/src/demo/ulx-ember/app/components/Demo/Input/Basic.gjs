@@ -86,6 +86,7 @@ export default class Demo extends Component {
 
   <template>
     <UlxForm
+      @tag="form"
       @size="m-size"
       @customClass="ulx-grid mb-14"
       novalidate
