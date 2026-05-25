@@ -176,6 +176,35 @@ function collectFlatpickrHeaderFields(fpInstance) {
 	return fields;
 }
 
+/**
+ * @param {import('flatpickr').Instance | null | undefined} fpInstance
+ * @returns {HTMLElement[]}
+ */
+function collectFlatpickrTimeFields(fpInstance) {
+	if (!fpInstance?.config.enableTime) {
+		return [];
+	}
+
+	/** @type {HTMLElement[]} */
+	const fields = [];
+	const seen = new Set();
+
+	const addField = (field) => {
+		if (!(field instanceof HTMLElement) || seen.has(field)) {
+			return;
+		}
+		seen.add(field);
+		fields.push(field);
+	};
+
+	addField(fpInstance.hourElement);
+	addField(fpInstance.minuteElement);
+	addField(fpInstance.secondElement);
+	addField(fpInstance.amPM);
+
+	return fields;
+}
+
 /** @param {FlatpickrModifier} modifier */
 function cleanupHeaderFieldArrowKeyGuards(modifier) {
 	for (const { field, handler } of modifier._headerArrowKeyBindings) {
@@ -185,7 +214,8 @@ function cleanupHeaderFieldArrowKeyGuards(modifier) {
 }
 
 /**
- * Stops flatpickr from moving focus to the day grid when Left/Right are used in header inputs.
+ * Stops flatpickr calendar keydown from handling Left/Right in header/year inputs and time
+ * spinners (flatpickr otherwise moves focus to the day grid or forces focus on the hour field).
  *
  * @param {FlatpickrModifier} modifier
  * @param {import('flatpickr').Instance | null | undefined} fpInstance
@@ -193,11 +223,37 @@ function cleanupHeaderFieldArrowKeyGuards(modifier) {
 function installHeaderFieldArrowKeyGuards(modifier, fpInstance) {
 	cleanupHeaderFieldArrowKeyGuards(modifier);
 
-	if (!fpInstance || fpInstance.config.noCalendar || fpInstance.isMobile) {
+	if (!fpInstance || fpInstance.isMobile) {
 		return;
 	}
 
-	for (const field of collectFlatpickrHeaderFields(fpInstance)) {
+	/** @type {HTMLElement[]} */
+	const fields = [];
+	const seen = new Set();
+
+	const addFields = (/** @type {HTMLElement[]} */ nextFields) => {
+		for (const field of nextFields) {
+			if (seen.has(field)) {
+				continue;
+			}
+			seen.add(field);
+			fields.push(field);
+		}
+	};
+
+	if (!fpInstance.config.noCalendar) {
+		addFields(collectFlatpickrHeaderFields(fpInstance));
+	}
+
+	if (fpInstance.config.enableTime) {
+		addFields(collectFlatpickrTimeFields(fpInstance));
+	}
+
+	if (!fields.length) {
+		return;
+	}
+
+	for (const field of fields) {
 		/** @param {KeyboardEvent} event */
 		const handler = (event) => {
 			const keyPressed = event.key;
