@@ -1,6 +1,5 @@
 ---
-description: Do not modify external reference-only ULS_V2.0 or primereact-master trees; read only
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Do Not Modify Reference Directories
