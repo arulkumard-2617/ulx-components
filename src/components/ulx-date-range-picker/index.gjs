@@ -101,6 +101,7 @@ export default class UlxDateRangePicker extends Component {
 
 		const {
 			onChange: flatpickrOnChange,
+			onOpen: flatpickrOnOpen,
 			mode: flatpickrModeOverride,
 			appendTo: flatpickrAppendTo,
 			...flatpickrOptionsRest
@@ -156,6 +157,15 @@ export default class UlxDateRangePicker extends Component {
 
 				if (oneClickClose && instance.close) {
 					instance.close();
+				}
+			},
+			onOpen: (selectedDates, dateStr, instance) => {
+				flatpickrOnOpen?.(selectedDates, dateStr, instance);
+				if (selectedDates?.length >= 1) {
+					const jumpDate = this.args.showEndDateOnly
+						? (selectedDates[1] ?? selectedDates[0])
+						: selectedDates[0];
+					instance.jumpToDate(jumpDate);
 				}
 			}
 		};
@@ -237,8 +247,7 @@ export default class UlxDateRangePicker extends Component {
 		}
 
 		if (this.args.showEndDateOnly === true) {
-			const nextEndDate =
-				selectedCount >= 2 ? selectedDates[1] : selectedDates[0];
+			const nextEndDate = selectedCount >= 2 ? selectedDates[1] : selectedDates[0];
 			return [rangeValue[0] ?? nextEndDate, nextEndDate];
 		}
 
