@@ -11,6 +11,7 @@ const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
 
 /**
  * Semantic `<form>` container with ULX layout classes, optional action region, and form-level events.
+ * Use `@tag="div"` for auto-save/layout-only groups that should not have native form submit behavior.
  * Pass `aria-*`, `novalidate`, `method`, `action`, etc. via `...attributes`.
  *
  * ## Structure
@@ -18,15 +19,16 @@ const FORM_SIZE_CLASSES = new Set(["m-size", "l-size", "xl-size"]);
  * - `<:actions>`: optional footer row (e.g. submit / reset buttons).
  *
  * ## Events
- * - `@onSubmit` — when provided, `submit` is `preventDefault`’d and this callback receives the native event.
+ * - `@onSubmit` — defaults to blocking implicit Enter/submit (`false`). Pass a function to handle submit after `preventDefault`.
  * - `@onReset` — optional; invoked on `reset` (native reset still runs unless the handler calls `preventDefault`).
  *
  * ## WCAG
  * - Uses `<form>`; name the form with `aria-label`, `aria-labelledby`, or a visible heading associated via `aria-describedby` as needed.
  *
  * @class UlxForm
- * @param {(event: SubmitEvent) => void} [onSubmit] - Submit handler; prevents default navigation when set.
+ * @param {false|(event: SubmitEvent) => void} [onSubmit=false] - Default `false` prevents implicit submit. Pass a function to handle submit after preventing default navigation.
  * @param {(event: Event) => void} [onReset] - Reset handler.
+ * @param {'form'|'div'} [tag='form'] - Root element. Use `div` to avoid native form submit behavior.
  * @param {'m-size'|'l-size'|'xl-size'} [size] - Size variant (default s-size has no class).
  * @param {string} [customClass] - Extra CSS classes on the form root. Avoid `ulx-grid` here; use `UlxFieldSet` `@customClass` on the fieldset content wrapper (e.g. `ulx-grid`, `flex flex-col`) for field groups.
  * @param {string} [actionsClass] - Extra classes on the actions wrapper (base `ulx-form-actions`).
@@ -63,13 +65,22 @@ export default class UlxForm extends Component {
 		return resolveRootDataQa(this.args.dataQa, "form");
 	}
 
+	get useFormTag() {
+		const { tag = "form" } = this.args;
+		return tag !== "div";
+	}
+
 	@action
 	handleSubmit(event) {
-		const { onSubmit } = this.args;
-		if (onSubmit) {
+		const { onSubmit = false } = this.args;
+
+		if (typeof onSubmit === "function") {
 			event.preventDefault();
 			onSubmit(event);
+			return;
 		}
+
+		event.preventDefault();
 	}
 
 	@action
@@ -78,20 +89,32 @@ export default class UlxForm extends Component {
 	}
 
 	<template>
-		<form
-			class={{this.rootClasses}}
-			data-qa={{this.rootDataQa}}
-			{{on "submit" this.handleSubmit}}
-			{{on "reset" this.handleReset}}
-			...attributes
-		>
-			{{yield}}
+		{{#if this.useFormTag}}
+			<form
+				class={{this.rootClasses}}
+				data-qa={{this.rootDataQa}}
+				{{on "submit" this.handleSubmit}}
+				{{on "reset" this.handleReset}}
+				...attributes
+			>
+				{{yield}}
 
-			{{#if (has-block "actions")}}
-				<div class={{this.actionsClasses}}>
-					{{yield to="actions"}}
-				</div>
-			{{/if}}
-		</form>
+				{{#if (has-block "actions")}}
+					<div class={{this.actionsClasses}}>
+						{{yield to="actions"}}
+					</div>
+				{{/if}}
+			</form>
+		{{else}}
+			<div role="form" class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
+				{{yield}}
+
+				{{#if (has-block "actions")}}
+					<div class={{this.actionsClasses}}>
+						{{yield to="actions"}}
+					</div>
+				{{/if}}
+			</div>
+		{{/if}}
 	</template>
 }

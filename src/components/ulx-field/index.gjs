@@ -137,7 +137,7 @@ export default class UlxField extends Component {
 	}
 
 	<template>
-		<div class={{this.fieldClass}}>
+		<div class={{this.fieldClass}} title={{@titleMessage}}>
 
 			{{! LABEL (safe render) }}
 			{{#if (or (has-block "label") @label)}}

@@ -45,6 +45,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {'window'|HTMLElement|Function|string} [scrollContext] - Scroll container to pin the popup inside (default: nearest `.editor-sc-parent` or scrollable ancestor).
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ *
+ * Popup mode: Tab focuses the input without opening the calendar; use a pointer click, Enter when typing is disabled, ArrowDown when typing is enabled (`allowInput`), or the calendar trigger button when shown.
  * @param {string} [timezone] - IANA zone; converts `@value` / bounds to wall calendar dates for flatpickr
  * @param {{ start: Date|import('moment').Moment, end: Date|import('moment').Moment }|Array} [range] - Full event range for calendar highlighting when `@value` is a single bound (split start/end fields)
  * @param {string|number} [preserveTime] - Internal time combined with the selected range day on change when `@timezone` is set
@@ -99,6 +101,7 @@ export default class UlxDateRangePicker extends Component {
 
 		const {
 			onChange: flatpickrOnChange,
+			onOpen: flatpickrOnOpen,
 			mode: flatpickrModeOverride,
 			appendTo: flatpickrAppendTo,
 			...flatpickrOptionsRest
@@ -154,6 +157,15 @@ export default class UlxDateRangePicker extends Component {
 
 				if (oneClickClose && instance.close) {
 					instance.close();
+				}
+			},
+			onOpen: (selectedDates, dateStr, instance) => {
+				flatpickrOnOpen?.(selectedDates, dateStr, instance);
+				if (selectedDates?.length >= 1) {
+					const jumpDate = this.args.showEndDateOnly
+						? (selectedDates[1] ?? selectedDates[0])
+						: selectedDates[0];
+					instance.jumpToDate(jumpDate);
 				}
 			}
 		};
@@ -235,8 +247,7 @@ export default class UlxDateRangePicker extends Component {
 		}
 
 		if (this.args.showEndDateOnly === true) {
-			const nextEndDate =
-				selectedCount >= 2 ? selectedDates[1] : selectedDates[0];
+			const nextEndDate = selectedCount >= 2 ? selectedDates[1] : selectedDates[0];
 			return [rangeValue[0] ?? nextEndDate, nextEndDate];
 		}
 
@@ -269,6 +280,7 @@ export default class UlxDateRangePicker extends Component {
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
 					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 			>
@@ -337,6 +349,7 @@ export default class UlxDateRangePicker extends Component {
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
 					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 				...attributes

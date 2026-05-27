@@ -57,22 +57,21 @@ export default class HoverClickPopupDemo extends Component {
   <template>
     <div class="ulx-form m-size flex flex-col gap-10 mb-14">
       <p class="text-13 fg-secondary mb-0">
-        Each popup uses \`@interactionMode\` with the trigger named block. Parent still owns
-        \`@visible\` and must flip it to true inside \`@onShow\`. Close uses outside dismiss,
-        Escape, or footer actions.
+        Each popup uses \`@interactionMode\` with the trigger named block. Parent
+        still owns \`@visible\` and must flip it to true inside \`@onShow\`. Close
+        uses outside dismiss, Escape, or footer actions.
       </p>
 
       <div class="flex flex-col gap-4">
         <div class="text-13 bold-font">Click to open</div>
         <p class="text-13 fg-secondary mb-0">
-          \`interactionMode="click"\` toggles open/closed on trigger click or Enter / Space when
-          the trigger is focused. Hover does not open this example.
+          \`interactionMode="click"\` toggles open/closed on trigger click or
+          Enter / Space when the trigger is focused. Hover does not open this
+          example.
         </p>
         <UlxPopup
           @visible={{this.isClickPopupVisible}}
           @interactionMode="click"
-          @context="body"
-          @position="position-bottom"
           @size="m-size"
           @variant="elevated"
           @dismissable={{true}}
@@ -86,6 +85,7 @@ export default class HoverClickPopupDemo extends Component {
           @doneButtonLabel={{t "lbl.save"}}
           @onCancel={{this.closeClickPopup}}
           @onDone={{this.closeClickPopup}}
+          @position="position-right"
         >
           <:trigger>
             <UlxButton
@@ -104,16 +104,16 @@ export default class HoverClickPopupDemo extends Component {
       <div class="flex flex-col gap-4">
         <div class="text-13 bold-font">Hover to open</div>
         <p class="text-13 fg-secondary mb-0">
-          interactionMode=&quot;hover&quot; opens on pointer hover and closes after mouseleave from
-          the trigger (moving into the popup cancels briefly so content stays reachable).
-          Trigger click does not toggle this popup; you can still dismiss with outside click,
-          Escape, or Done / Cancel.
+          interactionMode=&quot;hover&quot; opens on pointer hover and closes
+          after mouseleave from the trigger (moving into the popup cancels
+          briefly so content stays reachable). Trigger click does not toggle
+          this popup; you can still dismiss with outside click, Escape, or Done
+          / Cancel.
         </p>
         <UlxPopup
           @visible={{this.isHoverPopupVisible}}
           @interactionMode="hover"
-          @context="body"
-          @position="position-bottom"
+          @position="position-right"
           @size="m-size"
           @variant="elevated"
           @dismissable={{true}}
@@ -138,8 +138,8 @@ export default class HoverClickPopupDemo extends Component {
           </:trigger>
           <:body>
             <p class="mb-0">
-              Opens via pointer hover; leaves the trigger to schedule close unless the pointer enters
-              the popup within the short bridge delay.
+              Opens via pointer hover; leaves the trigger to schedule close
+              unless the pointer enters the popup within the short bridge delay.
             </p>
           </:body>
         </UlxPopup>

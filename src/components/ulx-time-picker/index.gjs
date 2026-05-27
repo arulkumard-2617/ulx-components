@@ -39,6 +39,8 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {'window'|HTMLElement|Function|string} [scrollContext] - Scroll container to pin the popup inside (default: nearest `.editor-sc-parent` or scrollable ancestor).
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ *
+ * Popup mode: Tab focuses the input without opening the time picker; use a pointer click, Enter when typing is disabled, ArrowDown when typing is enabled (`allowInput`), or the time picker trigger button when shown.
  * @param {string|number} [internalTimeValue] - Model time string (e.g. `HHmm`) shown in the picker
  * @param {string} [internalTimeFormat='HHmm'] - Parse/emit format for `@internalTimeValue`
  * @param {boolean} [emitInternalTime=false] - When true, `onChange` receives internal time string in `selectedDates[0]`
@@ -178,6 +180,7 @@ export default class UlxTimePicker extends Component {
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
 					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 			>
@@ -248,6 +251,7 @@ export default class UlxTimePicker extends Component {
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
 					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 				...attributes
