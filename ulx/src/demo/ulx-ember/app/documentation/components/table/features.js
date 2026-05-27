@@ -14,6 +14,8 @@ import {
   ExpansionSource,
   TreeTableDemo,
   TreeTableSource,
+  TimelineTableDemo,
+  TimelineTableSource,
   ColumnTemplateDemo,
   ColumnTemplateSource,
   GridLinesDemo,
@@ -392,6 +394,26 @@ export const TableFeatureItems = [
       props: {
         source: TreeTableSource,
         snippetName: 'tree-table',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'timeline-table',
+    sectionNav: 'Timeline Table',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Flat activity or audit log rows with a vertical step spine in the first column. Use <code>@customClass="timeline-table"</code>, <code>className: \'timeline-table-cell\'</code> on the timeline column, and <code>timeline-table-step</code> markup with <code>data-state</code> (completed, upcoming) for milestone-style markers and a neutral grey spine.',
+      },
+    },
+    demo: {
+      component: TimelineTableDemo,
+      props: {
+        source: TimelineTableSource,
+        snippetName: 'timeline-table',
         language: 'handlebars',
       },
     },

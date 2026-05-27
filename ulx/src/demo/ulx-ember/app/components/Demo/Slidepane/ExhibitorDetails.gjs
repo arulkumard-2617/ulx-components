@@ -11,7 +11,6 @@ import {
   UlxIcon,
   UlxImage,
   UlxChip,
-  UlxTag,
   UlxTieredmenu,
   UlxSlider,
   UlxRating
@@ -304,17 +303,20 @@ export default class ExhibitorDetailsSlidepaneDemo extends Component {
                     <span class="text-13 fg-secondary">Booth ID</span>
                   </div>
                   <span class="text-15 semibold-font">110</span>
-                  <UlxTag
-                    @value="Exhibitor Pro"
-                    @variant="lt-gold"
-                    @size="xs-size px-5"
-                    @icon="expo-icon"
-                    @iconType="font"
-                    @iconClass="bs-icons1"
-                    @iconSize="s18"
-                    @customClass="w-fit"
-                    @type="pill"
-                  />
+                  <UlxChip
+                    @label="Exhibitor Pro"
+                    @size="xs-size"
+                    @customClass="w-100 with-icon bg-goldLayer2"
+                  >
+                    <span class="chip-icon" data-qa="ulx-chip-icon">
+                      <svg aria-hidden="true">
+                        <use href="#plugin-medium"></use>
+                      </svg>
+                    </span>
+                    <span class="chip-label" data-qa="ulx-chip-label">
+                      Exhibitor Pro
+                    </span>
+                  </UlxChip>
                 </div>
               </div>
 
