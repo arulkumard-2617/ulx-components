@@ -12,6 +12,8 @@ import {
   AdvancedFilterSource,
   ExpansionDemo,
   ExpansionSource,
+  TreeTableDemo,
+  TreeTableSource,
   ColumnTemplateDemo,
   ColumnTemplateSource,
   GridLinesDemo,
@@ -370,6 +372,26 @@ export const TableFeatureItems = [
       props: {
         source: ExpansionSource,
         snippetName: 'expansion',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'tree-table',
+    sectionNav: 'Tree Table',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Inline parent and child rows with tree connectors. Flatten nested data in the app, use <code>@customClass="tree-table"</code>, <code>@scrollable</code> with column <code>min-width</code> styles, custom <code>col.body</code> cells, and <code>@rowClassName</code> for parent and child rows. Supports expandable detail rows and always-visible companion rows.',
+      },
+    },
+    demo: {
+      component: TreeTableDemo,
+      props: {
+        source: TreeTableSource,
+        snippetName: 'tree-table',
         language: 'handlebars',
       },
     },

@@ -400,6 +400,10 @@ export default class UlxDropdown extends Component {
 		return resolveOverlayContext(this.args.context ?? "self");
 	}
 
+	get isPortaledToBody() {
+		return this.resolvedContext === document.body;
+	}
+
 	get resolvedBoundary() {
 		return resolveOverlayBoundary(this.args.boundary ?? "window");
 	}
@@ -618,6 +622,16 @@ export default class UlxDropdown extends Component {
 		document.getElementById(this.triggerId)?.focus?.({ preventScroll: true });
 	}
 
+	/** Portaled panels detach on close; return focus to the combobox trigger after selection. */
+	restoreTriggerFocusAfterClose() {
+		if (!this.isPortaledToBody || this.isTriggerDisabled) return;
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				this.getTriggerFocusableAnchor()?.focus?.({ preventScroll: true });
+			});
+		});
+	}
+
 	focusPanelInputOnOpen() {
 		schedule("afterRender", () => {
 			if (!this.overlayVisible) return;
@@ -751,6 +765,7 @@ export default class UlxDropdown extends Component {
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(value);
 		this.args.onHide?.();
+		this.restoreTriggerFocusAfterClose();
 	}
 
 	/** Applies Enter/Space selection for the current `focusedOptionIndex` (flat vs grouped row). */
@@ -774,6 +789,7 @@ export default class UlxDropdown extends Component {
 		this.args.onFilter?.("");
 		this.filterValue = "";
 		this.args.onHide?.();
+		this.restoreTriggerFocusAfterClose();
 	}
 
 	@action

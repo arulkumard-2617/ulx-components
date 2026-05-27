@@ -8,6 +8,7 @@ export { default as KeyfilterDemo } from '../../../components/Demo/Textarea/Keyf
 export { default as SizesDemo } from '../../../components/Demo/Textarea/Sizes';
 export { default as InvalidDemo } from '../../../components/Demo/Textarea/Invalid';
 export { default as DisabledDemo } from '../../../components/Demo/Textarea/Disabled';
+export { default as WithButtonDemo } from '../../../components/Demo/Textarea/WithButton';
 
 export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
@@ -16,3 +17,4 @@ export { default as KeyfilterSource } from './snippets/Keyfilter.gjs';
 export { default as SizesSource } from './snippets/Sizes.gjs';
 export { default as InvalidSource } from './snippets/Invalid.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';
+export { default as WithButtonSource } from './snippets/WithButton.gjs';
