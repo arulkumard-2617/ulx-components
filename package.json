@@ -49,6 +49,7 @@
 		"rollup": "^4.9.4",
 		"rollup-plugin-copy": "^3.5.0",
 		"sortablejs": "^1.15.7",
+		"quill-mention": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/quill-mention.git",
 		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {
@@ -70,7 +71,8 @@
 		"prettier": "^3.1.1",
 		"prettier-plugin-ember-template-tag": "^2.0.0",
 		"typescript": "^5.3.3",
-		"moment": "^2.29.0"
+		"moment": "^2.29.0",
+		"moment-timezone": "^0.6.2"
 	},
 	"peerDependencies": {
 		"@glimmer/component": "^1.1.2",
@@ -78,13 +80,7 @@
 		"ember-cli": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
 		"ember-modifier": "^4.1.0",
 		"ember-source": "^3.28.0 || ^4.0.0 || ^5.0.0 || ^6.0.0",
-		"ember-truth-helpers": "^4.0.0",
-		"moment": "^2.29.0"
-	},
-	"peerDependenciesMeta": {
-		"moment": {
-			"optional": true
-		}
+		"ember-truth-helpers": "^4.0.0"
 	},
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org"

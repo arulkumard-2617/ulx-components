@@ -62,7 +62,12 @@ const validators = {
 			return;
 		}
 
-		if (!value.isAfter(valueToCheck)) {
+		const momentLib = globalThis?.moment;
+		if (momentLib) {
+			if (!momentLib(value).isAfter(momentLib(valueToCheck))) {
+				return rule.msg;
+			}
+		} else if (!(new Date(value) > new Date(valueToCheck))) {
 			return rule.msg;
 		}
 	}

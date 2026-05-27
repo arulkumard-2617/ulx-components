@@ -1,16 +1,17 @@
-import * as momentNamespace from 'moment';
+import * as momentTimezoneNamespace from 'moment-timezone';
 
 /**
- * Resolves moment from the host bundle (CJS/ESM interop differs between Rollup and Webpack).
+ * Resolves moment (with timezone support) from the host bundle.
+ * CJS/ESM interop differs between Rollup and Webpack.
  *
- * @returns {typeof import('moment').default}
+ * @returns {typeof import('moment-timezone').default}
  */
 function resolveMoment() {
-	if (typeof momentNamespace === 'function') {
-		return momentNamespace;
+	if (typeof momentTimezoneNamespace === 'function') {
+		return momentTimezoneNamespace;
 	}
 
-	const candidate = momentNamespace.default ?? momentNamespace;
+	const candidate = momentTimezoneNamespace.default ?? momentTimezoneNamespace;
 
 	if (typeof candidate === 'function') {
 		return candidate;
@@ -21,7 +22,7 @@ function resolveMoment() {
 	}
 
 	throw new Error(
-		'ulx-components picker-datetime requires moment (install moment in the host app)'
+		'ulx-components picker-datetime requires moment-timezone (install moment-timezone in the host app)'
 	);
 }
 
@@ -74,8 +75,7 @@ export function wallCalendarDateInZone(dateValue, timezone) {
 		return null;
 	}
 
-	const wallDate =
-		timezone && moment(dateValue).tz ? moment(dateValue).tz(timezone) : moment(dateValue);
+	const wallDate = timezone ? moment(dateValue).tz(timezone) : moment(dateValue);
 
 	return new Date(wallDate.year(), wallDate.month(), wallDate.date());
 }
