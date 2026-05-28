@@ -406,10 +406,6 @@ export default class UlxDropdown extends Component {
 		return resolveOverlayContext(this.args.context ?? "self");
 	}
 
-	get isPortaledToBody() {
-		return this.resolvedContext === document.body;
-	}
-
 	get resolvedBoundary() {
 		return resolveOverlayBoundary(this.args.boundary ?? "window");
 	}
@@ -696,9 +692,9 @@ export default class UlxDropdown extends Component {
 		document.getElementById(this.triggerId)?.focus?.({ preventScroll: true });
 	}
 
-	/** Portaled panels detach on close; return focus to the combobox trigger after selection. */
+	/** Return focus to the combobox trigger after the overlay closes (any `@context`). */
 	restoreTriggerFocusAfterClose() {
-		if (!this.isPortaledToBody || this.isTriggerDisabled) return;
+		if (this.isTriggerDisabled) return;
 		schedule("afterRender", () => {
 			requestAnimationFrame(() => {
 				this.getTriggerFocusableAnchor()?.focus?.({ preventScroll: true });
@@ -818,6 +814,7 @@ export default class UlxDropdown extends Component {
 			this.clearLockedAutoPanelPlacement();
 			this.dismissKeyboardOptionFocusRing();
 			this.args.onHide?.();
+			this.restoreTriggerFocusAfterClose();
 		}
 	}
 
