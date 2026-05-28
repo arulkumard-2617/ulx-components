@@ -9,6 +9,7 @@ export { default as IconDemo } from '../../../components/Demo/Avatar/Icon';
 export { default as ImageDemo } from '../../../components/Demo/Avatar/Image';
 export { default as GroupDemo } from '../../../components/Demo/Avatar/Group';
 export { default as MemberDemo } from '../../../components/Demo/Avatar/Member';
+export { default as AnonymousDemo } from '../../../components/Demo/Avatar/Anonymous';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -21,3 +22,4 @@ export { default as IconSource } from './snippets/Icon.gjs';
 export { default as ImageSource } from './snippets/Image.gjs';
 export { default as GroupSource } from './snippets/Group.gjs';
 export { default as MemberSource } from './snippets/Member.gjs';
+export { default as AnonymousSource } from './snippets/Anonymous.gjs';

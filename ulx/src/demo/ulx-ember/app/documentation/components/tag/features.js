@@ -8,6 +8,7 @@ import {
   VariationsDemo,
   ExtendedPaletteDemo,
   LightSoftColorsDemo,
+  LayeredDemo,
   StatusLabelsDemo,
   TypeDemo,
   SymbolDemo,
@@ -18,6 +19,7 @@ import {
   VariationsSource,
   ExtendedPaletteSource,
   LightSoftColorsSource,
+  LayeredSource,
   StatusLabelsSource,
   TypeSource,
   SymbolSource,
@@ -119,6 +121,26 @@ export const TagFeatureItems = [
       props: {
         source: LightSoftColorsSource,
         snippetName: "light-soft-colors",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "layered",
+    sectionNav: "Layered",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Shows Tag colors that use design-system layer backgrounds."
+      }
+    },
+    demo: {
+      component: LayeredDemo,
+      props: {
+        source: LayeredSource,
+        snippetName: "layered",
         language: "handlebars"
       }
     }
