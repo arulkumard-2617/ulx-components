@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import UlxButton from "../ulx-button/index.gjs";
+import UlxIcon from "../ulx-icon/index.gjs";
 import UlxSplitButton from "../ulx-split-button/index.gjs";
 
 /**
@@ -8,7 +9,7 @@ import UlxSplitButton from "../ulx-split-button/index.gjs";
  * First item is the main action; additional items appear in the split dropdown.
  *
  * @class UlxActionButtons
- * @param {object[]} [actionButtons] - `{ label, action, customParam?, icon?, dataQa? }`; empty or missing renders nothing. Optional `dataQa` is passed through to each split-dropdown menu item (tiered menu row `data-qa`).
+ * @param {object[]} [actionButtons] - `{ label, action, customParam?, icon?, dataQa? }`; empty or missing renders nothing. Optional `icon` on any item uses font-icon classes (e.g. `bs-icons1 ls-tick-icon`) for the primary button or split menu rows. Optional `dataQa` is passed through to each split-dropdown menu item (tiered menu row `data-qa`).
  * @param {string} [variant='primary'] - Passed to the underlying Ulx controls.
  * @param {boolean} [outlined=false]
  * @param {string} [size='m-size']
@@ -56,6 +57,34 @@ export default class UlxActionButtons extends Component {
 		return Boolean(this.args.disabled);
 	}
 
+	get primaryIcon() {
+		return this.primaryActionButton?.icon ?? null;
+	}
+
+	get hasPrimaryIcon() {
+		return Boolean(this.primaryIcon);
+	}
+
+	get primaryIconName() {
+		const icon = this.primaryIcon;
+		if (!icon) {
+			return null;
+		}
+
+		const parts = icon.trim().split(/\s+/);
+		return parts.length > 1 ? parts[parts.length - 1] : icon;
+	}
+
+	get primaryIconComponentClass() {
+		const icon = this.primaryIcon;
+		if (!icon) {
+			return "bs-icons1";
+		}
+
+		const parts = icon.trim().split(/\s+/);
+		return parts.length > 1 ? parts[0] : "bs-icons1";
+	}
+
 	@action
 	triggerActionButton(actionButton) {
 		const actionFn = actionButton?.action;
@@ -81,6 +110,8 @@ export default class UlxActionButtons extends Component {
 			{{#if this.hasSecondaryActions}}
 				<UlxSplitButton
 					@label={{this.primaryActionButton.label}}
+					@icon={{if this.hasPrimaryIcon this.primaryIconName}}
+					@iconComponentClass={{this.primaryIconComponentClass}}
 					@variant={{this.variant}}
 					@outlined={{this.outlined}}
 					@size={{this.size}}
@@ -101,7 +132,18 @@ export default class UlxActionButtons extends Component {
 					@onClick={{this.handlePrimaryAction}}
 					@disabled={{this.disabled}}
 					@dataQa={{@dataQa}}
-				/>
+				>
+					<:prefix>
+						{{#if this.hasPrimaryIcon}}
+							<UlxIcon
+								@iconName={{this.primaryIconName}}
+								@type="font"
+								@componentClass={{this.primaryIconComponentClass}}
+								aria-hidden="true"
+							/>
+						{{/if}}
+					</:prefix>
+				</UlxButton>
 			{{/if}}
 		{{/if}}
 	</template>
