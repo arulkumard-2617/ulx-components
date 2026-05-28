@@ -17,7 +17,7 @@ import {
   SizesSource,
   InvalidSource,
   DisabledSource,
-  WithButtonSource,
+  WithButtonSource
 } from './imports';
 
 export const TextareaFeatureItems = [
@@ -163,18 +163,18 @@ export const TextareaFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>With Button</code> demo shows a Textarea with an inset action button, a label header, and a live character counter.',
-      },
+          'The <code>With Button</code> demo shows a Textarea with an inset action button, a label header, and a live character counter.'
+      }
     },
     demo: {
       component: WithButtonDemo,
       props: {
         source: WithButtonSource,
         snippetName: 'with-button',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function TextareaFeatures() {
