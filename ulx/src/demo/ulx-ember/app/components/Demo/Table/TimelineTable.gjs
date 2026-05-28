@@ -25,18 +25,6 @@ const ACTIVITY_ROWS = [
     avatarVariant: 'green',
     date: '17 July, 2025',
     time: '04:30 PM'
-  },
-  {
-    id: '3',
-    state: 'upcoming',
-    statusLabel: 'Published',
-    statusVariant: 'info',
-    name: 'Alex Morgan',
-    email: 'alex.morgan@gmail.com',
-    initials: 'AM',
-    avatarVariant: 'blue',
-    date: '18 July, 2025',
-    time: '10:00 AM'
   }
 ];
 

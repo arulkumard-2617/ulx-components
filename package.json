@@ -49,6 +49,8 @@
 		"rollup": "^4.9.4",
 		"rollup-plugin-copy": "^3.5.0",
 		"sortablejs": "^1.15.7",
+		"moment": "^2.29.0",
+		"moment-timezone": "^0.6.2",
 		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {

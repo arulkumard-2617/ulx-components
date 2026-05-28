@@ -1406,6 +1406,13 @@ export default class UlxMultiSelect extends Component {
 						{{/if}}
 						{{#if this.isFilterEnabled}}
 							<div class="multiselect-filter-container">
+								<UlxIcon
+									@type="font"
+									@iconName="search-icon multiselect-filter-icon"
+									@componentClass="bs-icons1"
+									@size="s18"
+									aria-hidden="true"
+								/>
 								<input
 									type="text"
 									class="multiselect-filter-input"

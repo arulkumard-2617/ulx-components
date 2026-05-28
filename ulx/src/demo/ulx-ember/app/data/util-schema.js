@@ -4712,12 +4712,64 @@ export const utilSchema = {
             "styles": "border-color: @light-border-color;"
           },
           {
+            "class": "border-input",
+            "styles": "border-color: @input-border-color;"
+          },
+          {
+            "class": "border-inverted",
+            "styles": "border-color: @inverted-border-color;"
+          },
+          {
             "class": "border-primary",
             "styles": "border-color: @primary-bdr;"
           },
           {
+            "class": "border-primary-soft",
+            "styles": "border-color: @primary-bdr1;"
+          },
+          {
+            "class": "border-success",
+            "styles": "border-color: @success-border-color;"
+          },
+          {
+            "class": "border-warning",
+            "styles": "border-color: @orange-bdr;"
+          },
+          {
+            "class": "border-danger",
+            "styles": "border-color: @danger-border-color;"
+          },
+          {
             "class": "border-error",
             "styles": "border-color: @error-border-color;"
+          },
+          {
+            "class": "border-info",
+            "styles": "border-color: @info-border-color;"
+          },
+          {
+            "class": "border-red",
+            "styles": "border-color: @red-bdr;"
+          },
+          {
+            "class": "border-green",
+            "styles": "border-color: @green-bdr;"
+          },
+          {
+            "class": "border-orange",
+            "styles": "border-color: @orange-bdr;"
+          },
+          {
+            "class": "border-blue",
+            "styles": "border-color: @blue-bdr;"
+          },
+          {
+            "class": "border-purple",
+            "styles": "border-color: @purple-bdr;"
+          },
+          {
+            "class": "border-gold",
+            "styles": "border-color: @gold-bdr;"
           }
         ]
       }
