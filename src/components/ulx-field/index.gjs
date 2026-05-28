@@ -158,7 +158,7 @@ export default class UlxField extends Component {
 							<UlxIcon
 								{{tooltip @tooltipMessage position="bottom"}}
 								@type="font"
-								@iconName="info-stroke-icon"
+								@iconName="info-icon"
 								@size="s18"
 							/>
 						{{/if}}

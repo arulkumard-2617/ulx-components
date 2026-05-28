@@ -9,7 +9,7 @@ import {
   tooltip,
   UlxIcon,
   UlxDropdown,
-  UlxField,
+  UlxField
 } from 'ulx-components';
 
 const CITIES = [
@@ -17,7 +17,7 @@ const CITIES = [
   { label: 'Rome', value: 'RM' },
   { label: 'London', value: 'LDN' },
   { label: 'Istanbul', value: 'IST' },
-  { label: 'Paris', value: 'PRS' },
+  { label: 'Paris', value: 'PRS' }
 ];
 
 export default class BasicModalDemo extends Component {
@@ -71,6 +71,13 @@ export default class BasicModalDemo extends Component {
         <p>This is the default body content. You can pass any content as the
           default block. Confirm returns a promise: the Done button shows
           loading until it resolves, then the modal closes.</p>
+
+        <UlxIcon
+          {{tooltip "Icon Tooltip" position="top"}}
+          @componentClass="bs-icons1"
+          @type="font"
+          @iconName="info-icon-01"
+        />
         <div class="ulx-form m-size mb-8">
           <UlxField
             @label="City"
@@ -86,15 +93,11 @@ export default class BasicModalDemo extends Component {
               @filter={{true}}
               @filterPlaceholder="Search cities"
               @placeholder="Select a city"
+              @context="body"
+              @position="top"
             />
           </UlxField>
         </div>
-        <UlxIcon
-          {{tooltip "Icon Tooltip" position="top"}}
-          @componentClass="bs-icons1"
-          @type="font"
-          @iconName="info-icon-01"
-        />
       </UlxModal>
     </div>
   </template>

@@ -4,6 +4,8 @@ export { default as PaginatorDemo }          from '../../../components/Demo/Tabl
 export { default as SelectionDemo }          from '../../../components/Demo/Table/Selection';
 export { default as FilterDemo }             from '../../../components/Demo/Table/Filter';
 export { default as ExpansionDemo }          from '../../../components/Demo/Table/Expansion';
+export { default as TreeTableDemo }          from '../../../components/Demo/Table/TreeTable';
+export { default as TimelineTableDemo }      from '../../../components/Demo/Table/TimelineTable';
 export { default as ColumnTemplateDemo }     from '../../../components/Demo/Table/ColumnTemplate';
 export { default as GridLinesDemo }          from '../../../components/Demo/Table/GridLines';
 export { default as SizeVariantsDemo }       from '../../../components/Demo/Table/SizeVariants';
@@ -34,6 +36,8 @@ export { default as SortSource }                 from './snippets/Sort.gjs';
 export { default as ColumnTemplateSource }       from './snippets/ColumnTemplate.gjs';
 export { default as SelectionSource }            from './snippets/Selection.gjs';
 export { default as ExpansionSource }            from './snippets/Expansion.gjs';
+export { default as TreeTableSource }            from './snippets/TreeTable.gjs';
+export { default as TimelineTableSource }        from './snippets/TimelineTable.gjs';
 export { default as ConditionalStyleSource }     from './snippets/ConditionalStyle.gjs';
 export { default as RowReorderSource }           from './snippets/RowReorder.gjs';
 export { default as LoadingSource }              from './snippets/Loading.gjs';
