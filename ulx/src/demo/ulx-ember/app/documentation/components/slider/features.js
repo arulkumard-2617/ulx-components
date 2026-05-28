@@ -4,6 +4,7 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
+  SizeDemo,
   InputDemo,
   StepDemo,
   RangeDemo,
@@ -12,6 +13,7 @@ import {
   AccessibilityDemo,
   ImportSource,
   BasicSource,
+  SizeSource,
   InputSource,
   StepSource,
   RangeSource,
@@ -59,6 +61,26 @@ export const SliderFeatureItems = [
         language: 'handlebars',
       },
     },
+  },
+  {
+    id: 'sizes',
+    sectionNav: 'Sizes',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use the <code>@size</code> argument to change track and handle dimensions: <code>xs-size</code>, <code>s-size</code>, <code>m-size</code>, <code>l-size</code>, <code>xl-size</code>.'
+      }
+    },
+    demo: {
+      component: SizeDemo,
+      props: {
+        source: SizeSource,
+        snippetName: 'sizes',
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'input',

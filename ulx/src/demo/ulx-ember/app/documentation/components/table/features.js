@@ -12,6 +12,10 @@ import {
   AdvancedFilterSource,
   ExpansionDemo,
   ExpansionSource,
+  TreeTableDemo,
+  TreeTableSource,
+  TimelineTableDemo,
+  TimelineTableSource,
   ColumnTemplateDemo,
   ColumnTemplateSource,
   GridLinesDemo,
@@ -373,6 +377,46 @@ export const TableFeatureItems = [
         language: 'handlebars',
       },
     },
+  },
+  {
+    id: 'tree-table',
+    sectionNav: 'Tree Table',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Inline parent and child rows with tree connectors. Flatten nested data in the app, use <code>@customClass="tree-table"</code>, <code>@scrollable</code> with column <code>min-width</code> styles, custom <code>col.body</code> cells, and <code>@rowClassName</code> for parent and child rows. Supports expandable detail rows and always-visible companion rows.'
+      }
+    },
+    demo: {
+      component: TreeTableDemo,
+      props: {
+        source: TreeTableSource,
+        snippetName: 'tree-table',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'timeline-table',
+    sectionNav: 'Timeline Table',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Flat activity or audit log rows with a vertical step spine in the first column. Use <code>@customClass="timeline-table"</code>, <code>className: \'timeline-table-cell\'</code> on the timeline column, and <code>timeline-table-step</code> markup with <code>data-state</code> (completed, upcoming) for milestone-style markers and a neutral grey spine.'
+      }
+    },
+    demo: {
+      component: TimelineTableDemo,
+      props: {
+        source: TimelineTableSource,
+        snippetName: 'timeline-table',
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'cell-edit',

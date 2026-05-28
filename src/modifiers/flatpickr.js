@@ -288,11 +288,7 @@ function installFlatpickrScrollReposition(modifier, pickerInstance, hostElement,
 	if (modifier._scrollPinned) {
 		return () => {};
 	}
-	if (
-		pickerInstance.config.inline ||
-		pickerInstance.config.static ||
-		pickerInstance.isMobile
-	) {
+	if (pickerInstance.config.inline || pickerInstance.config.static || pickerInstance.isMobile) {
 		return () => {};
 	}
 
@@ -735,9 +731,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			const isStatic = Boolean(createCfg.static);
 			if (typeof document !== 'undefined' && !isInline && !isStatic) {
 				createCfg.appendTo = resolvedAppendTo ?? document.body;
-				this._appendPositionRestore = ensureFlatpickrAppendContainerPosition(
-					createCfg.appendTo
-				);
+				this._appendPositionRestore = ensureFlatpickrAppendContainerPosition(createCfg.appendTo);
 				if (scrollPinned && typeof userPosition !== 'function') {
 					createCfg.position = createFlatpickrScrollPinnedPosition(createCfg.appendTo);
 				}

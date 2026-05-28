@@ -26,7 +26,7 @@ import { t } from "../../utils/i18n";
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
  * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
  * @param {string} [iconVariant] - UlxButton variant for header icon buttons
- * @param {string} [iconSize="s18"] - Icon size for header icon buttons
+ * @param {string} [iconSize="s24"] - Icon size for header icon buttons
  * @param {string} [maximizeIconName="expand-icon"] - Icon name for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon name for restore button (when maximized)
  * @param {string} [headerClassName] - Extra class for the header root (applied next to slidepane-header)
@@ -84,7 +84,7 @@ export default class UlxSlidePaneHeader extends Component {
 	}
 
 	get iconSize() {
-		return this.args.iconSize ?? "s18";
+		return this.args.iconSize ?? "s24";
 	}
 
 	get maximizeIconName() {
