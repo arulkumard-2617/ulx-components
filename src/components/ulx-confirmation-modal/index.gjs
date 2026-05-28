@@ -5,6 +5,7 @@ import UlxModal from "../ulx-modal/index.gjs";
 /**
  * Global confirmation modal driven by {@link ModalService}.
  * Mount once in the application template (e.g. `application.hbs`).
+ * Each {@link ModalService#openModal} call stacks another dialog.
  *
  * ```gjs
  * <UlxConfirmationModal />
@@ -27,25 +28,25 @@ import UlxModal from "../ulx-modal/index.gjs";
 export default class UlxConfirmationModal extends Component {
 	@service modalManager;
 
-	get props() {
-		return this.modalManager.confirmationProps;
+	get confirmationStack() {
+		return this.modalManager.confirmationStack;
 	}
 
 	<template>
-		{{#if this.props}}
+		{{#each this.confirmationStack key="id" as |modal|}}
 			<UlxModal
-				@visible={{this.props.visible}}
-				@title={{this.props.title}}
-				@size={{this.props.size}}
-				@width={{this.props.width}}
-				@closeOnBackdrop={{this.props.closeOnBackdrop}}
-				@contentClassName={{this.props.customClass}}
-				@onHide={{this.props.onHide}}
-				@onCancel={{this.props.onCancel}}
-				@onDone={{this.props.onConfirm}}
-				@doneButtonLabel={{this.props.confirmLabel}}
-				@cancelButtonLabel={{this.props.cancelLabel}}
-				@doneButtonVariant={{this.props.confirmVariant}}
+				@visible={{modal.visible}}
+				@title={{modal.title}}
+				@size={{modal.size}}
+				@width={{modal.width}}
+				@closeOnBackdrop={{modal.closeOnBackdrop}}
+				@contentClassName={{modal.customClass}}
+				@onHide={{modal.onHide}}
+				@onCancel={{modal.onCancel}}
+				@onDone={{modal.onConfirm}}
+				@doneButtonLabel={{modal.confirmLabel}}
+				@cancelButtonLabel={{modal.cancelLabel}}
+				@doneButtonVariant={{modal.confirmVariant}}
 				@autoCloseOnDone={{false}}
 				@autoCloseOnCancel={{false}}
 				@closeOnEscape={{true}}
@@ -53,14 +54,14 @@ export default class UlxConfirmationModal extends Component {
 				@scrollable={{true}}
 				@maskQa="ulx-confirmation-modal-mask"
 			>
-				{{#if this.props.htmlMessage}}
-					{{{this.props.htmlMessage}}}
-				{{else if this.props.template}}
-					<this.props.template @templateArgs={{this.props.templateArgs}} />
+				{{#if modal.htmlMessage}}
+					{{{modal.htmlMessage}}}
+				{{else if modal.template}}
+					{{component modal.template templateArgs=modal.templateArgs}}
 				{{else}}
-					<p>{{this.props.message}}</p>
+					<p>{{modal.message}}</p>
 				{{/if}}
 			</UlxModal>
-		{{/if}}
+		{{/each}}
 	</template>
 }
