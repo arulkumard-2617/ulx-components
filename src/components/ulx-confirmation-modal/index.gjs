@@ -1,6 +1,8 @@
 import Component from "@glimmer/component";
 import { inject as service } from "@ember/service";
+import { or } from "ember-truth-helpers";
 import UlxModal from "../ulx-modal/index.gjs";
+import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
  * Global confirmation modal driven by {@link ModalService}.
@@ -54,12 +56,38 @@ export default class UlxConfirmationModal extends Component {
 				@scrollable={{true}}
 				@maskQa="ulx-confirmation-modal-mask"
 			>
-				{{#if modal.htmlMessage}}
-					{{{modal.htmlMessage}}}
-				{{else if modal.template}}
-					{{component modal.template templateArgs=modal.templateArgs}}
+				{{#if (or modal.iconTemplate modal.iconHtml modal.iconName)}}
+					<div class="flex flex-col items-center text-center gap-4">
+						{{#if modal.iconTemplate}}
+							{{component modal.iconTemplate templateArgs=modal.iconTemplateArgs}}
+						{{else if modal.iconHtml}}
+							{{{modal.iconHtml}}}
+						{{else}}
+							<UlxIcon
+								@iconName={{modal.iconName}}
+								@type={{modal.iconType}}
+								@componentClass={{modal.iconComponentClass}}
+								@size={{modal.iconSize}}
+								@ariaLabel={{modal.iconAriaLabel}}
+							/>
+						{{/if}}
+
+						{{#if modal.htmlMessage}}
+							{{{modal.htmlMessage}}}
+						{{else if modal.template}}
+							{{component modal.template templateArgs=modal.templateArgs}}
+						{{else}}
+							<p class="mb-0">{{modal.message}}</p>
+						{{/if}}
+					</div>
 				{{else}}
-					<p>{{modal.message}}</p>
+					{{#if modal.htmlMessage}}
+						{{{modal.htmlMessage}}}
+					{{else if modal.template}}
+						{{component modal.template templateArgs=modal.templateArgs}}
+					{{else}}
+						<p>{{modal.message}}</p>
+					{{/if}}
 				{{/if}}
 			</UlxModal>
 		{{/each}}

@@ -13,6 +13,7 @@ import {
   StackedDemo,
   ConfirmationServiceDemo,
   ConfirmationServiceStackedDemo,
+  ConfirmationServiceContentDemo,
   ImportSource,
   BasicSource,
   PositionSource,
@@ -23,7 +24,8 @@ import {
   WithoutoverlaySource,
   StackedSource,
   ConfirmationServiceSource,
-  ConfirmationServiceStackedSource
+  ConfirmationServiceStackedSource,
+  ConfirmationServiceContentSource
 } from './imports';
 
 export const ModalFeatureItems = [
@@ -221,6 +223,26 @@ export const ModalFeatureItems = [
       props: {
         source: ConfirmationServiceStackedSource,
         snippetName: 'confirmation-service-stacked',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'confirmation-service-content',
+    sectionNav: 'Confirmation service content',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Confirmation modals can render a plain <code>message</code>, an <code>htmlMessage</code>, or a custom <code>template</code>. You can also show an icon/illustration above the body with <code>iconName</code>, <code>iconHtml</code>, or <code>iconTemplate</code>.',
+      },
+    },
+    demo: {
+      component: ConfirmationServiceContentDemo,
+      props: {
+        source: ConfirmationServiceContentSource,
+        snippetName: 'confirmation-service-content',
         language: 'handlebars',
       },
     },

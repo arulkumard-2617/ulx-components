@@ -24,6 +24,14 @@ export default class ModalService extends Service {
 	 *
 	 * @param {Object} options
 	 * @param {string} [options.title] - Modal title
+	 * @param {string} [options.iconName] - Icon name (passed to UlxIcon) displayed above the body
+	 * @param {'svg'|'font'} [options.iconType='font'] - Icon type for iconName
+	 * @param {string} [options.iconComponentClass='bs-icons1'] - Icon component class passed to UlxIcon
+	 * @param {string} [options.iconSize] - Optional icon size class (e.g. "s48")
+	 * @param {string} [options.iconAriaLabel] - Optional accessible name. When set, the icon is meaningful (not aria-hidden)
+	 * @param {string} [options.iconHtml] - Raw HTML/SVG icon markup displayed above the body (takes precedence over iconName)
+	 * @param {import('@glimmer/component').default} [options.iconTemplate] - Glimmer component class for a custom icon/illustration
+	 * @param {Object} [options.iconTemplateArgs] - Args passed to the iconTemplate component
 	 * @param {string} [options.message] - Plain text body
 	 * @param {string} [options.htmlMessage] - Raw HTML body (takes precedence over message)
 	 * @param {import('@glimmer/component').default} [options.template] - Glimmer component class for custom body
@@ -41,6 +49,14 @@ export default class ModalService extends Service {
 	 */
 	openModal({
 		title,
+		iconName,
+		iconType = "font",
+		iconComponentClass = "bs-icons1",
+		iconSize,
+		iconAriaLabel,
+		iconHtml,
+		iconTemplate,
+		iconTemplateArgs,
 		message,
 		htmlMessage,
 		template,
@@ -87,6 +103,14 @@ export default class ModalService extends Service {
 				id,
 				visible: true,
 				title,
+				iconName,
+				iconType,
+				iconComponentClass,
+				iconSize,
+				iconAriaLabel,
+				iconHtml,
+				iconTemplate,
+				iconTemplateArgs,
 				message,
 				htmlMessage,
 				template,
