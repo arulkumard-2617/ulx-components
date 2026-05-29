@@ -2,6 +2,7 @@ import ClassBasedModifier from 'ember-modifier';
 import { registerDestructor } from '@ember/destroyable';
 import Flatpickr from 'flatpickr';
 import {
+	applyFlatpickrAutomationDataQa,
 	normalizeSelectedDates,
 	selectedDatesEqual,
 	ensureFlatpickrAppendContainerPosition,
@@ -536,6 +537,7 @@ function applyFlatpickrA11yEnhancements(modifier, fpInstance) {
 	enhanceNavKeyboardAccess(fpInstance);
 	applyYearTabIndex(fpInstance);
 	installHeaderFieldArrowKeyGuards(modifier, fpInstance);
+	applyFlatpickrAutomationDataQa(fpInstance);
 	modifier._focusTrapCleanup?.();
 	modifier._focusTrapCleanup = installFocusTrap(fpInstance);
 }
@@ -657,6 +659,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 				userOnOpen?.(selectedDates, dateStr, fpInst);
 				applyYearTabIndex(fpInst);
 				installHeaderFieldArrowKeyGuards(this, fpInst);
+				applyFlatpickrAutomationDataQa(fpInst);
 				handleCalendarA11yOpen(selectedDates, dateStr, fpInst);
 				cleanupFlatpickrScrollReposition(this);
 				this._scrollRepositionCleanup = installFlatpickrScrollReposition(
@@ -674,6 +677,7 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 				userOnReady?.(selectedDates, dateStr, fpInst);
 				applyYearTabIndex(fpInst);
 				installHeaderFieldArrowKeyGuards(this, fpInst);
+				applyFlatpickrAutomationDataQa(fpInst);
 				applyFormattedDisplayValue(fpInst, formatDisplayValue);
 			},
 			onMonthChange: (selectedDates, dateStr, fpInst) => {

@@ -1,4 +1,55 @@
 /**
+ * Shared `data-qa` tokens on flatpickr-generated picker controls (not the calendar root).
+ * Calendar/time popup roots use surface classes (`ulx-calendar`, `ulx-timepicker`) from the modifier.
+ */
+export const FLATPICKR_DATA_QA = Object.freeze({
+	MONTH_PICKER: "monthPicker",
+	YEAR_PICKER: "yearPicker",
+	TIME_HOUR: "time-hour",
+	TIME_MINUTE: "time-minute",
+	TIME_AMPM: "time-ampm"
+});
+
+/**
+ * @param {Element | null | undefined} element
+ * @param {string} dataQa
+ */
+function setDataQa(element, dataQa) {
+	element?.setAttribute("data-qa", dataQa);
+}
+
+/**
+ * Applies shared `data-qa` on flatpickr month/year and time inputs.
+ *
+ * @param {import('flatpickr').Instance | null | undefined} fpInstance
+ */
+export function applyFlatpickrAutomationDataQa(fpInstance) {
+	const container = fpInstance?.calendarContainer;
+	if (!container) {
+		return;
+	}
+
+	setDataQa(
+		container.querySelector("select.flatpickr-monthDropdown-months"),
+		FLATPICKR_DATA_QA.MONTH_PICKER
+	);
+
+	const yearElements = fpInstance.yearElements?.length
+		? fpInstance.yearElements
+		: fpInstance.currentYearElement
+			? [fpInstance.currentYearElement]
+			: [];
+
+	for (const yearElement of yearElements) {
+		setDataQa(yearElement, FLATPICKR_DATA_QA.YEAR_PICKER);
+	}
+
+	setDataQa(container.querySelector("input.flatpickr-hour"), FLATPICKR_DATA_QA.TIME_HOUR);
+	setDataQa(container.querySelector("input.flatpickr-minute"), FLATPICKR_DATA_QA.TIME_MINUTE);
+	setDataQa(container.querySelector("span.flatpickr-am-pm"), FLATPICKR_DATA_QA.TIME_AMPM);
+}
+
+/**
  * Normalize parent-provided value(s) into Date instances for flatpickr.setDate.
  *
  * @param {unknown} value - Date, ISO string, timestamp, or array for multiple/range
