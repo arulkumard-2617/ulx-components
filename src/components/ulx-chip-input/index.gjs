@@ -14,6 +14,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * - The inner text field has `aria-label` describing the entry purpose.
  * - Each remove button has an accessible label announcing which chip is removed.
  * - Keyboard: Enter/separator adds chip; Backspace on empty field removes the last chip.
+ * - Blur commits pending text so external submit actions include the typed value.
  *
  * @class UlxChipInput
  * @param {string[]} [chips=[]] - Controlled list of current chip values.
@@ -154,6 +155,12 @@ export default class UlxChipInput extends Component {
 	}
 
 	@action
+	handleBlur() {
+		const added = this.addChip(this.inputValue);
+		added && (this.inputValue = "");
+	}
+
+	@action
 	handleWrapperClick(event) {
 		const input = event.currentTarget.querySelector(".chip-input-field");
 		input?.focus();
@@ -200,6 +207,7 @@ export default class UlxChipInput extends Component {
 					data-qa="chip-input-field"
 					{{on "keydown" this.handleKeydown}}
 					{{on "input" this.handleInput}}
+					{{on "blur" this.handleBlur}}
 				/>
 			{{/unless}}
 		</div>
