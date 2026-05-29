@@ -9,13 +9,15 @@ import {
   ImageDemo,
   GroupDemo,
   MemberDemo,
+  AnonymousDemo,
   // Sources
   ImportSource,
   BasicSource,
   IconSource,
   ImageSource,
   GroupSource,
-  MemberSource
+  MemberSource,
+  AnonymousSource
 } from './imports';
 
 export const AvatarFeatureItems = [
@@ -133,6 +135,25 @@ export const AvatarFeatureItems = [
       props: {
         source: MemberSource,
         snippetName: "member",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "anonymous",
+    sectionNav: "Anonymous",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Anonymous</code> demo shows the anonymous avatar variant with the default anonymous icon treatment."
+      }
+    },
+    demo: {
+      component: AnonymousDemo,
+      props: {
+        source: AnonymousSource,
+        snippetName: "anonymous",
         language: "handlebars"
       }
     }

@@ -4,14 +4,18 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
+  LayeredDemo,
   IconDemo,
   ImageDemo,
+  OnHoverDemo,
   TemplateDemo,
   AccessibilityDemo,
   ImportSource,
   BasicSource,
+  LayeredSource,
   IconSource,
   ImageSource,
+  OnHoverSource,
   TemplateSource,
   AccessibilitySource
 } from './imports';
@@ -56,6 +60,25 @@ export const ChipFeatureItems = [
     }
   },
   {
+    id: "layered",
+    sectionNav: "Layered",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Layered</code> demo shows Chip colors that use design-system layer backgrounds."
+      }
+    },
+    demo: {
+      component: LayeredDemo,
+      props: {
+        source: LayeredSource,
+        snippetName: "layered",
+        language: "handlebars"
+      }
+    }
+  },
+  {
     id: "icon",
     sectionNav: "Icon",
     sectionDesc: {
@@ -89,6 +112,25 @@ export const ChipFeatureItems = [
       props: {
         source: ImageSource,
         snippetName: "image",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "on-hover",
+    sectionNav: "On Hover",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>On Hover</code> demo shows chips that reveal their label when hovered or focused."
+      }
+    },
+    demo: {
+      component: OnHoverDemo,
+      props: {
+        source: OnHoverSource,
+        snippetName: "on-hover",
         language: "handlebars"
       }
     }
