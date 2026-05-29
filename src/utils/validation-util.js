@@ -48,8 +48,10 @@ const validators = {
 		}
 	},
 	isSameOrBeforeNow(value, rule) {
-		const momentLib = globalThis?.moment;
-		if (value && momentLib && value.isSameOrBefore(momentLib.tz(value.tz()))) {
+		const momentLib = globalThis?.moment,
+			momentValue = momentLib(value);
+
+		if (momentValue && momentLib && momentValue.isSameOrBefore(momentLib.tz(momentValue.tz()))) {
 			return rule;
 		}
 	},

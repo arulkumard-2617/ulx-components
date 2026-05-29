@@ -1,7 +1,7 @@
 import * as momentTimezoneNamespace from 'moment-timezone';
 
 /**
- * Resolves moment (with timezone support) from the host bundle.
+ * Resolves moment (with timezone support) from the addon dependency.
  * CJS/ESM interop differs between Rollup and Webpack.
  *
  * @returns {typeof import('moment-timezone').default}
@@ -22,7 +22,7 @@ function resolveMoment() {
 	}
 
 	throw new Error(
-		'ulx-components picker-datetime requires moment-timezone (install moment-timezone in the host app)'
+		'ulx-components picker-datetime requires moment-timezone (install ulx-components dependencies)'
 	);
 }
 
