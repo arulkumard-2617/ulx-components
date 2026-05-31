@@ -10,6 +10,8 @@ import {
   FilterDemo,
   AdvancedFilterDemo,
   AdvancedFilterSource,
+  FilterPaneDemo,
+  FilterPaneSource,
   ExpansionDemo,
   ExpansionSource,
   TreeTableDemo,
@@ -314,6 +316,26 @@ export const TableFeatureItems = [
       props: {
         source: AdvancedFilterSource,
         snippetName: 'advanced-filter',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'filter-pane',
+    sectionNav: 'Filter Pane',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Filter slide pane via <code>@filterGroups</code>. Opens from the toolbar Filter button and supports checkbox lists (<code>options</code> or <code>checkbox.items</code>), grouped radio (<code>groupedRadioItems</code>), and single or multi-select dropdowns (<code>dropdown</code>). Applied filters appear as removable bubbles above the table. Use <code>@onFilterApply</code> to react when the user clicks Apply.',
+      },
+    },
+    demo: {
+      component: FilterPaneDemo,
+      props: {
+        source: FilterPaneSource,
+        snippetName: 'filter-pane',
         language: 'handlebars',
       },
     },

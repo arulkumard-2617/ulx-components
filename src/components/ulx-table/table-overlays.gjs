@@ -9,6 +9,7 @@ import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import ManageColumns from "./manage-columns.gjs";
 import FilterOverlay from "./filter-overlay.gjs";
+import FilterPaneItem from "./filter-pane-item.gjs";
 import SortOptions from "./sort-options.gjs";
 import { t } from "../../utils/i18n.js";
 import { resolveRootDataQa } from "../../utils/data-qa";
@@ -18,8 +19,6 @@ export default class TableOverlays extends Component {
 	get rootDataQa() {
 		return resolveRootDataQa(this.args.dataQa, "table-overlays");
 	}
-
-	getFilterOptionDataQa = (option) => option?.dataQa;
 
 	get manageColumns() {
 		return this.args.manageColumns ?? {};
@@ -227,14 +226,13 @@ export default class TableOverlays extends Component {
 							{{#let (this.filterPane.getGroupAt idx) as |group|}}
 								{{#if group}}
 									<div class={{this.filterPane.groupClass}}>
-										{{#each group.options as |opt|}}
-											<UlxCheckboxItem
-												@itemLabel={{opt.label}}
-												@checked={{this.filterPane.isOptionChecked group.key opt.value}}
-												@onChange={{fn this.filterPane.onUpdateSelection group.key opt.value}}
-												@dataQa={{this.getFilterOptionDataQa opt}}
-											/>
-										{{/each}}
+										<FilterPaneItem
+											@group={{group}}
+											@selection={{this.filterPane.getSelectionAt group}}
+											@dropdownZIndex={{this.filterPane.dropdownZIndex}}
+											@onToggleOption={{this.filterPane.onUpdateSelection}}
+											@onSetSelection={{this.filterPane.onSetSelection}}
+										/>
 									</div>
 								{{/if}}
 							{{/let}}
