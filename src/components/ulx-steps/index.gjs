@@ -85,6 +85,11 @@ export default class UlxSteps extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get isStageIndicator() {
+		const { customClass = "" } = this.args;
+		return String(customClass).split(/\s+/).includes("stage-indicator");
+	}
+
 	get rootDataQa() {
 		return resolveRootDataQa(this.args.dataQa, "steps");
 	}
@@ -132,6 +137,16 @@ export default class UlxSteps extends Component {
 	@action
 	isStepCompleted(index) {
 		return Number(index) < this.activeIndex;
+	}
+
+	@action
+	isLastStep(index) {
+		return Number(index) >= this.items.length - 1;
+	}
+
+	@action
+	showStepSeparator(index) {
+		return this.isStageIndicator && !this.isLastStep(index);
 	}
 
 	@action
@@ -304,6 +319,11 @@ export default class UlxSteps extends Component {
 								{{/if}}
 							{{/if}}
 						</a>
+						{{#if (this.showStepSeparator index)}}
+							<span class="steps-separator" aria-hidden="true" data-qa={{this.getDataQa "separator"}}>
+								<UlxIcon @type="font" @iconName="right-arrow-icon" @size="s22" />
+							</span>
+						{{/if}}
 					</li>
 				{{/each}}
 			</ol>

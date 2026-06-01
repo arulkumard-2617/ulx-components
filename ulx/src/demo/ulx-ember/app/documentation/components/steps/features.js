@@ -5,13 +5,14 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
+  StageIndicatorDemo,
   ControlledDemo,
   LinearDemo,
   InteractiveDemo,
   TemplateDemo,// Sources
   ImportSource,
   BasicSource,
+  StageIndicatorSource,
   ControlledSource,
   LinearSource,
   InteractiveSource,
@@ -53,6 +54,26 @@ export const StepsFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "stage-indicator",
+    sectionNav: "Stage Indicator",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Stage Indicator</code> demo shows the <code>stage-indicator</code> variant: icon and label in a row with <code>right-arrow-icon</code> separators. Pass <code>@customClass=\"stage-indicator\"</code> and use <code>success-icon</code> for the active step and <code>success-stroke-icon</code> for other steps."
+      }
+    },
+    demo: {
+      component: StageIndicatorDemo,
+      props: {
+        source: StageIndicatorSource,
+        snippetName: "stage-indicator",
         language: "handlebars"
       }
     }
