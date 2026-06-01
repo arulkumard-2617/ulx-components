@@ -12,6 +12,8 @@ import {
   AdvancedFilterSource,
   FilterPaneDemo,
   FilterPaneSource,
+  FilterPaneGroupedRadioDemo,
+  FilterPaneGroupedRadioSource,
   ExpansionDemo,
   ExpansionSource,
   TreeTableDemo,
@@ -336,6 +338,26 @@ export const TableFeatureItems = [
       props: {
         source: FilterPaneSource,
         snippetName: 'filter-pane',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'filter-pane-grouped-radio',
+    sectionNav: 'Grouped Radio Filter',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>groupedRadioItems</code> on a filter group to render multiple labeled radio sections inside one accordion panel (for example “All Attendees”, “Attendees From”, and “Attendees who attended”). Each section is wrapped in <code>UlxSegment</code> for bordered grouping. Options share one selection per group <code>key</code>. Set <code>groupedRadioItems.currentSelected</code> for the initial value.',
+      },
+    },
+    demo: {
+      component: FilterPaneGroupedRadioDemo,
+      props: {
+        source: FilterPaneGroupedRadioSource,
+        snippetName: 'filter-pane-grouped-radio',
         language: 'handlebars',
       },
     },

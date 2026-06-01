@@ -10,6 +10,7 @@ import UlxIconInput from "../ulx-icon-input/index.gjs";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxRadioItem from "../ulx-radio/radio-item.gjs";
+import UlxSegment from "../ulx-segment/index.gjs";
 import UlxDropdown from "../ulx-dropdown/index.gjs";
 import UlxMultiSelect from "../ulx-multi-select/index.gjs";
 import { t } from "../../utils/i18n.js";
@@ -21,7 +22,7 @@ const DEFAULT_VISIBLE_ITEMS_COUNT = 5;
  * Supports bs-table compatible group models:
  * - { key, heading, options[] } (legacy checkbox list)
  * - { key, heading, checkbox: { items[] }, visibleItemsCount? }
- * - { key, heading, groupedRadioItems: { items[] } }
+ * - { key, heading, groupedRadioItems: { items: Array<{ heading: string, values: Array<{ key: any, label?: string, lbl?: string }> }>, currentSelected?: any } } — each item renders inside UlxSegment
  * - { key, heading, dropdown: { items[], multiSelect?, zIndex? } }
  *
  * @param {Object} group
@@ -145,7 +146,8 @@ export default class FilterPaneItem extends Component {
 
 	@action
 	handleSearchInput(valueOrEvent) {
-		const value = typeof valueOrEvent === "string" ? valueOrEvent : valueOrEvent?.target?.value ?? "";
+		const value =
+			typeof valueOrEvent === "string" ? valueOrEvent : (valueOrEvent?.target?.value ?? "");
 		this.searchString = value.trim();
 	}
 
@@ -178,6 +180,7 @@ export default class FilterPaneItem extends Component {
 					@iconType="font"
 					@iconClass="bs-icons1"
 					@iconSize="s20"
+					@iconFieldClass="my-3"
 				>
 					<UlxInput
 						@key="table-filter-group-search"
@@ -204,6 +207,7 @@ export default class FilterPaneItem extends Component {
 				<UlxButton
 					@variant="text"
 					@size="s-size"
+					@customClass="mt-2"
 					@label={{t (if this.showMore "lbl.view.more" "lbl.view.less")}}
 					@onClick={{this.toggleShowMore}}
 				/>
@@ -211,25 +215,29 @@ export default class FilterPaneItem extends Component {
 		{{else if this.isGroupedRadioGroup}}
 			<div class="flex flex-col gap-3">
 				{{#each this.groupedRadioItems as |radioGroup groupIndex|}}
-					{{#if (gt radioGroup.values.length 1)}}
-						<div class="semibold-font">{{radioGroup.heading}}</div>
-					{{/if}}
-					<div class="flex flex-col gap-2">
-						{{#each radioGroup.values as |radioValue valueIndex|}}
-							<UlxRadioItem
-								@id={{this.getRadioId groupIndex valueIndex}}
-								@name={{this.groupKey}}
-								@value={{radioValue.key}}
-								@itemLabel={{if
-									(eq radioGroup.values.length 1)
-									radioGroup.heading
-									(or radioValue.lbl radioValue.label)
-								}}
-								@checked={{this.isRadioChecked radioValue.key}}
-								@onChange={{fn this.handleRadioChange radioValue.key}}
-							/>
-						{{/each}}
-					</div>
+					<UlxSegment @ariaLabel={{radioGroup.heading}}>
+						<div class="flex flex-col gap-2">
+							{{#if (gt radioGroup.values.length 1)}}
+								<div class="semibold-font">{{radioGroup.heading}}</div>
+							{{/if}}
+							<div class="ulx-radio-group">
+								{{#each radioGroup.values as |radioValue valueIndex|}}
+									<UlxRadioItem
+										@id={{this.getRadioId groupIndex valueIndex}}
+										@name={{this.groupKey}}
+										@value={{radioValue.key}}
+										@itemLabel={{if
+											(eq radioGroup.values.length 1)
+											radioGroup.heading
+											(or radioValue.lbl radioValue.label)
+										}}
+										@checked={{this.isRadioChecked radioValue.key}}
+										@onChange={{fn this.handleRadioChange radioValue.key}}
+									/>
+								{{/each}}
+							</div>
+						</div>
+					</UlxSegment>
 				{{/each}}
 			</div>
 		{{else if this.isDropdownGroup}}

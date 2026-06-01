@@ -28,6 +28,7 @@ export { default as DynamicColumnsDemo }     from '../../../components/Demo/Tabl
 export { default as CardViewDemo }           from '../../../components/Demo/Table/CardView';
 export { default as AdvancedFilterDemo }     from '../../../components/Demo/Table/AdvancedFilter';
 export { default as FilterPaneDemo }         from '../../../components/Demo/Table/FilterPane';
+export { default as FilterPaneGroupedRadioDemo } from '../../../components/Demo/Table/FilterPaneGroupedRadio';
 export { default as BsTableViewDemo }        from '../../../components/Demo/Table/BsTableView';
 export { default as VerticalTableDemo }      from '../../../components/Demo/Table/VerticalTable';
 
@@ -54,5 +55,6 @@ export { default as DynamicColumnsSource }       from './snippets/DynamicColumns
 export { default as CardViewSource }             from './snippets/CardView.gjs';
 export { default as AdvancedFilterSource }       from './snippets/AdvancedFilter.gjs';
 export { default as FilterPaneSource }           from './snippets/FilterPane.gjs';
+export { default as FilterPaneGroupedRadioSource } from './snippets/FilterPaneGroupedRadio.gjs';
 export { default as BsTableViewSource }         from './snippets/BsTableView.gjs';
 export { default as VerticalTableSource }        from './snippets/VerticalTable.gjs';

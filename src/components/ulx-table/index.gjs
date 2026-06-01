@@ -279,10 +279,6 @@ export default class UlxTable extends Component {
 	// ─── View toggle (table / card) ──────────────────────────────────────────
 	@tracked _viewMode = null;
 
-	get filterPaneGroupClass() {
-		return getComponentClass("checkbox-group");
-	}
-
 	willDestroy() {
 		super.willDestroy(...arguments);
 		document.removeEventListener("mousemove", this._onResizeMove);
@@ -1417,7 +1413,6 @@ export default class UlxTable extends Component {
 			onAccordionChange: this.onFilterPaneAccordionChange,
 			getGroupAt: this.getFilterGroupAt,
 			getSelectionAt: this.getFilterGroupSelection,
-			groupClass: this.filterPaneGroupClass,
 			dropdownZIndex:
 				typeof filterPaneDropdownZIndex === "number" ? filterPaneDropdownZIndex : null,
 			isOptionChecked: this.isFilterPaneOptionChecked,
