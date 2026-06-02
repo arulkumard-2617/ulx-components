@@ -5,8 +5,10 @@
 
 // Demo Components
 export { default as BasicDemo } from '../../../components/Demo/Chip/Basic';
+export { default as LayeredDemo } from '../../../components/Demo/Chip/Layered';
 export { default as IconDemo } from '../../../components/Demo/Chip/Icon';
 export { default as ImageDemo } from '../../../components/Demo/Chip/Image';
+export { default as OnHoverDemo } from '../../../components/Demo/Chip/OnHover';
 export { default as TemplateDemo } from '../../../components/Demo/Chip/Template';
 export { default as AccessibilityDemo } from '../../../components/Demo/Chip/Accessibility';
 
@@ -17,7 +19,9 @@ export { default as ImportSource } from './snippets/Import.gjs';
 // ==========================================================================
 // Centralized exports for all Chip demo source files
 export { default as BasicSource } from './snippets/Basic.gjs';
+export { default as LayeredSource } from './snippets/Layered.gjs';
 export { default as IconSource } from './snippets/Icon.gjs';
 export { default as ImageSource } from './snippets/Image.gjs';
+export { default as OnHoverSource } from './snippets/OnHover.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as AccessibilitySource } from './snippets/Accessibility.gjs';

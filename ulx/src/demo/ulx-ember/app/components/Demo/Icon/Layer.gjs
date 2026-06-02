@@ -9,7 +9,7 @@ export default class DemoIconLayer extends Component {
   sampleIcons = SAMPLE_ICONS;
 
   layerClass(color) {
-    return `${color}-layer rounded`;
+    return `icon-layer l-size ${color}-layer circle`;
   }
 
   <template>
@@ -23,7 +23,6 @@ export default class DemoIconLayer extends Component {
                 @componentClass="bs-icons1"
                 @type="font"
                 @iconName={{iconName}}
-                @size="l"
                 @ariaLabel=""
                 @customClass={{this.layerClass color}}
               />

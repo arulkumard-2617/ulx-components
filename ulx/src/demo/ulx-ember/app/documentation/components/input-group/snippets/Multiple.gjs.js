@@ -2,24 +2,47 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxInput, UlxField, UlxInputGroup, UlxIcon, UlxDropdown, UlxButton, t } from 'ulx-components';
+import {
+  UlxInput,
+  UlxField,
+  UlxInputGroup,
+  UlxIcon,
+  UlxDropdown,
+  UlxButton,
+  t
+} from 'ulx-components';
 
 const COUNTRIES = [
   { label: 'India', value: 'IN' },
   { label: 'United States', value: 'US' },
-  { label: 'United Kingdom', value: 'GB' },
+  { label: 'United Kingdom', value: 'GB' }
+];
+
+const VALUE_UNITS = [
+  { label: '%', value: 'percent' },
+  { label: '$', value: 'currency' }
 ];
 
 export default class DemoInputGroupMultiple extends Component {
   @tracked selectedCountry = 'IN';
+  @tracked selectedUnit = 'percent';
 
   get countries() {
     return COUNTRIES;
   }
 
+  get valueUnits() {
+    return VALUE_UNITS;
+  }
+
   @action
   setSelectedCountry(value) {
     this.selectedCountry = value;
+  }
+
+  @action
+  setSelectedUnit(value) {
+    this.selectedUnit = value;
   }
 
   <template>
@@ -37,11 +60,7 @@ export default class DemoInputGroupMultiple extends Component {
           </:start>
 
           <:input>
-            <UlxInput
-              @field={{field}}
-              placeholder={{"Price"}}
-              aria-label={{"Price"}}
-            />
+            <UlxInput @field={{field}} placeholder="Price" aria-label="Price" />
           </:input>
 
           <:end>
@@ -103,10 +122,32 @@ export default class DemoInputGroupMultiple extends Component {
           </:input>
 
           <:end>
-            <UlxButton
-              @label="Verify"
-              @variant="primary"
-              @size="m-size"
+            <UlxButton @label="Verify" @variant="primary" @size="m-size" />
+          </:end>
+
+        </UlxInputGroup>
+      </UlxField>
+
+      {{! INPUT LEFT, DROPDOWN RIGHT }}
+      <UlxField @fieldClass="col-2" as |field|>
+        <UlxInputGroup @endAddonClass="dropdown-addon">
+
+          <:input>
+            <UlxInput
+              @field={{field}}
+              @type="number"
+              @value="10"
+              aria-label="Value"
+            />
+          </:input>
+
+          <:end>
+            <UlxDropdown
+              @options={{this.valueUnits}}
+              @value={{this.selectedUnit}}
+              @onChange={{this.setSelectedUnit}}
+              @size="m-size compact"
+              aria-label="Value unit"
             />
           </:end>
 

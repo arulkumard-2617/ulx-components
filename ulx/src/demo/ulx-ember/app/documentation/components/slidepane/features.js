@@ -11,6 +11,7 @@ import {
   WithoutoverlayDemo,
   NestedpanesDemo,
   SizesDemo,
+  ExhibitorDetailsDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -19,7 +20,8 @@ import {
   TemplateSource,
   WithoutoverlaySource,
   NestedpanesSource,
-  SizesSource
+  SizesSource,
+  ExhibitorDetailsSource
 } from './imports';
 
 export const SlidepaneFeatureItems = [
@@ -177,6 +179,25 @@ export const SlidepaneFeatureItems = [
       props: {
         source: NestedpanesSource,
         snippetName: "nested-panes",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "exhibitor-details",
+    sectionNav: "Exhibitor Details",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Exhibitor details layout: <code>UlxTabmenu</code> vertical sidebar, utility-class summary card, and read-only detail grid with <code>UlxSlider</code>, <code>UlxRating</code>, and <code>UlxChip</code>."
+      }
+    },
+    demo: {
+      component: ExhibitorDetailsDemo,
+      props: {
+        source: ExhibitorDetailsSource,
+        snippetName: "exhibitor-details",
         language: "handlebars"
       }
     }

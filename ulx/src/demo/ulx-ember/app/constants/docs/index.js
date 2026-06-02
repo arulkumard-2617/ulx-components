@@ -164,6 +164,11 @@ export const DocNavItems = [
             menuItem: 'ActionMenu',
             to: '/components/action-menu',
             route: 'components.action-menu'
+          },
+          {
+            menuItem: 'ActionButtons',
+            to: '/components/action-buttons',
+            route: 'components.action-buttons'
           }
         ]
       },
