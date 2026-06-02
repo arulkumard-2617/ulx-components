@@ -7,11 +7,7 @@ export default class StageIndicatorStepsDemo extends Component {
   @tracked activeIndex = 0;
 
   get items() {
-    return [
-      { label: 'Review' },
-      { label: 'Approval' },
-      { label: 'Completed' },
-    ];
+    return [{ label: 'Review' }, { label: 'Approval' }, { label: 'Completed' }];
   }
 
   <template>
