@@ -298,6 +298,8 @@ export default class DemoTableBsTableView extends Component {
       @onSortByChange={{this.handleSortByChange}}
       @filterGroups={{this.filterGroups}}
       @showManageColumns={{true}}
+      @scrollable={{true}}
+      @scrollHeight="400px"
       @paginator={{true}}
       @rowsPerPageOptions={{array 10 25 50 100}}
     >
