@@ -22,6 +22,8 @@ Router.map(function () {
     this.route('avatar');
     this.route('badge');
     this.route('button');
+    this.route('icon-button');
+    this.route('badge-button');
     this.route('card');
     this.route('checkbox');
     this.route('chip');

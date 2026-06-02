@@ -51,7 +51,7 @@ export const ToggleFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>With Label</code> demo shows the Toggle with its built-in On/Off labels inside the switch track.',
+          'The <code>With Label</code> demo shows the Toggle with external label and description text using <code>@label</code>, <code>@description</code>, and <code>@togglePosition</code>.',
       },
     },
     demo: {

@@ -8,15 +8,12 @@ import {
   TypesDemo,
   VariantsDemo,
   OutlinedDemo,
-  IconOnlyDemo,
   TextDemo,
   PilledDemo,
-  IconsDemo,
   SizesDemo,
   StatesDemo,
   DisabledDemo,
   LinkDemo,
-  BadgeDemo,
   GroupDemo,
   TemplateDemo,
 
@@ -26,15 +23,12 @@ import {
   TypesSource,
   VariantsSource,
   OutlinedSource,
-  IconOnlySource,
   TextSource,
   PilledSource,
-  IconsSource,
   SizesSource,
   StatesSource,
   DisabledSource,
   LinkSource,
-  BadgeSource,
   GroupSource,
   TemplateSource,
 } from './imports';
@@ -96,26 +90,6 @@ export const ButtonFeatureItems = [
       props: {
         source: LinkSource,
         snippetName: 'link',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'icons',
-    sectionNav: 'Icons',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Buttons support icons with configurable position (left or right) and icon-only variants.',
-      },
-    },
-    demo: {
-      component: IconsDemo,
-      props: {
-        source: IconsSource,
-        snippetName: 'icons',
         language: 'handlebars',
       },
     },
@@ -256,46 +230,6 @@ export const ButtonFeatureItems = [
       props: {
         source: OutlinedSource,
         snippetName: 'outlined',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'icononly',
-    sectionNav: 'IconOnly',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'A button can be rendered with an icon only when <code>@icon</code> is present and no <code>@label</code> is passed. Icons use UlxIcon (font icons via <code>@iconComponentClass</code>). Use <code>aria-label</code> for accessibility.',
-      },
-    },
-    demo: {
-      component: IconOnlyDemo,
-      props: {
-        source: IconOnlySource,
-        snippetName: 'icononly',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'badge',
-    sectionNav: 'Badges',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Buttons support badges for displaying notifications, counts, or status indicators.',
-      },
-    },
-    demo: {
-      component: BadgeDemo,
-      props: {
-        source: BadgeSource,
-        snippetName: 'badge',
         language: 'handlebars',
       },
     },

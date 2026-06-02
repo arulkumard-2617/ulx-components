@@ -1,5 +1,5 @@
 export default `
-import { UlxBadgeButton, t } from 'ulx-components';
+import { UlxBadgeButton } from 'ulx-components';
 
 <template>
   <div class="flex gap-3 items-center flex-wrap">
