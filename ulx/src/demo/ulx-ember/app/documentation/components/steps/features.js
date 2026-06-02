@@ -66,7 +66,7 @@ export const StepsFeatureItems = [
       props: {
         as: "span",
         content:
-          "The <code>Stage Indicator</code> demo shows the <code>stage-indicator</code> variant: icon and label in a row with <code>right-arrow-icon</code> separators. Pass <code>@customClass=\"stage-indicator\"</code> and use <code>success-icon</code> for the active step and <code>success-stroke-icon</code> for other steps."
+          "The <code>Stage Indicator</code> demo shows the <code>stage-indicator</code> variant: icon and label in a row with <code>right-arrow-icon</code> separators. Pass <code>@variant=\"stage-indicator\"</code>; the component applies <code>success-icon</code> to the active step and <code>success-stroke-icon</code> to others (override with <code>@activeStepIcon</code>, <code>@inactiveStepIcon</code>, or per-item icons)."
       }
     },
     demo: {

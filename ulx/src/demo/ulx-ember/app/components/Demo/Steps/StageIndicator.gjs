@@ -6,23 +6,14 @@ export default class StageIndicatorStepsDemo extends Component {
   @tracked activeIndex = 0;
 
   get items() {
-    const stages = [
-      { label: 'Review' },
-      { label: 'Approval' },
-      { label: 'Completed' }
-    ];
-
-    return stages.map((stage, index) => ({
-      ...stage,
-      icon: index === this.activeIndex ? 'success-icon' : 'success-stroke-icon'
-    }));
+    return [{ label: 'Review' }, { label: 'Approval' }, { label: 'Completed' }];
   }
 
   <template>
     <UlxSteps
       @items={{this.items}}
       @activeIndex={{this.activeIndex}}
-      @customClass="stage-indicator"
+      @variant="stage-indicator"
     />
   </template>
 }
