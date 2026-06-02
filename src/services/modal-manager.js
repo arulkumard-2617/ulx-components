@@ -2,22 +2,16 @@ import Service from "@ember/service";
 import { tracked } from "@glimmer/tracking";
 import { t } from "../utils/i18n";
 
-function nextConfirmationId() {
-	if (typeof crypto !== "undefined" && crypto.randomUUID) {
-		return crypto.randomUUID();
-	}
-	return `confirmation-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-}
-
 /**
  * Imperative confirmation modal API. Mount {@link UlxConfirmationModal} once at the app root,
- * then call `openModal()` from any component or route. Each call stacks a new dialog.
+ * then call `openModal()` from any component or route. Only one confirmation is shown at a time;
+ * a new `openModal()` replaces any open confirmation.
  *
  * @class ModalService
  * @extends Service
  */
 export default class ModalService extends Service {
-	@tracked confirmationStack = [];
+	@tracked confirmationProps = null;
 
 	/**
 	 * Opens a confirmation modal with the given options.
@@ -44,7 +38,6 @@ export default class ModalService extends Service {
 	 * @param {string} [options.size='s-size'] - Modal size
 	 * @param {string} [options.width='480px'] - Modal width
 	 * @param {boolean} [options.closeOnBackdrop=false] - Close when backdrop is clicked
-	 * @param {boolean} [options.closeOnConfirm=true] - When false, Done runs onConfirm but keeps this dialog open (for chained confirms)
 	 * @param {string} [options.customClass] - Extra class on dialog content
 	 */
 	openModal({
@@ -69,80 +62,57 @@ export default class ModalService extends Service {
 		size = "s-size",
 		width = "480px",
 		closeOnBackdrop = false,
-		closeOnConfirm = true,
 		customClass
 	} = {}) {
-		const id = nextConfirmationId();
-
 		const dismiss = () => {
-			this.removeById(id);
+			this.confirmationProps = null;
 			onCancel?.();
 		};
 
 		const handleConfirm = () => {
 			const resp = onConfirm?.();
 
-			if (!closeOnConfirm) {
-				return resp;
-			}
-
 			if (resp?.then) {
 				resp.then(() => {
-					this.removeById(id);
+					this.confirmationProps = null;
 				});
 			} else if (resp) {
-				this.removeById(id);
+				this.confirmationProps = null;
 			}
 
 			return resp;
 		};
 
-		this.confirmationStack = [
-			...this.confirmationStack,
-			{
-				id,
-				visible: true,
-				title,
-				iconName,
-				iconType,
-				iconComponentClass,
-				iconSize,
-				iconAriaLabel,
-				iconHtml,
-				iconTemplate,
-				iconTemplateArgs,
-				message,
-				htmlMessage,
-				template,
-				templateArgs,
-				confirmLabel: confirmLabel ?? t("label.confirm"),
-				cancelLabel: cancelLabel ?? t("label.cancel"),
-				confirmVariant,
-				onConfirm: handleConfirm,
-				onCancel: dismiss,
-				onHide: dismiss,
-				size,
-				width,
-				closeOnBackdrop,
-				customClass
-			}
-		];
+		this.confirmationProps = {
+			visible: true,
+			title,
+			iconName,
+			iconType,
+			iconComponentClass,
+			iconSize,
+			iconAriaLabel,
+			iconHtml,
+			iconTemplate,
+			iconTemplateArgs,
+			message,
+			htmlMessage,
+			template,
+			templateArgs,
+			confirmLabel: confirmLabel ?? t("label.confirm"),
+			cancelLabel: cancelLabel ?? t("label.cancel"),
+			confirmVariant,
+			onConfirm: handleConfirm,
+			onCancel: dismiss,
+			onHide: dismiss,
+			size,
+			width,
+			closeOnBackdrop,
+			customClass
+		};
 	}
 
-	removeById(id) {
-		this.confirmationStack = this.confirmationStack.filter((m) => m.id !== id);
-	}
-
-	/** Force-dismiss all open confirmation modals without invoking onCancel. */
+	/** Force-dismiss the open confirmation modal without invoking onCancel. */
 	close() {
-		this.confirmationStack = [];
-	}
-
-	/** Force-dismiss the topmost confirmation modal without invoking onCancel. */
-	closeTop() {
-		if (this.confirmationStack.length === 0) {
-			return;
-		}
-		this.confirmationStack = this.confirmationStack.slice(0, -1);
+		this.confirmationProps = null;
 	}
 }

@@ -12,7 +12,6 @@ import {
   WithoutoverlayDemo,
   StackedDemo,
   ConfirmationServiceDemo,
-  ConfirmationServiceStackedDemo,
   ConfirmationServiceContentDemo,
   ImportSource,
   BasicSource,
@@ -24,7 +23,6 @@ import {
   WithoutoverlaySource,
   StackedSource,
   ConfirmationServiceSource,
-  ConfirmationServiceStackedSource,
   ConfirmationServiceContentSource
 } from './imports';
 
@@ -203,26 +201,6 @@ export const ModalFeatureItems = [
       props: {
         source: ConfirmationServiceSource,
         snippetName: 'confirmation-service',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'confirmation-service-stacked',
-    sectionNav: 'Confirmation service stacked',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Click Done on the first confirmation to open a second on top while the first stays visible. Pass <code>closeOnConfirm: false</code> on the first <code>openModal()</code> and call <code>openModal()</code> again from <code>onConfirm</code>. Mount <code>&lt;UlxConfirmationModal /&gt;</code> once; ESC closes the topmost dialog first.',
-      },
-    },
-    demo: {
-      component: ConfirmationServiceStackedDemo,
-      props: {
-        source: ConfirmationServiceStackedSource,
-        snippetName: 'confirmation-service-stacked',
         language: 'handlebars',
       },
     },
