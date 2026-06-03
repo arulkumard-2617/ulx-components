@@ -29,8 +29,9 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * - Current step has `aria-current="step"`.
  * - Keyboard (when `@readOnly={{false}}`):
  *   - Enter/Space selects focused step
- *   - ArrowLeft/ArrowRight moves focus
- *   - Home/End moves focus to first/last step
+ *   - ArrowLeft/ArrowRight moves focus between enabled steps only
+ *   - Home/End moves focus to first/last enabled step
+ * - Disabled steps use `tabindex="-1"` and are skipped by focus navigation
  *
  * @class UlxSteps
  * @param {Array<Object>} [items=[]] - Steps array. Each item may include:
@@ -123,6 +124,11 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
+	getStepTabIndex(item, index) {
+		return this.isStepDisabled(item, index) ? "-1" : undefined;
+	}
+
+	@action
 	isStepDisabled(item, index) {
 		const itemDisabled = Boolean(item?.disabled);
 		return itemDisabled || (this.readOnly && index !== this.activeIndex);
@@ -193,6 +199,12 @@ export default class UlxSteps extends Component {
 					? listItem.nextElementSibling
 					: listItem.previousElementSibling;
 			if (!listItem) break;
+			if (
+				!listItem.classList.contains("steps-item") ||
+				listItem.classList.contains("disabled")
+			) {
+				continue;
+			}
 
 			const link = listItem.querySelector(".steps-link");
 			if (link) return link;
@@ -201,13 +213,15 @@ export default class UlxSteps extends Component {
 		return null;
 	}
 
-	getStepLinks() {
-		return this.listElement?.querySelectorAll("li.steps-item .steps-link");
+	getFocusableStepLinks() {
+		return this.listElement?.querySelectorAll(
+			"li.steps-item:not(.disabled) .steps-link",
+		);
 	}
 
 	@action
 	focusStepLinkAt(position) {
-		const links = this.getStepLinks();
+		const links = this.getFocusableStepLinks();
 		if (!links?.length) return;
 
 		const link = position === "last" ? links[links.length - 1] : links[0];
@@ -221,7 +235,7 @@ export default class UlxSteps extends Component {
 
 	@action
 	itemClick(item, index, originalEvent) {
-		if (this.readOnly || item?.disabled) {
+		if (this.isStepDisabled(item, index)) {
 			originalEvent?.preventDefault?.();
 			return;
 		}
@@ -300,6 +314,7 @@ export default class UlxSteps extends Component {
 							data-qa={{this.getDataQa "link"}}
 							href={{this.getItemHref item}}
 							target={{item.target}}
+							tabindex={{this.getStepTabIndex item index}}
 							aria-current={{if (this.isStepActive index) "step"}}
 							aria-disabled={{if (this.isStepDisabled item index) "true"}}
 							{{on "keydown" (fn this.onItemKeyDown item index)}}
