@@ -13,9 +13,9 @@ export default class ShowiconTimeDemo extends Component {
   }
 
   <template>
-    <div class="w-300">
+    <div class="w-152">
       <UlxTimePicker
-        @hourFormat="24"
+        @hourFormat="12"
         @value={{this.value}}
         @onChange={{this.onChange}}
         @showIcon={{true}}

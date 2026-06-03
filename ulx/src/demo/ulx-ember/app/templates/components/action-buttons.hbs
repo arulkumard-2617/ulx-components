@@ -1,0 +1,33 @@
+{{page-title "ActionButtons - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-collections-action-buttons-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for ActionButtons component."
+      >
+        <p class="fg-text-secondary">{{"ActionButtons uses underlying ULS button and split-button styles."}}</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-collections-action-buttons-passthrough"
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for ActionButtons component."
+      >
+        <p class="fg-text-secondary">{{"Pass Through content goes here."}}</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>

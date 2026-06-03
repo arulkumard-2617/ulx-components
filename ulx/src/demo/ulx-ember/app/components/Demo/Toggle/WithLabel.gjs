@@ -4,18 +4,41 @@ import { action } from '@ember/object';
 import { UlxToggle } from 'ulx-components';
 
 export default class WithLabelToggleDemo extends Component {
-  @tracked checked = false;
+  @tracked termsEnabled = false;
+  @tracked notificationsEnabled = true;
 
   @action
-  handleCheckedChange(checked) {
-    this.checked = checked;
+  handleTermsChange(checked) {
+    this.termsEnabled = checked;
+  }
+
+  @action
+  handleNotificationsChange(checked) {
+    this.notificationsEnabled = checked;
   }
 
   <template>
-    <div class="ulx-toggle-status">
+    <div class="flex flex-col gap-12 w-full">
       <UlxToggle
-        @checked={{this.checked}}
-        @onCheckedChange={{this.handleCheckedChange}}
+        @inputId="terms-toggle"
+        @label="Terms and Policies"
+        @description="Link the Terms and Policies for events created in this portal."
+        @togglePosition="end"
+        @customClass="w-full"
+        @variant="green"
+        @checked={{this.termsEnabled}}
+        @onCheckedChange={{this.handleTermsChange}}
+      />
+
+      <UlxToggle
+        @inputId="notifications-toggle"
+        @label="Email Notifications"
+        @description="Send updates when attendees register or event details change."
+        @togglePosition="start"
+        @customClass="w-full"
+        @variant="primary"
+        @checked={{this.notificationsEnabled}}
+        @onCheckedChange={{this.handleNotificationsChange}}
       />
     </div>
   </template>

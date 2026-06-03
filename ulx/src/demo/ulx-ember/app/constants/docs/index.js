@@ -151,6 +151,16 @@ export const DocNavItems = [
             route: 'components.button'
           },
           {
+            menuItem: 'IconButton',
+            to: '/components/icon-button',
+            route: 'components.icon-button'
+          },
+          {
+            menuItem: 'BadgeButton',
+            to: '/components/badge-button',
+            route: 'components.badge-button'
+          },
+          {
             menuItem: 'SelectButton',
             to: '/components/select-button',
             route: 'components.select-button'
@@ -159,6 +169,16 @@ export const DocNavItems = [
             menuItem: 'SplitButton',
             to: '/components/split-button',
             route: 'components.split-button'
+          },
+          {
+            menuItem: 'ActionMenu',
+            to: '/components/action-menu',
+            route: 'components.action-menu'
+          },
+          {
+            menuItem: 'ActionButtons',
+            to: '/components/action-buttons',
+            route: 'components.action-buttons'
           }
         ]
       },

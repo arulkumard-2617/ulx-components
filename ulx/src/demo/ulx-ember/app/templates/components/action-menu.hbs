@@ -1,0 +1,43 @@
+{{page-title "ActionMenu - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-elements-action-menu-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for ActionMenu component."
+      >
+        <p class="fg-text-secondary">Theming content goes here.</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{else if this.isBuilderTab}}
+    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
+      <:preview>
+        <div class="pd6 fg-text-secondary font-size12">
+          Preview not configured yet. Update
+          <code>app/documentation/components/action-menu/builder-schema.js</code>
+          and this template to render the component with the generated props.
+        </div>
+      </:preview>
+    </DocShared::DocMain::ComponentBuilder>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-elements-action-menu-passthrough"
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for ActionMenu component."
+      >
+        <p class="fg-text-secondary">Pass Through content goes here.</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>

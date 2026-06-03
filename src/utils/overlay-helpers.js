@@ -7,6 +7,10 @@ import { schedule } from '@ember/runloop';
 export const FOCUSABLE_SELECTOR =
 	'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+const PENDING_RETURN_FOCUS_TIMEOUT_MS = 1000;
+let pendingOverlayReturnFocusElement = null;
+let pendingOverlayReturnFocusTimestamp = 0;
+
 /**
  * True when a closable toast is present (Escape should close toast before blocking overlays).
  *
@@ -61,6 +65,35 @@ export function resolveOverlayInitialFocus(maskElement, overlaySelector, initial
 	}
 	const focusTarget = firstFocusable ?? overlayElement;
 	return { overlayElement, focusTarget };
+}
+
+/**
+ * Sets a short-lived focus target that the next opening overlay should restore to on close.
+ *
+ * @param {HTMLElement | null | undefined} element
+ * @returns {void}
+ */
+export function setPendingOverlayReturnFocusElement(element) {
+	pendingOverlayReturnFocusElement = element ?? null;
+	pendingOverlayReturnFocusTimestamp = Date.now();
+}
+
+/**
+ * Returns and clears the pending overlay return-focus target, if it is still valid.
+ *
+ * @returns {HTMLElement | null}
+ */
+export function consumePendingOverlayReturnFocusElement() {
+	const element = pendingOverlayReturnFocusElement;
+	const timestamp = pendingOverlayReturnFocusTimestamp;
+	pendingOverlayReturnFocusElement = null;
+	pendingOverlayReturnFocusTimestamp = 0;
+
+	if (!element || !element.isConnected) {
+		return null;
+	}
+
+	return Date.now() - timestamp <= PENDING_RETURN_FOCUS_TIMEOUT_MS ? element : null;
 }
 
 /**

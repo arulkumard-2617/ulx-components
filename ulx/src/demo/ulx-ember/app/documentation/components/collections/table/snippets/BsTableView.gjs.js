@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
+import { fn, array } from '@ember/helper';
 import eq from 'ember-truth-helpers/helpers/eq';
 import {
   UlxTable,
@@ -54,6 +54,62 @@ const MEMBERS = [
     role: 'not Admin',
     status: 'INVITED',
     invitedOn: 'Mar 04, 2026'
+  },
+  {
+    id: 6,
+    name: 'Morgan Blake',
+    emailId: 'morgan@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 05, 2026'
+  },
+  {
+    id: 7,
+    name: 'Alex Kim',
+    emailId: 'alex@example.com',
+    role: 'not Admin',
+    status: 'INVITED',
+    invitedOn: 'Mar 06, 2026'
+  },
+  {
+    id: 8,
+    name: 'Dana Cruz',
+    emailId: 'dana@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 07, 2026'
+  },
+  {
+    id: 9,
+    name: 'Riley Patel',
+    emailId: 'riley@example.com',
+    role: 'not Admin',
+    status: 'INVITED',
+    invitedOn: 'Mar 08, 2026'
+  },
+  {
+    id: 10,
+    name: 'Taylor Nguyen',
+    emailId: 'taylor@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 09, 2026'
+  },
+  {
+    id: 11,
+    name: 'Quinn Foster',
+    emailId: 'quinn@example.com',
+    role: 'not Admin',
+    status: 'INVITED',
+    invitedOn: 'Mar 10, 2026'
+  },
+  {
+    id: 12,
+    name: 'Skyler Adams',
+    emailId: 'skyler@example.com',
+    role: 'Portal Admin',
+    status: 'JOINED',
+    invitedOn: 'Mar 11, 2026'
   }
 ];
 
@@ -94,6 +150,34 @@ const StatusCell = <template>
   {{/if}}
 </template>;
 
+const DEPARTMENTS = ['Product', 'Operations', 'Finance', 'Sales', 'Support'];
+const REGIONS = ['India', 'US', 'EMEA', 'APAC', 'LATAM'];
+const TEAMS = ['Core', 'Growth', 'Platform', 'Enablement', 'Security'];
+const ACCESS_LEVELS = [
+  'Standard',
+  'Elevated',
+  'Restricted',
+  'Auditor',
+  'Owner'
+];
+const LAST_ACTIVE = [
+  'Today',
+  'Yesterday',
+  '2 days ago',
+  'This week',
+  'Last week'
+];
+
+function valueById(values, row) {
+  return values[(row.id - 1) % values.length];
+}
+
+const DepartmentCell = <template>{{valueById DEPARTMENTS @row}}</template>;
+const RegionCell = <template>{{valueById REGIONS @row}}</template>;
+const TeamCell = <template>{{valueById TEAMS @row}}</template>;
+const AccessLevelCell = <template>{{valueById ACCESS_LEVELS @row}}</template>;
+const LastActiveCell = <template>{{valueById LAST_ACTIVE @row}}</template>;
+
 const columns = [
   {
     field: 'name',
@@ -103,6 +187,11 @@ const columns = [
     body: NameEmailCell
   },
   { field: 'role', header: 'Role', sortable: true },
+  { field: 'department', header: 'Department', body: DepartmentCell },
+  { field: 'region', header: 'Region', body: RegionCell },
+  { field: 'team', header: 'Team', body: TeamCell },
+  { field: 'accessLevel', header: 'Access Level', body: AccessLevelCell },
+  { field: 'lastActive', header: 'Last Active', body: LastActiveCell },
   { field: 'status', header: 'Status', body: StatusCell }
 ];
 
@@ -210,6 +299,10 @@ export default class DemoTableBsTableView extends Component {
       @onSortByChange={{this.handleSortByChange}}
       @filterGroups={{this.filterGroups}}
       @showManageColumns={{true}}
+      @scrollable={{true}}
+      @scrollHeight="400px"
+      @paginator={{true}}
+      @rowsPerPageOptions={{array 10 25 50 100}}
     >
       <:postRightMenu>
         <UlxButton
@@ -222,14 +315,16 @@ export default class DemoTableBsTableView extends Component {
         />
       </:postRightMenu>
       <:optionCell as |member|>
-        <UlxSplitButton
-          @label="Delete"
-          @variant="basic"
-          @outlined={{true}}
-          @items={{this.getRowActionModel member}}
-          @onClick={{fn this.deleteMember member}}
-          aria-label="Actions for {{member.name}}"
-        />
+        <div class="flex justify-end">
+          <UlxSplitButton
+            @label="View previllages"
+            @variant="basic"
+            @outlined={{true}}
+            @items={{this.getRowActionModel member}}
+            @onClick={{fn this.deleteMember member}}
+            aria-label="Actions for {{member.name}}"
+          />
+        </div>
       </:optionCell>
     </UlxTable>
 
@@ -248,7 +343,8 @@ export default class DemoTableBsTableView extends Component {
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1">
             <span class="semibold-font">Email Address</span>
-            <span class="text-13 fg-text-secondary">Enter the email address of the person you want to invite.</span>
+            <span class="text-13 fg-text-secondary">Enter the email address of
+              the person you want to invite.</span>
             <input
               type="email"
               class="ulx-inputtext"
@@ -258,7 +354,8 @@ export default class DemoTableBsTableView extends Component {
           </div>
           <div class="flex flex-col gap-1">
             <span class="semibold-font">Role</span>
-            <span class="text-13 fg-text-secondary">Select the role for the new member.</span>
+            <span class="text-13 fg-text-secondary">Select the role for the new
+              member.</span>
             <select class="ulx-dropdown" aria-label="Role">
               <option value="">Select a role</option>
               <option value="portal-admin">Portal Admin</option>

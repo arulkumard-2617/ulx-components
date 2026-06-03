@@ -23,8 +23,8 @@ export default class DemoInputInvalid extends Component {
   }
 
   @action
-  handleInput(event) {
-    this.value = event.target.value;
+  handleInput(value) {
+    this.value = value;
 
     if (this.submitted) {
       this.error = this.validate(this.value);
@@ -45,6 +45,7 @@ export default class DemoInputInvalid extends Component {
 
   <template>
     <UlxForm
+      @tag="form"
       @size="m-size"
       @customClass="ulx-grid mb-14"
       novalidate

@@ -37,13 +37,13 @@ export default class TableFooter extends Component {
 				<tr class="datatable-footer-row">
 					{{#each @columns as |col|}}
 						{{#if col.selectionMode}}
-							<td class="datatable-flex-col-footer-cell" style="width: 3rem"></td>
+							<td class="datatable-flex-col-footer-cell"></td>
 						{{else if col.expander}}
-							<td class="datatable-flex-col-footer-cell" style="width: 3rem"></td>
+							<td class="datatable-flex-col-footer-cell"></td>
 						{{else if col.rowReorder}}
-							<td class="datatable-flex-col-footer-cell" style="width: 3rem"></td>
+							<td class="datatable-flex-col-footer-cell"></td>
 						{{else if col.rowEditor}}
-							<td class="datatable-flex-col-footer-cell" style="width: 6rem"></td>
+							<td class="datatable-flex-col-footer-cell"></td>
 						{{else}}
 							<td class={{this.footerCellClass col}} style={{this.footerCellStyle col}}>
 								{{#if col.footerTemplate}}
@@ -55,9 +55,9 @@ export default class TableFooter extends Component {
 						{{/if}}
 					{{/each}}
 
-				{{#if @hasOptionCell}}
-					<td class="datatable-flex-col-footer-cell" style="width: 6rem"></td>
-				{{/if}}
+					{{#if @hasOptionCell}}
+						<td class="datatable-flex-col-footer-cell"></td>
+					{{/if}}
 				</tr>
 			</tfoot>
 		{{/if}}

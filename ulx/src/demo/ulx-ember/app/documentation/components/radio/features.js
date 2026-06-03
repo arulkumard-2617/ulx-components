@@ -10,13 +10,15 @@ import {
   
   InvalidDemo,
   DisabledDemo,
-  HorizontalDemo,// Sources
+  HorizontalDemo,
+  PanelGroupDemo,// Sources
   ImportSource,
   BasicSource,
   WithlabelSource,
   InvalidSource,
   DisabledSource,
-  HorizontalSource} from './imports';
+  HorizontalSource,
+  PanelGroupSource} from './imports';
 
 export const RadioFeatureItems = [
   {
@@ -133,6 +135,26 @@ export const RadioFeatureItems = [
       props: {
         source: HorizontalSource,
         snippetName: "horizontal",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "panel-group",
+    sectionNav: "Panel Group",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Panel Group</code> demo shows a radio group where the selected option reveals nested content."
+      }
+    },
+    demo: {
+      component: PanelGroupDemo,
+      props: {
+        source: PanelGroupSource,
+        snippetName: "panel-group",
         language: "handlebars"
       }
     }

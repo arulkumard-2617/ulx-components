@@ -1,13 +1,14 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { fn } from '@ember/helper';
 import {
   UlxForm,
   UlxInput,
   UlxField,
   UlxButton,
   t,
-  validate,
+  validate
 } from 'ulx-components';
 
 const TEXT_PATTERN_ALT = /^[a-zA-Z0-9\s\-_'.,]+$/;
@@ -15,29 +16,29 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validations = {
   newContactName: {
-    required: "This field is required.",
+    required: 'This field is required.',
 
     format: {
       with: TEXT_PATTERN_ALT,
       allowEmpty: false,
-      msg: "Enter a valid contact name.",
+      msg: 'Enter a valid contact name.'
     },
 
     maxLength: {
       value: 120,
-      msg: t('msg.validation.max.length', { max: 120 }),
-    },
+      msg: t('msg.validation.max.length', { max: 120 })
+    }
   },
 
   newContactEmail: {
-    required: "Email is required.",
+    required: 'Email is required.',
 
     format: {
       with: EMAIL_PATTERN,
       allowEmpty: false,
-      msg: "Enter a valid email address.",
-    },
-  },
+      msg: 'Enter a valid email address.'
+    }
+  }
 };
 
 export default class Demo extends Component {
@@ -48,14 +49,14 @@ export default class Demo extends Component {
   @tracked errors = {};
 
   @action
-  updateNewContactName(event) {
-    this.newContactName = event.target.value;
-    this.clearErrorFor('newContactName');
+  updateContactValue(fieldKey, value) {
+    this[fieldKey] = value;
+    this.clearErrorFor(fieldKey);
   }
 
   @action
-  updateNewContactEmail(event) {
-    this.newContactEmail = event.target.value;
+  updateNewContactEmail(value) {
+    this.newContactEmail = value;
     this.clearErrorFor('newContactEmail');
   }
 
@@ -85,6 +86,7 @@ export default class Demo extends Component {
 
   <template>
     <UlxForm
+      @tag="form"
       @size="m-size"
       @customClass="ulx-grid mb-14"
       novalidate
@@ -104,7 +106,7 @@ export default class Demo extends Component {
           <UlxInput
             @field={{field}}
             @value={{this.newContactName}}
-            @onInput={{this.updateNewContactName}}
+            @onChange={{fn this.updateContactValue field.key}}
             placeholder={{"Enter name"}}
             aria-label={{"Name"}}
           />

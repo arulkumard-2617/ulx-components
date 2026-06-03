@@ -1,12 +1,15 @@
+/* eslint-disable no-console */
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { fn } from '@ember/helper';
 import {
   UlxTable,
   UlxAvatar,
   UlxButton,
   UlxSplitButton,
-  UlxProgressBar,
+  UlxActionMenu,
+  UlxProgressBar
 } from 'ulx-components';
 
 const SPEAKERS = [
@@ -18,7 +21,7 @@ const SPEAKERS = [
     avatarVariant: 'teal',
     invitedDaysAgo: 17,
     profileCompletion: 42,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 2,
@@ -28,7 +31,7 @@ const SPEAKERS = [
     avatarVariant: 'orange',
     invitedDaysAgo: 17,
     profileCompletion: 8,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 3,
@@ -38,7 +41,7 @@ const SPEAKERS = [
     avatarVariant: 'green',
     invitedDaysAgo: 17,
     profileCompletion: 8,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 4,
@@ -48,7 +51,7 @@ const SPEAKERS = [
     avatarVariant: 'red',
     invitedDaysAgo: 17,
     profileCompletion: 8,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 5,
@@ -58,7 +61,7 @@ const SPEAKERS = [
     avatarVariant: 'orange',
     invitedDaysAgo: 17,
     profileCompletion: 8,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 6,
@@ -68,7 +71,7 @@ const SPEAKERS = [
     avatarVariant: 'purple',
     invitedDaysAgo: 17,
     profileCompletion: 8,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 7,
@@ -78,7 +81,7 @@ const SPEAKERS = [
     avatarVariant: 'blue',
     invitedDaysAgo: 12,
     profileCompletion: 55,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 8,
@@ -88,7 +91,7 @@ const SPEAKERS = [
     avatarVariant: 'pink',
     invitedDaysAgo: 10,
     profileCompletion: 70,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 9,
@@ -98,7 +101,7 @@ const SPEAKERS = [
     avatarVariant: 'teal',
     invitedDaysAgo: 9,
     profileCompletion: 30,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 10,
@@ -108,7 +111,7 @@ const SPEAKERS = [
     avatarVariant: 'green',
     invitedDaysAgo: 8,
     profileCompletion: 85,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 11,
@@ -118,7 +121,7 @@ const SPEAKERS = [
     avatarVariant: 'red',
     invitedDaysAgo: 7,
     profileCompletion: 60,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 12,
@@ -128,7 +131,7 @@ const SPEAKERS = [
     avatarVariant: 'orange',
     invitedDaysAgo: 6,
     profileCompletion: 20,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 13,
@@ -138,7 +141,7 @@ const SPEAKERS = [
     avatarVariant: 'purple',
     invitedDaysAgo: 5,
     profileCompletion: 45,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 14,
@@ -148,7 +151,7 @@ const SPEAKERS = [
     avatarVariant: 'blue',
     invitedDaysAgo: 4,
     profileCompletion: 90,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 15,
@@ -158,7 +161,7 @@ const SPEAKERS = [
     avatarVariant: 'teal',
     invitedDaysAgo: 3,
     profileCompletion: 15,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 16,
@@ -168,7 +171,7 @@ const SPEAKERS = [
     avatarVariant: 'pink',
     invitedDaysAgo: 3,
     profileCompletion: 75,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 17,
@@ -178,7 +181,7 @@ const SPEAKERS = [
     avatarVariant: 'green',
     invitedDaysAgo: 2,
     profileCompletion: 50,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 18,
@@ -188,7 +191,7 @@ const SPEAKERS = [
     avatarVariant: 'red',
     invitedDaysAgo: 2,
     profileCompletion: 35,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 19,
@@ -198,7 +201,7 @@ const SPEAKERS = [
     avatarVariant: 'orange',
     invitedDaysAgo: 1,
     profileCompletion: 65,
-    status: 'INVITED',
+    status: 'INVITED'
   },
   {
     id: 20,
@@ -208,8 +211,8 @@ const SPEAKERS = [
     avatarVariant: 'purple',
     invitedDaysAgo: 1,
     profileCompletion: 10,
-    status: 'INVITED',
-  },
+    status: 'INVITED'
+  }
 ];
 
 const NameEmailCell = <template>
@@ -266,35 +269,36 @@ const columns = [
     field: 'name',
     header: 'Name & Email',
     sortable: true,
-    body: NameEmailCell,
+    body: NameEmailCell
   },
   { field: 'status', header: 'Status', sortable: false, body: StatusCell },
   {
     field: 'profileCompletion',
     header: 'Profile Status',
     sortable: false,
-    body: ProfileStatusCell,
-  },
+    headerClass: 'min-w-320',
+    body: ProfileStatusCell
+  }
 ];
 
 const addSpeakerMenuItems = [
   { label: 'Import from CSV' },
-  { label: 'Add manually' },
+  { label: 'Add manually' }
 ];
 
 const rowActionItems = [
   { label: 'View', icon: 'view-icon' },
   { label: 'Featured', icon: 'ls-star-filled-icon' },
   { label: 'Delete', icon: 'delete-icon', linkClass: 'fg-red' },
-  { label: 'View Sent Emails', icon: 'email-icon-01' },
+  { label: 'View Sent Emails', icon: 'email-icon-01' }
 ];
 
 const filterGroups = [
   {
     key: 'status',
     heading: 'Status',
-    options: [{ value: 'INVITED', label: 'Invited' }],
-  },
+    options: [{ value: 'INVITED', label: 'Invited' }]
+  }
 ];
 
 const sortOptions = [{ key: 'name', lbl: 'Name' }];
@@ -313,6 +317,11 @@ export default class DemoTableBasic extends Component {
   @action
   handleSortByChange(value) {
     this.sortBy = value;
+  }
+
+  @action
+  handleRowAction(row, item) {
+    console.log('Row action:', row?.name, item?.label);
   }
 
   <template>
@@ -348,13 +357,13 @@ export default class DemoTableBasic extends Component {
 
       <:optionCell as |row|>
         <div class="flex items-center justify-end">
-          <UlxSplitButton
-            @label="Edit"
-            @variant="basic"
-            @outlined={{true}}
-            @size="s-size"
+          <UlxActionMenu
+            @label="Actions"
+            @icon="session-settings-icon"
             @items={{this.rowActionItems}}
-            aria-label="Actions for {{row.name}}"
+            @variant="secondary"
+            @outlined={{true}}
+            @onItemSelect={{fn this.handleRowAction row}}
           />
         </div>
       </:optionCell>

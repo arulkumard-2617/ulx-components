@@ -25,6 +25,9 @@ import {
  * @param {string} [ariaDescribedBy] - Overrides `field.describedBy`.
  * @param {string} [ariaErrorMessage] - Overrides `field.errorId`.
  * @param {boolean} [omitDomValue=false] - When true, the `value` attribute is not bound (for controls that manage the value externally, e.g. flatpickr).
+ * @param {function} [onInput] - Invoked on native input with `(value, event)`.
+ * @param {function} [onChange] - Invoked on native change with `(value, event)`.
+ * @param {function} [onBlur] - Invoked on native blur with `(value, event)`.
  */
 export default class UlxInput extends Component {
 	get omitDomValue() {
@@ -145,12 +148,12 @@ export default class UlxInput extends Component {
 
 	@action
 	handleInput(event) {
-		this.args.onInput?.(event);
+		this.args.onInput?.(event.target.value, event);
 	}
 
 	@action
 	handleChange(event) {
-		this.args.onChange?.(event);
+		this.args.onChange?.(event.target.value, event);
 	}
 
 	@action
@@ -160,7 +163,7 @@ export default class UlxInput extends Component {
 
 	@action
 	handleBlur(event) {
-		this.args.onBlur?.(event);
+		this.args.onBlur?.(event.target.value, event);
 	}
 
 	<template>

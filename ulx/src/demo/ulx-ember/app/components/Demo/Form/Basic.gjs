@@ -20,14 +20,14 @@ export default class DemoFormBasic extends Component {
   @tracked emailError = null;
 
   @action
-  handleNameInput(event) {
-    this.name = event.target.value;
+  handleNameInput(value) {
+    this.name = value;
     this.nameError = null;
   }
 
   @action
-  handleEmailInput(event) {
-    this.email = event.target.value;
+  handleEmailInput(value) {
+    this.email = value;
     this.emailError = null;
   }
 
