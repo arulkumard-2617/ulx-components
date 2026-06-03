@@ -7,6 +7,16 @@ import { getComponentClass } from "../../utils/component-config";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import UlxIcon from "../ulx-icon/index.gjs";
 
+const STEP_LINK_DIRECTION = {
+	NEXT: "next",
+	PREV: "prev",
+};
+
+const STEP_LINK_FOCUS_POSITION = {
+	FIRST: "first",
+	LAST: "last",
+};
+
 /**
  * Stage-indicator steps component for multi-step workflows.
  *
@@ -195,7 +205,7 @@ export default class UlxSteps extends Component {
 
 		while (listItem) {
 			listItem =
-				direction === "next"
+				direction === STEP_LINK_DIRECTION.NEXT
 					? listItem.nextElementSibling
 					: listItem.previousElementSibling;
 			if (!listItem) break;
@@ -224,13 +234,16 @@ export default class UlxSteps extends Component {
 		const links = this.getFocusableStepLinks();
 		if (!links?.length) return;
 
-		const link = position === "last" ? links[links.length - 1] : links[0];
+		const link =
+			position === STEP_LINK_FOCUS_POSITION.LAST
+				? links[links.length - 1]
+				: links[0];
 		this.setFocusToMenuitem(link);
 	}
 
 	@action
 	handleListFocus() {
-		!this.readOnly && this.focusStepLinkAt("first");
+		!this.readOnly && this.focusStepLinkAt(STEP_LINK_FOCUS_POSITION.FIRST);
 	}
 
 	@action
@@ -256,24 +269,30 @@ export default class UlxSteps extends Component {
 
 		switch (originalEvent.code) {
 			case "ArrowRight": {
-				const nextItem = this.findAdjacentStepLink(originalEvent.target, "next");
+				const nextItem = this.findAdjacentStepLink(
+					originalEvent.target,
+					STEP_LINK_DIRECTION.NEXT,
+				);
 				nextItem && this.setFocusToMenuitem(nextItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "ArrowLeft": {
-				const prevItem = this.findAdjacentStepLink(originalEvent.target, "prev");
+				const prevItem = this.findAdjacentStepLink(
+					originalEvent.target,
+					STEP_LINK_DIRECTION.PREV,
+				);
 				prevItem && this.setFocusToMenuitem(prevItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "Home": {
-				this.focusStepLinkAt("first");
+				this.focusStepLinkAt(STEP_LINK_FOCUS_POSITION.FIRST);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "End": {
-				this.focusStepLinkAt("last");
+				this.focusStepLinkAt(STEP_LINK_FOCUS_POSITION.LAST);
 				originalEvent.preventDefault();
 				break;
 			}
