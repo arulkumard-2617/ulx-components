@@ -8,9 +8,9 @@ import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import UlxIcon from "../ulx-icon/index.gjs";
 
 /**
- * Steps indicator component for multi-step workflows.
+ * Stage-indicator steps component for multi-step workflows.
  *
- * Matches ULS markup/classes from `ULS_V2.0/src/styles/uls-styles/less/modules/steps.less`.
+ * Matches ULS markup/classes from `uls-styles/less/modules/steps.less`.
  *
  * ## Variations
  * - Basic: provide `@items`
@@ -18,9 +18,11 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * - Linear/read-only (default): `@readOnly={{true}}` (default) blocks selection
  * - Interactive (non-linear): `@readOnly={{false}}` + `@onSelect`
  * - Template: provide `:item` block for custom step rendering
- * - Stage indicator: `@variant="stage-indicator"` — active step uses `@activeStepIcon`
- *   (default `success-icon`), others use `@inactiveStepIcon` (default `success-stroke-icon`).
- *   Per-item `activeIcon`, `inactiveIcon`, or `icon` override the defaults.
+ *
+ * Default rendering shows icon + label in a row with `right-arrow-icon` separators.
+ * Active step uses `@activeStepIcon` (default `success-icon`); other steps use
+ * `@inactiveStepIcon` (default `success-stroke-icon`). Per-item `activeIcon`,
+ * `inactiveIcon`, or `icon` override the defaults.
  *
  * ## WCAG
  * - Uses `<nav>` with an ordered list.
@@ -34,8 +36,8 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {Array<Object>} [items=[]] - Steps array. Each item may include:
  *   - `label` (string)
  *   - `icon` (string) - Font icon class for UlxIcon (type="font")
- *   - `activeIcon` (string) - Stage-indicator active-step icon override
- *   - `inactiveIcon` (string) - Stage-indicator inactive-step icon override
+ *   - `activeIcon` (string) - Active-step icon override
+ *   - `inactiveIcon` (string) - Inactive-step icon override
  *   - `disabled` (boolean)
  *   - `command` (Function) - Called on select: ({ originalEvent, index, item }) => void
  * @param {number} [activeIndex] - Controlled active step index (0-based)
@@ -43,9 +45,8 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {Function} [onSelect] - Called when a step is selected: ({ originalEvent, index, item }) => void
  * @param {string} [ariaLabel] - Accessible label for the nav element
  * @param {string} [ariaLabelledBy] - ID of element that labels the nav element
- * @param {string} [variant] - Visual variant (e.g. `stage-indicator`)
- * @param {string} [activeStepIcon='success-icon'] - Default active icon for `stage-indicator`
- * @param {string} [inactiveStepIcon='success-stroke-icon'] - Default inactive icon for `stage-indicator`
+ * @param {string} [activeStepIcon='success-icon'] - Default active step icon
+ * @param {string} [inactiveStepIcon='success-stroke-icon'] - Default inactive step icon
  * @param {string} [customClass] - Extra CSS classes appended to the root element
  * @param {string} [dataQa] - Override root data-qa attribute
  *
@@ -84,23 +85,13 @@ export default class UlxSteps extends Component {
 	}
 
 	get rootClasses() {
-		const { customClass, variant } = this.args;
+		const { customClass } = this.args;
 
 		const parts = [this.baseClass];
 		this.readOnly && parts.push("read-only");
-		variant && parts.push(variant);
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
-	}
-
-	get isStageIndicator() {
-		const { customClass = "", variant } = this.args;
-
-		return (
-			variant === "stage-indicator" ||
-			String(customClass).split(/\s+/).includes("stage-indicator")
-		);
 	}
 
 	get rootDataQa() {
@@ -132,11 +123,6 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
-	getStepNumber(index) {
-		return index + 1;
-	}
-
-	@action
 	isStepDisabled(item, index) {
 		const itemDisabled = Boolean(item?.disabled);
 		return itemDisabled || (this.readOnly && index !== this.activeIndex);
@@ -159,21 +145,12 @@ export default class UlxSteps extends Component {
 
 	@action
 	showStepSeparator(index) {
-		return this.isStageIndicator && !this.isLastStep(index);
+		return !this.isLastStep(index);
 	}
 
 	@action
 	getStepIcon(item, index) {
-		const {
-			icon,
-			activeIcon,
-			inactiveIcon,
-		} = item ?? {};
-
-		if (!this.isStageIndicator) {
-			return icon ?? null;
-		}
-
+		const { icon, activeIcon, inactiveIcon } = item ?? {};
 		const {
 			activeStepIcon = "success-icon",
 			inactiveStepIcon = "success-stroke-icon",
@@ -207,59 +184,39 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
-	findStepLinkInListItem(listItem) {
-		if (!listItem?.classList?.contains?.("steps-item")) return null;
-		return listItem.querySelector?.(".steps-link") ?? listItem.children?.[0] ?? null;
-	}
-
-	@action
-	findNextItem(target) {
+	findAdjacentStepLink(target, direction) {
 		let listItem = target?.parentElement;
 
 		while (listItem) {
-			listItem = listItem.nextElementSibling;
-			const link = this.findStepLinkInListItem(listItem);
+			listItem =
+				direction === "next"
+					? listItem.nextElementSibling
+					: listItem.previousElementSibling;
+			if (!listItem) break;
+
+			const link = listItem.querySelector(".steps-link");
 			if (link) return link;
 		}
 
 		return null;
 	}
 
-	@action
-	findPrevItem(target) {
-		let listItem = target?.parentElement;
-
-		while (listItem) {
-			listItem = listItem.previousElementSibling;
-			const link = this.findStepLinkInListItem(listItem);
-			if (link) return link;
-		}
-
-		return null;
-	}
-
-	findFirstItem() {
-		return this.listElement?.querySelector?.("li.steps-item .steps-link") ?? null;
-	}
-
-	findLastItem() {
-		const links = this.listElement?.querySelectorAll?.("li.steps-item .steps-link");
-		return links?.length ? links[links.length - 1] : null;
+	getStepLinks() {
+		return this.listElement?.querySelectorAll("li.steps-item .steps-link");
 	}
 
 	@action
-	setFocusToFirstItem() {
-		const firstItem = this.findFirstItem();
-		if (firstItem) {
-			firstItem.focus({ preventScroll: true });
-		}
+	focusStepLinkAt(position) {
+		const links = this.getStepLinks();
+		if (!links?.length) return;
+
+		const link = position === "last" ? links[links.length - 1] : links[0];
+		this.setFocusToMenuitem(link);
 	}
 
 	@action
 	handleListFocus() {
-		if (!this.readOnly) {
-			this.setFocusToFirstItem();
-		}
+		!this.readOnly && this.focusStepLinkAt("first");
 	}
 
 	@action
@@ -285,26 +242,24 @@ export default class UlxSteps extends Component {
 
 		switch (originalEvent.code) {
 			case "ArrowRight": {
-				const nextItem = this.findNextItem(originalEvent.target);
+				const nextItem = this.findAdjacentStepLink(originalEvent.target, "next");
 				nextItem && this.setFocusToMenuitem(nextItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "ArrowLeft": {
-				const prevItem = this.findPrevItem(originalEvent.target);
+				const prevItem = this.findAdjacentStepLink(originalEvent.target, "prev");
 				prevItem && this.setFocusToMenuitem(prevItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "Home": {
-				const firstItem = this.findFirstItem();
-				firstItem && this.setFocusToMenuitem(firstItem);
+				this.focusStepLinkAt("first");
 				originalEvent.preventDefault();
 				break;
 			}
 			case "End": {
-				const lastItem = this.findLastItem();
-				lastItem && this.setFocusToMenuitem(lastItem);
+				this.focusStepLinkAt("last");
 				originalEvent.preventDefault();
 				break;
 			}
@@ -363,12 +318,9 @@ export default class UlxSteps extends Component {
 									to="item"
 								}}
 							{{else}}
-								<span class="steps-number">{{this.getStepNumber index}}</span>
-								{{#if (this.getStepIcon item index)}}
-									<span class="steps-icon">
-										<UlxIcon @type="font" @iconName={{this.getStepIcon item index}} />
-									</span>
-								{{/if}}
+								<span class="steps-icon">
+									<UlxIcon @type="font" @iconName={{this.getStepIcon item index}} />
+								</span>
 								{{#if item.label}}
 									<span class="steps-title">{{item.label}}</span>
 								{{/if}}

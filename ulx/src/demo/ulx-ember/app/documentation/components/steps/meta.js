@@ -13,7 +13,7 @@ export default {
 
   // Page metadata
   header: 'Steps',
-  subHeader: 'Steps is a component for user interaction.',
+  subHeader: 'Stage-indicator steps for multi-step workflows with icon, label, and arrow separators.',
 
   // Tab configuration
   tabs: [
