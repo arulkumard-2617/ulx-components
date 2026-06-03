@@ -9,7 +9,7 @@ export default class BasicStepsDemo extends Component {
 
   <template>
     <div class="">
-      <UlxSteps @items={{this.items}} @activeIndex={{0}} />
+      <UlxSteps @items={{this.items}} @activeIndex={{1}} />
     </div>
   </template>
 }

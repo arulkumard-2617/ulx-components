@@ -45,7 +45,7 @@ export const StepsFeatureItems = [
       props: {
         as: "span",
         content:
-          "The <code>Basic</code> demo shows the default stage indicator: icon and label in a row with <code>right-arrow-icon</code> separators. The active step uses <code>success-icon</code>; other steps use <code>success-stroke-icon</code> (override with <code>@activeStepIcon</code>, <code>@inactiveStepIcon</code>, or per-item icons)."
+          "The <code>Basic</code> demo shows three step states: completed (<code>success-icon</code>), active (<code>ls-circle-filled-icon</code>), and pending (<code>ls-circle-stroke-icon</code>). Override with <code>@completedStepIcon</code>, <code>@activeStepIcon</code>, <code>@pendingStepIcon</code>, or per-item icons."
       }
     },
     demo: {

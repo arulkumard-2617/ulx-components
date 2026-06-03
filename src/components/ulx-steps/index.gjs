@@ -30,9 +30,10 @@ const STEP_LINK_FOCUS_POSITION = {
  * - Template: provide `:item` block for custom step rendering
  *
  * Default rendering shows icon + label in a row with `right-arrow-icon` separators.
- * Active step uses `@activeStepIcon` (default `success-icon`); other steps use
- * `@inactiveStepIcon` (default `success-stroke-icon`). Per-item `activeIcon`,
- * `inactiveIcon`, or `icon` override the defaults.
+ * Three visual states: completed (`@completedStepIcon`), active (`@activeStepIcon`),
+ * and pending (`@pendingStepIcon`). Per-item `completedIcon`, `activeIcon`,
+ * `pendingIcon`, or `icon` override the defaults. `@inactiveStepIcon` is an alias
+ * for `@pendingStepIcon`.
  *
  * ## WCAG
  * - Uses `<nav>` with an ordered list.
@@ -48,7 +49,9 @@ const STEP_LINK_FOCUS_POSITION = {
  *   - `label` (string)
  *   - `icon` (string) - Font icon class for UlxIcon (type="font")
  *   - `activeIcon` (string) - Active-step icon override
- *   - `inactiveIcon` (string) - Inactive-step icon override
+ *   - `completedIcon` (string) - Completed-step icon override
+ *   - `pendingIcon` (string) - Pending-step icon override
+ *   - `inactiveIcon` (string) - Alias for pending-step icon override
  *   - `disabled` (boolean)
  *   - `command` (Function) - Called on select: ({ originalEvent, index, item }) => void
  * @param {number} [activeIndex] - Controlled active step index (0-based)
@@ -56,8 +59,10 @@ const STEP_LINK_FOCUS_POSITION = {
  * @param {Function} [onSelect] - Called when a step is selected: ({ originalEvent, index, item }) => void
  * @param {string} [ariaLabel] - Accessible label for the nav element
  * @param {string} [ariaLabelledBy] - ID of element that labels the nav element
- * @param {string} [activeStepIcon='success-icon'] - Default active step icon
- * @param {string} [inactiveStepIcon='success-stroke-icon'] - Default inactive step icon
+ * @param {string} [completedStepIcon='success-icon'] - Default completed step icon
+ * @param {string} [activeStepIcon='ls-circle-filled-icon'] - Default active step icon
+ * @param {string} [pendingStepIcon='ls-circle-stroke-icon'] - Default pending step icon
+ * @param {string} [inactiveStepIcon] - Alias for `@pendingStepIcon`
  * @param {string} [customClass] - Extra CSS classes appended to the root element
  * @param {string} [dataQa] - Override root data-qa attribute
  *
@@ -166,17 +171,36 @@ export default class UlxSteps extends Component {
 
 	@action
 	getStepIcon(item, index) {
-		const { icon, activeIcon, inactiveIcon } = item ?? {};
+		const { icon, activeIcon, completedIcon, pendingIcon, inactiveIcon } =
+			item ?? {};
 		const {
-			activeStepIcon = "success-icon",
-			inactiveStepIcon = "success-stroke-icon",
+			completedStepIcon = "success-icon",
+			activeStepIcon = "ls-circle-filled-icon",
+			pendingStepIcon = "ls-circle-stroke-icon",
+			inactiveStepIcon,
 		} = this.args;
+		const defaultPendingIcon = inactiveStepIcon ?? pendingStepIcon;
 
-		if (this.isStepActive(index)) {
-			return activeIcon ?? activeStepIcon ?? icon ?? inactiveStepIcon;
+		if (this.isStepCompleted(index)) {
+			return (
+				completedIcon ??
+				completedStepIcon ??
+				icon ??
+				defaultPendingIcon
+			);
 		}
 
-		return inactiveIcon ?? inactiveStepIcon ?? icon ?? activeStepIcon;
+		if (this.isStepActive(index)) {
+			return activeIcon ?? activeStepIcon ?? icon ?? defaultPendingIcon;
+		}
+
+		return (
+			pendingIcon ??
+			inactiveIcon ??
+			defaultPendingIcon ??
+			icon ??
+			activeStepIcon
+		);
 	}
 
 	@action
