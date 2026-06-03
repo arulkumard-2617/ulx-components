@@ -18,8 +18,8 @@ export default class InputSliderDemo extends Component {
   }
 
   @action
-  handleInputChange(event) {
-    const next = toNumberOrFallback(event.target.value, this.value);
+  handleInputChange(value) {
+    const next = toNumberOrFallback(value, this.value);
     this.value = next;
   }
 

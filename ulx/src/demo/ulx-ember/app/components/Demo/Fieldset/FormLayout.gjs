@@ -123,14 +123,14 @@ export default class DemoFieldsetFormLayout extends Component {
   }
 
   @action
-  handleAppNameInput(event) {
-    this.appName = event.target.value;
+  handleAppNameInput(value) {
+    this.appName = value;
     this.appNameError = null;
   }
 
   @action
-  handleAppDescriptionInput(event) {
-    this.appDescription = event.target.value;
+  handleAppDescriptionInput(value) {
+    this.appDescription = value;
     this.appDescriptionError = null;
   }
 
@@ -149,8 +149,8 @@ export default class DemoFieldsetFormLayout extends Component {
   }
 
   @action
-  handlePhoneInput(event) {
-    const raw = event.target.value ?? '';
+  handlePhoneInput(value) {
+    const raw = value ?? '';
     this.phone = raw.replace(/\D/g, '').slice(0, 10);
     this.phoneError = null;
   }
@@ -261,7 +261,7 @@ export default class DemoFieldsetFormLayout extends Component {
           >
             <:label>
               <span class="flex justify-between items-center gap-4 w-full">
-                <span>App name</span>
+                <span>App name</span> 
               </span>
             </:label>
             <:default as |field|>

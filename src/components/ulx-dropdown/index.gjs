@@ -27,6 +27,11 @@ import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
 
+const MIN_FILTER_OPTION_COUNT = 5;
+const DROPDOWN_PANEL_POSITION_AUTO = "auto";
+const DROPDOWN_PANEL_POSITION_TOP = "top";
+const DROPDOWN_PANEL_POSITION_BOTTOM = "bottom";
+
 /**
  * Dropdown select: single selection from a list with optional filter, groups, templates.
  * Supports: basic, checkmark, group, template, filter, clear icon, loading, invalid, disabled.
@@ -52,7 +57,7 @@ import { hash, concat } from "@ember/helper";
  * @param {boolean} [loading=false] - Shows progress spinner instead of dropdown icon.
  * @param {boolean} [invalid=false] - Invalid state styling.
  * @param {unknown} [error] - When truthy, treated like invalid for styling (same as `UlxInput`); message is not rendered here.
- * @param {boolean} [filter=false] - Show filter input in panel.
+ * @param {boolean} [filter=false] - Show filter input in panel when there are at least 5 options.
  * @param {boolean} [showClear=false] - Show clear icon when value is set.
  * @param {boolean} [checkmark=false] - Show checkmark on selected item.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
@@ -67,7 +72,9 @@ import { hash, concat } from "@ember/helper";
  *   - `string`: a CSS selector resolved with `document.querySelector()`.
  * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
  * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that closes the overlay immediately.
+ * @param {'auto'|'top'|'bottom'} [position='auto'] - Panel placement relative to the trigger. `auto` picks above/below on first open and keeps that side until the overlay closes (filtering does not re-flip); `top` always opens above; `bottom` always opens below.
  * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
+ * @param {string} [filterDataQa] - `data-qa` on the panel filter input when `@filter` is true (default `ulx-dropdown-filter`).
  * @param {string} [id] - Id for the trigger (for label `for` / ARIA).
  * @param {string} [key] - When `@id` is omitted, used as the trigger id (e.g. `@key={{field.key}}` with `UlxField`).
  * @param {string} [ariaDescribedBy] - `aria-describedby` ids (e.g. from `UlxField` control hash).
@@ -104,6 +111,8 @@ export default class UlxDropdown extends Component {
 	@tracked triggerElement = null;
 	@tracked panelElement = null;
 	@tracked panelPosition = "below";
+	/** When `@position` is `auto`, locks above/below for the current open overlay session. */
+	lockedAutoPanelPlacement = null;
 
 	get triggerId() {
 		const { id, key } = this.args;
@@ -114,6 +123,16 @@ export default class UlxDropdown extends Component {
 
 	get rootDataQa() {
 		return this.args.dataQa ?? "ulx-dropdown";
+	}
+
+	get filterInputDataQa() {
+		const { filterDataQa } = this.args;
+
+		if (typeof filterDataQa === "string" && filterDataQa.length) {
+			return filterDataQa;
+		}
+
+		return "ulx-dropdown-filter";
 	}
 
 	get baseClass() {
@@ -235,7 +254,8 @@ export default class UlxDropdown extends Component {
 
 	@action
 	getOptionDataQa(option, index) {
-		const optionDataQa = option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
+		const optionDataQa =
+			option && typeof option === "object" ? this.getResolved(option, "dataQa") : null;
 		return optionDataQa || `ulx-dropdown-option-${index}`;
 	}
 
@@ -288,9 +308,15 @@ export default class UlxDropdown extends Component {
 		return this.hasGroups ? this.flatOptions : (this.args.options ?? []);
 	}
 
+	get shouldShowFilter() {
+		return this.args.filter === true && this.unfilteredOptions.length >= MIN_FILTER_OPTION_COUNT;
+	}
+
 	get visibleOptions() {
 		const sourceOptionsList = this.unfilteredOptions;
-		const normalizedFilterValue = (this.filterValue ?? "").trim().toLowerCase();
+		const normalizedFilterValue = this.shouldShowFilter
+			? (this.filterValue ?? "").trim().toLowerCase()
+			: "";
 		if (!normalizedFilterValue) return sourceOptionsList;
 
 		if (this.hasGroups) {
@@ -388,7 +414,71 @@ export default class UlxDropdown extends Component {
 		return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
 	}
 
-	positionPanel = modifier((element, [when, triggerEl, setPanelPosition]) => {
+	get resolvedPanelPosition() {
+		const { position = DROPDOWN_PANEL_POSITION_AUTO } = this.args;
+		const normalizedPosition =
+			typeof position === "string" ? position.trim().toLowerCase() : DROPDOWN_PANEL_POSITION_AUTO;
+
+		if (
+			normalizedPosition === DROPDOWN_PANEL_POSITION_TOP ||
+			normalizedPosition === "above"
+		) {
+			return DROPDOWN_PANEL_POSITION_TOP;
+		}
+
+		if (
+			normalizedPosition === DROPDOWN_PANEL_POSITION_BOTTOM ||
+			normalizedPosition === "below"
+		) {
+			return DROPDOWN_PANEL_POSITION_BOTTOM;
+		}
+
+		return DROPDOWN_PANEL_POSITION_AUTO;
+	}
+
+	get filterPlaceholderLabel() {
+		return this.args.filterPlaceholder ?? t("label.search");
+	}
+
+	clearLockedAutoPanelPlacement() {
+		this.lockedAutoPanelPlacement = null;
+	}
+
+	resolveShouldPlaceAbove({
+		panelPositionPreference,
+		targetRect,
+		menuHeight,
+		fallbackBoundary,
+		spacing,
+		viewportPadding
+	}) {
+		if (panelPositionPreference === DROPDOWN_PANEL_POSITION_TOP) {
+			return true;
+		}
+
+		if (panelPositionPreference === DROPDOWN_PANEL_POSITION_BOTTOM) {
+			return false;
+		}
+
+		if (this.lockedAutoPanelPlacement != null) {
+			return this.lockedAutoPanelPlacement === DROPDOWN_PANEL_POSITION_TOP;
+		}
+
+		const initialTop = targetRect.bottom + spacing;
+		const spaceBelow =
+			fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
+		const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
+		const shouldPlaceAbove =
+			initialTop + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+
+		this.lockedAutoPanelPlacement = shouldPlaceAbove
+			? DROPDOWN_PANEL_POSITION_TOP
+			: DROPDOWN_PANEL_POSITION_BOTTOM;
+
+		return shouldPlaceAbove;
+	}
+
+	positionPanel = modifier((element, [when, triggerEl, panelPositionPreference, setPanelPosition]) => {
 		if (!when || !element) return;
 
 		const alignPanelToTrigger = () => {
@@ -437,10 +527,14 @@ export default class UlxDropdown extends Component {
 			}
 			left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
 
-			const spaceBelow = fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
-			const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
-			const shouldPlaceAbove =
-				top + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
+			const shouldPlaceAbove = this.resolveShouldPlaceAbove({
+				panelPositionPreference,
+				targetRect,
+				menuHeight,
+				fallbackBoundary,
+				spacing,
+				viewportPadding
+			});
 
 			if (shouldPlaceAbove) {
 				top = targetRect.top - menuHeight - spacing;
@@ -485,9 +579,20 @@ export default class UlxDropdown extends Component {
 		window.addEventListener("resize", onResize);
 		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined"
+				? new ResizeObserver(() => {
+						if (!this.overlayVisible) return;
+						requestAnimationFrame(alignPanelToTrigger);
+					})
+				: null;
+
+		resizeObserver?.observe(element);
+
 		return () => {
 			window.removeEventListener("resize", onResize);
 			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+			resizeObserver?.disconnect();
 		};
 	});
 
@@ -544,7 +649,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	get shouldFocusPanelFilterOnOpen() {
-		return !!this.args.filter;
+		return this.shouldShowFilter;
 	}
 
 	get hasHeaderFocusableControls() {
@@ -555,7 +660,7 @@ export default class UlxDropdown extends Component {
 		const panelRoot = this.panelElement;
 		if (!panelRoot) return [];
 		const acc = [];
-		const filterInput = panelRoot.querySelector("[data-qa='ulx-dropdown-filter']");
+		const filterInput = panelRoot.querySelector(".dropdown-filter-input");
 		if (filterInput && !filterInput.disabled && filterInput.offsetParent !== null) {
 			acc.push(filterInput);
 		}
@@ -569,7 +674,7 @@ export default class UlxDropdown extends Component {
 	}
 
 	focusFilterInput() {
-		const filterInput = this.panelElement?.querySelector("[data-qa='ulx-dropdown-filter']");
+		const filterInput = this.panelElement?.querySelector(".dropdown-filter-input");
 		if (!filterInput || filterInput.disabled) return false;
 		filterInput.focus?.({ preventScroll: true });
 		return true;
@@ -585,6 +690,16 @@ export default class UlxDropdown extends Component {
 	focusTriggerFallback() {
 		if (!this.overlayVisible || this.isTriggerDisabled) return;
 		document.getElementById(this.triggerId)?.focus?.({ preventScroll: true });
+	}
+
+	/** Return focus to the combobox trigger after the overlay closes (any `@context`). */
+	restoreTriggerFocusAfterClose() {
+		if (this.isTriggerDisabled) return;
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				this.getTriggerFocusableAnchor()?.focus?.({ preventScroll: true });
+			});
+		});
 	}
 
 	focusPanelInputOnOpen() {
@@ -644,6 +759,7 @@ export default class UlxDropdown extends Component {
 		if (!this.overlayVisible) return;
 		this.overlayVisible = false;
 		this.panelPosition = "below";
+		this.clearLockedAutoPanelPlacement();
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onHide?.();
 	}
@@ -690,12 +806,15 @@ export default class UlxDropdown extends Component {
 				this.focusedOptionIndex = 0;
 			}
 			this.panelPosition = "below";
+			this.clearLockedAutoPanelPlacement();
 			this.args.onShow?.();
 			this.focusAppropriateControlOnOpen();
 		} else {
 			this.panelPosition = "below";
+			this.clearLockedAutoPanelPlacement();
 			this.dismissKeyboardOptionFocusRing();
 			this.args.onHide?.();
+			this.restoreTriggerFocusAfterClose();
 		}
 	}
 
@@ -717,9 +836,12 @@ export default class UlxDropdown extends Component {
 		if (this.isOptionDisabled(optionItem)) return;
 		const value = this.getOptionValue(optionItem);
 		this.overlayVisible = false;
+		this.panelPosition = "below";
+		this.clearLockedAutoPanelPlacement();
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(value);
 		this.args.onHide?.();
+		this.restoreTriggerFocusAfterClose();
 	}
 
 	/** Applies Enter/Space selection for the current `focusedOptionIndex` (flat vs grouped row). */
@@ -738,11 +860,14 @@ export default class UlxDropdown extends Component {
 		event?.preventDefault?.();
 		if (this.args.disabled) return;
 		this.overlayVisible = false;
+		this.panelPosition = "below";
+		this.clearLockedAutoPanelPlacement();
 		this.dismissKeyboardOptionFocusRing();
 		this.args.onChange?.(undefined);
 		this.args.onFilter?.("");
 		this.filterValue = "";
 		this.args.onHide?.();
+		this.restoreTriggerFocusAfterClose();
 	}
 
 	@action
@@ -769,7 +894,13 @@ export default class UlxDropdown extends Component {
 	}
 
 	@action
+	stopFilterKeyEventPropagation(event) {
+		event.stopPropagation();
+	}
+
+	@action
 	onFilterKeydown(event) {
+		event.stopPropagation();
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
@@ -1036,12 +1167,17 @@ export default class UlxDropdown extends Component {
 					aria-hidden="false"
 					{{this.panelRef}}
 					{{overlayPortal this.overlayVisible this.resolvedContext}}
-					{{this.positionPanel this.overlayVisible this.triggerElement (fn this.setPanelPosition)}}
+					{{this.positionPanel
+						this.overlayVisible
+						this.triggerElement
+						this.resolvedPanelPosition
+						(fn this.setPanelPosition)
+					}}
 					{{on "pointerdown" this.onOptionPanelPointerIntent}}
 					{{on "keydown" this.onPanelKeydown}}
 					{{on "click" this.stopPanelClick}}
 				>
-					{{#if (and @filter)}}
+					{{#if this.shouldShowFilter}}
 						<div class="dropdown-filter-container">
 							<UlxIcon
 								@type="font"
@@ -1053,11 +1189,13 @@ export default class UlxDropdown extends Component {
 							<input
 								type="text"
 								class="dropdown-filter-input"
-								data-qa="ulx-dropdown-filter"
+								data-qa={{this.filterInputDataQa}}
 								value={{this.filterValue}}
-								placeholder={{@filterPlaceholder}}
+								placeholder={{this.filterPlaceholderLabel}}
 								{{on "input" this.onFilterInput}}
 								{{on "keydown" this.onFilterKeydown}}
+								{{on "keypress" this.stopFilterKeyEventPropagation}}
+								{{on "keyup" this.stopFilterKeyEventPropagation}}
 							/>
 						</div>
 					{{/if}}
@@ -1075,7 +1213,7 @@ export default class UlxDropdown extends Component {
 							{{#if (eq this.visibleOptions.length 0)}}
 								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
 									{{or
-										(and @filter @emptyFilterMessage)
+										(and this.shouldShowFilter @emptyFilterMessage)
 										@emptyMessage
 										(t "label.no.results.found")
 									}}

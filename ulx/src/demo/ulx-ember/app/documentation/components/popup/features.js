@@ -5,11 +5,13 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
-  PositionsDemo,// Sources
+  PositionsDemo,
+  HoverClickDemo,
+  // Sources
   ImportSource,
   BasicSource,
-  PositionsSource
+  PositionsSource,
+  HoverClickSource
 } from './imports';
 
 export const PopupFeatureItems = [
@@ -50,8 +52,27 @@ export const PopupFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
+  {
+    id: "hover-click",
+    sectionNav: "Interaction modes",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "Two examples side by side: <code>@interactionMode=&quot;click&quot;</code> (toggle on click / Enter / Space only) and <code>@interactionMode=&quot;hover&quot;</code> (open on pointer hover; dismiss elsewhere)."
+      }
+    },
+    demo: {
+      component: HoverClickDemo,
+      props: {
+        source: HoverClickSource,
+        snippetName: "hover-click",
+        language: "handlebars"
+      }
+    }
+  },
   {
     id: "positions",
     sectionNav: "Positions",

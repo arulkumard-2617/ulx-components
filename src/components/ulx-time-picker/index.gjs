@@ -4,6 +4,10 @@ import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
 import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
+import {
+	hourStringToPickerTimeDate,
+	pickerTimeDateToInternalTime
+} from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
@@ -31,8 +35,15 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
+ * @param {'body'|'self'|HTMLElement|Function|string} [appendTo='body'] - Calendar mount target (prefer `body`; `self` misaligns because flatpickr uses document coordinates).
+ * @param {'window'|HTMLElement|Function|string} [scrollContext] - Scroll container to pin the popup inside (default: nearest `.editor-sc-parent` or scrollable ancestor).
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ *
+ * Popup mode: Tab focuses the input without opening the time picker; use a pointer click, Enter when typing is disabled, ArrowDown when typing is enabled (`allowInput`), or the time picker trigger button when shown.
+ * @param {string|number} [internalTimeValue] - Model time string (e.g. `HHmm`) shown in the picker
+ * @param {string} [internalTimeFormat='HHmm'] - Parse/emit format for `@internalTimeValue`
+ * @param {boolean} [emitInternalTime=false] - When true, `onChange` receives internal time string in `selectedDates[0]`
  */
 export default class UlxTimePicker extends Component {
 	get useWrap() {
@@ -64,8 +75,11 @@ export default class UlxTimePicker extends Component {
 			enableSeconds,
 			clickOpens,
 			hourFormat = "24",
+			appendTo,
 			flatpickrOptions = {}
 		} = this.args;
+
+		const { appendTo: flatpickrAppendTo, ...flatpickrOptionsRest } = flatpickrOptions;
 
 		const o = {
 			mode: "single",
@@ -90,7 +104,8 @@ export default class UlxTimePicker extends Component {
 			defaultDate,
 			clickOpens,
 			enableSeconds,
-			...flatpickrOptions
+			...flatpickrOptionsRest,
+			appendTo: flatpickrAppendTo ?? appendTo ?? "body"
 		};
 
 		if (this.useWrap) {
@@ -101,7 +116,11 @@ export default class UlxTimePicker extends Component {
 	}
 
 	get syncValue() {
-		return this.args.value ?? null;
+		const { value, internalTimeValue, internalTimeFormat = "HHmm" } = this.args;
+		if (internalTimeValue != null && internalTimeValue !== "") {
+			return hourStringToPickerTimeDate(internalTimeValue, internalTimeFormat);
+		}
+		return value ?? null;
 	}
 
 	get wrapRootClass() {
@@ -124,7 +143,21 @@ export default class UlxTimePicker extends Component {
 
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(selectedDates, dateStr);
+		const { emitInternalTime, internalTimeFormat = "HHmm", onChange } = this.args;
+		if (!onChange) {
+			return;
+		}
+
+		const selectedTime = selectedDates?.[0];
+		if (emitInternalTime && selectedTime) {
+			onChange(
+				[pickerTimeDateToInternalTime(selectedTime, internalTimeFormat)],
+				dateStr
+			);
+			return;
+		}
+
+		onChange(selectedDates, dateStr);
 	}
 
 	get placeholderText() {
@@ -146,6 +179,8 @@ export default class UlxTimePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 			>
@@ -215,6 +250,8 @@ export default class UlxTimePicker extends Component {
 					onDatesChange=this.handleDatesChange
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrTimePickerSurfaceClass
 				}}
 				...attributes

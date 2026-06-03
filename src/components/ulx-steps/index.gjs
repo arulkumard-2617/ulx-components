@@ -18,6 +18,9 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * - Linear/read-only (default): `@readOnly={{true}}` (default) blocks selection
  * - Interactive (non-linear): `@readOnly={{false}}` + `@onSelect`
  * - Template: provide `:item` block for custom step rendering
+ * - Stage indicator: `@variant="stage-indicator"` — active step uses `@activeStepIcon`
+ *   (default `success-icon`), others use `@inactiveStepIcon` (default `success-stroke-icon`).
+ *   Per-item `activeIcon`, `inactiveIcon`, or `icon` override the defaults.
  *
  * ## WCAG
  * - Uses `<nav>` with an ordered list.
@@ -31,6 +34,8 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {Array<Object>} [items=[]] - Steps array. Each item may include:
  *   - `label` (string)
  *   - `icon` (string) - Font icon class for UlxIcon (type="font")
+ *   - `activeIcon` (string) - Stage-indicator active-step icon override
+ *   - `inactiveIcon` (string) - Stage-indicator inactive-step icon override
  *   - `disabled` (boolean)
  *   - `command` (Function) - Called on select: ({ originalEvent, index, item }) => void
  * @param {number} [activeIndex] - Controlled active step index (0-based)
@@ -38,6 +43,9 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {Function} [onSelect] - Called when a step is selected: ({ originalEvent, index, item }) => void
  * @param {string} [ariaLabel] - Accessible label for the nav element
  * @param {string} [ariaLabelledBy] - ID of element that labels the nav element
+ * @param {string} [variant] - Visual variant (e.g. `stage-indicator`)
+ * @param {string} [activeStepIcon='success-icon'] - Default active icon for `stage-indicator`
+ * @param {string} [inactiveStepIcon='success-stroke-icon'] - Default inactive icon for `stage-indicator`
  * @param {string} [customClass] - Extra CSS classes appended to the root element
  * @param {string} [dataQa] - Override root data-qa attribute
  *
@@ -76,13 +84,23 @@ export default class UlxSteps extends Component {
 	}
 
 	get rootClasses() {
-		const { customClass } = this.args;
+		const { customClass, variant } = this.args;
 
 		const parts = [this.baseClass];
 		this.readOnly && parts.push("read-only");
+		variant && parts.push(variant);
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get isStageIndicator() {
+		const { customClass = "", variant } = this.args;
+
+		return (
+			variant === "stage-indicator" ||
+			String(customClass).split(/\s+/).includes("stage-indicator")
+		);
 	}
 
 	get rootDataQa() {
@@ -135,6 +153,40 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
+	isLastStep(index) {
+		return Number(index) >= this.items.length - 1;
+	}
+
+	@action
+	showStepSeparator(index) {
+		return this.isStageIndicator && !this.isLastStep(index);
+	}
+
+	@action
+	getStepIcon(item, index) {
+		const {
+			icon,
+			activeIcon,
+			inactiveIcon,
+		} = item ?? {};
+
+		if (!this.isStageIndicator) {
+			return icon ?? null;
+		}
+
+		const {
+			activeStepIcon = "success-icon",
+			inactiveStepIcon = "success-stroke-icon",
+		} = this.args;
+
+		if (this.isStepActive(index)) {
+			return activeIcon ?? activeStepIcon ?? icon ?? inactiveStepIcon;
+		}
+
+		return inactiveIcon ?? inactiveStepIcon ?? icon ?? activeStepIcon;
+	}
+
+	@action
 	getStepClasses(item, index) {
 		const parts = ["steps-item"];
 
@@ -155,26 +207,44 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
+	findStepLinkInListItem(listItem) {
+		if (!listItem?.classList?.contains?.("steps-item")) return null;
+		return listItem.querySelector?.(".steps-link") ?? listItem.children?.[0] ?? null;
+	}
+
+	@action
 	findNextItem(target) {
-		const next = target?.parentElement?.nextElementSibling;
-		return next ? next.children?.[0] : null;
+		let listItem = target?.parentElement;
+
+		while (listItem) {
+			listItem = listItem.nextElementSibling;
+			const link = this.findStepLinkInListItem(listItem);
+			if (link) return link;
+		}
+
+		return null;
 	}
 
 	@action
 	findPrevItem(target) {
-		const prev = target?.parentElement?.previousElementSibling;
-		return prev ? prev.children?.[0] : null;
+		let listItem = target?.parentElement;
+
+		while (listItem) {
+			listItem = listItem.previousElementSibling;
+			const link = this.findStepLinkInListItem(listItem);
+			if (link) return link;
+		}
+
+		return null;
 	}
 
 	findFirstItem() {
-		const firstLi = this.listElement?.querySelector?.("li");
-		return firstLi ? firstLi.children?.[0] : null;
+		return this.listElement?.querySelector?.("li.steps-item .steps-link") ?? null;
 	}
 
 	findLastItem() {
-		const items = this.listElement?.querySelectorAll?.("li");
-		const lastLi = items?.length ? items[items.length - 1] : null;
-		return lastLi ? lastLi.children?.[0] : null;
+		const links = this.listElement?.querySelectorAll?.("li.steps-item .steps-link");
+		return links?.length ? links[links.length - 1] : null;
 	}
 
 	@action
@@ -294,9 +364,9 @@ export default class UlxSteps extends Component {
 								}}
 							{{else}}
 								<span class="steps-number">{{this.getStepNumber index}}</span>
-								{{#if item.icon}}
+								{{#if (this.getStepIcon item index)}}
 									<span class="steps-icon">
-										<UlxIcon @type="font" @iconName={{item.icon}} />
+										<UlxIcon @type="font" @iconName={{this.getStepIcon item index}} />
 									</span>
 								{{/if}}
 								{{#if item.label}}
@@ -305,6 +375,18 @@ export default class UlxSteps extends Component {
 							{{/if}}
 						</a>
 					</li>
+					{{#if (this.showStepSeparator index)}}
+						<li
+							class="steps-separator-item"
+							role="presentation"
+							aria-hidden="true"
+							data-qa={{this.getDataQa "separator"}}
+						>
+							<span class="steps-separator">
+								<UlxIcon @type="font" @iconName="right-arrow-icon" @size="s22" />
+							</span>
+						</li>
+					{{/if}}
 				{{/each}}
 			</ol>
 		</nav>

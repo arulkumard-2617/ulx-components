@@ -37,15 +37,15 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
               .includes(q) ||
             String(row?.styles ?? '')
               .toLowerCase()
-              .includes(q),
-        ),
+              .includes(q)
+        )
       }))
       .filter((section) => section.rows.length > 0);
   }
 
   @action
-  handleSearchInput(event) {
-    this.searchQuery = event.target?.value ?? '';
+  handleSearchInput(value) {
+    this.searchQuery = value ?? '';
   }
 
   /** Rows to display for a section: first 10 or all when expanded. */
@@ -82,7 +82,7 @@ export default class CommonDocMainUtilityDocPageComponent extends Component {
   toggleSection(sectionIndex) {
     this.expandedSectionIndices = {
       ...this.expandedSectionIndices,
-      [sectionIndex]: !this.expandedSectionIndices[sectionIndex],
+      [sectionIndex]: !this.expandedSectionIndices[sectionIndex]
     };
   }
 

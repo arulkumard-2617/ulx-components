@@ -43,14 +43,14 @@ export default class DemoTextareaBasic extends Component {
   @tracked errors = {};
 
   @action
-  updateNewContactName(event) {
-    this.newContactName = event.target.value;
+  updateNewContactName(value) {
+    this.newContactName = value;
     this.clearErrorFor('newContactName');
   }
 
   @action
-  updateNewContactEmail(event) {
-    this.newContactEmail = event.target.value;
+  updateNewContactEmail(value) {
+    this.newContactEmail = value;
     this.clearErrorFor('newContactEmail');
   }
 
@@ -91,6 +91,8 @@ export default class DemoTextareaBasic extends Component {
         @helpText="Use 3–20 characters. Letters and numbers only."
         @rules={{this.validations.newContactName}}
         @error={{this.errors.newContactName}}
+        @showCharacterCount={{true}}
+        @value={{this.newContactName}}
         @fieldId="newContactName"
         @fieldClass="col-6"
         as |field|

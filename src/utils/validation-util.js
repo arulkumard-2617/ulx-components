@@ -48,8 +48,10 @@ const validators = {
 		}
 	},
 	isSameOrBeforeNow(value, rule) {
-		const momentLib = globalThis?.moment;
-		if (value && momentLib && value.isSameOrBefore(momentLib.tz(value.tz()))) {
+		const momentLib = globalThis?.moment,
+			momentValue = momentLib(value);
+
+		if (momentValue && momentLib && momentValue.isSameOrBefore(momentLib.tz(momentValue.tz()))) {
 			return rule;
 		}
 	},
@@ -62,7 +64,12 @@ const validators = {
 			return;
 		}
 
-		if (!value.isAfter(valueToCheck)) {
+		const momentLib = globalThis?.moment;
+		if (momentLib) {
+			if (!momentLib(value).isAfter(momentLib(valueToCheck))) {
+				return rule.msg;
+			}
+		} else if (!(new Date(value) > new Date(valueToCheck))) {
 			return rule.msg;
 		}
 	}

@@ -4,6 +4,12 @@ import { t } from "../../utils/i18n";
 import { buildInputGroupClass } from "../../utils/input-util";
 import { getComponentClass } from "../../utils/component-config";
 import flatpickrModifier from "../../modifiers/flatpickr";
+import {
+	resolveFlatpickrDateFormat,
+	coercePickerWallDate,
+	buildPickerSyncDates,
+	zonedDateFromPickerDay
+} from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 
@@ -18,6 +24,10 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {function} [onChange] - `(selectedDates: Date[], dateStr: string) => void`
  * @param {boolean} [showIcon=false]
  * @param {boolean} [showClearButton=false]
+ * @param {boolean} [showStartDateOnly=false] - When true, the input displays only the selected range start date.
+ * @param {boolean} [showEndDateOnly=false] - When true, the input displays only the selected range end date. Do not set both with true.
+ * @param {boolean} [allowSelectRange=true] - When false, keeps range calendar UI but only one date may be chosen per open (use with `@showStartDateOnly` / `@showEndDateOnly` for split pickers).
+ * @param {boolean} [oneClickClose=false] - When true with `@allowSelectRange`, closes after the first date click.
  * @param {boolean} [readOnlyInput]
  * @param {boolean} [readonly] - HTML `readonly` on the inner input; when true, wrapped input groups use filled styling.
  * @param {boolean} [enableTime]
@@ -31,13 +41,30 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {string} [position='auto'] - Popup position (`auto`, `above`, `below`, etc.)
  * @param {function|function[]} [onDayCreate] - Per-day hook merged with built-in a11y styling
  * @param {object} [flatpickrOptions] - Extra flatpickr config merged last
+ * @param {'body'|'self'|HTMLElement|Function|string} [appendTo='body'] - Calendar mount target (prefer `body`; `self` misaligns because flatpickr uses document coordinates).
+ * @param {'window'|HTMLElement|Function|string} [scrollContext] - Scroll container to pin the popup inside (default: nearest `.editor-sc-parent` or scrollable ancestor).
  * @param {function} [onFocus] - Forwarded to the inner input
  * @param {function} [onBlur] - Forwarded to the inner input
+ *
+ * Popup mode: Tab focuses the input without opening the calendar; use a pointer click, Enter when typing is disabled, ArrowDown when typing is enabled (`allowInput`), or the calendar trigger button when shown.
+ * @param {string} [timezone] - IANA zone; converts `@value` / bounds to wall calendar dates for flatpickr
+ * @param {{ start: Date|import('moment').Moment, end: Date|import('moment').Moment }|Array} [range] - Full event range for calendar highlighting when `@value` is a single bound (split start/end fields)
+ * @param {string|number} [preserveTime] - Internal time combined with the selected range day on change when `@timezone` is set
+ * @param {string} [preserveTimeFormat='HHmm'] - Parse format for `@preserveTime`
  */
 export default class UlxDateRangePicker extends Component {
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
+	}
+
+	get allowSelectRange() {
+		return this.args.allowSelectRange !== false;
+	}
+
+	get boundRangeValue() {
+		const { value } = this.args;
+		return Array.isArray(value) ? value : [];
 	}
 
 	get fpOptions() {
@@ -67,19 +94,28 @@ export default class UlxDateRangePicker extends Component {
 			formatDate,
 			defaultDate,
 			clickOpens,
+			oneClickClose = false,
+			appendTo,
 			flatpickrOptions = {}
 		} = this.args;
 
+		const {
+			onChange: flatpickrOnChange,
+			onOpen: flatpickrOnOpen,
+			mode: flatpickrModeOverride,
+			appendTo: flatpickrAppendTo,
+			...flatpickrOptionsRest
+		} = flatpickrOptions;
+
 		const o = {
-			mode: "range",
-			dateFormat,
+			dateFormat: resolveFlatpickrDateFormat(dateFormat),
 			locale,
 			minuteIncrement,
 			hourIncrement,
 			position,
 			onDayCreate,
-			minDate,
-			maxDate,
+			minDate: coercePickerWallDate(minDate, this.args.timezone),
+			maxDate: coercePickerWallDate(maxDate, this.args.timezone),
 			disable,
 			enable,
 			altInput,
@@ -97,7 +133,41 @@ export default class UlxDateRangePicker extends Component {
 			formatDate,
 			defaultDate,
 			clickOpens,
-			...flatpickrOptions
+			...flatpickrOptionsRest,
+			appendTo: flatpickrAppendTo ?? appendTo ?? "body",
+			mode: flatpickrModeOverride ?? "range",
+			onChange: (selectedDates, dateStr, instance) => {
+				flatpickrOnChange?.(selectedDates, dateStr, instance);
+
+				const selectedCount = selectedDates?.length ?? 0;
+				if (!selectedCount || !instance) {
+					return;
+				}
+
+				if (!this.allowSelectRange) {
+					const normalizedRange = this.normalizeOutgoingRange(selectedDates);
+
+					if (normalizedRange?.length) {
+						instance.setDate(normalizedRange, false);
+					}
+
+					instance.close();
+					return;
+				}
+
+				if (oneClickClose && instance.close) {
+					instance.close();
+				}
+			},
+			onOpen: (selectedDates, dateStr, instance) => {
+				flatpickrOnOpen?.(selectedDates, dateStr, instance);
+				if (selectedDates?.length >= 1) {
+					const jumpDate = this.args.showEndDateOnly
+						? (selectedDates[1] ?? selectedDates[0])
+						: selectedDates[0];
+					instance.jumpToDate(jumpDate);
+				}
+			}
 		};
 
 		if (this.useWrap) {
@@ -108,8 +178,37 @@ export default class UlxDateRangePicker extends Component {
 	}
 
 	get syncValue() {
-		const { value } = this.args;
-		return Array.isArray(value) ? value : [];
+		const { value, timezone, range } = this.args;
+		if (range != null || timezone) {
+			return buildPickerSyncDates(value, timezone, { range });
+		}
+		return this.boundRangeValue;
+	}
+
+	@action
+	formatDisplayValue(selectedDates, pickerInstance) {
+		const displayFormat = pickerInstance.config.altInput
+			? pickerInstance.config.altFormat
+			: pickerInstance.config.dateFormat;
+
+		if (this.args.showStartDateOnly === true) {
+			const startDate = selectedDates?.[0];
+
+			if (!startDate) {
+				return "";
+			}
+			return pickerInstance.formatDate(startDate, displayFormat);
+		}
+
+		if (this.args.showEndDateOnly === true) {
+			const endDate = selectedDates?.[1];
+			if (!endDate) {
+				return "";
+			}
+			return pickerInstance.formatDate(endDate, displayFormat);
+		}
+
+		return null;
 	}
 
 	get wrapRootClass() {
@@ -130,9 +229,34 @@ export default class UlxDateRangePicker extends Component {
 		return parts.filter(Boolean).join(" ");
 	}
 
+	normalizeOutgoingRange(selectedDates) {
+		if (this.allowSelectRange) {
+			return selectedDates;
+		}
+
+		const rangeValue = this.boundRangeValue;
+		const selectedCount = selectedDates?.length ?? 0;
+
+		if (!selectedCount) {
+			return selectedDates;
+		}
+
+		if (this.args.showStartDateOnly === true) {
+			const nextStartDate = selectedDates[0];
+			return [nextStartDate, rangeValue[1] ?? nextStartDate];
+		}
+
+		if (this.args.showEndDateOnly === true) {
+			const nextEndDate = selectedCount >= 2 ? selectedDates[1] : selectedDates[0];
+			return [rangeValue[0] ?? nextEndDate, nextEndDate];
+		}
+
+		return selectedDates;
+	}
+
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(selectedDates, dateStr);
+		this.args.onChange?.(this.normalizeOutgoingRange(selectedDates), dateStr);
 	}
 
 	get placeholderText() {
@@ -152,8 +276,11 @@ export default class UlxDateRangePicker extends Component {
 					options=this.fpOptions
 					values=this.syncValue
 					onDatesChange=this.handleDatesChange
+					formatDisplayValue=this.formatDisplayValue
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 			>
@@ -218,8 +345,11 @@ export default class UlxDateRangePicker extends Component {
 					options=this.fpOptions
 					values=this.syncValue
 					onDatesChange=this.handleDatesChange
+					formatDisplayValue=this.formatDisplayValue
 					disabled=@disabled
 					readOnlyInput=@readOnlyInput
+					scrollContext=@scrollContext
+					suppressOpenOnFocus=true
 					calendarSurfaceClass=this.flatpickrCalendarSurfaceClass
 				}}
 				...attributes

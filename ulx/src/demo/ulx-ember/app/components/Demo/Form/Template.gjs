@@ -174,18 +174,18 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
-  handleFirstNameInput(event) {
-    this.firstName = event.target.value;
+  handleFirstNameInput(value) {
+    this.firstName = value;
   }
 
   @action
-  handleLastNameInput(event) {
-    this.lastName = event.target.value;
+  handleLastNameInput(value) {
+    this.lastName = value;
   }
 
   @action
-  handleEmailInput(event) {
-    this.email = event.target.value;
+  handleEmailInput(value) {
+    this.email = value;
   }
 
   @action
@@ -199,18 +199,18 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
-  handleDesignationInput(event) {
-    this.designation = event.target.value;
+  handleDesignationInput(value) {
+    this.designation = value;
   }
 
   @action
-  handleCompanyNameInput(event) {
-    this.companyName = event.target.value;
+  handleCompanyNameInput(value) {
+    this.companyName = value;
   }
 
   @action
-  handleSkillsInput(event) {
-    this.skills = event.target.value;
+  handleSkillsInput(value) {
+    this.skills = value;
   }
 
   @action
@@ -229,8 +229,8 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
-  handleSocialUrlInput(event) {
-    this.socialUrl = event.target.value;
+  handleSocialUrlInput(value) {
+    this.socialUrl = value;
   }
 
   @action
@@ -239,8 +239,8 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
-  handlePhoneInput(event) {
-    this.phone = event.target.value;
+  handlePhoneInput(value) {
+    this.phone = value;
   }
 
   @action
@@ -249,13 +249,13 @@ export default class DemoFormTemplate extends Component {
   }
 
   @action
-  handleAltPhoneInput(event) {
-    this.altPhone = event.target.value;
+  handleAltPhoneInput(value) {
+    this.altPhone = value;
   }
 
   @action
-  handleAddressInput(event) {
-    this.address = event.target.value;
+  handleAddressInput(value) {
+    this.address = value;
   }
 
   @action

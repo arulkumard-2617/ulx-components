@@ -48,7 +48,7 @@ import {
       </UlxForm>
     </div>
 
-    <div class="col-2 flex justify-center">
+    <div class="col-2 flex justify-center h-full">
       <UlxDivider @layout="vertical">
         <div class="bold-font">OR</div>
       </UlxDivider>
