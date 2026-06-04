@@ -412,17 +412,6 @@ export function applySelectionToFilters(filters, field, values) {
 }
 
 /**
- * Applies multiple selection groups into a filters object.
- */
-export function applySelectionMapToFilters(filters, selections = {}) {
-	let updated = { ...filters };
-	for (const [field, values] of Object.entries(selections)) {
-		updated = applySelectionToFilters(updated, field, values);
-	}
-	return updated;
-}
-
-/**
  * Computes visible columns from optional persisted field set.
  */
 export function resolveVisibleColumns(allColumns = [], visibleFields = null) {
