@@ -22,7 +22,6 @@
   "scripts": {
     "build:css": "node config/ulx-styles-build.js",
     "build:js": "rollup --config config/rollup.config.mjs",
-    "prepare": "npm run build:css && npm run build:js",
     "build": "npm run build:css && npm run build:js",
     "lint": "concurrently 'npm:lint:*(!fix)' --names 'lint:'",
     "lint:fix": "concurrently 'npm:lint:*:fix' --names 'fix:'",
