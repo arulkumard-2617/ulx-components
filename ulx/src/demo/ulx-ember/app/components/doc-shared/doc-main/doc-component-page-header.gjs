@@ -4,6 +4,9 @@ import DocGuidancePanel from './doc-guidance-panel';
 import DocApiParamsPanel from './doc-api-params-panel';
 
 export default class DocComponentPageHeaderComponent extends Component {
+  get hasAccordions() {
+    return !!this.args.usages || !!this.args.showApiParams;
+  }
   <template>
     {{#if @title}}
       <header class="doc-component-page__header pt-6 {{@customClass}}">
@@ -25,18 +28,20 @@ export default class DocComponentPageHeaderComponent extends Component {
             {{/if}}
           </div>
         {{/if}}
-        <div class="doc-component-accordions">
-          {{#if @usages}}
-            <DocGuidancePanel
-              @usages={{@usages}}
-              @routeKey={{@routeKey}}
-              @subtitle={{@guidanceSubtitle}}
-            />
-          {{/if}}
-          {{#if @showApiParams}}
-            <DocApiParamsPanel @routeKey={{@routeKey}} />
-          {{/if}}
-        </div>
+        {{#if this.hasAccordions}}
+          <div class="doc-component-accordions">
+            {{#if @usages}}
+              <DocGuidancePanel
+                @usages={{@usages}}
+                @routeKey={{@routeKey}}
+                @subtitle={{@guidanceSubtitle}}
+              />
+            {{/if}}
+            {{#if @showApiParams}}
+              <DocApiParamsPanel @routeKey={{@routeKey}} />
+            {{/if}}
+          </div>
+        {{/if}}
       </header>
     {{/if}}
   </template>
