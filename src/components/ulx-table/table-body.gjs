@@ -344,7 +344,7 @@ export default class TableBody extends Component {
 		if (selectionMode === "checkbox") return;
 		if (selectionMode === "single") {
 			onSelectionChange?.(row);
-		} else if (selectionMode === "multiple" || selectionMode === "radio") {
+		} else if (selectionMode === "multiple") {
 			const current = Array.isArray(selection) ? selection : [];
 			const isSelected = this.isRowSelected(row);
 			if (isSelected) {
@@ -354,12 +354,10 @@ export default class TableBody extends Component {
 				});
 				onSelectionChange?.(updated);
 			} else {
-				if (event?.ctrlKey || event?.metaKey || event?.shiftKey) {
-					onSelectionChange?.([...current, row]);
-				} else {
-					onSelectionChange?.([row]);
-				}
+				onSelectionChange?.([...current, row]);
 			}
+		} else if (selectionMode === "radio") {
+			onSelectionChange?.([row]);
 		}
 	}
 
