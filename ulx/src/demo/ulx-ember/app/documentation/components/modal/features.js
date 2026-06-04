@@ -35,17 +35,17 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>import</code> property is used to import the <code>UlxModal</code> component.',
-      },
+          'The <code>import</code> property is used to import the <code>UlxModal</code> component.'
+      }
     },
     demo: {
       component: null,
       props: {
         source: ImportSource,
         snippetName: 'import',
-        language: 'jsx',
-      },
-    },
+        language: 'jsx'
+      }
+    }
   },
   {
     id: 'basic',
@@ -55,17 +55,17 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows basic usage of the UlxModal component.',
-      },
+          'The <code>Basic</code> demo shows basic usage of the UlxModal component.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'position',
@@ -75,17 +75,17 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Position</code> demo shows position usage of the Modal component.',
-      },
+          'The <code>Position</code> demo shows position usage of the Modal component.'
+      }
     },
     demo: {
       component: PositionDemo,
       props: {
         source: PositionSource,
         snippetName: 'position',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'headless',
@@ -95,93 +95,95 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Headless</code> demo shows fully custom content with no default header or footer. Use <code>@hideHeader={{true}}</code> and <code>@hideFooter={{true}}</code> with a <code>:body</code> block; close via <code>@onHide</code> or your own action.',
-      },
+          'The <code>Headless</code> demo shows fully custom content with no default header or footer. Use <code>@hideHeader={{true}}</code> and <code>@hideFooter={{true}}</code> with a <code>:body</code> block; close via <code>@onHide</code> or your own action.'
+      }
     },
     demo: {
       component: HeadlessDemo,
       props: {
         source: HeadlessSource,
         snippetName: 'headless',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
-    id: "maximizable",
-    sectionNav: "Maximizable",
+    id: 'maximizable',
+    sectionNav: 'Maximizable',
     sectionDesc: {
       component: RichText,
       props: {
-        as: "span",
-        content: "The <code>Maximizable</code> demo shows maximizable usage of the Modal component."
+        as: 'span',
+        content:
+          'The <code>Maximizable</code> demo shows maximizable usage of the Modal component.'
       }
     },
     demo: {
       component: MaximizableDemo,
       props: {
         source: MaximizableSource,
-        snippetName: "maximizable",
-        language: "handlebars"
+        snippetName: 'maximizable',
+        language: 'handlebars'
       }
     }
   },
   {
-    id: "longcontent",
-    sectionNav: "Longcontent",
+    id: 'longcontent',
+    sectionNav: 'Longcontent',
     sectionDesc: {
       component: RichText,
       props: {
-        as: "span",
-        content: "The <code>Longcontent</code> demo shows longcontent usage of the Modal component."
+        as: 'span',
+        content:
+          'The <code>Longcontent</code> demo shows longcontent usage of the Modal component.'
       }
     },
     demo: {
       component: LongcontentDemo,
       props: {
         source: LongcontentSource,
-        snippetName: "longcontent",
-        language: "handlebars"
+        snippetName: 'longcontent',
+        language: 'handlebars'
       }
     }
-  }
-,
+  },
   {
-    id: "responsive",
-    sectionNav: "Responsive",
+    id: 'responsive',
+    sectionNav: 'Responsive',
     sectionDesc: {
       component: RichText,
       props: {
-        as: "span",
-        content: "The <code>Responsive</code> demo shows responsive usage of the Modal component."
+        as: 'span',
+        content:
+          'The <code>Responsive</code> demo shows responsive usage of the Modal component.'
       }
     },
     demo: {
       component: ResponsiveDemo,
       props: {
         source: ResponsiveSource,
-        snippetName: "responsive",
-        language: "handlebars"
+        snippetName: 'responsive',
+        language: 'handlebars'
       }
     }
-  }
-,
+  },
   {
-    id: "without-overlay",
-    sectionNav: "Withoutoverlay",
+    id: 'without-overlay',
+    sectionNav: 'Withoutoverlay',
     sectionDesc: {
       component: RichText,
       props: {
-        as: "span",
-        content: "The <code>Withoutoverlay</code> demo shows withoutOverlay usage of the Modal component."
+        as: 'span',
+        content:
+          'The <code>Withoutoverlay</code> demo shows withoutOverlay usage of the Modal component.'
       }
     },
     demo: {
       component: WithoutoverlayDemo,
       props: {
         source: WithoutoverlaySource,
-        snippetName: "without-overlay",
-        language: "handlebars"
+        snippetName: 'without-overlay',
+        language: 'handlebars'
       }
     }
   },
@@ -193,17 +195,17 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Mount <code>&lt;UlxConfirmationModal /&gt;</code> once in <code>application.hbs</code>, then call <code>this.modalManager.openModal()</code> from anywhere. No per-page <code>&lt;UlxModal&gt;</code> needed for confirm/delete flows.',
-      },
+          'Mount <code>&lt;UlxConfirmationModal /&gt;</code> once in <code>application.hbs</code>, then call <code>this.modalManager.openModal()</code> from anywhere. No per-page <code>&lt;UlxModal&gt;</code> needed for confirm/delete flows.'
+      }
     },
     demo: {
       component: ConfirmationServiceDemo,
       props: {
         source: ConfirmationServiceSource,
         snippetName: 'confirmation-service',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'confirmation-service-content',
@@ -213,17 +215,17 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Confirmation modals can render a plain <code>message</code>, an <code>htmlMessage</code>, or a custom <code>template</code>. You can also show an icon/illustration above the body with <code>iconName</code>, <code>iconHtml</code>, or <code>iconTemplate</code>.',
-      },
+          'Confirmation modals can render a plain <code>message</code>, an <code>htmlMessage</code>, or a custom <code>template</code>. You can also show an icon/illustration above the body with <code>iconName</code>, <code>iconHtml</code>, or <code>iconTemplate</code>.'
+      }
     },
     demo: {
       component: ConfirmationServiceContentDemo,
       props: {
         source: ConfirmationServiceContentSource,
         snippetName: 'confirmation-service-content',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'stacked',
@@ -233,17 +235,17 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Stacked</code> demo shows overlays (toast, popup, tiered menu, dropdown, tooltip) opened inside a modal. ESC closes the topmost overlay first; toasts close before the modal.',
-      },
+          'The <code>Stacked</code> demo shows overlays (toast, popup, tiered menu, dropdown, tooltip) opened inside a modal. ESC closes the topmost overlay first; toasts close before the modal.'
+      }
     },
     demo: {
       component: StackedDemo,
       props: {
         source: StackedSource,
         snippetName: 'stacked',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   }
 ];
 
