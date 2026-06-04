@@ -63,7 +63,7 @@ export default class SharedlistsSorterDemo extends Component {
   }
 
   <template>
-    <div id="shared-lists" class="grid grid-cols-2 gap-4">
+    <div id="shared-lists" class="ulx-grid cols-2 gap-4">
       <UlxSorter
         @items={{this.leftItems}}
         @rootId="left-sorter"

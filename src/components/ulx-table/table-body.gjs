@@ -641,12 +641,7 @@ export default class TableBody extends Component {
 						{{/each}}
 
 						{{#if @hasOptionCell}}
-							<td
-								class="column-body-cell datatable-option-cell"
-								role="gridcell"
-								style="width: 10rem"
-								tabindex="-1"
-							>
+							<td class="column-body-cell datatable-option-cell" role="gridcell" tabindex="-1">
 								{{yield row to="optionCell"}}
 							</td>
 						{{/if}}

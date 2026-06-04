@@ -153,8 +153,20 @@ const StatusCell = <template>
 const DEPARTMENTS = ['Product', 'Operations', 'Finance', 'Sales', 'Support'];
 const REGIONS = ['India', 'US', 'EMEA', 'APAC', 'LATAM'];
 const TEAMS = ['Core', 'Growth', 'Platform', 'Enablement', 'Security'];
-const ACCESS_LEVELS = ['Standard', 'Elevated', 'Restricted', 'Auditor', 'Owner'];
-const LAST_ACTIVE = ['Today', 'Yesterday', '2 days ago', 'This week', 'Last week'];
+const ACCESS_LEVELS = [
+  'Standard',
+  'Elevated',
+  'Restricted',
+  'Auditor',
+  'Owner'
+];
+const LAST_ACTIVE = [
+  'Today',
+  'Yesterday',
+  '2 days ago',
+  'This week',
+  'Last week'
+];
 
 function valueById(values, row) {
   return values[(row.id - 1) % values.length];
@@ -287,6 +299,8 @@ export default class DemoTableBsTableView extends Component {
       @onSortByChange={{this.handleSortByChange}}
       @filterGroups={{this.filterGroups}}
       @showManageColumns={{true}}
+      @scrollable={{true}}
+      @scrollHeight="400px"
       @paginator={{true}}
       @rowsPerPageOptions={{array 10 25 50 100}}
     >
@@ -301,14 +315,16 @@ export default class DemoTableBsTableView extends Component {
         />
       </:postRightMenu>
       <:optionCell as |member|>
-        <UlxSplitButton
-          @label="Delete"
-          @variant="basic"
-          @outlined={{true}}
-          @items={{this.getRowActionModel member}}
-          @onClick={{fn this.deleteMember member}}
-          aria-label="Actions for {{member.name}}"
-        />
+        <div class="flex justify-end">
+          <UlxSplitButton
+            @label="View previllages"
+            @variant="basic"
+            @outlined={{true}}
+            @items={{this.getRowActionModel member}}
+            @onClick={{fn this.deleteMember member}}
+            aria-label="Actions for {{member.name}}"
+          />
+        </div>
       </:optionCell>
     </UlxTable>
 
