@@ -20,7 +20,8 @@ import {
  * @param {string} [fieldClass] - Extra classes on the root `.field` wrapper.
  * @param {string} [fieldId] - Stable id for the control, help, and error nodes. Auto-generated when omitted.
  * @param {string} [label] - Plain-text label (or use the `label` block).
- * @param {string} [labelRightText] - Optional text rendered in the label-right slot. Overrides rules metadata and character count.
+ * @param {string} [labelRightText] - Optional text rendered in the label-right slot. Overrides rules metadata and character count when the `labelRight` block is not used.
+ * @namedBlock {labelRight} - Custom markup for the label-right slot (wraps in `.label-right`). Takes precedence over `@labelRightText`, rules metadata, and character count.
  * @param {boolean} [showCharacterCount=false] - When true and `@rules` includes `maxLength`, shows live `current / max` in the label-right slot.
  * @param {string|number} [value] - Current control value used to derive character count when `@showCharacterCount` is true.
  * @param {number} [characterCount] - Optional explicit current length; overrides length derived from `@value`.
@@ -90,11 +91,6 @@ export default class UlxField extends Component {
 		if (this.showCharacterCount && this.maxLength != null) {
 			return `${this.currentCharacterCount} / ${this.maxLength}`;
 		}
-
-		const parts = [];
-		if (this.minLength != null) parts.push(this.minLength);
-		if (this.maxLength != null) parts.push(this.maxLength);
-		return parts.join(" / ");
 	}
 
 	// ARIA
@@ -165,8 +161,14 @@ export default class UlxField extends Component {
 
 					</span>
 
-					{{#if this.hasMeta}}
-						<span class="label-right">{{this.metaText}}</span>
+					{{#if (or (has-block "labelRight") this.hasMeta)}}
+						<span class="label-right">
+							{{#if (has-block "labelRight")}}
+								{{yield to="labelRight"}}
+							{{else}}
+								{{this.metaText}}
+							{{/if}}
+						</span>
 					{{/if}}
 				</label>
 			{{/if}}
