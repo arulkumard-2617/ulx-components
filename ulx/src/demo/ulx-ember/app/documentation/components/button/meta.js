@@ -14,7 +14,7 @@ export default {
   // Page metadata
   header: 'Button',
   subHeader:
-    'Button is a component for user interaction with support for multiple types, variants, icons, and states.',
+    'Primary action control — labels, variants, icons, loading, and link mode for forms and dialogs.',
 
   // Tab configuration
   tabs: [

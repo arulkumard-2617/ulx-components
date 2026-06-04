@@ -29,6 +29,10 @@ export const DocNavItems = [
         route: 'getting-started.common-mistakes'
       },
       {
+        menuItem: 'AI guide',
+        route: 'getting-started.ai-guide'
+      },
+      {
         menuItem: 'Docs Walkthrough',
         route: 'getting-started.docs-walkthrough'
       }

@@ -12,6 +12,7 @@ Router.map(function () {
     this.route('quick-start');
     this.route('styles-and-theming');
     this.route('common-mistakes');
+    this.route('ai-guide');
     this.route('docs-walkthrough');
   });
 
