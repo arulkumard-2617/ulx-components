@@ -88,7 +88,7 @@ export default {
 
 		babel({
 			babelHelpers: 'bundled',
-			extensions: ['.js', '.gjs', '.ts', '.gts']
+			extensions: ['.js', '.gjs']
 		}),
 
 		addon.hbs(),
