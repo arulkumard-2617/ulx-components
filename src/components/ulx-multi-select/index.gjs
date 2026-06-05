@@ -68,7 +68,7 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * Named block <:chip> - Custom chip content per selected item. Receives (hash option label value).
  * @param {string} [placeholder] - Placeholder when nothing selected.
  * @param {string} [display='comma'] - 'comma' | 'chip' for selected display.
- * @param {boolean} [chipWrap=false] - When true with `@display='chip'`, selected chips wrap to multiple lines instead of single-line truncation (ellipsis).
+ * @param {boolean} [chipWrap=true] - When true with `@display='chip'`, selected chips wrap to multiple lines instead of single-line truncation (ellipsis).
  * @param {number} [selectionLimit] - Max number of selections (optional).
  * @param {boolean} [disabled=false] - Disables the component.
  * @param {boolean} [loading=false] - Shows progress spinner in trigger.
@@ -166,7 +166,7 @@ export default class UlxMultiSelect extends Component {
 			size = "m-size",
 			customClass,
 			display,
-			chipWrap = false
+			chipWrap = true
 		} = this.args;
 		const invalid = isInvalidState(invalidArg, error ?? this.fieldContext?.error);
 		const parts = [this.baseClass];

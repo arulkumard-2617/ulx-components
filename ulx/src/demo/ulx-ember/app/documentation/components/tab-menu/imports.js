@@ -11,6 +11,8 @@ export { default as RouterDemo } from '../../../components/Demo/TabMenu/Router';
 export { default as CommandDemo } from '../../../components/Demo/TabMenu/Command';
 export { default as AccessibilityDemo } from '../../../components/Demo/TabMenu/Accessibility';
 export { default as CardTabsDemo } from '../../../components/Demo/TabMenu/CardTabs';
+export { default as LabeledDemo } from '../../../components/Demo/TabMenu/Labeled';
+export { default as VerticalDemo } from '../../../components/Demo/TabMenu/Vertical';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -25,3 +27,5 @@ export { default as RouterSource } from './snippets/Router.gjs';
 export { default as CommandSource } from './snippets/Command.gjs';
 export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
 export { default as CardTabsSource } from './snippets/CardTabs.gjs';
+export { default as LabeledSource } from './snippets/Labeled.gjs';
+export { default as VerticalSource } from './snippets/Vertical.gjs';

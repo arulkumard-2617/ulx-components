@@ -151,6 +151,16 @@ export const DocNavItems = [
             route: 'components.button'
           },
           {
+            menuItem: 'IconButton',
+            to: '/components/icon-button',
+            route: 'components.icon-button'
+          },
+          {
+            menuItem: 'BadgeButton',
+            to: '/components/badge-button',
+            route: 'components.badge-button'
+          },
+          {
             menuItem: 'SelectButton',
             to: '/components/select-button',
             route: 'components.select-button'
