@@ -12,6 +12,7 @@ export { default as WithoutoverlayDemo } from '../../../components/Demo/Slidepan
 export { default as NestedpanesDemo } from '../../../components/Demo/Slidepane/Nestedpanes';
 export { default as SizesDemo } from '../../../components/Demo/Slidepane/Sizes';
 export { default as ExhibitorDetailsDemo } from '../../../components/Demo/Slidepane/ExhibitorDetails';
+export { default as DetailLayoutDemo } from '../../../components/Demo/Slidepane/DetailLayout';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -27,3 +28,4 @@ export { default as WithoutoverlaySource } from './snippets/Withoutoverlay.gjs';
 export { default as NestedpanesSource } from './snippets/Nestedpanes.gjs';
 export { default as SizesSource } from './snippets/Sizes.gjs';
 export { default as ExhibitorDetailsSource } from './snippets/ExhibitorDetails.gjs';
+export { default as DetailLayoutSource } from './snippets/DetailLayout.gjs';

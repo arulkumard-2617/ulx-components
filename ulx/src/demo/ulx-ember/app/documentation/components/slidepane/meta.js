@@ -13,7 +13,8 @@ export default {
 
   // Page metadata
   header: 'Slidepane',
-  subHeader: 'slidepane is a component for user interaction.',
+  subHeader:
+    'Edge drawer for filters, detail panels, and side workflows — UlxSlidePane with focus trap and footer actions.',
 
   // Tab configuration
   tabs: [
@@ -40,7 +41,7 @@ export default {
   ],
 
   // Import message for the component
-  importMsg: "import { Slidepane } from 'ulx-components'",
+  importMsg: "import { UlxSlidePane } from 'ulx-components'",
 
   // Accessibility information
   accessibility: {

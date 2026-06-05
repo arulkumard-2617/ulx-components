@@ -13,7 +13,8 @@ export default {
 
   // Page metadata
   header: 'Popup',
-  subHeader: 'Popup is a component for user interaction.',
+  subHeader:
+    'Anchored overlay for menus and compact panels — positioned near a trigger, not a blocking modal.',
 
   // Tab configuration
   tabs: [

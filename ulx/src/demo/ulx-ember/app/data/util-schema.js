@@ -4780,6 +4780,10 @@ export const utilSchema = {
             "styles": "border-color: @purple-bdr;"
           },
           {
+            "class": "border-purple-soft",
+            "styles": "border-color: @purple-bdr1;"
+          },
+          {
             "class": "border-gold",
             "styles": "border-color: @gold-bdr;"
           },
