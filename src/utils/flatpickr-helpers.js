@@ -344,9 +344,9 @@ export function createFlatpickrBodyPosition(positionPreference = "auto") {
 		}
 
 		const right =
-			window.document.body.offsetWidth - (window.pageXOffset + inputBounds.right);
-		const rightMost = left + calendarWidth > window.document.body.offsetWidth;
-		const centerMost = right + calendarWidth > window.document.body.offsetWidth;
+			window.document.body.offsetWidth - (window.pageXOffset + inputBounds.right),
+			rightMost = left + calendarWidth > window.document.body.offsetWidth,
+			centerMost = right + calendarWidth > window.document.body.offsetWidth;
 
 		applyFlatpickrArrowClasses(calendarContainer, showOnTop, isCenter, isRight, rightMost);
 
