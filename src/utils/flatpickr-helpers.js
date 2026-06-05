@@ -230,12 +230,153 @@ function togglePickerClass(element, className, active) {
 }
 
 /**
+ * Flatpickr sums child `offsetHeight` values, which omits the calendar shell padding/border
+ * applied by ULX styles and causes the popup to overlap the input when opening above.
+ *
+ * @param {HTMLElement|null|undefined} calendarContainer
+ * @returns {number}
+ */
+export function resolveFlatpickrCalendarHeight(calendarContainer) {
+	if (!calendarContainer) {
+		return 0;
+	}
+
+	const measuredHeight = calendarContainer.offsetHeight;
+	if (measuredHeight > 0) {
+		return measuredHeight;
+	}
+
+	return Array.from(calendarContainer.children).reduce(
+		(acc, child) => acc + child.offsetHeight,
+		0
+	);
+}
+
+/**
+ * @param {unknown} positionPreference
+ * @returns {{ vertical: string; horizontal: string|null }}
+ */
+function parseFlatpickrPositionPreference(positionPreference) {
+	const configPos = String(positionPreference ?? "auto").trim().split(/\s+/);
+	return {
+		vertical: configPos[0] ?? "auto",
+		horizontal: configPos.length > 1 ? configPos[1] : null
+	};
+}
+
+/**
+ * @param {string} configPosVertical
+ * @param {DOMRect} inputBounds
+ * @param {number} calendarHeight
+ * @returns {boolean}
+ */
+function shouldShowFlatpickrCalendarOnTop(configPosVertical, inputBounds, calendarHeight) {
+	const distanceFromBottom = window.innerHeight - inputBounds.bottom;
+
+	return (
+		configPosVertical === "above" ||
+		(configPosVertical !== "below" &&
+			distanceFromBottom < calendarHeight &&
+			inputBounds.top > calendarHeight)
+	);
+}
+
+/**
+ * @param {HTMLElement} calendarContainer
+ * @param {boolean} showOnTop
+ * @param {boolean} isCenter
+ * @param {boolean} isRight
+ * @param {boolean} rightMost
+ */
+function applyFlatpickrArrowClasses(calendarContainer, showOnTop, isCenter, isRight, rightMost) {
+	togglePickerClass(calendarContainer, "arrowTop", !showOnTop);
+	togglePickerClass(calendarContainer, "arrowBottom", showOnTop);
+	togglePickerClass(calendarContainer, "arrowLeft", !isCenter && !isRight);
+	togglePickerClass(calendarContainer, "arrowCenter", isCenter);
+	togglePickerClass(calendarContainer, "arrowRight", isRight);
+	togglePickerClass(calendarContainer, "rightMost", rightMost);
+	togglePickerClass(calendarContainer, "centerMost", false);
+}
+
+/**
+ * Positions the popup relative to `document.body` using flatpickr's coordinate model,
+ * with corrected calendar height for ULX-styled surfaces.
+ *
+ * @param {unknown} [positionPreference='auto']
+ * @returns {(fpInstance: import('flatpickr').Instance, customPositionElement?: HTMLElement) => void}
+ */
+export function createFlatpickrBodyPosition(positionPreference = "auto") {
+	return function bodyPositionCalendar(fpInstance, customPositionElement) {
+		const calendarContainer = fpInstance?.calendarContainer;
+		if (!calendarContainer || fpInstance.config.inline || fpInstance.config.static) {
+			return;
+		}
+
+		const positionElement = customPositionElement || fpInstance._positionElement;
+		if (!positionElement) {
+			return;
+		}
+
+		const inputBounds = positionElement.getBoundingClientRect();
+		const calendarHeight = resolveFlatpickrCalendarHeight(calendarContainer);
+		const calendarWidth = calendarContainer.offsetWidth;
+		const { vertical: configPosVertical, horizontal: configPosHorizontal } =
+			parseFlatpickrPositionPreference(positionPreference);
+		const showOnTop = shouldShowFlatpickrCalendarOnTop(
+			configPosVertical,
+			inputBounds,
+			calendarHeight
+		);
+		const verticalOffset = !showOnTop
+			? positionElement.offsetHeight + 2
+			: -calendarHeight - 2;
+		let top = window.pageYOffset + inputBounds.top + verticalOffset;
+		let left = window.pageXOffset + inputBounds.left;
+		let isCenter = false;
+		let isRight = false;
+
+		if (configPosHorizontal === "center") {
+			left -= (calendarWidth - inputBounds.width) / 2;
+			isCenter = true;
+		} else if (configPosHorizontal === "right") {
+			left -= calendarWidth - inputBounds.width;
+			isRight = true;
+		}
+
+		const right =
+			window.document.body.offsetWidth - (window.pageXOffset + inputBounds.right);
+		const rightMost = left + calendarWidth > window.document.body.offsetWidth;
+		const centerMost = right + calendarWidth > window.document.body.offsetWidth;
+
+		applyFlatpickrArrowClasses(calendarContainer, showOnTop, isCenter, isRight, rightMost);
+
+		calendarContainer.style.top = `${top}px`;
+
+		if (!rightMost) {
+			calendarContainer.style.left = `${left}px`;
+			calendarContainer.style.right = "auto";
+		} else if (!centerMost) {
+			calendarContainer.style.left = "auto";
+			calendarContainer.style.right = `${right}px`;
+		} else {
+			const bodyWidth = window.document.body.offsetWidth;
+			const centerLeft = Math.max(0, bodyWidth / 2 - calendarWidth / 2);
+			togglePickerClass(calendarContainer, "rightMost", false);
+			togglePickerClass(calendarContainer, "centerMost", true);
+			calendarContainer.style.left = `${centerLeft}px`;
+			calendarContainer.style.right = "auto";
+		}
+	};
+}
+
+/**
  * Positions the popup relative to a scroll container so it moves with scroll (no scroll listeners).
  *
  * @param {HTMLElement} appendTarget
+ * @param {unknown} [positionPreference='auto']
  * @returns {(fpInstance: import('flatpickr').Instance, customPositionElement?: HTMLElement) => void}
  */
-export function createFlatpickrScrollPinnedPosition(appendTarget) {
+export function createFlatpickrScrollPinnedPosition(appendTarget, positionPreference = "auto") {
 	return function scrollPinnedPositionCalendar(fpInstance, customPositionElement) {
 		const calendarContainer = fpInstance?.calendarContainer;
 		if (!calendarContainer || fpInstance.config.inline || fpInstance.config.static) {
@@ -249,20 +390,15 @@ export function createFlatpickrScrollPinnedPosition(appendTarget) {
 
 		const inputBounds = positionElement.getBoundingClientRect();
 		const containerBounds = appendTarget.getBoundingClientRect();
-		const calendarHeight = Array.from(calendarContainer.children).reduce(
-			(acc, child) => acc + child.offsetHeight,
-			0
-		);
+		const calendarHeight = resolveFlatpickrCalendarHeight(calendarContainer);
 		const calendarWidth = calendarContainer.offsetWidth;
-		const configPos = String(fpInstance.config.position ?? "auto").split(" ");
-		const configPosVertical = configPos[0];
-		const configPosHorizontal = configPos.length > 1 ? configPos[1] : null;
-		const distanceFromBottom = window.innerHeight - inputBounds.bottom;
-		const showOnTop =
-			configPosVertical === "above" ||
-			(configPosVertical !== "below" &&
-				distanceFromBottom < calendarHeight &&
-				inputBounds.top > calendarHeight);
+		const { vertical: configPosVertical, horizontal: configPosHorizontal } =
+			parseFlatpickrPositionPreference(positionPreference);
+		const showOnTop = shouldShowFlatpickrCalendarOnTop(
+			configPosVertical,
+			inputBounds,
+			calendarHeight
+		);
 		const verticalOffset = !showOnTop
 			? positionElement.offsetHeight + 2
 			: -calendarHeight - 2;
@@ -285,13 +421,7 @@ export function createFlatpickrScrollPinnedPosition(appendTarget) {
 			left = Math.max(0, appendTarget.clientWidth - calendarWidth);
 		}
 
-		togglePickerClass(calendarContainer, "arrowTop", !showOnTop);
-		togglePickerClass(calendarContainer, "arrowBottom", showOnTop);
-		togglePickerClass(calendarContainer, "arrowLeft", !isCenter && !isRight);
-		togglePickerClass(calendarContainer, "arrowCenter", isCenter);
-		togglePickerClass(calendarContainer, "arrowRight", isRight);
-		togglePickerClass(calendarContainer, "rightMost", rightMost);
-		togglePickerClass(calendarContainer, "centerMost", false);
+		applyFlatpickrArrowClasses(calendarContainer, showOnTop, isCenter, isRight, rightMost);
 
 		calendarContainer.style.position = "absolute";
 		calendarContainer.style.top = `${top}px`;

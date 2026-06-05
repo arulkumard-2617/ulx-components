@@ -394,5 +394,16 @@ export const DocNavItems = [
         ]
       }
     ]
+  },
+  {
+    menuTitle: 'Template',
+    icon: 'bs-icons1 payments-icon s18',
+    children: [
+      {
+        menuItem: 'Table',
+        to: '/templates/table',
+        route: 'templates.table'
+      }
+    ]
   }
 ];

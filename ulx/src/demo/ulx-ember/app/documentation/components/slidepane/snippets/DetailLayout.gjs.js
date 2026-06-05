@@ -181,20 +181,19 @@ export default class DetailLayoutSlidepaneDemo extends Component {
               <UlxIconButton
                 @label="Back to Attendees"
                 @variant="link on-hover"
-                @iconLeft="left-arrow-icon"
-                @iconComponentClass="bs-icons1"
-                @iconSize="s14"
-                @size="s-size"
-                @customClass="p-0"
+                @iconLeft="left-pointed-icon"
+                @size="m-size"
+                @iconSize="s24"
               />
-              <h3 class="text-h5 semibold-font m-0 mt-2">
-                Assign Attendee - Ticket #1
-              </h3>
+
             </header>
 
             <div class="slidepane-detail-body">
               {{#if this.showAssignAttendeeForm}}
-                <UlxDivider @type="dashed" class="mb-6" />
+                <h3 class="text-h5 semibold-font m-0 mt-2">
+                  Assign Attendee - Ticket #1
+                </h3>
+                <UlxDivider @type="dotted" class="mb-6" />
                 <UlxForm @size="m-size" @customClass="ulx-grid col-2 gap-6">
                   <UlxField
                     @label="First Name"

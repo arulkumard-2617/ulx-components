@@ -82,4 +82,8 @@ Router.map(function () {
     this.route('index');
     this.route('utility', { path: ':slug' });
   });
+
+  this.route('templates', function () {
+    this.route('table');
+  });
 });
