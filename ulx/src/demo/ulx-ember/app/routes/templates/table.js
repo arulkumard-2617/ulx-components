@@ -7,7 +7,7 @@ export default class TemplatesTableRoute extends Route {
       title: 'Table Templates',
       description:
         'Table layout templates for structured data, pricing breakdowns, and summary rows.',
-      features: TableFeatureItems,
+      features: TableFeatureItems
     };
   }
 }

@@ -69,10 +69,6 @@ export default class PriceBreakdownTableDemo extends Component {
     return this.isEditing ? 'Discount' : `Discount (${this.discountValue}%)`;
   }
 
-  get isOrderDiscountDisabled() {
-    return !this.isEditing;
-  }
-
   @action
   startEditOrder() {
     this.isEditing = true;
@@ -793,14 +789,12 @@ export default class PriceBreakdownTableDemo extends Component {
                       @size="s-size"
                       @endAddonClass="dropdown-addon"
                       @customClass="w-108"
-                      @disabled={{this.isOrderDiscountDisabled}}
                     >
                       <:input>
                         <UlxInput
                           @type="number"
                           @value={{this.discountValue}}
                           @onInput={{this.setDiscountValue}}
-                          @disabled={{this.isOrderDiscountDisabled}}
                           aria-label="Discount value"
                         />
                       </:input>
@@ -810,7 +804,6 @@ export default class PriceBreakdownTableDemo extends Component {
                           @value={{this.discountUnit}}
                           @onChange={{this.setDiscountUnit}}
                           @size="s-size compact"
-                          @disabled={{this.isOrderDiscountDisabled}}
                           aria-label="Discount unit"
                         />
                       </:end>

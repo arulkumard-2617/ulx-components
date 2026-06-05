@@ -2,6 +2,6 @@ import DemoIconButtonGuidanceAntiPattern from '../../components/Demo/IconButton/
 
 export const usagesPreviewRegistry = {
   'icon-button': {
-    antiPattern: DemoIconButtonGuidanceAntiPattern,
-  },
+    antiPattern: DemoIconButtonGuidanceAntiPattern
+  }
 };
