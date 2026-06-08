@@ -21,6 +21,13 @@ import UlxModalFooter from "./footer.gjs";
 
 const DEFAULT_MODAL_POSITION = "center";
 
+const FOOTER_ALIGNMENT_TO_JUSTIFY = {
+	start: "flex-start",
+	center: "center",
+	end: "flex-end",
+	"space-between": "space-between"
+};
+
 const BODY_OVERFLOW_STYLE = {
 	true: "overflow-y: auto",
 	false: "overflow-y: hidden"
@@ -107,6 +114,7 @@ const BODY_OVERFLOW_STYLE = {
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
+ * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {number} [zIndexBase=1000] - Base z-index for modal stacking
  * @param {string} [maskQa] - Optional `data-qa` on the mask (defaults to `ulx-modal-mask`).
@@ -163,6 +171,11 @@ export default class UlxModal extends Component {
 
 	get footerWrapperClasses() {
 		return joinClassNames("dialog-footer", this.args.footerClassName);
+	}
+
+	get footerWrapperStyle() {
+		const alignment = this.args.alignment ?? "end";
+		return `justify-content: ${FOOTER_ALIGNMENT_TO_JUSTIFY[alignment] ?? FOOTER_ALIGNMENT_TO_JUSTIFY.end}`;
 	}
 
 	get maskClasses() {
@@ -486,7 +499,7 @@ export default class UlxModal extends Component {
 								<div
 									class={{this.footerWrapperClasses}}
 									data-qa="ulx-modal-footer"
-									style="justify-content: flex-end;"
+									style={{this.footerWrapperStyle}}
 								>
 									{{yield to="footer"}}
 								</div>
@@ -506,6 +519,7 @@ export default class UlxModal extends Component {
 										@onCancel={{this.handleCancel}}
 										@onDone={{this.handleDone}}
 										@footerClassName={{@footerClassName}}
+										@alignment={{@alignment}}
 									/>
 								{{/unless}}
 							{{/if}}

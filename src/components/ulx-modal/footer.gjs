@@ -92,7 +92,7 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get footerStyle() {
-		const alignment = this.args.alignment || "end";
+		const { alignment = "end" } = this.args;
 		return `justify-content: ${FOOTER_ALIGNMENT_TO_JUSTIFY[alignment] ?? FOOTER_ALIGNMENT_TO_JUSTIFY.end}`;
 	}
 
