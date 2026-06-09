@@ -33,7 +33,7 @@ import {
   TemplateSource,
 } from './imports';
 
-export const ButtonFeatureItems = [
+const ButtonFeatureItemsBase = [
   {
     id: 'import',
     sectionNav: 'Import',
@@ -295,6 +295,8 @@ export const ButtonFeatureItems = [
     },
   },
 ];
+
+export const ButtonFeatureItems = ButtonFeatureItemsBase;
 
 export default function ButtonFeatures() {
   return ButtonFeatureItems;

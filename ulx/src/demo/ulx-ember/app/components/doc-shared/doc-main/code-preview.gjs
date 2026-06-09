@@ -169,7 +169,7 @@ export default class CodePreviewComponent extends Component {
                       />
                     {{/if}}
                     <div
-                      class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded"
+                      class="absolute top-4 right-4 flex gap-4 py-1 px-3 rounded"
                     >
                       <button
                         type="button"
@@ -271,7 +271,7 @@ export default class CodePreviewComponent extends Component {
                 @code={{this.displayCode}}
                 @language={{this.effectiveLanguage}}
               />
-              <div class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded">
+              <div class="absolute top-4 right-4 flex gap-4 py-1 px-3 rounded">
                 <button
                   type="button"
                   class="pointer {{if this.copied 'is-copied'}}"
@@ -333,7 +333,7 @@ export default class CodePreviewComponent extends Component {
               @code={{this.displayCode}}
               @language={{this.effectiveLanguage}}
             />
-            <div class="absolute top-8 right-4 flex gap-4 py-1 px-3 rounded">
+            <div class="absolute top-4 right-4 flex gap-4 py-1 px-3 rounded">
               <button
                 type="button"
                 aria-label={{"Copy code"}}

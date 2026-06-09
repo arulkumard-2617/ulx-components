@@ -3,7 +3,6 @@ import FoundationSection from './foundation-section';
 import CodePreview from './code-preview';
 import RichText from './rich-text';
 import DocSectionNav from './doc-section-nav';
-
 export default class DocPanelComponent extends Component {
   hasValidComponent(feature) {
     return feature?.demo?.component && feature.demo.component !== null;
@@ -14,7 +13,10 @@ export default class DocPanelComponent extends Component {
       <div class="grow w-full min-w-0">
         {{#if @features}}
           {{#each @features as |feature|}}
-            <FoundationSection @id={{feature.id}} @title={{feature.sectionNav}}>
+            <FoundationSection
+              @id={{feature.id}}
+              @title={{feature.sectionNav}}
+            >
               {{#if feature.sectionDesc}}
                 <RichText
                   @as={{feature.sectionDesc.props.as}}

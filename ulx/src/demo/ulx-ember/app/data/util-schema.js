@@ -4728,28 +4728,12 @@ export const utilSchema = {
             "styles": "border-color: @primary-bdr1;"
           },
           {
-            "class": "border-success",
-            "styles": "border-color: @success-border-color;"
-          },
-          {
-            "class": "border-success-soft",
-            "styles": "border-color: @green-bdr1;"
-          },
-          {
             "class": "border-warning",
             "styles": "border-color: @orange-bdr;"
           },
           {
-            "class": "border-warning-soft",
-            "styles": "border-color: @orange-bdr1;"
-          },
-          {
             "class": "border-danger",
             "styles": "border-color: @danger-border-color;"
-          },
-          {
-            "class": "border-danger-soft",
-            "styles": "border-color: @red-bdr1;"
           },
           {
             "class": "border-error",
@@ -4758,10 +4742,6 @@ export const utilSchema = {
           {
             "class": "border-info",
             "styles": "border-color: @info-border-color;"
-          },
-          {
-            "class": "border-info-soft",
-            "styles": "border-color: @blue-bdr1;"
           },
           {
             "class": "border-red",
@@ -4798,6 +4778,10 @@ export const utilSchema = {
           {
             "class": "border-purple",
             "styles": "border-color: @purple-bdr;"
+          },
+          {
+            "class": "border-purple-soft",
+            "styles": "border-color: @purple-bdr1;"
           },
           {
             "class": "border-gold",

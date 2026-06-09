@@ -221,7 +221,7 @@ export function getInputIconClass() {
 	return getComponentClass('input-icon');
 }
 
-export function buildInputGroupClass({ size, filled, invalid, disabled }) {
+export function buildInputGroupClass({ size, filled, invalid, disabled, customClass }) {
 	const parts = [getComponentClass('inputgroup')];
 	if (size) {
 		parts.push(size);
@@ -233,6 +233,7 @@ export function buildInputGroupClass({ size, filled, invalid, disabled }) {
 	if (disabled) {
 		parts.push('disabled');
 	}
+	customClass && parts.push(customClass);
 	return parts.filter(Boolean).join(' ');
 }
 

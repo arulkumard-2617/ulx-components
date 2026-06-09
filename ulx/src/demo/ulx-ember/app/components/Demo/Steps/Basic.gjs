@@ -3,16 +3,12 @@ import { UlxSteps } from 'ulx-components';
 
 export default class BasicStepsDemo extends Component {
   get items() {
-    return [
-      { label: 'Personal Info' },
-      { label: 'Reservation' },
-      { label: 'Review' },
-    ];
+    return [{ label: 'Review' }, { label: 'Approval' }, { label: 'Completed' }];
   }
 
   <template>
     <div class="">
-      <UlxSteps @items={{this.items}} />
+      <UlxSteps @items={{this.items}} @activeIndex={{1}} />
     </div>
   </template>
 }

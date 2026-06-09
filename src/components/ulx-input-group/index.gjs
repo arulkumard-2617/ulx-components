@@ -30,13 +30,14 @@ import { buildInputGroupClass } from "../../utils/input-util";
 
 export default class UlxInputGroup extends Component {
 	get rootClass() {
-		const { size = "m-size", filled, disabled, invalid } = this.args;
+		const { size = "m-size", filled, disabled, invalid, customClass } = this.args;
 
 		return buildInputGroupClass({
 			size,
 			filled,
 			invalid,
-			disabled
+			disabled,
+			customClass
 		});
 	}
 

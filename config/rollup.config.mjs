@@ -61,34 +61,9 @@ export default {
 
 		addon.dependencies(),
 
-		{
-			name: 'resolve-ember-sortable',
-			resolveId(source) {
-				if (source === 'ember-sortable/modifiers/sortable-group') {
-					return path.resolve(
-						repoRoot,
-						'node_modules/ember-sortable/dist/modifiers/sortable-group.js'
-					);
-				}
-				if (source === 'ember-sortable/modifiers/sortable-item') {
-					return path.resolve(
-						repoRoot,
-						'node_modules/ember-sortable/dist/modifiers/sortable-item.js'
-					);
-				}
-				if (source === 'ember-sortable/modifiers/sortable-handle') {
-					return path.resolve(
-						repoRoot,
-						'node_modules/ember-sortable/dist/modifiers/sortable-handle.js'
-					);
-				}
-				return null;
-			}
-		},
-
 		babel({
 			babelHelpers: 'bundled',
-			extensions: ['.js', '.gjs', '.ts', '.gts']
+			extensions: ['.js', '.gjs']
 		}),
 
 		addon.hbs(),

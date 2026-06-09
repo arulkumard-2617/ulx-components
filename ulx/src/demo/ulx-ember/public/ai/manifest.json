@@ -1,0 +1,44 @@
+{
+  "generatedAt": "2026-06-03T13:19:57.521Z",
+  "site": "ULX Ember component documentation",
+  "readOrder": [
+    "Expand Usage guidance under the title for when/how rules.",
+    "Expand API arguments for the full generated API table.",
+    "Use Import and Basic sections for copy-paste examples.",
+    "Use /ai/components/{slug}.json keyParamNames for a short argument list when scraping."
+  ],
+  "components": [
+    {
+      "slug": "button",
+      "routeKey": "button",
+      "component": "UlxButton",
+      "docUrl": "/components/button",
+      "summary": "Primary action control — labels, variants, icons, loading, and link mode for forms and dialogs.",
+      "aiJsonUrl": "/ai/components/button.json"
+    },
+    {
+      "slug": "icon-button",
+      "routeKey": "icon-button",
+      "component": "UlxIconButton",
+      "docUrl": "/components/icon-button",
+      "summary": "Icon-only or icon-with-label actions on UlxButton — toolbars, table rows, and compact controls.",
+      "aiJsonUrl": "/ai/components/icon-button.json"
+    },
+    {
+      "slug": "popup",
+      "routeKey": "popup",
+      "component": "UlxPopup",
+      "docUrl": "/components/popup",
+      "summary": "Anchored overlay for menus and compact panels — positioned near a trigger, not a blocking modal.",
+      "aiJsonUrl": "/ai/components/popup.json"
+    },
+    {
+      "slug": "slidepane",
+      "routeKey": "slidepane",
+      "component": "UlxSlidePane",
+      "docUrl": "/components/slidepane",
+      "summary": "Edge drawer for filters, detail panels, and side workflows — UlxSlidePane with focus trap and footer actions.",
+      "aiJsonUrl": "/ai/components/slidepane.json"
+    }
+  ]
+}

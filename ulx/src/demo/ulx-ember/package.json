@@ -12,6 +12,7 @@
   },
   "scripts": {
     "generate-docs": "cd ../../../ npm run generate:uls-schema",
+    "generate:component-usages": "node scripts/generate-component-usages.mjs",
     "build": "ember build --environment=production --output-path=$(node -p \"require('path').join(require('os').tmpdir(), 'ulx-ember-dist')\")",
     "build:dist": "ember build --environment=production",
     "copy-dist-to-appsail": "node scripts/watch-dist.js --once",
@@ -35,8 +36,6 @@
     "@babel/core": "^7.27.1",
     "@babel/eslint-parser": "^7.27.1",
     "@babel/plugin-proposal-decorators": "^7.27.1",
-    "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
     "@ember/optional-features": "^2.2.0",
     "@ember/test-helpers": "^5.2.1",
     "@embroider/macros": "^1.17.2",
