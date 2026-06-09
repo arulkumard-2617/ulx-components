@@ -17,15 +17,14 @@ export default class DemoChipInputDisabled extends Component {
           @label="Cities"
           @fieldId="chip-input-disabled"
           @fieldClass="col-12"
+          as |field|
         >
-          <:default>
-            <UlxChipInput
-              @chips={{this.chips}}
-              @disabled={{true}}
-              @placeholder="Add city…"
-              aria-label="Cities disabled"
-            />
-          </:default>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chips}}
+            @disabled={{true}}
+            @placeholder="Add city…"
+          />
         </UlxField>
       </UlxFieldSet>
     </UlxForm>

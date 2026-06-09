@@ -85,5 +85,7 @@ Router.map(function () {
 
   this.route('templates', function () {
     this.route('table');
+    this.route('card');
+    this.route('page');
   });
 });

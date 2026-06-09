@@ -9,6 +9,8 @@ import {
   TemplateDemo,
   MultipleDemo,
   InputButtonDemo,
+  DisabledDemo,
+  InvalidDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -16,6 +18,8 @@ import {
   TemplateSource,
   MultipleSource,
   InputButtonSource,
+  DisabledSource,
+  InvalidSource,
 } from './imports';
 
 export const InputGroupFeatureItems = [
@@ -135,6 +139,46 @@ export const InputGroupFeatureItems = [
       props: {
         source: InputButtonSource,
         snippetName: 'inputButton',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'invalid',
+    sectionNav: 'Invalid',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Set <code>@invalid</code> on <code>UlxInputGroup</code> and pass <code>@invalid={{group.invalid}}</code> from the <code>&lt;:input&gt;</code> yield to keep the control and group in sync. Pair with <code>UlxField</code> <code>@error</code> for the error message.',
+      },
+    },
+    demo: {
+      component: InvalidDemo,
+      props: {
+        source: InvalidSource,
+        snippetName: 'invalid',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'disabled',
+    sectionNav: 'Disabled',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Set <code>@disabled</code> on <code>UlxInputGroup</code> to disable the whole group (<code>inert</code>, <code>aria-disabled</code>). Use <code>&lt;:input as |group|&gt;</code> and mirror <code>@disabled={{group.disabled}}</code> on the input; disable addon buttons separately.',
+      },
+    },
+    demo: {
+      component: DisabledDemo,
+      props: {
+        source: DisabledSource,
+        snippetName: 'disabled',
         language: 'handlebars',
       },
     },
