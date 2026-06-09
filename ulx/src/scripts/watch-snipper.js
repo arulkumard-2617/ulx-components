@@ -10,8 +10,10 @@ const path = require('path');
 	const ONCE = process.argv.includes('--once');
 
 	const SRC_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/components/Demo');
+	const TEMPLATE_SRC_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/components/Template');
 
 	const DOCS_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/documentation/components');
+	const TEMPLATE_DOCS_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/template-docs');
 
 	function parseDemoPath(srcFile) {
 		const relative = path.relative(SRC_ROOT, srcFile);
@@ -56,6 +58,33 @@ const path = require('path');
 		return path.join(altDir, `${name}.gjs.js`);
 	}
 
+	function toKebabCase(value) {
+		return value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+	}
+
+	function isTemplateDemoFile(srcFile) {
+		const relative = path.relative(TEMPLATE_SRC_ROOT, srcFile);
+		return relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+	}
+
+	function getTemplateDocsDestinationPath(srcFile) {
+		if (!isTemplateDemoFile(srcFile)) {
+			return null;
+		}
+
+		const relative = path.relative(TEMPLATE_SRC_ROOT, srcFile);
+		const parts = relative.split(path.sep);
+		if (parts.length < 2) {
+			return null;
+		}
+
+		const sectionSlug = toKebabCase(parts[0]);
+		const { name } = path.parse(parts[parts.length - 1]);
+		const nameSlug = toKebabCase(name);
+
+		return path.join(TEMPLATE_DOCS_ROOT, sectionSlug, nameSlug, 'snippets', `${name}.gjs.js`);
+	}
+
 	/**
 	 * Escape content so it can be embedded inside a JS template literal (backticks)
 	 * without breaking the outer literal. Escapes: ` -> \`, ${ -> \${
@@ -67,19 +96,26 @@ const path = require('path');
 	function syncFile(srcFile, isInitial = false) {
 		if (!srcFile.endsWith('.gjs')) return;
 
-		const destFile = getDestinationPath(srcFile);
-		fs.mkdirSync(path.dirname(destFile), { recursive: true });
-
 		const content = fs.readFileSync(srcFile, 'utf8');
 		const escaped = escapeForTemplateLiteral(content);
 		const wrapped = `export default \`\n${escaped}\n\`;\n`;
 
-		fs.writeFileSync(destFile, wrapped, 'utf8');
+		if (!isTemplateDemoFile(srcFile)) {
+			const destFile = getDestinationPath(srcFile);
+			fs.mkdirSync(path.dirname(destFile), { recursive: true });
+			fs.writeFileSync(destFile, wrapped, 'utf8');
 
-		const altDest = getAlternateDestinationPath(srcFile);
-		if (altDest && path.resolve(altDest) !== path.resolve(destFile)) {
-			fs.mkdirSync(path.dirname(altDest), { recursive: true });
-			fs.writeFileSync(altDest, wrapped, 'utf8');
+			const altDest = getAlternateDestinationPath(srcFile);
+			if (altDest && path.resolve(altDest) !== path.resolve(destFile)) {
+				fs.mkdirSync(path.dirname(altDest), { recursive: true });
+				fs.writeFileSync(altDest, wrapped, 'utf8');
+			}
+		}
+
+		const templateDocsDest = getTemplateDocsDestinationPath(srcFile);
+		if (templateDocsDest) {
+			fs.mkdirSync(path.dirname(templateDocsDest), { recursive: true });
+			fs.writeFileSync(templateDocsDest, wrapped, 'utf8');
 		}
 
 		if (isInitial) return;
@@ -89,16 +125,24 @@ const path = require('path');
 	function removeFile(srcFile) {
 		if (!srcFile.endsWith('.gjs')) return;
 
-		const destFile = getDestinationPath(srcFile);
-		if (fs.existsSync(destFile)) {
-			fs.unlinkSync(destFile);
-			console.log(`✗ removed ${path.relative(ROOT, destFile)}`);
+		if (!isTemplateDemoFile(srcFile)) {
+			const destFile = getDestinationPath(srcFile);
+			if (fs.existsSync(destFile)) {
+				fs.unlinkSync(destFile);
+				console.log(`✗ removed ${path.relative(ROOT, destFile)}`);
+			}
+
+			const altDest = getAlternateDestinationPath(srcFile);
+			if (altDest && fs.existsSync(altDest)) {
+				fs.unlinkSync(altDest);
+				console.log(`✗ removed ${path.relative(ROOT, altDest)}`);
+			}
 		}
 
-		const altDest = getAlternateDestinationPath(srcFile);
-		if (altDest && fs.existsSync(altDest)) {
-			fs.unlinkSync(altDest);
-			console.log(`✗ removed ${path.relative(ROOT, altDest)}`);
+		const templateDocsDest = getTemplateDocsDestinationPath(srcFile);
+		if (templateDocsDest && fs.existsSync(templateDocsDest)) {
+			fs.unlinkSync(templateDocsDest);
+			console.log(`✗ removed ${path.relative(ROOT, templateDocsDest)}`);
 		}
 	}
 
@@ -113,6 +157,7 @@ const path = require('path');
 		}
 	}
 	collectGjs(SRC_ROOT);
+	collectGjs(TEMPLATE_SRC_ROOT);
 
 	for (const f of gjsFiles) syncFile(f, true);
 	console.log('✓ synced all files to documentation');
@@ -121,10 +166,10 @@ const path = require('path');
 		process.exit(0);
 	}
 
-	console.log('👀 Watching demo .gjs files...');
+	console.log('👀 Watching demo and template .gjs files...');
 
 	chokidar
-		.watch(SRC_ROOT, {
+		.watch([SRC_ROOT, TEMPLATE_SRC_ROOT], {
 			ignoreInitial: true,
 			awaitWriteFinish: true
 		})

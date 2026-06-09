@@ -29,6 +29,10 @@ export const DocNavItems = [
         route: 'getting-started.common-mistakes'
       },
       {
+        menuItem: 'AI guide',
+        route: 'getting-started.ai-guide'
+      },
+      {
         menuItem: 'Docs Walkthrough',
         route: 'getting-started.docs-walkthrough'
       }
@@ -388,6 +392,17 @@ export const DocNavItems = [
             route: 'components.rating'
           }
         ]
+      }
+    ]
+  },
+  {
+    menuTitle: 'Template',
+    icon: 'bs-icons1 payments-icon s18',
+    children: [
+      {
+        menuItem: 'Table',
+        to: '/templates/table',
+        route: 'templates.table'
       }
     ]
   }

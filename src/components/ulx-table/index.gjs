@@ -16,7 +16,6 @@ import {
 	getNextSingleSortState,
 	getNextMultiSortMeta,
 	applySelectionToFilters,
-	applySelectionMapToFilters,
 	processAndPaginateData,
 	resolveGlobalFilterFields,
 	resolveVisibleColumns,
@@ -122,7 +121,8 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * @param {Array}   [col.filterMatchModeOptions] - custom match mode options; false to hide match mode selector
  * @param {Component} [col.filterElement]   - fully custom filter component; receives @field @value @onChange
  * Filter slide pane (bs-table style): when provided, shows Filter button and UlxSlidePane with UlxAccordion + UlxCheckbox.
- * @param {Array<{key: string, heading: string, options: Array<{value: any, label: string}>}>} [filterGroups] - groups for filter pane
+ * @param {Array<{key: string, heading?: string, lbl?: string, options?: Array<{value: any, label?: string, lbl?: string}>, checkbox?: {items: Array<{value?: any, key?: any, label?: string, lbl?: string}>}, groupedRadioItems?: {items: Array<{heading: string, values: Array<{key: any, label?: string, lbl?: string}>}>}, dropdown?: {items: Array<{value?: any, key?: any, label?: string, lbl?: string}>, multiSelect?: boolean, placeholder?: string, zIndex?: number}}>} [filterGroups] - groups for filter pane (supports legacy options, checkbox, groupedRadioItems, and dropdown models)
+ * @param {number}  [filterPaneDropdownZIndex] - optional z-index override for single-select dropdown panels inside the filter slide pane; when omitted, dropdowns portal to body and resolve z-index when opened
  * @param {Function}[onFilterApply]        - (selectedMap) => void when user applies filter pane (key -> selected value[])
  *
  * ── Pagination ──────────────────────────────────────────────────────────────
@@ -278,10 +278,6 @@ export default class UlxTable extends Component {
 
 	// ─── View toggle (table / card) ──────────────────────────────────────────
 	@tracked _viewMode = null;
-
-	get filterPaneGroupClass() {
-		return getComponentClass("checkbox-group");
-	}
 
 	willDestroy() {
 		super.willDestroy(...arguments);
@@ -707,7 +703,7 @@ export default class UlxTable extends Component {
 
 	get filterAccordionModel() {
 		return this.filterGroups.map((filterGroup) => ({
-			header: filterGroup.heading ?? filterGroup.key
+			header: filterGroup.heading ?? filterGroup.lbl ?? filterGroup.key
 		}));
 	}
 
@@ -728,10 +724,119 @@ export default class UlxTable extends Component {
 		return this.filterGroups[index] ?? null;
 	}
 
+	getFilterGroupType(group) {
+		if (!group) return "checkbox";
+		if (group.checkbox) return "checkbox";
+		if (group.groupedRadioItems) return "groupedRadio";
+		if (group.dropdown) return "dropdown";
+		return "checkbox";
+	}
+
+	getFilterGroupOptionList(group) {
+		if (!group) return [];
+		if (Array.isArray(group.options)) {
+			return group.options.map((option) => ({
+				value: option.value,
+				label: option.label ?? option.lbl ?? String(option.value)
+			}));
+		}
+		if (Array.isArray(group.checkbox?.items)) {
+			return group.checkbox.items.map((item, index) => {
+				const value = item.value ?? item.key ?? item.lbl ?? item.label ?? String(index);
+				return {
+					value,
+					label: item.label ?? item.lbl ?? String(value)
+				};
+			});
+		}
+		if (Array.isArray(group.dropdown?.items)) {
+			return group.dropdown.items.map((item, index) => {
+				const value = item.value ?? item.key ?? item.lbl ?? item.label ?? String(index);
+				return {
+					value,
+					label: item.label ?? item.lbl ?? String(value)
+				};
+			});
+		}
+		if (Array.isArray(group.groupedRadioItems?.items)) {
+			const flat = [];
+			for (const radioGroup of group.groupedRadioItems.items) {
+				for (const item of radioGroup.values ?? []) {
+					flat.push({
+						value: item.key,
+						label: item.label ?? item.lbl ?? String(item.key)
+					});
+				}
+			}
+			return flat;
+		}
+		return [];
+	}
+
+	normalizeFilterGroupSelection(type, selection) {
+		if (type === "groupedRadio") {
+			return selection ?? "";
+		}
+		if (type === "dropdown") {
+			return selection;
+		}
+		return Array.isArray(selection) ? selection : [];
+	}
+
+	resolveDefaultFilterGroupSelection(group, type) {
+		if (type === "groupedRadio") {
+			return group.groupedRadioItems?.currentSelected ?? "";
+		}
+		if (type === "dropdown") {
+			if (group.dropdown?.multiSelect) return group.dropdown?.selectedItems ?? [];
+			return group.dropdown?.selectedItem ?? "";
+		}
+		if (Array.isArray(group.checkbox?.items)) {
+			return group.checkbox.items
+				.filter((item) => item.checked)
+				.map((item, index) => item.value ?? item.key ?? item.lbl ?? item.label ?? String(index));
+		}
+		return [];
+	}
+
+	@action
+	getFilterGroupSelection(group) {
+		const key = group?.key;
+		if (!key) return [];
+		const type = this.getFilterGroupType(group);
+		if (Object.prototype.hasOwnProperty.call(this._filterPaneSelections, key)) {
+			return this.normalizeFilterGroupSelection(type, this._filterPaneSelections[key]);
+		}
+		const currentMeta = this.filters?.[key];
+		const currentValue = currentMeta?.value;
+		if (currentValue !== undefined) {
+			if (type === "groupedRadio") {
+				if (Array.isArray(currentValue)) return currentValue[0] ?? "";
+				return currentValue ?? "";
+			}
+			if (type === "dropdown") {
+				if (group.dropdown?.multiSelect) return Array.isArray(currentValue) ? currentValue : [];
+				if (Array.isArray(currentValue)) return currentValue[0] ?? "";
+				return currentValue ?? "";
+			}
+			if (Array.isArray(currentValue)) return currentValue;
+			return currentValue == null || currentValue === "" ? [] : [currentValue];
+		}
+		return this.resolveDefaultFilterGroupSelection(group, type);
+	}
+
 	@action
 	isFilterPaneOptionChecked(groupKey, optionValue) {
 		const arr = this._filterPaneSelections[groupKey];
 		return Array.isArray(arr) && arr.includes(optionValue);
+	}
+
+	@action
+	setFilterPaneSelection(groupKey, selection) {
+		this._filterPaneSelections = {
+			...this._filterPaneSelections,
+			[groupKey]: selection
+		};
 	}
 
 	get showClearFiltersBar() {
@@ -752,12 +857,13 @@ export default class UlxTable extends Component {
 			if (!meta) continue;
 			const values = Array.isArray(meta.value) ? meta.value : [meta.value].filter(Boolean);
 			if (!values.length) continue;
+			const optionList = this.getFilterGroupOptionList(group);
 			const labels = values.map(
-				(v) => group.options?.find((o) => o.value === v)?.label ?? String(v)
+				(v) => optionList.find((o) => o.value === v)?.label ?? String(v)
 			);
 			bubbles.push({
 				field: group.key,
-				label: group.heading ?? group.key,
+				label: group.heading ?? group.lbl ?? group.key,
 				displayValue: labels.join(", "),
 				type: "pane",
 				meta,
@@ -944,9 +1050,7 @@ export default class UlxTable extends Component {
 		const sel = {};
 		this.filterGroups.forEach((g) => {
 			const key = g.key;
-			const current = this.filters?.[key];
-			const val = current?.value;
-			sel[key] = Array.isArray(val) ? [...val] : val != null && val !== "" ? [val] : [];
+			sel[key] = this.getFilterGroupSelection(g);
 		});
 		this._filterPaneSelections = sel;
 		this._filterPaneAccordionActive = null;
@@ -961,7 +1065,38 @@ export default class UlxTable extends Component {
 
 	@action
 	applyFilterPane() {
-		const updated = applySelectionMapToFilters(this.filters, this._filterPaneSelections);
+		const updated = { ...this.filters };
+		for (const group of this.filterGroups) {
+			const key = group?.key;
+			if (!key) continue;
+			delete updated[key];
+			const groupType = this.getFilterGroupType(group);
+			const selection = this.normalizeFilterGroupSelection(
+				groupType,
+				this._filterPaneSelections[key]
+			);
+			if (groupType === "groupedRadio") {
+				const value = Array.isArray(selection) ? selection[0] : selection;
+				if (value != null && value !== "") {
+					updated[key] = { value, matchMode: "equals" };
+				}
+				continue;
+			}
+			if (groupType === "dropdown") {
+				if (group.dropdown?.multiSelect) {
+					const values = Array.isArray(selection) ? selection : [];
+					values.length && (updated[key] = { value: values, matchMode: "in" });
+				} else {
+					const value = Array.isArray(selection) ? selection[0] : selection;
+					if (value != null && value !== "") {
+						updated[key] = { value, matchMode: "equals" };
+					}
+				}
+				continue;
+			}
+			const values = Array.isArray(selection) ? selection : [];
+			values.length && (updated[key] = { value: values, matchMode: "in" });
+		}
 		this.filterPaneOpen = false;
 		this._filterPaneAccordionActive = null;
 		this.commitFilterUpdate(updated);
@@ -1267,6 +1402,7 @@ export default class UlxTable extends Component {
 	}
 
 	get filterPaneOverlayConfig() {
+		const { filterPaneDropdownZIndex } = this.args;
 		return {
 			hasGroups: this.hasFilterGroups,
 			visible: this.filterPaneOpen,
@@ -1276,9 +1412,12 @@ export default class UlxTable extends Component {
 			accordionActiveIndex: this.filterPaneAccordionActiveIndex,
 			onAccordionChange: this.onFilterPaneAccordionChange,
 			getGroupAt: this.getFilterGroupAt,
-			groupClass: this.filterPaneGroupClass,
+			getSelectionAt: this.getFilterGroupSelection,
+			dropdownZIndex:
+				typeof filterPaneDropdownZIndex === "number" ? filterPaneDropdownZIndex : null,
 			isOptionChecked: this.isFilterPaneOptionChecked,
-			onUpdateSelection: this.updateFilterPaneSelection
+			onUpdateSelection: this.updateFilterPaneSelection,
+			onSetSelection: this.setFilterPaneSelection
 		};
 	}
 

@@ -28,7 +28,7 @@ import {
   LinkSource,
 } from './imports';
 
-export const IconButtonFeatureItems = [
+const IconButtonFeatureItemsBase = [
   {
     id: 'import',
     sectionNav: 'Import',
@@ -265,6 +265,8 @@ export const IconButtonFeatureItems = [
     },
   },
 ];
+
+export const IconButtonFeatureItems = IconButtonFeatureItemsBase;
 
 export default function IconButtonFeatures() {
   return IconButtonFeatureItems;

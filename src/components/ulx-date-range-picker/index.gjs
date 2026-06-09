@@ -53,6 +53,28 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {string} [preserveTimeFormat='HHmm'] - Parse format for `@preserveTime`
  */
 export default class UlxDateRangePicker extends Component {
+	/**
+	 * Flatpickr expects `above`/`below`. Consumers commonly pass `top`/`bottom`
+	 * (and sometimes with alignment like `top left` / `top-left`), so normalize
+	 * those synonyms to keep popup positioning + arrow classes consistent.
+	 *
+	 * @param {unknown} position
+	 * @returns {unknown}
+	 */
+	normalizePosition(position) {
+		if (typeof position !== "string") {
+			return position;
+		}
+
+		const normalized = position.trim().replace(/-/g, " ");
+
+		return normalized
+			.replace(/\btop\b/g, "above")
+			.replace(/\bbottom\b/g, "below")
+			.replace(/\s+/g, " ")
+			.trim();
+	}
+
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
@@ -106,13 +128,14 @@ export default class UlxDateRangePicker extends Component {
 			appendTo: flatpickrAppendTo,
 			...flatpickrOptionsRest
 		} = flatpickrOptions;
+		const normalizedPosition = this.normalizePosition(position);
 
 		const o = {
 			dateFormat: resolveFlatpickrDateFormat(dateFormat),
 			locale,
 			minuteIncrement,
 			hourIncrement,
-			position,
+			position: normalizedPosition,
 			onDayCreate,
 			minDate: coercePickerWallDate(minDate, this.args.timezone),
 			maxDate: coercePickerWallDate(maxDate, this.args.timezone),

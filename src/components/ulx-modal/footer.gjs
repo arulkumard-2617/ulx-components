@@ -46,6 +46,7 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [cancelButtonCustomClass] - Extra class on the cancel button
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to dialog-footer)
  */
@@ -80,6 +81,10 @@ export default class UlxModalFooter extends Component {
 
 	get cancelButtonDisabled() {
 		return this.submitting || (this.args.cancelButtonDisabled ?? false);
+	}
+
+	get doneButtonVariant() {
+		return this.args.doneButtonVariant ?? "primary";
 	}
 
 	get footerClasses() {
@@ -125,7 +130,7 @@ export default class UlxModalFooter extends Component {
 				{{#unless this.hideDoneButton}}
 					<UlxIconButton
 						@label={{this.doneLabel}}
-						@variant="primary"
+						@variant={{this.doneButtonVariant}}
 						@loading={{this.submitting}}
 						@disabled={{this.doneButtonDisabled}}
 						@dataQa="ulx-modal-done"
