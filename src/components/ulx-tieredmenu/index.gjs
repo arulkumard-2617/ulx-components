@@ -625,7 +625,9 @@ export default class UlxTieredmenu extends Component {
 			if (!transitionCompleted && this.animationState === "enter-active") {
 				transitionCompleted = true;
 				this.animationState = "enter-done";
-				this.containerElement.removeEventListener("transitionend", handleTransitionEnd);
+				if (this.containerElement) {
+					this.containerElement.removeEventListener("transitionend", handleTransitionEnd);
+				}
 				if (transitionEndTimeout) {
 					clearTimeout(transitionEndTimeout);
 					transitionEndTimeout = null;
@@ -699,7 +701,9 @@ export default class UlxTieredmenu extends Component {
 				setTimeout(() => {
 					this.animationState = null;
 				}, 50);
-				this.containerElement.removeEventListener("transitionend", handleTransitionEnd);
+				if (this.containerElement) {
+					this.containerElement.removeEventListener("transitionend", handleTransitionEnd);
+				}
 				if (transitionEndTimeout) {
 					clearTimeout(transitionEndTimeout);
 					transitionEndTimeout = null;

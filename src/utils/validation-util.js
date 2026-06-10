@@ -76,6 +76,31 @@ const validators = {
 };
 
 /**
+ * Transform flat dot-notation error keys to nested object structure.
+ * @param {Object} flatErrors - Object with keys like "userProfile.name"
+ * @returns {Object} Nested object like { userProfile: { name: "error" } }
+ */
+function normalizeErrorMessage(errorValue) {
+	return Array.isArray(errorValue) ? errorValue[0] : errorValue;
+}
+
+export function transformErrorsToNested(flatErrors) {
+	const nestedErrors = {};
+	Object.keys(flatErrors ?? {}).forEach(key => {
+		const parts = key.split('.');
+		let current = nestedErrors;
+		for (let i = 0; i < parts.length - 1; i++) {
+			if (!current[parts[i]]) {
+				current[parts[i]] = {};
+			}
+			current = current[parts[i]];
+		}
+		current[parts[parts.length - 1]] = normalizeErrorMessage(flatErrors[key]);
+	});
+	return nestedErrors;
+}
+
+/**
  * Validates `context` properties against editor-style rules (see `primary-contact-selection` / BsInput).
  *
  * @param {object} context - Object with keys matching `validations` (e.g. component with `@tracked` fields).
