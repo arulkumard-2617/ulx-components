@@ -21,11 +21,11 @@ import UlxModalFooter from "./footer.gjs";
 
 const DEFAULT_MODAL_POSITION = "center";
 
-const FOOTER_ALIGNMENT_TO_JUSTIFY = {
-	start: "flex-start",
-	center: "center",
-	end: "flex-end",
-	"space-between": "space-between"
+const FOOTER_ALIGNMENT_TO_CLASS = {
+	start: "justify-start",
+	center: "justify-center",
+	end: "justify-end",
+	"space-between": "justify-between"
 };
 
 const BODY_OVERFLOW_STYLE = {
@@ -173,9 +173,10 @@ export default class UlxModal extends Component {
 		return joinClassNames("dialog-footer", this.args.footerClassName);
 	}
 
-	get footerWrapperStyle() {
-		const alignment = this.args.alignment ?? "end";
-		return `justify-content: ${FOOTER_ALIGNMENT_TO_JUSTIFY[alignment] ?? FOOTER_ALIGNMENT_TO_JUSTIFY.end}`;
+	get footerAlignmentClasses() {
+		const { alignment = "end" } = this.args;
+		const justifyClass = FOOTER_ALIGNMENT_TO_CLASS[alignment] ?? FOOTER_ALIGNMENT_TO_CLASS.end;
+		return `flex w-full gap-2 ${justifyClass}`;
 	}
 
 	get maskClasses() {
@@ -496,12 +497,10 @@ export default class UlxModal extends Component {
 							{{/if}}
 
 							{{#if (has-block "footer")}}
-								<div
-									class={{this.footerWrapperClasses}}
-									data-qa="ulx-modal-footer"
-									style={{this.footerWrapperStyle}}
-								>
-									{{yield to="footer"}}
+								<div class={{this.footerWrapperClasses}} data-qa="ulx-modal-footer">
+									<div class={{this.footerAlignmentClasses}}>
+										{{yield to="footer"}}
+									</div>
 								</div>
 							{{else}}
 								{{#unless @hideFooter}}

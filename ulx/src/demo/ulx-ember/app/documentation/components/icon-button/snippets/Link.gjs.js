@@ -2,7 +2,7 @@ export default `
 import { UlxIconButton } from 'ulx-components';
 
 <template>
-  <div class="flex gap-3 align-items-center flex-wrap">
+  <div class="flex gap-6 items-center flex-wrap">
     <UlxIconButton
       @label="Link"
       @href="#"
@@ -13,7 +13,7 @@ import { UlxIconButton } from 'ulx-components';
     <UlxIconButton
       @label="Navigate"
       @variant="link on-hover"
-      @iconLeft="right-arrow-icon"
+      @iconRight="right-arrow-icon"
     />
   </div>
 </template>
