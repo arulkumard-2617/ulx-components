@@ -18,15 +18,9 @@ import {
 import UlxModalHeader from "./header.gjs";
 import UlxModalBody from "./body.gjs";
 import UlxModalFooter from "./footer.gjs";
+import { getFooterAlignmentClasses } from "./footer-alignment.js";
 
 const DEFAULT_MODAL_POSITION = "center";
-
-const FOOTER_ALIGNMENT_TO_CLASS = {
-	start: "justify-start",
-	center: "justify-center",
-	end: "justify-end",
-	"space-between": "justify-between"
-};
 
 const BODY_OVERFLOW_STYLE = {
 	true: "overflow-y: auto",
@@ -174,9 +168,7 @@ export default class UlxModal extends Component {
 	}
 
 	get footerAlignmentClasses() {
-		const { alignment = "end" } = this.args;
-		const justifyClass = FOOTER_ALIGNMENT_TO_CLASS[alignment] ?? FOOTER_ALIGNMENT_TO_CLASS.end;
-		return `flex w-full gap-2 ${justifyClass}`;
+		return getFooterAlignmentClasses(this.args.alignment);
 	}
 
 	get maskClasses() {

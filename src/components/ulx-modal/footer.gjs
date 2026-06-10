@@ -5,13 +5,7 @@ import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { joinClassNames } from "../../utils/class-names";
 import { t } from "../../utils/i18n";
-
-const FOOTER_ALIGNMENT_TO_CLASS = {
-	start: "justify-start",
-	center: "justify-center",
-	end: "justify-end",
-	"space-between": "justify-between"
-};
+import { getFooterAlignmentClasses } from "./footer-alignment.js";
 
 /**
  * Modal footer subcomponent.
@@ -92,9 +86,7 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get footerAlignmentClasses() {
-		const { alignment = "end" } = this.args;
-		const justifyClass = FOOTER_ALIGNMENT_TO_CLASS[alignment] ?? FOOTER_ALIGNMENT_TO_CLASS.end;
-		return `flex w-full gap-2 ${justifyClass}`;
+		return getFooterAlignmentClasses(this.args.alignment);
 	}
 
 	@action
