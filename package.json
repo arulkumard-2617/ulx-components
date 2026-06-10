@@ -122,6 +122,7 @@
       "./components/ulx-input/index.js": "./dist/_app_/components/ulx-input/index.js",
       "./components/ulx-message/index.js": "./dist/_app_/components/ulx-message/index.js",
       "./components/ulx-modal/body.js": "./dist/_app_/components/ulx-modal/body.js",
+      "./components/ulx-modal/footer-alignment.js": "./dist/_app_/components/ulx-modal/footer-alignment.js",
       "./components/ulx-modal/footer.js": "./dist/_app_/components/ulx-modal/footer.js",
       "./components/ulx-modal/header.js": "./dist/_app_/components/ulx-modal/header.js",
       "./components/ulx-modal/index.js": "./dist/_app_/components/ulx-modal/index.js",
