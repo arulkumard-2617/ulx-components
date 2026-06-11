@@ -95,6 +95,7 @@ export default class DemoTableSelection extends Component {
           @selectionMode="single"
           @selection={{this.singleSelection}}
           @onSelectionChange={{this.onSingleSelect}}
+          @showManageColumns={{true}}
         />
         {{#if this.singleSelection}}
           <p class="mt-2 text-sm">Selected:
@@ -112,6 +113,7 @@ export default class DemoTableSelection extends Component {
           @selectionMode="multiple"
           @selection={{this.multipleSelection}}
           @onSelectionChange={{this.onMultipleSelect}}
+          @showManageColumns={{true}}
         />
         <p class="mgt2 text-sm">Selected:
           <strong>{{this.multipleSelection.length}}</strong>
@@ -128,6 +130,7 @@ export default class DemoTableSelection extends Component {
           @selectionMode="checkbox"
           @selection={{this.checkboxSelection}}
           @onSelectionChange={{this.onCheckboxSelect}}
+          @showManageColumns={{true}}
         />
         <p class="mt-2 text-sm">Selected:
           <strong>{{this.checkboxSelection.length}}</strong>
@@ -143,6 +146,7 @@ export default class DemoTableSelection extends Component {
           @selectionMode="radio"
           @selection={{this.radioSelection}}
           @onSelectionChange={{this.onRadioSelect}}
+          @showManageColumns={{true}}
         />
         {{#if this.radioSelection.length}}
           <p class="mgt2 text-sm">Selected:
