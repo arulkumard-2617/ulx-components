@@ -23,15 +23,14 @@ export default class DemoChipInputBasic extends Component {
           @helpText="Press Enter or , to add a chip."
           @fieldId="chip-input-basic"
           @fieldClass="col-12"
+          as |field|
         >
-          <:default>
-            <UlxChipInput
-              @chips={{this.chips}}
-              @onChipsChange={{this.updateChips}}
-              @placeholder="Add city…"
-              aria-label="Cities"
-            />
-          </:default>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chips}}
+            @onChipsChange={{this.updateChips}}
+            @placeholder="Add city…"
+          />
         </UlxField>
       </UlxFieldSet>
     </UlxForm>

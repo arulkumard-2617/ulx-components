@@ -43,7 +43,9 @@ export default {
 
   // Accessibility information
   accessibility: {
-    description: 'ChipInput is a group element. The inner text field has an aria-label. Each remove button is announced with the chip value.',
-    example: '<UlxChipInput @chips={{this.chips}} @onChipsChange={{this.updateChips}} />'
+    description:
+      'With UlxField, pass @field={{field}} so the inner input receives id, aria-describedby, aria-errormessage, and aria-invalid. Standalone usage falls back to @inputAriaLabel. Each remove button is announced with the chip value.',
+    example:
+      '<UlxField @label="Cities" @fieldId="cities" as |field|><UlxChipInput @field={{field}} @chips={{this.chips}} @onChipsChange={{this.updateChips}} /></UlxField>'
   }
 };

@@ -56,15 +56,21 @@ export default class DemoInputGroupMultiple extends Component {
         >
 
           <:start>
-            $
+            <span aria-hidden="true">$</span>
           </:start>
 
-          <:input>
-            <UlxInput @field={{field}} placeholder="Price" aria-label="Price" />
+          <:input as |group|>
+            <UlxInput
+              @field={{field}}
+              @disabled={{group.disabled}}
+              @invalid={{group.invalid}}
+              placeholder="Price"
+              aria-label="Price"
+            />
           </:input>
 
           <:end>
-            .00
+            <span aria-hidden="true">.00</span>
           </:end>
 
         </UlxInputGroup>
