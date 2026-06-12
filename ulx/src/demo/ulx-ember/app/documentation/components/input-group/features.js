@@ -19,7 +19,7 @@ import {
   MultipleSource,
   InputButtonSource,
   DisabledSource,
-  InvalidSource,
+  InvalidSource
 } from './imports';
 
 export const InputGroupFeatureItems = [
@@ -31,17 +31,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>import</code> property is used to import the <code>InputGroup</code> component.',
-      },
+          'The <code>import</code> property is used to import the <code>InputGroup</code> component.'
+      }
     },
     demo: {
       component: null, // Import section doesn't need demo
       props: {
         source: ImportSource,
         snippetName: 'import',
-        language: 'jsx',
-      },
-    },
+        language: 'jsx'
+      }
+    }
   },
   {
     id: 'basic',
@@ -51,17 +51,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows basic usage of the InputGroup component.',
-      },
+          'The <code>Basic</code> demo shows basic usage of the InputGroup component.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'vertical-stack',
@@ -71,17 +71,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>vertical-stack-addon</code> on an addon to stack content (e.g. increment/decrement buttons) vertically in the input group.',
-      },
+          'Use <code>vertical-stack-addon</code> on an addon to stack content (e.g. increment/decrement buttons) vertically in the input group.'
+      }
     },
     demo: {
       component: VerticalStackDemo,
       props: {
         source: VerticalStackSource,
         snippetName: 'verticalStack',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'template',
@@ -91,17 +91,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Template</code> demo shows a combined layout: a start time input with a basic button addon, a duration pair using vertical-stack addons, and a checkbox to disable the fields when the time is to be announced.',
-      },
+          'The <code>Template</code> demo shows a combined layout: a start time input with a basic button addon, a duration pair using vertical-stack addons, and a checkbox to disable the fields when the time is to be announced.'
+      }
     },
     demo: {
       component: TemplateDemo,
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'multiple',
@@ -111,17 +111,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Multiple</code> demo shows Multiple usage of the InputGroup component.',
-      },
+          'The <code>Multiple</code> demo shows Multiple usage of the InputGroup component.'
+      }
     },
     demo: {
       component: MultipleDemo,
       props: {
         source: MultipleSource,
         snippetName: 'multiple',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'input-button',
@@ -131,17 +131,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>&lt;:start&gt;</code> and <code>&lt;:end&gt;</code> with <code>UlxButton</code> for input group with buttons.',
-      },
+          'Use <code>&lt;:start&gt;</code> and <code>&lt;:end&gt;</code> with <code>UlxButton</code> for input group with buttons.'
+      }
     },
     demo: {
       component: InputButtonDemo,
       props: {
         source: InputButtonSource,
         snippetName: 'inputButton',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'invalid',
@@ -151,17 +151,17 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Set <code>@invalid</code> on <code>UlxInputGroup</code> and pass <code>@invalid={{group.invalid}}</code> from the <code>&lt;:input&gt;</code> yield to keep the control and group in sync. Pair with <code>UlxField</code> <code>@error</code> for the error message.',
-      },
+          'Set <code>@invalid</code> on <code>UlxInputGroup</code> and pass <code>@invalid={{group.invalid}}</code> from the <code>&lt;:input&gt;</code> yield to keep the control and group in sync. Pair with <code>UlxField</code> <code>@error</code> for the error message.'
+      }
     },
     demo: {
       component: InvalidDemo,
       props: {
         source: InvalidSource,
         snippetName: 'invalid',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'disabled',
@@ -171,18 +171,18 @@ export const InputGroupFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Set <code>@disabled</code> on <code>UlxInputGroup</code> to disable the whole group (<code>inert</code>, <code>aria-disabled</code>). Use <code>&lt;:input as |group|&gt;</code> and mirror <code>@disabled={{group.disabled}}</code> on the input; disable addon buttons separately.',
-      },
+          'Set <code>@disabled</code> on <code>UlxInputGroup</code> to disable the whole group (<code>inert</code>, <code>aria-disabled</code>). Use <code>&lt;:input as |group|&gt;</code> and mirror <code>@disabled={{group.disabled}}</code> on the input; disable addon buttons separately.'
+      }
     },
     demo: {
       component: DisabledDemo,
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function InputGroupFeatures() {
