@@ -1272,6 +1272,7 @@ export default class UlxTable extends Component {
 		this._visibleColumnFields = null;
 		this._columnOrder = null;
 		this.persistState();
+		this.closeManageColumns();
 	}
 
 	@action

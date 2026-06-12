@@ -8,6 +8,8 @@ import {
 	resolveFlatpickrDateFormat,
 	coercePickerWallDate,
 	buildPickerSyncDates,
+	normalizePickerRange,
+	wallCalendarDateInZone,
 	zonedDateFromPickerDay
 } from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
@@ -279,7 +281,38 @@ export default class UlxDateRangePicker extends Component {
 
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(this.normalizeOutgoingRange(selectedDates), dateStr);
+		const { timezone, preserveTime, preserveTimeFormat = "HHmm", onChange } = this.args;
+		if (!onChange) {
+			return;
+		}
+
+		if (this.allowSelectRange) {
+			onChange(selectedDates, dateStr);
+			return;
+		}
+
+		const normalizedRange = this.normalizeOutgoingRange(selectedDates);
+		const selectedWallDate = this.args.showEndDateOnly === true
+			? (normalizedRange?.[1] ?? normalizedRange?.[0])
+			: normalizedRange?.[0];
+
+		if (
+			timezone &&
+			preserveTime != null &&
+			preserveTime !== "" &&
+			selectedWallDate
+		) {
+			const zoned = zonedDateFromPickerDay(
+				selectedWallDate,
+				preserveTime,
+				timezone,
+				preserveTimeFormat
+			);
+			onChange([zoned.toDate()], dateStr);
+			return;
+		}
+
+		onChange(selectedWallDate ? [selectedWallDate] : selectedDates, dateStr);
 	}
 
 	get placeholderText() {

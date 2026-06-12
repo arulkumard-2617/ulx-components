@@ -84,7 +84,6 @@ export default class TableOverlays extends Component {
 						@visibleColumns={{this.manageColumns.visibleColumns}}
 						@onApply={{this.manageColumns.onApply}}
 						@onClose={{this.manageColumns.onClose}}
-						@onReset={{this.manageColumns.onReset}}
 						@registerRef={{this.manageColumns.onSetRef}}
 					/>
 				</UlxPopup>
