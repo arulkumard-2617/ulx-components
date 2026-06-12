@@ -7,18 +7,42 @@ import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../utils/component-config";
 import { joinClassNames } from "../../utils/class-names";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
-import appendToBody from "../../modifiers/append-to-body";
+import overlayPortal from "../../modifiers/overlay-portal";
 import {
 	applyBodyAbsoluteFromViewport,
 	getOverlayZIndexAboveMask,
 	isPointerOutsideAnchoredOverlay,
 	isPointerOutsideElement
 } from "../../utils/overlay-helpers";
+import {
+	buildOverlayCoordinateApi,
+	clampOverlayValue,
+	getBoundaryRectInOverlaySpace,
+	getOverlayPlacementSpace,
+	resolveOverlayBoundary,
+	resolveOverlayContext,
+	resolveOverlayScrollContext
+} from "../../utils/overlay-context";
 import { getAdjacentFocusableInDocument } from "../../utils/focus-util";
 import UlxTieredmenuMenuList from "./menu-list.gjs";
 
 /** Durations match popup/tieredmenu CSS (e.g. 0.2s); fallback timeout covers missing `transitionend`. */
 const TIEREDMENU_TRANSITION_MS = 200;
+const TIEREDMENU_PANEL_POSITION_AUTO = "auto";
+const TIEREDMENU_PANEL_POSITION_TOP = "top";
+const TIEREDMENU_PANEL_POSITION_BOTTOM = "bottom";
+
+function normalizeTieredmenuPanelPosition(position) {
+	if (position === TIEREDMENU_PANEL_POSITION_TOP || position === "above") {
+		return TIEREDMENU_PANEL_POSITION_TOP;
+	}
+
+	if (position === TIEREDMENU_PANEL_POSITION_BOTTOM || position === "below") {
+		return TIEREDMENU_PANEL_POSITION_BOTTOM;
+	}
+
+	return TIEREDMENU_PANEL_POSITION_AUTO;
+}
 const TIEREDMENU_TRANSITION_FALLBACK_MS = TIEREDMENU_TRANSITION_MS + 100;
 /** Popup open/close state machine: used to avoid restarting animations and to keep the root in DOM during exit. */
 const TIEREDMENU_ENTER_STATES = new Set(["enter", "enter-active", "enter-done"]);
@@ -71,6 +95,10 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * @param {function} [onShow] - Callback when menu is shown (popup mode)
  * @param {HTMLElement} [target] - Target element for popup positioning (button that triggers menu)
  * @param {'start'|'end'} [align='start'] - Horizontal alignment of popup panel relative to trigger. 'start' aligns the menu's left edge to the trigger's left edge; 'end' aligns the menu's right edge to the trigger's right edge.
+ * @param {'self'|'body'|HTMLElement|Function|string} [context='body'] - Where the popup panel is rendered. `"self"` keeps the panel in-place; `"body"` appends to document body (default for popup).
+ * @param {'window'|HTMLElement|Function|string} [boundary='window'] - Boundary used for flip/clamp calculations.
+ * @param {'window'|HTMLElement|Function|string} [scrollContext='window'] - Scroll target that repositions the popup while it stays open.
+ * @param {'auto'|'top'|'bottom'} [position='auto'] - Vertical placement relative to the trigger. `auto` flips above/below based on scroll space; `top` always opens above; `bottom` always opens below.
  * @param {string} [customClass] - Additional CSS classes
  * @param {function} [registerRef] - Callback invoked with the component instance (e.g. for calling hide() from parent)
  * @param {string} [dataQa] - Optional override for root `data-qa` (default `ulx-tieredmenu`).
@@ -142,8 +170,37 @@ export default class UlxTieredmenu extends Component {
 		return !this.args.visible && TIEREDMENU_ENTER_STATES.has(this.animationState);
 	}
 
-	get shouldAppendToBody() {
-		return this.isPopup && this.shouldRender;
+	get resolvedContext() {
+		if (!this.isPopup) {
+			return null;
+		}
+
+		return resolveOverlayContext(
+			this.args.context ?? this.args.renderContainer ?? this.args.appendTo ?? "body"
+		);
+	}
+
+	get resolvedBoundary() {
+		return resolveOverlayBoundary(this.args.boundary ?? "window");
+	}
+
+	get resolvedBoundaryElement() {
+		const boundary = this.resolvedBoundary;
+
+		return typeof boundary !== "undefined" &&
+			boundary !== null &&
+			typeof window !== "undefined" &&
+			boundary !== window
+			? boundary
+			: null;
+	}
+
+	get resolvedScrollContext() {
+		return resolveOverlayScrollContext(this.args.scrollContext ?? "window");
+	}
+
+	get shouldPortalOverlay() {
+		return this.isPopup && this.resolvedContext != null;
 	}
 
 	get breakpoint() {
@@ -738,50 +795,138 @@ export default class UlxTieredmenu extends Component {
 	alignOverlay() {
 		if (!this.containerElement || !this.targetElement) return;
 
-		const { align = "start" } = this.args;
+		const { align = "start", position = "auto" } = this.args;
+		const panelPosition = normalizeTieredmenuPanelPosition(position);
 		const container = this.containerElement;
 		const target = this.targetElement;
+		const coordinateApi = buildOverlayCoordinateApi(this.resolvedContext, container);
 
 		// Temporarily remove the overlay from layout so its own size does not
 		// inflate body / trigger a scrollbar and skew viewport or target measurements.
 		const prevDisplay = container.style.display;
 		container.style.display = "none";
 
-		const targetRect = target.getBoundingClientRect();
-		const viewportWidth = window.innerWidth;
-		const viewportHeight = window.innerHeight;
-		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+		const targetRect = coordinateApi.fromViewportRect(target.getBoundingClientRect());
+		const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
 
 		container.style.display = prevDisplay;
 
-		// Use offsetWidth/offsetHeight — unaffected by CSS transforms (scale) so the
-		// measurement is accurate even while the enter animation is mid-scale.
 		const menuWidth = container.offsetWidth || 180;
 		const menuHeight = container.offsetHeight || 200;
+		const spacing = 2;
+		const viewportPadding = 10;
 
-		let top = targetRect.bottom;
-		// 'end': right edge of menu aligns with right edge of trigger
-		// 'start': left edge of menu aligns with left edge of trigger
-		let left = align === "end" ? targetRect.right - menuWidth : targetRect.left;
+		const fallbackBoundary = boundaryRect ?? {
+			top: 0,
+			left: 0,
+			right: targetRect.left + menuWidth + viewportPadding,
+			bottom: targetRect.bottom + menuHeight + viewportPadding
+		};
 
-		// Clamp horizontal: ensure menu stays within viewport bounds
-		if (left + menuWidth > viewportWidth - scrollbarWidth) {
-			left = viewportWidth - menuWidth - scrollbarWidth - 10;
-		}
-		if (left < 0) {
-			left = 10;
+		const boundaryLeft = fallbackBoundary.left;
+		const boundaryRight = fallbackBoundary.right;
+		const boundaryTop = fallbackBoundary.top;
+		const boundaryBottom = fallbackBoundary.bottom;
+		const minLeft = boundaryLeft + viewportPadding;
+		const maxLeft = boundaryRight - menuWidth - viewportPadding;
+		const minTop = boundaryTop + viewportPadding;
+		const maxTop = boundaryBottom - menuHeight - viewportPadding;
+
+		const leftForStart = targetRect.left;
+		const leftForEnd = targetRect.right - menuWidth;
+		const placementSpace = getOverlayPlacementSpace(this.resolvedBoundaryElement, target);
+
+		let startFitsHorizontally;
+		let endFitsHorizontally;
+
+		if (placementSpace) {
+			startFitsHorizontally =
+				placementSpace.scrollableSpaceRight >= menuWidth + viewportPadding;
+			endFitsHorizontally = placementSpace.scrollableSpaceLeft >= menuWidth + viewportPadding;
+		} else {
+			startFitsHorizontally = leftForStart >= minLeft && leftForStart <= maxLeft;
+			endFitsHorizontally = leftForEnd >= minLeft && leftForEnd <= maxLeft;
 		}
 
-		// Clamp vertical: flip above trigger if not enough space below
-		if (top + menuHeight > viewportHeight) {
-			const topPosition = targetRect.top - menuHeight;
-			top = topPosition >= 0 ? topPosition : viewportHeight - menuHeight - 10;
-		}
-		if (top < 0) {
-			top = 10;
+		let left;
+
+		if (align === "end") {
+			left = endFitsHorizontally
+				? leftForEnd
+				: startFitsHorizontally
+					? leftForStart
+					: clampOverlayValue(leftForEnd, minLeft, Math.max(minLeft, maxLeft));
+		} else {
+			left = startFitsHorizontally
+				? leftForStart
+				: endFitsHorizontally
+					? leftForEnd
+					: clampOverlayValue(leftForStart, minLeft, Math.max(minLeft, maxLeft));
 		}
 
-		applyBodyAbsoluteFromViewport(container, top, left);
+		let spaceBelow;
+		let spaceAbove;
+
+		if (placementSpace) {
+			spaceBelow = placementSpace.scrollableSpaceBelow - spacing;
+			spaceAbove = placementSpace.scrollableSpaceAbove - spacing;
+		} else {
+			spaceBelow = boundaryBottom - viewportPadding - (targetRect.bottom + spacing);
+			spaceAbove = targetRect.top - spacing - (boundaryTop + viewportPadding);
+		}
+
+		let top;
+
+		if (panelPosition === TIEREDMENU_PANEL_POSITION_BOTTOM) {
+			top = targetRect.bottom + spacing;
+		} else if (panelPosition === TIEREDMENU_PANEL_POSITION_TOP) {
+			top = targetRect.top - menuHeight - spacing;
+		} else if (spaceBelow >= menuHeight) {
+			top = targetRect.bottom + spacing;
+		} else if (spaceAbove >= menuHeight) {
+			top = targetRect.top - menuHeight - spacing;
+		} else if (spaceBelow >= spaceAbove) {
+			top = targetRect.bottom + spacing;
+		} else {
+			top = targetRect.top - menuHeight - spacing;
+		}
+
+		const canExtendBelowInScrollContent =
+			placementSpace && placementSpace.scrollableSpaceBelow >= menuHeight + spacing;
+
+		const canExtendAboveInScrollContent =
+			placementSpace && placementSpace.scrollableSpaceAbove >= menuHeight + spacing;
+
+		const shouldSkipVerticalClamp =
+			panelPosition === TIEREDMENU_PANEL_POSITION_BOTTOM ||
+			panelPosition === TIEREDMENU_PANEL_POSITION_TOP;
+
+		if (
+			!shouldSkipVerticalClamp &&
+			!canExtendBelowInScrollContent &&
+			!canExtendAboveInScrollContent
+		) {
+			let adjustedMinTop = minTop;
+			let adjustedMaxTop = maxTop;
+
+			const targetOutTop = targetRect.bottom < boundaryTop + viewportPadding;
+			const targetOutBottom = targetRect.top > boundaryBottom - viewportPadding;
+
+			targetOutTop && (adjustedMinTop = Math.min(adjustedMinTop, top));
+			targetOutBottom && (adjustedMaxTop = Math.max(adjustedMaxTop, top));
+
+			if (coordinateApi.usesDocumentCoordinates) {
+				adjustedMinTop = Math.min(adjustedMinTop, -menuHeight);
+			}
+
+			top = clampOverlayValue(top, adjustedMinTop, Math.max(adjustedMinTop, adjustedMaxTop));
+		}
+
+		if (coordinateApi.usesDocumentCoordinates) {
+			applyBodyAbsoluteFromViewport(container, top, left);
+		} else {
+			coordinateApi.applyPosition(container, top, left);
+		}
 	}
 
 	/**
@@ -791,9 +936,29 @@ export default class UlxTieredmenu extends Component {
 	setZIndex() {
 		if (!this.containerElement || !this.isPopup) return;
 
-		const zIndex = getOverlayZIndexAboveMask(this.modalStack, this);
+		const zIndex =
+			typeof this.args.zIndex === "number"
+				? this.args.zIndex
+				: this.resolvedContext === document.body
+					? getOverlayZIndexAboveMask(this.modalStack, this)
+					: 2;
+
 		this.zIndex = zIndex;
 		this.containerElement.style.zIndex = zIndex;
+	}
+
+	isPortalReadyForMeasurement(element) {
+		const resolvedContext = this.resolvedContext;
+
+		if (!this.isPopup) {
+			return true;
+		}
+
+		if (!resolvedContext) {
+			return true;
+		}
+
+		return element?.parentNode === resolvedContext;
 	}
 
 	/**
@@ -921,9 +1086,9 @@ export default class UlxTieredmenu extends Component {
 					if (!this.targetElement && this.args.target) {
 						this.targetElement = this.args.target;
 					}
-					// appendToBody may run after this modifier; wait until the node is under `document.body` before measuring/positioning.
+					// overlayPortal may run after this modifier; measure once mounted in its final context.
 				const checkAndShow = () => {
-					if (element.parentNode === document.body || !this.isPopup) {
+					if (this.isPortalReadyForMeasurement(element)) {
 						if (!TIEREDMENU_ENTER_STATES.has(this.animationState)) {
 							requestAnimationFrame(() => {
 								this.handleShow();
@@ -1015,21 +1180,47 @@ export default class UlxTieredmenu extends Component {
 		};
 	});
 
-	/**
-	 * Modifier to handle window resize (close popup on resize)
-	 */
-	handleResize = modifier(() => {
-		if (!this.isPopup || !this.isVisible) return;
+	repositionOnScroll = modifier((_, [isVisible, animationState]) => {
+		if (!this.isPopup || !isVisible || animationState !== "enter-done") {
+			return;
+		}
 
-		const onWindowResize = () => {
-			if (this.modalStack?.topModal && this.modalStack.topModal !== this) return;
-			if (this.isVisible) this.handleHide();
+		const scrollTarget = this.resolvedScrollContext;
+		const shouldTrackScroll = this.resolvedContext != null;
+		const realignOverlay = () => {
+			if (this.isVisible && this.animationState === "enter-done") {
+				this.alignOverlay();
+			}
 		};
 
+		const onWindowResize = () => {
+			if (this.modalStack?.topModal && this.modalStack.topModal !== this) {
+				return;
+			}
+
+			realignOverlay();
+		};
+
+		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", realignOverlay);
 		window.addEventListener("resize", onWindowResize);
 
+		const resizeObserver =
+			typeof ResizeObserver !== "undefined" && this.containerElement
+				? new ResizeObserver(() => {
+						if (!this.isVisible || this.animationState !== "enter-done") {
+							return;
+						}
+
+						requestAnimationFrame(realignOverlay);
+					})
+				: null;
+
+		resizeObserver?.observe(this.containerElement);
+
 		return () => {
+			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", realignOverlay);
 			window.removeEventListener("resize", onWindowResize);
+			resizeObserver?.disconnect();
 		};
 	});
 
@@ -1040,13 +1231,13 @@ export default class UlxTieredmenu extends Component {
 				role="menubar"
 				aria-orientation="vertical"
 				data-qa={{this.rootDataQa}}
-				{{appendToBody this.shouldAppendToBody}}
+				{{overlayPortal this.shouldPortalOverlay this.resolvedContext}}
 				{{this.setContainerRef}}
 				{{this.registerRefModifier}}
 				{{this.watchVisibility this.isVisible this.isPopup this.args.target this.animationState}}
 				{{this.focusFirstItemOnVisible this.isVisible this.animationState}}
+				{{this.repositionOnScroll this.isVisible this.animationState}}
 				{{this.closeOnClickOutside}}
-				{{this.handleResize}}
 				...attributes
 			>
 				<ul class="tieredmenu-list" data-qa={{this.getDataQa "list"}} {{this.setMenuRef}}>

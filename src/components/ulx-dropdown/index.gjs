@@ -1338,19 +1338,17 @@ export default class UlxDropdown extends Component {
 											{{on "click" (fn this.selectOption entry)}}
 										>
 											{{#if (has-block "item")}}
-												<span>
-													<div class="flex items-center">
-														{{yield
-															(hash
-																option=option
-																label=(this.getOptionLabel option)
-																index=index
-																imageUrl=(this.getOptionImageUrl option)
-															)
-															to="item"
-														}}
-													</div>
-												</span>
+												<div class="flex items-center w-full">
+													{{yield
+														(hash
+															option=option
+															label=(this.getOptionLabel option)
+															index=index
+															imageUrl=(this.getOptionImageUrl option)
+														)
+														to="item"
+													}}
+												</div>
 											{{else}}
 												<span
 													class="dropdown-item-label
