@@ -403,6 +403,16 @@ export const DocNavItems = [
         menuItem: 'Table',
         to: '/templates/table',
         route: 'templates.table'
+      },
+      {
+        menuItem: 'Card',
+        to: '/templates/card',
+        route: 'templates.card'
+      },
+      {
+        menuItem: 'Page',
+        to: '/templates/page',
+        route: 'templates.page'
       }
     ]
   }

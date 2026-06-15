@@ -87,10 +87,11 @@ export default class DemoInputGroupTemplate extends Component {
             @endAddonClass="icon-addon"
           >
 
-            <:input>
+            <:input as |group|>
               <UlxInput
                 @field={{field}}
-                @disabled={{this.isDisabled}}
+                @disabled={{group.disabled}}
+                @invalid={{group.invalid}}
                 placeholder={{"12:00 AM"}}
                 aria-label={{"Start Time"}}
               />
@@ -104,7 +105,7 @@ export default class DemoInputGroupTemplate extends Component {
                 @iconComponentClass="bs-icons1"
                 @iconSize="s18"
                 @disabled={{this.isDisabled}}
-                aria-label={{"Start Time"}}
+                aria-label={{"Open time picker"}}
               />
             </:end>
 
@@ -129,13 +130,14 @@ export default class DemoInputGroupTemplate extends Component {
           <div class="field col-3">
             <UlxInputGroup @disabled={{this.isDisabled}}>
 
-              <:input>
+              <:input as |group|>
                 <UlxInput
                   @value={{this.hours}}
                   @rules={{this.hourRules}}
                   @onChange={{this.updateHours}}
                   type="number"
-                  @disabled={{this.isDisabled}}
+                  @disabled={{group.disabled}}
+                  @invalid={{group.invalid}}
                   aria-label={{"Hours"}}
                 />
               </:input>
@@ -180,13 +182,14 @@ export default class DemoInputGroupTemplate extends Component {
           <div class="field col-3">
             <UlxInputGroup @disabled={{this.isDisabled}}>
 
-              <:input>
+              <:input as |group|>
                 <UlxInput
                   @value={{this.minutes}}
                   @rules={{this.minuteRules}}
                   @onChange={{this.updateMinutes}}
                   type="number"
-                  @disabled={{this.isDisabled}}
+                  @disabled={{group.disabled}}
+                  @invalid={{group.invalid}}
                   aria-label={{"Minutes"}}
                 />
               </:input>
