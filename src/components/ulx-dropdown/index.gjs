@@ -752,7 +752,10 @@ export default class UlxDropdown extends Component {
 		if (this.isFocusInOptionActions()) return false;
 		const triggerElement = document.getElementById(this.triggerId);
 		const activeElement = document.activeElement;
-		return !!triggerElement && (activeElement === triggerElement || triggerElement.contains(activeElement));
+		return (
+			!!triggerElement &&
+			(activeElement === triggerElement || triggerElement.contains(activeElement))
+		);
 	}
 
 	shouldSkipTriggerArrowNavigation() {
@@ -837,7 +840,8 @@ export default class UlxDropdown extends Component {
 		const keyPressed = event.code || event.key;
 		const activeElement = document.activeElement;
 		const activeAction = this.resolveActiveActionControl(activeElement);
-		const optionElement = this.getOptionItemForElement(activeAction) ?? this.getFocusedOptionElement();
+		const optionElement =
+			this.getOptionItemForElement(activeAction) ?? this.getFocusedOptionElement();
 		const actionButtons = this.getOptionActionButtons(optionElement);
 		const actionButtonIndex = activeAction ? actionButtons.indexOf(activeAction) : -1;
 
@@ -991,7 +995,11 @@ export default class UlxDropdown extends Component {
 
 		if (anchorIndex >= 0) {
 			const delta = backward ? -1 : 1;
-			for (let index = anchorIndex + delta; index >= 0 && index < allFocusables.length; index += delta) {
+			for (
+				let index = anchorIndex + delta;
+				index >= 0 && index < allFocusables.length;
+				index += delta
+			) {
 				const candidate = allFocusables[index];
 				if (!panelRoot?.contains(candidate)) return candidate;
 			}
@@ -1006,9 +1014,7 @@ export default class UlxDropdown extends Component {
 	@action
 	closeOverlayAndMoveFocus(options = {}) {
 		const { backward = false, anchorElement = null } = options;
-		const focusAnchor =
-			anchorElement ??
-			this.getTriggerFocusableAnchor({ backward });
+		const focusAnchor = anchorElement ?? this.getTriggerFocusableAnchor({ backward });
 		const nextFocusableElement = anchorElement
 			? this.getNextFocusableOutsidePanel(focusAnchor, { backward })
 			: getAdjacentFocusableInDocument(focusAnchor, {
@@ -1487,7 +1493,6 @@ export default class UlxDropdown extends Component {
 																src={{row.group.imageUrl}}
 																alt={{row.label}}
 																class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
-																style="width: 18px;"
 																aria-hidden="true"
 															/>
 														{{/if}}

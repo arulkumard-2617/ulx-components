@@ -39,7 +39,6 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *   Accepts a single key string (e.g. `","`) or an array of keys (e.g. `["Enter", ","]`).
  *   `"Enter"` is committed on `keydown`; single printable characters (e.g. `","`) are committed
  *   on `input` so the separator character itself is never included in the chip label.
- * @param {boolean} [allowDuplicates=false] - When false, duplicate values are silently ignored.
  * @param {number} [max] - Maximum number of chips allowed. Adding beyond this is ignored.
  * @param {boolean} [disabled=false] - Disables the entire control.
  * @param {boolean} [invalid=false] - Applies invalid visual state.
@@ -163,8 +162,7 @@ export default class UlxChipInput extends Component {
 		if (!trimmed || this.isDisabled || this.isAtMax) {
 			return false;
 		}
-		const { allowDuplicates = false } = this.args;
-		if (!allowDuplicates && this.chips.includes(trimmed)) {
+		if (this.chips.includes(trimmed)) {
 			return false;
 		}
 		this.args.onChipsChange?.([...this.chips, trimmed]);
