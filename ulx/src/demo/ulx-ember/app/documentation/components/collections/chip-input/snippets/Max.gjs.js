@@ -24,16 +24,15 @@ export default class DemoChipInputMax extends Component {
           @helpText="You can add up to 3 cities."
           @fieldId="chip-input-max"
           @fieldClass="col-12"
+          as |field|
         >
-          <:default>
-            <UlxChipInput
-              @chips={{this.chips}}
-              @onChipsChange={{this.updateChips}}
-              @max={{3}}
-              @placeholder="Max 3 chips…"
-              aria-label="Cities max 3"
-            />
-          </:default>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chips}}
+            @onChipsChange={{this.updateChips}}
+            @max={{3}}
+            @placeholder="Max 3 chips…"
+          />
         </UlxField>
       </UlxFieldSet>
     </UlxForm>

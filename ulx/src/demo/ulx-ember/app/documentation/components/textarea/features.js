@@ -5,7 +5,6 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
   TemplateDemo,
-  KeyfilterDemo,
   SizesDemo,
   InvalidDemo,
   DisabledDemo,
@@ -13,7 +12,6 @@ import {
   ImportSource,
   BasicSource,
   TemplateSource,
-  KeyfilterSource,
   SizesSource,
   InvalidSource,
   DisabledSource,
@@ -75,25 +73,6 @@ export const TextareaFeatureItems = [
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'key-filter',
-    sectionNav: 'Keyfilter',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content: 'The <code>Keyfilter</code> demo shows KeyFilter usage of the Textarea component.',
-      },
-    },
-    demo: {
-      component: KeyfilterDemo,
-      props: {
-        source: KeyfilterSource,
-        snippetName: 'key-filter',
         language: 'handlebars',
       },
     },
