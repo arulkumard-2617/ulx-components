@@ -736,6 +736,18 @@ export default class UlxDropdown extends Component {
 		return !!this.resolveActiveActionControl();
 	}
 
+	/** Panel buttons/inputs (item actions, footer controls) must keep native Enter/Space activation. */
+	isFocusInInteractivePanelControl() {
+		const activeElement = document.activeElement;
+		const panel = this.panelElement;
+		if (!activeElement || !panel?.contains(activeElement)) return false;
+		if (this.isFocusInOptionActions()) return true;
+
+		return !!activeElement.matches?.(
+			"button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [role='button']:not([aria-disabled='true'])"
+		);
+	}
+
 	isComboboxFocused() {
 		if (this.isFocusInOptionActions()) return false;
 		const triggerElement = document.getElementById(this.triggerId);
@@ -1181,6 +1193,7 @@ export default class UlxDropdown extends Component {
 			if (this.overlayVisible && this.handleItemActionHorizontalNavigation(event)) return;
 		}
 		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
+			if (this.isFocusInInteractivePanelControl()) return;
 			event.preventDefault();
 			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
 				this.selectFocusedOptionIfEnabled();
@@ -1191,6 +1204,7 @@ export default class UlxDropdown extends Component {
 			return;
 		}
 		if (keyPressed === " " || keyPressed === "Space") {
+			if (this.isFocusInInteractivePanelControl()) return;
 			event.preventDefault();
 			if (!this.overlayVisible) {
 				this.showOptionKeyboardFocusRing = true;
