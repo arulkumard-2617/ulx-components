@@ -7,7 +7,7 @@ import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
 import { fn } from "@ember/helper";
 import { getComponentClass } from "../../utils/component-config";
-import { isInvalidState } from "../../utils/input-util";
+import { isInvalidState, isRulesRequired, normalizeRules } from "../../utils/input-util";
 import { guidFor } from "@ember/object/internals";
 import { t } from "../../utils/i18n";
 import overlayDismiss from "../../modifiers/overlay-dismiss";
@@ -21,7 +21,7 @@ import {
 	resolveOverlayContext,
 	resolveOverlayScrollContext
 } from "../../utils/overlay-context";
-import { getFocusableElements } from "../../utils/focus-util";
+import { getAdjacentFocusableInDocument, getFocusableElements } from "../../utils/focus-util";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
@@ -36,7 +36,8 @@ const DROPDOWN_PANEL_POSITION_BOTTOM = "bottom";
  * Dropdown select: single selection from a list with optional filter, groups, templates.
  * Supports: basic, checkmark, group, template, filter, clear icon, loading, invalid, disabled.
  * Use `UlxField` for labels, help, and errors; use `UlxFloatLabel` for floating labels.
- * Accessible: listbox role, keyboard nav, ARIA.
+ * Pass `@field={{field}}` from `UlxField` (or `@key`, `@ariaDescribedBy`, `@ariaErrorMessage` from the yield hash).
+ * Accessible: combobox + listbox roles, keyboard nav, ARIA.
  *
  * @class UlxDropdown
  * @param {any} [value] - Selected value (controlled).
@@ -61,6 +62,7 @@ const DROPDOWN_PANEL_POSITION_BOTTOM = "bottom";
  * @param {boolean} [showClear=false] - Show clear icon when value is set.
  * @param {boolean} [checkmark=false] - Show checkmark on selected item.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
+ * @param {string} [filterAriaLabel] - Accessible name for the panel filter input (defaults to `lbl.a11y.dropdown.filter`).
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
@@ -75,6 +77,7 @@ const DROPDOWN_PANEL_POSITION_BOTTOM = "bottom";
  * @param {'auto'|'top'|'bottom'} [position='auto'] - Panel placement relative to the trigger. `auto` picks above/below on first open and keeps that side until the overlay closes (filtering does not re-flip); `top` always opens above; `bottom` always opens below.
  * @param {string} [dataQa] - Root `data-qa` override for automation (default `ulx-dropdown`).
  * @param {string} [filterDataQa] - `data-qa` on the panel filter input when `@filter` is true (default `ulx-dropdown-filter`).
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
  * @param {string} [id] - Id for the trigger (for label `for` / ARIA).
  * @param {string} [key] - When `@id` is omitted, used as the trigger id (e.g. `@key={{field.key}}` with `UlxField`).
  * @param {string} [ariaDescribedBy] - `aria-describedby` ids (e.g. from `UlxField` control hash).
@@ -114,11 +117,22 @@ export default class UlxDropdown extends Component {
 	/** When `@position` is `auto`, locks above/below for the current open overlay session. */
 	lockedAutoPanelPlacement = null;
 
+	get fieldContext() {
+		const { field } = this.args;
+		return field && typeof field === "object" ? field : null;
+	}
+
 	get triggerId() {
 		const { id, key } = this.args;
 		if (typeof id === "string" && id.length) return id;
 		if (typeof key === "string" && key.length) return key;
+		const fieldKey = this.fieldContext?.key;
+		if (typeof fieldKey === "string" && fieldKey.length) return fieldKey;
 		return `ulx-dropdown-${guidFor(this)}`;
+	}
+
+	get listboxId() {
+		return `${this.triggerId}-listbox`;
 	}
 
 	get rootDataQa() {
@@ -148,7 +162,7 @@ export default class UlxDropdown extends Component {
 			size = "m-size",
 			customClass
 		} = this.args;
-		const invalid = isInvalidState(invalidArg, error);
+		const invalid = isInvalidState(invalidArg, error ?? this.fieldContext?.error);
 		const parts = [this.baseClass];
 		size && parts.push(size);
 		(disabled || loading) && parts.push("disabled");
@@ -188,7 +202,7 @@ export default class UlxDropdown extends Component {
 
 	get isInvalid() {
 		const { invalid, error } = this.args;
-		return isInvalidState(invalid, error);
+		return isInvalidState(invalid, error ?? this.fieldContext?.error);
 	}
 
 	get optionLabelKey() {
@@ -383,23 +397,34 @@ export default class UlxDropdown extends Component {
 	}
 
 	get ariaDescribedBy() {
-		return this.args.ariaDescribedBy;
+		const { ariaDescribedBy } = this.args;
+		return ariaDescribedBy ?? this.fieldContext?.describedBy;
 	}
 
 	get ariaErrorMessage() {
-		return this.args.ariaErrorMessage;
+		const { ariaErrorMessage } = this.args;
+		return ariaErrorMessage ?? this.fieldContext?.errorId;
+	}
+
+	get rules() {
+		const { rules: rulesArg } = this.args;
+		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
 	}
 
 	get isRequired() {
-		return !!this.args.required;
+		return !!this.args.required || isRulesRequired(this.rules);
 	}
 
 	get clearButtonAriaLabel() {
 		return t("lbl.clear.selection");
 	}
 
-	get openTriggerAriaLabel() {
-		return t("lbl.a11y.dropdown.open");
+	get filterInputAriaLabel() {
+		const { filterAriaLabel } = this.args;
+		if (typeof filterAriaLabel === "string" && filterAriaLabel.length) {
+			return filterAriaLabel;
+		}
+		return t("lbl.a11y.dropdown.filter");
 	}
 
 	get resolvedContext() {
@@ -419,17 +444,11 @@ export default class UlxDropdown extends Component {
 		const normalizedPosition =
 			typeof position === "string" ? position.trim().toLowerCase() : DROPDOWN_PANEL_POSITION_AUTO;
 
-		if (
-			normalizedPosition === DROPDOWN_PANEL_POSITION_TOP ||
-			normalizedPosition === "above"
-		) {
+		if (normalizedPosition === DROPDOWN_PANEL_POSITION_TOP || normalizedPosition === "above") {
 			return DROPDOWN_PANEL_POSITION_TOP;
 		}
 
-		if (
-			normalizedPosition === DROPDOWN_PANEL_POSITION_BOTTOM ||
-			normalizedPosition === "below"
-		) {
+		if (normalizedPosition === DROPDOWN_PANEL_POSITION_BOTTOM || normalizedPosition === "below") {
 			return DROPDOWN_PANEL_POSITION_BOTTOM;
 		}
 
@@ -465,8 +484,7 @@ export default class UlxDropdown extends Component {
 		}
 
 		const initialTop = targetRect.bottom + spacing;
-		const spaceBelow =
-			fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
+		const spaceBelow = fallbackBoundary.bottom - targetRect.bottom - spacing - viewportPadding;
 		const spaceAbove = targetRect.top - fallbackBoundary.top - spacing - viewportPadding;
 		const shouldPlaceAbove =
 			initialTop + menuHeight > fallbackBoundary.bottom && spaceAbove > spaceBelow;
@@ -478,123 +496,125 @@ export default class UlxDropdown extends Component {
 		return shouldPlaceAbove;
 	}
 
-	positionPanel = modifier((element, [when, triggerEl, panelPositionPreference, setPanelPosition]) => {
-		if (!when || !element) return;
+	positionPanel = modifier(
+		(element, [when, triggerEl, panelPositionPreference, setPanelPosition]) => {
+			if (!when || !element) return;
 
-		const alignPanelToTrigger = () => {
-			const trigger = this.triggerElement ?? triggerEl;
-			if (!trigger) return;
+			const alignPanelToTrigger = () => {
+				const trigger = this.triggerElement ?? triggerEl;
+				if (!trigger) return;
 
-			const resolvedContext = this.resolvedContext;
-			const triggerRect = trigger.getBoundingClientRect();
-			const coordinateApi = buildOverlayCoordinateApi(resolvedContext, element);
-			const targetRect = coordinateApi.fromViewportRect(triggerRect);
-			const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
-			const spacing = 2;
-			const viewportPadding = 10;
+				const resolvedContext = this.resolvedContext;
+				const triggerRect = trigger.getBoundingClientRect();
+				const coordinateApi = buildOverlayCoordinateApi(resolvedContext, element);
+				const targetRect = coordinateApi.fromViewportRect(triggerRect);
+				const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
+				const spacing = 2;
+				const viewportPadding = 10;
 
-			coordinateApi.applyPosition(element, targetRect.bottom + spacing, targetRect.left);
-			element.style.width = `${triggerRect.width}px`;
-			element.style.minWidth = `${triggerRect.width}px`;
-			element.style.maxWidth = `${triggerRect.width}px`;
-			const zIndex =
-				typeof this.args.zIndex === "number"
-					? this.args.zIndex
-					: resolvedContext === document.body
-						? getOverlayZIndexAboveMask(this.modalStack)
-						: 2;
-			element.style.setProperty("z-index", `${zIndex}`, "important");
-			element.style.margin = "0";
-			element.style.padding = "0";
+				coordinateApi.applyPosition(element, targetRect.bottom + spacing, targetRect.left);
+				element.style.width = `${triggerRect.width}px`;
+				element.style.minWidth = `${triggerRect.width}px`;
+				element.style.maxWidth = `${triggerRect.width}px`;
+				const zIndex =
+					typeof this.args.zIndex === "number"
+						? this.args.zIndex
+						: resolvedContext === document.body
+							? getOverlayZIndexAboveMask(this.modalStack)
+							: 2;
+				element.style.setProperty("z-index", `${zIndex}`, "important");
+				element.style.margin = "0";
+				element.style.padding = "0";
 
-			const menuWidth = element.offsetWidth || triggerRect.width;
-			const menuHeight = element.offsetHeight || 200;
-			const fallbackBoundary = boundaryRect ?? {
-				top: 0,
-				left: 0,
-				right: targetRect.left + menuWidth + viewportPadding,
-				bottom: targetRect.bottom + menuHeight + viewportPadding
+				const menuWidth = element.offsetWidth || triggerRect.width;
+				const menuHeight = element.offsetHeight || 200;
+				const fallbackBoundary = boundaryRect ?? {
+					top: 0,
+					left: 0,
+					right: targetRect.left + menuWidth + viewportPadding,
+					bottom: targetRect.bottom + menuHeight + viewportPadding
+				};
+
+				let top = targetRect.bottom + spacing;
+				let left = targetRect.left;
+				const leftPosition = targetRect.right - menuWidth;
+				const minLeft = fallbackBoundary.left + viewportPadding;
+				const maxLeft = fallbackBoundary.right - menuWidth - viewportPadding;
+
+				if (left + menuWidth > fallbackBoundary.right - viewportPadding) {
+					left = leftPosition >= minLeft ? leftPosition : maxLeft;
+				}
+				left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
+
+				const shouldPlaceAbove = this.resolveShouldPlaceAbove({
+					panelPositionPreference,
+					targetRect,
+					menuHeight,
+					fallbackBoundary,
+					spacing,
+					viewportPadding
+				});
+
+				if (shouldPlaceAbove) {
+					top = targetRect.top - menuHeight - spacing;
+					typeof setPanelPosition === "function" && setPanelPosition("above");
+				} else {
+					typeof setPanelPosition === "function" && setPanelPosition("below");
+				}
+
+				let minTop = fallbackBoundary.top + viewportPadding;
+				let maxTop = fallbackBoundary.bottom - menuHeight - viewportPadding;
+
+				const triggerOutTop = targetRect.bottom < fallbackBoundary.top + viewportPadding;
+				const triggerOutBottom = targetRect.top > fallbackBoundary.bottom - viewportPadding;
+
+				triggerOutTop && (minTop = Math.min(minTop, top));
+				triggerOutBottom && (maxTop = Math.max(maxTop, top));
+
+				// When the panel is portaled to body, let it move with the trigger instead of
+				// sticking to the viewport boundary once the trigger scrolls out of view.
+				if (coordinateApi.usesDocumentCoordinates) {
+					minTop = Math.min(minTop, -menuHeight);
+				}
+
+				top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
+
+				coordinateApi.applyPosition(element, top, left);
 			};
 
-			let top = targetRect.bottom + spacing;
-			let left = targetRect.left;
-			const leftPosition = targetRect.right - menuWidth;
-			const minLeft = fallbackBoundary.left + viewportPadding;
-			const maxLeft = fallbackBoundary.right - menuWidth - viewportPadding;
-
-			if (left + menuWidth > fallbackBoundary.right - viewportPadding) {
-				left = leftPosition >= minLeft ? leftPosition : maxLeft;
-			}
-			left = clampOverlayValue(left, minLeft, Math.max(minLeft, maxLeft));
-
-			const shouldPlaceAbove = this.resolveShouldPlaceAbove({
-				panelPositionPreference,
-				targetRect,
-				menuHeight,
-				fallbackBoundary,
-				spacing,
-				viewportPadding
+			schedule("afterRender", () => {
+				alignPanelToTrigger();
+				requestAnimationFrame(alignPanelToTrigger);
 			});
 
-			if (shouldPlaceAbove) {
-				top = targetRect.top - menuHeight - spacing;
-				typeof setPanelPosition === "function" && setPanelPosition("above");
-			} else {
-				typeof setPanelPosition === "function" && setPanelPosition("below");
-			}
+			const onResize = () => {
+				if (this.overlayVisible) alignPanelToTrigger();
+			};
+			const shouldTrackScroll = this.resolvedContext != null;
+			const scrollTarget = this.resolvedScrollContext;
+			const onScroll = () => {
+				if (this.overlayVisible) alignPanelToTrigger();
+			};
+			window.addEventListener("resize", onResize);
+			shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
 
-			let minTop = fallbackBoundary.top + viewportPadding;
-			let maxTop = fallbackBoundary.bottom - menuHeight - viewportPadding;
+			const resizeObserver =
+				typeof ResizeObserver !== "undefined"
+					? new ResizeObserver(() => {
+							if (!this.overlayVisible) return;
+							requestAnimationFrame(alignPanelToTrigger);
+						})
+					: null;
 
-			const triggerOutTop = targetRect.bottom < fallbackBoundary.top + viewportPadding;
-			const triggerOutBottom = targetRect.top > fallbackBoundary.bottom - viewportPadding;
+			resizeObserver?.observe(element);
 
-			triggerOutTop && (minTop = Math.min(minTop, top));
-			triggerOutBottom && (maxTop = Math.max(maxTop, top));
-
-			// When the panel is portaled to body, let it move with the trigger instead of
-			// sticking to the viewport boundary once the trigger scrolls out of view.
-			if (coordinateApi.usesDocumentCoordinates) {
-				minTop = Math.min(minTop, -menuHeight);
-			}
-
-			top = clampOverlayValue(top, minTop, Math.max(minTop, maxTop));
-
-			coordinateApi.applyPosition(element, top, left);
-		};
-
-		schedule("afterRender", () => {
-			alignPanelToTrigger();
-			requestAnimationFrame(alignPanelToTrigger);
-		});
-
-		const onResize = () => {
-			if (this.overlayVisible) alignPanelToTrigger();
-		};
-		const shouldTrackScroll = this.resolvedContext != null;
-		const scrollTarget = this.resolvedScrollContext;
-		const onScroll = () => {
-			if (this.overlayVisible) alignPanelToTrigger();
-		};
-		window.addEventListener("resize", onResize);
-		shouldTrackScroll && scrollTarget?.addEventListener?.("scroll", onScroll);
-
-		const resizeObserver =
-			typeof ResizeObserver !== "undefined"
-				? new ResizeObserver(() => {
-						if (!this.overlayVisible) return;
-						requestAnimationFrame(alignPanelToTrigger);
-					})
-				: null;
-
-		resizeObserver?.observe(element);
-
-		return () => {
-			window.removeEventListener("resize", onResize);
-			shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
-			resizeObserver?.disconnect();
-		};
-	});
+			return () => {
+				window.removeEventListener("resize", onResize);
+				shouldTrackScroll && scrollTarget?.removeEventListener?.("scroll", onScroll);
+				resizeObserver?.disconnect();
+			};
+		}
+	);
 
 	triggerRef = modifier((element) => {
 		this.triggerElement = element;
@@ -671,6 +691,198 @@ export default class UlxDropdown extends Component {
 			}
 		}
 		return acc;
+	}
+
+	getFocusedOptionElement() {
+		if (this.focusedOptionIndex < 0) return null;
+		return document.getElementById(`${this.triggerId}-item-${this.focusedOptionIndex}`);
+	}
+
+	getOptionIndexFromElement(optionElement) {
+		const optionId = optionElement?.id ?? "";
+		const idPrefix = `${this.triggerId}-item-`;
+		if (!optionId.startsWith(idPrefix)) return -1;
+		return Number.parseInt(optionId.slice(idPrefix.length), 10);
+	}
+
+	getOptionItemForElement(element) {
+		return element?.closest?.('li[role="option"]') ?? null;
+	}
+
+	getOptionActionButtons(optionElement = this.getFocusedOptionElement()) {
+		if (!optionElement) return [];
+		const actionsContainer = optionElement.querySelector(".dropdown-item-actions");
+		if (!actionsContainer) return [];
+
+		return Array.from(actionsContainer.querySelectorAll("button, a[href]")).filter((element) => {
+			if (element.disabled || element.getAttribute("aria-disabled") === "true") return false;
+			if (element.getAttribute("aria-hidden") === "true") return false;
+			return element.tabIndex >= 0;
+		});
+	}
+
+	resolveActiveActionControl(activeElement = document.activeElement) {
+		const actionsContainer = activeElement?.closest?.(".dropdown-item-actions");
+		if (!actionsContainer) return null;
+		const optionElement = actionsContainer.closest('li[role="option"]');
+		const actionButtons = this.getOptionActionButtons(optionElement);
+		const directMatch = actionButtons.find(
+			(button) => button === activeElement || button.contains(activeElement)
+		);
+		return directMatch ?? null;
+	}
+
+	isFocusInOptionActions() {
+		return !!this.resolveActiveActionControl();
+	}
+
+	/** Panel buttons/inputs (item actions, footer controls) must keep native Enter/Space activation. */
+	isFocusInInteractivePanelControl() {
+		const activeElement = document.activeElement;
+		const panel = this.panelElement;
+		if (!activeElement || !panel?.contains(activeElement)) return false;
+		if (this.isFocusInOptionActions()) return true;
+
+		return !!activeElement.matches?.(
+			"button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [role='button']:not([aria-disabled='true'])"
+		);
+	}
+
+	isComboboxFocused() {
+		if (this.isFocusInOptionActions()) return false;
+		const triggerElement = document.getElementById(this.triggerId);
+		const activeElement = document.activeElement;
+		return (
+			!!triggerElement &&
+			(activeElement === triggerElement || triggerElement.contains(activeElement))
+		);
+	}
+
+	shouldSkipTriggerArrowNavigation() {
+		if (this.isFocusInOptionActions()) return true;
+		const activeElement = document.activeElement;
+		const triggerElement = document.getElementById(this.triggerId);
+		if (!activeElement || !triggerElement || !this.panelElement) return false;
+		if (activeElement === triggerElement) return false;
+		return this.panelElement.contains(activeElement);
+	}
+
+	syncFocusedOptionIndexFromElement(optionElement) {
+		const optionIndex = this.getOptionIndexFromElement(optionElement);
+		if (optionIndex >= 0) {
+			this.focusedOptionIndex = optionIndex;
+			this.showOptionKeyboardFocusRing = true;
+		}
+	}
+
+	@action
+	tryFocusOptionActions(options = {}) {
+		const { forward = true, fromElement = document.activeElement } = options;
+		let optionElement = this.getOptionItemForElement(fromElement);
+		if (!optionElement) optionElement = this.getFocusedOptionElement();
+		const actionButtons = this.getOptionActionButtons(optionElement);
+		if (!actionButtons.length) return false;
+		this.syncFocusedOptionIndexFromElement(optionElement);
+		this.showOptionKeyboardFocusRing = true;
+		const targetButton = forward ? actionButtons[0] : actionButtons[actionButtons.length - 1];
+		targetButton?.focus?.({ preventScroll: true });
+		return true;
+	}
+
+	@action
+	handleItemActionTab(event) {
+		const activeElement = document.activeElement;
+		const activeAction = this.resolveActiveActionControl(activeElement);
+
+		if (activeAction) {
+			const optionElement = this.getOptionItemForElement(activeAction);
+			const actionButtons = this.getOptionActionButtons(optionElement);
+			const actionButtonIndex = actionButtons.indexOf(activeAction);
+			if (actionButtonIndex < 0) return false;
+
+			this.syncFocusedOptionIndexFromElement(optionElement);
+			event.preventDefault();
+
+			if (event.shiftKey) {
+				if (actionButtonIndex === 0) {
+					this.ensureComboboxControlFocused();
+				} else {
+					actionButtons[actionButtonIndex - 1]?.focus?.({ preventScroll: true });
+				}
+				return true;
+			}
+
+			if (actionButtonIndex < actionButtons.length - 1) {
+				actionButtons[actionButtonIndex + 1]?.focus?.({ preventScroll: true });
+				return true;
+			}
+
+			this.closeOverlayAndMoveFocus({ backward: false, anchorElement: activeAction });
+			return true;
+		}
+
+		if (this.isComboboxFocused() && this.focusedOptionIndex >= 0) {
+			const actionButtons = this.getOptionActionButtons(this.getFocusedOptionElement());
+			if (!actionButtons.length) return false;
+			if (event.shiftKey) return false;
+
+			event.preventDefault();
+			this.showOptionKeyboardFocusRing = true;
+			actionButtons[0]?.focus?.({ preventScroll: true });
+			return true;
+		}
+
+		return false;
+	}
+
+	@action
+	handleItemActionHorizontalNavigation(event) {
+		const keyPressed = event.code || event.key;
+		const activeElement = document.activeElement;
+		const activeAction = this.resolveActiveActionControl(activeElement);
+		const optionElement =
+			this.getOptionItemForElement(activeAction) ?? this.getFocusedOptionElement();
+		const actionButtons = this.getOptionActionButtons(optionElement);
+		const actionButtonIndex = activeAction ? actionButtons.indexOf(activeAction) : -1;
+
+		if (keyPressed === "ArrowRight") {
+			if (actionButtonIndex >= 0 && actionButtonIndex < actionButtons.length - 1) {
+				event.preventDefault();
+				actionButtons[actionButtonIndex + 1]?.focus?.({ preventScroll: true });
+				return true;
+			}
+			if (actionButtonIndex < 0 && this.tryFocusOptionActions({ fromElement: activeElement })) {
+				event.preventDefault();
+				return true;
+			}
+		}
+
+		if (keyPressed === "ArrowLeft") {
+			if (actionButtonIndex > 0) {
+				event.preventDefault();
+				actionButtons[actionButtonIndex - 1]?.focus?.({ preventScroll: true });
+				return true;
+			}
+			if (actionButtonIndex === 0) {
+				event.preventDefault();
+				this.syncFocusedOptionIndexFromElement(optionElement);
+				this.ensureComboboxControlFocused();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@action
+	navigateOptionFocus(delta) {
+		const activeAction = this.resolveActiveActionControl();
+		if (activeAction) {
+			this.syncFocusedOptionIndexFromElement(this.getOptionItemForElement(activeAction));
+		}
+		this.moveFocus(delta);
+		this.showOptionKeyboardFocusRing = true;
+		this.ensureComboboxControlFocused();
 	}
 
 	focusFilterInput() {
@@ -773,24 +985,52 @@ export default class UlxDropdown extends Component {
 		return document.getElementById(this.triggerId) ?? this.triggerElement;
 	}
 
+	getNextFocusableOutsidePanel(anchorElement, options = {}) {
+		const { backward = false } = options;
+		if (!anchorElement) return null;
+
+		const panelRoot = this.panelElement;
+		const allFocusables = getFocusableElements(document.body);
+		const anchorIndex = allFocusables.indexOf(anchorElement);
+
+		if (anchorIndex >= 0) {
+			const delta = backward ? -1 : 1;
+			for (
+				let index = anchorIndex + delta;
+				index >= 0 && index < allFocusables.length;
+				index += delta
+			) {
+				const candidate = allFocusables[index];
+				if (!panelRoot?.contains(candidate)) return candidate;
+			}
+		}
+
+		return getAdjacentFocusableInDocument(this.getTriggerFocusableAnchor({ backward }), {
+			backward,
+			excludeContaining: panelRoot ?? undefined
+		});
+	}
+
 	@action
 	closeOverlayAndMoveFocus(options = {}) {
-		const { backward = false } = options;
-		const anchorElement = this.getTriggerFocusableAnchor({ backward });
-		const focusableElements = getFocusableElements(document.body).filter(
-			(element) => !this.panelElement?.contains(element)
-		);
-		const anchorIndex = anchorElement ? focusableElements.indexOf(anchorElement) : -1;
-		const targetIndex = anchorIndex + (backward ? -1 : 1);
-		const nextFocusableElement = focusableElements[targetIndex];
+		const { backward = false, anchorElement = null } = options;
+		const focusAnchor = anchorElement ?? this.getTriggerFocusableAnchor({ backward });
+		const nextFocusableElement = anchorElement
+			? this.getNextFocusableOutsidePanel(focusAnchor, { backward })
+			: getAdjacentFocusableInDocument(focusAnchor, {
+					backward,
+					excludeContaining: this.panelElement ?? undefined
+				});
 
 		this.closeOverlay();
 
-		if (!nextFocusableElement) return;
-
 		schedule("afterRender", () => {
 			requestAnimationFrame(() => {
-				nextFocusableElement?.focus?.({ preventScroll: true });
+				if (nextFocusableElement) {
+					nextFocusableElement.focus?.({ preventScroll: true });
+					return;
+				}
+				this.getTriggerFocusableAnchor({ backward })?.focus?.({ preventScroll: true });
 			});
 		});
 	}
@@ -880,6 +1120,7 @@ export default class UlxDropdown extends Component {
 			keyPressed === "Space"
 		) {
 			event.preventDefault();
+			event.stopPropagation();
 			this.clearSelection(event);
 		}
 	}
@@ -904,64 +1145,61 @@ export default class UlxDropdown extends Component {
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
-			this.moveFocus(1);
-			this.focusFocusedItem();
+			this.navigateOptionFocus(1);
 		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
-			this.moveFocus(-1);
-			this.focusFocusedItem();
+			this.navigateOptionFocus(-1);
+		} else if (keyPressed === "ArrowRight" || keyPressed === "ArrowLeft") {
+			if (this.handleItemActionHorizontalNavigation(event)) return;
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
+			if (this.isFocusInOptionActions()) return;
 			event.preventDefault();
 			this.selectFocusedOptionIfEnabled();
 		} else if (keyPressed === "Escape") {
 			event.preventDefault();
 			this.toggleOverlay();
 		} else if (keyPressed === "Tab") {
+			if (this.handleItemActionTab(event)) {
+				event.stopPropagation();
+				return;
+			}
 			event.preventDefault();
 			this.closeOverlayAndMoveFocus({ backward: event.shiftKey });
 		}
 	}
 
 	@action
-	focusFocusedItem() {
-		if (this.focusedOptionIndex < 0) return;
-		schedule("afterRender", () => {
-			requestAnimationFrame(() => {
-				const focusedOptionElement = document.getElementById(
-					`${this.triggerId}-item-${this.focusedOptionIndex}`
-				);
-				focusedOptionElement?.focus?.({ preventScroll: true });
-			});
-		});
-	}
-
-	@action
 	onTriggerKeydown(event) {
-		if (this.args.disabled) return;
+		if (this.isTriggerDisabled) return;
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "ArrowDown") {
+			if (this.shouldSkipTriggerArrowNavigation()) return;
 			event.preventDefault();
 			if (!this.overlayVisible) {
 				this.showOptionKeyboardFocusRing = true;
 				this.toggleOverlay();
 			} else {
-				this.moveFocus(1);
-				this.focusFocusedItem();
+				this.navigateOptionFocus(1);
 			}
 			return;
 		}
 		if (keyPressed === "ArrowUp") {
+			if (this.shouldSkipTriggerArrowNavigation()) return;
 			event.preventDefault();
 			if (this.overlayVisible) {
-				this.moveFocus(-1);
-				this.focusFocusedItem();
+				this.navigateOptionFocus(-1);
 			} else {
 				this.showOptionKeyboardFocusRing = true;
 				this.toggleOverlay();
 			}
 			return;
 		}
+		if (keyPressed === "ArrowRight" || keyPressed === "ArrowLeft") {
+			if (this.shouldSkipTriggerArrowNavigation()) return;
+			if (this.overlayVisible && this.handleItemActionHorizontalNavigation(event)) return;
+		}
 		if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
+			if (this.isFocusInInteractivePanelControl()) return;
 			event.preventDefault();
 			if (this.overlayVisible && this.focusedOptionIndex >= 0) {
 				this.selectFocusedOptionIfEnabled();
@@ -971,12 +1209,25 @@ export default class UlxDropdown extends Component {
 			}
 			return;
 		}
+		if (keyPressed === " " || keyPressed === "Space") {
+			if (this.isFocusInInteractivePanelControl()) return;
+			event.preventDefault();
+			if (!this.overlayVisible) {
+				this.showOptionKeyboardFocusRing = true;
+			}
+			this.toggleOverlay();
+			return;
+		}
 		if (keyPressed === "Escape") {
 			event.preventDefault();
 			if (this.overlayVisible) this.toggleOverlay();
 			return;
 		}
 		if (keyPressed === "Tab" && this.overlayVisible) {
+			if (this.handleItemActionTab(event)) {
+				event.stopPropagation();
+				return;
+			}
 			event.preventDefault();
 			this.closeOverlayAndMoveFocus({ backward: event.shiftKey });
 			return;
@@ -998,19 +1249,32 @@ export default class UlxDropdown extends Component {
 	onPanelKeydown(event) {
 		const keyPressed = event.code || event.key;
 		if (keyPressed === "Tab") {
+			if (this.handleItemActionTab(event)) {
+				event.stopPropagation();
+				return;
+			}
 			event.preventDefault();
 			this.closeOverlayAndMoveFocus({ backward: event.shiftKey });
 			return;
 		}
 		if (keyPressed === "ArrowDown") {
 			event.preventDefault();
-			this.moveFocus(1);
-			this.focusFocusedItem();
+			event.stopPropagation();
+			this.navigateOptionFocus(1);
 		} else if (keyPressed === "ArrowUp") {
 			event.preventDefault();
-			this.moveFocus(-1);
-			this.focusFocusedItem();
+			event.stopPropagation();
+			this.navigateOptionFocus(-1);
+		} else if (keyPressed === "ArrowRight" || keyPressed === "ArrowLeft") {
+			if (this.handleItemActionHorizontalNavigation(event)) {
+				event.stopPropagation();
+				return;
+			}
+		} else if (keyPressed === "Escape") {
+			event.preventDefault();
+			this.toggleOverlay();
 		} else if (keyPressed === "Enter" || keyPressed === "NumpadEnter") {
+			if (this.isFocusInOptionActions()) return;
 			event.preventDefault();
 			this.selectFocusedOptionIfEnabled();
 		}
@@ -1038,10 +1302,13 @@ export default class UlxDropdown extends Component {
 		return rows;
 	}
 
+	get ariaControls() {
+		return this.overlayVisible ? this.listboxId : undefined;
+	}
+
 	get activeDescendantId() {
-		return this.focusedOptionIndex >= 0
-			? `${this.triggerId}-item-${this.focusedOptionIndex}`
-			: undefined;
+		if (!this.overlayVisible || this.focusedOptionIndex < 0) return undefined;
+		return `${this.triggerId}-item-${this.focusedOptionIndex}`;
 	}
 
 	get scrollHeightValue() {
@@ -1055,16 +1322,20 @@ export default class UlxDropdown extends Component {
 
 	<template>
 		<div
+			id={{this.triggerId}}
 			class={{this.rootClasses}}
 			data-qa={{this.rootDataQa}}
 			role="combobox"
 			aria-haspopup="listbox"
 			aria-expanded={{this.overlayVisible}}
-			aria-controls="{{this.triggerId}}-listbox"
+			aria-controls={{this.ariaControls}}
+			aria-activedescendant={{this.activeDescendantId}}
 			aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
 			aria-required={{this.isRequired}}
 			aria-describedby={{this.ariaDescribedBy}}
 			aria-errormessage={{this.ariaErrorMessage}}
+			aria-disabled="{{this.isTriggerDisabled}}"
+			tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
 			{{this.triggerRef}}
 			{{overlayDismiss
 				this.overlayVisible
@@ -1075,6 +1346,9 @@ export default class UlxDropdown extends Component {
 			}}
 			{{on "pointerdown" this.onTriggerPointerIntent}}
 			{{on "click" this.toggleOverlay}}
+			{{on "keydown" this.onTriggerKeydown}}
+			{{on "focus" this.handleFocus}}
+			{{on "blur" this.handleBlur}}
 			...attributes
 		>
 			<div class="dropdown-input {{this.contentPlaceholderClass}}" tabindex="-1">
@@ -1101,7 +1375,11 @@ export default class UlxDropdown extends Component {
 					{{/if}}
 				{{/if}}
 			</div>
-			<div class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}">
+			<div
+				class="dropdown-trigger {{if this.isTriggerDisabled 'disabled' ''}}"
+				data-qa="ulx-dropdown-trigger"
+				tabindex="-1"
+			>
 				{{#if (and @showClear this.selectedOption (not this.isTriggerDisabled))}}
 					<UlxIcon
 						@type="font"
@@ -1116,54 +1394,29 @@ export default class UlxDropdown extends Component {
 					/>
 				{{/if}}
 				{{#if (and @loading)}}
-					<span
-						class="dropdown-loading-icon"
-						id={{this.triggerId}}
-						data-qa="ulx-dropdown-trigger"
-						role="button"
-						aria-disabled="true"
-						tabindex="-1"
-						aria-busy="true"
-					>
+					<span class="dropdown-loading-icon" aria-hidden="true" aria-busy="true">
 						<UlxProgressSpinner @size={{this.dropdownSize}} aria-hidden="true" />
 					</span>
 				{{else}}
 					{{#if (has-block "icon")}}
-						<span
-							id={{this.triggerId}}
-							data-qa="ulx-dropdown-trigger"
-							role="button"
-							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-							{{on "keydown" this.onTriggerKeydown}}
-							{{on "focus" this.handleFocus}}
-							{{on "blur" this.handleBlur}}
-						>
+						<span tabindex="-1">
 							{{yield (hash overlayVisible=this.overlayVisible) to="icon"}}
 						</span>
 					{{else}}
 						<UlxIcon
-							id={{this.triggerId}}
-							@dataQa="ulx-dropdown-trigger"
 							@iconName="down-stroke-icon-new dropdown-trigger-icon"
 							@type="font"
 							@componentClass="bs-icons1"
-							@ariaLabel={{this.openTriggerAriaLabel}}
-							role="button"
-							tabindex={{if (not this.isTriggerDisabled) "0" "-1"}}
-							{{on "keydown" this.onTriggerKeydown}}
-							{{on "focus" this.handleFocus}}
-							{{on "blur" this.handleBlur}}
+							aria-hidden="true"
 						/>
 					{{/if}}
 				{{/if}}
 			</div>
 			{{#if this.overlayVisible}}
 				<div
-					id="{{this.triggerId}}-listbox"
+					id={{this.listboxId}}
 					data-qa="ulx-dropdown-panel"
 					class="dropdown-panel {{if (eq this.panelPosition 'above') 'dropdown-panel-above'}}"
-					role="listbox"
-					aria-activedescendant={{this.activeDescendantId}}
 					aria-hidden="false"
 					{{this.panelRef}}
 					{{overlayPortal this.overlayVisible this.resolvedContext}}
@@ -1174,7 +1427,7 @@ export default class UlxDropdown extends Component {
 						(fn this.setPanelPosition)
 					}}
 					{{on "pointerdown" this.onOptionPanelPointerIntent}}
-					{{on "keydown" this.onPanelKeydown}}
+					{{on "keydown" this.onPanelKeydown capture=true}}
 					{{on "click" this.stopPanelClick}}
 				>
 					{{#if this.shouldShowFilter}}
@@ -1192,6 +1445,7 @@ export default class UlxDropdown extends Component {
 								data-qa={{this.filterInputDataQa}}
 								value={{this.filterValue}}
 								placeholder={{this.filterPlaceholderLabel}}
+								aria-label={{this.filterInputAriaLabel}}
 								{{on "input" this.onFilterInput}}
 								{{on "keydown" this.onFilterKeydown}}
 								{{on "keypress" this.stopFilterKeyEventPropagation}}
@@ -1211,19 +1465,21 @@ export default class UlxDropdown extends Component {
 					>
 						<ul class="dropdown-list" role="listbox" data-qa="ulx-dropdown-list">
 							{{#if (eq this.visibleOptions.length 0)}}
-								<li class="dropdown-empty-message" role="option" data-qa="ulx-dropdown-empty">
-									{{or
-										(and this.shouldShowFilter @emptyFilterMessage)
-										@emptyMessage
-										(t "label.no.results.found")
-									}}
+								<li class="dropdown-empty-message" role="presentation" data-qa="ulx-dropdown-empty">
+									<span role="status">
+										{{or
+											(and this.shouldShowFilter @emptyFilterMessage)
+											@emptyMessage
+											(t "label.no.results.found")
+										}}
+									</span>
 								</li>
 							{{else if this.hasGroups}}
 								{{#each this.optionListWithGroups as |row|}}
 									{{#if (eq row.type "group")}}
 										{{#if (or row.label row.group.imageUrl row.group.icon (has-block "group"))}}
 											<li
-												class="dropdown-item-group"
+												class="dropdown-item-header"
 												role="presentation"
 												aria-hidden="true"
 												data-qa="ulx-dropdown-group"
@@ -1231,30 +1487,27 @@ export default class UlxDropdown extends Component {
 												{{#if (has-block "group")}}
 													{{yield (hash label=row.label group=row.group) to="group"}}
 												{{else}}
-													<span>
-														<div class="flex items-center">
-															{{#if row.group.imageUrl}}
-																<img
-																	src={{row.group.imageUrl}}
-																	alt={{row.label}}
-																	class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
-																	style="width: 18px;"
-																	aria-hidden="true"
+													<div class="dropdown-group-title">
+														{{#if row.group.imageUrl}}
+															<img
+																src={{row.group.imageUrl}}
+																alt={{row.label}}
+																class={{concat "mr-2 flag " (this.getFlagClass row.group.code)}}
+																aria-hidden="true"
+															/>
+														{{/if}}
+														{{#if row.group.icon}}
+															<span aria-hidden="true">
+																<UlxIcon
+																	@type="font"
+																	@iconName={{row.group.icon}}
+																	@componentClass="bs-icons1"
+																	@size="s24"
 																/>
-															{{/if}}
-															{{#if row.group.icon}}
-																<span aria-hidden="true">
-																	<UlxIcon
-																		@type="font"
-																		@iconName={{row.group.icon}}
-																		@componentClass="bs-icons1"
-																		@size="s24"
-																	/>
-																</span>
-															{{/if}}
-															<div>{{row.label}}</div>
-														</div>
-													</span>
+															</span>
+														{{/if}}
+														<span>{{row.label}}</span>
+													</div>
 												{{/if}}
 											</li>
 										{{/if}}
@@ -1282,19 +1535,17 @@ export default class UlxDropdown extends Component {
 												{{on "click" (fn this.selectOption row.entry)}}
 											>
 												{{#if (has-block "item")}}
-													<span>
-														<div class="flex items-center">
-															{{yield
-																(hash
-																	option=option
-																	label=(this.getOptionLabel option)
-																	index=row.flatIndex
-																	imageUrl=(this.getOptionImageUrl option)
-																)
-																to="item"
-															}}
-														</div>
-													</span>
+													<div class="flex items-center">
+														{{yield
+															(hash
+																option=option
+																label=(this.getOptionLabel option)
+																index=row.flatIndex
+																imageUrl=(this.getOptionImageUrl option)
+															)
+															to="item"
+														}}
+													</div>
 												{{else}}
 													<span
 														class="dropdown-item-label

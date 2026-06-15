@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { UlxForm, UlxInput, UlxField, UlxButton } from 'ulx-components';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NAME_MAX_LEN = 20;
 
 export default class Demo extends Component {
   @tracked name = '';
@@ -12,6 +13,19 @@ export default class Demo extends Component {
   @tracked emailError = '';
   @tracked submitted = false;
 
+  get nameRules() {
+    return {
+      required: true,
+      maxLength: {
+        value: NAME_MAX_LEN,
+      },
+    };
+  }
+
+  get requiredRules() {
+    return { required: true };
+  }
+
   validateName(value) {
     const trimmed = value?.trim() ?? '';
 
@@ -19,7 +33,7 @@ export default class Demo extends Component {
       return 'This field is required.';
     }
 
-    if (trimmed.length < 3 || trimmed.length > 20) {
+    if (trimmed.length < 3 || trimmed.length > NAME_MAX_LEN) {
       return 'Use 3–20 characters. Letters and numbers only.';
     }
 
@@ -83,6 +97,9 @@ export default class Demo extends Component {
           @label="Name"
           @tooltipMessage="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout"
           @helpText="Use 3–20 characters. Letters and numbers only."
+          @rules={{this.nameRules}}
+          @showCharacterCount={{true}}
+          @value={{this.name}}
           @fieldId="input-basic-name"
           @fieldClass="col-6"
           @error={{this.nameError}}

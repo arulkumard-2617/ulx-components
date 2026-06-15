@@ -359,7 +359,7 @@ export default class UlxDateRangePicker extends Component {
 					...attributes
 				/>
 				{{#if @showIcon}}
-					<span class="inputgroup-addon button-addon">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-toggle
 							@type="button"
@@ -370,7 +370,7 @@ export default class UlxDateRangePicker extends Component {
 					</span>
 				{{/if}}
 				{{#if @showClearButton}}
-					<span class="inputgroup-addon button-addon">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-clear
 							@type="button"
