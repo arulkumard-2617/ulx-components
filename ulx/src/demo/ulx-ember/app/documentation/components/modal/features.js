@@ -13,6 +13,7 @@ import {
   StackedDemo,
   ConfirmationServiceDemo,
   ConfirmationServiceContentDemo,
+  FooterAlignmentDemo,
   ImportSource,
   BasicSource,
   PositionSource,
@@ -23,7 +24,8 @@ import {
   WithoutoverlaySource,
   StackedSource,
   ConfirmationServiceSource,
-  ConfirmationServiceContentSource
+  ConfirmationServiceContentSource,
+  FooterAlignmentSource
 } from './imports';
 
 export const ModalFeatureItems = [
@@ -223,6 +225,26 @@ export const ModalFeatureItems = [
       props: {
         source: ConfirmationServiceContentSource,
         snippetName: 'confirmation-service-content',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'footer-alignment',
+    sectionNav: 'Footer alignment',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@alignment</code> to control footer action placement: <code>start</code>, <code>center</code>, <code>end</code>, or <code>space-between</code>. Works with the default footer and with a custom <code>:footer</code> block.'
+      }
+    },
+    demo: {
+      component: FooterAlignmentDemo,
+      props: {
+        source: FooterAlignmentSource,
+        snippetName: 'footer-alignment',
         language: 'handlebars'
       }
     }
