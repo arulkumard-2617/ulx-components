@@ -1,7 +1,10 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import { on } from "@ember/modifier";
 import { NAMESPACE } from "../../utils/component-config";
+import and from "ember-truth-helpers/helpers/and";
+import { hash } from "@ember/helper";
 import {
 	buildInputClass,
 	getConstraintValue,
@@ -27,6 +30,12 @@ import {
  * @param {function} [onBlur] - Invoked on native blur with `(value, event)`.
  */
 export default class UlxTextarea extends Component {
+	@tracked _textContent;
+
+	get textContent() {
+		return this._textContent ?? this.args.value ?? "";
+	}
+
 	get rules() {
 		const { rules: rulesArg } = this.args;
 		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
@@ -127,6 +136,7 @@ export default class UlxTextarea extends Component {
 
 	@action
 	handleInput(event) {
+		this._textContent = event.target.value;
 		this.args.onInput?.(event.target.value, event);
 	}
 
@@ -145,7 +155,18 @@ export default class UlxTextarea extends Component {
 		this.args.onBlur?.(event.target.value, event);
 	}
 
+	@action
+	updateContent(newValue) {
+		const value = newValue ?? "";
+		this._textContent = value;
+		this.args.onInput?.(value);
+		this.args.onChange?.(value);
+	}
+
 	<template>
+		{{#if (and @showZiaButton (has-block "ziaButton"))}}
+			{{yield (hash textContent=this.textContent updateContent=this.updateContent) to="ziaButton"}}
+		{{/if}}
 		<textarea
 			id={{this.textareaId}}
 			class={{this.textareaClass}}
