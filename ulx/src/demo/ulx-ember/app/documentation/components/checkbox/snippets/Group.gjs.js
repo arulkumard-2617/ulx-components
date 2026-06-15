@@ -30,6 +30,7 @@ export default class GroupDemoComponent extends Component {
         @error={{this.error}}
         @fieldClass="col-12"
         @fieldId="checkbox-group"
+        @labelFor={{false}}
         as |field|
       >
         <UlxCheckbox

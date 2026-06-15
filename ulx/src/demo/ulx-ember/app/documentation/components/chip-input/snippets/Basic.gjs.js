@@ -30,6 +30,7 @@ export default class DemoChipInputBasic extends Component {
             @field={{field}}
             @chips={{this.chips}}
             @onChipsChange={{this.updateChips}}
+            @size="l-size"
             @placeholder="Add city…"
           />
         </UlxField>

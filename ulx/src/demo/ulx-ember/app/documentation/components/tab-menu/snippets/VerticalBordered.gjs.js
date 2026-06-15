@@ -17,7 +17,7 @@ export default class VerticalBorderedTabMenuDemo extends Component {
       { label: 'Participants' },
       { label: 'Questions' },
       { label: 'Feedback' },
-      { label: 'Chat' },
+      { label: 'Chat' }
     ];
   }
 
@@ -27,7 +27,7 @@ export default class VerticalBorderedTabMenuDemo extends Component {
   }
 
   <template>
-    <div class="w-250">
+    <div class="w-252">
       <UlxTabmenu
         @items={{this.items}}
         @activeIndex={{this.activeIndex}}

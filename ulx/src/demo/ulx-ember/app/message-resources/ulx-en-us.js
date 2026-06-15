@@ -126,6 +126,8 @@ const ulxEnUsMessages = {
   'lbl.a11y.datepicker.nextMonth': 'Go to next month',
   'lbl.a11y.datepicker.previousMonth': 'Go to previous month',
   'lbl.a11y.dropdown.open': 'Open options',
+  'lbl.a11y.dropdown.filter': 'Filter options',
+  'lbl.a11y.multiselect.filter': 'Filter options',
   'lbl.a11y.field.moreInformation': 'More information',
   'lbl.a11y.chipInput.addChip': 'Add chip',
   'lbl.a11y.chipInput.remove': 'Remove {chip}',

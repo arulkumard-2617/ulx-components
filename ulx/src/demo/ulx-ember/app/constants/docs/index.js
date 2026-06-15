@@ -413,6 +413,11 @@ export const DocNavItems = [
         menuItem: 'Page',
         to: '/templates/page',
         route: 'templates.page'
+      },
+      {
+        menuItem: 'Settings',
+        to: '/templates/settings',
+        route: 'templates.settings'
       }
     ]
   }

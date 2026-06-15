@@ -103,7 +103,7 @@
       "./components/ulx-checkbox/index.js": "./dist/_app_/components/ulx-checkbox/index.js",
       "./components/ulx-chip-input/index.js": "./dist/_app_/components/ulx-chip-input/index.js",
       "./components/ulx-chip/index.js": "./dist/_app_/components/ulx-chip/index.js",
-			"./components/ulx-confirmation-modal/index.js": "./dist/_app_/components/ulx-confirmation-modal/index.js",
+      "./components/ulx-confirmation-modal/index.js": "./dist/_app_/components/ulx-confirmation-modal/index.js",
       "./components/ulx-data-view/index.js": "./dist/_app_/components/ulx-data-view/index.js",
       "./components/ulx-date-picker/index.js": "./dist/_app_/components/ulx-date-picker/index.js",
       "./components/ulx-date-range-picker/index.js": "./dist/_app_/components/ulx-date-range-picker/index.js",
@@ -194,15 +194,17 @@
       "./components/ulx-tristate-checkbox/index.js": "./dist/_app_/components/ulx-tristate-checkbox/index.js",
       "./instance-initializers/sortable-plugins.js": "./dist/_app_/instance-initializers/sortable-plugins.js",
       "./modifiers/append-to-body.js": "./dist/_app_/modifiers/append-to-body.js",
+      "./modifiers/checkbox-indeterminate.js": "./dist/_app_/modifiers/checkbox-indeterminate.js",
       "./modifiers/flatpickr.js": "./dist/_app_/modifiers/flatpickr.js",
       "./modifiers/overlay-dismiss.js": "./dist/_app_/modifiers/overlay-dismiss.js",
       "./modifiers/overlay-lifecycle.js": "./dist/_app_/modifiers/overlay-lifecycle.js",
       "./modifiers/overlay-portal.js": "./dist/_app_/modifiers/overlay-portal.js",
       "./modifiers/overlay-scroll-close.js": "./dist/_app_/modifiers/overlay-scroll-close.js",
       "./modifiers/sortable.js": "./dist/_app_/modifiers/sortable.js",
+      "./modifiers/textarea-resize-y.js": "./dist/_app_/modifiers/textarea-resize-y.js",
       "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
       "./services/accessibility.js": "./dist/_app_/services/accessibility.js",
-			"./services/modal-manager.js": "./dist/_app_/services/modal-manager.js",
+      "./services/modal-manager.js": "./dist/_app_/services/modal-manager.js",
       "./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
     }
   }
