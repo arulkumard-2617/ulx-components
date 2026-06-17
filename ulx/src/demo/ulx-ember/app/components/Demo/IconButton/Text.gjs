@@ -3,47 +3,40 @@ import { UlxIconButton } from 'ulx-components';
 
 export default class DemoIconButtonText extends Component {
   <template>
-    <div class="flex gap-3 align-items-center flex-wrap">
+    <div class="flex gap-5 align-items-center flex-wrap">
       <UlxIconButton
         @label="Basic"
         @iconLeft="ls-tick-icon"
-        @variant="basic"
+        @size="compact"
+        @variant="basic on-hover"
         @text={{true}}
       />
       <UlxIconButton
         @label="Primary"
         @iconLeft="ls-tick-icon"
+        @size="compact on-hover"
         @text={{true}}
       />
       <UlxIconButton
         @label="Secondary"
         @iconLeft="ls-tick-icon"
-        @variant="secondary"
         @text={{true}}
+        @size="compact"
+        @variant="secondary on-hover"
       />
       <UlxIconButton
         @label="Success"
         @iconLeft="ls-tick-icon"
-        @variant="success"
         @text={{true}}
-      />
-      <UlxIconButton
-        @label="Info"
-        @iconLeft="ls-tick-icon"
-        @variant="info"
-        @text={{true}}
-      />
-      <UlxIconButton
-        @label="Warning"
-        @iconLeft="ls-tick-icon"
-        @variant="warning"
-        @text={{true}}
+        @variant="success on-hover"
+        @size="compact"
       />
       <UlxIconButton
         @label="Danger"
         @iconLeft="ls-tick-icon"
-        @variant="danger"
         @text={{true}}
+        @variant="danger on-hover"
+        @size="compact"
       />
     </div>
   </template>

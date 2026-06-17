@@ -5,19 +5,15 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
   VariantsDemo,
-  TypesDemo,
-  SizesDemo,
-  TemplateDemo,
   GroupDemo,
+  TemplateDemo,
   DisabledDemo,
   ImportSource,
   BasicSource,
   VariantsSource,
-  TypesSource,
-  SizesSource,
-  TemplateSource,
   GroupSource,
-  DisabledSource,
+  TemplateSource,
+  DisabledSource
 } from './imports';
 
 export const BadgeButtonFeatureItems = [
@@ -29,13 +25,13 @@ export const BadgeButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Import the <code>UlxBadgeButton</code> component from <code>ulx-components</code>.',
-      },
+          'Import the <code>UlxBadgeButton</code> component from <code>ulx-components</code>.'
+      }
     },
     demo: {
       component: null,
-      props: { source: ImportSource, snippetName: 'import', language: 'jsx' },
-    },
+      props: { source: ImportSource, snippetName: 'import', language: 'jsx' }
+    }
   },
   {
     id: 'basic',
@@ -45,97 +41,37 @@ export const BadgeButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'BadgeButton displays a label with a badge using <code>@badge</code>, <code>@badgeVariant</code>, and <code>@badgeSize</code>.',
-      },
+          'The <code>Basic</code> demo shows a default badge button with a label and count.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'variants',
-    sectionNav: 'Variant',
+    sectionNav: 'Variants',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Use <code>@badgeVariant</code> for badge color: primary, secondary, success, info, warning, and danger.',
-      },
+          'Use <code>@badgeVariant</code> for badge color: primary, secondary, success, info, warning, and danger.'
+      }
     },
     demo: {
       component: VariantsDemo,
       props: {
         source: VariantsSource,
         snippetName: 'variants',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'types',
-    sectionNav: 'Type',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use <code>@badgeType</code> for circle, square, or dot badge shapes.',
-      },
-    },
-    demo: {
-      component: TypesDemo,
-      props: {
-        source: TypesSource,
-        snippetName: 'types',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'sizes',
-    sectionNav: 'Sizes',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use <code>@badgeSize</code> for xs-size, s-size, m-size, l-size, or xl-size badges.',
-      },
-    },
-    demo: {
-      component: SizesDemo,
-      props: {
-        source: SizesSource,
-        snippetName: 'sizes',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'template',
-    sectionNav: 'Template',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use the <code>&lt;:prefix&gt;</code> block for custom content such as icons. Icon-only badge buttons should include <code>aria-label</code>.',
-      },
-    },
-    demo: {
-      component: TemplateDemo,
-      props: {
-        source: TemplateSource,
-        snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'group',
@@ -145,17 +81,37 @@ export const BadgeButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Badge buttons can be grouped with <code>UlxButtonGroup</code> for toolbar-style layouts.',
-      },
+          'Badge buttons can be grouped with <code>UlxButtonGroup</code> for toolbar-style layouts.'
+      }
     },
     demo: {
       component: GroupDemo,
       props: {
         source: GroupSource,
         snippetName: 'group',
-        language: 'handlebars',
-      },
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'template',
+    sectionNav: 'Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use the <code>&lt;:prefix&gt;</code> block for custom content such as icons. Icon-only badge buttons should include <code>aria-label</code>.'
+      }
     },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: 'template',
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'disabled',
@@ -164,18 +120,19 @@ export const BadgeButtonFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'Set <code>@disabled={{true}}</code> to disable the badge button.',
-      },
+        content:
+          'Set <code>@disabled={{true}}</code> to disable the badge button.'
+      }
     },
     demo: {
       component: DisabledDemo,
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function BadgeButtonFeatures() {

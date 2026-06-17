@@ -5,6 +5,12 @@ export default class DemoIconButtonPilled extends Component {
   <template>
     <div class="flex gap-5 align-items-center flex-wrap">
       <UlxIconButton
+        @label="Basic"
+        @iconLeft="ls-tick-icon"
+        @pilled={{true}}
+        @variant="basic"
+      />
+      <UlxIconButton
         @label="Primary"
         @iconLeft="ls-tick-icon"
         @pilled={{true}}
@@ -20,18 +26,6 @@ export default class DemoIconButtonPilled extends Component {
         @iconLeft="ls-tick-icon"
         @pilled={{true}}
         @variant="success"
-      />
-      <UlxIconButton
-        @label="Info"
-        @iconLeft="ls-tick-icon"
-        @pilled={{true}}
-        @variant="info"
-      />
-      <UlxIconButton
-        @label="Warning"
-        @iconLeft="ls-tick-icon"
-        @pilled={{true}}
-        @variant="warning"
       />
       <UlxIconButton
         @label="Danger"

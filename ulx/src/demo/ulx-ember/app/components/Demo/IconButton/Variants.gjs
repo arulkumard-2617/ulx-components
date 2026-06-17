@@ -25,21 +25,6 @@ export default class DemoIconButtonVariants extends Component {
         @variant="success"
       />
       <UlxIconButton
-        @label="Info"
-        @iconLeft="ls-tick-icon"
-        @variant="info"
-      />
-      <UlxIconButton
-        @label="Warning"
-        @iconLeft="ls-tick-icon"
-        @variant="warning"
-      />
-      <UlxIconButton
-        @label="Help"
-        @iconLeft="ls-tick-icon"
-        @variant="help-button"
-      />
-      <UlxIconButton
         @label="Danger"
         @iconLeft="ls-tick-icon"
         @variant="danger"

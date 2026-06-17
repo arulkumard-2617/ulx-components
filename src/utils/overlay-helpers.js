@@ -269,19 +269,18 @@ export function applyBodyAbsoluteFromViewport(containerElement, topViewport, lef
 	containerElement.style.margin = '0';
 }
 
-/** Default z-index for overlays when no modal stack or no top modal. */
+/** Default z-index for overlays when no modal stack service is available. */
 const DEFAULT_OVERLAY_Z_INDEX = 2100;
 
 /**
- * Returns a z-index guaranteed to be above the dialog mask, for use by overlays
- * (toast, popup, dropdown panel, etc.) that render in body. Centralizes the fallback.
+ * Stack z-index for body-portaled overlays (popup, dropdown panel, toast, etc.).
+ * Uses the same +10 stack as modals and slide panes via `ModalStackService`.
  *
  * @param {Object} [modalStack] - Modal stack service (optional)
- * @param {Object} [instance] - Optional overlay instance; when provided, used for stacking order (e.g. popup, tieredmenu). When omitted, uses topModal (e.g. toast, dropdown panel).
+ * @param {Object} [instance] - Registered overlay instance (popup, tieredmenu); when omitted, one step above `topModal` (dropdown, toast).
  * @returns {number}
  */
 export function getOverlayZIndexAboveMask(modalStack, instance) {
-	//for popup and dropdown the instance will be passed
 	return modalStack?.getZIndexAboveMask?.(instance) ?? DEFAULT_OVERLAY_Z_INDEX;
 }
 
