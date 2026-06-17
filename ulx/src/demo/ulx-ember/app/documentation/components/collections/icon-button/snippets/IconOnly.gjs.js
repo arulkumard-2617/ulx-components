@@ -6,10 +6,8 @@ const ICON_ONLY_ROW = [
   { icon: 'ls-tick-icon', variant: 'primary', ariaLabel: 'Filter' },
   { icon: 'comment-icon', variant: 'secondary', ariaLabel: 'Bookmark' },
   { icon: 'search-icon', variant: 'success', ariaLabel: 'Search' },
-  { icon: 'close-icon-01', variant: 'info', ariaLabel: 'User' },
-  { icon: 'delete-icon', variant: 'warning', ariaLabel: 'Notification' },
-  { icon: 'ls-tick-icon', variant: 'help-button', ariaLabel: 'Favorite' },
-  { icon: 'close-icon-01', variant: 'danger', ariaLabel: 'Cancel' },
+  { icon: 'close-icon-01', variant: 'basic', ariaLabel: 'User' },
+  { icon: 'delete-icon', variant: 'danger', ariaLabel: 'Cancel' },
 ];
 
 export default class DemoIconButtonIconOnly extends Component {
@@ -62,6 +60,23 @@ export default class DemoIconButtonIconOnly extends Component {
             aria-label={{item.ariaLabel}}
           />
         {{/each}}
+      </div>
+
+      <div class="bg-primary p-4 rounded flex flex-col gap-4">
+        <span class="text-13 fg-white">White on primary — hover inverts to white fill, dark icon</span>
+        <div class="flex gap-3 align-items-center flex-wrap">
+          <UlxIconButton
+            @iconLeft="hamburger-icon"
+            @outlined={{true}}
+            @variant="white"
+            aria-label="Menu"
+          />
+          <UlxIconButton
+            @iconLeft="hamburger-icon"
+            @variant="white on-hover"
+            aria-label="Menu"
+          />
+        </div>
       </div>
     </div>
   </template>

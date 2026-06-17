@@ -8,6 +8,7 @@ import { UlxBadgeButton } from 'ulx-components';
       @badgeSize="xs-size"
       @disabled={{true}}
       @customClass="gap-1"
+      @badgeVariant="danger"
     />
   </div>
 </template>

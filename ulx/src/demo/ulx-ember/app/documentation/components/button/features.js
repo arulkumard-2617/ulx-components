@@ -5,31 +5,29 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  TypesDemo,
   VariantsDemo,
-  OutlinedDemo,
-  TextDemo,
   PilledDemo,
-  SizesDemo,
-  StatesDemo,
-  DisabledDemo,
+  OutlinedDemo,
   LinkDemo,
+  TextDemo,
   GroupDemo,
+  SizesDemo,
+  DisabledDemo,
+  StatesDemo,
   TemplateDemo,
 
   // Sources
   ImportSource,
   BasicSource,
-  TypesSource,
   VariantsSource,
-  OutlinedSource,
-  TextSource,
   PilledSource,
-  SizesSource,
-  StatesSource,
-  DisabledSource,
+  OutlinedSource,
   LinkSource,
+  TextSource,
   GroupSource,
+  SizesSource,
+  DisabledSource,
+  StatesSource,
   TemplateSource,
 } from './imports';
 
@@ -62,7 +60,7 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows basic usage of the Button component with different types.',
+          'The <code>Basic</code> demo shows a default primary button with a label.',
       },
     },
     demo: {
@@ -75,86 +73,6 @@ const ButtonFeatureItemsBase = [
     },
   },
   {
-    id: 'link',
-    sectionNav: 'Link',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Buttons can be rendered as anchor tags using <code>@href</code> for navigation purposes.',
-      },
-    },
-    demo: {
-      component: LinkDemo,
-      props: {
-        source: LinkSource,
-        snippetName: 'link',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'states',
-    sectionNav: 'Loading',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'A button shows a loading state when <code>@loading={{true}}</code>, displaying a spinner. You can also show loading while <code>@onClick</code> returns a Promise.',
-      },
-    },
-    demo: {
-      component: StatesDemo,
-      props: {
-        source: StatesSource,
-        snippetName: 'states',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'disabled',
-    sectionNav: 'Disabled',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'A button can be rendered with a disabled state when the <code>disabled</code> property is present. The <code>disabled</code> property can be used to specify the disabled state of the button.',
-      },
-    },
-    demo: {
-      component: DisabledDemo,
-      props: {
-        source: DisabledSource,
-        snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'types',
-    sectionNav: 'Types',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'The <code>Types</code> demo contrasts the default primary button with the <code>@pilled={{true}}</code> shape.',
-      },
-    },
-    demo: {
-      component: TypesDemo,
-      props: {
-        source: TypesSource,
-        snippetName: 'types',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
     id: 'variants',
     sectionNav: 'Variants',
     sectionDesc: {
@@ -162,7 +80,7 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Variants</code> demo shows semantic variants: basic, primary, secondary, success, info, warning, help-button, and danger.',
+          'The <code>Variants</code> demo shows semantic variants: basic, primary, secondary, success, and danger.',
       },
     },
     demo: {
@@ -195,26 +113,6 @@ const ButtonFeatureItemsBase = [
     },
   },
   {
-    id: 'text',
-    sectionNav: 'Text',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.',
-      },
-    },
-    demo: {
-      component: TextDemo,
-      props: {
-        source: TextSource,
-        snippetName: 'text',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
     id: 'outlined',
     sectionNav: 'Outlined',
     sectionDesc: {
@@ -230,6 +128,46 @@ const ButtonFeatureItemsBase = [
       props: {
         source: OutlinedSource,
         snippetName: 'outlined',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'link',
+    sectionNav: 'Link',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Buttons can be rendered as anchor tags using <code>@href</code> for navigation purposes.',
+      },
+    },
+    demo: {
+      component: LinkDemo,
+      props: {
+        source: LinkSource,
+        snippetName: 'link',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'text',
+    sectionNav: 'Text',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.',
+      },
+    },
+    demo: {
+      component: TextDemo,
+      props: {
+        source: TextSource,
+        snippetName: 'text',
         language: 'handlebars',
       },
     },
@@ -270,6 +208,46 @@ const ButtonFeatureItemsBase = [
       props: {
         source: SizesSource,
         snippetName: 'sizes',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'disabled',
+    sectionNav: 'Disabled',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'A button can be rendered with a disabled state when the <code>disabled</code> property is present. The <code>disabled</code> property can be used to specify the disabled state of the button.',
+      },
+    },
+    demo: {
+      component: DisabledDemo,
+      props: {
+        source: DisabledSource,
+        snippetName: 'disabled',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'states',
+    sectionNav: 'Loading',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'A button shows a loading state when <code>@loading={{true}}</code>, displaying a spinner. You can also show loading while <code>@onClick</code> returns a Promise.',
+      },
+    },
+    demo: {
+      component: StatesDemo,
+      props: {
+        source: StatesSource,
+        snippetName: 'states',
         language: 'handlebars',
       },
     },

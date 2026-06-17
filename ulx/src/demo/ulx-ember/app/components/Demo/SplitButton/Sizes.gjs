@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSplitButton, UlxToast, t } from 'ulx-components';
+import { UlxSplitButton, UlxToast } from 'ulx-components';
 
 export default class DemoSplitButtonSizes extends Component {
   @tracked messages = [];
@@ -52,7 +52,7 @@ export default class DemoSplitButtonSizes extends Component {
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
       <div class="flex gap-3 items-center flex-wrap">
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconSize="s22"
           @items={{this.items}}
@@ -60,7 +60,7 @@ export default class DemoSplitButtonSizes extends Component {
           @size="s-size"
         />
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconSize="s22"
           @items={{this.items}}
@@ -68,7 +68,7 @@ export default class DemoSplitButtonSizes extends Component {
           @size="m-size"
         />
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconSize="s22"
           @items={{this.items}}

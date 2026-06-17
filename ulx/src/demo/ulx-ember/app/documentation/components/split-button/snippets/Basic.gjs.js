@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { modifier } from 'ember-modifier';
-import { UlxSplitButton, UlxToast, UlxPopup, t } from 'ulx-components';
+import { UlxSplitButton, UlxToast, UlxPopup } from 'ulx-components';
 
 export default class DemoSplitButtonBasic extends Component {
   @tracked messages = [];
@@ -108,7 +108,7 @@ export default class DemoSplitButtonBasic extends Component {
   <template>
     <div class="">
       <UlxSplitButton
-        @label={{t "lbl.save"}}
+        @label="Save"
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"
@@ -131,7 +131,7 @@ export default class DemoSplitButtonBasic extends Component {
         @onHide={{this.handlePopupHide}}
         @registerRef={{this.setPopupRef}}
         @cancelButtonLabel="Cancel"
-        @doneButtonLabel={{t "lbl.save"}}
+        @doneButtonLabel="Save"
         @onCancel={{this.handlePopupHide}}
         @onDone={{this.confirmSave}}
       >

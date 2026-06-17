@@ -5,18 +5,14 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
   VariantsDemo,
-  TypesDemo,
-  SizesDemo,
-  TemplateDemo,
   GroupDemo,
+  TemplateDemo,
   DisabledDemo,
   ImportSource,
   BasicSource,
   VariantsSource,
-  TypesSource,
-  SizesSource,
-  TemplateSource,
   GroupSource,
+  TemplateSource,
   DisabledSource,
 } from './imports';
 
@@ -45,7 +41,7 @@ export const BadgeButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'BadgeButton displays a label with a badge using <code>@badge</code>, <code>@badgeVariant</code>, and <code>@badgeSize</code>.',
+          'The <code>Basic</code> demo shows a default badge button with a label and count.',
       },
     },
     demo: {
@@ -59,7 +55,7 @@ export const BadgeButtonFeatureItems = [
   },
   {
     id: 'variants',
-    sectionNav: 'Variant',
+    sectionNav: 'Variants',
     sectionDesc: {
       component: RichText,
       props: {
@@ -73,66 +69,6 @@ export const BadgeButtonFeatureItems = [
       props: {
         source: VariantsSource,
         snippetName: 'variants',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'types',
-    sectionNav: 'Type',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use <code>@badgeType</code> for circle, square, or dot badge shapes.',
-      },
-    },
-    demo: {
-      component: TypesDemo,
-      props: {
-        source: TypesSource,
-        snippetName: 'types',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'sizes',
-    sectionNav: 'Sizes',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use <code>@badgeSize</code> for xs-size, s-size, m-size, l-size, or xl-size badges.',
-      },
-    },
-    demo: {
-      component: SizesDemo,
-      props: {
-        source: SizesSource,
-        snippetName: 'sizes',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'template',
-    sectionNav: 'Template',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use the <code>&lt;:prefix&gt;</code> block for custom content such as icons. Icon-only badge buttons should include <code>aria-label</code>.',
-      },
-    },
-    demo: {
-      component: TemplateDemo,
-      props: {
-        source: TemplateSource,
-        snippetName: 'template',
         language: 'handlebars',
       },
     },
@@ -153,6 +89,26 @@ export const BadgeButtonFeatureItems = [
       props: {
         source: GroupSource,
         snippetName: 'group',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'template',
+    sectionNav: 'Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use the <code>&lt;:prefix&gt;</code> block for custom content such as icons. Icon-only badge buttons should include <code>aria-label</code>.',
+      },
+    },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: 'template',
         language: 'handlebars',
       },
     },

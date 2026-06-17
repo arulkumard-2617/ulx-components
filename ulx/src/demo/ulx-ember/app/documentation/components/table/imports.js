@@ -31,6 +31,7 @@ export { default as FilterPaneDemo }         from '../../../components/Demo/Tabl
 export { default as FilterPaneGroupedRadioDemo } from '../../../components/Demo/Table/FilterPaneGroupedRadio';
 export { default as BsTableViewDemo }        from '../../../components/Demo/Table/BsTableView';
 export { default as VerticalTableDemo }      from '../../../components/Demo/Table/VerticalTable';
+export { default as FooterDemo }             from '../../../components/Demo/Table/Footer';
 
 export { default as ImportSource }               from './snippets/Import.gjs';
 export { default as BasicSource }                from './snippets/Basic.gjs';
@@ -58,3 +59,4 @@ export { default as FilterPaneSource }           from './snippets/FilterPane.gjs
 export { default as FilterPaneGroupedRadioSource } from './snippets/FilterPaneGroupedRadio.gjs';
 export { default as BsTableViewSource }         from './snippets/BsTableView.gjs';
 export { default as VerticalTableSource }        from './snippets/VerticalTable.gjs';
+export { default as FooterSource }             from './snippets/Footer.gjs';

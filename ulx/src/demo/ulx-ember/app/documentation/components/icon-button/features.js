@@ -4,28 +4,28 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
+  VariantsDemo,
+  PilledDemo,
+  OutlinedDemo,
+  LinkDemo,
+  TextDemo,
+  SizesDemo,
   IconsDemo,
   IconOnlyDemo,
-  VariantsDemo,
-  OutlinedDemo,
-  TextDemo,
-  PilledDemo,
-  SizesDemo,
-  StatesDemo,
   DisabledDemo,
-  LinkDemo,
+  StatesDemo,
   ImportSource,
   BasicSource,
+  VariantsSource,
+  PilledSource,
+  OutlinedSource,
+  LinkSource,
+  TextSource,
+  SizesSource,
   IconsSource,
   IconOnlySource,
-  VariantsSource,
-  OutlinedSource,
-  TextSource,
-  PilledSource,
-  SizesSource,
-  StatesSource,
   DisabledSource,
-  LinkSource,
+  StatesSource,
 } from './imports';
 
 const IconButtonFeatureItemsBase = [
@@ -53,7 +53,7 @@ const IconButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'IconButton displays a label with an icon using <code>@iconLeft</code> and <code>@iconComponentClass</code>.',
+          'The <code>Basic</code> demo shows a default primary icon button with a label and left icon.',
       },
     },
     demo: {
@@ -61,6 +61,65 @@ const IconButtonFeatureItemsBase = [
       props: {
         source: BasicSource,
         snippetName: 'basic',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'variants',
+    sectionNav: 'Variants',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Variants</code> demo shows semantic variants: basic, primary, secondary, success, and danger.',
+      },
+    },
+    demo: {
+      component: VariantsDemo,
+      props: {
+        source: VariantsSource,
+        snippetName: 'variants',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'pilled',
+    sectionNav: 'Pilled',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content: 'Use <code>@pilled={{true}}</code> for a pill-shaped icon button.',
+      },
+    },
+    demo: {
+      component: PilledDemo,
+      props: {
+        source: PilledSource,
+        snippetName: 'pilled',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'outlined',
+    sectionNav: 'Outlined',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Outlined</code> variant displays buttons with a transparent background and colored border.',
+      },
+    },
+    demo: {
+      component: OutlinedDemo,
+      props: {
+        source: OutlinedSource,
+        snippetName: 'outlined',
         language: 'handlebars',
       },
     },
@@ -81,6 +140,46 @@ const IconButtonFeatureItemsBase = [
       props: {
         source: LinkSource,
         snippetName: 'link',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'text',
+    sectionNav: 'Text',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.',
+      },
+    },
+    demo: {
+      component: TextDemo,
+      props: {
+        source: TextSource,
+        snippetName: 'text',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'sizes',
+    sectionNav: 'Sizes',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@size</code> for small (<code>s-size</code>), default, large (<code>l-size</code>), or extra large (<code>xl-size</code>).',
+      },
+    },
+    demo: {
+      component: SizesDemo,
+      props: {
+        source: SizesSource,
+        snippetName: 'sizes',
         language: 'handlebars',
       },
     },
@@ -126,26 +225,6 @@ const IconButtonFeatureItemsBase = [
     },
   },
   {
-    id: 'states',
-    sectionNav: 'Loading',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'When <code>@loading={{true}}</code>, IconButton shows a spinner in the icon affix area.',
-      },
-    },
-    demo: {
-      component: StatesDemo,
-      props: {
-        source: StatesSource,
-        snippetName: 'states',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
     id: 'disabled',
     sectionNav: 'Disabled',
     sectionDesc: {
@@ -166,100 +245,21 @@ const IconButtonFeatureItemsBase = [
     },
   },
   {
-    id: 'variants',
-    sectionNav: 'Variant',
+    id: 'states',
+    sectionNav: 'Loading',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Variant defines semantic styles: basic, primary, secondary, success, info, warning, help-button, and danger.',
+          'When <code>@loading={{true}}</code>, IconButton shows a spinner in the icon affix area.',
       },
     },
     demo: {
-      component: VariantsDemo,
+      component: StatesDemo,
       props: {
-        source: VariantsSource,
-        snippetName: 'variants',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'pilled',
-    sectionNav: 'Pilled',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content: 'Use <code>@pilled={{true}}</code> for a pill-shaped icon button.',
-      },
-    },
-    demo: {
-      component: PilledDemo,
-      props: {
-        source: PilledSource,
-        snippetName: 'pilled',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'text',
-    sectionNav: 'Text',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Text variant displays with a transparent background. Use <code>@text={{true}}</code>.',
-      },
-    },
-    demo: {
-      component: TextDemo,
-      props: {
-        source: TextSource,
-        snippetName: 'text',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'outlined',
-    sectionNav: 'Outlined',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Outlined buttons display a border without a filled background. Use <code>@outlined={{true}}</code>.',
-      },
-    },
-    demo: {
-      component: OutlinedDemo,
-      props: {
-        source: OutlinedSource,
-        snippetName: 'outlined',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'sizes',
-    sectionNav: 'Sizes',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content:
-          'Use <code>@size</code> for small (<code>s-size</code>), default, large (<code>l-size</code>), or extra large (<code>xl-size</code>).',
-      },
-    },
-    demo: {
-      component: SizesDemo,
-      props: {
-        source: SizesSource,
-        snippetName: 'sizes',
+        source: StatesSource,
+        snippetName: 'states',
         language: 'handlebars',
       },
     },

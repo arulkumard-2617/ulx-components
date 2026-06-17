@@ -7,7 +7,7 @@ export default class DemoBadgeButtonTemplate extends Component {
       <UlxBadgeButton
         @badge={{2}}
         @badgeType="circle"
-        @badgeSize="xs-size"
+        @badgeSize="xxs-size"
         @customClass="highlighted icon-only"
         aria-label="Filter"
       >
@@ -24,7 +24,7 @@ export default class DemoBadgeButtonTemplate extends Component {
       <UlxBadgeButton
         @badge={{4}}
         @badgeVariant="danger"
-        @badgeSize="xs-size"
+        @badgeSize="xxs-size"
         @customClass="icon-only"
         aria-label="Notifications"
       >
