@@ -21,7 +21,7 @@ import {
   DisabledSource,
   LoadingSource,
   TemplateSource,
-  IconsSource,
+  IconsSource
 } from './imports';
 
 export const SplitButtonFeatureItems = [
@@ -33,13 +33,13 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Import the <code>UlxSplitButton</code> component from <code>ulx-components</code>.',
-      },
+          'Import the <code>UlxSplitButton</code> component from <code>ulx-components</code>.'
+      }
     },
     demo: {
       component: null,
-      props: { source: ImportSource, snippetName: 'import', language: 'jsx' },
-    },
+      props: { source: ImportSource, snippetName: 'import', language: 'jsx' }
+    }
   },
   {
     id: 'basic',
@@ -49,17 +49,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows a default primary split button with a main action and dropdown menu.',
-      },
+          'The <code>Basic</code> demo shows a default primary split button with a main action and dropdown menu.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'variants',
@@ -69,17 +69,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Variants</code> demo shows semantic variants: primary, secondary, success, and danger.',
-      },
+          'The <code>Variants</code> demo shows semantic variants: primary, secondary, success, and danger.'
+      }
     },
     demo: {
       component: VariantsDemo,
       props: {
         source: VariantsSource,
         snippetName: 'variants',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'outlined',
@@ -89,17 +89,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Outlined</code> variant displays buttons with a transparent background and colored border.',
-      },
+          'The <code>Outlined</code> variant displays buttons with a transparent background and colored border.'
+      }
     },
     demo: {
       component: OutlinedDemo,
       props: {
         source: OutlinedSource,
         snippetName: 'outlined',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'text',
@@ -109,17 +109,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.',
-      },
+          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.'
+      }
     },
     demo: {
       component: TextDemo,
       props: {
         source: TextSource,
         snippetName: 'text',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'sizes',
@@ -129,17 +129,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@size</code> for small (<code>s-size</code>), default, or large (<code>l-size</code>).',
-      },
+          'Use <code>@size</code> for small (<code>s-size</code>), default, or large (<code>l-size</code>).'
+      }
     },
     demo: {
       component: SizesDemo,
       props: {
         source: SizesSource,
         snippetName: 'sizes',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'disabled',
@@ -149,17 +149,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'When <code>@disabled</code> is true, both the main button and dropdown are disabled.',
-      },
+          'When <code>@disabled</code> is true, both the main button and dropdown are disabled.'
+      }
     },
     demo: {
       component: DisabledDemo,
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'loading',
@@ -169,17 +169,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'When the main action returns a Promise from <code>@onClick</code>, the main button shows a loading state until the promise settles.',
-      },
+          'When the main action returns a Promise from <code>@onClick</code>, the main button shows a loading state until the promise settles.'
+      }
     },
     demo: {
       component: LoadingDemo,
       props: {
         source: LoadingSource,
         snippetName: 'loading',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'template',
@@ -189,17 +189,17 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@label</code> and <code>@icon</code> to define the main button content.',
-      },
+          'Use <code>@label</code> and <code>@icon</code> to define the main button content.'
+      }
     },
     demo: {
       component: TemplateDemo,
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'icons',
@@ -209,18 +209,18 @@ export const SplitButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@icon</code> for the main button and <code>@dropdownIcon</code> for the dropdown trigger icon.',
-      },
+          'Use <code>@icon</code> for the main button and <code>@dropdownIcon</code> for the dropdown trigger icon.'
+      }
     },
     demo: {
       component: IconsDemo,
       props: {
         source: IconsSource,
         snippetName: 'icons',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function SplitButtonFeatures() {

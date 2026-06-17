@@ -28,7 +28,7 @@ import {
   SizesSource,
   DisabledSource,
   StatesSource,
-  TemplateSource,
+  TemplateSource
 } from './imports';
 
 const ButtonFeatureItemsBase = [
@@ -40,17 +40,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>import</code> property is used to import the <code>Button</code> component.',
-      },
+          'The <code>import</code> property is used to import the <code>Button</code> component.'
+      }
     },
     demo: {
       component: null, // Import section doesn't need demo
       props: {
         source: ImportSource,
         snippetName: 'import',
-        language: 'jsx',
-      },
-    },
+        language: 'jsx'
+      }
+    }
   },
   {
     id: 'basic',
@@ -60,17 +60,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Basic</code> demo shows a default primary button with a label.',
-      },
+          'The <code>Basic</code> demo shows a default primary button with a label.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'variants',
@@ -80,17 +80,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Variants</code> demo shows semantic variants: basic, primary, secondary, success, and danger.',
-      },
+          'The <code>Variants</code> demo shows semantic variants: basic, primary, secondary, success, and danger.'
+      }
     },
     demo: {
       component: VariantsDemo,
       props: {
         source: VariantsSource,
         snippetName: 'variants',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'pilled',
@@ -100,17 +100,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'Use <code>@pilled={{true}}</code> for a pill-shaped button across semantic variants.',
-      },
+          'Use <code>@pilled={{true}}</code> for a pill-shaped button across semantic variants.'
+      }
     },
     demo: {
       component: PilledDemo,
       props: {
         source: PilledSource,
         snippetName: 'pilled',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'outlined',
@@ -120,17 +120,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Outlined</code> variant displays buttons with a transparent background and colored border.',
-      },
+          'The <code>Outlined</code> variant displays buttons with a transparent background and colored border.'
+      }
     },
     demo: {
       component: OutlinedDemo,
       props: {
         source: OutlinedSource,
         snippetName: 'outlined',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'link',
@@ -140,17 +140,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'Buttons can be rendered as anchor tags using <code>@href</code> for navigation purposes.',
-      },
+          'Buttons can be rendered as anchor tags using <code>@href</code> for navigation purposes.'
+      }
     },
     demo: {
       component: LinkDemo,
       props: {
         source: LinkSource,
         snippetName: 'link',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'text',
@@ -160,17 +160,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.',
-      },
+          'The <code>Text</code> variant displays buttons with a transparent background, suitable for less prominent actions.'
+      }
     },
     demo: {
       component: TextDemo,
       props: {
         source: TextSource,
         snippetName: 'text',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'group',
@@ -180,17 +180,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'A button can be rendered in a group when wrapped in <code>UlxButtonGroup</code>. Use <code>@orientation</code> for horizontal or vertical layout and <code>@size</code> for button size.',
-      },
+          'A button can be rendered in a group when wrapped in <code>UlxButtonGroup</code>. Use <code>@orientation</code> for horizontal or vertical layout and <code>@size</code> for button size.'
+      }
     },
     demo: {
       component: GroupDemo,
       props: {
         source: GroupSource,
         snippetName: 'group',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'sizes',
@@ -200,17 +200,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'The <code>Sizes</code> demo shows available button sizes: small, normal, and large.',
-      },
+          'The <code>Sizes</code> demo shows available button sizes: small, normal, and large.'
+      }
     },
     demo: {
       component: SizesDemo,
       props: {
         source: SizesSource,
         snippetName: 'sizes',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'disabled',
@@ -220,17 +220,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'A button can be rendered with a disabled state when the <code>disabled</code> property is present. The <code>disabled</code> property can be used to specify the disabled state of the button.',
-      },
+          'A button can be rendered with a disabled state when the <code>disabled</code> property is present. The <code>disabled</code> property can be used to specify the disabled state of the button.'
+      }
     },
     demo: {
       component: DisabledDemo,
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'states',
@@ -240,17 +240,17 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'A button shows a loading state when <code>@loading={{true}}</code>, displaying a spinner. You can also show loading while <code>@onClick</code> returns a Promise.',
-      },
+          'A button shows a loading state when <code>@loading={{true}}</code>, displaying a spinner. You can also show loading while <code>@onClick</code> returns a Promise.'
+      }
     },
     demo: {
       component: StatesDemo,
       props: {
         source: StatesSource,
         snippetName: 'states',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'template',
@@ -260,18 +260,18 @@ const ButtonFeatureItemsBase = [
       props: {
         as: 'span',
         content:
-          'A button can be rendered with custom content when content is passed as the default block. Use <code>@customClass</code> with ULS_V2.0 classes for styling and pass any markup (e.g. an image logo) inside the button.',
-      },
+          'A button can be rendered with custom content when content is passed as the default block. Use <code>@customClass</code> with ULS_V2.0 classes for styling and pass any markup (e.g. an image logo) inside the button.'
+      }
     },
     demo: {
       component: TemplateDemo,
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export const ButtonFeatureItems = ButtonFeatureItemsBase;
