@@ -7,7 +7,7 @@ const ICON_ONLY_ROW = [
   { icon: 'comment-icon', variant: 'secondary', ariaLabel: 'Bookmark' },
   { icon: 'search-icon', variant: 'success', ariaLabel: 'Search' },
   { icon: 'close-icon-01', variant: 'basic', ariaLabel: 'User' },
-  { icon: 'delete-icon', variant: 'danger', ariaLabel: 'Cancel' },
+  { icon: 'delete-icon', variant: 'danger', ariaLabel: 'Cancel' }
 ];
 
 export default class DemoIconButtonIconOnly extends Component {
@@ -62,8 +62,9 @@ export default class DemoIconButtonIconOnly extends Component {
         {{/each}}
       </div>
 
-      <div class="bg-primary p-4 rounded flex flex-col gap-4">
-        <span class="text-13 fg-white">White on primary — hover inverts to white fill, dark icon</span>
+      <div class="bg-primary p-4 rounded flex flex-col gap-4 w-400">
+        <span class="text-13 fg-white">White on primary — hover inverts to white
+          fill, dark icon</span>
         <div class="flex gap-3 align-items-center flex-wrap">
           <UlxIconButton
             @iconLeft="hamburger-icon"
@@ -75,6 +76,7 @@ export default class DemoIconButtonIconOnly extends Component {
             @iconLeft="hamburger-icon"
             @variant="white on-hover"
             aria-label="Menu"
+            @pilled={{true}}
           />
         </div>
       </div>

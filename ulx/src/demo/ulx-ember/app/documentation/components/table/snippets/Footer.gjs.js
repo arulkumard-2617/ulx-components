@@ -7,38 +7,38 @@ const PREMIUMS = [
     id: 1,
     name: 'Corner Booth Premium',
     type: 'Configuration-based',
-    price: 144100,
+    price: 144100
   },
   {
     id: 2,
     name: 'Table Premium',
     type: 'Manual',
-    price: 245100,
+    price: 245100
   },
   {
     id: 3,
     name: 'VIP Lounge Premium',
     type: 'Configuration-based',
-    price: 325000,
+    price: 325000
   },
   {
     id: 4,
     name: 'Stage Side Premium',
     type: 'Manual',
-    price: 189500,
+    price: 189500
   },
   {
     id: 5,
     name: 'Exhibitor Premium',
     type: 'Configuration-based',
-    price: 98000,
+    price: 98000
   },
   {
     id: 6,
     name: 'Networking Premium',
     type: 'Manual',
-    price: 75500,
-  },
+    price: 75500
+  }
 ];
 
 function formatInr(value, fractionDigits = 0) {
@@ -46,7 +46,7 @@ function formatInr(value, fractionDigits = 0) {
     style: 'currency',
     currency: 'INR',
     minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits
   }).format(value);
 }
 
@@ -69,15 +69,14 @@ export default class DemoTableFooter extends Component {
         field: 'name',
         header: 'Premium',
         body: PremiumNameCell,
-        footer: \`Premium Total: \${formatInr(this.premiumTotal, 2)}\`,
+        footer: \`Premium Total: \${formatInr(this.premiumTotal, 2)}\`
       },
       { field: 'type', header: 'Type' },
       {
         field: 'price',
         header: 'Price',
-        align: 'right',
-        body: PriceCell,
-      },
+        body: PriceCell
+      }
     ];
   }
 

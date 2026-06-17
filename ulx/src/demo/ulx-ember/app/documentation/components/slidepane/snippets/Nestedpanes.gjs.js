@@ -75,7 +75,7 @@ export default class NestedpanesDemoComponent extends Component {
       @title="Slide Pane 1"
       @onHide={{this.closePane1}}
       @position="right"
-      @size="m-size"
+      @size="xl-size"
       @onCancel={{this.closePane1}}
       @onDone={{this.closePane1}}
       @cancelButtonLabel="Cancel"

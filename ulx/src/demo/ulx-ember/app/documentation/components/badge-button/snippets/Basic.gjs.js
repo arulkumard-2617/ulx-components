@@ -5,8 +5,9 @@ import { UlxBadgeButton } from 'ulx-components';
   <UlxBadgeButton
     @label="Messages"
     @badge="2"
-    @badgeSize="xs-size"
+    @badgeSize="xxs-size"
     @customClass="gap-1"
+    @badgeVariant="danger"
   />
 </template>
 
