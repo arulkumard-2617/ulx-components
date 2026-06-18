@@ -13,6 +13,7 @@ export default class DocSidebarComponent extends Component {
   @service router;
 
   @tracked activeItem = null;
+  @tracked activeSections = {};
   @tracked searchQuery = '';
   contentRefs = {};
 
@@ -44,23 +45,54 @@ export default class DocSidebarComponent extends Component {
     }
   }
 
+  sectionKey(parentTitle, menuItem) {
+    return `${parentTitle}::${menuItem}`;
+  }
+
+  childHasActiveRoute(childItem, currentPath) {
+    if (childItem.items?.length) {
+      return childItem.items.some((subItem) =>
+        this.isRouteActive(subItem.to, currentPath)
+      );
+    }
+
+    if (childItem.children?.length) {
+      return childItem.children.some((subItem) =>
+        this.isRouteActive(subItem.to, currentPath)
+      );
+    }
+
+    return this.isRouteActive(childItem.to, currentPath);
+  }
+
   setInitialActiveItem() {
     const currentPath = this.currentPath || '';
+    const nextActiveSections = { ...this.activeSections };
 
     for (const item of DocNavItems) {
       if (!item.children?.length) continue;
 
-      const hasMatchingRoute = item.children.some((childItem) => {
-        if (childItem.items) {
-          return childItem.items.some((subItem) =>
-            this.isRouteActive(subItem.to, currentPath)
-          );
-        }
-        return this.isRouteActive(childItem.to, currentPath);
-      });
+      const hasMatchingRoute = item.children.some((childItem) =>
+        this.childHasActiveRoute(childItem, currentPath)
+      );
 
       if (hasMatchingRoute) {
         this.activeItem = item.menuTitle;
+
+        item.children.forEach((childItem) => {
+          if (childItem.children?.length) {
+            const sectionIsActive = childItem.children.some((subItem) =>
+              this.isRouteActive(subItem.to, currentPath)
+            );
+
+            if (sectionIsActive) {
+              nextActiveSections[this.sectionKey(item.menuTitle, childItem.menuItem)] =
+                true;
+            }
+          }
+        });
+
+        this.activeSections = nextActiveSections;
         return;
       }
     }
@@ -90,6 +122,15 @@ export default class DocSidebarComponent extends Component {
   }
 
   @action
+  toggleSection(parentTitle, menuItem) {
+    const key = this.sectionKey(parentTitle, menuItem);
+    this.activeSections = {
+      ...this.activeSections,
+      [key]: !this.activeSections[key],
+    };
+  }
+
+  @action
   handleToggle(event, menuTitle) {
     event.preventDefault();
     event.stopPropagation();
@@ -110,6 +151,12 @@ export default class DocSidebarComponent extends Component {
   setContentRef = modifier((element, [menuTitle]) => {
     if (element) {
       this.contentRefs[menuTitle] = element;
+    }
+  });
+
+  setNestedContentRef = modifier((element, [sectionKey]) => {
+    if (element) {
+      this.contentRefs[sectionKey] = element;
     }
   });
 
@@ -153,6 +200,33 @@ export default class DocSidebarComponent extends Component {
     return this.getContentStyle(menuTitle);
   };
 
+  isSectionExpanded = (parentTitle, childItem) => {
+    if (!childItem?.children?.length) return false;
+
+    const hasSearchQuery = (this.searchQuery ?? '').trim() !== '';
+    if (hasSearchQuery) return true;
+
+    const key = this.sectionKey(parentTitle, childItem.menuItem);
+    return !!this.activeSections[key];
+  };
+
+  getNestedSectionStyle = (parentTitle, childItem) => {
+    const key = this.sectionKey(parentTitle, childItem.menuItem);
+    const isExpanded = this.isSectionExpanded(parentTitle, childItem);
+    const element = this.contentRefs[key];
+
+    if (isExpanded && element) {
+      const height = element.scrollHeight;
+      return `max-height: ${height > 0 ? height : 500}px; overflow: hidden; transition: max-height 0.3s ease-in-out;`;
+    }
+
+    return 'max-height: 0px; overflow: hidden; transition: max-height 0.3s ease-in-out;';
+  };
+
+  hasNestedSectionChildren = (childItem) => {
+    return childItem?.children?.length > 0;
+  };
+
   get navItems() {
     return DocNavItems;
   }
@@ -194,6 +268,15 @@ export default class DocSidebarComponent extends Component {
           }
         }
       }
+
+      // Check nested sections (e.g. Template > Table > Price Breakdown)
+      if (child.children?.length) {
+        for (const subItem of child.children) {
+          if (subItem.route) {
+            return subItem.route;
+          }
+        }
+      }
     }
 
     return null;
@@ -204,6 +287,12 @@ export default class DocSidebarComponent extends Component {
       if (match(child.category)) return true;
       return child.items?.some((sub) => match(sub.menuItem));
     }
+
+    if (child.children?.length) {
+      if (match(child.menuItem)) return true;
+      return child.children.some((sub) => match(sub.menuItem));
+    }
+
     return match(child.menuItem);
   }
 
@@ -231,6 +320,17 @@ export default class DocSidebarComponent extends Component {
                 items: filteredItems.length ? filteredItems : child.items
               };
             }
+
+            if (child.children?.length) {
+              const filteredChildren = child.children.filter((sub) =>
+                match(sub.menuItem)
+              );
+              return {
+                ...child,
+                children: filteredChildren.length ? filteredChildren : child.children
+              };
+            }
+
             return child;
           });
         return { ...item, children: filteredChildren };
@@ -392,6 +492,48 @@ export default class DocSidebarComponent extends Component {
                               {{/each}}
                             </ol>
                           {{/if}}
+                        </li>
+                      {{else if (this.hasNestedSectionChildren childItem)}}
+                        <li data-a11y="focus">
+                          <button
+                            type="button"
+                            class="border-s ps-5 pt-2 pb-2 text-14 text-start w-full block fg-text medium-font flex items-center gap-2"
+                            {{on
+                              "click"
+                              (fn this.toggleSection item.menuTitle childItem.menuItem)
+                            }}
+                            aria-label={{concat "Toggle " childItem.menuItem " section"}}
+                          >
+                            <span>{{childItem.menuItem}}</span>
+                            <i
+                              class="menu-toggle-icon bs-icons1 down-arrow-icon s18 ms-auto
+                                {{if
+                                  (this.isSectionExpanded item.menuTitle childItem)
+                                  'rotate-180'
+                                  ''
+                                }}"
+                            ></i>
+                          </button>
+                          <div
+                            style={{this.getNestedSectionStyle item.menuTitle childItem}}
+                            {{this.setNestedContentRef
+                              (this.sectionKey item.menuTitle childItem.menuItem)
+                            }}
+                          >
+                            <ol class="p-0 m-0">
+                              {{#each childItem.children as |subItem|}}
+                                <li data-a11y="focus">
+                                  <LinkTo
+                                    @route={{subItem.route}}
+                                    @activeClass="border-primary fg-primary"
+                                    class="border-s ps-8 pt-2 pb-2 text-14 text-start w-full fg-text block"
+                                  >
+                                    {{subItem.menuItem}}
+                                  </LinkTo>
+                                </li>
+                              {{/each}}
+                            </ol>
+                          </div>
                         </li>
                       {{else}}
                         <li data-a11y="focus">

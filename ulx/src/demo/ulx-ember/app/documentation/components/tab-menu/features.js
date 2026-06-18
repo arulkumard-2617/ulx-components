@@ -13,6 +13,7 @@ import {
   CardTabsDemo,
   LabeledDemo,
   VerticalDemo,
+  VerticalBorderedDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -23,7 +24,8 @@ import {
   AccessibilitySource,
   CardTabsSource,
   LabeledSource,
-  VerticalSource
+  VerticalSource,
+  VerticalBorderedSource
 } from './imports';
 
 export const TabMenuFeatureItems = [
@@ -222,6 +224,26 @@ export const TabMenuFeatureItems = [
       props: {
         source: VerticalSource,
         snippetName: "vertical",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "vertical-bordered",
+    sectionNav: "Vertical Bordered",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Vertical Bordered</code> demo shows the <code>vertical</code> variant with a primary left accent on the active tab. Pass <code>@variant=\"vertical\"</code> and <code>@customClass=\"bordered\"</code> for side navigation with a divider and active indicator."
+      }
+    },
+    demo: {
+      component: VerticalBorderedDemo,
+      props: {
+        source: VerticalBorderedSource,
+        snippetName: "vertical-bordered",
         language: "handlebars"
       }
     }

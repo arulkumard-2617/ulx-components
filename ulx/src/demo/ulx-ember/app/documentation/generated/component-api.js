@@ -1947,6 +1947,133 @@ const componentApiRegistry = {
       }
     ]
   },
+  "chip-input": {
+    "componentName": "UlxChipInput",
+    "componentDirectory": "ulx-chip-input",
+    "sourcePath": "src/components/ulx-chip-input/index.gjs",
+    "params": [
+      {
+        "name": "chips",
+        "type": "string[]",
+        "required": false,
+        "defaultValue": "[]",
+        "hasDefaultValue": true,
+        "description": "Controlled list of current chip values.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "onChipsChange",
+        "type": "Function",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "Called with the updated chips array when chips are added or removed.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "Placeholder text for the text field.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "separator",
+        "type": "string|string[]",
+        "required": false,
+        "defaultValue": "[\"Enter\", \",\"]",
+        "hasDefaultValue": true,
+        "description": "Key(s) that commit the typed value as a chip. `\"Enter\"` on keydown; single printable characters on input.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "Maximum number of chips allowed. Adding beyond this is ignored.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "hasDefaultValue": true,
+        "description": "Disables the entire control.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "invalid",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "hasDefaultValue": true,
+        "description": "Applies invalid visual state.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "size",
+        "type": "string",
+        "required": false,
+        "defaultValue": "\"m-size\"",
+        "hasDefaultValue": true,
+        "description": "Size class applied to the root wrapper.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "customClass",
+        "type": "string",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "Extra CSS classes for the root wrapper.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "inputAriaLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "aria-label for the inner text field.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "ariaLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "Accessible name for the root role=\"group\" when the control needs a group label.",
+        "section": null,
+        "scope": "component"
+      },
+      {
+        "name": "dataQa",
+        "type": "string",
+        "required": false,
+        "defaultValue": null,
+        "hasDefaultValue": false,
+        "description": "Optional root data-qa attribute.",
+        "section": null,
+        "scope": "component"
+      }
+    ]
+  },
   "data-view": {
     "componentName": "UlxDataView",
     "componentDirectory": "ulx-data-view",

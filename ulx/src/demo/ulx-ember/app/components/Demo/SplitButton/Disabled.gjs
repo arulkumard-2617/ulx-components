@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { UlxSplitButton, t } from 'ulx-components';
+import { UlxSplitButton } from 'ulx-components';
 
 export default class DemoSplitButtonDisabled extends Component {
   get items() {
@@ -16,7 +16,7 @@ export default class DemoSplitButtonDisabled extends Component {
   <template>
     <div class="">
       <UlxSplitButton
-        @label={{t "lbl.save"}}
+        @label="Save"
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"

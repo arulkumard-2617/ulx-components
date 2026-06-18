@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { concat } from '@ember/helper';
 import { UlxForm, UlxFieldSet, UlxField, UlxChipInput } from 'ulx-components';
 
 const SIZES = [
@@ -44,64 +43,54 @@ export default class DemoChipInputSizes extends Component {
         @description="ChipInput matches UlxInput height across all size variants."
         @customClass="ulx-grid gap-6"
       >
-        <UlxField @label="xs-size" @fieldId="chip-xs" @fieldClass="col-12">
-          <:default>
-            <UlxChipInput
-              @chips={{this.chipsXs}}
-              @onChipsChange={{this.updateXs}}
-              @size="xs-size"
-              @placeholder="xs-size…"
-              aria-label="xs-size chips"
-            />
-          </:default>
+        <UlxField @label="xs-size" @fieldId="chip-xs" @fieldClass="col-12" as |field|>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chipsXs}}
+            @onChipsChange={{this.updateXs}}
+            @size="xs-size"
+            @placeholder="xs-size…"
+          />
         </UlxField>
 
-        <UlxField @label="s-size" @fieldId="chip-s" @fieldClass="col-12">
-          <:default>
-            <UlxChipInput
-              @chips={{this.chipsS}}
-              @onChipsChange={{this.updateS}}
-              @size="s-size"
-              @placeholder="s-size…"
-              aria-label="s-size chips"
-            />
-          </:default>
+        <UlxField @label="s-size" @fieldId="chip-s" @fieldClass="col-12" as |field|>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chipsS}}
+            @onChipsChange={{this.updateS}}
+            @size="s-size"
+            @placeholder="s-size…"
+          />
         </UlxField>
 
-        <UlxField @label="m-size" @fieldId="chip-m" @fieldClass="col-12">
-          <:default>
-            <UlxChipInput
-              @chips={{this.chipsM}}
-              @onChipsChange={{this.updateM}}
-              @size="m-size"
-              @placeholder="m-size…"
-              aria-label="m-size chips"
-            />
-          </:default>
+        <UlxField @label="m-size" @fieldId="chip-m" @fieldClass="col-12" as |field|>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chipsM}}
+            @onChipsChange={{this.updateM}}
+            @size="m-size"
+            @placeholder="m-size…"
+          />
         </UlxField>
 
-        <UlxField @label="l-size" @fieldId="chip-l" @fieldClass="col-12">
-          <:default>
-            <UlxChipInput
-              @chips={{this.chipsL}}
-              @onChipsChange={{this.updateL}}
-              @size="l-size"
-              @placeholder="l-size…"
-              aria-label="l-size chips"
-            />
-          </:default>
+        <UlxField @label="l-size" @fieldId="chip-l" @fieldClass="col-12" as |field|>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chipsL}}
+            @onChipsChange={{this.updateL}}
+            @size="l-size"
+            @placeholder="l-size…"
+          />
         </UlxField>
 
-        <UlxField @label="xl-size" @fieldId="chip-xl" @fieldClass="col-12">
-          <:default>
-            <UlxChipInput
-              @chips={{this.chipsXl}}
-              @onChipsChange={{this.updateXl}}
-              @size="xl-size"
-              @placeholder="xl-size…"
-              aria-label="xl-size chips"
-            />
-          </:default>
+        <UlxField @label="xl-size" @fieldId="chip-xl" @fieldClass="col-12" as |field|>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chipsXl}}
+            @onChipsChange={{this.updateXl}}
+            @size="xl-size"
+            @placeholder="xl-size…"
+          />
         </UlxField>
       </UlxFieldSet>
     </UlxForm>

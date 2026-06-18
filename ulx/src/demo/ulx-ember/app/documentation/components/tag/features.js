@@ -10,6 +10,7 @@ import {
   LightSoftColorsDemo,
   LayeredDemo,
   StatusLabelsDemo,
+  TrackLabelDemo,
   TypeDemo,
   SymbolDemo,
   SizeDemo,
@@ -21,6 +22,7 @@ import {
   LightSoftColorsSource,
   LayeredSource,
   StatusLabelsSource,
+  TrackLabelSource,
   TypeSource,
   SymbolSource,
   SizeSource
@@ -161,6 +163,26 @@ export const TagFeatureItems = [
       props: {
         source: StatusLabelsSource,
         snippetName: "status-labels",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "track-label",
+    sectionNav: "Track label",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Shows the <code>lt-track-label</code> variant with a leading dot. Set <code>--lt-track-bg-color</code> and <code>--track-bg-color</code> on the tag to customize light and dot colors per track."
+      }
+    },
+    demo: {
+      component: TrackLabelDemo,
+      props: {
+        source: TrackLabelSource,
+        snippetName: "track-label",
         language: "handlebars"
       }
     }

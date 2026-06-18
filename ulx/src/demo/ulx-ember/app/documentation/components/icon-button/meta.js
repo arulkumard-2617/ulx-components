@@ -11,7 +11,7 @@ export default {
 
   header: 'IconButton',
   subHeader:
-    'IconButton wraps UlxButton for icon placement with @iconLeft or @iconRight and an optional @label.',
+    'Icon-only or icon-with-label actions on UlxButton — toolbars, table rows, and compact controls.',
 
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },

@@ -12,6 +12,7 @@ Router.map(function () {
     this.route('quick-start');
     this.route('styles-and-theming');
     this.route('common-mistakes');
+    this.route('ai-guide');
     this.route('docs-walkthrough');
   });
 
@@ -80,5 +81,12 @@ Router.map(function () {
   this.route('utilities', function () {
     this.route('index');
     this.route('utility', { path: ':slug' });
+  });
+
+  this.route('templates', function () {
+    this.route('table');
+    this.route('card');
+    this.route('page');
+    this.route('settings');
   });
 });

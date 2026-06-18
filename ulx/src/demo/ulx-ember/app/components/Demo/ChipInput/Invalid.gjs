@@ -12,7 +12,7 @@ export default class DemoChipInputInvalid extends Component {
   }
 
   <template>
-    <UlxForm @size="m-size" >
+    <UlxForm @size="m-size">
       <UlxFieldSet
         @legend="Favourite Cities"
         @description="The chip input is in an invalid state."
@@ -23,16 +23,14 @@ export default class DemoChipInputInvalid extends Component {
           @fieldId="chip-input-invalid"
           @fieldClass="col-12"
           @error="Please add at least two cities."
+          as |field|
         >
-          <:default>
-            <UlxChipInput
-              @chips={{this.chips}}
-              @onChipsChange={{this.updateChips}}
-              @invalid={{true}}
-              @placeholder="Add city…"
-              aria-label="Cities invalid"
-            />
-          </:default>
+          <UlxChipInput
+            @field={{field}}
+            @chips={{this.chips}}
+            @onChipsChange={{this.updateChips}}
+            @placeholder="Add city…"
+          />
         </UlxField>
       </UlxFieldSet>
     </UlxForm>

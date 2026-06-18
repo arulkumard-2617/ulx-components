@@ -1,586 +1,295 @@
-// // table overrides here
-
-// // ==========================================================================
-// // FIXED CELL VARIANT
-// // ==========================================================================
-// // Fixed cell variant for sticky columns
-// .fixedcell-2() {
-// 	tr th:nth-child(1) {
-// 		+th {
-// 			left: @sticky-cell-width;
-// 		}
-// 	}
-
-// 	tr td:nth-child(1) {
-// 		+td {
-// 			left: @sticky-cell-width;
-// 		}
-// 	}
-// }
-
-// // ==========================================================================
-// // DATA TABLE COMPONENT
-// // ==========================================================================
-// // Data table component with tree view, sticky columns, and action support
-
-// .ulx-data-table {
-//     border: @1px solid @default-border-color;
-//     border-radius: @border-radius-md;
-//     position: relative;
-//     z-index: 2;
-
-//     // ==========================================================================
-//     // TREE TABLE VARIANT
-//     // ==========================================================================
-
-//     &.tree-table {
-//         tr {
-//             td.relative {
-//                 position: relative;
-//                 border-bottom: none;
-//                 border-top: none;
-
-//                 & ~ td {
-//                     border-bottom: none;
-//                     border-top: none;
-//                 }
-
-//                 // Right arrow icon for tree expansion
-//                 i.right-arrow-bounded-icon {
-//                     position: absolute;
-//                     inset-inline-start: @12px; // Use logical property for RTL
-//                     top: @24px;
-//                 }
-
-//                 // Tree border connector
-//                 .tree-bdr {
-//                     position: absolute;
-//                     top: -10%;
-//                     inset-inline-start: @18px; // Use logical property for RTL
-//                     height: 100%;
-
-//                     // Left border segment
-//                     .left-bdr {
-//                         position: absolute;
-//                         width: @20px;
-//                         height: 62%;
-//                         top: 0;
-//                         border-bottom-left-radius: @border-radius-lg; // 8px
-//                         background: 0 0;
-//                         border-bottom: @1px solid @primary-color;
-//                         border-inline-start: @1px solid @primary-color; // Use logical property for RTL
-//                     }
-
-//                     // Center border segment
-//                     .center-bdr {
-//                         position: absolute;
-//                         height: 100px; // If @100px doesn't exist, use 100px directly
-//                         top: -10%;
-//                         inset-inline-start: 0; // Use logical property for RTL
-//                         border-inline-start: @1px solid @primary-color; // Use logical property for RTL
-//                     }
-//                 }
-//             }
-//         }
-
-//         // Table header and cell borders
-//         th td {
-//             border-top: @1px solid @default-border-color;
-//         }
-
-//         tr td {
-//             border-top: @1px solid @default-border-color;
-//         }
-//     }
-
-//     // ==========================================================================
-//     // SCROLLABLE VARIANT
-//     // ==========================================================================
-
-//     &.scrollable {
-//         overflow-x: auto;
-//     }
-
-//     // ==========================================================================
-//     // DRAG VARIANT
-//     // ==========================================================================
-
-//     &.drag {
-//         th,
-//         td {
-//             &:first-child {
-//                 width: @32px;
-//             }
-//         }
-//     }
-
-//     // ==========================================================================
-//     // BORDER VARIANT
-//     // ==========================================================================
-
-//     &.bdr table {
-//         tr th,
-//         tr td {
-//             border-inline-end: @1px solid @default-border-color; // Use logical property for RTL
-
-//             &:last-child {
-//                 border-inline-end: 0; // Use logical property for RTL
-//             }
-//         }
-//     }
-
-//     // ==========================================================================
-//     // TABLE BASE STYLES
-//     // ==========================================================================
-
-//     table {
-//         border-collapse: collapse;
-//         width: 100%;
-//     }
-
-//     // ==========================================================================
-//     // TABLE HEADER STYLES
-//     // ==========================================================================
-
-//     th,
-//     ._th {
-//         background-color: @table-list-head-bg;
-//         color: @table-list-head-fg;
-//         font-family: @bold-font;
-//         font-size: @font-size-default; // default is 14px
-//         padding: @12px;
-//         vertical-align: middle;
-//         text-align: unset;
-
-//         .sort-action {
-//             margin-top: @2px;
-//         }
-
-//         // ==========================================================================
-//         // COLUMN WIDTH VARIANTS
-//         // ==========================================================================
-
-//         &.s40 {
-//             min-width: @40px;
-//             width: @40px;
-//         }
-
-//         &.s48 {
-//             min-width: @48px;
-//             width: @48px;
-//         }
-
-//         &.s56 {
-//             min-width: @56px;
-//             width: @56px;
-//         }
-
-//         &.s80 {
-//             min-width: @80px;
-//             width: @80px;
-//         }
-
-//         &.s100 {
-//             min-width: @100px;
-//             width: @100px;
-//         }
-
-//         &.s120 {
-//             min-width: @120px;
-//             width: @120px;
-//         }
-
-//         &.s140 {
-//             min-width: @140px;
-//             width: @140px;
-//         }
-
-//         &.s160 {
-//             min-width: @160px;
-//             width: @160px;
-//         }
-
-//         &.s180 {
-//             min-width: @180px;
-//             width: @180px;
-//         }
-
-//         &.s220 {
-//             min-width: @220px;
-//             width: @220px;
-//         }
-
-//         &.s252 {
-//             min-width: 252px; // If @252px doesn't exist, use 252px directly
-//             width: 252px; // If @252px doesn't exist, use 252px directly
-//         }
-
-//         &.s280 {
-//             min-width: @280px;
-//             width: @280px;
-//         }
-
-//         &.s320 {
-//             min-width: 320px; // If @320px doesn't exist, use 320px directly
-//             width: 320px; // If @320px doesn't exist, use 320px directly
-//         }
-
-//         &.s360 {
-//             min-width: 360px; // If @360px doesn't exist, use 360px directly
-//             width: 360px; // If @360px doesn't exist, use 360px directly
-//         }
-
-//         &.s400 {
-//             min-width: 400px; // If @400px doesn't exist, use 400px directly
-//             width: 400px; // If @400px doesn't exist, use 400px directly
-//         }
-//     }
-
-//     // ==========================================================================
-//     // INACTIVE ROW STYLING
-//     // ==========================================================================
-
-//     tr.inactive-row td {
-//         background-color: @bg-layer1;
-//     }
-
-//     // ==========================================================================
-//     // TABLE CELL STYLES
-//     // ==========================================================================
-
-//     td {
-//         padding: @12px;
-//         background-color: @default-background;
-//     }
-
-//     th,
-//     td {
-//         border: none;
-//         border-bottom: @1px solid @default-border-color;
-
-//         &.chcol {
-//             width: @52px;
-//         }
-//     }
-
-//     // Remove bottom border from last row
-//     tr:last-child td,
-//     tr:last-child th,
-//     tr {
-//         border-bottom: none;
-//     }
-
-//     tr {
-//         border-bottom: none;
-//     }
-
-//     // No divider variant
-//     &.no-divider td {
-//         border-bottom: none;
-//     }
-
-//     // ==========================================================================
-//     // BORDER RADIUS FOR FIRST/LAST ROWS
-//     // ==========================================================================
-
-//     tr:first-child th:first-child,
-//     tr:first-child td:first-child {
-//         border-top-left-radius: @border-radius-md;
-//     }
-
-//     tr:first-child th:last-child,
-//     tr:first-child td:last-child {
-//         border-top-right-radius: @border-radius-md;
-//     }
-
-//     tr:last-child td:first-child,
-//     tr:last-child th:first-child {
-//         border-bottom-left-radius: @border-radius-md;
-//     }
-
-//     tr:last-child td:last-child {
-//         border-bottom-right-radius: @border-radius-md;
-//     }
-
-//     // ==========================================================================
-//     // FIRST COLUMN BACKGROUND VARIANT
-//     // ==========================================================================
-
-//     &.fs-col-bg {
-//         tr td:first-child {
-//             background-color: @table-list-head-bg;
-//         }
-//     }
-
-//     // ==========================================================================
-//     // SIZE VARIATIONS
-//     // ==========================================================================
-
-//     // Small size variant
-//     &.s-size {
-//         th,
-//         td {
-//             padding: @8px;
-//             font-size: @font-size-small; // small is 13px (or use @font-size13)
-//         }
-//     }
-
-//     // Relaxed padding variant
-//     &.relaxed {
-//         td {
-//             padding: @20px @12px;
-//         }
-//     }
-
-//     // ==========================================================================
-//     // STICKY COLUMN VARIANTS
-//     // ==========================================================================
-
-//     // Sticky first column
-//     &.sticky-1,
-//     &.sticky-2 {
-//         tr th:nth-child(1),
-//         tr td:nth-child(1) {
-//             position: sticky;
-//             z-index: 1;
-//             inset-inline-start: 0; // Use logical property for RTL
-//         }
-//     }
-
-//     // Sticky first two columns
-//     &.sticky-2 {
-//         tr th:nth-child(-n+2),
-//         tr td:nth-child(-n+2) {
-//             position: sticky;
-//             z-index: 1;
-//         }
-
-//         // Fixed cell width variants
-//         &.fixc {
-//             &-48 {
-//                 @sticky-cell-width: @48px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-80 {
-//                 @sticky-cell-width: @80px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-100 {
-//                 @sticky-cell-width: @100px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-120 {
-//                 @sticky-cell-width: @120px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-140 {
-//                 @sticky-cell-width: @140px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-160 {
-//                 @sticky-cell-width: @160px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-180 {
-//                 @sticky-cell-width: @180px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-220 {
-//                 @sticky-cell-width: @220px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-252 {
-//                 @sticky-cell-width: 252px; // If @252px doesn't exist, use 252px directly
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-280 {
-//                 @sticky-cell-width: @280px;
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-320 {
-//                 @sticky-cell-width: 320px; // If @320px doesn't exist, use 320px directly
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-360 {
-//                 @sticky-cell-width: 360px; // If @360px doesn't exist, use 360px directly
-//                 .fixedcell-2(); // Call mixin
-//             }
-
-//             &-400 {
-//                 @sticky-cell-width: 400px; // If @400px doesn't exist, use 400px directly
-//                 .fixedcell-2(); // Call mixin
-//             }
-//         }
-//     }
-
-//     // ==========================================================================
-//     // ACTION COLUMN VARIANT
-//     // ==========================================================================
-
-//     &.action {
-//         tr td:last-child {
-//             padding: 0;
-//             position: sticky;
-//             inset-inline-end: @12px; // Use logical property for RTL
-//             width: @40px;
-//             z-index: 1;
-//             background-color: transparent;
-
-//             .ulx-quick-action {
-//                 visibility: hidden;
-//                 opacity: 0;
-//                 border: @1px solid @default-border-color;
-//                 background-color: @bg-layer3;
-//                 transition: all @default-duration;
-//                 border-radius: 50%;
-//                 cursor: var(--zdr-cursor-pointer, pointer);
-//             }
-//         }
-
-//         tr:hover {
-//             td:last-child {
-//                 z-index: 2;
-
-//                 .ulx-quick-action,
-//                 .tr-nav-actions {
-//                     visibility: visible;
-//                     opacity: 1;
-//                 }
-//             }
-//         }
-
-//         .tr-nav-actions {
-//             visibility: hidden;
-//             opacity: 0;
-//             transition: @default-duration ease;
-//         }
-//     }
-
-//     // ==========================================================================
-//     // FILTER/SORT POPUP
-//     // ==========================================================================
-
-//     th.th-fs {
-//         position: relative;
-
-//         .fs-popup {
-//             position: absolute;
-//             width: @200px;
-//             background: @default-background;
-//             border-radius: @2px; // Use @2px directly (no exact border-radius variable for 2px)
-//             text-transform: initial;
-//             box-shadow: 0 0 @5px @1px @box-shadow-color; // If @5px doesn't exist, use 5px directly
-//             z-index: 3;
-//             padding: @12px;
-//             top: 84%; // Keep percentage as-is
-//             inset-inline-start: 2%; // Use logical property for RTL
-//             max-height: @200px;
-//             overflow: auto;
-
-//             .fs-menu {
-//                 .fs-item {
-//                     display: grid;
-//                     grid-template-columns: max-content;
-//                     grid-auto-flow: column;
-//                     grid-gap: @8px;
-//                     padding: @8px 0;
-//                     font-family: @font-family-base; // Use font-family-base instead of regular-font
-//                     align-items: center;
-
-//                     &.active {
-//                         color: @primary-color;
-//                     }
-//                 }
-//             }
-//         }
-
-//         &:nth-child(2) {
-//             z-index: 2 !important;
-//         }
-//     }
-
-//     // ==========================================================================
-//     // STICKY HEADER VARIANT
-//     // ==========================================================================
-
-//     &.sticky-head {
-//         max-height: 400px; // If @400px doesn't exist, use 400px directly
-//         overflow: auto;
-
-//         table tr th {
-//             position: sticky;
-//             top: -@1px; // Use negative variable
-//             z-index: 1;
-//         }
-
-//         // Height variants
-//         &.ht596 {
-//             max-height: 596px !important; // If @596px doesn't exist, use 596px directly
-//         }
-
-//         &.ht300 {
-//             max-height: @300px !important;
-//         }
-//     }
-
-//     // ==========================================================================
-//     // TOP ALIGN VARIANT
-//     // ==========================================================================
-
-//     &.top-align tr {
-//         vertical-align: top;
-//     }
-
-//     // ==========================================================================
-//     // HOVER VARIANTS
-//     // ==========================================================================
-
-//     // Hover action variant
-//     &.hvr-action {
-//         tbody tr:hover td {
-//             background-color: @bg-layer2;
-//             cursor: var(--zdr-cursor-pointer, pointer);
-//         }
-//     }
-
-//     // Row action variant
-//     &.row-action {
-//         tr:hover {
-//             box-shadow: 0 0 0 @1px @link-color inset;
-//             cursor: var(--zdr-cursor-pointer, pointer);
-
-//             td {
-//                 background-color: transparent;
-//             }
-//         }
-//     }
-
-//     // ==========================================================================
-//     // ATTACH INFO LABEL VARIANT
-//     // ==========================================================================
-
-//     &.attach-info-label {
-//         tr td {
-//             position: relative;
-//             padding-top: @32px;
-//             padding-bottom: @24px;
-
-//             .ulx-label.float {
-//                 border-bottom-right-radius: @32px;
-//                 padding-inline-end: @16px; // Use logical property for RTL
-//                 font-size: @font-size11; // mini is 11px
-//             }
-//         }
-//     }
-// }
+// ==========================================================================
+// PRICE BREAKDOWN TABLE (static receipt / booth details layout)
+// ==========================================================================
+// Semantic <table> for label + amount columns. Wrap in ulx-segment for bordered shell.
+// Gulx-only: lives in overrides because this layout is ULX template-specific.
+
+.@{uls-prefix}price-breakdown {
+    inline-size: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: @text-color;
+    font-size: @font-size-default;
+    line-height: @default-lineheight;
+
+    .price-breakdown-caption {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    thead {
+        th {
+            padding-block: @12px;
+            padding-inline: @16px;
+            font-family: @regular-font;
+            font-size: @font-size-default;
+            font-weight: normal;
+            text-align: start;
+            border-block-end: 1px solid @default-border-color;
+            vertical-align: bottom;
+
+            &.price-breakdown-amount-col {
+                text-align: end;
+            }
+
+            &.price-breakdown-discount-col {
+                text-align: end;
+            }
+        }
+    }
+
+    tbody,
+    tfoot {
+        th,
+        td {
+            padding-block: @10px;
+            padding-inline: @16px;
+            vertical-align: top;
+            font-weight: normal;
+        }
+
+        th[scope="row"],
+        th[scope="rowgroup"],
+        th[scope="colgroup"] {
+            text-align: start;
+        }
+
+        .price-breakdown-amount-col {
+            text-align: end;
+            white-space: nowrap;
+        }
+
+        .price-breakdown-discount-col {
+            vertical-align: middle;
+        }
+    }
+
+    &.has-item-discount {
+        .price-breakdown-amount-cell.semibold-font {
+            font-family: @bold-font;
+        }
+    }
+
+    .price-breakdown-row-label {
+        display: grid;
+        align-items: center;
+        gap: @8px;
+        grid-auto-flow: column;
+        justify-content: start;
+    }
+
+    tr.price-breakdown-row-editing {
+        th,
+        td {
+            vertical-align: middle;
+        }
+    }
+
+    .price-breakdown-inline-edit {
+        display: inline-flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: @8px;
+        inline-size: 100%;
+
+        .@{uls-prefix}inputgroup {
+            flex: 0 0 auto;
+        }
+    }
+
+    .price-breakdown-inline-edit-actions {
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
+        gap: @4px;
+    }
+
+    .price-breakdown-group-title {
+        th {
+            padding-block-start: @16px;
+            padding-block-end: @4px;
+            font-size: @font-size-h6;
+            line-height: @default-lineheight;
+        }
+
+        &:first-child th {
+            padding-block-start: @12px;
+        }
+    }
+
+    .price-breakdown-meta {
+        td {
+            padding-block-start: 0;
+            padding-block-end: @8px;
+        }
+    }
+
+    tbody.price-breakdown-section {
+        background-color: @bg-layer2;
+
+        tr {
+            background-color: @bg-layer2;
+        }
+
+        th,
+        td {
+            background-color: @bg-layer2;
+        }
+
+        .price-breakdown-category {
+            th {
+                padding-block: @8px @4px;
+                font-size: @font-size-tiny;
+                line-height: @tiny-lineheight;
+                color: @text-color;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                font-family: @regular-font;
+                font-weight: normal;
+                background-color: @bg-layer2;
+            }
+        }
+
+        tr:not(.price-breakdown-category) {
+            th,
+            td {
+                padding-block: @8px;
+                background-color: @bg-layer2;
+            }
+
+            &:last-child {
+                th,
+                td {
+                    padding-block-end: @12px;
+                }
+            }
+        }
+    }
+
+    tbody.price-breakdown-tier + tbody.price-breakdown-tier {
+        .price-breakdown-group-title:first-child th {
+            border-block-start: 1px solid @default-border-color;
+            padding-block-start: @20px;
+        }
+    }
+
+    tbody.price-breakdown-section + tbody.price-breakdown-section,
+    tbody.price-breakdown-tier + tbody.price-breakdown-section {
+        tr.price-breakdown-category:first-child th {
+            padding-block-start: @12px;
+        }
+    }
+
+    tfoot {
+        border-block-start: 1px solid @default-border-color;
+
+        tr:first-child th,
+        tr:first-child td {
+            padding-block-start: @16px;
+        }
+
+        .price-breakdown-grand-total {
+            th,
+            td {
+                border-block-start: 1px solid @default-border-color;
+                padding-block-start: @12px;
+                font-family: @bold-font;
+                font-size: @font-size-h5;
+                line-height: @default-lineheight;
+            }
+        }
+
+        .price-breakdown-discount-controls {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            gap: @12px;
+            inline-size: 100%;
+        }
+
+        .price-breakdown-discount-amount {
+            color: @error-text-color;
+        }
+    }
+
+    &.is-editing {
+        background-color: @bg-primaryLayer1;
+
+        thead th {
+            background-color: @bg-primaryLayer1;
+        }
+
+        tbody.price-breakdown-tier {
+            tr,
+            th,
+            td {
+                background-color: @bg-primaryLayer1;
+            }
+        }
+
+        tfoot {
+            tr,
+            th,
+            td {
+                background-color: @bg-primaryLayer1;
+            }
+        }
+
+        tbody.price-breakdown-section {
+            background-color: @bg-primaryLayer2;
+
+            tr {
+                background-color: @bg-primaryLayer2;
+            }
+
+            th,
+            td {
+                background-color: @bg-primaryLayer2;
+            }
+
+            .price-breakdown-category th {
+                background-color: @bg-primaryLayer2;
+            }
+
+            tr:not(.price-breakdown-category) {
+                th,
+                td {
+                    background-color: @bg-primaryLayer2;
+                }
+            }
+        }
+    }
+}
+
+.@{uls-prefix}segment.price-breakdown-card,
+.@{uls-prefix}segment.price-breakdown-editing {
+    padding: 0;
+
+    .@{uls-prefix}price-breakdown {
+        thead th,
+        tbody th,
+        tbody td,
+        tfoot th,
+        tfoot td {
+            &:first-child {
+                padding-inline-start: @24px;
+            }
+
+            &:last-child {
+                padding-inline-end: @24px;
+            }
+        }
+    }
+}
+
+.@{uls-prefix}segment.price-breakdown-editing {
+    background-color: @bg-primaryLayer1;
+}

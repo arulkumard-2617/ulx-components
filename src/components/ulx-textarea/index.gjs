@@ -1,14 +1,16 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import { on } from "@ember/modifier";
+import textareaResizeY from "../../modifiers/textarea-resize-y";
 import { NAMESPACE } from "../../utils/component-config";
+import and from "ember-truth-helpers/helpers/and";
+import { hash } from "@ember/helper";
 import {
 	buildInputClass,
 	getConstraintValue,
-	getKeyFilterPattern,
 	isInvalidState,
 	isRulesRequired,
-	isSpecialKey,
 	normalizeRules,
 	resolveKey,
 	buildInputId
@@ -25,8 +27,16 @@ import {
  * @param {function} [onInput] - Invoked on native input with `(value, event)`.
  * @param {function} [onChange] - Invoked on native change with `(value, event)`.
  * @param {function} [onBlur] - Invoked on native blur with `(value, event)`.
+ * @param {function} [onKeydown] - Invoked on native keydown with `(event)`.
+ * @param {boolean} [resizeY=false] - Grow height on the Y axis as content exceeds the minimum.
  */
 export default class UlxTextarea extends Component {
+	@tracked _textContent;
+
+	get textContent() {
+		return this._textContent ?? this.args.value ?? "";
+	}
+
 	get rules() {
 		const { rules: rulesArg } = this.args;
 		return normalizeRules(rulesArg ?? this.fieldContext?.rules);
@@ -68,6 +78,16 @@ export default class UlxTextarea extends Component {
 		return isInvalidState(invalid, error);
 	}
 
+	get isResizeY() {
+		const { resizeY = false, customClass } = this.args;
+
+		if (resizeY) {
+			return true;
+		}
+
+		return customClass?.split(/\s+/).includes("resize-y") ?? false;
+	}
+
 	get textareaClass() {
 		const { size, filled, disabled, readonly, value, customClass } = this.args;
 		const parts = [
@@ -81,6 +101,7 @@ export default class UlxTextarea extends Component {
 				value
 			})
 		];
+		this.isResizeY && parts.push("resize-y");
 		customClass && parts.push(customClass);
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
@@ -95,38 +116,14 @@ export default class UlxTextarea extends Component {
 		return ariaErrorMessage ?? this.fieldContext?.errorId;
 	}
 
-	get keyFilterPattern() {
-		return getKeyFilterPattern(this.args.keyfilter);
-	}
-
 	@action
 	handleKeydown(event) {
-		if (this.args.onKeydown) {
-			this.args.onKeydown(event);
-		}
-
-		if (this.keyFilterPattern && !isSpecialKey(event)) {
-			const key = event.key;
-			const currentValue = event.target.value;
-			const selectionStart = event.target.selectionStart;
-			const selectionEnd = event.target.selectionEnd;
-
-			let newValue;
-			if (selectionStart === selectionEnd) {
-				newValue = currentValue.slice(0, selectionStart) + key + currentValue.slice(selectionStart);
-			} else {
-				newValue = currentValue.slice(0, selectionStart) + key + currentValue.slice(selectionEnd);
-			}
-
-			if (!matchesKeyFilter(this.keyFilterPattern, newValue)) {
-				event.preventDefault();
-				return false;
-			}
-		}
+		this.args.onKeydown?.(event);
 	}
 
 	@action
 	handleInput(event) {
+		this._textContent = event.target.value;
 		this.args.onInput?.(event.target.value, event);
 	}
 
@@ -145,7 +142,18 @@ export default class UlxTextarea extends Component {
 		this.args.onBlur?.(event.target.value, event);
 	}
 
+	@action
+	updateContent(newValue) {
+		const value = newValue ?? "";
+		this._textContent = value;
+		this.args.onInput?.(value);
+		this.args.onChange?.(value);
+	}
+
 	<template>
+		{{#if (and @showZiaButton (has-block "ziaButton"))}}
+			{{yield (hash textContent=this.textContent updateContent=this.updateContent) to="ziaButton"}}
+		{{/if}}
 		<textarea
 			id={{this.textareaId}}
 			class={{this.textareaClass}}
@@ -166,6 +174,7 @@ export default class UlxTextarea extends Component {
 			{{on "change" this.handleChange}}
 			{{on "focus" this.handleFocus}}
 			{{on "blur" this.handleBlur}}
+			{{textareaResizeY @value enabled=this.isResizeY}}
 			...attributes
 		></textarea>
 	</template>

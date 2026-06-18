@@ -173,7 +173,7 @@ export default class UlxSlidePane extends Component {
 	}
 
 	get slidePaneZIndex() {
-		return this.args.visible ? this.modalStack.getZIndex(this) : null;
+		return this.args.visible || this.shouldRender ? this.modalStack.getZIndex(this) : null;
 	}
 
 	get maskStyle() {

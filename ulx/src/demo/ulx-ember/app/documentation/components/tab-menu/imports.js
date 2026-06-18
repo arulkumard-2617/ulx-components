@@ -13,6 +13,7 @@ export { default as AccessibilityDemo } from '../../../components/Demo/TabMenu/A
 export { default as CardTabsDemo } from '../../../components/Demo/TabMenu/CardTabs';
 export { default as LabeledDemo } from '../../../components/Demo/TabMenu/Labeled';
 export { default as VerticalDemo } from '../../../components/Demo/TabMenu/Vertical';
+export { default as VerticalBorderedDemo } from '../../../components/Demo/TabMenu/VerticalBordered';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -29,3 +30,4 @@ export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
 export { default as CardTabsSource } from './snippets/CardTabs.gjs';
 export { default as LabeledSource } from './snippets/Labeled.gjs';
 export { default as VerticalSource } from './snippets/Vertical.gjs';
+export { default as VerticalBorderedSource } from './snippets/VerticalBordered.gjs';

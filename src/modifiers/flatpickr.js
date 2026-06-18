@@ -7,6 +7,7 @@ import {
 	ensureFlatpickrAppendContainerPosition,
 	resolveFlatpickrScrollTargets,
 	resolveFlatpickrLayout,
+	createFlatpickrBodyPosition,
 	createFlatpickrScrollPinnedPosition,
 	debounceFlatpickr
 } from '../utils/flatpickr-helpers';
@@ -665,6 +666,13 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 					element,
 					scrollContext
 				);
+				if (typeof fpInst.config.position === 'function') {
+					requestAnimationFrame(() => {
+						if (fpInst.isOpen) {
+							fpInst._positionCalendar?.();
+						}
+					});
+				}
 			},
 			onClose: (selectedDates, dateStr, fpInst) => {
 				cleanupFlatpickrScrollReposition(this);
@@ -732,8 +740,10 @@ export default class FlatpickrModifier extends ClassBasedModifier {
 			if (typeof document !== 'undefined' && !isInline && !isStatic) {
 				createCfg.appendTo = resolvedAppendTo ?? document.body;
 				this._appendPositionRestore = ensureFlatpickrAppendContainerPosition(createCfg.appendTo);
-				if (scrollPinned && typeof userPosition !== 'function') {
-					createCfg.position = createFlatpickrScrollPinnedPosition(createCfg.appendTo);
+				if (typeof userPosition !== 'function') {
+					createCfg.position = scrollPinned
+						? createFlatpickrScrollPinnedPosition(createCfg.appendTo, userPosition)
+						: createFlatpickrBodyPosition(userPosition);
 				}
 			}
 
