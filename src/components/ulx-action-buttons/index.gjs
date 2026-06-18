@@ -18,6 +18,8 @@ import UlxSplitButton from "../ulx-split-button/index.gjs";
  * @param {string} [dataQa] - Optional root `data-qa` for {@link UlxSplitButton} / {@link UlxButton} (e.g. `speakers-toolbar-add-speaker` → split default `…-default`, dropdown `…-dropdown`).
  * @param {string} [defaultButtonDataQa] - Optional data-qa override for UlxSplitButton default button.
  * @param {string} [dropdownButtonDataQa] - Optional data-qa override for UlxSplitButton dropdown button.
+ * @param {function} [onShow] - Called when the split-button dropdown opens (see {@link UlxSplitButton} `@onShow`).
+ * @param {function} [onHide] - Called when the split-button dropdown closes (see {@link UlxSplitButton} `@onHide`).
  */
 export default class UlxActionButtons extends Component {
 	get actionButtonsList() {
@@ -122,6 +124,8 @@ export default class UlxActionButtons extends Component {
 					@defaultButtonDataQa={{@defaultButtonDataQa}}
 					@dropdownButtonDataQa={{@dropdownButtonDataQa}}
 					@tieredMenuDataQa={{@tieredMenuDataQa}}
+					@onShow={{@onShow}}
+					@onHide={{@onHide}}
 				/>
 			{{else}}
 				<UlxButton
