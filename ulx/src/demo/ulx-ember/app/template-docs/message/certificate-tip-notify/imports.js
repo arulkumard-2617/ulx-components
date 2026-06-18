@@ -1,0 +1,2 @@
+export { default as CertificateTipNotifyDemo } from '../../../components/Template/Message/CertificateTipNotify';
+export { default as CertificateTipNotifySource } from './snippets/CertificateTipNotify.gjs';

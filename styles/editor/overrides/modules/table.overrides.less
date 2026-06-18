@@ -1,1 +1,49 @@
 // table overrides here
+.ulx-datatable {
+
+	tr.alert-row,
+	tr.danger-row,
+	tr.info-row {
+		position: relative;
+		z-index: 3;
+
+		td {
+			padding-block-start: @68px !important;
+			border-block-start-width: @2px;
+			border-block-start-style: solid;
+			border-block-end-width: @2px;
+			border-block-end-style: solid;
+
+			&:first-child {
+				border-inline-start-width: @2px;
+				border-inline-start-style: solid;
+			}
+
+			&:last-child {
+				border-inline-end-width: @2px;
+				border-inline-end-style: solid;
+			}
+
+			.ulx-message.tr-notify {
+				position: absolute;
+				inset-inline: 0;
+				inset-block-start: 0;
+				width: 100%;
+				border-inline-start: 0;
+				border-radius: 0;
+			}
+		}
+	}
+
+	tr.alert-row td {
+		border-color: @orange-bdr1;
+	}
+
+	tr.danger-row td {
+		border-color: @red-bdr1;
+	}
+
+	tr.info-row td {
+		border-color: @blue-bdr1;
+	}
+}
