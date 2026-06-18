@@ -13,6 +13,7 @@ export default class BasicToggleDemo extends Component {
 
   <template>
     <UlxToggle
+      aria-label="Toggle"
       @checked={{this.checked}}
       @onCheckedChange={{this.handleCheckedChange}}
     />

@@ -52,7 +52,6 @@ export default class DemoMultiselectGroup extends Component {
           @optionGroupLabel="label"
           @optionGroupChildren="items"
           @value={{this.selected}}
-          @display="chip"
           @onChange={{this.setSelected}}
           @selectAll={{true}}
           @placeholder="Select cities"

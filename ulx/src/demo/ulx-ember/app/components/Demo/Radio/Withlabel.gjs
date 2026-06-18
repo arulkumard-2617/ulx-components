@@ -29,6 +29,7 @@ export default class BasicRadioDemo extends Component {
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
         @label="With Label"
+        @labelFor={{false}}
         @rules={{this.requiredRules}}
         @helpText="Help text"
         @fieldClass="col-12"

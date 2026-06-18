@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { on } from "@ember/modifier";
+import checkboxIndeterminate from "../../modifiers/checkbox-indeterminate";
 import { getComponentClass } from "../../utils/component-config";
 import { SVG_NAMESPACE } from "../../utils/svg-namespace";
 import UlxIcon from "../ulx-icon/index.gjs";
@@ -137,6 +138,7 @@ export default class UlxCheckboxItem extends Component {
 				required={{@required}}
 				aria-required={{@required}}
 				{{on "change" @onChange}}
+				{{checkboxIndeterminate @indeterminate}}
 				...attributes
 			/>
 

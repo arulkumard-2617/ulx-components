@@ -5,6 +5,7 @@
 export { default as BasicDemo } from '../../../components/Demo/Multiselect/Basic';
 export { default as SizeDemo } from '../../../components/Demo/Multiselect/Size';
 export { default as ChipsDemo } from '../../../components/Demo/Multiselect/Chips';
+export { default as ChipTemplateDemo } from '../../../components/Demo/Multiselect/ChipTemplate';
 export { default as GroupDemo } from '../../../components/Demo/Multiselect/Group';
 export { default as TemplateDemo } from '../../../components/Demo/Multiselect/Template';
 export { default as FilterDemo } from '../../../components/Demo/Multiselect/Filter';
@@ -19,6 +20,7 @@ export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
 export { default as SizeSource } from './snippets/Size.gjs';
 export { default as ChipsSource } from './snippets/Chips.gjs';
+export { default as ChipTemplateSource } from './snippets/ChipTemplate.gjs';
 export { default as GroupSource } from './snippets/Group.gjs';
 export { default as TemplateSource } from './snippets/Template.gjs';
 export { default as FilterSource } from './snippets/Filter.gjs';

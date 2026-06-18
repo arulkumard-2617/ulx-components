@@ -2,7 +2,7 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSplitButton, UlxToast, t } from 'ulx-components';
+import { UlxSplitButton, UlxToast } from 'ulx-components';
 
 export default class DemoSplitButtonIcons extends Component {
   @tracked messages = [];
@@ -53,7 +53,7 @@ export default class DemoSplitButtonIcons extends Component {
   <template>
     <div class="">
       <UlxSplitButton
-        @label={{t "lbl.save"}}
+        @label="Save"
         @icon="ls-tick-icon"
         @iconComponentClass="bs-icons1"
         @iconSize="s22"

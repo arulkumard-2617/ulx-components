@@ -153,11 +153,12 @@ export default class PageViewTemplate extends Component {
 
     <UlxModal
       @visible={{this.isModalVisible}}
-      @title="Session Summary"
       @maximized={{true}}
       @scrollable={{true}}
       @onHide={{this.closeModal}}
       @hideFooter={{true}}
+      @size="maximized"
+      @contentClassName="p-0"
     >
       <div class="ulx-page h-full">
         <div class="page-left-panel expanded">
@@ -254,4 +255,5 @@ export default class PageViewTemplate extends Component {
     </UlxModal>
   </template>
 }
+
 `;

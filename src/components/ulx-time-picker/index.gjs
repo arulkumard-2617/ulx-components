@@ -150,10 +150,7 @@ export default class UlxTimePicker extends Component {
 
 		const selectedTime = selectedDates?.[0];
 		if (emitInternalTime && selectedTime) {
-			onChange(
-				[pickerTimeDateToInternalTime(selectedTime, internalTimeFormat)],
-				dateStr
-			);
+			onChange([pickerTimeDateToInternalTime(selectedTime, internalTimeFormat)], dateStr);
 			return;
 		}
 
@@ -203,7 +200,7 @@ export default class UlxTimePicker extends Component {
 					...attributes
 				/>
 				{{#if @showIcon}}
-					<span class="inputgroup-addon button-addon">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-toggle
 							@type="button"
@@ -216,7 +213,7 @@ export default class UlxTimePicker extends Component {
 					</span>
 				{{/if}}
 				{{#if @showClearButton}}
-					<span class="inputgroup-addon button-addon">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-clear
 							@type="button"

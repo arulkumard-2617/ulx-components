@@ -20,13 +20,13 @@ function buildRadioId(namespace, idArg, key) {
  *
  * ## WCAG
  * - Proper label association via `id` and `for` attributes
- * - Group semantics via `role="radiogroup"` (items mode)
+ * - Group semantics via `role="radiogroup"` (items mode) with `aria-labelledby` from `UlxField` `labelId`
  * - Help/error associated via `aria-describedby`
  * - Required fields marked with `aria-required` (radiogroup) and optional visual `*`
  * - Invalid state communicated via `aria-invalid`
  *
  * @class UlxRadio
- * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `labelId`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted. For `@items` groups, set `@labelFor={{false}}` on `UlxField` and rely on `role="radiogroup"` + `aria-labelledby`.
  * @param {string} [id] - Unique ID base for the radio(s). Auto-generated if not provided.
  * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids. Overrides `field.key` when set.
  *
@@ -93,7 +93,7 @@ export default class UlxRadio extends Component {
 		return this.items.map((item, index) => {
 			const id = item?.id;
 			const resolvedId =
-				typeof id === "string" && id.length > 0 ? id : `${this.radioId}-item-${id}`;
+				typeof id === "string" && id.length > 0 ? id : `${this.radioId}-item-${index}`;
 			return { item, id: resolvedId };
 		});
 	}
@@ -134,6 +134,11 @@ export default class UlxRadio extends Component {
 		groupClass && parts.push(groupClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
+	}
+
+	get groupAriaLabelledBy() {
+		const { ariaLabelledBy } = this.args;
+		return ariaLabelledBy ?? this.fieldContext?.labelId;
 	}
 
 	@action
@@ -206,6 +211,7 @@ export default class UlxRadio extends Component {
 				class={{this.groupClass}}
 				role="radiogroup"
 				data-qa={{this.rootDataQa}}
+				aria-labelledby={{this.groupAriaLabelledBy}}
 				aria-describedby={{this.ariaDescribedBy}}
 				aria-invalid={{if this.isInvalid "true" "false"}}
 				aria-required={{if this.isRequired "true" "false"}}

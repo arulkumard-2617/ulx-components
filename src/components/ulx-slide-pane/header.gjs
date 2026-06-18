@@ -154,6 +154,7 @@ export default class UlxSlidePaneHeader extends Component {
 						@variant={{this.iconVariant}}
 						@iconSize={{this.iconSize}}
 						@text={{true}}
+						@pilled={{true}}
 						@customClass="slidepane-close-button"
 						aria-label={{t "label.close"}}
 						{{on "click" this.handleClose}}

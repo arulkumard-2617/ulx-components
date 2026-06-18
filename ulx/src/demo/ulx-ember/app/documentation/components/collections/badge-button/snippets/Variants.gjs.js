@@ -8,7 +8,7 @@ const BADGE_VARIANTS = [
   { label: 'Success', badgeVariant: 'success', badge: 1 },
   { label: 'Info', badgeVariant: 'info', badge: 8 },
   { label: 'Warning', badgeVariant: 'warning', badge: 3 },
-  { label: 'Danger', badgeVariant: 'danger', badge: 9 },
+  { label: 'Danger', badgeVariant: 'danger', badge: 9 }
 ];
 
 export default class DemoBadgeButtonVariants extends Component {
@@ -23,7 +23,7 @@ export default class DemoBadgeButtonVariants extends Component {
           @label={{item.label}}
           @badge={{item.badge}}
           @badgeVariant={{item.badgeVariant}}
-          @badgeSize="xs-size"
+          @badgeSize="xxs-size"
           @customClass="gap-1"
         />
       {{/each}}

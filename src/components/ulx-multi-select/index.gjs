@@ -67,7 +67,7 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * Named block <:icon> - Custom trigger icon. Receives (hash overlayVisible).
  * Named block <:chip> - Custom chip content per selected item. Receives (hash option label value).
  * @param {string} [placeholder] - Placeholder when nothing selected.
- * @param {string} [display='comma'] - 'comma' | 'chip' for selected display.
+ * @param {string} [display='chip'] - 'comma' | 'chip' for selected display.
  * @param {boolean} [chipWrap=true] - When true with `@display='chip'`, selected chips wrap to multiple lines instead of single-line truncation (ellipsis).
  * @param {number} [selectionLimit] - Max number of selections (optional).
  * @param {boolean} [disabled=false] - Disables the component.
@@ -81,6 +81,7 @@ const MULTISELECT_HEADER_ACTIVE_SELECTOR =
  * @param {boolean} [selectAll=false] - Show select-all checkbox in panel header.
  * @param {string} [selectAllLabel] - Label for select-all checkbox. When empty string, checkbox is shown without text.
  * @param {string} [filterPlaceholder] - Placeholder for filter input.
+ * @param {string} [filterAriaLabel] - Accessible name for the panel filter input (defaults to `lbl.a11y.multiselect.filter`).
  * @param {string} [emptyMessage] - Message when options list is empty.
  * @param {string} [emptyFilterMessage] - Message when filter has no results.
  * @param {string} [scrollHeight='232px'] - Max height of option list (CSS value).
@@ -165,7 +166,7 @@ export default class UlxMultiSelect extends Component {
 			loading = false,
 			size = "m-size",
 			customClass,
-			display,
+			display = "chip",
 			chipWrap = true
 		} = this.args;
 		const invalid = isInvalidState(invalidArg, error ?? this.fieldContext?.error);
@@ -250,7 +251,7 @@ export default class UlxMultiSelect extends Component {
 	}
 
 	get displayChips() {
-		return this.args.display === "chip";
+		return (this.args.display ?? "chip") === "chip";
 	}
 
 	@action
@@ -412,8 +413,16 @@ export default class UlxMultiSelect extends Component {
 		return this.args.placeholder ?? t("msg.multiselect.placeholder");
 	}
 
+	get filterInputAriaLabel() {
+		const { filterAriaLabel } = this.args;
+		if (typeof filterAriaLabel === "string" && filterAriaLabel.length) {
+			return filterAriaLabel;
+		}
+		return t("lbl.a11y.multiselect.filter");
+	}
+
 	get displayClass() {
-		return this.args.display === "chip" ? "chip-display" : "comma-display";
+		return (this.args.display ?? "chip") === "chip" ? "chip-display" : "comma-display";
 	}
 
 	get inputtextClass() {
@@ -558,10 +567,13 @@ export default class UlxMultiSelect extends Component {
 		return rows;
 	}
 
+	get ariaControls() {
+		return this.overlayVisible ? this.listboxId : undefined;
+	}
+
 	get activeDescendantId() {
-		return this.focusedOptionIndex >= 0
-			? `${this.triggerId}-item-${this.focusedOptionIndex}`
-			: undefined;
+		if (!this.overlayVisible || this.focusedOptionIndex < 0) return undefined;
+		return `${this.triggerId}-item-${this.focusedOptionIndex}`;
 	}
 
 	get scrollHeightValue() {
@@ -1268,8 +1280,8 @@ export default class UlxMultiSelect extends Component {
 			role="combobox"
 			aria-haspopup="listbox"
 			aria-expanded={{this.overlayVisible}}
-			aria-controls={{this.listboxId}}
-			aria-multiselectable="true"
+			aria-controls={{this.ariaControls}}
+			aria-activedescendant={{this.activeDescendantId}}
 			aria-invalid={{if (eq this.isInvalid true) "true" "false"}}
 			aria-required={{this.isRequired}}
 			aria-describedby={{this.ariaDescribedBy}}
@@ -1322,7 +1334,7 @@ export default class UlxMultiSelect extends Component {
 											</span>
 											<UlxIcon
 												@type="font"
-												@iconName="close-stroke-icon"
+												@iconName="close-icon-01"
 												@componentClass="bs-icons1"
 												@size="s16"
 												class="multiselect-token-icon"
@@ -1376,9 +1388,6 @@ export default class UlxMultiSelect extends Component {
 			<div
 				id={{this.listboxId}}
 				class="ulx-multiselect-panel"
-				role="listbox"
-				aria-multiselectable="true"
-				aria-activedescendant={{this.activeDescendantId}}
 				aria-hidden="false"
 				{{this.panelRef}}
 				{{overlayPortal this.overlayVisible this.resolvedContext}}
@@ -1419,6 +1428,7 @@ export default class UlxMultiSelect extends Component {
 									data-qa="ulx-multiselect-filter"
 									value={{this.filterValue}}
 									placeholder={{or @filterPlaceholder (t "msg.multiselect.filter.placeholder")}}
+									aria-label={{this.filterInputAriaLabel}}
 									{{on "input" this.onFilterInput}}
 									{{on "keydown" this.onFilterKeydown}}
 									{{on "keypress" this.stopFilterKeyEventPropagation}}
