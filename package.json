@@ -49,7 +49,7 @@
 		"rollup": "^4.9.4",
 		"rollup-plugin-copy": "^3.5.0",
 		"sortablejs": "^1.15.7",
-		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#pre-master"
+		"uls_v2": "git+https://zrepository.zohocorpcloud.in/zohocorp/eventz/uls_v2.git#master"
 	},
 	"devDependencies": {
 		"@babel/eslint-parser": "^7.23.10",
@@ -103,7 +103,7 @@
 			"./components/ulx-checkbox/index.js": "./dist/_app_/components/ulx-checkbox/index.js",
 			"./components/ulx-chip-input/index.js": "./dist/_app_/components/ulx-chip-input/index.js",
 			"./components/ulx-chip/index.js": "./dist/_app_/components/ulx-chip/index.js",
-      "./components/ulx-confirmation-modal/index.js": "./dist/_app_/components/ulx-confirmation-modal/index.js",
+			"./components/ulx-confirmation-modal/index.js": "./dist/_app_/components/ulx-confirmation-modal/index.js",
 			"./components/ulx-data-view/index.js": "./dist/_app_/components/ulx-data-view/index.js",
 			"./components/ulx-date-picker/index.js": "./dist/_app_/components/ulx-date-picker/index.js",
 			"./components/ulx-date-range-picker/index.js": "./dist/_app_/components/ulx-date-range-picker/index.js",
@@ -123,7 +123,7 @@
 			"./components/ulx-message/index.js": "./dist/_app_/components/ulx-message/index.js",
 			"./components/ulx-modal/body.js": "./dist/_app_/components/ulx-modal/body.js",
 			"./components/ulx-modal/footer-alignment.js": "./dist/_app_/components/ulx-modal/footer-alignment.js",
-      "./components/ulx-modal/footer.js": "./dist/_app_/components/ulx-modal/footer.js",
+			"./components/ulx-modal/footer.js": "./dist/_app_/components/ulx-modal/footer.js",
 			"./components/ulx-modal/header.js": "./dist/_app_/components/ulx-modal/header.js",
 			"./components/ulx-modal/index.js": "./dist/_app_/components/ulx-modal/index.js",
 			"./components/ulx-multi-select/index.js": "./dist/_app_/components/ulx-multi-select/index.js",
@@ -205,7 +205,7 @@
 			"./modifiers/textarea-resize-y.js": "./dist/_app_/modifiers/textarea-resize-y.js",
 			"./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",
 			"./services/accessibility.js": "./dist/_app_/services/accessibility.js",
-      "./services/modal-manager.js": "./dist/_app_/services/modal-manager.js",
+			"./services/modal-manager.js": "./dist/_app_/services/modal-manager.js",
 			"./services/modal-stack.js": "./dist/_app_/services/modal-stack.js"
 		}
 	}

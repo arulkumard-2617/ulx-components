@@ -117,7 +117,6 @@ const BODY_OVERFLOW_STYLE = {
 export default class UlxModal extends Component {
 	@service modalStack;
 
-	@tracked isMaximized = false;
 	@tracked isDragging = false;
 	@tracked dragPlacement = null;
 	@tracked isSubmitting = false;
@@ -258,6 +257,10 @@ export default class UlxModal extends Component {
 
 	get maximizable() {
 		return this.args.maximizable ?? false;
+	}
+
+	get isMaximized() {
+		return this.args.maximized ?? false;
 	}
 
 	get keepInViewport() {
