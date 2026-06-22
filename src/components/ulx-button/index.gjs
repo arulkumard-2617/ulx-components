@@ -62,6 +62,7 @@ const RIPPLE_DURATION_MS = 200;
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-button".
  * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute
  * @param {boolean} [loading=false] - When true, button shows loading spinner and is disabled. Use for always-on loading state.
+ * @param {string} [submittingLabel] - Label shown while loading (Promise or @loading); falls back to @label when omitted
  * @param {function} [onClick] - Click handler; may return a Promise to show loading until it settles
  * @param {Modifier} [elementRef] - Optional modifier (or element-ref callback) applied to the root element for parent ref capture (e.g. dropdown target)
  */
@@ -137,6 +138,11 @@ export default class UlxButton extends Component {
 	get isDisabled() {
 		const { disabled } = this.args;
 		return disabled || this.effectiveLoading;
+	}
+
+	get displayLabel() {
+		const { label, submittingLabel } = this.args;
+		return this.effectiveLoading && submittingLabel ? submittingLabel : label;
 	}
 
 	/**
@@ -259,8 +265,8 @@ export default class UlxButton extends Component {
 				{{#if (has-block "default")}}
 					{{yield to="default"}}
 				{{else}}
-					{{#if @label}}
-						<span class={{this.labelClass}}>{{@label}}</span>
+					{{#if this.displayLabel}}
+						<span class={{this.labelClass}}>{{this.displayLabel}}</span>
 					{{/if}}
 					{{yield}}
 				{{/if}}
@@ -299,8 +305,8 @@ export default class UlxButton extends Component {
 				{{#if (has-block "default")}}
 					{{yield to="default"}}
 				{{else}}
-					{{#if @label}}
-						<span class={{this.labelClass}}>{{@label}}</span>
+					{{#if this.displayLabel}}
+						<span class={{this.labelClass}}>{{this.displayLabel}}</span>
 					{{/if}}
 					{{yield}}
 				{{/if}}
