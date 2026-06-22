@@ -3,82 +3,95 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import {
   UlxToolbar,
-  UlxIconButton,
-  UlxSplitButton,
+  UlxButton,
+  UlxDropdown,
   UlxIconInput,
   UlxInput,
-  t,
 } from 'ulx-components';
-import { array, hash } from '@ember/helper';
 
 export default class DemoToolbarBasic extends Component {
   @tracked search = '';
+  @tracked day = 'all';
+  @tracked track = 'all';
+
+  get dayOptions() {
+    return [
+      { label: 'All Days', value: 'all' },
+      { label: 'Day 1', value: 'day1' },
+      { label: 'Day 2', value: 'day2' },
+      { label: 'Day 3', value: 'day3' },
+    ];
+  }
+
+  get trackOptions() {
+    return [
+      { label: 'All Tracks', value: 'all' },
+      { label: 'Track A', value: 'trackA' },
+      { label: 'Track B', value: 'trackB' },
+      { label: 'Track C', value: 'trackC' },
+    ];
+  }
 
   @action
   onSearchInput(value) {
-    this.search = value;
+    this.search = value ?? '';
+  }
+
+  @action
+  onDayChange(value) {
+    this.day = value;
+  }
+
+  @action
+  onTrackChange(value) {
+    this.track = value;
   }
 
   <template>
     <div class="pda4">
       <UlxToolbar>
         <:start>
-          <UlxIconButton
-            @variant="primary"
-            @iconLeft="add-icon-01"
-            @iconComponentClass="bs-icons1"
-            @iconSize="s18"
-            @customClass="me-5"
-            aria-label="New"
-          />
-          <UlxIconButton
-            @variant="primary"
-            @iconLeft="print-icon"
-            @iconComponentClass="bs-icons1"
-            @iconSize="s18"
-            @customClass="me-5"
-            aria-label="Duplicate"
-          />
-          <UlxIconButton
-            @variant="primary"
-            @iconLeft="delete-icon-01"
-            @iconComponentClass="bs-icons1"
-            @iconSize="s18"
-            @customClass="me-5"
-            aria-label="Delete"
-          />
-        </:start>
-
-        <:center>
-          <div class="w-full max-w-xs">
+          <div class="w-100p md-max-w-320">
             <UlxIconInput
               @iconLeft="search-icon"
               @iconType="font"
               @iconSize="s18"
               @iconClass="bs-icons1"
+              @size="m-size"
             >
               <UlxInput
                 @value={{this.search}}
                 @onInput={{this.onSearchInput}}
-                @placeholder={{t "lbl.search"}}
-                aria-label={{t "lbl.search"}}
+                @placeholder="Search"
+                aria-label="Search"
                 class="w-full"
               />
             </UlxIconInput>
           </div>
-        </:center>
+          <UlxDropdown
+            @key="toolbar-basic-day"
+            @value={{this.day}}
+            @options={{this.dayOptions}}
+            @optionLabel="label"
+            @optionValue="value"
+            @onChange={{this.onDayChange}}
+            @size="m-size"
+            aria-label={{"All Days"}}
+          />
+          <UlxDropdown
+            @key="toolbar-basic-track"
+            @value={{this.track}}
+            @options={{this.trackOptions}}
+            @optionLabel="label"
+            @optionValue="value"
+            @onChange={{this.onTrackChange}}
+            @size="m-size"
+            aria-label={{"All Tracks"}}
+          />
+        </:start>
 
         <:end>
-          <div class="flex items-center gap-2">
-            <UlxSplitButton
-              @label={{t "lbl.save"}}
-              @items={{array
-                (hash label="Update" icon="update-icon-01")
-                (hash label="Delete" icon="delete-icon-01")
-              }}
-              @size="s-size"
-            />
-          </div>
+          <UlxButton @label="Add Session" @variant="primary" @size="m-size" />
         </:end>
       </UlxToolbar>
     </div>

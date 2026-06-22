@@ -12,6 +12,7 @@ Router.map(function () {
     this.route('quick-start');
     this.route('styles-and-theming');
     this.route('common-mistakes');
+    this.route('ai-guide');
     this.route('docs-walkthrough');
   });
 
@@ -22,6 +23,8 @@ Router.map(function () {
     this.route('avatar');
     this.route('badge');
     this.route('button');
+    this.route('icon-button');
+    this.route('badge-button');
     this.route('card');
     this.route('checkbox');
     this.route('chip');
@@ -78,5 +81,15 @@ Router.map(function () {
   this.route('utilities', function () {
     this.route('index');
     this.route('utility', { path: ':slug' });
+  });
+
+  this.route('templates', function () {
+    this.route('table');
+    this.route('card');
+    this.route('page');
+    this.route('settings');
+    this.route('segment');
+    this.route('list');
+    this.route('message');
   });
 });

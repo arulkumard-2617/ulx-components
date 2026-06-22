@@ -8,6 +8,8 @@ import {
 	resolveFlatpickrDateFormat,
 	coercePickerWallDate,
 	buildPickerSyncDates,
+	normalizePickerRange,
+	wallCalendarDateInZone,
 	zonedDateFromPickerDay
 } from "../../utils/picker-datetime";
 import UlxInput from "../ulx-input/index.gjs";
@@ -53,6 +55,28 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
  * @param {string} [preserveTimeFormat='HHmm'] - Parse format for `@preserveTime`
  */
 export default class UlxDateRangePicker extends Component {
+	/**
+	 * Flatpickr expects `above`/`below`. Consumers commonly pass `top`/`bottom`
+	 * (and sometimes with alignment like `top left` / `top-left`), so normalize
+	 * those synonyms to keep popup positioning + arrow classes consistent.
+	 *
+	 * @param {unknown} position
+	 * @returns {unknown}
+	 */
+	normalizePosition(position) {
+		if (typeof position !== "string") {
+			return position;
+		}
+
+		const normalized = position.trim().replace(/-/g, " ");
+
+		return normalized
+			.replace(/\btop\b/g, "above")
+			.replace(/\bbottom\b/g, "below")
+			.replace(/\s+/g, " ")
+			.trim();
+	}
+
 	get useWrap() {
 		const { showIcon = false, showClearButton = false } = this.args;
 		return showIcon || showClearButton;
@@ -106,13 +130,14 @@ export default class UlxDateRangePicker extends Component {
 			appendTo: flatpickrAppendTo,
 			...flatpickrOptionsRest
 		} = flatpickrOptions;
+		const normalizedPosition = this.normalizePosition(position);
 
 		const o = {
 			dateFormat: resolveFlatpickrDateFormat(dateFormat),
 			locale,
 			minuteIncrement,
 			hourIncrement,
-			position,
+			position: normalizedPosition,
 			onDayCreate,
 			minDate: coercePickerWallDate(minDate, this.args.timezone),
 			maxDate: coercePickerWallDate(maxDate, this.args.timezone),
@@ -256,7 +281,38 @@ export default class UlxDateRangePicker extends Component {
 
 	@action
 	handleDatesChange(selectedDates, dateStr) {
-		this.args.onChange?.(this.normalizeOutgoingRange(selectedDates), dateStr);
+		const { timezone, preserveTime, preserveTimeFormat = "HHmm", onChange } = this.args;
+		if (!onChange) {
+			return;
+		}
+
+		if (this.allowSelectRange) {
+			onChange(selectedDates, dateStr);
+			return;
+		}
+
+		const normalizedRange = this.normalizeOutgoingRange(selectedDates);
+		const selectedWallDate = this.args.showEndDateOnly === true
+			? (normalizedRange?.[1] ?? normalizedRange?.[0])
+			: normalizedRange?.[0];
+
+		if (
+			timezone &&
+			preserveTime != null &&
+			preserveTime !== "" &&
+			selectedWallDate
+		) {
+			const zoned = zonedDateFromPickerDay(
+				selectedWallDate,
+				preserveTime,
+				timezone,
+				preserveTimeFormat
+			);
+			onChange([zoned.toDate()], dateStr);
+			return;
+		}
+
+		onChange(selectedWallDate ? [selectedWallDate] : selectedDates, dateStr);
 	}
 
 	get placeholderText() {
@@ -303,7 +359,7 @@ export default class UlxDateRangePicker extends Component {
 					...attributes
 				/>
 				{{#if @showIcon}}
-					<span class="inputgroup-addon button-addon">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-toggle
 							@type="button"
@@ -314,7 +370,7 @@ export default class UlxDateRangePicker extends Component {
 					</span>
 				{{/if}}
 				{{#if @showClearButton}}
-					<span class="inputgroup-addon button-addon">
+					<span class="inputgroup-addon icon-addon">
 						<UlxIconButton
 							data-clear
 							@type="button"

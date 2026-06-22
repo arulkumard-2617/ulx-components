@@ -2,7 +2,8 @@ import Component from "@glimmer/component";
 import { guidFor } from "@ember/object/internals";
 import UlxIcon from "../ulx-icon/index.gjs";
 import tooltip from "../../modifiers/tooltip";
-import { or } from "ember-truth-helpers";
+import { or, and, not } from "ember-truth-helpers";
+import { t } from "../../utils/i18n";
 
 import {
 	buildFieldClass,
@@ -14,19 +15,22 @@ import {
 /**
  * Field wrapper: label, control yield, help, and error. `@fieldId` sets the field id (label `for`, help/error ids).
  *
- * **Control wiring (yield hash: `key`, `describedBy`, `errorId`, `rules`, `error`):** Use `<UlxField ... as |field|>…</UlxField>` and pass `@field={{field}}` on the control. With other named blocks (`assistive`, etc.), use `<:default as |field|>…</:default>`—Ember does not allow mixing an implicit default block with other named blocks on the same invocation.
+ * **Control wiring (yield hash: `key`, `labelId`, `describedBy`, `errorId`, `rules`, `error`):** Use `<UlxField ... as |field|>…</UlxField>` and pass `@field={{field}}` on the control. With other named blocks (`assistive`, etc.), use `<:default as |field|>…</:default>`—Ember does not allow mixing an implicit default block with other named blocks on the same invocation.
+ * **Group controls:** For multi-option controls (e.g. `UlxCheckbox` `@items`), set `@labelFor={{false}}` so the label names the group via `labelId` / `aria-labelledby` instead of a single input `for` association.
  *
  * @class UlxField
  * @param {string} [fieldClass] - Extra classes on the root `.field` wrapper.
  * @param {string} [fieldId] - Stable id for the control, help, and error nodes. Auto-generated when omitted.
+ * @param {string|false} [labelFor] - Label `for` target. Defaults to `@fieldId`. Set to `false` for group controls so the label is referenced via `labelId` only.
  * @param {string} [label] - Plain-text label (or use the `label` block).
- * @param {string} [labelRightText] - Optional text rendered in the label-right slot. Overrides rules metadata and character count.
- * @param {boolean} [showCharacterCount=false] - When true and `@rules` includes `maxLength`, shows live `current / max` in the label-right slot.
+ * @param {string} [labelRightText] - Optional text rendered in the label-right slot. Overrides rules metadata and character count when the `labelRight` block is not used.
+ * @namedBlock {labelRight} - Custom markup for the label-right slot (wraps in `.label-right`). Takes precedence over `@labelRightText`, rules metadata, and character count.
+ * @param {boolean} [showCharacterCount=false] - When true, `@label` is set, `@rules` includes `maxLength`, and the `labelRight` block is not used, shows live `current / max` in the label-right slot and links it to the control via `aria-describedby`.
  * @param {string|number} [value] - Current control value used to derive character count when `@showCharacterCount` is true.
  * @param {number} [characterCount] - Optional explicit current length; overrides length derived from `@value`.
  * @param {string} [helpText] - Help copy rendered below the control (linked via `aria-describedby`).
  * @param {string} [error] - Error copy; when set, invalid region is shown and linked via `aria-errormessage`.
- * @param {string} [tooltipMessage] - Optional info icon tooltip next to the label.
+ * @param {string} [tooltipMessage] - Optional info icon tooltip next to the label. The icon exposes `lbl.a11y.field.moreInformation` as its accessible name; tooltip text is linked as supplementary description on focus/hover.
  * @param {object} [rules] - `{ required: true }` or editor-style `{ required: t('…'), format: { with, allowBlank, msg }, maxLength: { value?, msg } }`.
  */
 export default class UlxField extends Component {
@@ -36,6 +40,24 @@ export default class UlxField extends Component {
 
 	get fieldId() {
 		return this.args.fieldId ?? `ulx-field-${guidFor(this)}`;
+	}
+
+	get labelId() {
+		return this.fieldId ? `${this.fieldId}-label` : undefined;
+	}
+
+	get labelForId() {
+		const { labelFor } = this.args;
+
+		if (labelFor === false) {
+			return undefined;
+		}
+
+		if (typeof labelFor === "string" && labelFor.length) {
+			return labelFor;
+		}
+
+		return this.fieldId;
 	}
 
 	// Rules
@@ -90,11 +112,23 @@ export default class UlxField extends Component {
 		if (this.showCharacterCount && this.maxLength != null) {
 			return `${this.currentCharacterCount} / ${this.maxLength}`;
 		}
+	}
 
-		const parts = [];
-		if (this.minLength != null) parts.push(this.minLength);
-		if (this.maxLength != null) parts.push(this.maxLength);
-		return parts.join(" / ");
+	get hasCharacterCountForA11y() {
+		return (
+			this.hasVisibleLabel &&
+			this.showCharacterCount &&
+			this.maxLength != null &&
+			this.args.labelRightText == null
+		);
+	}
+
+	get hasVisibleLabel() {
+		return Boolean(this.args.label);
+	}
+
+	get characterCountId() {
+		return this.hasCharacterCountForA11y ? `${this.fieldId}-character-count` : undefined;
 	}
 
 	// ARIA
@@ -105,6 +139,7 @@ export default class UlxField extends Component {
 
 		const ids = [];
 		helpText && ids.push(`${id}-help`);
+		this.characterCountId && ids.push(this.characterCountId);
 		error && ids.push(`${id}-error`);
 
 		return ids.length ? ids.join(" ") : undefined;
@@ -124,11 +159,16 @@ export default class UlxField extends Component {
 		return !!(this.args.error && this.fieldId);
 	}
 
+	get tooltipIconAriaLabel() {
+		return t("lbl.a11y.field.moreInformation");
+	}
+
 	get controlYieldHash() {
 		const { rules, error } = this.args;
 
 		return {
 			key: this.fieldId,
+			labelId: this.labelId,
 			describedBy: this.describedBy,
 			errorId: this.errorId,
 			rules,
@@ -141,7 +181,7 @@ export default class UlxField extends Component {
 
 			{{! LABEL (safe render) }}
 			{{#if (or (has-block "label") @label)}}
-				<label for={{this.fieldId}}>
+				<label for={{this.labelForId}} id={{this.labelId}}>
 					<span class="label-text">
 
 						{{#if (has-block "label")}}
@@ -159,14 +199,25 @@ export default class UlxField extends Component {
 								{{tooltip @tooltipMessage position="bottom"}}
 								@type="font"
 								@iconName="info-icon"
-								@size="s18"
+								@size="s16"
+								@ariaLabel={{this.tooltipIconAriaLabel}}
 							/>
 						{{/if}}
 
 					</span>
 
-					{{#if this.hasMeta}}
-						<span class="label-right">{{this.metaText}}</span>
+					{{#if (or (has-block "labelRight") this.hasMeta)}}
+						<span
+							class="label-right"
+							id={{if (and this.hasCharacterCountForA11y (not (has-block "labelRight"))) this.characterCountId}}
+							aria-live={{if (and this.hasCharacterCountForA11y (not (has-block "labelRight"))) "polite"}}
+						>
+							{{#if (has-block "labelRight")}}
+								{{yield to="labelRight"}}
+							{{else}}
+								{{this.metaText}}
+							{{/if}}
+						</span>
 					{{/if}}
 				</label>
 			{{/if}}
@@ -193,7 +244,7 @@ export default class UlxField extends Component {
 					role="alert"
 					aria-atomic="true"
 				>
-					*{{@error}}
+					<span aria-hidden="true">*</span>{{@error}}
 				</div>
 			{{/if}}
 

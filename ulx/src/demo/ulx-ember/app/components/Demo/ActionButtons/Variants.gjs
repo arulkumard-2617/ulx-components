@@ -8,9 +8,6 @@ const VARIANTS = [
   'primary',
   'secondary',
   'success',
-  'info',
-  'warning',
-  'help',
   'danger'
 ];
 

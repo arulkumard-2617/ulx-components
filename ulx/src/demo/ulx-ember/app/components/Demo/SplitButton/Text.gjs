@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxSplitButton, UlxToast, t } from 'ulx-components';
+import { UlxSplitButton, UlxToast } from 'ulx-components';
 
 export default class DemoSplitButtonText extends Component {
   @tracked messages = [];
@@ -52,72 +52,57 @@ export default class DemoSplitButtonText extends Component {
       <UlxToast @messages={{this.messages}} @onClose={{this.removeMessage}} />
       <div class="flex items-center gap-5 flex-wrap">
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @items={{this.items}}
           @onClick={{this.save}}
+          @size="compact"
+          @variant="basic on-hover"
           @text={{true}}
         />
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @items={{this.items}}
           @onClick={{this.save}}
-          @variant="secondary"
+          @size="compact on-hover"
           @text={{true}}
         />
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @items={{this.items}}
           @onClick={{this.save}}
-          @variant="success"
+          @variant="secondary on-hover"
+          @size="compact"
           @text={{true}}
         />
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @items={{this.items}}
           @onClick={{this.save}}
-          @variant="info"
+          @variant="success on-hover"
+          @size="compact"
           @text={{true}}
         />
         <UlxSplitButton
-          @label={{t "lbl.save"}}
+          @label="Save"
           @icon="ls-tick-icon"
           @iconComponentClass="bs-icons1"
           @iconSize="s22"
           @items={{this.items}}
           @onClick={{this.save}}
-          @variant="warning"
-          @text={{true}}
-        />
-        <UlxSplitButton
-          @label={{t "lbl.save"}}
-          @icon="ls-tick-icon"
-          @iconComponentClass="bs-icons1"
-          @iconSize="s22"
-          @items={{this.items}}
-          @onClick={{this.save}}
-          @variant="help"
-          @text={{true}}
-        />
-        <UlxSplitButton
-          @label={{t "lbl.save"}}
-          @icon="ls-tick-icon"
-          @iconComponentClass="bs-icons1"
-          @iconSize="s22"
-          @items={{this.items}}
-          @onClick={{this.save}}
-          @variant="danger"
+          @variant="danger on-hover"
+          @size="compact"
           @text={{true}}
         />
       </div>

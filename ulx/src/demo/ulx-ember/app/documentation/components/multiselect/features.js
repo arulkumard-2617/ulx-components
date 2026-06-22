@@ -7,6 +7,7 @@ import {
   BasicDemo,
   SizeDemo,
   ChipsDemo,
+  ChipTemplateDemo,
   GroupDemo,
   TemplateDemo,
   FilterDemo,
@@ -20,6 +21,7 @@ import {
   BasicSource,
   SizeSource,
   ChipsSource,
+  ChipTemplateSource,
   GroupSource,
   TemplateSource,
   FilterSource,
@@ -59,8 +61,8 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'basic',
-    "Basic",
-    'The <code>Basic</code> demo shows basic usage of the MultiSelect with <code>@options</code>, <code>@value</code> (array), and <code>@onChange</code>.',
+    "Basic [Default]",
+    'Selected items render as removable chips by default. Use <code>@chipWrap={{false}}</code> for single-line truncation with ellipsis.',
     BasicDemo,
     BasicSource,
     'basic'
@@ -75,11 +77,19 @@ export const MultiselectFeatureItems = [
   ),
   section(
     'chips',
-    "Chips",
-    'Use <code>@display="chip"</code> to show selected items as removable chips.',
+    "Comma separator",
+    'Use <code>@display="comma"</code> to show selected items as a comma-separated label.',
     ChipsDemo,
     ChipsSource,
     'chips'
+  ),
+  section(
+    'chip-template',
+    'Chip template',
+    'Use the <code>:chip</code> named block to render custom chip content such as avatars and removable labels.',
+    ChipTemplateDemo,
+    ChipTemplateSource,
+    'chip-template'
   ),
   section(
     'group',

@@ -5,19 +5,19 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
   TemplateDemo,
-  KeyfilterDemo,
   SizesDemo,
   InvalidDemo,
   DisabledDemo,
   WithButtonDemo,
+  ResizeYDemo,
   ImportSource,
   BasicSource,
   TemplateSource,
-  KeyfilterSource,
   SizesSource,
   InvalidSource,
   DisabledSource,
-  WithButtonSource
+  WithButtonSource,
+  ResizeYSource
 } from './imports';
 
 export const TextareaFeatureItems = [
@@ -75,25 +75,6 @@ export const TextareaFeatureItems = [
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
-  },
-  {
-    id: 'key-filter',
-    sectionNav: 'Keyfilter',
-    sectionDesc: {
-      component: RichText,
-      props: {
-        as: 'span',
-        content: 'The <code>Keyfilter</code> demo shows KeyFilter usage of the Textarea component.',
-      },
-    },
-    demo: {
-      component: KeyfilterDemo,
-      props: {
-        source: KeyfilterSource,
-        snippetName: 'key-filter',
         language: 'handlebars',
       },
     },
@@ -171,6 +152,26 @@ export const TextareaFeatureItems = [
       props: {
         source: WithButtonSource,
         snippetName: 'with-button',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'resize-y',
+    sectionNav: 'Resize Y',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@resizeY</code> (applies the <code>resize-y</code> class) to grow textarea height on the Y axis as content exceeds the minimum height.'
+      }
+    },
+    demo: {
+      component: ResizeYDemo,
+      props: {
+        source: ResizeYSource,
+        snippetName: 'resize-y',
         language: 'handlebars'
       }
     }

@@ -412,17 +412,6 @@ export function applySelectionToFilters(filters, field, values) {
 }
 
 /**
- * Applies multiple selection groups into a filters object.
- */
-export function applySelectionMapToFilters(filters, selections = {}) {
-	let updated = { ...filters };
-	for (const [field, values] of Object.entries(selections)) {
-		updated = applySelectionToFilters(updated, field, values);
-	}
-	return updated;
-}
-
-/**
  * Computes visible columns from optional persisted field set.
  */
 export function resolveVisibleColumns(allColumns = [], visibleFields = null) {
@@ -436,19 +425,30 @@ export function resolveVisibleColumns(allColumns = [], visibleFields = null) {
 
 /**
  * Applies persisted order to a visible-column list.
+ * Columns without `field` (selection, expander, etc.) always stay at the front.
  */
 export function resolveOrderedColumns(visibleColumns = [], persistedOrder = null) {
 	if (!persistedOrder) return visibleColumns;
-	const orderedFields = persistedOrder.map((column) => column?.field).filter(Boolean);
-	const fieldIndex = new Map(orderedFields.map((field, index) => [field, index]));
-	return [...visibleColumns].sort((leftColumn, rightColumn) => {
-		const leftIndex = fieldIndex.get(leftColumn.field);
-		const rightIndex = fieldIndex.get(rightColumn.field);
-		if (leftIndex == null && rightIndex == null) return 0;
-		if (leftIndex == null) return 1;
-		if (rightIndex == null) return -1;
+
+	const fieldIndex = new Map();
+	persistedOrder.forEach((column, index) => {
+		column.field && fieldIndex.set(column.field, index);
+	});
+
+	const fixedColumns = [];
+	const dataColumns = [];
+
+	visibleColumns.forEach((column) => {
+		column.field ? dataColumns.push(column) : fixedColumns.push(column);
+	});
+
+	dataColumns.sort((leftColumn, rightColumn) => {
+		const leftIndex = fieldIndex.get(leftColumn.field) ?? Infinity;
+		const rightIndex = fieldIndex.get(rightColumn.field) ?? Infinity;
 		return leftIndex - rightIndex;
 	});
+
+	return [...fixedColumns, ...dataColumns];
 }
 
 /**
@@ -457,7 +457,7 @@ export function resolveOrderedColumns(visibleColumns = [], persistedOrder = null
 export function rehydrateColumnOrder(allColumns = [], persistedFields = []) {
 	if (!Array.isArray(persistedFields)) return null;
 	const columnMap = new Map(
-		allColumns.filter((column) => column?.field).map((column) => [column.field, column])
+		allColumns.filter((column) => column.field).map((column) => [column.field, column])
 	);
 	return persistedFields.map((field) => columnMap.get(field)).filter(Boolean);
 }

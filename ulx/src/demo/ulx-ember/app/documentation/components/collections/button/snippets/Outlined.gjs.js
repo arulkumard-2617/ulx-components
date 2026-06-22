@@ -9,8 +9,7 @@ export default class DemoButtonOutlined extends Component {
         <UlxButton @label="Primary" @outlined={{true}} />
         <UlxButton @label="Secondary" @outlined={{true}} @variant="secondary" />
         <UlxButton @label="Success" @outlined={{true}} @variant="success" />
-        <UlxButton @label="Info" @outlined={{true}} @variant="info" />
-        <UlxButton @label="Warning" @outlined={{true}} @variant="warning" />
+        <UlxButton @label="Danger" @outlined={{true}} @variant="danger" />
       </div>
       <div class="bg-primary p-4 rounded">
         <UlxButton @label="White" @outlined={{true}} @variant="white" />

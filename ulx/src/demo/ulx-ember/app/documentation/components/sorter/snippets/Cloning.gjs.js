@@ -77,7 +77,7 @@ export default class CloningSorterDemo extends Component {
   }
 
   <template>
-    <div class="grid grid-cols-2 gap-4">
+    <div class="ulx-grid cols-2 gap-4">
       <UlxSorter
         @items={{this.leftItems}}
         @listKey="left"

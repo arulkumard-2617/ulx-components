@@ -1,0 +1,64 @@
+// AI / consumer guidance
+export default {
+  component: 'UlxButton',
+  routeKey: 'button',
+  responsibility:
+    'Primary interactive control for actions: submit, confirm, cancel, and navigation styled as a button.',
+  owns: [
+    'Visible label, variants (primary, danger, success, …), sizes, and visual modes (outlined, text, link, pilled)',
+    'Optional leading icon via @icon and @iconPos',
+    'Disabled and loading states',
+    'Rendering as <button> or <a> when @href is set'
+  ],
+  doesNotOwn: [
+    'Icon-only compact controls — use UlxIconButton',
+    'Split primary + menu actions — use UlxSplitButton',
+    'Badge-styled toggles — use UlxBadgeButton',
+    'Form structure — use UlxForm and UlxField'
+  ],
+  whenToUse: [
+    'Primary and secondary actions in forms, dialogs, and page headers',
+    'Destructive confirm (danger variant) and success completion',
+    'External links that should look like buttons (@href)'
+  ],
+  whenNotToUse: [
+    {
+      instead: 'UlxIconButton',
+      when: 'Toolbar or table actions that are icon-only or icon-dominant'
+    },
+    {
+      instead: 'UlxSplitButton',
+      when: 'One default action plus a dropdown of related actions'
+    },
+    {
+      instead: 'LinkTo',
+      when: 'Standard in-app navigation without button affordance'
+    }
+  ],
+  dos: [
+    'Use variant to express intent (primary, danger), not decoration alone',
+    'Provide one primary action per action group when possible',
+    'Use @loading for async submit instead of only disabling the control',
+    'Pass a clear @label for screen reader users'
+  ],
+  donts: [
+    'Do not nest interactive elements inside UlxButton',
+    'Do not use multiple primary buttons competing in the same footer or toolbar',
+    'Do not use danger variant for non-destructive actions'
+  ],
+  antiPatterns: [
+    'Using UlxButton with empty label for icon-only toolbars',
+    'Using primary variant for passive navigation to another route'
+  ],
+  keyParamNames: [
+    'label',
+    'variant',
+    'disabled',
+    'loading',
+    'href',
+    'icon',
+    'iconPos',
+    'outlined',
+    'size'
+  ]
+};

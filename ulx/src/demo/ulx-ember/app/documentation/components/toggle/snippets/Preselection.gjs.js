@@ -14,6 +14,7 @@ export default class PreselectionToggleDemo extends Component {
 
   <template>
     <UlxToggle
+      aria-label="Preselected toggle"
       @checked={{this.checked}}
       @onCheckedChange={{this.handleCheckedChange}}
     />

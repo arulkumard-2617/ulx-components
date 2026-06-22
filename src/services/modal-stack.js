@@ -40,27 +40,37 @@ export default class ModalStackService extends Service {
 	 */
 	MASK_Z_INDEX = 2000;
 
+	/** Default stack base when no `zIndexBase` is set on a registered overlay. */
+	DEFAULT_Z_INDEX_BASE = 2100;
+
+	/** Increment between stacked overlays (modal, slide pane, popup, etc.). */
+	STACK_STEP = 10;
+
 	/**
 	 * Get the z-index for a specific modal based on its position in the stack
 	 * @param {Object} modalInstance - The modal component instance
 	 * @returns {number} The calculated z-index
 	 */
 	getZIndex(modalInstance) {
-		const baseZIndex = modalInstance?.args?.zIndexBase || 2100;
+		const baseZIndex = modalInstance?.args?.zIndexBase || this.DEFAULT_Z_INDEX_BASE;
 		const index = this.modals.indexOf(modalInstance);
-		return index === -1 ? baseZIndex : baseZIndex + index * 10;
+		return index === -1 ? baseZIndex : baseZIndex + index * this.STACK_STEP;
 	}
 
 	/**
-	 * Get a z-index guaranteed to be above the dialog mask (e.g. for toast, popup, dropdown panel).
-	 * Use for overlays that are rendered in document.body and must appear on top of open modals/slide panes.
-	 * @param {Object} [modalInstance] - Optional modal instance; if provided, returns getZIndex(instance) + offset above mask. If omitted, uses topModal.
+	 * Z-index for body-portaled overlays (popup, dropdown panel, toast, etc.).
+	 * Registered instances use their stack position; unregistered overlays sit one step above `topModal`.
+	 * @param {Object} [modalInstance] - Overlay instance when it registers with the stack (e.g. popup, tieredmenu).
 	 * @returns {number}
 	 */
 	getZIndexAboveMask(modalInstance) {
-		const instance = modalInstance ?? this.topModal;
-		const base = instance ? this.getZIndex(instance) : 2100;
-		return Math.max(base + 1001, this.MASK_Z_INDEX + 1);
+		const zIndex = modalInstance
+			? this.getZIndex(modalInstance)
+			: this.topModal
+				? this.getZIndex(this.topModal) + this.STACK_STEP
+				: this.DEFAULT_Z_INDEX_BASE;
+
+		return Math.max(zIndex, this.MASK_Z_INDEX + 1);
 	}
 
 	/**

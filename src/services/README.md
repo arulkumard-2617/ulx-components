@@ -83,15 +83,18 @@ export default class MyComponent extends Component {
 
 ### Z-Index Calculation
 
-The service uses this formula:
+Registered overlays use the same stack step as modals and slide panes:
+
 ```
-z-index = baseZIndex + (stackPosition * 10)
+z-index = baseZIndex + (stackPosition × 10)
 ```
 
-**Example with 3 modals:**
-- Modal 1: position 0 → z-index = 1000
-- Modal 2: position 1 → z-index = 1010  
-- Modal 3: position 2 → z-index = 1020
+Body-portaled overlays that do not register (dropdown panel, toast) use one step above `topModal`, or `2100` when the stack is empty. All values are floored at `mask z-index + 1` (2001).
+
+**Example with 3 modals and a popup:**
+- Modal 1: position 0 → z-index = 2100
+- Modal 2: position 1 → z-index = 2110
+- Popup: position 2 → z-index = 2120
 
 ### Benefits Over Previous Implementation
 

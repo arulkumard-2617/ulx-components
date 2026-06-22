@@ -14,7 +14,7 @@ import {
   HoverClickSource
 } from './imports';
 
-export const PopupFeatureItems = [
+const PopupFeatureItemsBase = [
   {
     id: "import",
     sectionNav: "Import",
@@ -93,6 +93,8 @@ export const PopupFeatureItems = [
     }
   }
 ];
+
+export const PopupFeatureItems = PopupFeatureItemsBase;
 
 export default function PopupFeatures() {
   return PopupFeatureItems;

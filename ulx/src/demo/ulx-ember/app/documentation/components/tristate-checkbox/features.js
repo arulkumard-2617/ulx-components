@@ -5,9 +5,11 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
+  NestedDemo,
   // Sources
   ImportSource,
-  BasicSource
+  BasicSource,
+  NestedSource
 } from './imports';
 
 export const TristateCheckboxFeatureItems = [
@@ -45,6 +47,26 @@ export const TristateCheckboxFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "nested",
+    sectionNav: "Nested",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "The <code>Nested</code> demo shows hierarchical checkboxes with tristate parent controls and primary connector lines."
+      }
+    },
+    demo: {
+      component: NestedDemo,
+      props: {
+        source: NestedSource,
+        snippetName: "nested",
         language: "handlebars"
       }
     }

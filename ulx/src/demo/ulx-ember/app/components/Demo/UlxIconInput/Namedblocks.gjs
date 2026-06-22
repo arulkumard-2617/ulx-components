@@ -19,11 +19,11 @@ import { UlxInput, UlxField, UlxIconInput, UlxIcon, t } from 'ulx-components';
       >
 
         <:icon>
-          <UlxIcon @ariaLabel="Calendar" @size="s20">
+          <UlxIcon @ariaLabel="Calendar" @size="s16">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
+              width="18"
+              height="18"
               viewBox="0 0 1024 1024"
               focusable="false"
             >
