@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { schedule } from "@ember/runloop";
 import { on } from "@ember/modifier";
 import { modifier } from "ember-modifier";
+import { and, not } from "ember-truth-helpers";
 import { getComponentClass } from "../../utils/component-config";
 import { getAdjacentFocusableInDocument } from "../../utils/focus-util";
 import { setPendingOverlayReturnFocusElement } from "../../utils/overlay-helpers";
@@ -16,6 +17,10 @@ import UlxTieredmenu from "../ulx-tieredmenu/index.gjs";
  * Split button: default action button plus dropdown for additional options.
  * Uses menu model for dropdown items; supports severity, size, variants (text, outlined, pilled), loading, disabled.
  *
+ * ## Dropdown modes
+ * - **Menu (default):** pass `@items` for a tiered menu on the chevron.
+ * - **Popup:** pass `@popup={{true}}` and nest {@link UlxPopup} in the default block (`as |popup|`). Pass `popup.visible`, `popup.target`, and `popup.onHide` into {@link UlxPopup}.
+ *
  * ## Variants (use "Variant" in demos, not "severity" for severity case)
  * - primary (default), secondary, success, info, warning, help-button, danger
  * - text, outlined, pilled (inner buttons)
@@ -24,13 +29,15 @@ import UlxTieredmenu from "../ulx-tieredmenu/index.gjs";
  * xs-size, s-size, m-size (default), l-size, xl-size
  *
  * ## WCAG
- * Main button uses label for accessible name; dropdown button has aria-haspopup="menu", aria-expanded, aria-controls.
- * Menu has role="menu"; items role="menuitem". Escape closes menu and returns focus to dropdown button.
+ * Main button uses label for accessible name; dropdown button has aria-haspopup, aria-expanded, aria-controls.
+ * Menu mode: aria-haspopup="menu"; items use role="menuitem". Popup mode: aria-haspopup="dialog".
+ * Escape closes the overlay and returns focus to the dropdown button.
  *
  * @class UlxSplitButton
  * @param {string} [label] - Main button label
  * @param {string} [icon] - Main button icon name (font icon)
  * @param {object[]} [items] - Menu items for dropdown (MenuModel API: label, icon, command, disabled, separator, items, etc.)
+ * @param {boolean} [popup=false] - When true, the chevron opens a {@link UlxPopup} instead of a {@link UlxTieredmenu}. Omit or false to keep the default `@items` menu behavior.
  * @param {function} [onClick] - Main button click handler
  * @param {function} [onShow] - Called when dropdown opens
  * @param {function} [onHide] - Called when dropdown closes
@@ -48,6 +55,12 @@ import UlxTieredmenu from "../ulx-tieredmenu/index.gjs";
  * @param {string} [dropdownButtonDataQa] - Optional data-qa override for the dropdown trigger button.
  * @param {string} [dividerDataQa] - Optional data-qa override for the divider element.
  * @param {string} [tieredMenuDataQa] - Optional root `data-qa` for the embedded {@link UlxTieredmenu}. The list element uses `buildDataQa(root, "list")` (e.g. `speaker-menu` → `speaker-menu-list`). Omit for default `ulx-tieredmenu` / `ulx-tieredmenu-list`.
+ * @param {string} [popupDataQa] - Optional `data-qa` for the nested {@link UlxPopup} root. Defaults to `{dataQa}-popup`.
+ * @param {function} [registerRef] - Popup mode only. Receives `{ close }` to dismiss the chevron popup from custom footer actions.
+ *
+ * ## Named blocks
+ * - **Default yield** – With `@popup={{true}}`, nest {@link UlxPopup} as the default block (`as |popup|`). Pass `popup.visible`, `popup.target`, and `popup.onHide` into {@link UlxPopup}.
+ * - **<:icon>**, **<:default>** – Main button customization in menu mode, or with `@label` when `@popup={{true}}`.
  */
 export default class UlxSplitButton extends Component {
 	@tracked menuVisible = false;
@@ -72,7 +85,7 @@ export default class UlxSplitButton extends Component {
 		return raw === "help" ? "help-button" : raw;
 	}
 
-	get menuId() {
+	get overlayId() {
 		return this.args.id ? `${this.args.id}_overlay` : undefined;
 	}
 
@@ -94,6 +107,10 @@ export default class UlxSplitButton extends Component {
 
 	get menuDataQa() {
 		return `${this.rootDataQa}-menu`;
+	}
+
+	get popupDataQa() {
+		return this.args.popupDataQa ?? `${this.rootDataQa}-popup`;
 	}
 
 	get isDisabled() {
@@ -120,6 +137,21 @@ export default class UlxSplitButton extends Component {
 		return this.args.menuCustomClass;
 	}
 
+	get isPopupMode() {
+		return Boolean(this.args.popup);
+	}
+
+	get popupYieldContext() {
+		return {
+			visible: this.menuVisible,
+			target: this.dropdownTarget,
+			onHide: this.hideMenu,
+			overlayId: this.overlayId,
+			dataQa: this.popupDataQa,
+			close: this.closePopupDropdown
+		};
+	}
+
 	get rootClasses() {
 		const {
 			pilled = false,
@@ -127,8 +159,8 @@ export default class UlxSplitButton extends Component {
 			outlined = false,
 			loading = false,
 			disabled = false
-		} = this.args;
-		const parts = [this.splitButtonRootClass];
+		} = this.args,
+			parts = [this.splitButtonRootClass];
 		parts.push(this.variantValue);
 		parts.push(this.buttonSize);
 		pilled && parts.push("pilled");
@@ -173,40 +205,62 @@ export default class UlxSplitButton extends Component {
 	handleMenuKeydown(event) {
 		if (event.key === "ArrowDown" || event.key === "ArrowUp") {
 			event.preventDefault();
-			this.menuVisible ? this.hideMenu() : this.showMenu(event);
+			this.menuVisible ? this.hideMenu() : this.showMenu();
 			return;
 		}
 
-		if (event.key === "Tab" && this.menuVisible) {
-			event.preventDefault();
-			const menuRoot = this.menuId ? document.getElementById(this.menuId) : null;
-			const nextFocusable = getAdjacentFocusableInDocument(this.dropdownTarget, {
-				backward: event.shiftKey,
-				excludeContaining: menuRoot ?? undefined
-			});
-			this._tabOutFocus = nextFocusable ?? null;
-			this.menuVisible = false;
-		}
+		this.handleDropdownTabOut(event);
 	}
 
 	@action
-	showMenu(event) {
+	handlePopupKeydown(event) {
+		this.handleDropdownTabOut(event);
+	}
+
+	@action
+	handleDropdownTabOut(event) {
+		if (event.key !== "Tab" || !this.menuVisible) {
+			return;
+		}
+
+		event.preventDefault();
+		const overlayRoot = this.overlayId ? document.getElementById(this.overlayId) : null,
+			nextFocusable = getAdjacentFocusableInDocument(this.dropdownTarget, {
+				backward: event.shiftKey,
+				excludeContaining: overlayRoot ?? undefined
+			});
+		this._tabOutFocus = nextFocusable ?? null;
+		this.menuVisible = false;
+	}
+
+	@action
+	showMenu() {
 		this.menuVisible = true;
 		if (typeof this.args.onShow === "function") this.args.onShow();
 	}
 
 	@action
 	hideMenu(detail) {
-		const shouldSkipFocusRestore = detail?.skipFocusRestore || this._skipFocusRestoreOnNextHide;
-		const tieredmenuTabOutTarget = detail?.nextFocusable;
-		const dropdownTabOutTarget = this._tabOutFocus;
+		const wasVisible = this.menuVisible,
+			shouldSkipFocusRestore = detail?.skipFocusRestore || this._skipFocusRestoreOnNextHide,
+			tieredmenuTabOutTarget = detail?.nextFocusable,
+			dropdownTabOutTarget = this._tabOutFocus;
 		if (!detail?.skipFocusRestore) {
 			this._skipFocusRestoreOnNextHide = false;
 		}
 		this._tabOutFocus = null;
 		this.menuVisible = false;
-		if (typeof this.args.onHide === "function") this.args.onHide();
+		wasVisible && typeof this.args.onHide === "function" && this.args.onHide();
 		if (shouldSkipFocusRestore) {
+			return;
+		}
+		if (this.isPopupMode) {
+			dropdownTabOutTarget &&
+				schedule("afterRender", () => {
+					requestAnimationFrame(() => {
+						dropdownTabOutTarget.focus?.({ preventScroll: true });
+					});
+				});
 			return;
 		}
 		if (tieredmenuTabOutTarget) {
@@ -230,24 +284,43 @@ export default class UlxSplitButton extends Component {
 		this.hideMenu({ skipFocusRestore: true });
 	}
 
+	@action
+	closePopupDropdown() {
+		this.hideMenu();
+	}
+
+	popupRegisterRef = modifier((_, [isPopupMode]) => {
+		if (!isPopupMode || typeof this.args.registerRef !== "function") {
+			return () => {};
+		}
+
+		this.args.registerRef({ close: this.closePopupDropdown });
+
+		return () => {
+			this.args.registerRef(null);
+		};
+	});
+
 	<template>
-		<div
-			class={{this.rootClasses}}
-			data-qa={{this.rootDataQa}}
-			{{overlayDismiss
-				this.menuVisible
-				onClose=this.hideMenu
-				dismissVariant="rootOnly"
-				deferClick=true
-				deferEscape=false
-				escapeEventMode="minimal"
-				escapeUseCapture=false
-				strictEscapeKey=true
-			}}
-			...attributes
-		>
-			{{#if (has-block "icon")}}
-				{{#if (has-block "default")}}
+		{{#let (and (has-block "default") (not this.isPopupMode)) as |useMainButtonDefault|}}
+			<div
+				class={{this.rootClasses}}
+				data-qa={{this.rootDataQa}}
+				{{overlayDismiss
+					(and this.menuVisible (not this.isPopupMode))
+					onClose=this.hideMenu
+					dismissVariant="rootOnly"
+					deferClick=true
+					deferEscape=false
+					escapeEventMode="minimal"
+					escapeUseCapture=false
+					strictEscapeKey=true
+				}}
+				{{this.popupRegisterRef this.isPopupMode}}
+				...attributes
+			>
+				{{#if (has-block "icon")}}
+					{{#if useMainButtonDefault}}
 					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@iconComponentClass={{@iconComponentClass}}
@@ -285,7 +358,7 @@ export default class UlxSplitButton extends Component {
 					</UlxIconButton>
 				{{/if}}
 			{{else}}
-				{{#if (has-block "default")}}
+				{{#if useMainButtonDefault}}
 					<UlxIconButton
 						@dataQa={{this.defaultButtonDataQa}}
 						@iconLeft={{@icon}}
@@ -325,44 +398,71 @@ export default class UlxSplitButton extends Component {
 
 			<span class="splitbutton-divider" aria-hidden="true" data-qa={{this.dividerDataQa}}></span>
 
-			<UlxIconButton
-				@dataQa={{this.dropdownButtonDataQa}}
-				@iconLeft={{this.dropdownIconName}}
-				@iconComponentClass={{this.dropdownIconComponentClass}}
-				@iconSize={{this.dropdownIconSize}}
-				@disabled={{this.isDisabled}}
-				@variant={{this.variantValue}}
-				@pilled={{@pilled}}
-				@text={{@text}}
-				@outlined={{@outlined}}
-				@size={{this.buttonSize}}
-				@dropdownTargetRef={{this.dropdownTargetRef}}
-				@onClick={{this.handleDropdownClick}}
-				aria-label={{t "lbl.more.options"}}
-				aria-haspopup="menu"
-				aria-expanded={{this.menuVisible}}
-				aria-controls={{this.menuId}}
-				{{on "keydown" this.handleMenuKeydown}}
-			/>
-
-			<div
-				class="absolute left-0 top-full z-1000 mt-2
-					{{if this.menuVisible 'visible transition fade in' 'hidden'}}"
-				data-qa={{this.menuDataQa}}
-			>
-				<UlxTieredmenu
-					id={{this.menuId}}
-					@dataQa={{@tieredMenuDataQa}}
-					@items={{this.menuItems}}
-					@popup={{true}}
-					@visible={{this.menuVisible}}
-					@align="end"
-					@target={{this.dropdownTarget}}
-					@customClass={{this.menuCustomClassName}}
-					@onHide={{this.hideMenu}}
-					@onItemSelect={{this.handleItemSelect}}
+			{{#if this.isPopupMode}}
+				<UlxIconButton
+					@dataQa={{this.dropdownButtonDataQa}}
+					@iconLeft={{this.dropdownIconName}}
+					@iconComponentClass={{this.dropdownIconComponentClass}}
+					@iconSize={{this.dropdownIconSize}}
+					@disabled={{this.isDisabled}}
+					@variant={{this.variantValue}}
+					@pilled={{@pilled}}
+					@text={{@text}}
+					@outlined={{@outlined}}
+					@size={{this.buttonSize}}
+					@dropdownTargetRef={{this.dropdownTargetRef}}
+					@onClick={{this.handleDropdownClick}}
+					aria-label={{t "lbl.more.options"}}
+					aria-haspopup="dialog"
+					aria-expanded={{this.menuVisible}}
+					aria-controls={{this.overlayId}}
+					{{on "keydown" this.handlePopupKeydown}}
 				/>
-			</div>
+			{{else}}
+				<UlxIconButton
+					@dataQa={{this.dropdownButtonDataQa}}
+					@iconLeft={{this.dropdownIconName}}
+					@iconComponentClass={{this.dropdownIconComponentClass}}
+					@iconSize={{this.dropdownIconSize}}
+					@disabled={{this.isDisabled}}
+					@variant={{this.variantValue}}
+					@pilled={{@pilled}}
+					@text={{@text}}
+					@outlined={{@outlined}}
+					@size={{this.buttonSize}}
+					@dropdownTargetRef={{this.dropdownTargetRef}}
+					@onClick={{this.handleDropdownClick}}
+					aria-label={{t "lbl.more.options"}}
+					aria-haspopup="menu"
+					aria-expanded={{this.menuVisible}}
+					aria-controls={{this.overlayId}}
+					{{on "keydown" this.handleMenuKeydown}}
+				/>
+			{{/if}}
+
+			{{#if this.isPopupMode}}
+				{{yield this.popupYieldContext}}
+			{{else}}
+				<div
+					class="absolute left-0 top-full z-1000 mt-2
+						{{if this.menuVisible 'visible transition fade in' 'hidden'}}"
+					data-qa={{this.menuDataQa}}
+				>
+					<UlxTieredmenu
+						id={{this.overlayId}}
+						@dataQa={{@tieredMenuDataQa}}
+						@items={{this.menuItems}}
+						@popup={{true}}
+						@visible={{this.menuVisible}}
+						@align="end"
+						@target={{this.dropdownTarget}}
+						@customClass={{this.menuCustomClassName}}
+						@onHide={{this.hideMenu}}
+						@onItemSelect={{this.handleItemSelect}}
+					/>
+				</div>
+			{{/if}}
 		</div>
+		{{/let}}
 	</template>
 }

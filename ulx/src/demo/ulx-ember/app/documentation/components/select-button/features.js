@@ -8,12 +8,14 @@ import {
   TemplateDemo,
   InvalidDemo,
   DisabledDemo,
+  CarouselDemo,
   ImportSource,
   BasicSource,
   MultipleSource,
   TemplateSource,
   InvalidSource,
   DisabledSource,
+  CarouselSource,
 } from './imports';
 
 export const SelectButtonFeatureItems = [
@@ -73,6 +75,26 @@ export const SelectButtonFeatureItems = [
       props: {
         source: MultipleSource,
         snippetName: 'multiple',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'carousel',
+    sectionNav: 'Carousel',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Set <code>@carousel={{true}}</code> to show a fixed window of options with previous and next arrow controls. Use <code>@visibleCount</code> to control how many segments are visible at once, and <code>@stretch={{true}}</code> for equal-width buttons. Optionally control the window with <code>@carouselOffset</code> and <code>@onCarouselOffsetChange</code>.',
+      },
+    },
+    demo: {
+      component: CarouselDemo,
+      props: {
+        source: CarouselSource,
+        snippetName: 'carousel',
         language: 'handlebars',
       },
     },
