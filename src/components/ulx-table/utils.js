@@ -115,28 +115,59 @@ export function multiSortItems(items, multiSortMeta, sortFunction) {
 
 // ─── Filter ───────────────────────────────────────────────────────────────────
 
+function stringIncludes(value, filter) {
+	return String(value ?? '')
+		.toLowerCase()
+		.includes(String(filter ?? '').toLowerCase());
+}
+
+function matchesIn(cellValue, filter) {
+	if (!Array.isArray(filter)) return false;
+	if (Array.isArray(cellValue)) return cellValue.some((item) => filter.includes(item));
+	return filter.includes(cellValue);
+}
+
+function matchesNotIn(cellValue, filter) {
+	if (!Array.isArray(filter)) return true;
+	if (Array.isArray(cellValue)) return !cellValue.some((item) => filter.includes(item));
+	return !filter.includes(cellValue);
+}
+
 const MATCH_MODES = {
-	contains: (val, filter) =>
-		String(val ?? '')
-			.toLowerCase()
-			.includes(String(filter ?? '').toLowerCase()),
-	notContains: (val, filter) =>
-		!String(val ?? '')
-			.toLowerCase()
-			.includes(String(filter ?? '').toLowerCase()),
-	startsWith: (val, filter) =>
-		String(val ?? '')
-			.toLowerCase()
-			.startsWith(String(filter ?? '').toLowerCase()),
-	endsWith: (val, filter) =>
-		String(val ?? '')
-			.toLowerCase()
-			.endsWith(String(filter ?? '').toLowerCase()),
-	equals: (val, filter) => String(val ?? '').toLowerCase() === String(filter ?? '').toLowerCase(),
-	notEquals: (val, filter) =>
-		String(val ?? '').toLowerCase() !== String(filter ?? '').toLowerCase(),
-	in: (val, filter) => Array.isArray(filter) && filter.includes(val),
-	notIn: (val, filter) => Array.isArray(filter) && !filter.includes(val),
+	contains: (val, filter) => {
+		if (Array.isArray(val)) return val.some((item) => stringIncludes(item, filter));
+		return stringIncludes(val, filter);
+	},
+	notContains: (val, filter) => {
+		if (Array.isArray(val)) return !val.some((item) => stringIncludes(item, filter));
+		return !stringIncludes(val, filter);
+	},
+	startsWith: (val, filter) => {
+		const filterStr = String(filter ?? '').toLowerCase();
+		if (Array.isArray(val)) {
+			return val.some((item) => String(item ?? '').toLowerCase().startsWith(filterStr));
+		}
+		return String(val ?? '').toLowerCase().startsWith(filterStr);
+	},
+	endsWith: (val, filter) => {
+		const filterStr = String(filter ?? '').toLowerCase();
+		if (Array.isArray(val)) {
+			return val.some((item) => String(item ?? '').toLowerCase().endsWith(filterStr));
+		}
+		return String(val ?? '').toLowerCase().endsWith(filterStr);
+	},
+	equals: (val, filter) => {
+		const filterStr = String(filter ?? '').toLowerCase();
+		if (Array.isArray(val)) return val.some((item) => String(item ?? '').toLowerCase() === filterStr);
+		return String(val ?? '').toLowerCase() === filterStr;
+	},
+	notEquals: (val, filter) => {
+		const filterStr = String(filter ?? '').toLowerCase();
+		if (Array.isArray(val)) return !val.some((item) => String(item ?? '').toLowerCase() === filterStr);
+		return String(val ?? '').toLowerCase() !== filterStr;
+	},
+	in: matchesIn,
+	notIn: matchesNotIn,
 	lt: (val, filter) => Number(val) < Number(filter),
 	lte: (val, filter) => Number(val) <= Number(filter),
 	gt: (val, filter) => Number(val) > Number(filter),
