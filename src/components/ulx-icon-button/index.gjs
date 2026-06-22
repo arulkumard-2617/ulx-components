@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
@@ -36,17 +37,43 @@ class IconButtonAffixGraphic extends Component {
  * Icon/spinner content is passed into UlxButton via its prefix/suffix slots only.
  * Callers use `@iconLeft` or `@iconRight` (icon name) and optional `<:icon>`; prefix/suffix blocks are not supported.
  *
+ * ## Content blocks
+ * - <:icon> Optional custom icon markup; replaces the default UlxIcon when not loading
+ *
+ * ## Loading
+ * - Pass `@loading={{true}}` for an explicit loading state
+ * - Return a Promise from `@onClick` to show loading until it settles (icon spinner and button disabled state)
+ *
+ * ## WCAG
+ * - Icon-only buttons (no `@label`) should pass `aria-label` via `...attributes`
+ * - Loading state is reflected on the root button via UlxButton (`aria-busy`, disabled)
+ *
  * @class UlxIconButton
- * @param {string} [label] - Button label text
+ * @param {string} [label] - Button label text; omit for icon-only buttons
+ * @param {string} [submittingLabel] - Label shown while loading; falls back to `@label` when omitted
  * @param {string} [iconLeft] - Icon name; renders in the prefix (left of label)
  * @param {string} [iconRight] - Icon name; renders in the suffix (right of label). If both are set, `iconRight` wins.
  * @param {string} [iconComponentClass] - UlxIcon base class (e.g. "bs-icons1")
  * @param {string} [iconSize] - Icon size class (e.g. s13, s16, s18)
- * @param {boolean} [loading=false] - Shows explicit spinner state
- * @param {string} [size] - Button size class from parent
- * @param {string} [customClass] - Additional CSS classes for root button
+ * @param {boolean} [disabled=false] - Disables the button
+ * @param {string} [href] - When set, renders as `<a href="{{href}}">`; otherwise `<button>`
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [variant='primary'] - Button variant (`help` is accepted as an alias for `help-button`)
+ * @param {boolean} [pilled=false] - Pill-shaped border radius
+ * @param {boolean} [text=false] - Text variant (transparent background)
+ * @param {boolean} [outlined=false] - Outlined variant (transparent background with border)
+ * @param {string} [size] - Button size class (e.g. xs-size, s-size, m-size, l-size, xl-size). Default m-size.
+ * @param {boolean} [fluid=false] - Full width button
+ * @param {string} [customClass] - Additional CSS classes for the root button (adds `icon-only` when `@label` is omitted)
+ * @param {string} [dataQa] - Optional root data-qa override. Defaults to UlxButton's "ulx-button".
+ * @param {'button'|'submit'|'reset'} [type='button'] - Button type attribute when rendered as `<button>`
+ * @param {boolean} [loading=false] - Explicit loading state; combined with Promise-based loading from `@onClick`
+ * @param {function} [onClick] - Click handler; may return a Promise to show loading until it settles
+ * @param {Modifier} [elementRef] - Optional modifier applied to the root element for parent ref capture
+ * @param {Modifier} [dropdownTargetRef] - Alias for `@elementRef` on UlxButton
+ * @param {string} [class] - Additional CSS classes merged onto the root element
  */
 export default class UlxIconButton extends Component {
+	@tracked promiseLoading = false;
 	get iconPosition() {
 		const { iconRight } = this.args;
 		return iconRight ? "right" : "left";
@@ -58,7 +85,8 @@ export default class UlxIconButton extends Component {
 	}
 
 	get isLoading() {
-		return !!this.args.loading;
+		const { loading = false } = this.args;
+		return loading || this.promiseLoading;
 	}
 
 	get hasIconContent() {
@@ -118,10 +146,33 @@ export default class UlxIconButton extends Component {
 		return this.showIconRight || (!!hasIconBlock && this.iconPosition === "right");
 	}
 
+	@action
+	handleClick(event) {
+		const { onClick } = this.args;
+
+		if (typeof onClick !== "function") {
+			return;
+		}
+
+		const result = onClick(event);
+		const promise = result && typeof result.then === "function" ? result : null;
+
+		if (promise) {
+			this.promiseLoading = true;
+
+			promise.finally(() => {
+				this.promiseLoading = false;
+			});
+		}
+
+		return result;
+	}
+
 	<template>
 		{{#let (has-block "icon") as |hasIconBlock|}}
 			<UlxButton
 				@label={{@label}}
+				@submittingLabel={{@submittingLabel}}
 				@href={{@href}}
 				@variant={{@variant}}
 				@pilled={{@pilled}}
@@ -133,7 +184,7 @@ export default class UlxIconButton extends Component {
 				@dataQa={{@dataQa}}
 				@type={{@type}}
 				@loading={{@loading}}
-				@onClick={{@onClick}}
+				@onClick={{this.handleClick}}
 				@elementRef={{@elementRef}}
 				@dropdownTargetRef={{@dropdownTargetRef}}
 				@class={{@class}}
