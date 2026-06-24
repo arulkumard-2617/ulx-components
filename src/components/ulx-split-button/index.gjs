@@ -48,6 +48,7 @@ import UlxTieredmenu from "../ulx-tieredmenu/index.gjs";
  * @param {string} [dropdownButtonDataQa] - Optional data-qa override for the dropdown trigger button.
  * @param {string} [dividerDataQa] - Optional data-qa override for the divider element.
  * @param {string} [tieredMenuDataQa] - Optional root `data-qa` for the embedded {@link UlxTieredmenu}. The list element uses `buildDataQa(root, "list")` (e.g. `speaker-menu` → `speaker-menu-list`). Omit for default `ulx-tieredmenu` / `ulx-tieredmenu-list`.
+ * @param {Modifier} [defaultButtonRef] - Optional modifier applied to the default (primary) button element for parent ref capture (e.g. anchoring a popup).
  */
 export default class UlxSplitButton extends Component {
 	@tracked menuVisible = false;
@@ -248,78 +249,82 @@ export default class UlxSplitButton extends Component {
 		>
 			{{#if (has-block "icon")}}
 				{{#if (has-block "default")}}
-					<UlxIconButton
-						@dataQa={{this.defaultButtonDataQa}}
-						@iconComponentClass={{@iconComponentClass}}
-						@iconSize={{@iconSize}}
-						@disabled={{this.isDisabled}}
-						@loading={{@loading}}
-						@variant={{this.variantValue}}
-						@pilled={{@pilled}}
-						@text={{@text}}
-						@outlined={{@outlined}}
-						@size={{this.buttonSize}}
-						@customClass="split-button"
-						@onClick={{this.handleDefaultClick}}
-					>
-						<:icon>{{yield to="icon"}}</:icon>
-						<:default>{{yield}}</:default>
-					</UlxIconButton>
-				{{else}}
-					<UlxIconButton
-						@dataQa={{this.defaultButtonDataQa}}
-						@label={{@label}}
-						@iconComponentClass={{@iconComponentClass}}
-						@iconSize={{@iconSize}}
-						@disabled={{this.isDisabled}}
-						@loading={{@loading}}
-						@variant={{this.variantValue}}
-						@pilled={{@pilled}}
-						@text={{@text}}
-						@outlined={{@outlined}}
-						@size={{this.buttonSize}}
-						@customClass="split-button"
-						@onClick={{this.handleDefaultClick}}
-					>
-						<:icon>{{yield to="icon"}}</:icon>
-					</UlxIconButton>
-				{{/if}}
+				<UlxIconButton
+					@dataQa={{this.defaultButtonDataQa}}
+					@iconComponentClass={{@iconComponentClass}}
+					@iconSize={{@iconSize}}
+					@disabled={{this.isDisabled}}
+					@loading={{@loading}}
+					@variant={{this.variantValue}}
+					@pilled={{@pilled}}
+					@text={{@text}}
+					@outlined={{@outlined}}
+					@size={{this.buttonSize}}
+					@customClass="split-button"
+					@onClick={{this.handleDefaultClick}}
+					@elementRef={{@defaultButtonRef}}
+				>
+					<:icon>{{yield to="icon"}}</:icon>
+					<:default>{{yield}}</:default>
+				</UlxIconButton>
 			{{else}}
-				{{#if (has-block "default")}}
-					<UlxIconButton
-						@dataQa={{this.defaultButtonDataQa}}
-						@iconLeft={{@icon}}
-						@iconComponentClass={{@iconComponentClass}}
-						@iconSize={{@iconSize}}
-						@disabled={{this.isDisabled}}
-						@loading={{@loading}}
-						@variant={{this.variantValue}}
-						@pilled={{@pilled}}
-						@text={{@text}}
-						@outlined={{@outlined}}
-						@size={{this.buttonSize}}
-						@customClass="split-button"
-						@onClick={{this.handleDefaultClick}}
-					>
-						{{yield}}
-					</UlxIconButton>
-				{{else}}
-					<UlxIconButton
-						@dataQa={{this.defaultButtonDataQa}}
-						@label={{@label}}
-						@iconLeft={{@icon}}
-						@iconComponentClass={{@iconComponentClass}}
-						@iconSize={{@iconSize}}
-						@disabled={{this.isDisabled}}
-						@loading={{@loading}}
-						@variant={{this.variantValue}}
-						@pilled={{@pilled}}
-						@text={{@text}}
-						@outlined={{@outlined}}
-						@size={{this.buttonSize}}
-						@customClass="split-button"
-						@onClick={{this.handleDefaultClick}}
-					/>
+				<UlxIconButton
+					@dataQa={{this.defaultButtonDataQa}}
+					@label={{@label}}
+					@iconComponentClass={{@iconComponentClass}}
+					@iconSize={{@iconSize}}
+					@disabled={{this.isDisabled}}
+					@loading={{@loading}}
+					@variant={{this.variantValue}}
+					@pilled={{@pilled}}
+					@text={{@text}}
+					@outlined={{@outlined}}
+					@size={{this.buttonSize}}
+					@customClass="split-button"
+					@onClick={{this.handleDefaultClick}}
+					@elementRef={{@defaultButtonRef}}
+				>
+					<:icon>{{yield to="icon"}}</:icon>
+				</UlxIconButton>
+			{{/if}}
+		{{else}}
+			{{#if (has-block "default")}}
+				<UlxIconButton
+					@dataQa={{this.defaultButtonDataQa}}
+					@iconLeft={{@icon}}
+					@iconComponentClass={{@iconComponentClass}}
+					@iconSize={{@iconSize}}
+					@disabled={{this.isDisabled}}
+					@loading={{@loading}}
+					@variant={{this.variantValue}}
+					@pilled={{@pilled}}
+					@text={{@text}}
+					@outlined={{@outlined}}
+					@size={{this.buttonSize}}
+					@customClass="split-button"
+					@onClick={{this.handleDefaultClick}}
+					@elementRef={{@defaultButtonRef}}
+				>
+					{{yield}}
+				</UlxIconButton>
+			{{else}}
+				<UlxIconButton
+					@dataQa={{this.defaultButtonDataQa}}
+					@label={{@label}}
+					@iconLeft={{@icon}}
+					@iconComponentClass={{@iconComponentClass}}
+					@iconSize={{@iconSize}}
+					@disabled={{this.isDisabled}}
+					@loading={{@loading}}
+					@variant={{this.variantValue}}
+					@pilled={{@pilled}}
+					@text={{@text}}
+					@outlined={{@outlined}}
+					@size={{this.buttonSize}}
+					@customClass="split-button"
+					@onClick={{this.handleDefaultClick}}
+					@elementRef={{@defaultButtonRef}}
+				/>
 				{{/if}}
 			{{/if}}
 
