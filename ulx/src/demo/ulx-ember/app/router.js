@@ -88,5 +88,8 @@ Router.map(function () {
     this.route('card');
     this.route('page');
     this.route('settings');
+    this.route('segment');
+    this.route('list');
+    this.route('message');
   });
 });
