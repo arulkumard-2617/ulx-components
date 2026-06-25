@@ -23,7 +23,6 @@ import { isSpecialColumn } from "./utils.js";
  * @param {Array} visibleColumns - currently visible columns
  * @param {Function} onApply - ({ columns, visibleFields }) => void  — called with updated full order and visible fields
  * @param {Function} onClose - () => void
- * @param {Function} onReset - () => void
  * @param {Function} [registerRef] - (instance | null) => void — called with this component instance on mount, null on teardown
  */
 export default class ManageColumns extends Component {
@@ -105,13 +104,6 @@ export default class ManageColumns extends Component {
 			visibleFields: [...this.visibleSet]
 		});
 		this.args.onClose?.();
-	}
-
-	@action
-	handleReset() {
-		this.localOrder = null;
-		this.localVisible = null;
-		this.args.onReset?.();
 	}
 
 	@action

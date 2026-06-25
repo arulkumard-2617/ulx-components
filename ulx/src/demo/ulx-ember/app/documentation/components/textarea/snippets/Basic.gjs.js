@@ -10,29 +10,29 @@ const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
 
 const validations = {
   newContactName: {
-    required: "This field is required.",
+    required: 'This field is required.',
 
     format: {
       with: TEXT_PATTERN_ALT,
       allowEmpty: false,
-      msg: "Enter a valid contact name.",
+      msg: 'Enter a valid contact name.'
     },
 
     maxLength: {
       value: 120,
-      msg: t('msg.validation.max.length', { max: 120 }),
-    },
+      msg: t('msg.validation.max.length', { max: 120 })
+    }
   },
 
   newContactEmail: {
-    required: "Email is required.",
+    required: 'Email is required.',
 
     format: {
       with: EMAIL_PATTERN,
       allowEmpty: false,
-      msg: "Enter a valid email address.",
-    },
-  },
+      msg: 'Enter a valid email address.'
+    }
+  }
 };
 
 export default class DemoTextareaBasic extends Component {

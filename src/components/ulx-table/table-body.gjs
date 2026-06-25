@@ -344,7 +344,7 @@ export default class TableBody extends Component {
 		if (selectionMode === "checkbox") return;
 		if (selectionMode === "single") {
 			onSelectionChange?.(row);
-		} else if (selectionMode === "multiple" || selectionMode === "radio") {
+		} else if (selectionMode === "multiple") {
 			const current = Array.isArray(selection) ? selection : [];
 			const isSelected = this.isRowSelected(row);
 			if (isSelected) {
@@ -354,12 +354,10 @@ export default class TableBody extends Component {
 				});
 				onSelectionChange?.(updated);
 			} else {
-				if (event?.ctrlKey || event?.metaKey || event?.shiftKey) {
-					onSelectionChange?.([...current, row]);
-				} else {
-					onSelectionChange?.([row]);
-				}
+				onSelectionChange?.([...current, row]);
 			}
+		} else if (selectionMode === "radio") {
+			onSelectionChange?.([row]);
 		}
 	}
 
@@ -528,6 +526,7 @@ export default class TableBody extends Component {
 									{{#if (eq col.selectionMode "multiple")}}
 										<UlxCheckbox
 											@checked={{this.isRowSelected row}}
+											@customClass={{row.selectionCheckboxClass}}
 											@onCheckedChange={{fn this.handleCheckboxChange row}}
 											aria-label={{t "lbl.a11y.table.select.row" index=index}}
 										/>
@@ -643,12 +642,7 @@ export default class TableBody extends Component {
 						{{/each}}
 
 						{{#if @hasOptionCell}}
-							<td
-								class="column-body-cell datatable-option-cell"
-								role="gridcell"
-								style="width: 10rem"
-								tabindex="-1"
-							>
+							<td class="column-body-cell datatable-option-cell" role="gridcell" tabindex="-1">
 								{{yield row to="optionCell"}}
 							</td>
 						{{/if}}

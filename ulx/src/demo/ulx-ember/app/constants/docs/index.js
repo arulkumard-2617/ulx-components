@@ -29,6 +29,10 @@ export const DocNavItems = [
         route: 'getting-started.common-mistakes'
       },
       {
+        menuItem: 'AI guide',
+        route: 'getting-started.ai-guide'
+      },
+      {
         menuItem: 'Docs Walkthrough',
         route: 'getting-started.docs-walkthrough'
       }
@@ -149,6 +153,16 @@ export const DocNavItems = [
             menuItem: 'Button',
             to: '/components/button',
             route: 'components.button'
+          },
+          {
+            menuItem: 'IconButton',
+            to: '/components/icon-button',
+            route: 'components.icon-button'
+          },
+          {
+            menuItem: 'BadgeButton',
+            to: '/components/badge-button',
+            route: 'components.badge-button'
           },
           {
             menuItem: 'SelectButton',
@@ -378,6 +392,47 @@ export const DocNavItems = [
             route: 'components.rating'
           }
         ]
+      }
+    ]
+  },
+  {
+    menuTitle: 'Template',
+    icon: 'bs-icons1 payments-icon s18',
+    children: [
+      {
+        menuItem: 'Table',
+        to: '/templates/table',
+        route: 'templates.table'
+      },
+      {
+        menuItem: 'Card',
+        to: '/templates/card',
+        route: 'templates.card'
+      },
+      {
+        menuItem: 'Page',
+        to: '/templates/page',
+        route: 'templates.page'
+      },
+      {
+        menuItem: 'Settings',
+        to: '/templates/settings',
+        route: 'templates.settings'
+      },
+      {
+        menuItem: 'Segment',
+        to: '/templates/segment',
+        route: 'templates.segment'
+      },
+      {
+        menuItem: 'List',
+        to: '/templates/list',
+        route: 'templates.list'
+      },
+      {
+        menuItem: 'Message',
+        to: '/templates/message',
+        route: 'templates.message'
       }
     ]
   }

@@ -27,7 +27,6 @@ const stateToProps = (state) => {
     ...(Object.keys(rules).length ? { rules } : {}),
     size: state.size,
     placeholder: state.placeholder || undefined,
-    keyfilter: state.keyfilter || undefined,
     disabled: state.disabled,
     readonly: state.readonly,
   };
@@ -46,7 +45,6 @@ const stateToSnippet = (state) => {
   const attrs = [];
   if (state.size) attrs.push(`@size="${state.size}"`);
   if (state.placeholder) attrs.push(`placeholder="${state.placeholder}"`);
-  if (state.keyfilter) attrs.push(`@keyfilter="${state.keyfilter}"`);
   if (state.disabled) attrs.push(`@disabled={{true}}`);
   if (state.readonly) attrs.push(`@readonly={{true}}`);
 
@@ -83,19 +81,6 @@ export default {
         { value: '', label: '(none)' },
         { value: 'Enter value', label: 'Enter value' },
         { value: 'Enter description', label: 'Enter description' },
-      ],
-    },
-    {
-      key: 'keyfilter',
-      label: 'Keyfilter',
-      type: 'select',
-      default: '',
-      options: [
-        { value: '', label: 'None' },
-        { value: 'int', label: 'int' },
-        { value: 'float', label: 'float' },
-        { value: 'email', label: 'email' },
-        { value: 'alphanum', label: 'alphanum' },
       ],
     },
     {

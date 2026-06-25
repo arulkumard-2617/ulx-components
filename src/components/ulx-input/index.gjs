@@ -180,7 +180,7 @@ export default class UlxInput extends Component {
 			minlength={{this.minLength}}
 			maxlength={{this.maxLength}}
 			required={{this.isRequired}}
-			aria-required={{this.isRequired}}
+			aria-required="{{this.isRequired}}"
 			aria-invalid="{{this.isInvalid}}"
 			aria-describedby="{{this.ariaDescribedBy}}"
 			aria-errormessage={{this.ariaErrorMessage}}

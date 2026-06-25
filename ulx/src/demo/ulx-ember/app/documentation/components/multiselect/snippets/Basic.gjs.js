@@ -2,93 +2,69 @@ export default `
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { UlxMultiSelect, UlxField, t } from 'ulx-components';
+import { UlxMultiSelect, UlxField } from 'ulx-components';
 
 const CITIES = [
   { label: 'New York', value: 'NY' },
+  { label: 'Chicago', value: 'CHI' },
+  { label: 'Los Angeles', value: 'LA' },
   { label: 'Rome', value: 'RM' },
   { label: 'London', value: 'LDN' },
   { label: 'Istanbul', value: 'IST' },
-  { label: 'Paris', value: 'PRS' },
-];
-
-const CITIES_20 = [
-  { label: 'New York', value: 'NY' },
-  { label: 'Rome', value: 'RM' },
-  { label: 'London', value: 'LDN' },
-  { label: 'Istanbul', value: 'IST' },
-  { label: 'Paris', value: 'PRS' },
-  { label: 'Tokyo', value: 'TKY' },
-  { label: 'Sydney', value: 'SYD' },
-  { label: 'Dubai', value: 'DXB' },
-  { label: 'Singapore', value: 'SGP' },
-  { label: 'Toronto', value: 'TOR' },
-  { label: 'Berlin', value: 'BER' },
-  { label: 'Madrid', value: 'MAD' },
-  { label: 'Barcelona', value: 'BCN' },
-  { label: 'Amsterdam', value: 'AMS' },
-  { label: 'Lisbon', value: 'LIS' },
-  { label: 'Zurich', value: 'ZRH' },
-  { label: 'Stockholm', value: 'STO' },
-  { label: 'Copenhagen', value: 'CPH' },
-  { label: 'Vienna', value: 'VIE' },
-  { label: 'Prague', value: 'PRG' },
+  { label: 'Paris', value: 'PRS' }
 ];
 
 export default class DemoMultiselectBasic extends Component {
-  @tracked selected = [];
-  @tracked selectedSearch = [];
+  /** Pre-filled for narrow layout to show single-line truncation vs wrapping. */
+  @tracked selectedTruncated = ['NY', 'CHI', 'LA', 'RM', 'LDN'];
+
+  @tracked selectedWrap = ['NY', 'CHI', 'LA', 'RM', 'LDN'];
 
   get items() {
     return CITIES;
   }
 
-  get items20() {
-    return CITIES_20;
+  @action
+  setSelectedTruncated(value) {
+    this.selectedTruncated = value;
   }
 
   @action
-  setSelected(value) {
-    this.selected = value;
-  }
-
-  @action
-  setSelectedSearch(value) {
-    this.selectedSearch = value;
+  setSelectedWrap(value) {
+    this.selectedWrap = value;
   }
 
   <template>
     <div class="ulx-form m-size ulx-grid gap-12 mb-14">
       <UlxField
-        @label="Basic"
-        @fieldId="multiselect-basic"
+        @label="Chips (single line, ellipsis when full)"
+        @fieldId="multiselect-basic-truncate"
         @fieldClass="col-6"
         as |field|
       >
         <UlxMultiSelect
           @field={{field}}
           @options={{this.items}}
-          @value={{this.selected}}
-          @onChange={{this.setSelected}}
-          @showClear={{true}}
+          @value={{this.selectedTruncated}}
+          @onChange={{this.setSelectedTruncated}}
+          @selectAll={{true}}
+          @chipWrap={{false}}
           @placeholder="Select cities"
         />
       </UlxField>
 
       <UlxField
-        @label="Basic with Search (20 items)"
-        @fieldId="multiselect-basic-search"
+        @label="Chips (wrap when full)"
+        @fieldId="multiselect-basic-wrap"
         @fieldClass="col-6"
         as |field|
       >
         <UlxMultiSelect
           @field={{field}}
-          @options={{this.items20}}
-          @value={{this.selectedSearch}}
-          @onChange={{this.setSelectedSearch}}
+          @options={{this.items}}
+          @value={{this.selectedWrap}}
+          @onChange={{this.setSelectedWrap}}
           @selectAll={{true}}
-          @filter={{true}}
-          @showClear={{true}}
           @placeholder="Select cities"
         />
       </UlxField>

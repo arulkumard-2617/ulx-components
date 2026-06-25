@@ -18,9 +18,12 @@ export default class BasicCheckboxDemo extends Component {
   <template>
     <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
+        @label="Event days"
+        @tooltipMessage="Choose which event days this setting applies to."
         @rules={{this.requiredRules}}
         @fieldClass="col-12"
         @fieldId="checkbox-basic"
+        @labelFor={{false}}
         as |field|
       >
         <UlxCheckbox

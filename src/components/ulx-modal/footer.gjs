@@ -5,13 +5,7 @@ import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { joinClassNames } from "../../utils/class-names";
 import { t } from "../../utils/i18n";
-
-const FOOTER_ALIGNMENT_TO_JUSTIFY = {
-	start: "flex-start",
-	center: "center",
-	end: "flex-end",
-	"space-between": "space-between"
-};
+import { getFooterAlignmentClasses } from "./footer-alignment.js";
 
 /**
  * Modal footer subcomponent.
@@ -46,6 +40,7 @@ const FOOTER_ALIGNMENT_TO_JUSTIFY = {
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [cancelButtonCustomClass] - Extra class on the cancel button
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to dialog-footer)
  */
@@ -82,13 +77,16 @@ export default class UlxModalFooter extends Component {
 		return this.submitting || (this.args.cancelButtonDisabled ?? false);
 	}
 
+	get doneButtonVariant() {
+		return this.args.doneButtonVariant ?? "primary";
+	}
+
 	get footerClasses() {
 		return joinClassNames("dialog-footer", this.args.footerClassName);
 	}
 
-	get footerStyle() {
-		const alignment = this.args.alignment || "end";
-		return `justify-content: ${FOOTER_ALIGNMENT_TO_JUSTIFY[alignment] ?? FOOTER_ALIGNMENT_TO_JUSTIFY.end}`;
+	get footerAlignmentClasses() {
+		return getFooterAlignmentClasses(this.args.alignment);
 	}
 
 	@action
@@ -105,33 +103,30 @@ export default class UlxModalFooter extends Component {
 
 	<template>
 		{{#unless @hideFooter}}
-			<div
-				class={{this.footerClasses}}
-				data-qa="ulx-modal-footer"
-				style={{this.footerStyle}}
-				...attributes
-			>
-				{{#unless this.hideCancelButton}}
-					<UlxButton
-						@label={{this.cancelLabel}}
-						@variant="basic"
-						@customClass={{@cancelButtonCustomClass}}
-						@disabled={{this.cancelButtonDisabled}}
-						data-qa="ulx-modal-cancel"
-						{{on "click" this.handleCancel}}
-					/>
-				{{/unless}}
+			<div class={{this.footerClasses}} data-qa="ulx-modal-footer" ...attributes>
+				<div class={{this.footerAlignmentClasses}}>
+					{{#unless this.hideCancelButton}}
+						<UlxButton
+							@label={{this.cancelLabel}}
+							@variant="basic"
+							@customClass={{@cancelButtonCustomClass}}
+							@disabled={{this.cancelButtonDisabled}}
+							data-qa="ulx-modal-cancel"
+							{{on "click" this.handleCancel}}
+						/>
+					{{/unless}}
 
-				{{#unless this.hideDoneButton}}
-					<UlxIconButton
-						@label={{this.doneLabel}}
-						@variant="primary"
-						@loading={{this.submitting}}
-						@disabled={{this.doneButtonDisabled}}
-						@dataQa="ulx-modal-done"
-						@onClick={{this.handleDone}}
-					/>
-				{{/unless}}
+					{{#unless this.hideDoneButton}}
+						<UlxIconButton
+							@label={{this.doneLabel}}
+							@variant={{this.doneButtonVariant}}
+							@loading={{this.submitting}}
+							@disabled={{this.doneButtonDisabled}}
+							@dataQa="ulx-modal-done"
+							@onClick={{this.handleDone}}
+						/>
+					{{/unless}}
+				</div>
 			</div>
 		{{/unless}}
 	</template>

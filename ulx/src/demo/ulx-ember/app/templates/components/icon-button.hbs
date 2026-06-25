@@ -1,0 +1,33 @@
+{{page-title "IconButton - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-collections-icon-button-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for IconButton component."
+      >
+        <p class="fg-text-secondary">{{"IconButton uses ULS button and icon class names from the design system."}}</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{else if this.isPassthroughTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-collections-icon-button-passthrough"
+        @title="Pass Through"
+        @subtitle="Pass Through props documentation for IconButton component."
+      >
+        <p class="fg-text-secondary">{{"Pass Through content goes here."}}</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>

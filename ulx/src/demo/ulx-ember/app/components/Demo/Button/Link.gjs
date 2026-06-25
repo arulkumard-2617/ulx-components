@@ -1,4 +1,4 @@
-import { UlxButton, UlxIconButton } from 'ulx-components';
+import { UlxButton } from 'ulx-components';
 
 <template>
   <div class="flex gap-3 align-items-center flex-wrap">
@@ -9,11 +9,5 @@ import { UlxButton, UlxIconButton } from 'ulx-components';
       @customClass="underline"
     />
     <UlxButton @label="Navigate" @variant="link" />
-    <UlxIconButton
-      @label="Link"
-      @href="#"
-      @variant="link"
-      @iconLeft="magic-link-icon"
-    />
   </div>
 </template>

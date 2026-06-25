@@ -8,9 +8,6 @@ export default class DemoButtonVariants extends Component {
       <UlxButton @label="Primary" @variant="primary" />
       <UlxButton @label="Secondary" @variant="secondary" />
       <UlxButton @label="Success" @variant="success" />
-      <UlxButton @label="Info" @variant="info" />
-      <UlxButton @label="Warning" @variant="warning" />
-      <UlxButton @label="Help" @variant="help-button" />
       <UlxButton @label="Danger" @variant="danger" />
     </div>
   </template>

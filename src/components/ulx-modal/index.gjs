@@ -18,6 +18,7 @@ import {
 import UlxModalHeader from "./header.gjs";
 import UlxModalBody from "./body.gjs";
 import UlxModalFooter from "./footer.gjs";
+import { getFooterAlignmentClasses } from "./footer-alignment.js";
 
 const DEFAULT_MODAL_POSITION = "center";
 
@@ -104,8 +105,10 @@ const BODY_OVERFLOW_STYLE = {
  * @param {string} [cancelButtonCustomClass] - Extra class on the default footer cancel button
  * @param {boolean} [doneButtonDisabled=false] - Disable the default footer done/confirm button
  * @param {string} [doneButtonLabel] - Confirm label (defaults to i18n confirm)
+ * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
+ * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {number} [zIndexBase=1000] - Base z-index for modal stacking
  * @param {string} [maskQa] - Optional `data-qa` on the mask (defaults to `ulx-modal-mask`).
@@ -114,7 +117,6 @@ const BODY_OVERFLOW_STYLE = {
 export default class UlxModal extends Component {
 	@service modalStack;
 
-	@tracked isMaximized = false;
 	@tracked isDragging = false;
 	@tracked dragPlacement = null;
 	@tracked isSubmitting = false;
@@ -162,6 +164,10 @@ export default class UlxModal extends Component {
 
 	get footerWrapperClasses() {
 		return joinClassNames("dialog-footer", this.args.footerClassName);
+	}
+
+	get footerAlignmentClasses() {
+		return getFooterAlignmentClasses(this.args.alignment);
 	}
 
 	get maskClasses() {
@@ -251,6 +257,10 @@ export default class UlxModal extends Component {
 
 	get maximizable() {
 		return this.args.maximizable ?? false;
+	}
+
+	get isMaximized() {
+		return this.args.maximized ?? false;
 	}
 
 	get keepInViewport() {
@@ -482,12 +492,10 @@ export default class UlxModal extends Component {
 							{{/if}}
 
 							{{#if (has-block "footer")}}
-								<div
-									class={{this.footerWrapperClasses}}
-									data-qa="ulx-modal-footer"
-									style="justify-content: flex-end;"
-								>
-									{{yield to="footer"}}
+								<div class={{this.footerWrapperClasses}} data-qa="ulx-modal-footer">
+									<div class={{this.footerAlignmentClasses}}>
+										{{yield to="footer"}}
+									</div>
 								</div>
 							{{else}}
 								{{#unless @hideFooter}}
@@ -498,12 +506,14 @@ export default class UlxModal extends Component {
 										@cancelLabel={{@cancelButtonLabel}}
 										@cancelButtonCustomClass={{@cancelButtonCustomClass}}
 										@doneLabel={{@doneButtonLabel}}
+										@doneButtonVariant={{@doneButtonVariant}}
 										@doneButtonDisabled={{@doneButtonDisabled}}
 										@submittingLabel={{@submittingLabel}}
 										@submitting={{this.isSubmitting}}
 										@onCancel={{this.handleCancel}}
 										@onDone={{this.handleDone}}
 										@footerClassName={{@footerClassName}}
+										@alignment={{@alignment}}
 									/>
 								{{/unless}}
 							{{/if}}

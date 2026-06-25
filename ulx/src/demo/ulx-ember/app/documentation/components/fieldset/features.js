@@ -7,11 +7,13 @@ import {
   LayoutDemo,
   BlocksDemo,
   FormLayoutDemo,
+  TemplateDemo,
   ImportSource,
   BasicSource,
   LayoutSource,
   BlocksSource,
-  FormLayoutSource
+  FormLayoutSource,
+  TemplateSource
 } from './imports';
 
 export const FieldsetFeatureItems = [
@@ -111,6 +113,26 @@ export const FieldsetFeatureItems = [
       props: {
         source: FormLayoutSource,
         snippetName: 'formLayout',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'template',
+    sectionNav: 'Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'A mobile app configuration form grouped with three <code>UlxFieldSet</code> sections: basic text fields, asset upload areas, and visual customization controls including <code>UlxOptionSegment</code> and color swatches.'
+      }
+    },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: 'template',
         language: 'handlebars'
       }
     }

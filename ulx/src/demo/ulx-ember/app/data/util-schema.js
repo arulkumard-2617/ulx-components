@@ -4728,10 +4728,6 @@ export const utilSchema = {
             "styles": "border-color: @primary-bdr1;"
           },
           {
-            "class": "border-success",
-            "styles": "border-color: @success-border-color;"
-          },
-          {
             "class": "border-warning",
             "styles": "border-color: @orange-bdr;"
           },
@@ -4752,24 +4748,88 @@ export const utilSchema = {
             "styles": "border-color: @red-bdr;"
           },
           {
+            "class": "border-red-soft",
+            "styles": "border-color: @red-bdr1;"
+          },
+          {
             "class": "border-green",
             "styles": "border-color: @green-bdr;"
+          },
+          {
+            "class": "border-green-soft",
+            "styles": "border-color: @green-bdr1;"
           },
           {
             "class": "border-orange",
             "styles": "border-color: @orange-bdr;"
           },
           {
+            "class": "border-orange-soft",
+            "styles": "border-color: @orange-bdr1;"
+          },
+          {
             "class": "border-blue",
             "styles": "border-color: @blue-bdr;"
+          },
+          {
+            "class": "border-blue-soft",
+            "styles": "border-color: @blue-bdr1;"
           },
           {
             "class": "border-purple",
             "styles": "border-color: @purple-bdr;"
           },
           {
+            "class": "border-purple-soft",
+            "styles": "border-color: @purple-bdr1;"
+          },
+          {
             "class": "border-gold",
             "styles": "border-color: @gold-bdr;"
+          },
+          {
+            "class": "border-gold-soft",
+            "styles": "border-color: @gold-bdr1;"
+          },
+          {
+            "class": "border-black",
+            "styles": "border-color: @black-bdr;"
+          },
+          {
+            "class": "border-black-soft",
+            "styles": "border-color: @black-bdr1;"
+          },
+          {
+            "class": "border-yellow",
+            "styles": "border-color: @yellow-bdr;"
+          },
+          {
+            "class": "border-violet",
+            "styles": "border-color: @violet-bdr;"
+          },
+          {
+            "class": "border-pink",
+            "styles": "border-color: @pink-bdr;"
+          },
+          {
+            "class": "border-brown",
+            "styles": "border-color: @brown-bdr;"
+          },
+          {
+            "class": "border-teal",
+            "styles": "border-color: @teal-bdr;"
+          },
+          {
+            "class": "border-darkturquoise",
+            "styles": "border-color: @darkturquoise-bdr;"
+          },
+          {
+            "class": "border-olive",
+            "styles": "border-color: @olive-bdr;"
+          },
+          {
+            "class": "border-nightblue",
+            "styles": "border-color: @nightblue-bdr;"
           }
         ]
       }

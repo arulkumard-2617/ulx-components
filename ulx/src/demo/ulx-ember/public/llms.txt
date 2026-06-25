@@ -1,0 +1,27 @@
+# ULX Ember Component Library
+> Ember 6.8 components on ULS_V2. Read each component Usages section before implementing.
+
+## Setup
+- /getting-started/quick-start
+- /getting-started/styles-and-theming
+- /getting-started/ai-guide
+
+## Machine-readable catalog
+- /ai/manifest.json
+
+## Overlay family (read Usages before choosing)
+- /components/popup — Anchored contextual overlay
+- /components/modal — Blocking dialog
+- /components/slidepane — Edge drawer panel
+- /components/tooltip — Non-interactive hint
+
+## Button family
+- /components/button — Labeled primary actions
+- /components/icon-button — Icon-only or icon+label actions
+
+## Components with usages (static JSON at /ai/components/{slug}.json)
+- /components/button — UlxButton: Primary action control — labels, variants, icons, loading, and link mode for forms and dialogs.
+- /components/icon-button — UlxIconButton: Icon-only or icon-with-label actions on UlxButton — toolbars, table rows, and compact controls.
+- /components/popup — UlxPopup: Anchored overlay for menus and compact panels — positioned near a trigger, not a blocking modal.
+- /components/slidepane — UlxSlidePane: Edge drawer for filters, detail panels, and side workflows — UlxSlidePane with focus trap and footer actions.
+

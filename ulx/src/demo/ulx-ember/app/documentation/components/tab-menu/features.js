@@ -11,6 +11,9 @@ import {
   CommandDemo,
   AccessibilityDemo,
   CardTabsDemo,
+  LabeledDemo,
+  VerticalDemo,
+  VerticalBorderedDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -19,7 +22,10 @@ import {
   RouterSource,
   CommandSource,
   AccessibilitySource,
-  CardTabsSource
+  CardTabsSource,
+  LabeledSource,
+  VerticalSource,
+  VerticalBorderedSource
 } from './imports';
 
 export const TabMenuFeatureItems = [
@@ -163,6 +169,26 @@ export const TabMenuFeatureItems = [
     }
   },
   {
+    id: "labeled",
+    sectionNav: "Labeled",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Labeled</code> demo shows the <code>labeled</code> variant with segmented pill tabs inside a rounded container. Pass <code>@variant=\"labeled\"</code> for this layout."
+      }
+    },
+    demo: {
+      component: LabeledDemo,
+      props: {
+        source: LabeledSource,
+        snippetName: "labeled",
+        language: "handlebars"
+      }
+    }
+  },
+  {
     id: "card-tabs",
     sectionNav: "Card Tabs",
     sectionDesc: {
@@ -178,6 +204,46 @@ export const TabMenuFeatureItems = [
       props: {
         source: CardTabsSource,
         snippetName: "card-tabs",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "vertical",
+    sectionNav: "Vertical",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Vertical</code> demo shows the <code>vertical</code> variant for section or side navigation. Pass <code>@variant=\"vertical\"</code> to stack tabs in a column."
+      }
+    },
+    demo: {
+      component: VerticalDemo,
+      props: {
+        source: VerticalSource,
+        snippetName: "vertical",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "vertical-bordered",
+    sectionNav: "Vertical Bordered",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content:
+          "The <code>Vertical Bordered</code> demo shows the <code>vertical</code> variant with a primary left accent on the active tab. Pass <code>@variant=\"vertical\"</code> and <code>@customClass=\"bordered\"</code> for side navigation with a divider and active indicator."
+      }
+    },
+    demo: {
+      component: VerticalBorderedDemo,
+      props: {
+        source: VerticalBorderedSource,
+        snippetName: "vertical-bordered",
         language: "handlebars"
       }
     }

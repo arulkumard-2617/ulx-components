@@ -8,6 +8,8 @@ import {
   CheckmarkDemo,
   GroupDemo,
   TemplateDemo,
+  ItemActionsDemo,
+  MultilineDemo,
   FilterDemo,
   ClearIconDemo,
   LoadingStateDemo,
@@ -20,6 +22,8 @@ import {
   CheckmarkSource,
   GroupSource,
   TemplateSource,
+  ItemActionsSource,
+  MultilineSource,
   FilterSource,
   ClearIconSource,
   LoadingStateSource,
@@ -86,6 +90,22 @@ export const DropdownFeatureItems = [
     TemplateDemo,
     TemplateSource,
     'template'
+  ),
+  section(
+    'item-actions',
+    "Item Actions",
+    'Add per-option edit/delete actions inside the <code>:item</code> block using <code>dropdown-item-actions</code> and <code>dropdown-item-action</code>. Actions appear on the right when the item is hovered or focused. When <code>UlxField</code> uses other named blocks (for example <code>:labelRight</code>), wrap the dropdown in <code>&lt;:default as |field|&gt;</code>. Use <code>stopPropagation</code> on action clicks so the option is not selected.',
+    ItemActionsDemo,
+    ItemActionsSource,
+    'item-actions'
+  ),
+  section(
+    'multiline',
+    "Multiline",
+    'Use <code>@multiline</code> to allow the selected label to wrap across multiple lines in the trigger.',
+    MultilineDemo,
+    MultilineSource,
+    'multiline'
   ),
   section(
     'filter',

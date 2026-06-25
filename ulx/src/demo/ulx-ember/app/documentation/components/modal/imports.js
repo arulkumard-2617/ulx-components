@@ -12,6 +12,9 @@ export { default as LongcontentDemo } from '../../../components/Demo/Modal/Longc
 export { default as ResponsiveDemo } from '../../../components/Demo/Modal/Responsive';
 export { default as WithoutoverlayDemo } from '../../../components/Demo/Modal/Withoutoverlay';
 export { default as StackedDemo } from '../../../components/Demo/Modal/Stacked';
+export { default as ConfirmationServiceDemo } from '../../../components/Demo/Modal/ConfirmationService';
+export { default as ConfirmationServiceContentDemo } from '../../../components/Demo/Modal/ConfirmationServiceContent';
+export { default as FooterAlignmentDemo } from '../../../components/Demo/Modal/FooterAlignment';
 
 // Import source (for import section)
 export { default as ImportSource } from './snippets/Import.gjs';
@@ -27,3 +30,6 @@ export { default as LongcontentSource } from './snippets/Longcontent.gjs';
 export { default as ResponsiveSource } from './snippets/Responsive.gjs';
 export { default as WithoutoverlaySource } from './snippets/Withoutoverlay.gjs';
 export { default as StackedSource } from './snippets/Stacked.gjs';
+export { default as ConfirmationServiceSource } from './snippets/ConfirmationService.gjs';
+export { default as ConfirmationServiceContentSource } from './snippets/ConfirmationServiceContent.gjs';
+export { default as FooterAlignmentSource } from './snippets/FooterAlignment.gjs';

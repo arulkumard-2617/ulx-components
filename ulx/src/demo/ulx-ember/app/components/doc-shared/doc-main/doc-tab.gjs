@@ -19,7 +19,7 @@ export default class DocTabComponent extends Component {
   }
 
   <template>
-    <div>
+    <div class="doc-tab">
       <UlxTabmenu
         @items={{@tabs}}
         @activeIndex={{this.activeIndex}}
@@ -27,8 +27,13 @@ export default class DocTabComponent extends Component {
         @tabId="doc-tabmenu"
         @customClass="position-sticky l-size top-32 left-0 z-10 px-10 border-b bg-default"
       />
-      <div class="py-12 px-10">
-        {{yield @activeTab}}
+      {{#if (has-block "pageHeader")}}
+        <div class="doc-tab__page-header px-10 pt-8">
+          {{yield to="pageHeader"}}
+        </div>
+      {{/if}}
+      <div class="doc-tab__content pt-8 pb-12 px-10">
+        {{yield}}
       </div>
     </div>
   </template>

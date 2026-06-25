@@ -7,10 +7,20 @@ import { getComponentClass } from "../../utils/component-config";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import UlxIcon from "../ulx-icon/index.gjs";
 
+const STEP_LINK_DIRECTION = {
+	NEXT: "next",
+	PREV: "prev",
+};
+
+const STEP_LINK_FOCUS_POSITION = {
+	FIRST: "first",
+	LAST: "last",
+};
+
 /**
- * Steps indicator component for multi-step workflows.
+ * Stage-indicator steps component for multi-step workflows.
  *
- * Matches ULS markup/classes from `ULS_V2.0/src/styles/uls-styles/less/modules/steps.less`.
+ * Matches ULS markup/classes from `uls-styles/less/modules/steps.less`.
  *
  * ## Variations
  * - Basic: provide `@items`
@@ -19,18 +29,29 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * - Interactive (non-linear): `@readOnly={{false}}` + `@onSelect`
  * - Template: provide `:item` block for custom step rendering
  *
+ * Default rendering shows icon + label in a row with `right-arrow-icon` separators.
+ * Three visual states: completed (`@completedStepIcon`), active (`@activeStepIcon`),
+ * and pending (`@pendingStepIcon`). Per-item `completedIcon`, `activeIcon`,
+ * `pendingIcon`, or `icon` override the defaults. `@inactiveStepIcon` is an alias
+ * for `@pendingStepIcon`.
+ *
  * ## WCAG
  * - Uses `<nav>` with an ordered list.
  * - Current step has `aria-current="step"`.
  * - Keyboard (when `@readOnly={{false}}`):
  *   - Enter/Space selects focused step
- *   - ArrowLeft/ArrowRight moves focus
- *   - Home/End moves focus to first/last step
+ *   - ArrowLeft/ArrowRight moves focus between enabled steps only
+ *   - Home/End moves focus to first/last enabled step
+ * - Disabled steps use `tabindex="-1"` and are skipped by focus navigation
  *
  * @class UlxSteps
  * @param {Array<Object>} [items=[]] - Steps array. Each item may include:
  *   - `label` (string)
  *   - `icon` (string) - Font icon class for UlxIcon (type="font")
+ *   - `activeIcon` (string) - Active-step icon override
+ *   - `completedIcon` (string) - Completed-step icon override
+ *   - `pendingIcon` (string) - Pending-step icon override
+ *   - `inactiveIcon` (string) - Alias for pending-step icon override
  *   - `disabled` (boolean)
  *   - `command` (Function) - Called on select: ({ originalEvent, index, item }) => void
  * @param {number} [activeIndex] - Controlled active step index (0-based)
@@ -38,6 +59,10 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {Function} [onSelect] - Called when a step is selected: ({ originalEvent, index, item }) => void
  * @param {string} [ariaLabel] - Accessible label for the nav element
  * @param {string} [ariaLabelledBy] - ID of element that labels the nav element
+ * @param {string} [completedStepIcon='success-icon'] - Default completed step icon
+ * @param {string} [activeStepIcon='ls-circle-filled-icon'] - Default active step icon
+ * @param {string} [pendingStepIcon='ls-circle-stroke-icon'] - Default pending step icon
+ * @param {string} [inactiveStepIcon] - Alias for `@pendingStepIcon`
  * @param {string} [customClass] - Extra CSS classes appended to the root element
  * @param {string} [dataQa] - Override root data-qa attribute
  *
@@ -114,8 +139,8 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
-	getStepNumber(index) {
-		return index + 1;
+	getStepTabIndex(item, index) {
+		return this.isStepDisabled(item, index) ? "-1" : undefined;
 	}
 
 	@action
@@ -132,6 +157,50 @@ export default class UlxSteps extends Component {
 	@action
 	isStepCompleted(index) {
 		return Number(index) < this.activeIndex;
+	}
+
+	@action
+	isLastStep(index) {
+		return Number(index) >= this.items.length - 1;
+	}
+
+	@action
+	showStepSeparator(index) {
+		return !this.isLastStep(index);
+	}
+
+	@action
+	getStepIcon(item, index) {
+		const { icon, activeIcon, completedIcon, pendingIcon, inactiveIcon } =
+			item ?? {};
+		const {
+			completedStepIcon = "success-icon",
+			activeStepIcon = "ls-circle-filled-icon",
+			pendingStepIcon = "ls-circle-stroke-icon",
+			inactiveStepIcon,
+		} = this.args;
+		const defaultPendingIcon = inactiveStepIcon ?? pendingStepIcon;
+
+		if (this.isStepCompleted(index)) {
+			return (
+				completedIcon ??
+				completedStepIcon ??
+				icon ??
+				defaultPendingIcon
+			);
+		}
+
+		if (this.isStepActive(index)) {
+			return activeIcon ?? activeStepIcon ?? icon ?? defaultPendingIcon;
+		}
+
+		return (
+			pendingIcon ??
+			inactiveIcon ??
+			defaultPendingIcon ??
+			icon ??
+			activeStepIcon
+		);
 	}
 
 	@action
@@ -155,46 +224,55 @@ export default class UlxSteps extends Component {
 	}
 
 	@action
-	findNextItem(target) {
-		const next = target?.parentElement?.nextElementSibling;
-		return next ? next.children?.[0] : null;
-	}
+	findAdjacentStepLink(target, direction) {
+		let listItem = target?.parentElement;
 
-	@action
-	findPrevItem(target) {
-		const prev = target?.parentElement?.previousElementSibling;
-		return prev ? prev.children?.[0] : null;
-	}
+		while (listItem) {
+			listItem =
+				direction === STEP_LINK_DIRECTION.NEXT
+					? listItem.nextElementSibling
+					: listItem.previousElementSibling;
+			if (!listItem) break;
+			if (
+				!listItem.classList.contains("steps-item") ||
+				listItem.classList.contains("disabled")
+			) {
+				continue;
+			}
 
-	findFirstItem() {
-		const firstLi = this.listElement?.querySelector?.("li");
-		return firstLi ? firstLi.children?.[0] : null;
-	}
-
-	findLastItem() {
-		const items = this.listElement?.querySelectorAll?.("li");
-		const lastLi = items?.length ? items[items.length - 1] : null;
-		return lastLi ? lastLi.children?.[0] : null;
-	}
-
-	@action
-	setFocusToFirstItem() {
-		const firstItem = this.findFirstItem();
-		if (firstItem) {
-			firstItem.focus({ preventScroll: true });
+			const link = listItem.querySelector(".steps-link");
+			if (link) return link;
 		}
+
+		return null;
+	}
+
+	getFocusableStepLinks() {
+		return this.listElement?.querySelectorAll(
+			"li.steps-item:not(.disabled) .steps-link",
+		);
+	}
+
+	@action
+	focusStepLinkAt(position) {
+		const links = this.getFocusableStepLinks();
+		if (!links?.length) return;
+
+		const link =
+			position === STEP_LINK_FOCUS_POSITION.LAST
+				? links[links.length - 1]
+				: links[0];
+		this.setFocusToMenuitem(link);
 	}
 
 	@action
 	handleListFocus() {
-		if (!this.readOnly) {
-			this.setFocusToFirstItem();
-		}
+		!this.readOnly && this.focusStepLinkAt(STEP_LINK_FOCUS_POSITION.FIRST);
 	}
 
 	@action
 	itemClick(item, index, originalEvent) {
-		if (this.readOnly || item?.disabled) {
+		if (this.isStepDisabled(item, index)) {
 			originalEvent?.preventDefault?.();
 			return;
 		}
@@ -215,26 +293,30 @@ export default class UlxSteps extends Component {
 
 		switch (originalEvent.code) {
 			case "ArrowRight": {
-				const nextItem = this.findNextItem(originalEvent.target);
+				const nextItem = this.findAdjacentStepLink(
+					originalEvent.target,
+					STEP_LINK_DIRECTION.NEXT,
+				);
 				nextItem && this.setFocusToMenuitem(nextItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "ArrowLeft": {
-				const prevItem = this.findPrevItem(originalEvent.target);
+				const prevItem = this.findAdjacentStepLink(
+					originalEvent.target,
+					STEP_LINK_DIRECTION.PREV,
+				);
 				prevItem && this.setFocusToMenuitem(prevItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "Home": {
-				const firstItem = this.findFirstItem();
-				firstItem && this.setFocusToMenuitem(firstItem);
+				this.focusStepLinkAt(STEP_LINK_FOCUS_POSITION.FIRST);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "End": {
-				const lastItem = this.findLastItem();
-				lastItem && this.setFocusToMenuitem(lastItem);
+				this.focusStepLinkAt(STEP_LINK_FOCUS_POSITION.LAST);
 				originalEvent.preventDefault();
 				break;
 			}
@@ -275,6 +357,7 @@ export default class UlxSteps extends Component {
 							data-qa={{this.getDataQa "link"}}
 							href={{this.getItemHref item}}
 							target={{item.target}}
+							tabindex={{this.getStepTabIndex item index}}
 							aria-current={{if (this.isStepActive index) "step"}}
 							aria-disabled={{if (this.isStepDisabled item index) "true"}}
 							{{on "keydown" (fn this.onItemKeyDown item index)}}
@@ -293,18 +376,27 @@ export default class UlxSteps extends Component {
 									to="item"
 								}}
 							{{else}}
-								<span class="steps-number">{{this.getStepNumber index}}</span>
-								{{#if item.icon}}
-									<span class="steps-icon">
-										<UlxIcon @type="font" @iconName={{item.icon}} />
-									</span>
-								{{/if}}
+								<span class="steps-icon">
+									<UlxIcon @type="font" @iconName={{this.getStepIcon item index}} />
+								</span>
 								{{#if item.label}}
 									<span class="steps-title">{{item.label}}</span>
 								{{/if}}
 							{{/if}}
 						</a>
 					</li>
+					{{#if (this.showStepSeparator index)}}
+						<li
+							class="steps-separator-item"
+							role="presentation"
+							aria-hidden="true"
+							data-qa={{this.getDataQa "separator"}}
+						>
+							<span class="steps-separator">
+								<UlxIcon @type="font" @iconName="right-arrow-icon" @size="s22" />
+							</span>
+						</li>
+					{{/if}}
 				{{/each}}
 			</ol>
 		</nav>
