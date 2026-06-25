@@ -3,6 +3,7 @@
 // ==========================================================================
 
 export { default as BasicDemo } from '../../../components/Demo/IconButton/Basic';
+export { default as DefaultBlockDemo } from '../../../components/Demo/IconButton/DefaultBlock';
 export { default as IconsDemo } from '../../../components/Demo/IconButton/Icons';
 export { default as IconOnlyDemo } from '../../../components/Demo/IconButton/IconOnly';
 export { default as VariantsDemo } from '../../../components/Demo/IconButton/Variants';
@@ -16,6 +17,7 @@ export { default as LinkDemo } from '../../../components/Demo/IconButton/Link';
 
 export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
+export { default as DefaultBlockSource } from './snippets/DefaultBlock.gjs';
 export { default as IconsSource } from './snippets/Icons.gjs';
 export { default as IconOnlySource } from './snippets/IconOnly.gjs';
 export { default as VariantsSource } from './snippets/Variants.gjs';

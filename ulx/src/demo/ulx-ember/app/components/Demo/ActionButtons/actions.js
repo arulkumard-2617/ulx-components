@@ -16,6 +16,7 @@ export function buildSplitActionButtons({
       icon: 'bs-icons1 session-settings-icon',
       action: onUpdate
     },
+    { separator: true },
     {
       label: 'Delete',
       icon: 'bs-icons1 close-icon-01',
