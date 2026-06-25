@@ -1,5 +1,6 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
+import { modifier } from "ember-modifier";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import UlxSplitButton from "../ulx-split-button/index.gjs";
@@ -20,8 +21,16 @@ import UlxSplitButton from "../ulx-split-button/index.gjs";
  * @param {string} [dropdownButtonDataQa] - Optional data-qa override for UlxSplitButton dropdown button.
  * @param {function} [onShow] - Called when the split-button dropdown opens (see {@link UlxSplitButton} `@onShow`).
  * @param {function} [onHide] - Called when the split-button dropdown closes (see {@link UlxSplitButton} `@onHide`).
+ * @param {function} [onPrimaryButtonReady] - Called with the primary action button's DOM element once it mounts (split-button default or standalone button); use as a popup or tooltip anchor target.
  */
 export default class UlxActionButtons extends Component {
+	primaryButtonRef = modifier((element) => {
+		const { onPrimaryButtonReady } = this.args;
+		if (typeof onPrimaryButtonReady === "function") {
+			onPrimaryButtonReady(element);
+		}
+	});
+
 	get actionButtonsList() {
 		return this.args.actionButtons ?? [];
 	}
@@ -126,6 +135,7 @@ export default class UlxActionButtons extends Component {
 					@tieredMenuDataQa={{@tieredMenuDataQa}}
 					@onShow={{@onShow}}
 					@onHide={{@onHide}}
+					@defaultButtonRef={{this.primaryButtonRef}}
 				/>
 			{{else}}
 				<UlxButton
@@ -136,6 +146,7 @@ export default class UlxActionButtons extends Component {
 					@onClick={{this.handlePrimaryAction}}
 					@disabled={{this.disabled}}
 					@dataQa={{@dataQa}}
+					@elementRef={{this.primaryButtonRef}}
 				>
 					<:prefix>
 						{{#if this.hasPrimaryIcon}}

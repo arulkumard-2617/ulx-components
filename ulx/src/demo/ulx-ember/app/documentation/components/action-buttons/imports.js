@@ -8,6 +8,7 @@ export { default as IconsDemo } from '../../../components/Demo/ActionButtons/Ico
 export { default as VariantsDemo } from '../../../components/Demo/ActionButtons/Variants';
 export { default as OutlinedDemo } from '../../../components/Demo/ActionButtons/Outlined';
 export { default as DisabledDemo } from '../../../components/Demo/ActionButtons/Disabled';
+export { default as PrimaryButtonPopupDemo } from '../../../components/Demo/ActionButtons/PrimaryButtonPopup';
 
 export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
@@ -16,3 +17,4 @@ export { default as IconsSource } from './snippets/Icons.gjs';
 export { default as VariantsSource } from './snippets/Variants.gjs';
 export { default as OutlinedSource } from './snippets/Outlined.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';
+export { default as PrimaryButtonPopupSource } from './snippets/PrimaryButtonPopup.gjs';
