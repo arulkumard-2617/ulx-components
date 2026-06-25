@@ -14,13 +14,14 @@ export function buildSplitActionButtons({
     {
       label: 'Update',
       icon: 'bs-icons1 session-settings-icon',
-      action: onUpdate
+      command: onUpdate
     },
     { separator: true },
     {
       label: 'Delete',
       icon: 'bs-icons1 close-icon-01',
-      action: onDelete
+      linkClass: 'fg-red',
+      command: onDelete
     }
   ];
 }

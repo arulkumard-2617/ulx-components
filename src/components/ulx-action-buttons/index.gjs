@@ -4,12 +4,25 @@ import { modifier } from "ember-modifier";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxSplitButton from "../ulx-split-button/index.gjs";
 
+function resolveItemCommand(item) {
+	return item?.command ?? item?.action;
+}
+
+function toMenuItem(item) {
+	if (item?.separator === true) {
+		return { separator: true };
+	}
+
+	const command = resolveItemCommand(item);
+	return command && !item.command ? { ...item, command } : item;
+}
+
 /**
  * Renders a primary {@link UlxIconButton} or {@link UlxSplitButton} from a list of action descriptors.
  * First item is the main action; additional items appear in the split dropdown.
  *
  * @class UlxActionButtons
- * @param {object[]} [actionButtons] - `{ label, action, customParam?, icon?, dataQa?, separator? }`; empty or missing renders nothing. Optional `icon` on any item uses font-icon classes (e.g. `bs-icons1 ls-tick-icon`) for the primary button or split menu rows. Optional `dataQa` is passed through to each split-dropdown menu item (tiered menu row `data-qa`). Secondary items with `separator: true` render a tiered menu divider.
+ * @param {object[]} [actionButtons] - Action descriptors for UlxTieredmenu (see UlxTieredmenu model structure). First item is the primary button; additional items appear in the split dropdown. Supports `label`, `icon`, `command`, `separator`, `disabled`, `dataQa`, `linkClass`, etc. Legacy `action` is used when `command` is omitted.
  * @param {string} [variant='primary'] - Passed to the underlying Ulx controls.
  * @param {boolean} [outlined=false]
  * @param {string} [size='m-size']
@@ -43,18 +56,7 @@ export default class UlxActionButtons extends Component {
 	}
 
 	get secondaryActionButtons() {
-		return this.actionButtonsList.slice(1).map((actionButton) => {
-			if (actionButton.separator === true) {
-				return { separator: true };
-			}
-
-			return {
-				label: actionButton.label,
-				icon: actionButton.icon,
-				command: () => this.triggerActionButton(actionButton),
-				...(actionButton.dataQa ? { dataQa: actionButton.dataQa } : {})
-			};
-		});
+		return this.actionButtonsList.slice(1).map(toMenuItem);
 	}
 
 	get variant() {
@@ -78,23 +80,11 @@ export default class UlxActionButtons extends Component {
 	}
 
 	@action
-	triggerActionButton(actionButton) {
-		const actionFn = actionButton?.action;
-		if (typeof actionFn !== "function") {
-			return;
-		}
-
-		if (actionButton.customParam !== undefined) {
-			actionFn(actionButton.customParam);
-			return;
-		}
-
-		actionFn();
-	}
-
-	@action
 	handlePrimaryAction() {
-		this.triggerActionButton(this.primaryActionButton);
+		const command = resolveItemCommand(this.primaryActionButton);
+		if (typeof command === "function") {
+			command();
+		}
 	}
 
 	<template>

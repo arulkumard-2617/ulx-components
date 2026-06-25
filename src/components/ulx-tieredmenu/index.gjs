@@ -72,6 +72,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * - `url` (string): URL for navigation (used with command for router integration)
  * - `template` (Component): Custom template component for item rendering
  * - `dataQa` (string): Optional full `data-qa` override for the row; default is `ulx-tieredmenu-item` (or `{root}-item` when `@dataQa` is set on the menu)
+ * - `linkClass` (string): Optional extra CSS class(es) on the item button, appended to `tieredmenu-item-link` (e.g. `fg-red` for destructive actions)
  *
  * ## Popup Mode
  * When `@popup={{true}}`, the menu is hidden by default and shown when `@visible={{true}}`.
@@ -706,6 +707,9 @@ export default class UlxTieredmenu extends Component {
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				if (this.animationState === "enter") {
+					// Re-measure immediately before becoming visible to avoid stale first-open coordinates.
+					this.alignOverlay();
+					this.setZIndex();
 					this.animationState = "enter-active";
 					transitionEndTimeout = setTimeout(() => {
 						completeEnterAnimation();
