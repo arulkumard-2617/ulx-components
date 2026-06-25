@@ -9,6 +9,8 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *
  * @class UlxTieredmenuMenuItem
  * @private
+ * @param {Object} item - Menu item model from TieredMenu `@items`.
+ * @param {string} [item.linkClass] - Optional extra CSS class(es) on the item button, appended to `tieredmenu-item-link`.
  * @param {string} [dataQa] - Optional per-item value from `item.dataQa` (full `data-qa` on the **button**; list row `li` keeps the default `getDataQa("item")`).
  * @param {function} getDataQa - Root `buildDataQa` wrapper (`"item"`, `"trigger"`, `"list"`, …).
  */

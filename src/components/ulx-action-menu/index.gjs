@@ -18,7 +18,7 @@ let actionMenuInstanceCounter = 0;
  * Trigger content supports text, icon-only, or icon+text.
  *
  * @class UlxActionMenu
- * @param {object[]} [items=[]] - Menu items for UlxTieredmenu.
+ * @param {object[]} [items=[]] - Menu items for UlxTieredmenu (see UlxTieredmenu model structure). Supports `label`, `icon`, `items`, `separator`, `disabled`, `command`, `url`, `template`, `dataQa`, and `linkClass` (optional extra CSS on the item button, e.g. `fg-red`).
  * @param {string} [label] - Trigger button label.
  * @param {string} [icon] - Trigger icon class string for UlxIcon (e.g. "bs-icons1 session-settings-icon").
  * @param {string} [iconComponentClass] - Optional UlxIcon font kit class when `@icon` is a single glyph token.
