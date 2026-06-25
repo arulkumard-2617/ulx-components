@@ -633,7 +633,12 @@ export default class TableBody extends Component {
 											@onChange={{@onCellEditComplete}}
 										/>
 									{{else if col.body}}
-										<col.body @row={{row}} @index={{index}} @value={{this.cellValue row col}} />
+										<col.body
+											@row={{row}}
+											@col={{col}}
+											@index={{index}}
+											@value={{this.cellValue row col}}
+										/>
 									{{else}}
 										{{this.cellValue row col}}
 									{{/if}}
