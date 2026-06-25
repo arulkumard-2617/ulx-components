@@ -64,7 +64,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * ## Model Structure
  * Each item in the model can have:
  * - `label` (string): Display text for the menu item
- * - `icon` (string): Icon class name (e.g., "bs-icons1 pdf-stroke-icon")
+ * - `icon` (string): Icon class string for UlxIcon (e.g., "bs-icons1 pdf-stroke-icon" or "bs-icons1 add-icon-01 green")
  * - `items` (Array): Array of submenu items (nested structure supported)
  * - `separator` (boolean): When true, renders as a separator line
  * - `disabled` (boolean): When true, item is disabled and non-interactive

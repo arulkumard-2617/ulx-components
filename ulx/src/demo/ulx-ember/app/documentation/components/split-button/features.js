@@ -12,6 +12,7 @@ import {
   LoadingDemo,
   TemplateDemo,
   IconsDemo,
+  SeparatorDemo,
   ImportSource,
   BasicSource,
   VariantsSource,
@@ -21,7 +22,8 @@ import {
   DisabledSource,
   LoadingSource,
   TemplateSource,
-  IconsSource
+  IconsSource,
+  SeparatorSource
 } from './imports';
 
 export const SplitButtonFeatureItems = [
@@ -217,6 +219,26 @@ export const SplitButtonFeatureItems = [
       props: {
         source: IconsSource,
         snippetName: 'icons',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'separator',
+    sectionNav: 'Separator',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Add <code>{ separator: true }</code> to the <code>@items</code> array to render a divider between dropdown menu entries.'
+      }
+    },
+    demo: {
+      component: SeparatorDemo,
+      props: {
+        source: SeparatorSource,
+        snippetName: 'separator',
         language: 'handlebars'
       }
     }
