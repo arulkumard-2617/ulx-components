@@ -39,6 +39,7 @@ class IconButtonAffixGraphic extends Component {
  *
  * ## Content blocks
  * - <:icon> Optional custom icon markup; replaces the default UlxIcon when not loading
+ * - <:default> Optional custom button content; when present, `@label` is not rendered
  *
  * ## Loading
  * - Pass `@loading={{true}}` for an explicit loading state
@@ -106,25 +107,29 @@ export default class UlxIconButton extends Component {
 		return this.args.size || "m-size";
 	}
 
-	get isIconOnly() {
-		return !this.args.label;
+	@action
+	isIconOnlyButton(hasDefaultBlock) {
+		return !this.args.label && !hasDefaultBlock;
 	}
 
-	get iconClass() {
+	@action
+	iconAffixClass(hasDefaultBlock) {
 		const parts = ["icon"];
-		!this.isIconOnly && parts.push(this.iconPosition);
+		!this.isIconOnlyButton(hasDefaultBlock) && parts.push(this.iconPosition);
 		return parts.join(" ");
 	}
 
-	get buttonCustomClass() {
+	@action
+	buttonCustomClass(hasDefaultBlock) {
 		const { customClass } = this.args;
 		const parts = [];
-		this.isIconOnly && parts.push("icon-only");
+		this.isIconOnlyButton(hasDefaultBlock) && parts.push("icon-only");
 		customClass && parts.push(customClass);
 		return parts.filter(Boolean).join(" ") || undefined;
 	}
 
-	get affixGraphicProps() {
+	@action
+	affixGraphicProps(hasDefaultBlock) {
 		const { iconComponentClass, iconSize } = this.args;
 		return {
 			isLoading: this.isLoading,
@@ -132,7 +137,7 @@ export default class UlxIconButton extends Component {
 			icon: this.resolvedIconName,
 			iconComponentClass,
 			iconSize,
-			iconClass: this.iconClass
+			iconClass: this.iconAffixClass(hasDefaultBlock)
 		};
 	}
 
@@ -169,52 +174,103 @@ export default class UlxIconButton extends Component {
 	}
 
 	<template>
-		{{#let (has-block "icon") as |hasIconBlock|}}
-			<UlxButton
-				@label={{@label}}
-				@submittingLabel={{@submittingLabel}}
-				@href={{@href}}
-				@variant={{@variant}}
-				@pilled={{@pilled}}
-				@text={{@text}}
-				@outlined={{@outlined}}
-				@size={{@size}}
-				@fluid={{@fluid}}
-				@disabled={{@disabled}}
-				@dataQa={{@dataQa}}
-				@type={{@type}}
-				@loading={{@loading}}
-				@onClick={{this.handleClick}}
-				@elementRef={{@elementRef}}
-				@dropdownTargetRef={{@dropdownTargetRef}}
-				@class={{@class}}
-				@customClass={{this.buttonCustomClass}}
-				...attributes
-			>
-				<:prefix>
-					{{#if (this.shouldShowPrefixAffix hasIconBlock)}}
-						<IconButtonAffixGraphic
-							@affix={{this.affixGraphicProps}}
-							@hasCustomIcon={{hasIconBlock}}
-							@side="left"
-						>
-							{{yield to="icon"}}
-						</IconButtonAffixGraphic>
-					{{/if}}
-				</:prefix>
+		{{#let (has-block "default") as |hasDefaultBlock|}}
+			{{#let (has-block "icon") as |hasIconBlock|}}
+				{{#if hasDefaultBlock}}
+					<UlxButton
+						@submittingLabel={{@submittingLabel}}
+						@href={{@href}}
+						@variant={{@variant}}
+						@pilled={{@pilled}}
+						@text={{@text}}
+						@outlined={{@outlined}}
+						@size={{@size}}
+						@fluid={{@fluid}}
+						@disabled={{@disabled}}
+						@dataQa={{@dataQa}}
+						@type={{@type}}
+						@loading={{@loading}}
+						@onClick={{this.handleClick}}
+						@elementRef={{@elementRef}}
+						@dropdownTargetRef={{@dropdownTargetRef}}
+						@class={{@class}}
+						@customClass={{this.buttonCustomClass hasDefaultBlock}}
+						...attributes
+					>
+						<:prefix>
+							{{#if (this.shouldShowPrefixAffix hasIconBlock)}}
+								<IconButtonAffixGraphic
+									@affix={{this.affixGraphicProps hasDefaultBlock}}
+									@hasCustomIcon={{hasIconBlock}}
+									@side="left"
+								>
+									{{yield to="icon"}}
+								</IconButtonAffixGraphic>
+							{{/if}}
+						</:prefix>
 
-				<:suffix>
-					{{#if (this.shouldShowSuffixAffix hasIconBlock)}}
-						<IconButtonAffixGraphic
-							@affix={{this.affixGraphicProps}}
-							@hasCustomIcon={{hasIconBlock}}
-							@side="right"
-						>
-							{{yield to="icon"}}
-						</IconButtonAffixGraphic>
-					{{/if}}
-				</:suffix>
-			</UlxButton>
+						<:suffix>
+							{{#if (this.shouldShowSuffixAffix hasIconBlock)}}
+								<IconButtonAffixGraphic
+									@affix={{this.affixGraphicProps hasDefaultBlock}}
+									@hasCustomIcon={{hasIconBlock}}
+									@side="right"
+								>
+									{{yield to="icon"}}
+								</IconButtonAffixGraphic>
+							{{/if}}
+						</:suffix>
+
+						<:default>{{yield}}</:default>
+					</UlxButton>
+				{{else}}
+					<UlxButton
+						@label={{@label}}
+						@submittingLabel={{@submittingLabel}}
+						@href={{@href}}
+						@variant={{@variant}}
+						@pilled={{@pilled}}
+						@text={{@text}}
+						@outlined={{@outlined}}
+						@size={{@size}}
+						@fluid={{@fluid}}
+						@disabled={{@disabled}}
+						@dataQa={{@dataQa}}
+						@type={{@type}}
+						@loading={{@loading}}
+						@onClick={{this.handleClick}}
+						@elementRef={{@elementRef}}
+						@dropdownTargetRef={{@dropdownTargetRef}}
+						@class={{@class}}
+						@customClass={{this.buttonCustomClass hasDefaultBlock}}
+						...attributes
+					>
+						<:prefix>
+							{{#if (this.shouldShowPrefixAffix hasIconBlock)}}
+								<IconButtonAffixGraphic
+									@affix={{this.affixGraphicProps hasDefaultBlock}}
+									@hasCustomIcon={{hasIconBlock}}
+									@side="left"
+								>
+									{{yield to="icon"}}
+								</IconButtonAffixGraphic>
+							{{/if}}
+						</:prefix>
+
+						<:suffix>
+							{{#if (this.shouldShowSuffixAffix hasIconBlock)}}
+								<IconButtonAffixGraphic
+									@affix={{this.affixGraphicProps hasDefaultBlock}}
+									@hasCustomIcon={{hasIconBlock}}
+									@side="right"
+								>
+									{{yield to="icon"}}
+								</IconButtonAffixGraphic>
+							{{/if}}
+						</:suffix>
+					</UlxButton>
+				{{/if}}
+			{{/let}}
 		{{/let}}
 	</template>
 }

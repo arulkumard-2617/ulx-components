@@ -74,6 +74,9 @@ export { default as UlxSorterItem } from './components/ulx-sorter/item.gjs';
 export { t } from './utils/i18n.js';
 
 export { validate, transformErrorsToNested } from './utils/validation-util.js';
+export { getValue } from './utils/object-util.js';
+export { sanitizeHtml, default as sanitizeUtil } from './utils/sanitize-util.js';
+export { ulxHtmlSafe } from './helpers/ulx-html-safe.js';
 export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
 export { SVG_NAMESPACE } from './utils/svg-namespace.js';
 export {

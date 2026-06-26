@@ -17,6 +17,7 @@ export { default as PopupDefaultFooterDemo } from '../../../components/Demo/Spli
 export { default as PopupBodyOnlyDemo } from '../../../components/Demo/SplitButton/PopupBodyOnly';
 export { default as PopupClosableDemo } from '../../../components/Demo/SplitButton/PopupClosable';
 export { default as PopupPositionsDemo } from '../../../components/Demo/SplitButton/PopupPositions';
+export { default as SeparatorDemo } from '../../../components/Demo/SplitButton/Separator';
 
 export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
@@ -34,3 +35,4 @@ export { default as PopupDefaultFooterSource } from './snippets/PopupDefaultFoot
 export { default as PopupBodyOnlySource } from './snippets/PopupBodyOnly.gjs';
 export { default as PopupClosableSource } from './snippets/PopupClosable.gjs';
 export { default as PopupPositionsSource } from './snippets/PopupPositions.gjs';
+export { default as SeparatorSource } from './snippets/Separator.gjs';

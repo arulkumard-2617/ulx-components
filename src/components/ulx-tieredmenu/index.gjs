@@ -64,7 +64,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * ## Model Structure
  * Each item in the model can have:
  * - `label` (string): Display text for the menu item
- * - `icon` (string): Icon class name (e.g., "bs-icons1 pdf-stroke-icon")
+ * - `icon` (string): Icon class string for UlxIcon (e.g., "bs-icons1 pdf-stroke-icon" or "bs-icons1 add-icon-01 green")
  * - `items` (Array): Array of submenu items (nested structure supported)
  * - `separator` (boolean): When true, renders as a separator line
  * - `disabled` (boolean): When true, item is disabled and non-interactive
@@ -72,6 +72,7 @@ const TIEREDMENU_ANY_FOCUSABLE_LINK = ".tieredmenu-item-link:not([aria-disabled=
  * - `url` (string): URL for navigation (used with command for router integration)
  * - `template` (Component): Custom template component for item rendering
  * - `dataQa` (string): Optional full `data-qa` override for the row; default is `ulx-tieredmenu-item` (or `{root}-item` when `@dataQa` is set on the menu)
+ * - `linkClass` (string): Optional extra CSS class(es) on the item button, appended to `tieredmenu-item-link` (e.g. `fg-red` for destructive actions)
  *
  * ## Popup Mode
  * When `@popup={{true}}`, the menu is hidden by default and shown when `@visible={{true}}`.
@@ -706,6 +707,9 @@ export default class UlxTieredmenu extends Component {
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
 				if (this.animationState === "enter") {
+					// Re-measure immediately before becoming visible to avoid stale first-open coordinates.
+					this.alignOverlay();
+					this.setZIndex();
 					this.animationState = "enter-active";
 					transitionEndTimeout = setTimeout(() => {
 						completeEnterAnimation();

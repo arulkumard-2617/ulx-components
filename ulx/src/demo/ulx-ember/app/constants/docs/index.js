@@ -418,6 +418,21 @@ export const DocNavItems = [
         menuItem: 'Settings',
         to: '/templates/settings',
         route: 'templates.settings'
+      },
+      {
+        menuItem: 'Segment',
+        to: '/templates/segment',
+        route: 'templates.segment'
+      },
+      {
+        menuItem: 'List',
+        to: '/templates/list',
+        route: 'templates.list'
+      },
+      {
+        menuItem: 'Message',
+        to: '/templates/message',
+        route: 'templates.message'
       }
     ]
   }

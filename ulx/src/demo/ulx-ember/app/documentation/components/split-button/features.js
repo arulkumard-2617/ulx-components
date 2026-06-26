@@ -18,6 +18,7 @@ import {
   PopupBodyOnlyDemo,
   PopupClosableDemo,
   PopupPositionsDemo,
+  SeparatorDemo,
   ImportSource,
   BasicSource,
   VariantsSource,
@@ -34,6 +35,9 @@ import {
   PopupBodyOnlySource,
   PopupClosableSource,
   PopupPositionsSource
+  TemplateSource,
+  IconsSource,
+  SeparatorSource
 } from './imports';
 
 export const SplitButtonFeatureItems = [
@@ -350,6 +354,66 @@ export const SplitButtonFeatureItems = [
       props: {
         source: LoadingSource,
         snippetName: 'loading',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'template',
+    sectionNav: 'Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@label</code> and <code>@icon</code> to define the main button content.'
+      }
+    },
+    demo: {
+      component: TemplateDemo,
+      props: {
+        source: TemplateSource,
+        snippetName: 'template',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'icons',
+    sectionNav: 'Icons',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@icon</code> for the main button and <code>@dropdownIcon</code> for the dropdown trigger icon.'
+      }
+    },
+    demo: {
+      component: IconsDemo,
+      props: {
+        source: IconsSource,
+        snippetName: 'icons',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'separator',
+    sectionNav: 'Separator',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Add <code>{ separator: true }</code> to the <code>@items</code> array to render a divider between dropdown menu entries.'
+      }
+    },
+    demo: {
+      component: SeparatorDemo,
+      props: {
+        source: SeparatorSource,
+        snippetName: 'separator',
         language: 'handlebars'
       }
     }
