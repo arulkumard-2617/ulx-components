@@ -1,3 +1,11 @@
+import { OfflinePaymentFeatureItems } from './offline-payment/features';
+import { OrderSummaryFeatureItems } from './order-summary/features';
 import { PriceBreakdownFeatureItems } from './price-breakdown/features';
+import { QueriesFeatureItems } from './queries/features';
 
-export const TableFeatureItems = [...PriceBreakdownFeatureItems];
+export const TableFeatureItems = [
+  ...OfflinePaymentFeatureItems,
+  ...OrderSummaryFeatureItems,
+  ...PriceBreakdownFeatureItems,
+  ...QueriesFeatureItems
+];

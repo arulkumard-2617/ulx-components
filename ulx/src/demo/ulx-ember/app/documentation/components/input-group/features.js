@@ -11,6 +11,7 @@ import {
   IconPrefixDemo,
   InputButtonDemo,
   InputActionsDemo,
+  CustomTemplateDemo,
   InputDropdownDemo,
   InputMultiDropdownDemo,
   DisabledDemo,
@@ -24,6 +25,7 @@ import {
   IconPrefixSource,
   InputButtonSource,
   InputActionsSource,
+  CustomTemplateSource,
   InputDropdownSource,
   InputMultiDropdownSource,
   DisabledSource,
@@ -187,6 +189,26 @@ export const InputGroupFeatureItems = [
       props: {
         source: InputActionsSource,
         snippetName: 'inputActions',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'custom-template',
+    sectionNav: 'Custom Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Place confirm and cancel icon buttons beside an input group for inline editing. Wrap the group and actions in a flex row (e.g. <code>flex gap-2 items-center</code>) with a currency or text prefix addon on the input group.'
+      }
+    },
+    demo: {
+      component: CustomTemplateDemo,
+      props: {
+        source: CustomTemplateSource,
+        snippetName: 'CustomTemplate',
         language: 'handlebars'
       }
     }

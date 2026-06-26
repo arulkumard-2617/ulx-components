@@ -11,7 +11,7 @@ export default class DemoSelectButtonCarousel extends Component {
     return Array.from({ length: 12 }, (_, index) => ({
       label: \`Day - \${index + 1}\`,
       value: index + 1,
-      highlighted: true,
+      highlighted: true
     }));
   }
 
@@ -21,15 +21,18 @@ export default class DemoSelectButtonCarousel extends Component {
   }
 
   <template>
-    <UlxSelectButton
-      @carousel={{true}}
-      @visibleCount={{4}}
-      @stretch={{true}}
-      @options={{this.options}}
-      @value={{this.value}}
-      @onChange={{this.onChange}}
-      @ariaLabel="Select day"
-    />
+    <div class="ulx-grid">
+      <UlxSelectButton
+        @carousel={{true}}
+        @visibleCount={{4}}
+        @stretch={{true}}
+        @options={{this.options}}
+        @value={{this.value}}
+        @onChange={{this.onChange}}
+        @ariaLabel="Select day"
+        class="col-6"
+      />
+    </div>
   </template>
 }
 
