@@ -9,13 +9,15 @@ import {
   IconsDemo,
   SplitActionsDemo,
   DisabledDemo,
+  PrimaryButtonPopupDemo,
   ImportSource,
   BasicSource,
   VariantsSource,
   OutlinedSource,
   IconsSource,
   SplitActionsSource,
-  DisabledSource
+  DisabledSource,
+  PrimaryButtonPopupSource
 } from './imports';
 
 export const ActionButtonsFeatureItems = [
@@ -135,6 +137,26 @@ export const ActionButtonsFeatureItems = [
       props: {
         source: SplitActionsSource,
         snippetName: 'split-actions',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'primary-button-popup',
+    sectionNav: 'Primary button popup',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@onPrimaryButtonReady</code> to receive the primary action button DOM element for anchoring popups or tooltips. In split mode the callback receives the main button, not the dropdown chevron.'
+      }
+    },
+    demo: {
+      component: PrimaryButtonPopupDemo,
+      props: {
+        source: PrimaryButtonPopupSource,
+        snippetName: 'primary-button-popup',
         language: 'handlebars'
       }
     }

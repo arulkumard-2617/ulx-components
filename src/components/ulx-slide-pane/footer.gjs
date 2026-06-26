@@ -1,14 +1,13 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { on } from "@ember/modifier";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { t } from "../../utils/i18n";
 
 /**
  * Slide pane footer subcomponent.
- * Displays action buttons (typically Cancel and Confirm/Done). The default Done
- * control uses `UlxIconButton` so async loading shows the affix spinner.
+ * Displays action buttons (typically Cancel and Confirm/Done).
+ * Done and Cancel buttons automatically show loading state when their callbacks return Promises.
  * Can be customized using the :footer named block on UlxSlidePane.
  *
  * @class UlxSlidePaneFooter
@@ -18,12 +17,11 @@ import { t } from "../../utils/i18n";
  * @param {boolean} [showBackButton=false] - Show the back button (for nested slide panes)
  * @param {string} [cancelLabel="Cancel"] - Label for cancel button
  * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
- * @param {string} [backLabel="Back"] - Label for back button
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneLabel)
- * @param {Function} [onCancel] - Callback when cancel button is clicked
- * @param {Function} [onDone] - Callback when done button is clicked
+ * @param {string} [backLabel="Back"] - Label for back button
+ * @param {Function} [onCancel] - Callback when cancel button is clicked; may return a Promise
+ * @param {Function} [onDone] - Callback when done button is clicked; may return a Promise
  * @param {Function} [onBack] - Callback when back button is clicked (nested slide panes)
- * @param {boolean} [submitting=false] - Disable both buttons during async operation
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [cancelButtonDataQa] - data-qa for cancel button
@@ -38,11 +36,7 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	get doneLabel() {
-		const { submitting, submittingLabel, doneLabel } = this.args;
-		if (submitting && submittingLabel) {
-			return submittingLabel;
-		}
-		return doneLabel || t("label.confirm");
+		return this.args.doneLabel || t("label.confirm");
 	}
 
 	get hideCancelButton() {
@@ -61,18 +55,6 @@ export default class UlxSlidePaneFooter extends Component {
 		return this.args.backLabel || t("label.back");
 	}
 
-	get submitting() {
-		return this.args.submitting ?? false;
-	}
-
-	get doneButtonDisabled() {
-		return this.submitting || (this.args.doneButtonDisabled ?? false);
-	}
-
-	get cancelButtonDisabled() {
-		return this.submitting || (this.args.cancelButtonDisabled ?? false);
-	}
-
 	get footerClasses() {
 		const { footerClassName } = this.args;
 		const parts = ["slidepane-footer"];
@@ -81,21 +63,18 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	@action
-	handleCancel(event) {
-		event.preventDefault();
-		this.args.onCancel?.();
+	handleCancel() {
+		return this.args.onCancel?.();
 	}
 
 	@action
-	handleDone(event) {
-		event.preventDefault();
-		this.args.onDone?.();
+	handleDone() {
+		return this.args.onDone?.();
 	}
 
 	@action
-	handleBack(event) {
-		event.preventDefault();
-		this.args.onBack?.();
+	handleBack() {
+		return this.args.onBack?.();
 	}
 
 	<template>
@@ -109,7 +88,7 @@ export default class UlxSlidePaneFooter extends Component {
 							@label={{this.backLabel}}
 							@variant="basic"
 							@dataQa={{@backButtonDataQa}}
-							{{on "click" this.handleBack}}
+							@onClick={{this.handleBack}}
 						/>
 					{{/if}}
 
@@ -117,18 +96,18 @@ export default class UlxSlidePaneFooter extends Component {
 						<UlxButton
 							@label={{this.cancelLabel}}
 							@variant="basic"
-							@disabled={{this.cancelButtonDisabled}}
+							@disabled={{@cancelButtonDisabled}}
 							@dataQa={{@cancelButtonDataQa}}
-							{{on "click" this.handleCancel}}
+							@onClick={{this.handleCancel}}
 						/>
 					{{/unless}}
 
 					{{#unless this.hideDoneButton}}
-						<UlxIconButton
+						<UlxButton
 							@label={{this.doneLabel}}
+							@submittingLabel={{@submittingLabel}}
 							@variant="primary"
-							@loading={{this.submitting}}
-							@disabled={{this.doneButtonDisabled}}
+							@disabled={{@doneButtonDisabled}}
 							@dataQa={{@doneButtonDataQa}}
 							@onClick={{this.handleDone}}
 						/>
