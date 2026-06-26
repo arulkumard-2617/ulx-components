@@ -38,6 +38,7 @@ Router.map(function () {
     this.route('input');
     this.route('chip-input');
     this.route('input-group');
+    this.route('step-input');
     this.route('message');
     this.route('messages');
     this.route('modal');

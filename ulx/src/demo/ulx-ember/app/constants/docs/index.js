@@ -78,6 +78,11 @@ export const DocNavItems = [
             route: 'components.input-group'
           },
           {
+            menuItem: 'StepInput',
+            to: '/components/step-input',
+            route: 'components.step-input'
+          },
+          {
             menuItem: 'Checkbox',
             to: '/components/checkbox',
             route: 'components.checkbox'
