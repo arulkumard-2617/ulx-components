@@ -30,8 +30,8 @@ export default class LinkedSessionsTemplate extends Component {
       disabled: false,
       statusIcon: 'check-in-icon',
       statusBarClass: 'bg-greenLayer1 fg-green',
-      statusMessage:
-        'This session is available with General Admission and will be carried forward.'
+      statusMessageBefore: 'This session is available with ',
+      statusMessageAfter: ' and will be carried forward.'
     },
     {
       id: 'session-privacy-security',
@@ -48,8 +48,8 @@ export default class LinkedSessionsTemplate extends Component {
       disabled: true,
       statusIcon: 'close-icon-01',
       statusBarClass: 'bg-redLayer1 fg-red',
-      statusMessage:
-        'This session is not available with General Admission and will be cancelled. Refund (if approved): $50.00'
+      statusMessageBefore: 'This session is not available with ',
+      statusMessageAfter: ' and will be cancelled. Refund (if approved): $50.00'
     }
   ];
 
@@ -67,8 +67,9 @@ export default class LinkedSessionsTemplate extends Component {
       disabled: true,
       statusIcon: 'close-icon-01',
       statusBarClass: 'bg-redLayer1 fg-red',
-      statusMessage:
-        'This Companion Ticket is not available with General Admission and will be cancelled. Refund (if approved): $150.00'
+      statusMessageBefore: 'This Companion Ticket is not available with ',
+      statusMessageAfter:
+        ' and will be cancelled. Refund (if approved): $150.00'
     }
   ];
 
@@ -98,8 +99,8 @@ export default class LinkedSessionsTemplate extends Component {
     <div class="flex flex-col gap-4">
       <UlxFieldSet
         class="gap-2"
-        @legendClass="mb-0 leading-none"
-        @customClass="flex flex-col gap-2 mt-0"
+        @legendClass="leading-none"
+        @customClass="flex flex-col gap-4 mt-0"
       >
         <:legend>
           <span
@@ -114,17 +115,17 @@ export default class LinkedSessionsTemplate extends Component {
               @variant={{if session.available "success" "danger"}}
               @size="s-size"
               @customClass="p-0"
-              @bodyClass="p-0"
+              @contentClass="p-0"
               @contentClass="p-0"
               data-qa="session-card-{{session.id}}"
             >
               <div class="flex flex-col">
-              <div class="flex items-start gap-2 p-3">
-                <UlxCheckbox
-                  @id={{session.id}}
-                  @checked={{session.checked}}
-                  @disabled={{session.disabled}}
-                  @size="m-size"
+                <div class="flex items-center gap-4 px-3 py-5">
+                  <UlxCheckbox
+                    @id={{session.id}}
+                    @checked={{session.checked}}
+                    @disabled={{session.disabled}}
+                    @size="l-size"
                     @onCheckedChange={{fn this.onSessionToggle session}}
                     @customClass="shrink-0"
                     aria-describedby="session-status-{{session.id}}"
@@ -136,7 +137,7 @@ export default class LinkedSessionsTemplate extends Component {
                       {{if session.disabled 'disabled'}}"
                   >
                     <div class="flex items-start justify-between gap-4 w-full">
-                      <div class="flex flex-col gap-1 min-w-0">
+                      <div class="flex flex-col gap-2 min-w-0">
                         <span
                           class="text-14 bold-font leading-none
                             {{unless session.available 'fg-secondary'}}"
@@ -202,12 +203,12 @@ export default class LinkedSessionsTemplate extends Component {
                   </label>
                 </div>
 
-              <div
-                id="session-status-{{session.id}}"
-                class="flex items-center gap-2 px-3 py-2 text-12
-                  {{session.statusBarClass}}"
-                role="status"
-              >
+                <div
+                  id="session-status-{{session.id}}"
+                  class="flex items-center gap-2 px-3 py-2 text-13
+                    {{session.statusBarClass}}"
+                  role="status"
+                >
                   <UlxIcon
                     @iconName={{session.statusIcon}}
                     @type="font"
@@ -215,7 +216,11 @@ export default class LinkedSessionsTemplate extends Component {
                     @size="s14"
                     aria-hidden="true"
                   />
-                  <span>{{session.statusMessage}}</span>
+                  <span>
+                    {{session.statusMessageBefore}}<span
+                      class="bold-font"
+                    >General Admission</span>{{session.statusMessageAfter}}
+                  </span>
                 </div>
               </div>
             </UlxCard>
@@ -225,7 +230,7 @@ export default class LinkedSessionsTemplate extends Component {
 
       <UlxFieldSet
         class="gap-2"
-        @legendClass="mb-0 leading-none"
+        @legendClass="leading-none"
         @customClass="flex flex-col gap-2 mt-0"
       >
         <:legend>
@@ -241,17 +246,17 @@ export default class LinkedSessionsTemplate extends Component {
               @variant={{if companion.available "success" "danger"}}
               @size="s-size"
               @customClass="p-0"
-              @bodyClass="p-0"
+              @contentClass="p-0"
               @contentClass="p-0"
               data-qa="companion-card-{{companion.id}}"
             >
               <div class="flex flex-col">
-                <div class="flex items-start gap-2 p-3">
+                <div class="flex items-center gap-4 px-3 py-5">
                   <UlxCheckbox
                     @id={{companion.id}}
                     @checked={{companion.checked}}
                     @disabled={{companion.disabled}}
-                    @size="m-size"
+                    @size="l-size"
                     @onCheckedChange={{fn this.onCompanionToggle companion}}
                     @customClass="shrink-0"
                     aria-describedby="companion-status-{{companion.id}}"
@@ -262,7 +267,7 @@ export default class LinkedSessionsTemplate extends Component {
                     class="checkbox-label flex-1 min-w-0
                       {{if companion.disabled 'disabled'}}"
                   >
-                    <div class="flex items-start justify-between gap-4 w-full">
+                    <div class="flex items-center justify-between gap-4 w-full">
                       <div class="flex items-center gap-3 min-w-0">
                         <UlxAvatar
                           @type="text"
@@ -299,12 +304,12 @@ export default class LinkedSessionsTemplate extends Component {
                   </label>
                 </div>
 
-              <div
-                id="companion-status-{{companion.id}}"
-                class="flex items-center gap-2 px-3 py-2 text-12
-                  {{companion.statusBarClass}}"
-                role="status"
-              >
+                <div
+                  id="companion-status-{{companion.id}}"
+                  class="flex items-center gap-2 px-3 py-2 text-13
+                    {{companion.statusBarClass}}"
+                  role="status"
+                >
                   <UlxIcon
                     @iconName={{companion.statusIcon}}
                     @type="font"
@@ -312,7 +317,11 @@ export default class LinkedSessionsTemplate extends Component {
                     @size="s14"
                     aria-hidden="true"
                   />
-                  <span>{{companion.statusMessage}}</span>
+                  <span>
+                    {{companion.statusMessageBefore}}<span
+                      class="bold-font"
+                    >General Admission</span>{{companion.statusMessageAfter}}
+                  </span>
                 </div>
               </div>
             </UlxCard>

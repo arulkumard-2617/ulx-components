@@ -240,6 +240,18 @@ export default class UlxSplitButton extends Component {
 		if (typeof this.args.onShow === "function") this.args.onShow();
 	}
 
+	restoreTabOutFocus(target) {
+		if (!target) {
+			return;
+		}
+
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				target.focus?.({ preventScroll: true });
+			});
+		});
+	}
+
 	@action
 	hideMenu(detail) {
 		const wasVisible = this.menuVisible,
@@ -256,23 +268,14 @@ export default class UlxSplitButton extends Component {
 			return;
 		}
 		if (this.isPopupMode) {
-			dropdownTabOutTarget &&
-				schedule("afterRender", () => {
-					requestAnimationFrame(() => {
-						dropdownTabOutTarget.focus?.({ preventScroll: true });
-					});
-				});
+			this.restoreTabOutFocus(dropdownTabOutTarget);
 			return;
 		}
 		if (tieredmenuTabOutTarget) {
 			return;
 		}
 		if (dropdownTabOutTarget) {
-			schedule("afterRender", () => {
-				requestAnimationFrame(() => {
-					dropdownTabOutTarget.focus?.({ preventScroll: true });
-				});
-			});
+			this.restoreTabOutFocus(dropdownTabOutTarget);
 			return;
 		}
 		this.dropdownTarget?.focus({ preventScroll: true });
