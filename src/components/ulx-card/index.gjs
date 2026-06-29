@@ -4,7 +4,7 @@ import { getComponentClass } from "../../utils/component-config";
 
 /**
  * Card container built on top of existing ULS_V2.0 card.less styles.
- * Supports header, title, subtitle, body content, and footer, plus visual
+ * Supports header, title, subtitle, content, and footer, plus visual
  * variants like outlined / elevated / flat and tone variants like primary,
  * success, warning, danger, info, and contrast.
  *
@@ -24,9 +24,9 @@ import { getComponentClass } from "../../utils/component-config";
  *   classes for hover / focus styles.
  *
  * @class UlxCard
- * @param {string} [title] - Card title text.
+ * @param {string} [title] - Card title text; rendered in the header section.
  * @param {string} [subTitle] - Optional subtitle text under the title.
- * @param {unknown} [header] - Optional header content; when provided, rendered inside header section above title.
+ * @param {unknown} [header] - Optional header content; when provided, rendered inside header section.
  * @param {unknown} [footer] - Optional footer content; rendered inside footer section.
  * @param {'outlined'|'elevated'|'flat'} [appearance='outlined'] - Visual style variant from card.less.
  * @param {'primary'|'secondary'|'success'|'warning'|'danger'|'info'|'contrast'} [variant] - Tone variant for outlined cards.
@@ -38,9 +38,11 @@ import { getComponentClass } from "../../utils/component-config";
  * @param {boolean} [clickable] - Alias for interactive; also adds "interactive".
  * @param {boolean} [hoverable] - When true, adds "hoverable" class.
  * @param {string} [customClass] - Extra classes applied to the root.
+ * @param {string} [contentClass] - Extra classes applied to the content region.
+ * @param {string} [footerClass] - Extra classes applied to the footer region.
  * @param {string} [componentClass] - Override base component class; defaults to getComponentClass('card').
  * @param {string} [dataQa='ulx-card'] - Root data-qa identifier; internal element identifiers are derived from this value.
- * @block default - Main card body content.
+ * @block default - Main card content.
  * @block header - Optional custom header block; receives no args.
  * @block content - Optional custom content block; receives no args.
  * @block footer - Optional custom footer block; receives no args.
@@ -113,12 +115,6 @@ export default class UlxCard extends Component {
 		return `${this.baseClass}-header`;
 	}
 
-	get bodyClass() {
-		const baseBodyClassName = `${this.baseClass}-body`;
-		const customBodyClassName = this.args.bodyClass;
-		return customBodyClassName ? `${baseBodyClassName} ${customBodyClassName}` : baseBodyClassName;
-	}
-
 	get titleClass() {
 		return `${this.baseClass}-title`;
 	}
@@ -128,11 +124,19 @@ export default class UlxCard extends Component {
 	}
 
 	get contentClass() {
-		return `${this.baseClass}-content`;
+		const baseContentClassName = `${this.baseClass}-content`;
+		const customContentClassName = this.args.contentClass;
+		return customContentClassName
+			? `${baseContentClassName} ${customContentClassName}`
+			: baseContentClassName;
 	}
 
 	get footerClass() {
-		return `${this.baseClass}-footer`;
+		const baseFooterClassName = `${this.baseClass}-footer`;
+		const customFooterClassName = this.args.footerClass;
+		return customFooterClassName
+			? `${baseFooterClassName} ${customFooterClassName}`
+			: baseFooterClassName;
 	}
 
 	<template>
@@ -145,41 +149,36 @@ export default class UlxCard extends Component {
 						{{@header}}
 					{{/if}}
 				</div>
-			{{/if}}
-
-			<div class={{this.bodyClass}}>
-				{{#if (or @title @subTitle)}}
-					<div class={{this.titleClass}}>
-						{{#if @title}}
-							{{@title}}
-						{{/if}}
-
-					</div>
+			{{else if (or @title @subTitle)}}
+				<div class={{this.headerClass}}>
+					{{#if @title}}
+						<div class={{this.titleClass}}>{{@title}}</div>
+					{{/if}}
 					{{#if @subTitle}}
 						<p class={{this.subTitleClass}}>{{@subTitle}}</p>
 					{{/if}}
-				{{/if}}
+				</div>
+			{{/if}}
 
-				{{#if (or (has-block) (has-block "content"))}}
-					<div class={{this.contentClass}}>
-						{{#if (has-block "content")}}
-							{{yield to="content"}}
-						{{else}}
-							{{yield}}
-						{{/if}}
-					</div>
-				{{/if}}
+			{{#if (or (has-block) (has-block "content"))}}
+				<div class={{this.contentClass}}>
+					{{#if (has-block "content")}}
+						{{yield to="content"}}
+					{{else}}
+						{{yield}}
+					{{/if}}
+				</div>
+			{{/if}}
 
-				{{#if (or (has-block "footer") @footer)}}
-					<div class={{this.footerClass}}>
-						{{#if (has-block "footer")}}
-							{{yield to="footer"}}
-						{{else if @footer}}
-							{{@footer}}
-						{{/if}}
-					</div>
-				{{/if}}
-			</div>
+			{{#if (or (has-block "footer") @footer)}}
+				<div class={{this.footerClass}}>
+					{{#if (has-block "footer")}}
+						{{yield to="footer"}}
+					{{else if @footer}}
+						{{@footer}}
+					{{/if}}
+				</div>
+			{{/if}}
 		</div>
 	</template>
 }

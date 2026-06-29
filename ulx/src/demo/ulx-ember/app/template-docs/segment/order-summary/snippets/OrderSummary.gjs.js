@@ -81,9 +81,7 @@ export default class OrderSummaryTemplate extends Component {
   }
 
   get toggleLabel() {
-    return this.isExpanded
-      ? 'Show less'
-      : \`Show all (\${this.hiddenCount} more)\`;
+    return this.isExpanded ? 'Show less' : \`Show all (\${this.hiddenCount} more)\`;
   }
 
   get toggleIcon() {
@@ -116,9 +114,7 @@ export default class OrderSummaryTemplate extends Component {
                 <span>{{card.label}}</span>
                 <i class="bs-icons1 s14 info-icon"></i>
               </div>
-              <div class="text-h4 bold-font {{card.amountFg}}">
-                {{card.value}}
-              </div>
+              <div class="text-h4 bold-font {{card.amountFg}}">{{card.value}}</div>
               <div class="text-13 text-secondary">{{card.caption}}</div>
             </div>
           </div>
@@ -143,9 +139,7 @@ export default class OrderSummaryTemplate extends Component {
                   <span>{{card.label}}</span>
                   <i class="bs-icons1 s14 info-icon"></i>
                 </div>
-                <div class="text-h4 bold-font {{card.amountFg}}">
-                  {{card.value}}
-                </div>
+                <div class="text-h4 bold-font {{card.amountFg}}">{{card.value}}</div>
                 <div class="text-13 text-secondary">{{card.caption}}</div>
               </div>
             </div>
@@ -169,9 +163,7 @@ export default class OrderSummaryTemplate extends Component {
                   <span>{{card.label}}</span>
                   <i class="bs-icons1 s14 info-icon"></i>
                 </div>
-                <div class="text-h4 bold-font {{card.amountFg}}">
-                  {{card.value}}
-                </div>
+                <div class="text-h4 bold-font {{card.amountFg}}">{{card.value}}</div>
                 <div class="text-13 text-secondary">{{card.caption}}</div>
               </div>
             </div>
@@ -192,4 +184,5 @@ export default class OrderSummaryTemplate extends Component {
     </div>
   </template>
 }
+
 `;

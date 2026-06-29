@@ -11,6 +11,7 @@ export { default as MultipleDemo } from '../../../components/Demo/InputGroup/Mul
 export { default as IconPrefixDemo } from '../../../components/Demo/InputGroup/IconPrefix';
 export { default as InputButtonDemo } from '../../../components/Demo/InputGroup/InputButton';
 export { default as InputActionsDemo } from '../../../components/Demo/InputGroup/InputActions';
+export { default as CustomTemplateDemo } from '../../../components/Demo/InputGroup/CustomTemplate';
 export { default as InputDropdownDemo } from '../../../components/Demo/InputGroup/InputDropdown';
 export { default as InputMultiDropdownDemo } from '../../../components/Demo/InputGroup/InputMultiDropdown';
 export { default as DisabledDemo } from '../../../components/Demo/InputGroup/Disabled';
@@ -29,6 +30,7 @@ export { default as MultipleSource } from './snippets/Multiple.gjs';
 export { default as IconPrefixSource } from './snippets/IconPrefix.gjs';
 export { default as InputButtonSource } from './snippets/InputButton.gjs';
 export { default as InputActionsSource } from './snippets/InputActions.gjs';
+export { default as CustomTemplateSource } from './snippets/CustomTemplate.gjs';
 export { default as InputDropdownSource } from './snippets/InputDropdown.gjs';
 export { default as InputMultiDropdownSource } from './snippets/InputMultiDropdown.gjs';
 export { default as DisabledSource } from './snippets/Disabled.gjs';

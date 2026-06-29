@@ -58,7 +58,7 @@ import { buildDataQa, resolveRootDataQa } from '../../../utils/data-qa';
 - Root: `data-qa={{this.rootDataQa}}`
 - Root getter: `resolveRootDataQa(this.args.dataQa, "{componentName}")`
 - Internal parts: `buildDataQa(this.rootDataQa, part)`
-- Use meaningful part names that follow `.cursor/rules/data-qa.md`
+- Use meaningful part names that follow `.cursor/rules/ulx-essentials.mdc` (`data-qa` section)
 
 ## Output format
 

@@ -1,6 +1,13 @@
 export default `
 import Component from '@glimmer/component';
-import { UlxCard, UlxButton, UlxTag, UlxIcon, UlxAvatar } from 'ulx-components';
+import {
+  UlxCard,
+  UlxButton,
+  UlxTag,
+  UlxIcon,
+  UlxAvatar,
+  UlxIconButton
+} from 'ulx-components';
 
 export default class SessionCardTemplate extends Component {
   get sessions() {
@@ -165,23 +172,14 @@ export default class SessionCardTemplate extends Component {
                     {{#if index}}
                       <span class="fg-secondary" aria-hidden="true">|</span>
                     {{/if}}
-                    <span class="flex items-center gap-1">
-                      <UlxButton
-                        @label={{action.label}}
-                        @variant="link"
-                        @text={{true}}
-                        @size="s-size"
-                      />
-                      {{#if action.icon}}
-                        <UlxIcon
-                          @iconName={{action.icon}}
-                          @type="font"
-                          @componentClass="bs-icons1"
-                          @size="s14"
-                          aria-hidden="true"
-                        />
-                      {{/if}}
-                    </span>
+                    <UlxIconButton
+                      @label={{action.label}}
+                      @variant="link on-hover"
+                      @size="s-size"
+                      @iconRight={{action.icon}}
+                      @iconComponentClass="bs-icons1"
+                      @iconSize="s14"
+                    />
                   {{/each}}
                 </div>
               </div>

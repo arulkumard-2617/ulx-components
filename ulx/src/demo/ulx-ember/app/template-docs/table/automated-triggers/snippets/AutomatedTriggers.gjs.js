@@ -31,9 +31,7 @@ const TriggerNameCell = <template>
 
 const MessageTemplateCell = <template>
   <div class="border-dashed border rounded p-3">
-    <div class="text-13 text-secondary mb-2">
-      {{@row.templateText}}
-    </div>
+    <div class="text-13 text-secondary mb-2">{{@row.templateText}}</div>
     <UlxButton
       @label="View details"
       @variant="link"
@@ -67,9 +65,7 @@ const StatusCell = <template>
           @iconName="alert-icon"
           @size="s14"
         />
-        <span class="text-13 text-secondary">
-          {{@row.warning}}
-        </span>
+        <span class="text-13 text-secondary">{{@row.warning}}</span>
       </div>
     {{/if}}
   </div>
@@ -86,8 +82,7 @@ const ActionCell = <template>
 </template>;
 
 const TEMPLATE_TEXT =
-  'Hi %Attendee name%, you have been ' +
-  'successfully registered for the event. ' +
+  'Hi %Attendee name%, you have been successfully registered for the event. ' +
   'Please find your ticket attached below...';
 
 export default class AutomatedTriggersTemplate extends Component {
@@ -139,8 +134,7 @@ export default class AutomatedTriggersTemplate extends Component {
         templateText: TEMPLATE_TEXT,
         active: false,
         warning:
-          'This trigger cannot be enabled as it’s ' +
-          'message template is yet to be approved by WhatsApp',
+          'This trigger cannot be enabled as it’s message template is yet to be approved by WhatsApp',
         actionItems: items
       },
       {
@@ -156,16 +150,13 @@ export default class AutomatedTriggersTemplate extends Component {
         templateText: TEMPLATE_TEXT,
         active: true,
         banner:
-          'Attention needed! The scheduled time for ' +
-          'this announcement is out of the event day range',
+          'Attention needed! The scheduled time for this announcement is out of the event day range',
         actionItems: items
       }
     ];
     const q = this.searchValue.trim().toLowerCase();
     if (!q) return rows;
-    return rows.filter((r) =>
-      r.name.toLowerCase().includes(q)
-    );
+    return rows.filter((r) => r.name.toLowerCase().includes(q));
   }
 
   @action
@@ -258,9 +249,7 @@ export default class AutomatedTriggersTemplate extends Component {
     >
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
-          <h5 class="bold-font m-0">
-            Automated Triggers- Attendees
-          </h5>
+          <h5 class="bold-font m-0">Automated Triggers- Attendees</h5>
           <UlxToggle
             @checked={{this.triggersEnabled}}
             @onCheckedChange={{this.toggleTriggers}}
@@ -307,4 +296,5 @@ export default class AutomatedTriggersTemplate extends Component {
     </UlxModal>
   </template>
 }
+
 `;
