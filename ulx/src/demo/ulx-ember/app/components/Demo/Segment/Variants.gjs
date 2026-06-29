@@ -19,7 +19,7 @@ export default class VariantsDemoComponent extends Component {
       {
         variant: 'success',
         layout: 'session',
-        title: 'Sessions Carried Forward (1)',
+        title: 'Success segment',
         description: 'The Business of Creativity',
         date: 'Jan 04, 2025 - 10:00 AM (IST)',
         location: 'South Plaza II',
@@ -34,7 +34,7 @@ export default class VariantsDemoComponent extends Component {
       {
         variant: 'danger',
         layout: 'companion',
-        title: 'Companion Tickets Being Cancelled (1)',
+        title: 'Danger segment',
         name: 'Jane Cooper',
         email: 'janecooper@zylker.com',
         relation: 'Family Member',

@@ -15,7 +15,7 @@ import {
   TemplateSource,
   InvalidSource,
   DisabledSource,
-  CarouselSource,
+  CarouselSource
 } from './imports';
 
 export const SelectButtonFeatureItems = [
@@ -27,17 +27,17 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Import the <code>UlxSelectButton</code> component from <code>ulx-components</code>.',
-      },
+          'Import the <code>UlxSelectButton</code> component from <code>ulx-components</code>.'
+      }
     },
     demo: {
       component: null,
       props: {
         source: ImportSource,
         snippetName: 'import',
-        language: 'jsx',
-      },
-    },
+        language: 'jsx'
+      }
+    }
   },
   {
     id: 'basic',
@@ -47,17 +47,17 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'SelectButton is used as a controlled component with <code>@value</code> and <code>@onChange</code> along with an <code>@options</code> collection. Use <code>@optionLabel</code> and <code>@optionValue</code> for object options.',
-      },
+          'SelectButton is used as a controlled component with <code>@value</code> and <code>@onChange</code> along with an <code>@options</code> collection. Use <code>@optionLabel</code> and <code>@optionValue</code> for object options.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'multiple',
@@ -67,17 +67,17 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Enable <code>@multiple</code> to allow selecting more than one option. The <code>@value</code> should be an array.',
-      },
+          'Enable <code>@multiple</code> to allow selecting more than one option. The <code>@value</code> should be an array.'
+      }
     },
     demo: {
       component: MultipleDemo,
       props: {
         source: MultipleSource,
         snippetName: 'multiple',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'carousel',
@@ -87,17 +87,17 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Set <code>@carousel={{true}}</code> to show a fixed window of options with previous and next arrow controls. Use <code>@visibleCount</code> to control how many segments are visible at once, and <code>@stretch={{true}}</code> for equal-width buttons. Optionally control the window with <code>@carouselOffset</code> and <code>@onCarouselOffsetChange</code>.',
-      },
+          'Set <code>@carousel={{true}}</code> to show a fixed window of options with previous and next arrow controls. Use <code>@visibleCount</code> to control how many segments are visible at once, and <code>@stretch={{true}}</code> for equal-width buttons. Optionally control the window with <code>@carouselOffset</code> and <code>@onCarouselOffsetChange</code>.'
+      }
     },
     demo: {
       component: CarouselDemo,
       props: {
         source: CarouselSource,
         snippetName: 'carousel',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'template',
@@ -107,17 +107,17 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use the <code>&lt;:item&gt;</code> block to customize the content of each option (e.g. icons).',
-      },
+          'Use the <code>&lt;:item&gt;</code> block to customize the content of each option (e.g. icons).'
+      }
     },
     demo: {
       component: TemplateDemo,
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'invalid',
@@ -127,17 +127,17 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@invalid</code> to show validation error state when integrating with form validation.',
-      },
+          'Use <code>@invalid</code> to show validation error state when integrating with form validation.'
+      }
     },
     demo: {
       component: InvalidDemo,
       props: {
         source: InvalidSource,
         snippetName: 'invalid',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'disabled',
@@ -147,18 +147,18 @@ export const SelectButtonFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@disabled</code> to disable the whole component, or <code>@optionDisabled</code> (property name or function) to disable specific options.',
-      },
+          'Use <code>@disabled</code> to disable the whole component, or <code>@optionDisabled</code> (property name or function) to disable specific options.'
+      }
     },
     demo: {
       component: DisabledDemo,
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function SelectButtonFeatures() {

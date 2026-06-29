@@ -10,16 +10,16 @@ export const DetailsSummaryCardFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Primary expandable summary card using the <code>details-summary-card</code> pattern from <code>card.less</code>, a three-column header grid, linked session and companion detail rows, and a footer link toggle with <code>expanded</code> state.',
-      },
+          'Primary expandable summary card using the <code>details-summary-card</code> pattern from <code>card.less</code>, a three-column header grid, linked session and companion detail rows, and a footer link toggle with <code>expanded</code> state.'
+      }
     },
     demo: {
       component: DetailsSummaryCardDemo,
       props: {
         source: DetailsSummaryCardSource,
         snippetName: 'details-summary-card',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];

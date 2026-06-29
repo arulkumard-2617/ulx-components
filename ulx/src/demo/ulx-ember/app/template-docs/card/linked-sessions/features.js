@@ -10,16 +10,16 @@ export const LinkedSessionsFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Selectable session and companion rows built with <code>UlxFieldSet</code>, outlined <code>UlxCard</code> success/danger variants, per-row <code>UlxCheckbox</code> with rich <code>itemLabel</code> content, and footer <code>UlxMessage</code> status copy.',
-      },
+          'Selectable session and companion rows built with <code>UlxFieldSet</code>, outlined <code>UlxCard</code> success/danger variants, per-row <code>UlxCheckbox</code> with rich <code>itemLabel</code> content, and footer <code>UlxMessage</code> status copy.'
+      }
     },
     demo: {
       component: LinkedSessionsDemo,
       props: {
         source: LinkedSessionsSource,
         snippetName: 'linked-sessions',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];

@@ -5,5 +5,5 @@ import { DetailsSummaryCardFeatureItems } from './details-summary-card/features'
 export const CardFeatureItems = [
   ...SessionCardFeatureItems,
   ...LinkedSessionsFeatureItems,
-  ...DetailsSummaryCardFeatureItems,
+  ...DetailsSummaryCardFeatureItems
 ];
