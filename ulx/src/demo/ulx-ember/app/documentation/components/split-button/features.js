@@ -18,6 +18,8 @@ import {
   PopupBodyOnlyDemo,
   PopupClosableDemo,
   PopupPositionsDemo,
+  TemplateDemo,
+  IconsDemo,
   SeparatorDemo,
   ImportSource,
   BasicSource,
@@ -34,7 +36,7 @@ import {
   PopupDefaultFooterSource,
   PopupBodyOnlySource,
   PopupClosableSource,
-  PopupPositionsSource
+  PopupPositionsSource,
   TemplateSource,
   IconsSource,
   SeparatorSource
