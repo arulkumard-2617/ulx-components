@@ -1,5 +1,4 @@
 import Component from "@glimmer/component";
-import { action } from "@ember/object";
 import { on } from "@ember/modifier";
 import { fn } from "@ember/helper";
 import UlxIcon from "../ulx-icon/index.gjs";
@@ -10,6 +9,8 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *
  * @class UlxTieredmenuMenuItem
  * @private
+ * @param {Object} item - Menu item model from TieredMenu `@items`.
+ * @param {string} [item.linkClass] - Optional extra CSS class(es) on the item button, appended to `tieredmenu-item-link`.
  * @param {string} [dataQa] - Optional per-item value from `item.dataQa` (full `data-qa` on the **button**; list row `li` keeps the default `getDataQa("item")`).
  * @param {function} getDataQa - Root `buildDataQa` wrapper (`"item"`, `"trigger"`, `"list"`, …).
  */
@@ -22,24 +23,6 @@ export default class UlxTieredmenuMenuItem extends Component {
 	/** Clickable control: per-item `item.dataQa` when set, else default trigger token. */
 	get triggerDataQa() {
 		return this.args.dataQa ?? this.args.getDataQa("trigger");
-	}
-
-	/** Model passes a single class string, e.g. `"bs-icons1 pdf-stroke-icon"` (font kit + glyph). */
-	get iconClassParts() {
-		const raw = this.args.item?.icon?.trim();
-		if (!raw) return null;
-		const parts = raw.split(/\s+/).filter(Boolean);
-		return parts.length ? parts : null;
-	}
-
-	get iconName() {
-		const parts = this.iconClassParts;
-		return parts ? parts[parts.length - 1] : null;
-	}
-
-	get iconCustomClass() {
-		const parts = this.iconClassParts;
-		return parts && parts.length > 1 ? parts[0] : null;
 	}
 
 	get iconSize() {
@@ -79,12 +62,7 @@ export default class UlxTieredmenuMenuItem extends Component {
 				<div class="tieredmenu-action">
 					{{#if @item.icon}}
 						<span class="tieredmenu-item-icon" aria-hidden="true">
-							<UlxIcon
-								@type="font"
-								@iconName={{this.iconName}}
-								@customClass={{this.iconCustomClass}}
-								@size={{this.iconSize}}
-							/>
+							<UlxIcon @type="font" @iconName={{@item.icon}} @size={{this.iconSize}} />
 						</span>
 					{{/if}}
 					{{#if (has-block "item")}}

@@ -1,22 +1,34 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { modifier } from "ember-modifier";
-import UlxButton from "../ulx-button/index.gjs";
-import UlxIcon from "../ulx-icon/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxSplitButton from "../ulx-split-button/index.gjs";
 
+function resolveItemCommand(item) {
+	return item?.command ?? item?.action;
+}
+
+function toMenuItem(item) {
+	if (item?.separator === true) {
+		return { separator: true };
+	}
+
+	const command = resolveItemCommand(item);
+	return command && !item.command ? { ...item, command } : item;
+}
+
 /**
- * Renders a primary {@link UlxButton} or {@link UlxSplitButton} from a list of action descriptors.
+ * Renders a primary {@link UlxIconButton} or {@link UlxSplitButton} from a list of action descriptors.
  * First item is the main action; additional items appear in the split dropdown.
  *
  * @class UlxActionButtons
- * @param {object[]} [actionButtons] - `{ label, action, customParam?, icon?, dataQa? }`; empty or missing renders nothing. Optional `icon` on any item uses font-icon classes (e.g. `bs-icons1 ls-tick-icon`) for the primary button or split menu rows. Optional `dataQa` is passed through to each split-dropdown menu item (tiered menu row `data-qa`).
+ * @param {object[]} [actionButtons] - Action descriptors for UlxTieredmenu (see UlxTieredmenu model structure). First item is the primary button; additional items appear in the split dropdown. Supports `label`, `icon`, `command`, `separator`, `disabled`, `dataQa`, `linkClass`, etc. Legacy `action` is used when `command` is omitted.
  * @param {string} [variant='primary'] - Passed to the underlying Ulx controls.
  * @param {boolean} [outlined=false]
  * @param {string} [size='m-size']
  * @param {boolean} [disabled=false]
  * @param {string} [tieredMenuDataQa] - Optional UlxTieredmenu root `data-qa` (see {@link UlxSplitButton} `@tieredMenuDataQa`).
- * @param {string} [dataQa] - Optional root `data-qa` for {@link UlxSplitButton} / {@link UlxButton} (e.g. `speakers-toolbar-add-speaker` → split default `…-default`, dropdown `…-dropdown`).
+ * @param {string} [dataQa] - Optional root `data-qa` for {@link UlxSplitButton} / {@link UlxIconButton} (e.g. `speakers-toolbar-add-speaker` → split default `…-default`, dropdown `…-dropdown`).
  * @param {string} [defaultButtonDataQa] - Optional data-qa override for UlxSplitButton default button.
  * @param {string} [dropdownButtonDataQa] - Optional data-qa override for UlxSplitButton dropdown button.
  * @param {function} [onShow] - Called when the split-button dropdown opens (see {@link UlxSplitButton} `@onShow`).
@@ -44,12 +56,7 @@ export default class UlxActionButtons extends Component {
 	}
 
 	get secondaryActionButtons() {
-		return this.actionButtonsList.slice(1).map((actionButton) => ({
-			label: actionButton.label,
-			icon: actionButton.icon,
-			command: () => this.triggerActionButton(actionButton),
-			...(actionButton.dataQa ? { dataQa: actionButton.dataQa } : {})
-		}));
+		return this.actionButtonsList.slice(1).map(toMenuItem);
 	}
 
 	get variant() {
@@ -72,48 +79,12 @@ export default class UlxActionButtons extends Component {
 		return this.primaryActionButton?.icon ?? null;
 	}
 
-	get hasPrimaryIcon() {
-		return Boolean(this.primaryIcon);
-	}
-
-	get primaryIconName() {
-		const icon = this.primaryIcon;
-		if (!icon) {
-			return null;
-		}
-
-		const parts = icon.trim().split(/\s+/);
-		return parts.length > 1 ? parts[parts.length - 1] : icon;
-	}
-
-	get primaryIconComponentClass() {
-		const icon = this.primaryIcon;
-		if (!icon) {
-			return "bs-icons1";
-		}
-
-		const parts = icon.trim().split(/\s+/);
-		return parts.length > 1 ? parts[0] : "bs-icons1";
-	}
-
-	@action
-	triggerActionButton(actionButton) {
-		const actionFn = actionButton?.action;
-		if (typeof actionFn !== "function") {
-			return;
-		}
-
-		if (actionButton.customParam !== undefined) {
-			actionFn(actionButton.customParam);
-			return;
-		}
-
-		actionFn();
-	}
-
 	@action
 	handlePrimaryAction() {
-		this.triggerActionButton(this.primaryActionButton);
+		const command = resolveItemCommand(this.primaryActionButton);
+		if (typeof command === "function") {
+			command();
+		}
 	}
 
 	<template>
@@ -121,8 +92,7 @@ export default class UlxActionButtons extends Component {
 			{{#if this.hasSecondaryActions}}
 				<UlxSplitButton
 					@label={{this.primaryActionButton.label}}
-					@icon={{if this.hasPrimaryIcon this.primaryIconName}}
-					@iconComponentClass={{this.primaryIconComponentClass}}
+					@icon={{this.primaryIcon}}
 					@variant={{this.variant}}
 					@outlined={{this.outlined}}
 					@size={{this.size}}
@@ -138,8 +108,9 @@ export default class UlxActionButtons extends Component {
 					@defaultButtonRef={{this.primaryButtonRef}}
 				/>
 			{{else}}
-				<UlxButton
+				<UlxIconButton
 					@label={{this.primaryActionButton.label}}
+					@iconLeft={{this.primaryIcon}}
 					@variant={{this.variant}}
 					@outlined={{this.outlined}}
 					@size={{this.size}}
@@ -147,18 +118,7 @@ export default class UlxActionButtons extends Component {
 					@disabled={{this.disabled}}
 					@dataQa={{@dataQa}}
 					@elementRef={{this.primaryButtonRef}}
-				>
-					<:prefix>
-						{{#if this.hasPrimaryIcon}}
-							<UlxIcon
-								@iconName={{this.primaryIconName}}
-								@type="font"
-								@componentClass={{this.primaryIconComponentClass}}
-								aria-hidden="true"
-							/>
-						{{/if}}
-					</:prefix>
-				</UlxButton>
+				/>
 			{{/if}}
 		{{/if}}
 	</template>

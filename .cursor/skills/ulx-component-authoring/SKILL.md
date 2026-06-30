@@ -14,7 +14,7 @@ description: Create or update ULX Ember components following repo conventions. U
 
 ## Workflow
 
-1. Read the relevant repo rules before editing.
+1. Follow `ulx-essentials` (`.cursor/rules/ulx-essentials.mdc`) before editing.
 2. Inspect 1-2 similar components and their demos before changing structure.
 3. Preserve behavior and public API unless the user explicitly asks to change them.
 4. Use Ember 6.8 Glimmer patterns only.

@@ -18,7 +18,7 @@ description: Build or style application UI that consumes ULX (not implementing t
 
 ## Required context
 
-1. Read **`.cursor/rules/ulx-design-system.mdc`** for consumption rules (utilities first, override locations, no unnecessary CSS/inline styles when the system already covers the case, avoid brittle `.ulx-*` coupling).
+1. Read **`.cursor/rules/ulx-essentials.mdc`** for consumption rules (utilities first, override locations, no unnecessary CSS/inline styles when the system already covers the case, avoid brittle `.ulx-*` coupling).
 
 ## Workflow
 

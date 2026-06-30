@@ -7,7 +7,7 @@ const AVATAR_IMAGE =
   <div class="flex flex-wrap gap-4">
     <UlxChip
       @label="Exhibitor Pro"
-      @customClass="with-icon on-hover bg-goldLayer2"
+      @customClass="with-icon on-hover gold-layer2"
     >
       <span class="chip-icon" data-qa="ulx-chip-icon">
         <svg aria-hidden="true">

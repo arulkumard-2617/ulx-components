@@ -6,7 +6,7 @@ import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../utils/component-config";
 import { t } from "../../utils/i18n";
 import UlxButton from "../ulx-button/index.gjs";
-import UlxIcon from "../ulx-icon/index.gjs";
+import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxTieredmenu from "../ulx-tieredmenu/index.gjs";
 
 let actionMenuInstanceCounter = 0;
@@ -18,10 +18,10 @@ let actionMenuInstanceCounter = 0;
  * Trigger content supports text, icon-only, or icon+text.
  *
  * @class UlxActionMenu
- * @param {object[]} [items=[]] - Menu items for UlxTieredmenu.
+ * @param {object[]} [items=[]] - Menu items for UlxTieredmenu (see UlxTieredmenu model structure). Supports `label`, `icon`, `items`, `separator`, `disabled`, `command`, `url`, `template`, `dataQa`, and `linkClass` (optional extra CSS on the item button, e.g. `fg-red`).
  * @param {string} [label] - Trigger button label.
- * @param {string} [icon] - Trigger icon class name.
- * @param {string} [iconComponentClass='bs-icons1'] - Icon component class.
+ * @param {string} [icon] - Trigger icon class string for UlxIcon (e.g. "bs-icons1 session-settings-icon").
+ * @param {string} [iconComponentClass] - Optional UlxIcon font kit class when `@icon` is a single glyph token.
  * @param {string} [iconSize='s18'] - Icon size class.
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [variant='primary'] - Trigger variant.
  * @param {string} [size='m-size'] - Trigger size class.
@@ -33,7 +33,7 @@ let actionMenuInstanceCounter = 0;
  * @param {string} [dataQa] - Optional root data-qa override. Defaults to "ulx-action-menu".
  * @param {string} [id] - Optional base id used to derive overlay id.
  * @param {string} [triggerAriaLabel] - Accessible name override for icon-only usage.
- * @param {string} [triggerCustomClass] - Extra classes on the trigger `UlxButton` when an icon is shown (merged after layout utilities).
+ * @param {string} [triggerCustomClass] - Extra classes on the trigger button.
  */
 export default class UlxActionMenu extends Component {
 	@tracked isMenuVisible = false;
@@ -88,25 +88,6 @@ export default class UlxActionMenu extends Component {
 
 	get hasIcon() {
 		return Boolean(this.args.icon);
-	}
-
-	/** utill.less flex utilities so prefix icon + label stay on one row in narrow cells */
-	get triggerButtonCustomClass() {
-		const layout = "flex flex-nowrap items-center gap-2";
-		const extra = this.args.triggerCustomClass;
-		if (!this.hasIcon) {
-			return extra;
-		}
-		return extra ? `${layout} ${extra}` : layout;
-	}
-
-	get iconClassName() {
-		return this.args.icon;
-	}
-
-	get iconComponentClassName() {
-		const { iconComponentClass = "bs-icons1" } = this.args;
-		return iconComponentClass;
 	}
 
 	get iconSizeValue() {
@@ -190,7 +171,10 @@ export default class UlxActionMenu extends Component {
 		<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} ...attributes>
 			{{#if this.hasIcon}}
 				{{#if (has-block "default")}}
-					<UlxButton
+					<UlxIconButton
+						@iconLeft={{@icon}}
+						@iconComponentClass={{@iconComponentClass}}
+						@iconSize={{this.iconSizeValue}}
 						@variant={{this.variantValue}}
 						@size={{this.triggerSize}}
 						@disabled={{@disabled}}
@@ -198,7 +182,7 @@ export default class UlxActionMenu extends Component {
 						@outlined={{@outlined}}
 						@pilled={{@pilled}}
 						@loading={{@loading}}
-						@customClass={{this.triggerButtonCustomClass}}
+						@customClass={{@triggerCustomClass}}
 						@elementRef={{this.triggerRef}}
 						@onClick={{this.toggleMenu}}
 						@dataQa={{this.triggerDataQa}}
@@ -208,19 +192,13 @@ export default class UlxActionMenu extends Component {
 						aria-controls={{this.menuId}}
 						{{on "keydown" this.handleTriggerKeydown}}
 					>
-						<:prefix>
-							<UlxIcon
-								@iconName={{this.iconClassName}}
-								@type="font"
-								@componentClass={{this.iconComponentClassName}}
-								@size={{this.iconSizeValue}}
-								aria-hidden="true"
-							/>
-						</:prefix>
 						<:default>{{yield}}</:default>
-					</UlxButton>
+					</UlxIconButton>
 				{{else}}
-					<UlxButton
+					<UlxIconButton
+						@iconLeft={{@icon}}
+						@iconComponentClass={{@iconComponentClass}}
+						@iconSize={{this.iconSizeValue}}
 						@label={{@label}}
 						@variant={{this.variantValue}}
 						@size={{this.triggerSize}}
@@ -229,7 +207,7 @@ export default class UlxActionMenu extends Component {
 						@outlined={{@outlined}}
 						@pilled={{@pilled}}
 						@loading={{@loading}}
-						@customClass={{this.triggerButtonCustomClass}}
+						@customClass={{@triggerCustomClass}}
 						@elementRef={{this.triggerRef}}
 						@onClick={{this.toggleMenu}}
 						@dataQa={{this.triggerDataQa}}
@@ -238,17 +216,7 @@ export default class UlxActionMenu extends Component {
 						aria-expanded={{this.isMenuVisible}}
 						aria-controls={{this.menuId}}
 						{{on "keydown" this.handleTriggerKeydown}}
-					>
-						<:prefix>
-							<UlxIcon
-								@iconName={{this.iconClassName}}
-								@type="font"
-								@componentClass={{this.iconComponentClassName}}
-								@size={{this.iconSizeValue}}
-								aria-hidden="true"
-							/>
-						</:prefix>
-					</UlxButton>
+					/>
 				{{/if}}
 			{{else if (has-block "default")}}
 				<UlxButton

@@ -12,12 +12,12 @@ Goals:
   import { buildDataQa, resolveRootDataQa } from "../../../utils/data-qa";
   ```
 
-  Adjust the relative path (`../`) for `elements/`, `collections/`, or `modules/`. Root: `data-qa={{this.rootDataQa}}` with a getter using `resolveRootDataQa(this.args.dataQa, "{componentName}")`. Internal nodes: `buildDataQa(this.rootDataQa, part)` (or a small `@action`/getter wrapper). Follow `.cursor/rules/data-qa.md` and document `@dataQa` in the component JSDoc when supported.
+  Adjust the relative path (`../`) for `elements/`, `collections/`, or `modules/`. Root: `data-qa={{this.rootDataQa}}` with a getter using `resolveRootDataQa(this.args.dataQa, "{componentName}")`. Internal nodes: `buildDataQa(this.rootDataQa, part)` (or a small `@action`/getter wrapper). Follow `.cursor/rules/ulx-essentials.mdc` and document `@dataQa` in the component JSDoc when supported.
 
 - Do NOT change functionality or public API
 - Keep it minimal and avoid over-engineering
 
-Also follow `.cursor/rules/data-qa.md` for naming and overrides.
+Also follow `.cursor/rules/ulx-essentials.mdc` for `data-qa` naming and overrides.
 
 Return:
 

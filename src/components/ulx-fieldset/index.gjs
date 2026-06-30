@@ -21,6 +21,7 @@ import { resolveRootDataQa } from "../../utils/data-qa";
  * @param {string} [description] - Optional description (or use the `description` block).
  * @param {boolean} [disabled] - Disables all nested controls.
  * @param {string} [customClass] - Extra classes on the fieldset **content wrapper** (layout utilities such as `ulx-grid`, `flex`, `gap-*`, `col-*`).
+ * @param {string} [legendClass] - Extra classes on the `<legend>` element (e.g. `mb-0 leading-none`).
  * @param {string} [actionsClass] - Extra classes on the fieldset actions region.
  * @param {string} [dataQa] - Optional root `data-qa` (default `ulx-fieldset`).
  * @block default - Fields and controls (inside the wrapper region). With any other named block (`legend`, `description`, `actions`), use `<:default>` explicitly for this content.
@@ -35,6 +36,14 @@ export default class UlxFieldSet extends Component {
 
 	get rootClasses() {
 		return this.baseClass;
+	}
+
+	get legendClasses() {
+		const { legendClass } = this.args;
+		const parts = ["field-legend"];
+		legendClass && parts.push(legendClass);
+
+		return joinClassNames(...parts);
 	}
 
 	get wrapperClasses() {
@@ -66,11 +75,11 @@ export default class UlxFieldSet extends Component {
 			...attributes
 		>
 			{{#if (has-block "legend")}}
-				<legend class="field-legend">
+				<legend class={{this.legendClasses}}>
 					{{yield to="legend"}}
 				</legend>
 			{{else if @legend}}
-				<legend class="field-legend">
+				<legend class={{this.legendClasses}}>
 					{{@legend}}
 				</legend>
 			{{/if}}

@@ -30,17 +30,17 @@ export default class DemoActionButtonsPrimaryButtonPopup extends Component {
     return [
       {
         label: 'Get Link',
-        action: this.toggleSplitPopup
+        command: this.toggleSplitPopup
       },
       {
         label: 'View',
         icon: 'view-icon',
-        action: () => {}
+        command: () => {}
       },
       {
         label: 'Delete',
         icon: 'delete-icon',
-        action: () => {}
+        command: () => {}
       }
     ];
   }
@@ -49,7 +49,7 @@ export default class DemoActionButtonsPrimaryButtonPopup extends Component {
     return [
       {
         label: 'Get Link',
-        action: this.toggleStandalonePopup
+        command: this.toggleStandalonePopup
       }
     ];
   }
