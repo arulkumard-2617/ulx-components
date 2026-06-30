@@ -291,7 +291,6 @@ export default class UlxModal extends Component {
 				})
 				.catch((error) => {
 					this.args.onError?.(error);
-					throw error;
 				});
 		}
 
