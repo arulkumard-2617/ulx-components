@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { getComponentClass } from "../../utils/component-config";
 import { t } from "../../utils/i18n";
 import GeneralUtil from "../../utils/general-util";
+import { getValue } from "../../utils/object-util";
 import UlxIcon from "../ulx-icon/index.gjs";
 import { on } from "@ember/modifier";
 
@@ -37,7 +38,6 @@ import { on } from "@ember/modifier";
  * @param {Function} [onError] - Optional image error handler when `@type="image"`. Receives the native error event.
  *
  * // Member-aware arguments (optional)
- * @param {object} [member] - Domain member object. When provided, `member.userProfile` is used as a fallback for profile data.
  * @param {object} [memberProfile] - Member profile object containing avatar and name information.
  * @param {string} [fullName] - Explicit full name for the member. Falls back to profile fields when not provided.
  * @param {boolean} [nameOnly=false] - When true, renders initials based on `@name` or `@fullName` without image.
@@ -47,8 +47,10 @@ import { on } from "@ember/modifier";
  * @param {boolean} [circular=false] - Convenience flag to force circle shape when `@shape` is not provided.
  * @param {boolean} [canShowAvatar] - Optional explicit flag to control whether the image avatar should be shown.
  * @param {string} [noImageSentinel] - Optional sentinel value that represents \"no image\" for the resolved avatar URL.
+ * @param {object} [member] - Domain member object forwarded to `@onShowProfile` when the avatar is clicked.
  * @param {Function} [onShowProfile] - Optional callback invoked on click with `(member, members, index)` to approximate legacy `showProfile` action.
  * @param {Array} [members] - Optional members collection forwarded to `@onShowProfile` for parity with legacy API.
+ * @param {number} [index] - Optional index forwarded to `@onShowProfile` for parity with legacy API.
  */
 export default class UlxAvatar extends Component {
 	@tracked isImageLoaded = false;
@@ -69,13 +71,11 @@ export default class UlxAvatar extends Component {
 	}
 
 	get hasMemberContext() {
-		const { member, memberProfile, nameOnly } = this.args;
-		return Boolean(member || memberProfile || nameOnly || this.memberProfile);
+		const { memberProfile, nameOnly } = this.args;
+		return Boolean(memberProfile || nameOnly || this.memberProfile);
 	}
 
 	get resolvedFullName() {
-		const profile = this.memberProfile;
-
 		if (this.isAnonymous) {
 			return t("label.anonymous");
 		}
@@ -86,8 +86,13 @@ export default class UlxAvatar extends Component {
 			return fullName;
 		}
 
+		const profile = this.memberProfile;
+
 		return (
-			profile?.fullName ?? profile?.name ?? profile?.userProfileTranslation?.fullName ?? undefined
+			getValue(profile, "fullName") ??
+			getValue(profile, "name") ??
+			getValue(profile, "userProfileTranslation.fullName") ??
+			undefined
 		);
 	}
 
@@ -104,12 +109,14 @@ export default class UlxAvatar extends Component {
 			return image;
 		}
 
-		if (profile?.avatarUrl) {
-			return profile.avatarUrl;
+		const avatarUrl = getValue(profile, "avatarUrl");
+		if (avatarUrl) {
+			return avatarUrl;
 		}
 
-		if (profile?.avatar) {
-			return profile.avatar;
+		const avatar = getValue(profile, "avatar");
+		if (avatar) {
+			return avatar;
 		}
 
 		return undefined;
@@ -128,9 +135,12 @@ export default class UlxAvatar extends Component {
 			return false;
 		}
 
-		const hasAvatarFlags = profile.hasBsAvatar || profile.hasIAMPhoto || profile.hasImage;
+		const hasAvatarFlags =
+			getValue(profile, "hasBsAvatar") ||
+			getValue(profile, "hasIAMPhoto") ||
+			getValue(profile, "hasImage");
 
-		const rawUrl = profile.avatarUrl || profile.avatar;
+		const rawUrl = getValue(profile, "avatarUrl") || getValue(profile, "avatar");
 		const { noImageSentinel } = this.args;
 		const isNoImage = typeof noImageSentinel === "string" && rawUrl === noImageSentinel;
 
@@ -138,7 +148,7 @@ export default class UlxAvatar extends Component {
 	}
 
 	get isAnonymous() {
-		return Boolean(this.memberProfile?.isAnnon);
+		return Boolean(getValue(this.memberProfile, "isAnnon"));
 	}
 
 	get resolvedIconName() {
@@ -293,10 +303,9 @@ export default class UlxAvatar extends Component {
 				return GeneralUtil.getPseudoUniqueColorClass(index);
 			}
 
-			const profile = this.memberProfile;
-
-			if (profile?.colorTheme) {
-				return profile.colorTheme;
+			const colorTheme = getValue(this.memberProfile, "colorTheme");
+			if (colorTheme) {
+				return colorTheme;
 			}
 		}
 
@@ -326,14 +335,16 @@ export default class UlxAvatar extends Component {
 		}
 
 		const profile = this.memberProfile;
+		const firstName = getValue(profile, "firstName");
+		const lastName = getValue(profile, "lastName");
 
-		if (profile?.firstName || profile?.lastName) {
-			const combined = [profile.firstName, profile.lastName].filter(Boolean).join(" ");
+		if (firstName || lastName) {
+			const combined = [firstName, lastName].filter(Boolean).join(" ");
 
 			return this.buildInitials(combined);
 		}
 
-		const fallbackName = profile?.name ?? profile?.email;
+		const fallbackName = getValue(profile, "name") ?? getValue(profile, "email");
 
 		if (fallbackName) {
 			return this.buildInitials(fallbackName);

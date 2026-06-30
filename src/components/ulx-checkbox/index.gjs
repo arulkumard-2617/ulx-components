@@ -28,10 +28,11 @@ function buildCheckboxId(namespace, idArg, key) {
  * - Help/error associated via `aria-describedby`
  * - Required fields marked with `aria-required` (single checkbox)
  * - Invalid state communicated via `aria-invalid`
- * - Indeterminate state communicated via `aria-checked="mixed"`
+ * - Indeterminate state communicated via native `indeterminate` and `aria-checked="mixed"`
+ * - Group mode uses `role="group"` with `aria-labelledby` and `aria-required` from `UlxField` `labelId` / `rules`
  *
  * @class UlxCheckbox
- * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted.
+ * @param {object} [field] - Yield hash from `UlxField` (`key`, `labelId`, `describedBy`, `errorId`, `rules`, `error`). Supplies defaults when `@key`, `@rules`, `@error`, `@ariaDescribedBy`, and `@ariaErrorMessage` are omitted. For `@items` groups, set `@labelFor={{false}}` on `UlxField` and rely on `role="group"` + `aria-labelledby`.
  * @param {string} [id] - Unique ID for the checkbox input. Auto-generated if not provided.
  * @param {string} [key] - When `@id` is omitted, used as the input id (e.g. `@key={{field.key}}` with `UlxField`); otherwise stable key for auto-generated ids. Overrides `field.key` when set.
  *
@@ -58,6 +59,7 @@ function buildCheckboxId(namespace, idArg, key) {
  * @param {string} [customClass] - Extra classes for the checkbox wrapper (single mode or per-item).
  * @param {string} [ariaDescribedBy] - Override `aria-describedby` for the checkbox input (used by group rendering).
  * @param {string} [ariaErrorMessage] - Override `aria-errormessage` for the checkbox input (used by group rendering).
+ * @param {string} [ariaLabelledBy] - Override `aria-labelledby` for the group wrapper when `@items` is set.
  *
  * @param {Function} [onChange] - Callback fired on change event (single/bare): (event) => void.
  * @param {Function} [onCheckedChange] - Callback fired with next checked value (single/bare): (checked, event) => void.
@@ -97,9 +99,7 @@ export default class UlxCheckbox extends Component {
 			const resolvedId =
 				typeof id === "string" && id.length > 0
 					? id
-					: index === 0
-						? this.checkboxId
-						: `${this.checkboxId}-item-${index}`;
+					: `${this.checkboxId}-item-${index}`;
 
 			return { item, id: resolvedId };
 		});
@@ -139,6 +139,11 @@ export default class UlxCheckbox extends Component {
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get groupAriaLabelledBy() {
+		const { ariaLabelledBy } = this.args;
+		return ariaLabelledBy ?? this.fieldContext?.labelId;
+	}
+
 	get rootDataQa() {
 		return this.args.dataQa ?? "ulx-checkbox";
 	}
@@ -156,7 +161,15 @@ export default class UlxCheckbox extends Component {
 
 	<template>
 		{{#if this.hasItems}}
-			<div class={{this.groupClass}} data-qa={{this.rootDataQa}}>
+			<div
+				class={{this.groupClass}}
+				role="group"
+				aria-labelledby={{this.groupAriaLabelledBy}}
+				aria-describedby={{this.ariaDescribedBy}}
+				aria-invalid="{{this.isInvalid}}"
+				aria-required="{{this.isRequired}}"
+				data-qa={{this.rootDataQa}}
+			>
 				{{#each this.itemEntries key="id" as |entry|}}
 					<UlxCheckboxItem
 						@id={{entry.id}}

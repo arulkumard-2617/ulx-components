@@ -123,7 +123,7 @@ export default class UlxChip extends Component {
 						<UlxIcon
 							@iconName={{this.removeIconName}}
 							@type="font"
-							@size="s18"
+							@size="s16"
 							aria-hidden="true"
 						/>
 					</button>

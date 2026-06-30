@@ -5,19 +5,29 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  VerticalStackDemo,
+  VerticalStackButtonsDemo,
   TemplateDemo,
   MultipleDemo,
+  IconPrefixDemo,
   InputButtonDemo,
+  InputActionsDemo,
+  CustomTemplateDemo,
+  InputDropdownDemo,
+  InputMultiDropdownDemo,
   DisabledDemo,
   InvalidDemo,
   // Sources
   ImportSource,
   BasicSource,
-  VerticalStackSource,
+  VerticalStackButtonsSource,
   TemplateSource,
   MultipleSource,
+  IconPrefixSource,
   InputButtonSource,
+  InputActionsSource,
+  CustomTemplateSource,
+  InputDropdownSource,
+  InputMultiDropdownSource,
   DisabledSource,
   InvalidSource
 } from './imports';
@@ -64,21 +74,21 @@ export const InputGroupFeatureItems = [
     }
   },
   {
-    id: 'vertical-stack',
-    sectionNav: 'Vertical Stack',
+    id: 'vertical-stack-buttons',
+    sectionNav: 'Vertical Stack Buttons',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Use <code>vertical-stack-addon</code> on an addon to stack content (e.g. increment/decrement buttons) vertically in the input group.'
+          'Use <code>vertical-stack-addon</code> on an end addon with <code>UlxIconButton</code> increment and decrement controls. Pair with number inputs—for example a padding grid with top, bottom, left, and right values.'
       }
     },
     demo: {
-      component: VerticalStackDemo,
+      component: VerticalStackButtonsDemo,
       props: {
-        source: VerticalStackSource,
-        snippetName: 'verticalStack',
+        source: VerticalStackButtonsSource,
+        snippetName: 'verticalStackButtons',
         language: 'handlebars'
       }
     }
@@ -124,6 +134,26 @@ export const InputGroupFeatureItems = [
     }
   },
   {
+    id: 'icon-prefix',
+    sectionNav: 'Icon Prefix',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@startAddonClass="icon-addon"</code> with <code>UlxIcon</code> in the <code>&lt;:start&gt;</code> slot for form fields that show a leading icon and placeholder label inside the group.'
+      }
+    },
+    demo: {
+      component: IconPrefixDemo,
+      props: {
+        source: IconPrefixSource,
+        snippetName: 'iconPrefix',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
     id: 'input-button',
     sectionNav: 'Input Button',
     sectionDesc: {
@@ -139,6 +169,86 @@ export const InputGroupFeatureItems = [
       props: {
         source: InputButtonSource,
         snippetName: 'inputButton',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'input-actions',
+    sectionNav: 'Input Actions',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Place confirm and cancel icon buttons beside an input group for inline editing. Wrap the group and actions in a flex row (e.g. <code>flex gap-2 items-center</code>) with a currency or text prefix addon on the input group.'
+      }
+    },
+    demo: {
+      component: InputActionsDemo,
+      props: {
+        source: InputActionsSource,
+        snippetName: 'inputActions',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'custom-template',
+    sectionNav: 'Custom Template',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Place confirm and cancel icon buttons beside an input group for inline editing. Wrap the group and actions in a flex row (e.g. <code>flex gap-2 items-center</code>) with a currency or text prefix addon on the input group.'
+      }
+    },
+    demo: {
+      component: CustomTemplateDemo,
+      props: {
+        source: CustomTemplateSource,
+        snippetName: 'CustomTemplate',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'input-dropdown',
+    sectionNav: 'Input Dropdown',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>dropdown-addon</code> on <code>@startAddonClass</code> or <code>@endAddonClass</code> with <code>UlxDropdown</code> in the start, end, or both addon slots.'
+      }
+    },
+    demo: {
+      component: InputDropdownDemo,
+      props: {
+        source: InputDropdownSource,
+        snippetName: 'inputDropdown',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'input-multi-dropdown',
+    sectionNav: 'Input Multi Dropdown',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>dropdown-addon</code> with <code>UlxMultiSelect</code> in the start, end, or both addon slots for multi-select dropdowns in an input group.'
+      }
+    },
+    demo: {
+      component: InputMultiDropdownDemo,
+      props: {
+        source: InputMultiDropdownSource,
+        snippetName: 'inputMultiDropdown',
         language: 'handlebars'
       }
     }

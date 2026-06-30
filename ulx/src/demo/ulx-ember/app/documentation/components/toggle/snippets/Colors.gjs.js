@@ -22,6 +22,7 @@ export default class ColorsToggleDemo extends Component {
     <div class="flex gap-5 align-items-center flex-wrap flex-col">
       <div class="flex align-items-center gap-2">
         <UlxToggle
+          aria-label="Primary variant toggle"
           @variant="primary"
           @checked={{this.checkedPrimary}}
           @onCheckedChange={{this.handlePrimaryChange}}
@@ -30,6 +31,7 @@ export default class ColorsToggleDemo extends Component {
       </div>
       <div class="flex align-items-center gap-2">
         <UlxToggle
+          aria-label="Green variant toggle"
           @variant="green"
           @checked={{this.checkedGreen}}
           @onCheckedChange={{this.handleGreenChange}}

@@ -255,4 +255,5 @@ export default class PageViewTemplate extends Component {
     </UlxModal>
   </template>
 }
+
 `;

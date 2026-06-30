@@ -1,167 +1,121 @@
 export default `
-import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import {
   UlxInput,
   UlxField,
   UlxInputGroup,
   UlxIcon,
-  UlxDropdown,
-  UlxButton,
-  t
+  UlxButton
 } from 'ulx-components';
 
-const COUNTRIES = [
-  { label: 'India', value: 'IN' },
-  { label: 'United States', value: 'US' },
-  { label: 'United Kingdom', value: 'GB' }
-];
+<template>
+  <div class="ulx-form m-size ulx-grid gap-8 mb-14 w-400">
 
-const VALUE_UNITS = [
-  { label: '%', value: 'percent' },
-  { label: '$', value: 'currency' }
-];
+    <h6 class="col-12 bold-font">Geometry</h6>
 
-export default class DemoInputGroupMultiple extends Component {
-  @tracked selectedCountry = 'IN';
-  @tracked selectedUnit = 'percent';
+    <UlxField @fieldId="geometry-x" @fieldClass="col-4" as |field|>
+      <UlxInputGroup @endAddonClass="text-addon">
+        <:input>
+          <UlxInput
+            @field={{field}}
+            @type="number"
+            @value="10"
+            aria-label="X position"
+          />
+        </:input>
+        <:end>
+          <span aria-hidden="true">X</span>
+        </:end>
+      </UlxInputGroup>
+    </UlxField>
 
-  get countries() {
-    return COUNTRIES;
-  }
+    <UlxField @fieldId="geometry-y" @fieldClass="col-4" as |field|>
+      <UlxInputGroup @endAddonClass="text-addon">
+        <:input>
+          <UlxInput
+            @field={{field}}
+            @type="number"
+            @value="78"
+            aria-label="Y position"
+          />
+        </:input>
+        <:end>
+          <span aria-hidden="true">Y</span>
+        </:end>
+      </UlxInputGroup>
+    </UlxField>
 
-  get valueUnits() {
-    return VALUE_UNITS;
-  }
+    <UlxField @fieldId="geometry-w" @fieldClass="col-4" as |field|>
+      <UlxInputGroup
+        @endAddonClass="button-addon"
+        @startAddonClass="button-addon"
+      >
+        <:start>
+          <UlxButton
+            @label="-"
+            @variant="basic"
+            @size="xs-size"
+            aria-label={{"Start Time"}}
+          />
+        </:start>
+        <:input>
+          <UlxInput
+            @field={{field}}
+            @type="number"
+            @value="4"
+            aria-label="Width"
+            class="text-center"
+          />
+        </:input>
+        <:end>
+          <UlxButton
+            @label="+"
+            @variant="basic"
+            @size="xs-size"
+            aria-label={{"Start Time"}}
+          />
+        </:end>
+      </UlxInputGroup>
+    </UlxField>
 
-  @action
-  setSelectedCountry(value) {
-    this.selectedCountry = value;
-  }
+    <UlxField @fieldId="geometry-h" @fieldClass="col-4" as |field|>
+      <UlxInputGroup @endAddonClass="text-addon">
+        <:input>
+          <UlxInput
+            @field={{field}}
+            @type="number"
+            @value="24"
+            aria-label="Height"
+          />
+        </:input>
+        <:end>
+          <span aria-hidden="true">H</span>
+        </:end>
+      </UlxInputGroup>
+    </UlxField>
 
-  @action
-  setSelectedUnit(value) {
-    this.selectedUnit = value;
-  }
+    <UlxField @fieldId="geometry-rotation" @fieldClass="col-4" as |field|>
+      <UlxInputGroup @endAddonClass="icon-addon">
+        <:input>
+          <UlxInput
+            @field={{field}}
+            @type="number"
+            @value="0"
+            aria-label="Rotation"
+          />
+        </:input>
+        <:end>
+          <UlxIcon
+            @componentClass="bs-icons1"
+            @type="font"
+            @iconName="angle-icon"
+            @size="s18"
+            aria-hidden="true"
+          />
+        </:end>
+      </UlxInputGroup>
+    </UlxField>
 
-  <template>
-    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
-
-      {{! PRICE INPUT }}
-      <UlxField @fieldClass="col-12" as |field|>
-        <UlxInputGroup
-          @startAddonClass="text-addon"
-          @endAddonClass="text-addon"
-        >
-
-          <:start>
-            <span aria-hidden="true">$</span>
-          </:start>
-
-          <:input as |group|>
-            <UlxInput
-              @field={{field}}
-              @disabled={{group.disabled}}
-              @invalid={{group.invalid}}
-              placeholder="Price"
-              aria-label="Price"
-            />
-          </:input>
-
-          <:end>
-            <span aria-hidden="true">.00</span>
-          </:end>
-
-        </UlxInputGroup>
-      </UlxField>
-
-      {{! SEARCH INPUT }}
-      <UlxField @fieldClass="col-12" as |field|>
-        <UlxInputGroup @startAddonClass="icon-addon">
-
-          <:start>
-            <UlxIcon
-              @componentClass="bs-icons1"
-              @type="font"
-              @iconName="ls-tick-icon"
-              @size="s18"
-              @ariaLabel="search icon"
-            />
-          </:start>
-
-          <:input>
-            <UlxInput
-              @field={{field}}
-              placeholder={{t "lbl.search"}}
-              aria-label={{t "lbl.search"}}
-            />
-          </:input>
-
-        </UlxInputGroup>
-      </UlxField>
-
-      {{! DROPDOWN LEFT, BUTTON RIGHT }}
-      <UlxField @fieldClass="col-12" as |field|>
-        <UlxInputGroup
-          @startAddonClass="dropdown-addon"
-          @endAddonClass="button-addon"
-        >
-
-          <:start>
-            <UlxDropdown
-              @options={{this.countries}}
-              @value={{this.selectedCountry}}
-              @onChange={{this.setSelectedCountry}}
-              @size="m-size"
-              aria-label="Country code"
-              @customClass="w-152"
-            />
-          </:start>
-
-          <:input>
-            <UlxInput
-              @field={{field}}
-              placeholder="Enter phone number"
-              aria-label="Phone number"
-            />
-          </:input>
-
-          <:end>
-            <UlxButton @label="Verify" @variant="primary" @size="m-size" />
-          </:end>
-
-        </UlxInputGroup>
-      </UlxField>
-
-      {{! INPUT LEFT, DROPDOWN RIGHT }}
-      <UlxField @fieldClass="col-2" as |field|>
-        <UlxInputGroup @endAddonClass="dropdown-addon">
-
-          <:input>
-            <UlxInput
-              @field={{field}}
-              @type="number"
-              @value="10"
-              aria-label="Value"
-            />
-          </:input>
-
-          <:end>
-            <UlxDropdown
-              @options={{this.valueUnits}}
-              @value={{this.selectedUnit}}
-              @onChange={{this.setSelectedUnit}}
-              @size="m-size compact"
-              aria-label="Value unit"
-            />
-          </:end>
-
-        </UlxInputGroup>
-      </UlxField>
-
-    </div>
-  </template>
-}
+  </div>
+</template>
 
 `;

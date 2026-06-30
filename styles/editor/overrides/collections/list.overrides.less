@@ -1,1 +1,174 @@
 // list overrides here
+// Marked / numbered / diamond list variants
+.ulx-ul {
+    ul {
+        display: grid;
+        gap: @16px;
+        padding: 0;
+        list-style: none;
+
+        li {
+            padding-inline-start: @32px;
+            position: relative;
+        }
+
+        &.gap-0 {
+            gap: 0;
+        }
+    }
+
+    ul li:before {
+        position: absolute;
+        inset-inline-start: 0;
+        top: 0;
+        line-height: @default-lineheight;
+        width: @default-lineheight;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.decimal {
+        ul {
+            counter-reset: section;
+        }
+
+        li {
+            padding-inline-start: @40px;
+        }
+
+        ul li:before {
+            font-family: @medium-font;
+            font-size: @font-size-small;
+            top: @4px;
+            counter-increment: section;
+            content: counter(section);
+            box-shadow: 0 0 0 @1px @text-color;
+        }
+
+        &.primary {
+            ul li:before {
+                box-shadow: 0 0 0 @1px @primary-color;
+                color: @primary-color;
+            }
+        }
+    }
+
+    &.bullet-list {
+        li {
+            padding-inline-start: @20px;
+
+            &:before {
+                content: "";
+                height: @8px;
+                width: @8px;
+                border-radius: 50%;
+                background-color: @text-color;
+                position: absolute;
+                inset-inline-start: 0;
+                top: @6px;
+            }
+        }
+
+        &.white {
+            li:before {
+                background-color: @static-white;
+            }
+        }
+
+        &.s-size {
+            ul {
+                gap: @4px;
+
+                li {
+                    margin: 0;
+                    padding-inline-start: @16px;
+
+                    &:before {
+                        height: @5px;
+                        width: @5px;
+                        top: @8px;
+                    }
+                }
+            }
+        }
+    }
+
+    &.number {
+        ul {
+            list-style: auto;
+            margin: 0;
+
+            li {
+                padding-inline-start: 0;
+                margin-block-end: 0;
+                margin-inline-start: @20px;
+            }
+        }
+    }
+
+    &.basic {
+        padding-inline-start: @16px;
+
+        ul li {
+            margin-block-end: @12px;
+        }
+    }
+
+    &.diamond {
+        ul li:before {
+            font-family: @uls-icon-prefix;
+            content: "\eab9";
+            position: absolute;
+            font-size: @font-size-small;
+            line-height: @13px;
+        }
+
+        &.primary {
+            ul li:before {
+                color: @primary-color;
+            }
+        }
+
+        &.s13 {
+            ul {
+                gap: @12px;
+
+                li {
+                    font-size: @font-size-tiny;
+                    line-height: @tiny-lineheight;
+
+                    &:before {
+                        font-size: @13px;
+                        line-height: @16px;
+                    }
+                }
+            }
+        }
+
+        &.s14 {
+            ul {
+                gap: @12px;
+
+                li {
+                    font-size: @font-size-default;
+                    line-height: @default-lineheight;
+
+                    &:before {
+                        font-size: @font-size-default;
+                        line-height: @default-lineheight;
+                    }
+                }
+            }
+        }
+    }
+
+    &.diamond-01 {
+        ul li:before {
+            font-family: @uls-icon-prefix;
+            content: "\ea2d";
+            position: absolute;
+        }
+    }
+}

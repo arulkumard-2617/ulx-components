@@ -9,6 +9,7 @@ import {
   UlxTable,
   UlxButton,
   UlxAvatar,
+  UlxChip,
   UlxSplitButton,
   UlxSlidePane,
   t
@@ -21,7 +22,8 @@ const MEMBERS = [
     emailId: 'priya@test.com',
     role: 'not Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 01, 2026'
+    invitedOn: 'Mar 01, 2026',
+    tags: ['VIP', 'Mentor']
   },
   {
     id: 2,
@@ -29,7 +31,8 @@ const MEMBERS = [
     emailId: 'aaru@zohocorp.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Feb 28, 2026'
+    invitedOn: 'Feb 28, 2026',
+    tags: ['Beta']
   },
   {
     id: 3,
@@ -37,7 +40,8 @@ const MEMBERS = [
     emailId: 'sam@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 04, 2026'
+    invitedOn: 'Mar 04, 2026',
+    tags: ['Remote', 'Contractor']
   },
   {
     id: 4,
@@ -45,7 +49,8 @@ const MEMBERS = [
     emailId: 'jordan@example.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 02, 2026'
+    invitedOn: 'Mar 02, 2026',
+    tags: ['VIP']
   },
   {
     id: 5,
@@ -53,7 +58,8 @@ const MEMBERS = [
     emailId: 'casey@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 04, 2026'
+    invitedOn: 'Mar 04, 2026',
+    tags: ['Contractor']
   },
   {
     id: 6,
@@ -61,7 +67,8 @@ const MEMBERS = [
     emailId: 'morgan@example.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 05, 2026'
+    invitedOn: 'Mar 05, 2026',
+    tags: ['Beta', 'Remote']
   },
   {
     id: 7,
@@ -69,7 +76,8 @@ const MEMBERS = [
     emailId: 'alex@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 06, 2026'
+    invitedOn: 'Mar 06, 2026',
+    tags: ['Mentor']
   },
   {
     id: 8,
@@ -77,7 +85,8 @@ const MEMBERS = [
     emailId: 'dana@example.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 07, 2026'
+    invitedOn: 'Mar 07, 2026',
+    tags: ['VIP', 'Beta']
   },
   {
     id: 9,
@@ -85,7 +94,8 @@ const MEMBERS = [
     emailId: 'riley@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 08, 2026'
+    invitedOn: 'Mar 08, 2026',
+    tags: ['Remote']
   },
   {
     id: 10,
@@ -93,7 +103,8 @@ const MEMBERS = [
     emailId: 'taylor@example.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 09, 2026'
+    invitedOn: 'Mar 09, 2026',
+    tags: ['Contractor', 'Mentor']
   },
   {
     id: 11,
@@ -101,7 +112,8 @@ const MEMBERS = [
     emailId: 'quinn@example.com',
     role: 'not Admin',
     status: 'INVITED',
-    invitedOn: 'Mar 10, 2026'
+    invitedOn: 'Mar 10, 2026',
+    tags: ['Beta', 'Contractor']
   },
   {
     id: 12,
@@ -109,7 +121,8 @@ const MEMBERS = [
     emailId: 'skyler@example.com',
     role: 'Portal Admin',
     status: 'JOINED',
-    invitedOn: 'Mar 11, 2026'
+    invitedOn: 'Mar 11, 2026',
+    tags: ['VIP', 'Remote']
   }
 ];
 
@@ -150,6 +163,14 @@ const StatusCell = <template>
   {{/if}}
 </template>;
 
+const TagsCell = <template>
+  <div class="flex flex-wrap gap-1">
+    {{#each @row.tags as |tag|}}
+      <UlxChip @label={{tag}} @size="s-size" />
+    {{/each}}
+  </div>
+</template>;
+
 const DEPARTMENTS = ['Product', 'Operations', 'Finance', 'Sales', 'Support'];
 const REGIONS = ['India', 'US', 'EMEA', 'APAC', 'LATAM'];
 const TEAMS = ['Core', 'Growth', 'Platform', 'Enablement', 'Security'];
@@ -187,6 +208,7 @@ const columns = [
     body: NameEmailCell
   },
   { field: 'role', header: 'Role', sortable: true },
+  { field: 'tags', header: 'Tags', body: TagsCell },
   { field: 'department', header: 'Department', body: DepartmentCell },
   { field: 'region', header: 'Region', body: RegionCell },
   { field: 'team', header: 'Team', body: TeamCell },
@@ -215,6 +237,17 @@ const filterGroups = [
     options: [
       { value: 'Portal Admin', label: 'Portal Admin' },
       { value: 'not Admin', label: 'Not Admin' }
+    ]
+  },
+  {
+    key: 'tags',
+    heading: 'Tags',
+    options: [
+      { value: 'VIP', label: 'VIP' },
+      { value: 'Beta', label: 'Beta' },
+      { value: 'Remote', label: 'Remote' },
+      { value: 'Contractor', label: 'Contractor' },
+      { value: 'Mentor', label: 'Mentor' }
     ]
   }
 ];

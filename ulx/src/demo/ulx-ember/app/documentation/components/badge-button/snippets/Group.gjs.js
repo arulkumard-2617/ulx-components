@@ -9,7 +9,7 @@ export default class DemoBadgeButtonGroup extends Component {
         <UlxBadgeButton
           @badge={{2}}
           @badgeType="circle"
-          @badgeSize="xs-size"
+          @badgeSize="xxs-size"
           @customClass="highlighted icon-only"
           aria-label="Filter"
         >

@@ -14,6 +14,7 @@ export { default as UlxField } from './components/ulx-field/index.gjs';
 export { default as UlxFieldSet } from './components/ulx-fieldset/index.gjs';
 export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs';
 export { default as UlxInputGroup } from './components/ulx-input-group/index.gjs';
+export { default as UlxStepInput } from './components/ulx-step-input/index.gjs';
 export { default as UlxTextarea } from './components/ulx-textarea/index.gjs';
 export { default as UlxIconInput } from './components/ulx-icon-input/index.gjs';
 export { default as UlxImage } from './components/ulx-image/index.gjs';
@@ -74,6 +75,9 @@ export { default as UlxSorterItem } from './components/ulx-sorter/item.gjs';
 export { t } from './utils/i18n.js';
 
 export { validate, transformErrorsToNested } from './utils/validation-util.js';
+export { getValue } from './utils/object-util.js';
+export { sanitizeHtml, default as sanitizeUtil } from './utils/sanitize-util.js';
+export { ulxHtmlSafe } from './helpers/ulx-html-safe.js';
 export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
 export { SVG_NAMESPACE } from './utils/svg-namespace.js';
 export {

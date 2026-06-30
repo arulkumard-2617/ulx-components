@@ -38,6 +38,7 @@ Router.map(function () {
     this.route('input');
     this.route('chip-input');
     this.route('input-group');
+    this.route('step-input');
     this.route('message');
     this.route('messages');
     this.route('modal');
@@ -87,5 +88,9 @@ Router.map(function () {
     this.route('table');
     this.route('card');
     this.route('page');
+    this.route('settings');
+    this.route('segment');
+    this.route('list');
+    this.route('message');
   });
 });

@@ -58,6 +58,8 @@ import {
   BsTableViewSource,
   VerticalTableDemo,
   VerticalTableSource,
+  FooterDemo,
+  FooterSource,
   ImportSource
 } from './imports';
 
@@ -227,6 +229,26 @@ export const TableFeatureItems = [
     demo: {
       component: GridLinesDemo,
       props: { source: null, snippetName: 'gridlines', language: 'handlebars' }
+    }
+  },
+  {
+    id: 'footer',
+    sectionNav: 'Column Footer',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Render a summary row in <code>&lt;tfoot&gt;</code> by setting <code>footer</code> or <code>footerTemplate</code> on column definitions. Use <code>align: "right"</code> on numeric columns. The footer band matches the table header styling.'
+      }
+    },
+    demo: {
+      component: FooterDemo,
+      props: {
+        source: FooterSource,
+        snippetName: 'footer',
+        language: 'handlebars'
+      }
     }
   },
   {

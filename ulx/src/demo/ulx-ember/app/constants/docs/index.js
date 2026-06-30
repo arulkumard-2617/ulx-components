@@ -78,6 +78,11 @@ export const DocNavItems = [
             route: 'components.input-group'
           },
           {
+            menuItem: 'StepInput',
+            to: '/components/step-input',
+            route: 'components.step-input'
+          },
+          {
             menuItem: 'Checkbox',
             to: '/components/checkbox',
             route: 'components.checkbox'
@@ -413,6 +418,26 @@ export const DocNavItems = [
         menuItem: 'Page',
         to: '/templates/page',
         route: 'templates.page'
+      },
+      {
+        menuItem: 'Settings',
+        to: '/templates/settings',
+        route: 'templates.settings'
+      },
+      {
+        menuItem: 'Segment',
+        to: '/templates/segment',
+        route: 'templates.segment'
+      },
+      {
+        menuItem: 'List',
+        to: '/templates/list',
+        route: 'templates.list'
+      },
+      {
+        menuItem: 'Message',
+        to: '/templates/message',
+        route: 'templates.message'
       }
     ]
   }

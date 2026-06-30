@@ -4,18 +4,20 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
-  SplitActionsDemo,
-  IconsDemo,
   VariantsDemo,
   OutlinedDemo,
+  IconsDemo,
+  SplitActionsDemo,
   DisabledDemo,
+  PrimaryButtonPopupDemo,
   ImportSource,
   BasicSource,
-  SplitActionsSource,
-  IconsSource,
   VariantsSource,
   OutlinedSource,
-  DisabledSource
+  IconsSource,
+  SplitActionsSource,
+  DisabledSource,
+  PrimaryButtonPopupSource
 } from './imports';
 
 export const ActionButtonsFeatureItems = [
@@ -47,7 +49,7 @@ export const ActionButtonsFeatureItems = [
       props: {
         as: 'span',
         content:
-          'With two or more entries, the first item is the primary action and the rest appear in the split dropdown. Each item provides <code>label</code>, <code>action</code>, and optional <code>icon</code> (font icon classes, e.g. <code>bs-icons1 ls-tick-icon</code>).'
+          'The <code>Basic</code> demo shows a primary action with secondary items in the split dropdown.'
       }
     },
     demo: {
@@ -60,21 +62,41 @@ export const ActionButtonsFeatureItems = [
     }
   },
   {
-    id: 'split-actions',
-    sectionNav: 'Split actions',
+    id: 'variants',
+    sectionNav: 'Variants',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Primary and secondary actions with toast feedback on click. Secondary items can include <code>icon</code> for menu rows.'
+          '<code>@variant</code> is forwarded to the underlying button controls: primary, secondary, success, and danger.'
       }
     },
     demo: {
-      component: SplitActionsDemo,
+      component: VariantsDemo,
       props: {
-        source: SplitActionsSource,
-        snippetName: 'split-actions',
+        source: VariantsSource,
+        snippetName: 'variants',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'outlined',
+    sectionNav: 'Outlined',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'The <code>Outlined</code> variant displays buttons with a transparent background and colored border.'
+      }
+    },
+    demo: {
+      component: OutlinedDemo,
+      props: {
+        source: OutlinedSource,
+        snippetName: 'outlined',
         language: 'handlebars'
       }
     }
@@ -100,41 +122,41 @@ export const ActionButtonsFeatureItems = [
     }
   },
   {
-    id: 'variants',
-    sectionNav: 'Variant',
+    id: 'split-actions',
+    sectionNav: 'Split actions',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          '<code>@variant</code> is forwarded to the underlying button controls: primary, secondary, success, info, warning, help, and danger.'
+          'Primary and secondary actions with toast feedback on click. Secondary items can include <code>icon</code> for menu rows.'
       }
     },
     demo: {
-      component: VariantsDemo,
+      component: SplitActionsDemo,
       props: {
-        source: VariantsSource,
-        snippetName: 'variants',
+        source: SplitActionsSource,
+        snippetName: 'split-actions',
         language: 'handlebars'
       }
     }
   },
   {
-    id: 'outlined',
-    sectionNav: 'Outlined',
+    id: 'primary-button-popup',
+    sectionNav: 'Primary button popup',
     sectionDesc: {
       component: RichText,
       props: {
         as: 'span',
         content:
-          'Outlined buttons display a border without a filled background. Use <code>@outlined={{true}}</code>.'
+          'Use <code>@onPrimaryButtonReady</code> to receive the primary action button DOM element for anchoring popups or tooltips. In split mode the callback receives the main button, not the dropdown chevron.'
       }
     },
     demo: {
-      component: OutlinedDemo,
+      component: PrimaryButtonPopupDemo,
       props: {
-        source: OutlinedSource,
-        snippetName: 'outlined',
+        source: PrimaryButtonPopupSource,
+        snippetName: 'primary-button-popup',
         language: 'handlebars'
       }
     }

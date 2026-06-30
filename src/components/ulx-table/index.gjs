@@ -615,6 +615,12 @@ export default class UlxTable extends Component {
 
 	// ─── Sort actions ─────────────────────────────────────────────────────────
 	commitFilterUpdate(updated) {
+		for (const group of this.filterGroups) {
+			const key = group?.key;
+			if (key && !updated[key]) {
+				delete this._filterPaneSelections[key];
+			}
+		}
 		this._filters = updated;
 		this._first = 0;
 		this.args.lazy && this.args.onFilter?.({ filters: updated });

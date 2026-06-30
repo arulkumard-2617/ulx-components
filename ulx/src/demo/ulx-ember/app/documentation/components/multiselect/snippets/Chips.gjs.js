@@ -15,57 +15,32 @@ const CITIES = [
 ];
 
 export default class DemoMultiselectChips extends Component {
-  /** Pre-filled for narrow layout to show single-line truncation vs wrapping. */
-  @tracked selectedTruncated = ['NY', 'CHI', 'LA', 'RM', 'LDN'];
-
-  @tracked selectedWrap = ['NY', 'CHI', 'LA', 'RM', 'LDN'];
+  @tracked selected = ['NY', 'CHI', 'LA', 'RM', 'LDN'];
 
   get items() {
     return CITIES;
   }
 
   @action
-  setSelectedTruncated(value) {
-    this.selectedTruncated = value;
-  }
-
-  @action
-  setSelectedWrap(value) {
-    this.selectedWrap = value;
+  setSelected(value) {
+    this.selected = value;
   }
 
   <template>
-    <div class="ulx-form m-size ulx-grid">
+    <div class="ulx-form m-size ulx-grid gap-8 mb-14">
       <UlxField
-        @label="Chips (single line, ellipsis when full)"
-        @fieldId="multiselect-chips-truncate"
-        @fieldClass="col-12"
-        as |field|
-      >
-        <UlxMultiSelect
-          @field={{field}}
-          @options={{this.items}}
-          @value={{this.selectedTruncated}}
-          @onChange={{this.setSelectedTruncated}}
-          @selectAll={{true}}
-          @display="chip"
-          @placeholder="Select cities"
-        />
-      </UlxField>
-      <UlxField
-        @label="Chips (wrap when full)"
-        @fieldId="multiselect-chips-wrap"
+        @label="Comma separator"
+        @fieldId="multiselect-comma-separator"
         @fieldClass="col-6"
         as |field|
       >
         <UlxMultiSelect
           @field={{field}}
           @options={{this.items}}
-          @value={{this.selectedWrap}}
-          @onChange={{this.setSelectedWrap}}
+          @value={{this.selected}}
+          @onChange={{this.setSelected}}
+          @display="comma"
           @selectAll={{true}}
-          @display="chip"
-          @chipWrap={{true}}
           @placeholder="Select cities"
         />
       </UlxField>

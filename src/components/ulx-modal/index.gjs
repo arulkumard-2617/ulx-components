@@ -9,7 +9,6 @@ import { getComponentClass } from "../../utils/component-config";
 import { joinClassNames } from "../../utils/class-names";
 import overlayLifecycle from "../../modifiers/overlay-lifecycle";
 import {
-	handleAsyncAction,
 	handleTabKey,
 	getDestinationElement,
 	shouldShowOverlay,
@@ -117,10 +116,8 @@ const BODY_OVERFLOW_STYLE = {
 export default class UlxModal extends Component {
 	@service modalStack;
 
-	@tracked isMaximized = false;
 	@tracked isDragging = false;
 	@tracked dragPlacement = null;
-	@tracked isSubmitting = false;
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
 	/** Read/written by `overlayLifecycle` (visibility edges and focus return). */
@@ -260,6 +257,10 @@ export default class UlxModal extends Component {
 		return this.args.maximizable ?? false;
 	}
 
+	get isMaximized() {
+		return this.args.maximized ?? false;
+	}
+
 	get keepInViewport() {
 		return this.args.keepInViewport ?? true;
 	}
@@ -278,29 +279,35 @@ export default class UlxModal extends Component {
 		this.args.onHide?.();
 	}
 
-	_invokeAsyncFooterAction(action, autoCloseArgKey, autoCloseDefault) {
-		handleAsyncAction(action, {
-			setSubmitting: (value) => {
-				this.isSubmitting = value;
-			},
-			onSuccess: () => {
-				const shouldClose = this.args[autoCloseArgKey] ?? autoCloseDefault;
-				if (shouldClose) this.handleClose();
-			},
-			onError: (error) => {
-				this.args.onError?.(error);
-			}
-		});
+	runFooterAction(callback, autoClose) {
+		if (!callback) return;
+
+		const result = callback();
+
+		if (result?.then) {
+			return result
+				.then(() => {
+					autoClose && this.handleClose();
+				})
+				.catch((error) => {
+					this.args.onError?.(error);
+					throw error;
+				});
+		}
+
+		autoClose && this.handleClose();
 	}
 
 	@action
 	handleCancel() {
-		this._invokeAsyncFooterAction(this.args.onCancel, "autoCloseOnCancel", false);
+		const { onCancel, autoCloseOnCancel = false } = this.args;
+		return this.runFooterAction(onCancel, autoCloseOnCancel);
 	}
 
 	@action
 	handleDone() {
-		this._invokeAsyncFooterAction(this.args.onDone, "autoCloseOnDone", true);
+		const { onDone, autoCloseOnDone = true } = this.args;
+		return this.runFooterAction(onDone, autoCloseOnDone);
 	}
 
 	@action
@@ -503,10 +510,9 @@ export default class UlxModal extends Component {
 										@cancelLabel={{@cancelButtonLabel}}
 										@cancelButtonCustomClass={{@cancelButtonCustomClass}}
 										@doneLabel={{@doneButtonLabel}}
+										@submittingLabel={{@submittingLabel}}
 										@doneButtonVariant={{@doneButtonVariant}}
 										@doneButtonDisabled={{@doneButtonDisabled}}
-										@submittingLabel={{@submittingLabel}}
-										@submitting={{this.isSubmitting}}
 										@onCancel={{this.handleCancel}}
 										@onDone={{this.handleDone}}
 										@footerClassName={{@footerClassName}}

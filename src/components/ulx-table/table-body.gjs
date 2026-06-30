@@ -526,6 +526,7 @@ export default class TableBody extends Component {
 									{{#if (eq col.selectionMode "multiple")}}
 										<UlxCheckbox
 											@checked={{this.isRowSelected row}}
+											@customClass={{row.selectionCheckboxClass}}
 											@onCheckedChange={{fn this.handleCheckboxChange row}}
 											aria-label={{t "lbl.a11y.table.select.row" index=index}}
 										/>
@@ -632,7 +633,12 @@ export default class TableBody extends Component {
 											@onChange={{@onCellEditComplete}}
 										/>
 									{{else if col.body}}
-										<col.body @row={{row}} @index={{index}} @value={{this.cellValue row col}} />
+										<col.body
+											@row={{row}}
+											@col={{col}}
+											@index={{index}}
+											@value={{this.cellValue row col}}
+										/>
 									{{else}}
 										{{this.cellValue row col}}
 									{{/if}}

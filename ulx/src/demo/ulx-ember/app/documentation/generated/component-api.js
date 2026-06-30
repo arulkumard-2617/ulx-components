@@ -1993,16 +1993,6 @@ const componentApiRegistry = {
         "scope": "component"
       },
       {
-        "name": "allowDuplicates",
-        "type": "boolean",
-        "required": false,
-        "defaultValue": "false",
-        "hasDefaultValue": true,
-        "description": "When false, duplicate values are silently ignored.",
-        "section": null,
-        "scope": "component"
-      },
-      {
         "name": "max",
         "type": "number",
         "required": false,

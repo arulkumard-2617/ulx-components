@@ -52,7 +52,12 @@ export default class TableViewVertical extends Component {
 							{{#each this.rows as |row rowIdx|}}
 								<td class="datatable-cell">
 									{{#if col.body}}
-										<col.body @row={{row}} @value={{@getCellValue row col}} @index={{rowIdx}} />
+										<col.body
+											@row={{row}}
+											@col={{col}}
+											@value={{@getCellValue row col}}
+											@index={{rowIdx}}
+										/>
 									{{else}}
 										{{@getCellValue row col}}
 									{{/if}}
@@ -64,14 +69,14 @@ export default class TableViewVertical extends Component {
 			</table>
 			{{#if (and (not @loading) (not this.rows.length))}}
 				<div class="datatable-empty-message">
-				<TableEmptyState
-					@headerText={{@emptyStateHeaderText}}
-					@subHeaderText={{@emptyStateSubHeaderText}}
-					@iconName={{@emptyStateIconName}}
-					@hasCustomEmptyMessage={{@hasCustomEmptyMessage}}
-				>
-					<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
-				</TableEmptyState>
+					<TableEmptyState
+						@headerText={{@emptyStateHeaderText}}
+						@subHeaderText={{@emptyStateSubHeaderText}}
+						@iconName={{@emptyStateIconName}}
+						@hasCustomEmptyMessage={{@hasCustomEmptyMessage}}
+					>
+						<:emptyMessage>{{yield to="emptyMessage"}}</:emptyMessage>
+					</TableEmptyState>
 				</div>
 			{{/if}}
 		</div>

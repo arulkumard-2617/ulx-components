@@ -35,7 +35,7 @@ const stateToSnippet = (state) => {
 
   const msAttrs = [];
   if (state.placeholder) msAttrs.push(`@placeholder="${state.placeholder}"`);
-  if (state.display === 'chip') msAttrs.push('@display="chip"');
+  if (state.display === 'comma') msAttrs.push('@display="comma"');
   if (state.showClear) msAttrs.push('@showClear={{true}}');
   if (state.filter) msAttrs.push('@filter={{true}}');
   if (state.selectAll) msAttrs.push('@selectAll={{true}}');
@@ -88,7 +88,7 @@ export default {
       key: 'display',
       label: 'Display',
       type: 'select',
-      default: 'comma',
+      default: 'chip',
       options: [
         { value: 'comma', label: 'comma' },
         { value: 'chip', label: 'chip' },

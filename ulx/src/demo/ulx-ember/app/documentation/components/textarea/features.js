@@ -9,13 +9,15 @@ import {
   InvalidDemo,
   DisabledDemo,
   WithButtonDemo,
+  ResizeYDemo,
   ImportSource,
   BasicSource,
   TemplateSource,
   SizesSource,
   InvalidSource,
   DisabledSource,
-  WithButtonSource
+  WithButtonSource,
+  ResizeYSource
 } from './imports';
 
 export const TextareaFeatureItems = [
@@ -150,6 +152,26 @@ export const TextareaFeatureItems = [
       props: {
         source: WithButtonSource,
         snippetName: 'with-button',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'resize-y',
+    sectionNav: 'Resize Y',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@resizeY</code> (applies the <code>resize-y</code> class) to grow textarea height on the Y axis as content exceeds the minimum height.'
+      }
+    },
+    demo: {
+      component: ResizeYDemo,
+      props: {
+        source: ResizeYSource,
+        snippetName: 'resize-y',
         language: 'handlebars'
       }
     }

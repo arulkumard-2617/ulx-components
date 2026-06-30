@@ -1,6 +1,5 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { on } from "@ember/modifier";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { joinClassNames } from "../../utils/class-names";
@@ -9,8 +8,8 @@ import { getFooterAlignmentClasses } from "./footer-alignment.js";
 
 /**
  * Modal footer subcomponent.
- * Displays action buttons (typically Cancel and Confirm/Done). The default Done
- * control uses `UlxIconButton` so async loading shows the affix spinner.
+ * Displays action buttons (typically Cancel and Confirm/Done).
+ * Done and Cancel buttons automatically show loading state when their callbacks return Promises.
  * Can be customized using the :footer named block on UlxModal.
  *
  * ## Usage
@@ -34,9 +33,8 @@ import { getFooterAlignmentClasses } from "./footer-alignment.js";
  * @param {string} [cancelLabel] - Cancel label (defaults to i18n cancel)
  * @param {string} [doneLabel] - Done/confirm label (defaults to i18n confirm)
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneLabel)
- * @param {Function} [onCancel] - Callback when cancel button is clicked
- * @param {Function} [onDone] - Callback when done button is clicked
- * @param {boolean} [submitting=false] - Disable both buttons during async operation
+ * @param {Function} [onCancel] - Callback when cancel button is clicked; may return a Promise
+ * @param {Function} [onDone] - Callback when done button is clicked; may return a Promise
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [cancelButtonCustomClass] - Extra class on the cancel button
@@ -50,11 +48,7 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get doneLabel() {
-		const { submitting, submittingLabel, doneLabel } = this.args;
-		if (submitting && submittingLabel) {
-			return submittingLabel;
-		}
-		return doneLabel || t("label.confirm");
+		return this.args.doneLabel || t("label.confirm");
 	}
 
 	get hideCancelButton() {
@@ -63,18 +57,6 @@ export default class UlxModalFooter extends Component {
 
 	get hideDoneButton() {
 		return this.args.hideDoneButton ?? false;
-	}
-
-	get submitting() {
-		return this.args.submitting ?? false;
-	}
-
-	get doneButtonDisabled() {
-		return this.submitting || (this.args.doneButtonDisabled ?? false);
-	}
-
-	get cancelButtonDisabled() {
-		return this.submitting || (this.args.cancelButtonDisabled ?? false);
 	}
 
 	get doneButtonVariant() {
@@ -90,15 +72,13 @@ export default class UlxModalFooter extends Component {
 	}
 
 	@action
-	handleCancel(event) {
-		event.preventDefault();
-		this.args.onCancel?.();
+	handleCancel() {
+		return this.args.onCancel?.();
 	}
 
 	@action
-	handleDone(event) {
-		event.preventDefault();
-		this.args.onDone?.();
+	handleDone() {
+		return this.args.onDone?.();
 	}
 
 	<template>
@@ -110,18 +90,18 @@ export default class UlxModalFooter extends Component {
 							@label={{this.cancelLabel}}
 							@variant="basic"
 							@customClass={{@cancelButtonCustomClass}}
-							@disabled={{this.cancelButtonDisabled}}
+							@disabled={{@cancelButtonDisabled}}
 							data-qa="ulx-modal-cancel"
-							{{on "click" this.handleCancel}}
+							@onClick={{this.handleCancel}}
 						/>
 					{{/unless}}
 
 					{{#unless this.hideDoneButton}}
 						<UlxIconButton
 							@label={{this.doneLabel}}
+							@submittingLabel={{@submittingLabel}}
 							@variant={{this.doneButtonVariant}}
-							@loading={{this.submitting}}
-							@disabled={{this.doneButtonDisabled}}
+							@disabled={{@doneButtonDisabled}}
 							@dataQa="ulx-modal-done"
 							@onClick={{this.handleDone}}
 						/>

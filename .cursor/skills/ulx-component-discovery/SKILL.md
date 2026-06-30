@@ -19,7 +19,7 @@ description: Recommend the right ulx-components component for a UI use case. Use
 4. Mention at most 1-2 alternatives when the tradeoff is real.
 5. Explain the recommendation in terms of behavior, scale, complexity, and accessibility.
 6. Route the follow-up work to the matching skill:
-   - **Application UI consumption** (screens, layout, design-system styling) → `ulx-consumer-ui` and `.cursor/rules/ulx-design-system.mdc`
+   - **Application UI consumption** (screens, layout, design-system styling) → `ulx-consumer-ui` and `.cursor/rules/ulx-essentials.mdc`
    - `ulx-form-patterns`
    - `ulx-ui-patterns`
    - `ulx-data-display-patterns`

@@ -159,44 +159,6 @@ export function isPointerOutsideElement(containerElement, event) {
 }
 
 /**
- * Handles async action (onDone/onCancel) with promise support.
- * If the action returns a Promise, waits for it before optionally closing.
- * For sync actions, onSuccess and onFinally are called immediately.
- *
- * @param {Function} action - The action callback (onDone or onCancel)
- * @param {Object} options - Configuration options
- * @param {Function} options.setSubmitting - Setter for submitting state
- * @param {Function} options.onSuccess - Callback when action resolves (sync or async)
- * @param {Function} options.onError - Callback when promise rejects
- * @param {Function} options.onFinally - Callback after action completes
- * @returns {void}
- */
-export function handleAsyncAction(action, options = {}) {
-	if (!action) return;
-
-	const { setSubmitting, onSuccess, onError, onFinally } = options;
-	const result = action();
-
-	if (result && typeof result.then === 'function') {
-		setSubmitting && setSubmitting(true);
-		result
-			.then(() => {
-				onSuccess && onSuccess();
-			})
-			.catch((error) => {
-				onError && onError(error);
-			})
-			.finally(() => {
-				setSubmitting && setSubmitting(false);
-				onFinally && onFinally();
-			});
-	} else {
-		onSuccess && onSuccess();
-		onFinally && onFinally();
-	}
-}
-
-/**
  * Handles Tab key focus trapping within an overlay element.
  *
  * @param {KeyboardEvent} event - The keyboard event
@@ -269,19 +231,18 @@ export function applyBodyAbsoluteFromViewport(containerElement, topViewport, lef
 	containerElement.style.margin = '0';
 }
 
-/** Default z-index for overlays when no modal stack or no top modal. */
+/** Default z-index for overlays when no modal stack service is available. */
 const DEFAULT_OVERLAY_Z_INDEX = 2100;
 
 /**
- * Returns a z-index guaranteed to be above the dialog mask, for use by overlays
- * (toast, popup, dropdown panel, etc.) that render in body. Centralizes the fallback.
+ * Stack z-index for body-portaled overlays (popup, dropdown panel, toast, etc.).
+ * Uses the same +10 stack as modals and slide panes via `ModalStackService`.
  *
  * @param {Object} [modalStack] - Modal stack service (optional)
- * @param {Object} [instance] - Optional overlay instance; when provided, used for stacking order (e.g. popup, tieredmenu). When omitted, uses topModal (e.g. toast, dropdown panel).
+ * @param {Object} [instance] - Registered overlay instance (popup, tieredmenu); when omitted, one step above `topModal` (dropdown, toast).
  * @returns {number}
  */
 export function getOverlayZIndexAboveMask(modalStack, instance) {
-	//for popup and dropdown the instance will be passed
 	return modalStack?.getZIndexAboveMask?.(instance) ?? DEFAULT_OVERLAY_Z_INDEX;
 }
 
