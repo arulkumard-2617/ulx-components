@@ -265,7 +265,6 @@ export default class UlxSlidePane extends Component {
 				})
 				.catch((error) => {
 					this.args.onError?.(error);
-					throw error;
 				});
 		}
 
