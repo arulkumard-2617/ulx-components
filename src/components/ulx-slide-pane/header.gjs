@@ -24,6 +24,7 @@ import { t } from "../../utils/i18n";
  * @param {Function} [onClose] - Callback when close button is clicked
  * @param {Function} [onMaximize] - Callback when maximize button is clicked
  * @param {string} [closeIconName="close-icon-01"] - Icon name for close button
+ * @param {string} [closeButtonDataQa] - data-qa for header close button
  * @param {string} [iconComponentClass="bs-icons1"] - Icon component class for header icon buttons
  * @param {string} [iconVariant] - UlxButton variant for header icon buttons
  * @param {string} [iconSize="s24"] - Icon size for header icon buttons
@@ -156,6 +157,7 @@ export default class UlxSlidePaneHeader extends Component {
 						@text={{true}}
 						@pilled={{true}}
 						@customClass="slidepane-close-button"
+						@dataQa={{@closeButtonDataQa}}
 						aria-label={{t "label.close"}}
 						{{on "click" this.handleClose}}
 					/>
