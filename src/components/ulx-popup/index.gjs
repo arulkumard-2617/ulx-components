@@ -30,8 +30,8 @@ import UlxPopupFooter from "./footer.gjs";
 import { t } from "../../utils/i18n";
 
 /** Aligns with LESS transition duration; fallback covers missing `transitionend`. */
-const POPUP_TRANSITION_MS = 200;
-const POPUP_TRANSITION_FALLBACK_MS = POPUP_TRANSITION_MS + 100;
+const POPUP_TRANSITION_MS = 200,
+	POPUP_TRANSITION_FALLBACK_MS = POPUP_TRANSITION_MS + 100;
 /** After `<:trigger>` `mouseleave` or `focusout`, delay hide so the pointer or Tab can reach the anchored panel without closing. */
 const POPUP_HOVER_LEAVE_CLOSE_MS = 120;
 const POPUP_FOCUSABLE_SELECTOR =
@@ -136,8 +136,8 @@ function computePopupPlacement(
 	return (layouts[basePosition] ?? layouts["position-bottom"])();
 }
 
-const POPUP_ENTER_ANIMATION_STATES = new Set(["enter", "enter-active", "enter-done"]);
-const POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]);
+const POPUP_ENTER_ANIMATION_STATES = new Set(["enter", "enter-active", "enter-done"]),
+	POPUP_EXIT_ANIMATION_STATES = new Set(["exit", "exit-active", "exit-done"]);
 
 /** Delegate trigger pointer/keyboard interactions (with <:trigger>). */
 const INTERACTION_MANUAL = "manual";
@@ -172,6 +172,7 @@ const INTERACTION_WITH_DELEGATION = new Set(["hover", "click", "hover-click"]);
  * - With default header (`@title` and no `<:head>`), the title `<h6>` gets a stable unique `id` and the dialog sets `aria-labelledby` to it (unless `@ariaLabel` is set).
  * - Use `@ariaLabel` or pass `aria-label` / `aria-labelledby` via `...attributes` to provide an accessible name when not using the default title pattern.
  * - Focus moves into the popup on open depending on **`@autoFocus`** and delegated **`@interactionMode`**: pointer-driven **`mouseenter`** on **`hover` / `hover-click`** suppresses moving focus until explicitly requested; **`hover`** + **`focusin`** opens with default auto-focus behavior so keyboard users Tab into focusables; **`@autoFocus`**: `false` never auto-focuses; `true` always focuses on open when allowed.
+ * - When auto-focus is active (click / keyboard opens), Tab and Shift+Tab stay inside the popup when it contains focusable controls; text-only panels keep page focus and do not trap Tab.
  * - Escape closes the popup by default (unless @closeOnEscape is false) and returns focus to the trigger.
  *
  * @class UlxPopup
@@ -272,8 +273,8 @@ export default class UlxPopup extends Component {
 	_hoverLeaveCloseTimerId = null;
 
 	get interactionModeResolved() {
-		const { interactionMode } = this.args;
-		const mode = typeof interactionMode === "string" ? interactionMode.trim() : INTERACTION_MANUAL;
+		const { interactionMode } = this.args,
+			mode = typeof interactionMode === "string" ? interactionMode.trim() : INTERACTION_MANUAL;
 
 		return INTERACTION_WITH_DELEGATION.has(mode) ? mode : INTERACTION_MANUAL;
 	}
@@ -314,6 +315,14 @@ export default class UlxPopup extends Component {
 		return this.args.visible === true;
 	}
 
+	get isAriaHidden() {
+		if (this.isVisible) {
+			return false;
+		}
+
+		return !POPUP_EXIT_ANIMATION_STATES.has(this.animationState);
+	}
+
 	get isDismissable() {
 		return this.args.dismissable !== false;
 	}
@@ -346,6 +355,68 @@ export default class UlxPopup extends Component {
 		return true;
 	}
 
+	/** Pointer-only hover opens keep page focus; click/keyboard opens trap Tab inside the panel. */
+	get shouldTrapFocus() {
+		return this.shouldAutoFocusOnOpen;
+	}
+
+	_isVisibleFocusable(element) {
+		return (
+			element instanceof HTMLElement &&
+			element.matches(POPUP_FOCUSABLE_SELECTOR) &&
+			element.offsetParent !== null &&
+			element.disabled !== true &&
+			element.getAttribute("aria-disabled") !== "true"
+		);
+	}
+
+	_getPopupFocusables(container) {
+		if (!(container instanceof HTMLElement)) {
+			return [];
+		}
+
+		const nodes = container.querySelectorAll(POPUP_FOCUSABLE_SELECTOR);
+
+		return Array.from(nodes).filter((element) => this._isVisibleFocusable(element));
+	}
+
+	_resolveFocusableFromElement(element) {
+		if (!(element instanceof HTMLElement)) {
+			return null;
+		}
+
+		if (this._isVisibleFocusable(element)) {
+			return element;
+		}
+
+		const nested = element.querySelector(POPUP_FOCUSABLE_SELECTOR);
+
+		return nested && this._isVisibleFocusable(nested) ? nested : null;
+	}
+
+	_resolveTriggerFocusTarget(elementOrEvent) {
+		if (elementOrEvent instanceof HTMLElement) {
+			return this._resolveFocusableFromElement(elementOrEvent) ?? elementOrEvent;
+		}
+
+		if (elementOrEvent?.target instanceof HTMLElement) {
+			const { target, currentTarget } = elementOrEvent;
+
+			if (this._isVisibleFocusable(target)) {
+				return target;
+			}
+
+			const fromHost =
+				currentTarget instanceof HTMLElement
+					? this._resolveFocusableFromElement(currentTarget)
+					: null;
+
+			return fromHost ?? currentTarget ?? target;
+		}
+
+		return null;
+	}
+
 	get shouldRender() {
 		if (this.isVisible) return true;
 		if (this.animationState?.startsWith("exit")) return true;
@@ -354,11 +425,9 @@ export default class UlxPopup extends Component {
 	}
 
 	get rootClasses() {
-		const { position = "position-bottom", size = "m-size", variant, customClass } = this.args;
-
-		const parts = [this.baseClass];
-
-		const effectivePosition = this.currentPositionClass ?? position;
+		const { position = "position-bottom", size = "m-size", variant, customClass } = this.args,
+			parts = [this.baseClass],
+			effectivePosition = this.currentPositionClass ?? position;
 
 		effectivePosition && parts.push(effectivePosition);
 		size && parts.push(size);
@@ -434,10 +503,10 @@ export default class UlxPopup extends Component {
 
 	@action
 	setTarget(elementOrEvent) {
-		if (elementOrEvent instanceof HTMLElement) {
-			this.targetElement = elementOrEvent;
-		} else if (elementOrEvent?.currentTarget) {
-			this.targetElement = elementOrEvent.currentTarget;
+		const resolved = this._resolveTriggerFocusTarget(elementOrEvent);
+
+		if (resolved) {
+			this.targetElement = resolved;
 		} else if (this.args.target) {
 			this.targetElement = this.args.target;
 		}
@@ -610,6 +679,7 @@ export default class UlxPopup extends Component {
 
 		if (!this.containerElement) {
 			this.animationState = null;
+			this._restoreFocusToTarget();
 			this.args.onHide?.();
 			return;
 		}
@@ -630,13 +700,7 @@ export default class UlxPopup extends Component {
 				this.animationState = "exit-done";
 				this.modalStack?.unregisterModal(this);
 				this._clearZIndex();
-				if (
-					!this.delegatedSuppressAutoFocusOnOpen &&
-					this.targetElement &&
-					typeof this.targetElement.focus === "function"
-				) {
-					this.targetElement.focus();
-				}
+				this._restoreFocusToTarget();
 				this.args.onHide?.();
 				setTimeout(() => {
 					this.animationState = null;
@@ -732,10 +796,10 @@ export default class UlxPopup extends Component {
 	_alignOverlay() {
 		if (!this.containerElement || !this.targetElement) return;
 
-		const container = this.containerElement;
-		const target = this.targetElement;
-		const resolvedContext = this.resolvedContext;
-		const coordinateApi = buildOverlayCoordinateApi(resolvedContext, container);
+		const container = this.containerElement,
+			target = this.targetElement,
+			resolvedContext = this.resolvedContext,
+			coordinateApi = buildOverlayCoordinateApi(resolvedContext, container);
 
 		// Temporarily remove the overlay from layout so its own size does not
 		// inflate body / trigger a scrollbar and skew viewport or target measurements.
@@ -745,14 +809,14 @@ export default class UlxPopup extends Component {
 		const boundaryRect = getBoundaryRectInOverlaySpace(this.resolvedBoundary, coordinateApi);
 		container.style.display = prevDisplay;
 
-		const containerRect = container.getBoundingClientRect();
-		const popupWidth = containerRect.width || container.offsetWidth || 200;
-		const popupHeight = containerRect.height || container.offsetHeight || 100;
+		const containerRect = container.getBoundingClientRect(),
+			popupWidth = containerRect.width || container.offsetWidth || 200,
+			popupHeight = containerRect.height || container.offsetHeight || 100;
 
 		// Gaps between target element and popup
-		const verticalGap = 8;
-		const horizontalGap = 8;
-		const viewportPadding = 10;
+		const verticalGap = 8,
+			horizontalGap = 8,
+			viewportPadding = 10;
 
 		const basePosition = this.args.position ?? "position-bottom";
 
@@ -778,11 +842,11 @@ export default class UlxPopup extends Component {
 			right: targetRect.left + popupWidth + viewportPadding,
 			bottom: targetRect.bottom + popupHeight + viewportPadding
 		};
-		const boundaryTop = fallbackBoundary.top;
-		const boundaryBottom = fallbackBoundary.bottom;
-		const boundaryLeft = fallbackBoundary.left;
-		const boundaryRight = fallbackBoundary.right;
-		const isBottomVariant = POPUP_BOTTOM_POSITIONS.has(basePosition);
+		const boundaryTop = fallbackBoundary.top,
+			boundaryBottom = fallbackBoundary.bottom,
+			boundaryLeft = fallbackBoundary.left,
+			boundaryRight = fallbackBoundary.right,
+			isBottomVariant = POPUP_BOTTOM_POSITIONS.has(basePosition);
 
 		if (
 			isBottomVariant &&
@@ -793,13 +857,13 @@ export default class UlxPopup extends Component {
 			placedAbove = true;
 		}
 
-		const minLeft = boundaryLeft + viewportPadding;
-		const maxLeft = boundaryRight - popupWidth - viewportPadding;
+		const minLeft = boundaryLeft + viewportPadding,
+			maxLeft = boundaryRight - popupWidth - viewportPadding;
 		let minTop = boundaryTop + viewportPadding;
 		let maxTop = boundaryBottom - popupHeight - viewportPadding;
 
-		const targetOutTop = targetRect.bottom < boundaryTop + viewportPadding;
-		const targetOutBottom = targetRect.top > boundaryBottom - viewportPadding;
+		const targetOutTop = targetRect.bottom < boundaryTop + viewportPadding,
+			targetOutBottom = targetRect.top > boundaryBottom - viewportPadding;
 
 		targetOutTop && (minTop = Math.min(minTop, top));
 		targetOutBottom && (maxTop = Math.max(maxTop, top));
@@ -840,19 +904,41 @@ export default class UlxPopup extends Component {
 	@action
 	_setZIndex() {
 		if (!this.containerElement) return;
-		const resolvedContext = this.resolvedContext;
-		const zIndex =
-			typeof this.args.zIndex === "number"
-				? this.args.zIndex
-				: resolvedContext === document.body
-					? getOverlayZIndexAboveMask(this.modalStack, this)
-					: 1;
+		const resolvedContext = this.resolvedContext,
+			zIndex =
+				typeof this.args.zIndex === "number"
+					? this.args.zIndex
+					: resolvedContext === document.body
+						? getOverlayZIndexAboveMask(this.modalStack, this)
+						: 1;
 		this.containerElement.style.setProperty("z-index", String(zIndex), "important");
 	}
 
 	@action
 	_clearZIndex() {
 		if (this.containerElement) this.containerElement.style.zIndex = "";
+	}
+
+	@action
+	_restoreFocusToTarget() {
+		if (this.delegatedSuppressAutoFocusOnOpen) {
+			return;
+		}
+
+		const rawTarget = this.targetElement ?? this.args.target,
+			target = this._resolveFocusableFromElement(rawTarget) ?? rawTarget;
+
+		if (!target || typeof target.focus !== "function") {
+			return;
+		}
+
+		target.focus({ preventScroll: true });
+
+		schedule("afterRender", () => {
+			requestAnimationFrame(() => {
+				document.activeElement !== target && target.focus({ preventScroll: true });
+			});
+		});
 	}
 
 	/** Captures the root element, syncs `@target` if needed, and wires `registerRef`. */
@@ -866,8 +952,8 @@ export default class UlxPopup extends Component {
 		this.args.registerRef?.(this);
 
 		return () => {
-			const stack = this.modalStack;
-			const instance = this;
+			const stack = this.modalStack,
+				instance = this;
 			this.containerElement = null;
 			this.args.registerRef?.(null);
 			/* Avoid mutating modalStack.modals during the same flush as getters that read it (e.g. slide pane z-index). */
@@ -889,9 +975,9 @@ export default class UlxPopup extends Component {
 	 */
 	// eslint-disable-next-line no-unused-vars -- third positional: reactive invalidation only
 	watchVisibility = modifier((element, [isVisible, targetElement, _animationState]) => {
-		const previousVisible = this._previousVisible;
-		const isTransitioningToVisible = !previousVisible && isVisible;
-		const isTransitioningToHidden = previousVisible && !isVisible;
+		const previousVisible = this._previousVisible,
+			isTransitioningToVisible = !previousVisible && isVisible,
+			isTransitioningToHidden = previousVisible && !isVisible;
 
 		if (targetElement && targetElement !== this.targetElement) {
 			this.targetElement = targetElement;
@@ -918,8 +1004,8 @@ export default class UlxPopup extends Component {
 			}
 		} else {
 			// If still in enter-* when `@visible` flips false, we must still run exit.
-			const isPopupShown = POPUP_ENTER_ANIMATION_STATES.has(this.animationState);
-			const wasVisible = isTransitioningToHidden || isPopupShown;
+			const isPopupShown = POPUP_ENTER_ANIMATION_STATES.has(this.animationState),
+				wasVisible = isTransitioningToHidden || isPopupShown;
 
 			if (
 				wasVisible &&
@@ -951,18 +1037,24 @@ export default class UlxPopup extends Component {
 		this._previousVisible = isVisible;
 	});
 
-	/** After open, focus first focusable inside the dialog (or the root as fallback). */
+	/** After open, focus first focusable inside the dialog. Text-only popups keep trigger focus. */
 	focusFirstOnVisible = modifier((element, [isVisible, animationState]) => {
 		if (!isVisible || animationState !== "enter-done") return;
 		if (!this.shouldAutoFocusOnOpen) return;
 
-		const firstFocusable = element.querySelector(POPUP_FOCUSABLE_SELECTOR);
+		const focusInitialTarget = () => {
+			const focusables = this._getPopupFocusables(element);
 
-		if (firstFocusable) {
-			setTimeout(() => firstFocusable.focus(), 0);
-		} else {
-			setTimeout(() => element.focus(), 0);
-		}
+			if (focusables.length === 0) {
+				return;
+			}
+
+			focusables[0].focus({ preventScroll: true });
+		};
+
+		schedule("afterRender", () => {
+			requestAnimationFrame(focusInitialTarget);
+		});
 	});
 
 	repositionOnScroll = modifier((_, [isVisible, animationState]) => {
@@ -982,41 +1074,82 @@ export default class UlxPopup extends Component {
 		};
 	});
 
-	/** While open, wrap Tab / Shift+Tab between first and last focusable. */
+	/** While open, wrap Tab / Shift+Tab when the panel has focusable controls. */
 	focusTrap = modifier((element, [isVisible, animationState]) => {
-		if (!isVisible || animationState !== "enter-done") return;
+		if (!isVisible || animationState !== "enter-done" || !this.shouldTrapFocus) return;
 
-		const getFocusables = () => {
-			const nodes = element.querySelectorAll(POPUP_FOCUSABLE_SELECTOR);
-			return Array.from(nodes).filter(
-				(el) =>
-					el.offsetParent !== null &&
-					el.disabled !== true &&
-					el.getAttribute("aria-disabled") !== "true"
-			);
+		const focusables = this._getPopupFocusables(element);
+
+		if (focusables.length === 0) {
+			return;
+		}
+
+		const getFocusables = () => this._getPopupFocusables(element);
+
+		const redirectFocusIntoPopup = (preferLast = false) => {
+			const nodes = getFocusables(),
+				focusTarget = preferLast ? nodes[nodes.length - 1] : nodes[0];
+
+			focusTarget.focus({ preventScroll: true });
 		};
 
-		const handleKeyDown = (e) => {
-			if (e.key !== "Tab") return;
+		const handleKeyDown = (event) => {
+			if (event.key !== "Tab") return;
+
 			const focusables = getFocusables();
 			if (focusables.length === 0) return;
-			const first = focusables[0];
-			const last = focusables[focusables.length - 1];
-			if (e.shiftKey) {
-				if (document.activeElement === first) {
-					e.preventDefault();
+
+			const first = focusables[0],
+				last = focusables[focusables.length - 1],
+				activeElement = document.activeElement,
+				activeInsidePopup = activeElement instanceof Node && element.contains(activeElement);
+
+			if (!activeInsidePopup) {
+				event.preventDefault();
+				redirectFocusIntoPopup(event.shiftKey);
+				return;
+			}
+
+			if (event.shiftKey) {
+				if (activeElement === first) {
+					event.preventDefault();
 					last.focus();
 				}
-			} else {
-				if (document.activeElement === last) {
-					e.preventDefault();
-					first.focus();
-				}
+			} else if (activeElement === last) {
+				event.preventDefault();
+				first.focus();
 			}
 		};
 
-		element.addEventListener("keydown", handleKeyDown);
-		return () => element.removeEventListener("keydown", handleKeyDown);
+		const handleFocusIn = (event) => {
+			const relatedTarget = event.target;
+
+			if (!(relatedTarget instanceof Node) || element.contains(relatedTarget)) {
+				return;
+			}
+
+			requestAnimationFrame(() => {
+				if (!this.isVisible || this.animationState !== "enter-done" || !this.shouldTrapFocus) {
+					return;
+				}
+
+				const activeElement = document.activeElement;
+
+				if (activeElement instanceof Node && element.contains(activeElement)) {
+					return;
+				}
+
+				redirectFocusIntoPopup();
+			});
+		};
+
+		document.addEventListener("keydown", handleKeyDown, true);
+		document.addEventListener("focusin", handleFocusIn, true);
+
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown, true);
+			document.removeEventListener("focusin", handleFocusIn, true);
+		};
 	});
 
 	/** Bridges passive hover dismiss between the trigger and the anchored popup panel. */
@@ -1128,7 +1261,7 @@ export default class UlxPopup extends Component {
 				data-qa={{this.rootDataQa}}
 				role="dialog"
 				aria-modal="false"
-				aria-hidden={{if this.isVisible "false" "true"}}
+				aria-hidden={{if this.isAriaHidden "true" "false"}}
 				aria-labelledby={{if
 					(and (not (has-block "head")) @title (not @ariaLabel))
 					this.defaultTitleHeadingId

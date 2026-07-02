@@ -6,7 +6,7 @@ export default class TemplatesCardRoute extends Route {
     return {
       title: 'Card Templates',
       description:
-        'Card layout templates for session schedules, event listings, and structured summary cards.',
+        'Card layout templates for session schedules, selectable linked sessions, event listings, and structured summary cards.',
       features: CardFeatureItems
     };
   }

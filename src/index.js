@@ -14,6 +14,7 @@ export { default as UlxField } from './components/ulx-field/index.gjs';
 export { default as UlxFieldSet } from './components/ulx-fieldset/index.gjs';
 export { default as UlxFloatLabel } from './components/ulx-floatlabel/index.gjs';
 export { default as UlxInputGroup } from './components/ulx-input-group/index.gjs';
+export { default as UlxStepInput } from './components/ulx-step-input/index.gjs';
 export { default as UlxTextarea } from './components/ulx-textarea/index.gjs';
 export { default as UlxIconInput } from './components/ulx-icon-input/index.gjs';
 export { default as UlxImage } from './components/ulx-image/index.gjs';
