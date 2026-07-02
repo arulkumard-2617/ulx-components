@@ -97,6 +97,7 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {string} [maximizeIconName="expand-icon"] - Icon for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon for restore button (when maximized)
  * @param {string} [dataQa] - Override root data-qa attribute
+ * @param {string} [closeButtonDataQa] - data-qa for header close button (defaults to `{dataQa}-close-button`)
  * @param {string} [cancelButtonDataQa] - data-qa for default footer cancel button
  * @param {string} [doneButtonDataQa] - data-qa for default footer done button
  * @param {string} [backButtonDataQa] - data-qa for default footer back button
@@ -122,6 +123,10 @@ export default class UlxSlidePane extends Component {
 
 	get rootDataQa() {
 		return resolveRootDataQa(this.args.dataQa, "slidepane");
+	}
+
+	get closeButtonDataQa() {
+		return this.args.closeButtonDataQa ?? buildDataQa(this.rootDataQa, "close-button");
 	}
 
 	@action
@@ -366,6 +371,7 @@ export default class UlxSlidePane extends Component {
 										@onClose={{this.handleClose}}
 										@onMaximize={{this.handleMaximize}}
 										@closeIconName={{@closeIconName}}
+										@closeButtonDataQa={{this.closeButtonDataQa}}
 										@iconComponentClass={{@iconComponentClass}}
 										@iconVariant={{@iconVariant}}
 										@iconSize={{@iconSize}}
