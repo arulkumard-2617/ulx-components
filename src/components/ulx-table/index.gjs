@@ -91,17 +91,38 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  *                                          in vertical layout (e.g. 'name' shows row.name as header)
  *
  * ── Sort ────────────────────────────────────────────────────────────────────
- * @param {string}  [sortMode='single']     - 'single' | 'multiple'
- * @param {string}  [sortField]             - controlled sort field
- * @param {'asc'|'desc'} [sortOrder]        - controlled sort order
- * @param {Array<{field: string, order: 'asc'|'desc'}>} [multiSortMeta] - controlled multi-sort
- * @param {boolean} [removableSort]         - third click removes sort
- * @param {Function}[onSort]                - ({field, order, multiSortMeta}) => void (lazy)
- * @param {Function}[sortFunction]          - custom comparator: (item1, item2, { field, order, getFieldValue, compareValues, multiSortMeta }) => number
- * Toolbar sort dropdown (bs-table style): when provided, shows Sort button and drives sort from "key:asc|desc".
- * @param {Array<{key: string, lbl: string}>} [sortOptions] - options for sort criterion dropdown
- * @param {string}  [sortBy]                - controlled sort string "key:asc" | "key:desc"
- * @param {Function}[onSortByChange]        - (sortByString) => void when user changes sort from toolbar
+ * Two sort APIs — use one mode per table, not both.
+ *
+ * 1) Header sort (default, uncontrolled)
+ *    Pass nothing. Mark columns with sortable: true; clicks toggle asc/desc on that field.
+ *    Optional: @sortMode ('single' | 'multiple'), @removableSort (third click clears sort).
+ *
+ * 2) Header sort (controlled)
+ *    Pass @sortField, @sortOrder, and @onSort together when the parent owns sort state.
+ *    @onSort receives ({ field, order, multiSortMeta }) and must update @sortField/@sortOrder
+ *    (or @multiSortMeta when @sortMode is 'multiple').
+ *
+ * 3) Toolbar + header sort (BSTable style, controlled)
+ *    Pass @sortOptions, @sortBy, and @onSortByChange together.
+ *    - @sortOptions — shows the Sort toolbar button; each { key, lbl } is a sortable criterion.
+ *    - @sortBy — current sort as "key:asc" or "key:desc"; also drives header sort indicators.
+ *    - @onSortByChange — (sortByString) => void; parent must update @sortBy on every change.
+ *    Header clicks and the toolbar popover both emit via @onSortByChange. Each key should match
+ *    a column field (or the value your @sortFunction expects). Set sortable: true on columns
+ *    that should respond to header clicks.
+ *
+ * @param {string}  [sortMode='single']     - 'single' | 'multiple' (header-sort modes 1 and 2)
+ * @param {string}  [sortField]             - controlled sort field (mode 2 only)
+ * @param {'asc'|'desc'} [sortOrder]        - controlled sort order (mode 2 only)
+ * @param {Array<{field: string, order: 'asc'|'desc'}>} [multiSortMeta] - controlled multi-sort (mode 2, @sortMode='multiple')
+ * @param {boolean} [removableSort]         - third header click removes sort (modes 1 and 2)
+ * @param {Function}[onSort]                - ({field, order, multiSortMeta}) => void; required with @sortField/@sortOrder (mode 2); also used in @lazy mode
+ * @param {Function}[sortFunction]          - custom comparator when values are not on row[field]:
+ *                                            (item1, item2, { field, order, getFieldValue, compareValues, multiSortMeta }) => number.
+ *                                            Pass with any sort mode when sorting nested or computed fields.
+ * @param {Array<{key: string, lbl: string}>} [sortOptions] - sort criteria for toolbar Sort button (mode 3; pass with @sortBy and @onSortByChange)
+ * @param {string}  [sortBy]                - controlled "key:asc" | "key:desc" string (mode 3; pass with @sortOptions and @onSortByChange)
+ * @param {Function}[onSortByChange]        - (sortByString) => void when user sorts via toolbar or header (mode 3; pass with @sortOptions and @sortBy)
  *
  * ── Filter ──────────────────────────────────────────────────────────────────
  * @param {string}  [filterDisplay]         - 'row' | 'menu'
@@ -248,6 +269,11 @@ export default class UlxTable extends Component {
 	@tracked showSortPopover = false;
 	@tracked sortPopoverPosition = null;
 	@tracked sortPopoverTriggerElement = null;
+	/**
+	 * Internal sort string ("field:asc|desc") for @sortOptions mode.
+	 * Updated on header/toolbar sort before the parent re-renders @sortBy; used with
+	 * toolbarSortByString so repeated header clicks toggle correctly.
+	 */
 	@tracked _sortByString = "";
 
 	// ─── Manage columns popup ─────────────────────────────────────────────────
@@ -371,10 +397,16 @@ export default class UlxTable extends Component {
 
 	// ─── Sort (controlled vs uncontrolled) ───────────────────────────────────
 	// When sortOptions is provided, sort is driven by sortBy string "key:asc|desc".
+	// Prefer _sortByString so header clicks keep toggling before the parent re-renders @sortBy.
+	get toolbarSortByString() {
+		if (!this.args.sortOptions?.length) return "";
+		return this._sortByString || this.args.sortBy || "";
+	}
+
 	get sortField() {
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
-			return parseSortBy(this.args.sortBy ?? this._sortByString).field;
+			return parseSortBy(this.toolbarSortByString).field;
 		}
 		return this.args.sortField !== undefined ? this.args.sortField : this._sortField;
 	}
@@ -382,7 +414,7 @@ export default class UlxTable extends Component {
 	get sortOrder() {
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
-			return parseSortBy(this.args.sortBy ?? this._sortByString).order;
+			return parseSortBy(this.toolbarSortByString).order;
 		}
 		const { sortOrder } = this.args;
 		const resolvedSortOrder = sortOrder !== undefined ? sortOrder : this._sortOrder;
@@ -392,7 +424,7 @@ export default class UlxTable extends Component {
 	get sortByString() {
 		const opts = this.args.sortOptions;
 		if (opts?.length) {
-			return this.args.sortBy ?? this._sortByString ?? "";
+			return this.toolbarSortByString;
 		}
 		const field = this.sortField;
 		const order = this.sortOrder;
@@ -634,9 +666,14 @@ export default class UlxTable extends Component {
 			this._multiSortMeta = meta;
 			this.args.onSort?.({ multiSortMeta: meta });
 		} else {
+			const usesToolbarSort = !!this.args.sortOptions?.length;
+			const currentSortBy = usesToolbarSort ? this.toolbarSortByString : null;
+			const { field: currentField, order: currentOrder } = currentSortBy
+				? parseSortBy(currentSortBy)
+				: { field: this.sortField, order: this.sortOrder };
 			const next = getNextSingleSortState({
-				currentField: this.sortField,
-				currentOrder: this.sortOrder,
+				currentField,
+				currentOrder,
 				nextField: field,
 				removableSort
 			});
@@ -645,10 +682,13 @@ export default class UlxTable extends Component {
 			this._sortOrder = sortOrder;
 			const sortByString = formatSortBy(sortField, sortOrder);
 			this._sortByString = sortByString;
+			this._first = 0;
 			this.args.onSort?.(
 				cleared ? { field: null, order: null } : { field: sortField, order: sortOrder }
 			);
-			this.args.sortOptions?.length && this.args.onSortByChange?.(sortByString);
+			usesToolbarSort && this.args.onSortByChange?.(sortByString);
+			this.args.first !== undefined &&
+				this.args.onPage?.({ first: 0, rows: this.rows, page: 0 });
 		}
 	}
 
