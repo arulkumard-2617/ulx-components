@@ -169,50 +169,49 @@ export default class UlxBannerMessage extends Component {
 			>
 				<div class="message-item">
 					<div class={{this.wrapperClass}} data-qa={{this.getDataQa "wrapper"}}>
-					{{#if (has-block "leftItem")}}
-						{{yield this.displayMessage to="leftItem"}}
-					{{else if this.displayMessageIconName}}
-						<span class={{this.iconClass}} aria-hidden="true" data-qa={{this.getDataQa "icon"}}>
-							<UlxIcon
-								@componentClass="bs-icons1"
-								@type={{this.resolvedIconType}}
-								@iconName={{this.displayMessageIconName}}
-								@size={{this.resolvedIconSize}}
-							/>
-						</span>
-					{{/if}}
-					<div class={{this.contentClass}} data-qa={{this.getDataQa "content"}}>
-						{{#if (has-block "content")}}
-							{{yield this.displayMessage to="content"}}
-						{{else}}
-							<div class={{this.contentTextClass}}>
-								{{#if this.displayMessage.summary}}
-									<h5 class={{this.summaryClass}}>{{this.displayMessage.summary}}</h5>
-								{{/if}}
-								{{#if this.displayMessage.detail}}
-									<span class={{this.detailClass}}>{{this.displayMessage.detail}}</span>
+						{{#if (has-block "leftItem")}}
+							{{yield this.displayMessage to="leftItem"}}
+						{{else if this.displayMessageIconName}}
+							<span class={{this.iconClass}} aria-hidden="true" data-qa={{this.getDataQa "icon"}}>
+								<UlxIcon
+									@componentClass="bs-icons1"
+									@type={{this.resolvedIconType}}
+									@iconName={{this.displayMessageIconName}}
+									@size={{this.resolvedIconSize}}
+								/>
+							</span>
+						{{/if}}
+						<div class={{this.contentClass}} data-qa={{this.getDataQa "content"}}>
+							{{#if (has-block "content")}}
+								{{yield this.displayMessage to="content"}}
+							{{else}}
+								<div class={{this.contentTextClass}}>
+									{{#if this.displayMessage.summary}}
+										<h5 class={{this.summaryClass}}>{{this.displayMessage.summary}}</h5>
+									{{/if}}
+									{{#if this.displayMessage.detail}}
+										<span class={{this.detailClass}}>{{this.displayMessage.detail}}</span>
+									{{/if}}
+								</div>
+							{{/if}}
+							<div class={{this.contentActionClass}} data-qa={{this.getDataQa "actions"}}>
+								{{#if (has-block "action")}}
+									{{yield this.displayMessage to="action"}}
+								{{else if (this.showClose this.displayMessage)}}
+									<UlxIconButton
+										@iconLeft="close-icon-01"
+										@iconSize="s20"
+										@pilled={{true}}
+										@variant="secondary"
+										@size={{@size}}
+										@customClass={{this.closeButtonClass}}
+										@onClick={{fn this.handleRemove this.displayMessage}}
+										aria-label={{t "lbl.close.notification"}}
+										data-qa={{this.getDataQa "close"}}
+									/>
 								{{/if}}
 							</div>
-						{{/if}}
-						<div class={{this.contentActionClass}} data-qa={{this.getDataQa "actions"}}>
-							{{#if (has-block "action")}}
-								{{yield this.displayMessage to="action"}}
-							{{else if (this.showClose this.displayMessage)}}
-								<UlxIconButton
-									@iconLeft="close-stroke-icon"
-									@iconComponentClass="bs-icons1"
-									@iconSize="s22"
-									@text={{true}}
-									@variant="secondary"
-									@size={{@size}}
-									@customClass={{this.closeButtonClass}}
-									@onClick={{fn this.handleRemove this.displayMessage}}
-									aria-label={{t "lbl.close.notification"}}
-									data-qa={{this.getDataQa "close"}}
-								/>
-							{{/if}}
 						</div>
-					</div>
 					</div>
 				</div>
 			</div>

@@ -8,7 +8,7 @@ import { UlxAvatar, t } from 'ulx-components';
       <div class="flex wrap gap-4 items-center">
         <UlxAvatar
           @memberProfile={{hash
-            fullName="Jane Doe"
+            fullName="Jasper g"
             avatarUrl="https://randomuser.me/api/portraits/women/90.jpg"
             hasBsAvatar=true
           }}

@@ -4,12 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { UlxBadge, UlxTable, UlxTag } from 'ulx-components';
 
-const YET_TO_RESPOND_TRACK_STYLE =
-  '--lt-track-bg-color: #FFECAD; --track-bg-color: #D48806';
-
-const RESPONDED_TRACK_STYLE =
-  '--lt-track-bg-color: #BBF7D0; --track-bg-color: #15803D';
-
 const QUERIES = [
   {
     id: 'query-1',
@@ -20,8 +14,7 @@ const QUERIES = [
     raisedDay: 'Wed',
     raisedDate: 'Feb 22, 2024',
     status: 'Yet to respond',
-    statusVariant: 'lt-track-label',
-    statusStyle: YET_TO_RESPOND_TRACK_STYLE
+    statusVariant: 'marked-label lt-gold'
   },
   {
     id: 'query-2',
@@ -32,8 +25,7 @@ const QUERIES = [
     raisedDay: 'Tue',
     raisedDate: 'Feb 21, 2024',
     status: 'Responded',
-    statusVariant: 'lt-track-label',
-    statusStyle: RESPONDED_TRACK_STYLE
+    statusVariant: 'marked-label lt-green'
   },
   {
     id: 'query-3',
@@ -44,8 +36,7 @@ const QUERIES = [
     raisedDay: 'Mon',
     raisedDate: 'Feb 20, 2024',
     status: 'Yet to respond',
-    statusVariant: 'lt-track-label',
-    statusStyle: YET_TO_RESPOND_TRACK_STYLE
+    statusVariant: 'marked-label lt-gold'
   },
   {
     id: 'query-4',
@@ -56,8 +47,7 @@ const QUERIES = [
     raisedDay: 'Sun',
     raisedDate: 'Feb 19, 2024',
     status: 'Responded',
-    statusVariant: 'lt-track-label',
-    statusStyle: RESPONDED_TRACK_STYLE
+    statusVariant: 'marked-label lt-green'
   },
   {
     id: 'query-5',
@@ -68,8 +58,7 @@ const QUERIES = [
     raisedDay: 'Sat',
     raisedDate: 'Feb 18, 2024',
     status: 'Yet to respond',
-    statusVariant: 'lt-track-label',
-    statusStyle: YET_TO_RESPOND_TRACK_STYLE
+    statusVariant: 'marked-label lt-gold'
   }
 ];
 
@@ -97,10 +86,7 @@ const StatusCell = <template>
   <UlxTag
     @value={{@row.status}}
     @variant={{@row.statusVariant}}
-    @type="pill"
     @size="xs-size"
-    @customClass={{@row.statusCustomClass}}
-    style={{@row.statusStyle}}
   />
 </template>;
 

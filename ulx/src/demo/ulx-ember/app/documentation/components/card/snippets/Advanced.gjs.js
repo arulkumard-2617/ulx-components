@@ -1,24 +1,19 @@
 export default `
 import { UlxCard, UlxButton, t } from 'ulx-components';
 
-const headerImage =
-  'https://primefaces.org/cdn/primereact/images/usercard.png';
+const headerImage = 'https://primefaces.org/cdn/primereact/images/usercard.png';
 
 <template>
   <div class="pda4">
     <UlxCard
       @title="Advanced Card"
       @subTitle="Card subtitle"
-      @size="m-size"
+      @size="s-size"
       @appearance="elevated"
       @variant="primary"
     >
       <:header>
-        <img
-          src={{headerImage}}
-          alt={{t "lbl.image"}}
-          class="ulx-card-image"
-        />
+        <img src={{headerImage}} alt={{t "lbl.image"}} class="ulx-card-image" />
       </:header>
 
       <:content>
@@ -36,6 +31,5 @@ const headerImage =
     </UlxCard>
   </div>
 </template>
-
 
 `;

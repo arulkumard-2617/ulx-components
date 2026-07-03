@@ -8,6 +8,7 @@ export { default as DynamicDemo } from '../../../components/Demo/Messages/Dynami
 export { default as ClosableDemo } from '../../../components/Demo/Messages/Closable';
 export { default as WithBadgeAnnouncementDemo } from '../../../components/Demo/Messages/WithBadgeAnnouncement';
 export { default as WithBadgeAnnouncementSuccessDemo } from '../../../components/Demo/Messages/WithBadgeAnnouncementSuccess';
+export { default as MessageWithTagDemo } from '../../../components/Demo/Messages/MessageWithTag';
 
 export { default as ImportSource } from './snippets/Import.gjs';
 export { default as BasicSource } from './snippets/Basic.gjs';
@@ -16,3 +17,4 @@ export { default as DynamicSource } from './snippets/Dynamic.gjs';
 export { default as ClosableSource } from './snippets/Closable.gjs';
 export { default as WithBadgeAnnouncementSource } from './snippets/WithBadgeAnnouncement.gjs';
 export { default as WithBadgeAnnouncementSuccessSource } from './snippets/WithBadgeAnnouncementSuccess.gjs';
+export { default as MessageWithTagSource } from './snippets/MessageWithTag.gjs';

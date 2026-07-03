@@ -10,6 +10,7 @@ import {
   GroupDemo,
   MemberDemo,
   AnonymousDemo,
+  ProfileDetailsDemo,
   // Sources
   ImportSource,
   BasicSource,
@@ -17,7 +18,8 @@ import {
   ImageSource,
   GroupSource,
   MemberSource,
-  AnonymousSource
+  AnonymousSource,
+  ProfileDetailsSource
 } from './imports';
 
 export const AvatarFeatureItems = [
@@ -154,6 +156,25 @@ export const AvatarFeatureItems = [
       props: {
         source: AnonymousSource,
         snippetName: "anonymous",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "profile-details",
+    sectionNav: "Profile details",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Combine <code>UlxAvatar</code> with the <code>ulx-profile-details</code> layout to show a name, email, and optional description beside the avatar."
+      }
+    },
+    demo: {
+      component: ProfileDetailsDemo,
+      props: {
+        source: ProfileDetailsSource,
+        snippetName: "profile-details",
         language: "handlebars"
       }
     }

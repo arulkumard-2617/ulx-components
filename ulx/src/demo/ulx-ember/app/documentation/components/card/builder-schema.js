@@ -58,6 +58,7 @@ export default {
         { value: 'outlined', label: 'Outlined' },
         { value: 'elevated', label: 'Elevated' },
         { value: 'flat', label: 'Flat' },
+        { value: 'gradient', label: 'Gradient' },
       ],
     },
     {

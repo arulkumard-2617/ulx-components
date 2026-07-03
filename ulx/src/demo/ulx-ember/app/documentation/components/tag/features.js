@@ -11,6 +11,7 @@ import {
   LayeredDemo,
   StatusLabelsDemo,
   TrackLabelDemo,
+  MarkedLabelDemo,
   TypeDemo,
   SymbolDemo,
   SizeDemo,
@@ -23,6 +24,7 @@ import {
   LayeredSource,
   StatusLabelsSource,
   TrackLabelSource,
+  MarkedLabelSource,
   TypeSource,
   SymbolSource,
   SizeSource
@@ -183,6 +185,26 @@ export const TagFeatureItems = [
       props: {
         source: TrackLabelSource,
         snippetName: "track-label",
+        language: "handlebars"
+      }
+    }
+  }
+,
+  {
+    id: "marked-label",
+    sectionNav: "Marked label",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Shows the <code>marked-label</code> variant with a leading dot on fixed light-tone backgrounds. Combine with <code>lt-green</code>, <code>lt-gold</code>, <code>lt-red</code>, or <code>lt-purple</code>."
+      }
+    },
+    demo: {
+      component: MarkedLabelDemo,
+      props: {
+        source: MarkedLabelSource,
+        snippetName: "marked-label",
         language: "handlebars"
       }
     }
