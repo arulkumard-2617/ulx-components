@@ -17,7 +17,7 @@ const path = require('path');
 	const TEMPLATE_SRC_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/components/Template');
 
 	const DOCS_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/documentation/components');
-	const TEMPLATE_DOCS_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/template-docs');
+	const TEMPLATE_DOCS_ROOT = path.join(ROOT, 'src/demo/ulx-ember/app/documentation/templates');
 
 	function parseDemoPath(srcFile) {
 		const relative = path.relative(SRC_ROOT, srcFile);
@@ -84,9 +84,8 @@ const path = require('path');
 
 		const sectionSlug = toKebabCase(parts[0]);
 		const { name } = path.parse(parts[parts.length - 1]);
-		const nameSlug = toKebabCase(name);
 
-		return path.join(TEMPLATE_DOCS_ROOT, sectionSlug, nameSlug, 'snippets', `${name}.gjs.js`);
+		return path.join(TEMPLATE_DOCS_ROOT, sectionSlug, 'snippets', `${name}.gjs.js`);
 	}
 
 	/**

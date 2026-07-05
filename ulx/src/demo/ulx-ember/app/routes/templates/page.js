@@ -1,13 +1,12 @@
 import Route from '@ember/routing/route';
-import { PageFeatureItems } from '../../template-docs/page/features';
+import { PageFeatureItems } from '../../documentation/templates/page/features';
+import meta from '../../documentation/templates/page/meta';
 
 export default class TemplatesPageRoute extends Route {
   model() {
     return {
-      title: 'Page Templates',
-      description:
-        'Page layout templates for sidebar navigation, scrollable content panels, and full-viewport modal experiences.',
-      features: PageFeatureItems
+      features: PageFeatureItems,
+      meta
     };
   }
 }

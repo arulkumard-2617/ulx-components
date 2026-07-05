@@ -1,13 +1,12 @@
 import Route from '@ember/routing/route';
-import { CardFeatureItems } from '../../template-docs/card/features';
+import { CardFeatureItems } from '../../documentation/templates/card/features';
+import meta from '../../documentation/templates/card/meta';
 
 export default class TemplatesCardRoute extends Route {
   model() {
     return {
-      title: 'Card Templates',
-      description:
-        'Card layout templates for session schedules, selectable linked sessions, event listings, and structured summary cards.',
-      features: CardFeatureItems
+      features: CardFeatureItems,
+      meta
     };
   }
 }

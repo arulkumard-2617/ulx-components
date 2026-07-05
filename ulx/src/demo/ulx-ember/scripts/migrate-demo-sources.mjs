@@ -15,10 +15,7 @@ const { demoImportPathToSourceModule } = require('../lib/demo-source-path.js');
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const APP_ROOT = path.resolve(__dirname, '../app');
 
-const IMPORTS_GLOBS = [
-  path.join(APP_ROOT, 'documentation'),
-  path.join(APP_ROOT, 'template-docs')
-];
+const IMPORTS_GLOBS = [path.join(APP_ROOT, 'documentation')];
 
 function walkImportsFiles(dir, results = []) {
   if (!fs.existsSync(dir)) return results;
