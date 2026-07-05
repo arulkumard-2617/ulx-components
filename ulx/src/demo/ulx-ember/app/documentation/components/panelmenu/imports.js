@@ -11,13 +11,15 @@ export { default as CommandDemo } from '../../../components/Demo/Panelmenu/Comma
 export { default as RouterDemo } from '../../../components/Demo/Panelmenu/Router';
 
 // Import source
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxPanelmenu } from 'ulx-components';
+`;
 
 // Demo Sources
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as MultipleSource } from './snippets/Multiple.gjs';
-export { default as ControlledSource } from './snippets/Controlled.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as CommandSource } from './snippets/Command.gjs';
-export { default as RouterSource } from './snippets/Router.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/panelmenu/basic';
+export { default as MultipleSource } from '../../../demo-sources/demo/panelmenu/multiple';
+export { default as ControlledSource } from '../../../demo-sources/demo/panelmenu/controlled';
+export { default as TemplateSource } from '../../../demo-sources/demo/panelmenu/template';
+export { default as CommandSource } from '../../../demo-sources/demo/panelmenu/command';
+export { default as RouterSource } from '../../../demo-sources/demo/panelmenu/router';
 

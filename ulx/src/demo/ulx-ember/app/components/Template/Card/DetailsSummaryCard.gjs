@@ -108,25 +108,24 @@ export default class DetailsSummaryCardTemplate extends Component {
     >
       <:header>
         <div class="ulx-grid col-3 col-sm-1 divided w-full">
-          <div class="flex flex-col gap-3 my-4 px-4 min-w-0">
-            <div class="flex items-center gap-2 text-13 fg-secondary">
+          <div class="flex flex-col gap-1 my-4 px-4 min-w-0">
+            <div class="flex items-center gap-1 text-13 fg-secondary">
               <UlxIcon
                 @iconName="user-info-icon"
                 @type="font"
-                @componentClass="bs-icons1"
-                @size="s14"
+                @size="s16"
                 @customClass="fg-primary"
                 aria-hidden="true"
               />
               Attendee
             </div>
 
-            <div class="flex items-center gap-3 min-w-0">
+            <div class="flex items-center gap-2 min-w-0">
               <UlxAvatar
                 @type="image"
                 @image={{this.attendee.image}}
                 @shape="circle"
-                @size="s-size"
+                @size="m-size"
                 aria-hidden="true"
               />
 
@@ -134,20 +133,17 @@ export default class DetailsSummaryCardTemplate extends Component {
                 <span
                   class="text-14 semibold-font"
                 >{{this.attendee.name}}</span>
-                <span
-                  class="text-12 fg-secondary"
-                >{{this.attendee.email}}</span>
+                <span class="text-12">{{this.attendee.email}}</span>
               </div>
             </div>
           </div>
 
-          <div class="flex flex-col gap-3 my-4 px-4 min-w-0">
+          <div class="flex flex-col gap-1 my-4 px-4 min-w-0">
             <div class="flex items-center gap-2 text-13 fg-secondary">
               <UlxIcon
                 @iconName="ticket-details-icon"
                 @type="font"
-                @componentClass="bs-icons1"
-                @size="s14"
+                @size="s16"
                 @customClass="fg-primary"
                 aria-hidden="true"
               />
@@ -156,14 +152,13 @@ export default class DetailsSummaryCardTemplate extends Component {
 
             <div class="flex flex-col gap-1 min-w-0">
               <span class="text-14 semibold-font">{{this.ticket.type}}</span>
-              <div class="flex items-center gap-2 flex-wrap text-12">
+              <div class="flex items-center gap-1 flex-wrap text-12">
                 <span>Ticket ID: {{this.ticket.id}}</span>
                 <UlxIconButton
                   @iconLeft="copy-icon"
                   @variant="link on-hover"
-                  @size="s-size"
-                  @iconComponentClass="bs-icons1"
-                  @iconSize="s14"
+                  @size="compact"
+                  @iconSize="s16"
                   aria-label="Copy ticket ID"
                 />
               </div>
@@ -175,8 +170,7 @@ export default class DetailsSummaryCardTemplate extends Component {
               <UlxIcon
                 @iconName="wallet-credits-icon"
                 @type="font"
-                @componentClass="bs-icons1"
-                @size="s14"
+                @size="s16"
                 @customClass="fg-green"
                 aria-hidden="true"
               />
@@ -185,14 +179,14 @@ export default class DetailsSummaryCardTemplate extends Component {
 
             <div class="flex flex-col gap-1 min-w-0">
               <span class="text-14 semibold-font">{{this.payment.amount}}</span>
-              <div class="flex items-center gap-2 flex-wrap text-12">
+              <div class="flex items-center gap-1 flex-wrap text-12">
                 <span>Order ID: {{this.payment.orderId}}</span>
                 <UlxIconButton
                   @iconLeft="copy-icon"
                   @variant="link on-hover"
-                  @size="s-size"
+                  @size="compact"
                   @iconComponentClass="bs-icons1"
-                  @iconSize="s14"
+                  @iconSize="s16"
                   aria-label="Copy order ID"
                 />
               </div>
@@ -213,9 +207,7 @@ export default class DetailsSummaryCardTemplate extends Component {
               <div class="flex flex-col gap-2 min-w-0">
                 <span class="text-14 semibold-font">{{session.title}}</span>
 
-                <div
-                  class="flex flex-wrap items-center gap-2 text-12 fg-secondary"
-                >
+                <div class="flex flex-wrap items-center gap-2 text-12">
                   <span class="flex items-center gap-2 shrink-0">
                     <UlxIcon
                       @iconName="calendar-icon"
@@ -288,8 +280,8 @@ export default class DetailsSummaryCardTemplate extends Component {
 
                 <div class="flex flex-col gap-1 min-w-0">
                   <span class="text-14 semibold-font">{{companion.name}}</span>
-                  <span class="text-12 fg-secondary">{{companion.email}}</span>
-                  <span class="flex items-center gap-2 text-12 fg-secondary">
+                  <span class="text-13">{{companion.email}}</span>
+                  <span class="flex items-center gap-1 text-13">
                     <UlxIcon
                       @iconName="ticket-details-icon"
                       @type="font"
@@ -316,8 +308,7 @@ export default class DetailsSummaryCardTemplate extends Component {
           @variant="link on-hover"
           @size="s-size"
           @iconRight={{this.toggleIcon}}
-          @iconComponentClass="bs-icons1"
-          @iconSize="s14"
+          @iconSize="s16"
           @onClick={{this.toggleExpand}}
           aria-expanded={{this.isExpanded}}
         />

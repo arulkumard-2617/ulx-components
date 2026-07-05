@@ -5,7 +5,7 @@ import { getComponentClass } from "../../utils/component-config";
 /**
  * Card container built on top of existing ULS_V2.0 card.less styles.
  * Supports header, title, subtitle, content, and footer, plus visual
- * variants like outlined / elevated / flat and tone variants like primary,
+ * variants like outlined / elevated / flat / gradient and tone variants like primary,
  * success, warning, danger, info, and contrast.
  *
  * ## Structure (card.less)
@@ -14,7 +14,7 @@ import { getComponentClass } from "../../utils/component-config";
  *   ulx-card-content, ulx-card-footer
  *
  * ## Appearance
- * - @appearance: "outlined" (default), "elevated", "flat"
+ * - @appearance: "outlined" (default), "elevated", "flat", "gradient"
  * - @variant: "primary", "secondary", "success", "warning", "danger",
  *   "info", "contrast"
  * - @size: "xs-size", "s-size", "m-size" (default), "l-size", "xl-size"
@@ -28,7 +28,7 @@ import { getComponentClass } from "../../utils/component-config";
  * @param {string} [subTitle] - Optional subtitle text under the title.
  * @param {unknown} [header] - Optional header content; when provided, rendered inside header section.
  * @param {unknown} [footer] - Optional footer content; rendered inside footer section.
- * @param {'outlined'|'elevated'|'flat'} [appearance='outlined'] - Visual style variant from card.less.
+ * @param {'outlined'|'elevated'|'flat'|'gradient'} [appearance='outlined'] - Visual style variant from card.less.
  * @param {'primary'|'secondary'|'success'|'warning'|'danger'|'info'|'contrast'} [variant] - Tone variant for outlined cards.
  * @param {'xs-size'|'s-size'|'m-size'|'l-size'|'xl-size'} [size='m-size'] - Size modifier from card.less.
  * @param {'compact'|'spacious'} [density] - Content density modifier.

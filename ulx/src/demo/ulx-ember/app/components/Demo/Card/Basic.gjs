@@ -5,7 +5,7 @@ import { UlxCard, t } from 'ulx-components';
     <UlxCard
       @title="Simple Card"
       @subTitle="Card subtitle"
-      @size="m-size"
+      @size="s-size"
       @appearance="outlined"
     >
       <p class="fg-text-secondary text-14">
@@ -14,4 +14,3 @@ import { UlxCard, t } from 'ulx-components';
     </UlxCard>
   </div>
 </template>
-

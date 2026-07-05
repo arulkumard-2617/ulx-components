@@ -70,6 +70,13 @@ export default [
             "schemaKey": "whiteSpace"
           },
           {
+            "menuItem": "Text Ellipsis",
+            "route": "utilities.utility",
+            "slug": "text-ellipsis",
+            "to": "/utilities/text-ellipsis",
+            "schemaKey": "textEllipsis"
+          },
+          {
             "menuItem": "Word Break",
             "route": "utilities.utility",
             "slug": "word-break",

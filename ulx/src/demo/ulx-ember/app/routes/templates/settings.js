@@ -1,13 +1,12 @@
 import Route from '@ember/routing/route';
-import { SettingsFeatureItems } from '../../template-docs/settings/features';
+import { SettingsFeatureItems } from '../../documentation/templates/settings/features';
+import meta from '../../documentation/templates/settings/meta';
 
 export default class TemplatesSettingsRoute extends Route {
   model() {
     return {
-      title: 'Settings Templates',
-      description:
-        'Settings page layouts for portal configuration rows with toggles, descriptions, and inline actions.',
-      features: SettingsFeatureItems
+      features: SettingsFeatureItems,
+      meta
     };
   }
 }

@@ -9,14 +9,16 @@ export { default as NestedDemo } from "../../../components/Demo/Sorter/Nested";
 export { default as MultidragDemo } from "../../../components/Demo/Sorter/Multidrag";
 export { default as SwapDemo } from "../../../components/Demo/Sorter/Swap";
 
-export { default as ImportSource } from "./snippets/Import.gjs";
-export { default as BasicSource } from "./snippets/Basic.gjs";
-export { default as SharedlistsSource } from "./snippets/Sharedlists.gjs";
-export { default as CloningSource } from "./snippets/Cloning.gjs";
-export { default as DisablesortingSource } from "./snippets/Disablesorting.gjs";
-export { default as HandleSource } from "./snippets/Handle.gjs";
-export { default as FilterSource } from "./snippets/Filter.gjs";
-export { default as GridSource } from "./snippets/Grid.gjs";
-export { default as NestedSource } from "./snippets/Nested.gjs";
-export { default as MultidragSource } from "./snippets/Multidrag.gjs";
-export { default as SwapSource } from "./snippets/Swap.gjs";
+export const ImportSource = `
+import { UlxSorter } from 'ulx-components';
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/sorter/basic';
+export { default as SharedlistsSource } from '../../../demo-sources/demo/sorter/sharedlists';
+export { default as CloningSource } from '../../../demo-sources/demo/sorter/cloning';
+export { default as DisablesortingSource } from '../../../demo-sources/demo/sorter/disablesorting';
+export { default as HandleSource } from '../../../demo-sources/demo/sorter/handle';
+export { default as FilterSource } from '../../../demo-sources/demo/sorter/filter';
+export { default as GridSource } from '../../../demo-sources/demo/sorter/grid';
+export { default as NestedSource } from '../../../demo-sources/demo/sorter/nested';
+export { default as MultidragSource } from '../../../demo-sources/demo/sorter/multidrag';
+export { default as SwapSource } from '../../../demo-sources/demo/sorter/swap';

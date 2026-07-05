@@ -493,17 +493,6 @@ export default class UlxDocsHeaderComponent extends Component {
               <span class="fg-primary">COMPONENTS</span>
             </h3>
           </div>
-
-          <UlxIconButton
-            @href="/downloads/ulx-ai-skills-and-rules.zip"
-            @label="Download AI Skills and Rules"
-            @iconLeft="download-icon"
-            @iconComponentClass="bs-icons1"
-            @variant="secondary"
-            @size="xs-size"
-            download="ulx-ai-skills-and-rules.zip"
-            aria-label="Download AI Skills and Rules"
-          />
         </div>
 
         <div class="t-right flex items-center gap-2">

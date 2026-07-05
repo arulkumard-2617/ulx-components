@@ -5,10 +5,12 @@ export { default as PreloadDemo } from '../../../components/Demo/TimePicker/Prel
 export { default as ShowiconDemo } from '../../../components/Demo/TimePicker/Showicon';
 export { default as WrapexternalDemo } from '../../../components/Demo/TimePicker/Wrapexternal';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as Basic24Source } from './snippets/Basic24.gjs';
-export { default as Basic12Source } from './snippets/Basic12.gjs';
-export { default as LimitsSource } from './snippets/Limits.gjs';
-export { default as PreloadSource } from './snippets/Preload.gjs';
-export { default as ShowiconSource } from './snippets/Showicon.gjs';
-export { default as WrapexternalSource } from './snippets/Wrapexternal.gjs';
+export const ImportSource = `
+import { UlxTimePicker } from 'ulx-components';
+`;
+export { default as Basic24Source } from '../../../demo-sources/demo/time-picker/basic24';
+export { default as Basic12Source } from '../../../demo-sources/demo/time-picker/basic12';
+export { default as LimitsSource } from '../../../demo-sources/demo/time-picker/limits';
+export { default as PreloadSource } from '../../../demo-sources/demo/time-picker/preload';
+export { default as ShowiconSource } from '../../../demo-sources/demo/time-picker/showicon';
+export { default as WrapexternalSource } from '../../../demo-sources/demo/time-picker/wrapexternal';

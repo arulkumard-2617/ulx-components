@@ -5,11 +5,11 @@ import { action } from '@ember/object';
 import { UlxStepInput } from 'ulx-components';
 
 export default class DemoStepInputMinMax extends Component {
-  @tracked value = 10;
+  @tracked value = 6;
 
   min = 0;
-  max = 100;
-  step = 5;
+  max = 10;
+  step = 2;
 
   @action
   handleChange(nextValue) {
@@ -27,7 +27,10 @@ export default class DemoStepInputMinMax extends Component {
         @inputCustomClass="w-80"
         aria-label="Percentage"
       />
-      <span class="text-12 fg-secondary">Min {{this.min}}, max {{this.max}}, step {{this.step}}</span>
+      <span class="text-12 fg-secondary">Min
+        {{this.min}}, max
+        {{this.max}}, step
+        {{this.step}}</span>
     </div>
   </template>
 }

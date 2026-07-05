@@ -19,16 +19,6 @@
         <p class="fg-text-secondary">Theming content goes here.</p>
       </DocShared::DocMain::FoundationSection>
     </div>
-  {{else if this.isBuilderTab}}
-    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview>
-        <div class="pd6 fg-text-secondary font-size12">
-          Preview not configured yet. Update
-          <code>app/documentation/components/select-button/builder-schema.js</code>
-          and this template to render the component with the generated props.
-        </div>
-      </:preview>
-    </DocShared::DocMain::ComponentBuilder>
   {{else if this.isPassthroughTab}}
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection

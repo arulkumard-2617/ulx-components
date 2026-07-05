@@ -1,7 +1,9 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const mergeTrees = require('broccoli-merge-trees');
 const path = require('path');
+const DemoSourceTree = require('./lib/demo-source-tree');
 
 module.exports = function (defaults) {
   const projectRoot = __dirname;
@@ -73,6 +75,13 @@ module.exports = function (defaults) {
   app.import('node_modules/sortablejs/Sortable.js');
   app.import('node_modules/flatpickr/dist/flatpickr.min.css');
   app.import('node_modules/quill/dist/quill.snow.css');
+
+  const demoSourceTree = new DemoSourceTree({
+    demoRoot: path.join(projectRoot, 'app/components/Demo'),
+    templateRoot: path.join(projectRoot, 'app/components/Template')
+  });
+
+  app.trees.app = mergeTrees([app.trees.app, demoSourceTree], { overwrite: false });
 
   return app.toTree();
 };

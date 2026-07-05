@@ -16,7 +16,6 @@ export default {
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },
     { name: 'Theming', route: '/theming', id: 'theming' },
-    { name: 'Builder', route: '/builder', id: 'builder' },
   ],
 
   importMsg: "import { UlxProgressBar } from 'ulx-components';",

@@ -6,7 +6,7 @@ export default class ComponentsModulesTieredmenuRoute extends Route {
   model() {
     return {
       features: TieredmenuFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

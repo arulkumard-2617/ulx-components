@@ -17,19 +17,22 @@ export { default as GroupDemo } from '../../../components/Demo/Button/Group';
 export { default as TemplateDemo } from '../../../components/Demo/Button/Template';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxButton } from 'ulx-components';
+
+`;
 
 // Button Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Button demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantsSource } from './snippets/Variants.gjs';
-export { default as OutlinedSource } from './snippets/Outlined.gjs';
-export { default as TextSource } from './snippets/Text.gjs';
-export { default as PilledSource } from './snippets/Pilled.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as StatesSource } from './snippets/States.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as LinkSource } from './snippets/Link.gjs';
-export { default as GroupSource } from './snippets/Group.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/button/basic';
+export { default as VariantsSource } from '../../../demo-sources/demo/button/variants';
+export { default as OutlinedSource } from '../../../demo-sources/demo/button/outlined';
+export { default as TextSource } from '../../../demo-sources/demo/button/text';
+export { default as PilledSource } from '../../../demo-sources/demo/button/pilled';
+export { default as SizesSource } from '../../../demo-sources/demo/button/sizes';
+export { default as StatesSource } from '../../../demo-sources/demo/button/states';
+export { default as DisabledSource } from '../../../demo-sources/demo/button/disabled';
+export { default as LinkSource } from '../../../demo-sources/demo/button/link';
+export { default as GroupSource } from '../../../demo-sources/demo/button/group';
+export { default as TemplateSource } from '../../../demo-sources/demo/button/template';

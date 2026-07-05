@@ -11,14 +11,17 @@ export { default as DisabledDemo } from '../../../components/Demo/Radio/Disabled
 export { default as HorizontalDemo } from '../../../components/Demo/Radio/Horizontal';
 export { default as PanelGroupDemo } from '../../../components/Demo/Radio/PanelGroup';
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Radio, UlxField } from 'ulx-components';
+
+`;
 
 // Radio Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Radio demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as WithlabelSource } from './snippets/Withlabel.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as HorizontalSource } from './snippets/Horizontal.gjs';
-export { default as PanelGroupSource } from './snippets/PanelGroup.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/radio/basic';
+export { default as WithlabelSource } from '../../../demo-sources/demo/radio/withlabel';
+export { default as InvalidSource } from '../../../demo-sources/demo/radio/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/radio/disabled';
+export { default as HorizontalSource } from '../../../demo-sources/demo/radio/horizontal';
+export { default as PanelGroupSource } from '../../../demo-sources/demo/radio/panel-group';

@@ -19,18 +19,5 @@
         <p class="fg-text-secondary">{{"Theming content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
-  {{else if this.isBuilderTab}}
-    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview as |props|>
-        <UlxIcon
-          @componentClass={{props.componentClass}}
-          @type={{props.type}}
-          @iconName={{props.iconName}}
-          @size={{props.size}}
-          @ariaLabel={{props.ariaLabel}}
-          @customClass={{props.customClass}}
-        />
-      </:preview>
-    </DocShared::DocMain::ComponentBuilder>
   {{/if}}
 </DocShared::DocMain::ComponentLayout>

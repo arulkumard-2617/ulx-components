@@ -10,11 +10,13 @@ export { default as OutlinedDemo } from '../../../components/Demo/ActionButtons/
 export { default as DisabledDemo } from '../../../components/Demo/ActionButtons/Disabled';
 export { default as PrimaryButtonPopupDemo } from '../../../components/Demo/ActionButtons/PrimaryButtonPopup';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SplitActionsSource } from './snippets/SplitActions.gjs';
-export { default as IconsSource } from './snippets/Icons.gjs';
-export { default as VariantsSource } from './snippets/Variants.gjs';
-export { default as OutlinedSource } from './snippets/Outlined.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as PrimaryButtonPopupSource } from './snippets/PrimaryButtonPopup.gjs';
+export const ImportSource = `
+import { UlxActionButtons } from 'ulx-components';
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/action-buttons/basic';
+export { default as SplitActionsSource } from '../../../demo-sources/demo/action-buttons/split-actions';
+export { default as IconsSource } from '../../../demo-sources/demo/action-buttons/icons';
+export { default as VariantsSource } from '../../../demo-sources/demo/action-buttons/variants';
+export { default as OutlinedSource } from '../../../demo-sources/demo/action-buttons/outlined';
+export { default as DisabledSource } from '../../../demo-sources/demo/action-buttons/disabled';
+export { default as PrimaryButtonPopupSource } from '../../../demo-sources/demo/action-buttons/primary-button-popup';

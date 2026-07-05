@@ -10,11 +10,14 @@ export { default as DisabledDemo } from '../../../components/Demo/Textarea/Disab
 export { default as WithButtonDemo } from '../../../components/Demo/Textarea/WithButton';
 export { default as ResizeYDemo } from '../../../components/Demo/Textarea/ResizeY';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as WithButtonSource } from './snippets/WithButton.gjs';
-export { default as ResizeYSource } from './snippets/ResizeY.gjs';
+export const ImportSource = `
+import { UlxTextarea } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/textarea/basic';
+export { default as TemplateSource } from '../../../demo-sources/demo/textarea/template';
+export { default as SizesSource } from '../../../demo-sources/demo/textarea/sizes';
+export { default as InvalidSource } from '../../../demo-sources/demo/textarea/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/textarea/disabled';
+export { default as WithButtonSource } from '../../../demo-sources/demo/textarea/with-button';
+export { default as ResizeYSource } from '../../../demo-sources/demo/textarea/resize-y';

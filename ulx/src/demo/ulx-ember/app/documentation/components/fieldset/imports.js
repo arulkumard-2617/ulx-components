@@ -8,10 +8,12 @@ export { default as BlocksDemo } from '../../../components/Demo/Fieldset/Blocks'
 export { default as FormLayoutDemo } from '../../../components/Demo/Fieldset/FormLayout';
 export { default as TemplateDemo } from '../../../components/Demo/Fieldset/Template';
 
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxFieldSet } from 'ulx-components';
+`;
 
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as LayoutSource } from './snippets/Layout.gjs';
-export { default as BlocksSource } from './snippets/Blocks.gjs';
-export { default as FormLayoutSource } from './snippets/FormLayout.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/fieldset/basic';
+export { default as LayoutSource } from '../../../demo-sources/demo/fieldset/layout';
+export { default as BlocksSource } from '../../../demo-sources/demo/fieldset/blocks';
+export { default as FormLayoutSource } from '../../../demo-sources/demo/fieldset/form-layout';
+export { default as TemplateSource } from '../../../demo-sources/demo/fieldset/template';

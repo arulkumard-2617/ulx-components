@@ -21,23 +21,5 @@
           the ULS design system.</p>
       </DocShared::DocMain::FoundationSection>
     </div>
-  {{else if this.isBuilderTab}}
-    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview as |props|>
-        <UlxButton
-          @label={{props.label}}
-          @icon={{props.icon}}
-          @iconPos={{props.iconPos}}
-          @variant={{props.variant}}
-          @size={{props.size}}
-          @outlined={{props.outlined}}
-          @text={{props.text}}
-          @pilled={{props.pilled}}
-          @disabled={{props.disabled}}
-          @fluid={{props.fluid}}
-          @badge={{props.badge}}
-        />
-      </:preview>
-    </DocShared::DocMain::ComponentBuilder>
   {{/if}}
 </DocShared::DocMain::ComponentLayout>
