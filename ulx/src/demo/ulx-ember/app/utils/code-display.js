@@ -25,7 +25,9 @@ export function extractTemplateOnly(source) {
  * Remove common leading indentation while preserving relative indents.
  */
 export function dedentBlock(text) {
-  if (!text) return '';
+  if (!text) {
+    return '';
+  }
   const normalized = text
     .replace(/\r\n?|\u2028|\u2029/g, '\n')
     .replace(/^\uFEFF/, '');
@@ -34,10 +36,14 @@ export function dedentBlock(text) {
 
   let minIndent = Infinity;
   for (const line of lines) {
-    if (line.trim().length === 0) continue;
+    if (line.trim().length === 0) {
+      continue;
+    }
     const m = line.match(/^[\t ]*/);
     const count = m ? m[0].length : 0;
-    if (count < minIndent) minIndent = count;
+    if (count < minIndent) {
+      minIndent = count;
+    }
   }
 
   if (!isFinite(minIndent) || minIndent === 0) {
@@ -45,7 +51,9 @@ export function dedentBlock(text) {
   }
 
   const out = lines.map((line) => {
-    if (line.trim().length === 0) return line;
+    if (line.trim().length === 0) {
+      return line;
+    }
     return line.slice(minIndent);
   });
 
@@ -57,7 +65,9 @@ export function dedentBlock(text) {
 }
 
 export function resolveDisplayCode(source, { expanded = false } = {}) {
-  if (!source) return '';
+  if (!source) {
+    return '';
+  }
 
   const code = String(source);
 
