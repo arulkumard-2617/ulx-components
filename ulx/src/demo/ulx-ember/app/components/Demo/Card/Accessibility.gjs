@@ -4,7 +4,7 @@ import { UlxCard, t } from 'ulx-components';
   <div class="pda4">
     <UlxCard
       @title="Simple Card"
-      @size="m-size"
+      @size="s-size"
       @appearance="outlined"
       role="region"
       aria-label={{"Card region"}}
@@ -15,4 +15,3 @@ import { UlxCard, t } from 'ulx-components';
     </UlxCard>
   </div>
 </template>
-

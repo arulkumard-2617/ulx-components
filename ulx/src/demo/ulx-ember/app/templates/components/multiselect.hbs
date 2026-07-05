@@ -19,33 +19,6 @@
         <p class="fg-text-secondary">{{"Theming content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
-  {{else if this.isBuilderTab}}
-    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview as |props|>
-        <div class="ulx-form s-size ulx-grid gap-12">
-          <UlxField
-            @label={{props.fieldLabel}}
-            @fieldClass={{props.fieldClass}}
-            @helpText={{props.fieldHelpText}}
-            @error={{props.fieldError}}
-            @fieldId="multiselect-doc-builder"
-            as |field|
-          >
-            <UlxMultiSelect
-              @field={{field}}
-              @options={{props.options}}
-              @placeholder={{props.placeholder}}
-              @display={{props.display}}
-              @showClear={{props.showClear}}
-              @filter={{props.filter}}
-              @selectAll={{props.selectAll}}
-              @disabled={{props.disabled}}
-              @invalid={{props.invalid}}
-            />
-          </UlxField>
-        </div>
-      </:preview>
-    </DocShared::DocMain::ComponentBuilder>
   {{else if this.isPassthroughTab}}
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection

@@ -24,6 +24,8 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * @param {Function} [onRemove] - Callback (event, value) when remove is triggered; value is label, image, or icon context.
  * @param {Function} [onImageError] - Callback when image fails to load.
  * @param {string} [size="m-size"] - Size class (e.g. "s-size", "m-size"); applied to root.
+ * @param {boolean} [selected=false] - When true with `@selectable`, applies selected outline and tick icon styling.
+ * @param {boolean} [selectable=false] - When true, shows a trailing add or selected tick icon for toggle-style chips.
  * @param {string} [customClass] - Extra CSS classes appended to the root.
  * @param {string} [componentClass] - Override base component class.
  * @param {string} [dataQa="ulx-chip"] - data-qa value for root element, useful for automation tests.
@@ -34,18 +36,32 @@ export default class UlxChip extends Component {
 	}
 
 	get rootClasses() {
-		const { image, size = "m-size", customClass } = this.args;
+		const { image, size = "m-size", customClass, selected, selectable } = this.args;
 
 		const parts = [this.baseClass];
 		image && parts.push("with-image");
 		size && parts.push(size);
+		selected && parts.push("selected");
+		selectable && parts.push("clickable");
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
 	}
 
+	get isSelectable() {
+		return Boolean(this.args.selectable);
+	}
+
+	get selectionIconName() {
+		return this.args.selected ? "ls-tick-icon" : " add-icon-01";
+	}
+
+	get selectionIconClass() {
+		return this.args.selected ? "chip-selected-icon" : "chip-add-icon";
+	}
+
 	get removeIconName() {
-		return this.args.removeIcon ?? "bs-icons1 close-icon-01";
+		return this.args.removeIcon ?? "close-icon-01";
 	}
 
 	get imageAltText() {
@@ -86,7 +102,15 @@ export default class UlxChip extends Component {
 	}
 
 	<template>
-		<div class={{this.rootClasses}} data-qa={{this.rootDataQa}} aria-label={{@label}} ...attributes>
+		<div
+			class={{this.rootClasses}}
+			data-qa={{this.rootDataQa}}
+			aria-label={{@label}}
+			aria-pressed={{if this.isSelectable @selected}}
+			role={{if this.isSelectable "button"}}
+			tabindex={{if this.isSelectable "0"}}
+			...attributes
+		>
 			{{#if (has-block)}}
 				{{yield}}
 			{{else}}
@@ -111,7 +135,16 @@ export default class UlxChip extends Component {
 				{{#if @label}}
 					<span class="chip-label" data-qa="ulx-chip-label">{{@label}}</span>
 				{{/if}}
-				{{#if @removable}}
+				{{#if @selectable}}
+					<span class={{this.selectionIconClass}} data-qa="ulx-chip-selection-icon">
+						<UlxIcon
+							@iconName={{this.selectionIconName}}
+							@type="font"
+							@size="s16"
+							aria-hidden="true"
+						/>
+					</span>
+				{{else if @removable}}
 					<button
 						type="button"
 						class="chip-remove-icon"

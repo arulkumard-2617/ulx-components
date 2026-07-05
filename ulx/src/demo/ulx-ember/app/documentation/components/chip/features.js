@@ -4,6 +4,7 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
+  SelectableDemo,
   LayeredDemo,
   IconDemo,
   ImageDemo,
@@ -12,6 +13,7 @@ import {
   AccessibilityDemo,
   ImportSource,
   BasicSource,
+  SelectableSource,
   LayeredSource,
   IconSource,
   ImageSource,
@@ -55,6 +57,25 @@ export const ChipFeatureItems = [
       props: {
         source: BasicSource,
         snippetName: "basic",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "selectable",
+    sectionNav: "Selectable",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Wrap chips in <code>ulx-chips</code> for a wrapping row. Use <code>@selectable</code> and <code>@selected</code> for toggle-style chips with a primary outline and tick when selected."
+      }
+    },
+    demo: {
+      component: SelectableDemo,
+      props: {
+        source: SelectableSource,
+        snippetName: "selectable",
         language: "handlebars"
       }
     }

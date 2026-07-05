@@ -12,13 +12,16 @@ export { default as DynamicDemo } from '../../../components/Demo/Accordion/Dynam
 export { default as TemplateDemo } from '../../../components/Demo/Accordion/Template';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxAccordion } from 'ulx-components';
+
+`;
 
 // Accordion Demo Sources Barrel Export
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SingleSource } from './snippets/Single.gjs';
-export { default as MultipleSource } from './snippets/Multiple.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as ControlledSource } from './snippets/Controlled.gjs';
-export { default as DynamicSource } from './snippets/Dynamic.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/accordion/basic';
+export { default as SingleSource } from '../../../demo-sources/demo/accordion/single';
+export { default as MultipleSource } from '../../../demo-sources/demo/accordion/multiple';
+export { default as DisabledSource } from '../../../demo-sources/demo/accordion/disabled';
+export { default as ControlledSource } from '../../../demo-sources/demo/accordion/controlled';
+export { default as DynamicSource } from '../../../demo-sources/demo/accordion/dynamic';
+export { default as TemplateSource } from '../../../demo-sources/demo/accordion/template';

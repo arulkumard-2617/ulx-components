@@ -16,17 +16,20 @@ export { default as InvalidDemo } from '../../../components/Demo/Dropdown/Invali
 export { default as DisabledDemo } from '../../../components/Demo/Dropdown/Disabled';
 export { default as AccessibilityDemo } from '../../../components/Demo/Dropdown/Accessibility';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as CheckmarkSource } from './snippets/Checkmark.gjs';
-export { default as GroupSource } from './snippets/Group.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as ItemActionsSource } from './snippets/ItemActions.gjs';
-export { default as MultilineSource } from './snippets/Multiline.gjs';
-export { default as FilterSource } from './snippets/Filter.gjs';
-export { default as ClearIconSource } from './snippets/ClearIcon.gjs';
-export { default as LoadingStateSource } from './snippets/LoadingState.gjs';
-export { default as VirtualScrollSource } from './snippets/VirtualScroll.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+export const ImportSource = `
+import { UlxDropdown } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/dropdown/basic';
+export { default as CheckmarkSource } from '../../../demo-sources/demo/dropdown/checkmark';
+export { default as GroupSource } from '../../../demo-sources/demo/dropdown/group';
+export { default as TemplateSource } from '../../../demo-sources/demo/dropdown/template';
+export { default as ItemActionsSource } from '../../../demo-sources/demo/dropdown/item-actions';
+export { default as MultilineSource } from '../../../demo-sources/demo/dropdown/multiline';
+export { default as FilterSource } from '../../../demo-sources/demo/dropdown/filter';
+export { default as ClearIconSource } from '../../../demo-sources/demo/dropdown/clear-icon';
+export { default as LoadingStateSource } from '../../../demo-sources/demo/dropdown/loading-state';
+export { default as VirtualScrollSource } from '../../../demo-sources/demo/dropdown/virtual-scroll';
+export { default as InvalidSource } from '../../../demo-sources/demo/dropdown/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/dropdown/disabled';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/dropdown/accessibility';

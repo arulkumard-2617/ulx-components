@@ -11,13 +11,16 @@ export { default as InteractiveDemo } from '../../../components/Demo/Steps/Inter
 export { default as TemplateDemo } from '../../../components/Demo/Steps/Template';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Steps } from 'ulx-components';
+
+`;
 
 // Steps Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Steps demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as ControlledSource } from './snippets/Controlled.gjs';
-export { default as LinearSource } from './snippets/Linear.gjs';
-export { default as InteractiveSource } from './snippets/Interactive.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/steps/basic';
+export { default as ControlledSource } from '../../../demo-sources/demo/steps/controlled';
+export { default as LinearSource } from '../../../demo-sources/demo/steps/linear';
+export { default as InteractiveSource } from '../../../demo-sources/demo/steps/interactive';
+export { default as TemplateSource } from '../../../demo-sources/demo/steps/template';

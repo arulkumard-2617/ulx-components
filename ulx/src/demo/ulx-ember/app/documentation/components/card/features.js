@@ -6,11 +6,13 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
   OutlinedDemo,
+  GradientDemo,
   AdvancedDemo,
   AccessibilityDemo,
   ImportSource,
   BasicSource,
   OutlinedSource,
+  GradientSource,
   AdvancedSource,
   AccessibilitySource,
 } from './imports';
@@ -57,6 +59,14 @@ export const CardFeatureItems = [
     OutlinedDemo,
     OutlinedSource,
     'outlined'
+  ),
+  section(
+    'gradient',
+    "Gradient",
+    'Gradient appearance with a white top fading to a subtle primary layer tint at the bottom and a white border.',
+    GradientDemo,
+    GradientSource,
+    'gradient'
   ),
   section(
     'advanced',

@@ -11,13 +11,16 @@ export { default as CommandDemo } from '../../../components/Demo/Tieredmenu/Comm
 export { default as RouterDemo } from '../../../components/Demo/Tieredmenu/Router';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxTieredmenu } from 'ulx-components';
+
+`;
 
 // Tieredmenu Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Tieredmenu demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as PopupSource } from './snippets/Popup.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as CommandSource } from './snippets/Command.gjs';
-export { default as RouterSource } from './snippets/Router.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/tieredmenu/basic';
+export { default as PopupSource } from '../../../demo-sources/demo/tieredmenu/popup';
+export { default as TemplateSource } from '../../../demo-sources/demo/tieredmenu/template';
+export { default as CommandSource } from '../../../demo-sources/demo/tieredmenu/command';
+export { default as RouterSource } from '../../../demo-sources/demo/tieredmenu/router';

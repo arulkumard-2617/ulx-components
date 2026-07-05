@@ -12,14 +12,17 @@ export { default as HorizontalDemo } from '../../../components/Demo/Timeline/Hor
 export { default as MilestoneDemo } from '../../../components/Demo/Timeline/Milestone';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxTimeline } from 'ulx-components';
+
+`;
 
 // Timeline Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Timeline demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as AlignmentSource } from './snippets/Alignment.gjs';
-export { default as OppositeSource } from './snippets/Opposite.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as HorizontalSource } from './snippets/Horizontal.gjs';
-export { default as MilestoneSource } from './snippets/Milestone.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/timeline/basic';
+export { default as AlignmentSource } from '../../../demo-sources/demo/timeline/alignment';
+export { default as OppositeSource } from '../../../demo-sources/demo/timeline/opposite';
+export { default as TemplateSource } from '../../../demo-sources/demo/timeline/template';
+export { default as HorizontalSource } from '../../../demo-sources/demo/timeline/horizontal';
+export { default as MilestoneSource } from '../../../demo-sources/demo/timeline/milestone';

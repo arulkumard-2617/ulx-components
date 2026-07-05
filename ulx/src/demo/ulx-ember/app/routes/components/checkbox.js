@@ -6,7 +6,7 @@ export default class ComponentsElementsCheckboxRoute extends Route {
   model() {
     return {
       features: CheckboxFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

@@ -10,13 +10,16 @@ export { default as BorderedDemo } from '../../../components/Demo/Segment/Border
 export { default as GroupDemo } from '../../../components/Demo/Segment/Group';
 export { default as DisabledDemo } from '../../../components/Demo/Segment/Disabled';
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Segment } from 'ulx-components';
+
+`;
 
 // Segment Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Segment demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantsSource } from './snippets/Variants.gjs';
-export { default as BorderedSource } from './snippets/Bordered.gjs';
-export { default as GroupSource } from './snippets/Group.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/segment/basic';
+export { default as VariantsSource } from '../../../demo-sources/demo/segment/variants';
+export { default as BorderedSource } from '../../../demo-sources/demo/segment/bordered';
+export { default as GroupSource } from '../../../demo-sources/demo/segment/group';
+export { default as DisabledSource } from '../../../demo-sources/demo/segment/disabled';

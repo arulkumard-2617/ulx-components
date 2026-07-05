@@ -1,13 +1,12 @@
 import Route from '@ember/routing/route';
-import { MessageFeatureItems } from '../../template-docs/message/features';
+import { MessageFeatureItems } from '../../documentation/templates/message/features';
+import meta from '../../documentation/templates/message/meta';
 
 export default class TemplatesMessageRoute extends Route {
   model() {
     return {
-      title: 'Message Templates',
-      description:
-        'Promotional callouts and inline notify cards used to highlight upgrades, new features, and contextual tips inside side panels and pages.',
-      features: MessageFeatureItems
+      features: MessageFeatureItems,
+      meta
     };
   }
 }

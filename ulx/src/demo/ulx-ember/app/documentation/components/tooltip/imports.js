@@ -13,15 +13,20 @@ export { default as TemplateDemo } from '../../../components/Demo/Tooltip/Templa
 export { default as ModifierDemo } from '../../../components/Demo/Tooltip/Modifier';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxTooltip, tooltip } from 'ulx-components';
+// UlxTooltip = component (use with block + yielded attach modifier)
+// tooltip = modifier for attribute-style API: <div {{tooltip "Update name" position="top"}} />
+
+`;
 
 // Tooltip Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Tooltip demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as EventSource } from './snippets/Event.gjs';
-export { default as AutohideSource } from './snippets/Autohide.gjs';
-export { default as DelaySource } from './snippets/Delay.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as ModifierSource } from './snippets/Modifier.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/tooltip/basic';
+export { default as EventSource } from '../../../demo-sources/demo/tooltip/event';
+export { default as AutohideSource } from '../../../demo-sources/demo/tooltip/autohide';
+export { default as DelaySource } from '../../../demo-sources/demo/tooltip/delay';
+export { default as DisabledSource } from '../../../demo-sources/demo/tooltip/disabled';
+export { default as TemplateSource } from '../../../demo-sources/demo/tooltip/template';
+export { default as ModifierSource } from '../../../demo-sources/demo/tooltip/modifier';

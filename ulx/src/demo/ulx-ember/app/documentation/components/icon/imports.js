@@ -12,14 +12,17 @@ export { default as LayerDemo } from '../../../components/Demo/Icon/Layer';
 export { default as ListDemo } from '../../../components/Demo/Icon/List';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Icon } from 'ulx-components';
+
+`;
 
 // Icon Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Icon demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SizeSource } from './snippets/Size.gjs';
-export { default as ColorSource } from './snippets/Color.gjs';
-export { default as SpinSource } from './snippets/Spin.gjs';
-export { default as LayerSource } from './snippets/Layer.gjs';
-export { default as ListSource } from './snippets/List.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/icon/basic';
+export { default as SizeSource } from '../../../demo-sources/demo/icon/size';
+export { default as ColorSource } from '../../../demo-sources/demo/icon/color';
+export { default as SpinSource } from '../../../demo-sources/demo/icon/spin';
+export { default as LayerSource } from '../../../demo-sources/demo/icon/layer';
+export { default as ListSource } from '../../../demo-sources/demo/icon/list';

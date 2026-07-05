@@ -6,7 +6,7 @@ export default class ComponentsCollectionsToolbarRoute extends Route {
   model() {
     return {
       features: ToolbarFeatureItems,
-      meta,
+      meta
     };
   }
 }
