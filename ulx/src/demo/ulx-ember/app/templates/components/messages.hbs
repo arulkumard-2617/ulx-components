@@ -9,25 +9,5 @@
 >
   {{#if this.isFeaturesTab}}
     <DocShared::DocMain::DocPanel @features={{@model.features}} />
-  {{else if this.isThemingTab}}
-    <div class="doc-section">
-      <DocShared::DocMain::FoundationSection
-        @id="components-collections-messages-theming"
-        @title="Theming"
-        @subtitle="Theming documentation for messages component."
-      >
-        <p class="fg-text-secondary">{{"Theming content goes here."}}</p>
-      </DocShared::DocMain::FoundationSection>
-    </div>
-  {{else if this.isPassthroughTab}}
-    <div class="doc-section">
-      <DocShared::DocMain::FoundationSection
-        @id="components-collections-messages-passthrough"
-        @title="Pass Through"
-        @subtitle="Pass Through props documentation for messages component."
-      >
-        <p class="fg-text-secondary">{{"Pass Through content goes here."}}</p>
-      </DocShared::DocMain::FoundationSection>
-    </div>
   {{/if}}
 </DocShared::DocMain::ComponentLayout>
