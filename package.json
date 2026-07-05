@@ -160,6 +160,7 @@
       "./components/ulx-sorter/index.js": "./dist/_app_/components/ulx-sorter/index.js",
       "./components/ulx-sorter/item.js": "./dist/_app_/components/ulx-sorter/item.js",
       "./components/ulx-split-button/index.js": "./dist/_app_/components/ulx-split-button/index.js",
+      "./components/ulx-step-input/index.js": "./dist/_app_/components/ulx-step-input/index.js",
       "./components/ulx-steps/index.js": "./dist/_app_/components/ulx-steps/index.js",
       "./components/ulx-table/filter-overlay.js": "./dist/_app_/components/ulx-table/filter-overlay.js",
       "./components/ulx-table/filter-pane-item.js": "./dist/_app_/components/ulx-table/filter-pane-item.js",
