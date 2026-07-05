@@ -8,9 +8,9 @@ function createEditor(element, doc, language) {
   return new EditorView({
     state: EditorState.create({
       doc,
-      extensions: buildPreviewExtensions(languageExtensionFor(language)),
+      extensions: buildPreviewExtensions(languageExtensionFor(language))
     }),
-    parent: element,
+    parent: element
   });
 }
 

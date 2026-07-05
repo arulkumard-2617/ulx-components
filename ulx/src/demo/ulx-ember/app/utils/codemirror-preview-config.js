@@ -5,25 +5,25 @@ import { oneDark } from '@codemirror/theme-one-dark';
 const editorTheme = EditorView.theme({
   '&': {
     fontSize: '14px',
-    backgroundColor: '#272822',
+    backgroundColor: '#272822'
   },
   '.cm-scroller': {
     fontFamily:
       'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
     lineHeight: '1.6',
-    overflow: 'auto',
+    overflow: 'auto'
   },
   '.cm-gutters': {
     backgroundColor: '#272822',
     color: '#858585',
-    borderInlineEnd: '1px solid #3e3e3e',
+    borderInlineEnd: '1px solid #3e3e3e'
   },
   '.cm-content': {
-    padding: '16px 0',
+    padding: '16px 0'
   },
   '&.cm-focused': {
-    outline: 'none',
-  },
+    outline: 'none'
+  }
 });
 
 /**
@@ -37,7 +37,7 @@ export function buildPreviewExtensions(languageExtensions = []) {
     EditorState.readOnly.of(true),
     EditorView.editable.of(false),
     oneDark,
-    editorTheme,
+    editorTheme
   ];
 
   if (Array.isArray(languageExtensions)) {
