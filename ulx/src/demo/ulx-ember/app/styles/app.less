@@ -166,14 +166,29 @@ pre[class*="language-"] {
   tab-size: 2;
 }
 
-// Dark theme for code blocks
+// Dark theme for code blocks (CodeMirror + legacy Prism)
 .code-block-dark,
 pre.code-block-dark,
 code.code-block-dark,
 .code-block-dark pre,
-.code-block-dark code {
-  background: #1e1e1e !important;
+.code-block-dark code,
+.ulx-code-preview-editor {
+  background: #272822 !important;
   color: #d4d4d4 !important;
+}
+
+.ulx-code-preview-editor {
+  .cm-editor {
+    background: #272822;
+  }
+
+  .cm-scroller {
+    max-block-size: 480px;
+  }
+}
+
+.ulx-code-preview-editor-wrap {
+  position: relative;
 }
 
 pre.code-block-dark,

@@ -21,18 +21,5 @@
           ulx-progressbar-label) from progress-bar.less.</p>
       </DocShared::DocMain::FoundationSection>
     </div>
-  {{else if this.isBuilderTab}}
-    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview as |props|>
-        <UlxProgressBar
-          @value={{props.value}}
-          @mode={{props.mode}}
-          @showValue={{props.showValue}}
-          @size={{props.size}}
-          @variant={{props.variant}}
-          @customClass={{props.customClass}}
-        />
-      </:preview>
-    </DocShared::DocMain::ComponentBuilder>
   {{/if}}
 </DocShared::DocMain::ComponentLayout>

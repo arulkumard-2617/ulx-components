@@ -6,7 +6,7 @@ export default class ComponentsModulesToastRoute extends Route {
   model() {
     return {
       features: ToastFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

@@ -12,14 +12,17 @@ export { default as InvalidDemo } from '../../../components/Demo/Input/Invalid';
 export { default as DisabledDemo } from '../../../components/Demo/Input/Disabled';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Input } from 'ulx-components';
+
+`;
 
 // Input Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Input demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as KeyfilterSource } from './snippets/Keyfilter.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/input/basic';
+export { default as TemplateSource } from '../../../demo-sources/demo/input/template';
+export { default as KeyfilterSource } from '../../../demo-sources/demo/input/keyfilter';
+export { default as SizesSource } from '../../../demo-sources/demo/input/sizes';
+export { default as InvalidSource } from '../../../demo-sources/demo/input/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/input/disabled';

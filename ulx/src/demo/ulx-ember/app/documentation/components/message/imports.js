@@ -8,9 +8,12 @@ export { default as FormDemo } from '../../../components/Demo/Message/Form';
 export { default as TemplateDemo } from '../../../components/Demo/Message/Template';
 export { default as AccessibilityDemo } from '../../../components/Demo/Message/Accessibility';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantSource } from './snippets/Variant.gjs';
-export { default as FormSource } from './snippets/Form.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+export const ImportSource = `
+import { UlxMessage } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/message/basic';
+export { default as VariantSource } from '../../../demo-sources/demo/message/variant';
+export { default as FormSource } from '../../../demo-sources/demo/message/form';
+export { default as TemplateSource } from '../../../demo-sources/demo/message/template';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/message/accessibility';

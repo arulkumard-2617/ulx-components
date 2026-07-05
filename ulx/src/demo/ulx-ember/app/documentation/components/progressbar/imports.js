@@ -10,11 +10,15 @@ export { default as WithoutValueDemo } from '../../../components/Demo/ProgressBa
 export { default as TemplateDemo } from '../../../components/Demo/ProgressBar/Template';
 export { default as IndeterminateDemo } from '../../../components/Demo/ProgressBar/Indeterminate';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as DynamicSource } from './snippets/Dynamic.gjs';
-export { default as WithControlsSource } from './snippets/WithControls.gjs';
-export { default as WithoutValueSource } from './snippets/WithoutValue.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as IndeterminateSource } from './snippets/Indeterminate.gjs';
+export const ImportSource = `
+import { UlxProgressBar } from 'ulx-components';
+
+<UlxProgressBar @value={{50}} />
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/progress-bar/basic';
+export { default as SizesSource } from '../../../demo-sources/demo/progress-bar/sizes';
+export { default as DynamicSource } from '../../../demo-sources/demo/progress-bar/dynamic';
+export { default as WithControlsSource } from '../../../demo-sources/demo/progress-bar/with-controls';
+export { default as WithoutValueSource } from '../../../demo-sources/demo/progress-bar/without-value';
+export { default as TemplateSource } from '../../../demo-sources/demo/progress-bar/template';
+export { default as IndeterminateSource } from '../../../demo-sources/demo/progress-bar/indeterminate';

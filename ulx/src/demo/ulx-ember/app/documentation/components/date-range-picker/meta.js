@@ -9,7 +9,6 @@ export default {
 	tabs: [
 		{ name: 'Features', route: '/features', id: 'features' },
 		{ name: 'Theming', route: '/theming', id: 'theming' },
-		{ name: 'Builder', route: '/builder', id: 'builder' },
 		{ name: 'Pass Through', route: '/passthrough', id: 'passthrough' }
 	],
 	importMsg: "import { UlxDateRangePicker } from 'ulx-components'",

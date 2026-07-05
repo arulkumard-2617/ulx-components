@@ -1,4 +1,8 @@
 /* eslint-disable no-console */
+/**
+ * @deprecated Snippet sync is no longer required. Documentation now imports demo
+ * .gjs files directly via webpack ?raw imports. See scripts/migrate-demo-sources.mjs.
+ */
 const fs = require('fs');
 const path = require('path');
 

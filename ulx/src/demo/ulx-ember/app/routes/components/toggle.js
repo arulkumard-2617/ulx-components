@@ -6,7 +6,7 @@ export default class ComponentsElementsToggleRoute extends Route {
   model() {
     return {
       features: ToggleFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

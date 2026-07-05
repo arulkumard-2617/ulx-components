@@ -10,11 +10,14 @@ export { default as WithBadgeAnnouncementDemo } from '../../../components/Demo/M
 export { default as WithBadgeAnnouncementSuccessDemo } from '../../../components/Demo/Messages/WithBadgeAnnouncementSuccess';
 export { default as MessageWithTagDemo } from '../../../components/Demo/Messages/MessageWithTag';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantSource } from './snippets/Variant.gjs';
-export { default as DynamicSource } from './snippets/Dynamic.gjs';
-export { default as ClosableSource } from './snippets/Closable.gjs';
-export { default as WithBadgeAnnouncementSource } from './snippets/WithBadgeAnnouncement.gjs';
-export { default as WithBadgeAnnouncementSuccessSource } from './snippets/WithBadgeAnnouncementSuccess.gjs';
-export { default as MessageWithTagSource } from './snippets/MessageWithTag.gjs';
+export const ImportSource = `
+import { UlxBannerMessage } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/messages/basic';
+export { default as VariantSource } from '../../../demo-sources/demo/messages/variant';
+export { default as DynamicSource } from '../../../demo-sources/demo/messages/dynamic';
+export { default as ClosableSource } from '../../../demo-sources/demo/messages/closable';
+export { default as WithBadgeAnnouncementSource } from '../../../demo-sources/demo/messages/with-badge-announcement';
+export { default as WithBadgeAnnouncementSuccessSource } from '../../../demo-sources/demo/messages/with-badge-announcement-success';
+export { default as MessageWithTagSource } from '../../../demo-sources/demo/messages/message-with-tag';

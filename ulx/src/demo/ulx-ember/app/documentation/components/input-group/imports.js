@@ -18,20 +18,23 @@ export { default as DisabledDemo } from '../../../components/Demo/InputGroup/Dis
 export { default as InvalidDemo } from '../../../components/Demo/InputGroup/Invalid';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { InputGroup } from 'ulx-components';
+
+`;
 
 // InputGroup Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all InputGroup demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VerticalStackButtonsSource } from './snippets/VerticalStackButtons.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as MultipleSource } from './snippets/Multiple.gjs';
-export { default as IconPrefixSource } from './snippets/IconPrefix.gjs';
-export { default as InputButtonSource } from './snippets/InputButton.gjs';
-export { default as InputActionsSource } from './snippets/InputActions.gjs';
-export { default as CustomTemplateSource } from './snippets/CustomTemplate.gjs';
-export { default as InputDropdownSource } from './snippets/InputDropdown.gjs';
-export { default as InputMultiDropdownSource } from './snippets/InputMultiDropdown.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/input-group/basic';
+export { default as VerticalStackButtonsSource } from '../../../demo-sources/demo/input-group/vertical-stack-buttons';
+export { default as TemplateSource } from '../../../demo-sources/demo/input-group/template';
+export { default as MultipleSource } from '../../../demo-sources/demo/input-group/multiple';
+export { default as IconPrefixSource } from '../../../demo-sources/demo/input-group/icon-prefix';
+export { default as InputButtonSource } from '../../../demo-sources/demo/input-group/input-button';
+export { default as InputActionsSource } from '../../../demo-sources/demo/input-group/input-actions';
+export { default as CustomTemplateSource } from '../../../demo-sources/demo/input-group/custom-template';
+export { default as InputDropdownSource } from '../../../demo-sources/demo/input-group/input-dropdown';
+export { default as InputMultiDropdownSource } from '../../../demo-sources/demo/input-group/input-multi-dropdown';
+export { default as DisabledSource } from '../../../demo-sources/demo/input-group/disabled';
+export { default as InvalidSource } from '../../../demo-sources/demo/input-group/invalid';

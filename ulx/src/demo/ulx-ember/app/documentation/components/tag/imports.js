@@ -17,19 +17,22 @@ export { default as SymbolDemo } from '../../../components/Demo/Tag/Symbol';
 export { default as SizeDemo } from '../../../components/Demo/Tag/Size';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Tag } from 'ulx-components';
+
+`;
 
 // Tag Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Tag demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariationsSource } from './snippets/Variations.gjs';
-export { default as ExtendedPaletteSource } from './snippets/ExtendedPalette.gjs';
-export { default as LightSoftColorsSource } from './snippets/LightSoftColors.gjs';
-export { default as LayeredSource } from './snippets/Layered.gjs';
-export { default as StatusLabelsSource } from './snippets/StatusLabels.gjs';
-export { default as TrackLabelSource } from './snippets/TrackLabel.gjs';
-export { default as MarkedLabelSource } from './snippets/MarkedLabel.gjs';
-export { default as TypeSource } from './snippets/Type.gjs';
-export { default as SymbolSource } from './snippets/Symbol.gjs';
-export { default as SizeSource } from './snippets/Size.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/tag/basic';
+export { default as VariationsSource } from '../../../demo-sources/demo/tag/variations';
+export { default as ExtendedPaletteSource } from '../../../demo-sources/demo/tag/extended-palette';
+export { default as LightSoftColorsSource } from '../../../demo-sources/demo/tag/light-soft-colors';
+export { default as LayeredSource } from '../../../demo-sources/demo/tag/layered';
+export { default as StatusLabelsSource } from '../../../demo-sources/demo/tag/status-labels';
+export { default as TrackLabelSource } from '../../../demo-sources/demo/tag/track-label';
+export { default as MarkedLabelSource } from '../../../demo-sources/demo/tag/marked-label';
+export { default as TypeSource } from '../../../demo-sources/demo/tag/type';
+export { default as SymbolSource } from '../../../demo-sources/demo/tag/symbol';
+export { default as SizeSource } from '../../../demo-sources/demo/tag/size';

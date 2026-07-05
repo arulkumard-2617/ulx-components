@@ -6,7 +6,7 @@ export default class ComponentsCollectionsBadgeButtonRoute extends Route {
   model() {
     return {
       features: BadgeButtonFeatureItems,
-      meta,
+      meta
     };
   }
 }

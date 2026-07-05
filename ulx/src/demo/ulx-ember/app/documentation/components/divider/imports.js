@@ -10,12 +10,14 @@ export { default as ContentDemo } from '../../../components/Demo/Divider/Content
 export { default as LoginDemo } from '../../../components/Demo/Divider/Login';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxDivider } from 'ulx-components';
+`;
 
 // Divider Demo Sources
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as TypeSource } from './snippets/Type.gjs';
-export { default as VerticalSource } from './snippets/Vertical.gjs';
-export { default as ContentSource } from './snippets/Content.gjs';
-export { default as LoginSource } from './snippets/Login.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/divider/basic';
+export { default as TypeSource } from '../../../demo-sources/demo/divider/type';
+export { default as VerticalSource } from '../../../demo-sources/demo/divider/vertical';
+export { default as ContentSource } from '../../../demo-sources/demo/divider/content';
+export { default as LoginSource } from '../../../demo-sources/demo/divider/login';
 

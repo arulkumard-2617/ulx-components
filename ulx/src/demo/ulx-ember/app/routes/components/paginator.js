@@ -6,7 +6,7 @@ export default class ComponentsModulesPaginatorRoute extends Route {
   model() {
     return {
       features: PaginatorFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

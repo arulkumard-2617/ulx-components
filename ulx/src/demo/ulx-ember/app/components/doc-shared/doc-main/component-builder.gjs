@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
-import CodeBlock from 'ember-prism/components/code-block';
+import codemirrorEditor from '../../../modifiers/codemirror-editor';
 import { t } from 'ulx-components';
 
 /**
@@ -173,8 +173,10 @@ export default class ComponentBuilderComponent extends Component {
                 </div>
               </div>
               <div class="relative">
-                <CodeBlock @code={{this.displayCode}} @language="markup" />
-
+                <div
+                  class="ulx-code-preview-editor code-block-dark rounded-md overflow-hidden"
+                  {{codemirrorEditor this.displayCode "html"}}
+                ></div>
               </div>
             </div>
           {{/if}}

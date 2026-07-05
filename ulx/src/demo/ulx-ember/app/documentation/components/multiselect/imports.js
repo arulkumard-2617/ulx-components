@@ -16,17 +16,20 @@ export { default as InvalidDemo } from '../../../components/Demo/Multiselect/Inv
 export { default as DisabledDemo } from '../../../components/Demo/Multiselect/Disabled';
 export { default as AccessibilityDemo } from '../../../components/Demo/Multiselect/Accessibility';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SizeSource } from './snippets/Size.gjs';
-export { default as ChipsSource } from './snippets/Chips.gjs';
-export { default as ChipTemplateSource } from './snippets/ChipTemplate.gjs';
-export { default as GroupSource } from './snippets/Group.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as FilterSource } from './snippets/Filter.gjs';
-export { default as AllowAdditionSource } from './snippets/AllowAddition.gjs';
-export { default as VirtualScrollSource } from './snippets/VirtualScroll.gjs';
-export { default as LoadingStateSource } from './snippets/LoadingState.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+export const ImportSource = `
+import { UlxMultiSelect, UlxField } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/multiselect/basic';
+export { default as SizeSource } from '../../../demo-sources/demo/multiselect/size';
+export { default as ChipsSource } from '../../../demo-sources/demo/multiselect/chips';
+export { default as ChipTemplateSource } from '../../../demo-sources/demo/multiselect/chip-template';
+export { default as GroupSource } from '../../../demo-sources/demo/multiselect/group';
+export { default as TemplateSource } from '../../../demo-sources/demo/multiselect/template';
+export { default as FilterSource } from '../../../demo-sources/demo/multiselect/filter';
+export { default as AllowAdditionSource } from '../../../demo-sources/demo/multiselect/allow-addition';
+export { default as VirtualScrollSource } from '../../../demo-sources/demo/multiselect/virtual-scroll';
+export { default as LoadingStateSource } from '../../../demo-sources/demo/multiselect/loading-state';
+export { default as InvalidSource } from '../../../demo-sources/demo/multiselect/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/multiselect/disabled';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/multiselect/accessibility';

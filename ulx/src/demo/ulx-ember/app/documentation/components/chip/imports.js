@@ -14,16 +14,19 @@ export { default as TemplateDemo } from '../../../components/Demo/Chip/Template'
 export { default as AccessibilityDemo } from '../../../components/Demo/Chip/Accessibility';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxChip } from 'ulx-components';
+
+`;
 
 // Chip Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Chip demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SelectableSource } from './snippets/Selectable.gjs';
-export { default as LayeredSource } from './snippets/Layered.gjs';
-export { default as IconSource } from './snippets/Icon.gjs';
-export { default as ImageSource } from './snippets/Image.gjs';
-export { default as OnHoverSource } from './snippets/OnHover.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/chip/basic';
+export { default as SelectableSource } from '../../../demo-sources/demo/chip/selectable';
+export { default as LayeredSource } from '../../../demo-sources/demo/chip/layered';
+export { default as IconSource } from '../../../demo-sources/demo/chip/icon';
+export { default as ImageSource } from '../../../demo-sources/demo/chip/image';
+export { default as OnHoverSource } from '../../../demo-sources/demo/chip/on-hover';
+export { default as TemplateSource } from '../../../demo-sources/demo/chip/template';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/chip/accessibility';
