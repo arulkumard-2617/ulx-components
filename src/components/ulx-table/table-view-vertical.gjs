@@ -47,7 +47,11 @@ export default class TableViewVertical extends Component {
 					{{#each @verticalRows as |col|}}
 						<tr class="datatable-vertical-row">
 							<th class="column-header-cell datatable-vertical-row-header" scope="row">
-								{{col.header}}
+								{{#if col.headerTemplate}}
+									<col.headerTemplate @col={{col}} />
+								{{else}}
+									{{col.header}}
+								{{/if}}
 							</th>
 							{{#each this.rows as |row rowIdx|}}
 								<td class="datatable-cell">
