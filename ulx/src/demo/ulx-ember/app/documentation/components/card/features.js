@@ -5,10 +5,14 @@ import { t } from 'ulx-components';
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
+  OutlinedDemo,
+  GradientDemo,
   AdvancedDemo,
   AccessibilityDemo,
   ImportSource,
   BasicSource,
+  OutlinedSource,
+  GradientSource,
   AdvancedSource,
   AccessibilitySource,
 } from './imports';
@@ -47,6 +51,22 @@ export const CardFeatureItems = [
     BasicDemo,
     BasicSource,
     'basic'
+  ),
+  section(
+    'outlined',
+    "Outlined",
+    'Outlined appearance with semantic tone variants: <code>primary</code>, <code>secondary</code>, <code>success</code>, <code>warning</code>, <code>danger</code>, <code>info</code>, and <code>contrast</code>. Tone variants apply a colored border with a transparent background; <code>contrast</code> retains a filled background.',
+    OutlinedDemo,
+    OutlinedSource,
+    'outlined'
+  ),
+  section(
+    'gradient',
+    "Gradient",
+    'Gradient appearance with a white top fading to a subtle primary layer tint at the bottom and a white border.',
+    GradientDemo,
+    GradientSource,
+    'gradient'
   ),
   section(
     'advanced',

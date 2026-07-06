@@ -23,7 +23,7 @@ export default class TableViewCard extends Component {
 		>
 			<div class="ulx-grid gap-4 col-{{@cardViewColumns}}">
 				{{#each this.rows as |row|}}
-					<UlxCard @bodyClass="p-0">{{yield row to="card"}}</UlxCard>
+					<UlxCard @contentClass="p-0">{{yield row to="card"}}</UlxCard>
 				{{/each}}
 			</div>
 			{{#if (and (not @loading) (not this.rows.length))}}

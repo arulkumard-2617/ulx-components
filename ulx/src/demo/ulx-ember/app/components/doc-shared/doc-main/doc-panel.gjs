@@ -1,11 +1,13 @@
 import Component from '@glimmer/component';
 import FoundationSection from './foundation-section';
-import CodePreview from './code-preview';
-import RichText from './rich-text';
+import DocExample from './doc-example';
 import DocSectionNav from './doc-section-nav';
+
 export default class DocPanelComponent extends Component {
   hasValidComponent(feature) {
-    return feature?.demo?.component && feature.demo.component !== null;
+    return Boolean(
+      feature?.demo?.component && feature.demo.component !== null
+    );
   }
 
   <template>
@@ -17,29 +19,24 @@ export default class DocPanelComponent extends Component {
               @id={{feature.id}}
               @title={{feature.sectionNav}}
             >
-              {{#if feature.sectionDesc}}
-                <RichText
-                  @as={{feature.sectionDesc.props.as}}
-                  @content={{feature.sectionDesc.props.content}}
-                />
-              {{/if}}
-
-              {{#if feature.demo}}
-                <CodePreview
-                  @source={{feature.demo.props.source}}
-                  @language={{feature.demo.props.language}}
-                  @snippetName={{feature.demo.props.snippetName}}
-                  @title={{feature.demo.props.title}}
-                  @description={{feature.demo.props.description}}
-                  @hasDemo={{this.hasValidComponent feature}}
-                >
-                  {{#if (this.hasValidComponent feature)}}
-                    {{#let feature.demo.component as |DemoComponent|}}
-                      <DemoComponent />
-                    {{/let}}
-                  {{/if}}
-                </CodePreview>
-              {{/if}}
+              <DocExample
+                @description={{if
+                  feature.sectionDesc
+                  feature.sectionDesc.props.content
+                }}
+                @source={{feature.demo.props.source}}
+                @language={{feature.demo.props.language}}
+                @filename={{feature.demo.props.filename}}
+                @snippetName={{feature.demo.props.snippetName}}
+                @hasDemo={{this.hasValidComponent feature}}
+                @notes={{feature.demo.props.notes}}
+              >
+                {{#if (this.hasValidComponent feature)}}
+                  {{#let feature.demo.component as |DemoComponent|}}
+                    <DemoComponent />
+                  {{/let}}
+                {{/if}}
+              </DocExample>
             </FoundationSection>
           {{/each}}
         {{else}}

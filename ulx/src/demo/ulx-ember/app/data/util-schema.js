@@ -5038,6 +5038,21 @@ export const utilSchema = {
       }
     ]
   },
+  "textEllipsis": {
+    "title": "Text Ellipsis",
+    "description": "Utilities for controlling text overflow with an ellipsis.",
+    "sections": [
+      {
+        "title": "Text Overflow Utilities",
+        "rows": [
+          {
+            "class": "text-ellipsis",
+            "styles": "text-overflow: ellipsis;"
+          }
+        ]
+      }
+    ]
+  },
   "filter": {
     "title": "Filter",
     "description": "Utilities for controlling filter.",

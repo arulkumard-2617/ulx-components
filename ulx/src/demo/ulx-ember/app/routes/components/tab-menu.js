@@ -6,7 +6,7 @@ export default class ComponentsCollectionsTabMenuRoute extends Route {
   model() {
     return {
       features: TabMenuFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

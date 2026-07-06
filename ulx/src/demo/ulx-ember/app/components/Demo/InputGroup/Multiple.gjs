@@ -1,4 +1,10 @@
-import { UlxInput, UlxField, UlxInputGroup, UlxIcon } from 'ulx-components';
+import {
+  UlxInput,
+  UlxField,
+  UlxInputGroup,
+  UlxIcon,
+  UlxButton
+} from 'ulx-components';
 
 <template>
   <div class="ulx-form m-size ulx-grid gap-8 mb-14 w-400">
@@ -38,17 +44,34 @@ import { UlxInput, UlxField, UlxInputGroup, UlxIcon } from 'ulx-components';
     </UlxField>
 
     <UlxField @fieldId="geometry-w" @fieldClass="col-4" as |field|>
-      <UlxInputGroup @endAddonClass="text-addon">
+      <UlxInputGroup
+        @endAddonClass="button-addon"
+        @startAddonClass="button-addon"
+      >
+        <:start>
+          <UlxButton
+            @label="-"
+            @variant="basic"
+            @size="xs-size"
+            aria-label={{"Start Time"}}
+          />
+        </:start>
         <:input>
           <UlxInput
             @field={{field}}
             @type="number"
-            @value="376.84"
+            @value="4"
             aria-label="Width"
+            class="text-center"
           />
         </:input>
         <:end>
-          <span aria-hidden="true">W</span>
+          <UlxButton
+            @label="+"
+            @variant="basic"
+            @size="xs-size"
+            aria-label={{"Start Time"}}
+          />
         </:end>
       </UlxInputGroup>
     </UlxField>

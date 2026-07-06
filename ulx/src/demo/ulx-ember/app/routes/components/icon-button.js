@@ -6,7 +6,7 @@ export default class ComponentsCollectionsIconButtonRoute extends Route {
   model() {
     return {
       features: IconButtonFeatureItems,
-      meta,
+      meta
     };
   }
 }

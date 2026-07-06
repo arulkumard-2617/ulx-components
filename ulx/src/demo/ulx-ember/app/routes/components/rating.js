@@ -6,7 +6,7 @@ export default class ComponentsElementsRatingRoute extends Route {
   model() {
     return {
       features: RatingFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

@@ -8,10 +8,13 @@ export { default as BasicDemo } from '../../../components/Demo/TristateCheckbox/
 export { default as NestedDemo } from '../../../components/Demo/TristateCheckbox/Nested';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { TristateCheckbox } from 'ulx-components';
+
+`;
 
 // TristateCheckbox Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all TristateCheckbox demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as NestedSource } from './snippets/Nested.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/tristate-checkbox/basic';
+export { default as NestedSource } from '../../../demo-sources/demo/tristate-checkbox/nested';

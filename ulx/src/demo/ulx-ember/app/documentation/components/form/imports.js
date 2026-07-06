@@ -8,10 +8,13 @@ export { default as BasicDemo } from '../../../components/Demo/Form/Basic';
 export { default as TemplateDemo } from '../../../components/Demo/Form/Template';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Form } from 'ulx-components';
+
+`;
 
 // Form Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Form demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/form/basic';
+export { default as TemplateSource } from '../../../demo-sources/demo/form/template';

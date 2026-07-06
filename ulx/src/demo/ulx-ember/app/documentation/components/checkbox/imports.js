@@ -11,13 +11,16 @@ export { default as DisabledDemo } from '../../../components/Demo/Checkbox/Disab
 export { default as GroupDemo } from '../../../components/Demo/Checkbox/Group';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Checkbox, UlxField } from 'ulx-components';
+
+`;
 
 // Checkbox Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Checkbox demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as WithlabelSource } from './snippets/Withlabel.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as GroupSource } from './snippets/Group.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/checkbox/basic';
+export { default as WithlabelSource } from '../../../demo-sources/demo/checkbox/withlabel';
+export { default as InvalidSource } from '../../../demo-sources/demo/checkbox/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/checkbox/disabled';
+export { default as GroupSource } from '../../../demo-sources/demo/checkbox/group';

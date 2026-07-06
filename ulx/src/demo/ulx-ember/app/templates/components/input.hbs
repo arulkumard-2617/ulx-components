@@ -19,28 +19,6 @@
         <p class="fg-text-secondary">{{"Theming content goes here."}}</p>
       </DocShared::DocMain::FoundationSection>
     </div>
-  {{else if this.isBuilderTab}}
-    <DocShared::DocMain::ComponentBuilder @schema={{@model.builderSchema}}>
-      <:preview as |props|>
-        <div class="ulx-form s-size ulx-grid gp12">
-          <UlxInput
-            @label={{props.label}}
-            @floatLabel={{props.floatLabel}}
-            @rules={{props.rules}}
-            @helpText={{props.helpText}}
-            @errorMessage={{props.errorMessage}}
-            @size={{props.size}}
-            @fieldClass={{props.fieldClass}}
-            @type={{props.type}}
-            @keyfilter={{props.keyfilter}}
-            @disabled={{props.disabled}}
-            @readonly={{props.readonly}}
-            placeholder={{props.placeholder}}
-            aria-label={{props.label}}
-          />
-        </div>
-      </:preview>
-    </DocShared::DocMain::ComponentBuilder>
   {{else if this.isPassthroughTab}}
     <div class="doc-section">
       <DocShared::DocMain::FoundationSection

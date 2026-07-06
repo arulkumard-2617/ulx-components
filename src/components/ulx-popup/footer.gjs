@@ -96,7 +96,7 @@ export default class UlxPopupFooter extends Component {
 			{{#unless this.hideCancelButton}}
 				<UlxButton
 					@label={{this.cancelLabel}}
-					@variant="outlined"
+					@variant="basic"
 					{{on "click" this.handleCancel}}
 				/>
 			{{/unless}}

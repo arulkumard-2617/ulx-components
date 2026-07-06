@@ -4,6 +4,7 @@
 import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
+  DefaultBlockDemo,
   VariantsDemo,
   PilledDemo,
   OutlinedDemo,
@@ -16,6 +17,7 @@ import {
   StatesDemo,
   ImportSource,
   BasicSource,
+  DefaultBlockSource,
   VariantsSource,
   PilledSource,
   OutlinedSource,
@@ -61,6 +63,26 @@ const IconButtonFeatureItemsBase = [
       props: {
         source: BasicSource,
         snippetName: 'basic',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'defaultblock',
+    sectionNav: 'Default Block',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use the <code>&lt;:default&gt;</code> block for custom button content instead of <code>@label</code>. Pair with <code>@iconLeft</code> or <code>@iconRight</code> for icon placement.'
+      }
+    },
+    demo: {
+      component: DefaultBlockDemo,
+      props: {
+        source: DefaultBlockSource,
+        snippetName: 'defaultblock',
         language: 'handlebars'
       }
     }

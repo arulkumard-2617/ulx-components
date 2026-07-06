@@ -5,10 +5,12 @@ export { default as RangewithdisableDemo } from '../../../components/Demo/DateRa
 export { default as ShowiconDemo } from '../../../components/Demo/DateRangePicker/Showicon';
 export { default as WrapexternalDemo } from '../../../components/Demo/DateRangePicker/Wrapexternal';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as LocaleSource } from './snippets/Locale.gjs';
-export { default as PreloadSource } from './snippets/Preload.gjs';
-export { default as RangewithdisableSource } from './snippets/Rangewithdisable.gjs';
-export { default as ShowiconSource } from './snippets/Showicon.gjs';
-export { default as WrapexternalSource } from './snippets/Wrapexternal.gjs';
+export const ImportSource = `
+import { UlxDateRangePicker } from 'ulx-components';
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/date-range-picker/basic';
+export { default as LocaleSource } from '../../../demo-sources/demo/date-range-picker/locale';
+export { default as PreloadSource } from '../../../demo-sources/demo/date-range-picker/preload';
+export { default as RangewithdisableSource } from '../../../demo-sources/demo/date-range-picker/rangewithdisable';
+export { default as ShowiconSource } from '../../../demo-sources/demo/date-range-picker/showicon';
+export { default as WrapexternalSource } from '../../../demo-sources/demo/date-range-picker/wrapexternal';

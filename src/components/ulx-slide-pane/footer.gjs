@@ -1,14 +1,13 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
-import { on } from "@ember/modifier";
 import UlxButton from "../ulx-button/index.gjs";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import { t } from "../../utils/i18n";
 
 /**
  * Slide pane footer subcomponent.
- * Displays action buttons (typically Cancel and Confirm/Done). The default Done
- * control uses `UlxIconButton` so async loading shows the affix spinner.
+ * Displays action buttons (typically Cancel and Confirm/Done).
+ * Done and Cancel buttons automatically show loading state when their callbacks return Promises.
  * Can be customized using the :footer named block on UlxSlidePane.
  *
  * @class UlxSlidePaneFooter
@@ -18,17 +17,16 @@ import { t } from "../../utils/i18n";
  * @param {boolean} [showBackButton=false] - Show the back button (for nested slide panes)
  * @param {string} [cancelLabel="Cancel"] - Label for cancel button
  * @param {string} [doneLabel="Confirm"] - Label for done/confirm button
- * @param {string} [backLabel="Back"] - Label for back button
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneLabel)
- * @param {Function} [onCancel] - Callback when cancel button is clicked
- * @param {Function} [onDone] - Callback when done button is clicked
+ * @param {string} [backLabel="Back"] - Label for back button
+ * @param {Function} [onCancel] - Callback when cancel button is clicked; may return a Promise
+ * @param {Function} [onDone] - Callback when done button is clicked; may return a Promise
  * @param {Function} [onBack] - Callback when back button is clicked (nested slide panes)
- * @param {boolean} [submitting=false] - Disable both buttons during async operation
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
- * @param {string} [cancelButtonDataQa] - data-qa for cancel button
- * @param {string} [doneButtonDataQa] - data-qa for done button
- * @param {string} [backButtonDataQa] - data-qa for back button
+ * @param {string} [cancelButtonDataQa="cancel-button"] - data-qa for cancel button
+ * @param {string} [doneButtonDataQa="done-button"] - data-qa for done button
+ * @param {string} [backButtonDataQa="back-button"] - data-qa for back button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to slidepane-footer)
  */
@@ -38,11 +36,7 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	get doneLabel() {
-		const { submitting, submittingLabel, doneLabel } = this.args;
-		if (submitting && submittingLabel) {
-			return submittingLabel;
-		}
-		return doneLabel || t("label.confirm");
+		return this.args.doneLabel || t("label.confirm");
 	}
 
 	get hideCancelButton() {
@@ -61,16 +55,16 @@ export default class UlxSlidePaneFooter extends Component {
 		return this.args.backLabel || t("label.back");
 	}
 
-	get submitting() {
-		return this.args.submitting ?? false;
+	get cancelButtonDataQa() {
+		return this.args.cancelButtonDataQa ?? "cancel-button";
 	}
 
-	get doneButtonDisabled() {
-		return this.submitting || (this.args.doneButtonDisabled ?? false);
+	get doneButtonDataQa() {
+		return this.args.doneButtonDataQa ?? "done-button";
 	}
 
-	get cancelButtonDisabled() {
-		return this.submitting || (this.args.cancelButtonDisabled ?? false);
+	get backButtonDataQa() {
+		return this.args.backButtonDataQa ?? "back-button";
 	}
 
 	get footerClasses() {
@@ -81,21 +75,18 @@ export default class UlxSlidePaneFooter extends Component {
 	}
 
 	@action
-	handleCancel(event) {
-		event.preventDefault();
-		this.args.onCancel?.();
+	handleCancel() {
+		return this.args.onCancel?.();
 	}
 
 	@action
-	handleDone(event) {
-		event.preventDefault();
-		this.args.onDone?.();
+	handleDone() {
+		return this.args.onDone?.();
 	}
 
 	@action
-	handleBack(event) {
-		event.preventDefault();
-		this.args.onBack?.();
+	handleBack() {
+		return this.args.onBack?.();
 	}
 
 	<template>
@@ -108,8 +99,8 @@ export default class UlxSlidePaneFooter extends Component {
 						<UlxButton
 							@label={{this.backLabel}}
 							@variant="basic"
-							@dataQa={{@backButtonDataQa}}
-							{{on "click" this.handleBack}}
+							@dataQa={{this.backButtonDataQa}}
+							@onClick={{this.handleBack}}
 						/>
 					{{/if}}
 
@@ -117,19 +108,19 @@ export default class UlxSlidePaneFooter extends Component {
 						<UlxButton
 							@label={{this.cancelLabel}}
 							@variant="basic"
-							@disabled={{this.cancelButtonDisabled}}
-							@dataQa={{@cancelButtonDataQa}}
-							{{on "click" this.handleCancel}}
+							@disabled={{@cancelButtonDisabled}}
+							@dataQa={{this.cancelButtonDataQa}}
+							@onClick={{this.handleCancel}}
 						/>
 					{{/unless}}
 
 					{{#unless this.hideDoneButton}}
-						<UlxIconButton
+						<UlxButton
 							@label={{this.doneLabel}}
+							@submittingLabel={{@submittingLabel}}
 							@variant="primary"
-							@loading={{this.submitting}}
-							@disabled={{this.doneButtonDisabled}}
-							@dataQa={{@doneButtonDataQa}}
+							@disabled={{@doneButtonDisabled}}
+							@dataQa={{this.doneButtonDataQa}}
 							@onClick={{this.handleDone}}
 						/>
 					{{/unless}}

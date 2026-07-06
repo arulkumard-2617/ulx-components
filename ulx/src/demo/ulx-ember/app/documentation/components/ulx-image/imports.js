@@ -9,11 +9,14 @@ export { default as AspectRatioDemo } from '../../../components/Demo/UlxImage/As
 export { default as ThumbnailDemo } from '../../../components/Demo/UlxImage/Thumbnail';
 export { default as AccessibilityDemo } from '../../../components/Demo/UlxImage/Accessibility';
 
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { UlxImage } from 'ulx-components';
 
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as ShapeSource } from './snippets/Shape.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as AspectRatioSource } from './snippets/AspectRatio.gjs';
-export { default as ThumbnailSource } from './snippets/Thumbnail.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+`;
+
+export { default as BasicSource } from '../../../demo-sources/demo/ulx-image/basic';
+export { default as ShapeSource } from '../../../demo-sources/demo/ulx-image/shape';
+export { default as SizesSource } from '../../../demo-sources/demo/ulx-image/sizes';
+export { default as AspectRatioSource } from '../../../demo-sources/demo/ulx-image/aspect-ratio';
+export { default as ThumbnailSource } from '../../../demo-sources/demo/ulx-image/thumbnail';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/ulx-image/accessibility';

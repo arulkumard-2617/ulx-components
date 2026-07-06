@@ -8,7 +8,6 @@ import { modifier } from "ember-modifier";
 import { getComponentClass } from "../../utils/component-config";
 import { buildDataQa, resolveRootDataQa } from "../../utils/data-qa";
 import {
-	handleAsyncAction,
 	handleTabKey,
 	getDestinationElement,
 	shouldShowOverlay,
@@ -98,6 +97,7 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {string} [maximizeIconName="expand-icon"] - Icon for maximize button (when not maximized)
  * @param {string} [minimizeIconName="collapse-icon-01"] - Icon for restore button (when maximized)
  * @param {string} [dataQa] - Override root data-qa attribute
+ * @param {string} [closeButtonDataQa] - data-qa for header close button (defaults to `{dataQa}-close-button`)
  * @param {string} [cancelButtonDataQa] - data-qa for default footer cancel button
  * @param {string} [doneButtonDataQa] - data-qa for default footer done button
  * @param {string} [backButtonDataQa] - data-qa for default footer back button
@@ -105,7 +105,6 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
 export default class UlxSlidePane extends Component {
 	@service modalStack;
 
-	@tracked isSubmitting = false;
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
 	@tracked isMaximized = false;
@@ -124,6 +123,10 @@ export default class UlxSlidePane extends Component {
 
 	get rootDataQa() {
 		return resolveRootDataQa(this.args.dataQa, "slidepane");
+	}
+
+	get closeButtonDataQa() {
+		return this.args.closeButtonDataQa ?? buildDataQa(this.rootDataQa, "close-button");
 	}
 
 	@action
@@ -255,29 +258,34 @@ export default class UlxSlidePane extends Component {
 		this.args.onHide?.();
 	}
 
-	_invokeAsyncFooterAction(action, autoCloseArgKey, autoCloseDefault) {
-		handleAsyncAction(action, {
-			setSubmitting: (value) => {
-				this.isSubmitting = value;
-			},
-			onSuccess: () => {
-				const shouldClose = this.args[autoCloseArgKey] ?? autoCloseDefault;
-				if (shouldClose) this.handleClose();
-			},
-			onError: (error) => {
-				this.args.onError?.(error);
-			}
-		});
+	runFooterAction(callback, autoClose) {
+		if (!callback) return;
+
+		const result = callback();
+
+		if (result?.then) {
+			return result
+				.then(() => {
+					autoClose && this.handleClose();
+				})
+				.catch((error) => {
+					this.args.onError?.(error);
+				});
+		}
+
+		autoClose && this.handleClose();
 	}
 
 	@action
 	handleCancel() {
-		this._invokeAsyncFooterAction(this.args.onCancel, "autoCloseOnCancel", false);
+		const { onCancel, autoCloseOnCancel = false } = this.args;
+		return this.runFooterAction(onCancel, autoCloseOnCancel);
 	}
 
 	@action
 	handleDone() {
-		this._invokeAsyncFooterAction(this.args.onDone, "autoCloseOnDone", true);
+		const { onDone, autoCloseOnDone = true } = this.args;
+		return this.runFooterAction(onDone, autoCloseOnDone);
 	}
 
 	@action
@@ -362,6 +370,7 @@ export default class UlxSlidePane extends Component {
 										@onClose={{this.handleClose}}
 										@onMaximize={{this.handleMaximize}}
 										@closeIconName={{@closeIconName}}
+										@closeButtonDataQa={{this.closeButtonDataQa}}
 										@iconComponentClass={{@iconComponentClass}}
 										@iconVariant={{@iconVariant}}
 										@iconSize={{@iconSize}}
@@ -398,26 +407,25 @@ export default class UlxSlidePane extends Component {
 									{{yield to="footer"}}
 								</div>
 							{{else}}
-								{{#unless @hideFooter}}
-									<UlxSlidePaneFooter
-										@hideFooter={{@hideFooter}}
-										@hideCancelButton={{@hideCancelButton}}
-										@hideDoneButton={{@hideDoneButton}}
-										@showBackButton={{this.showBackInHeader}}
-										@cancelLabel={{@cancelButtonLabel}}
-										@doneLabel={{@doneButtonLabel}}
-										@cancelButtonDataQa={{@cancelButtonDataQa}}
-										@doneButtonDataQa={{@doneButtonDataQa}}
-										@backButtonDataQa={{@backButtonDataQa}}
-										@submittingLabel={{@submittingLabel}}
-										@submitting={{this.isSubmitting}}
-										@doneButtonDisabled={{@doneButtonDisabled}}
-										@onCancel={{this.handleCancel}}
-										@onDone={{this.handleDone}}
-										@onBack={{this.handleBack}}
-										@footerClassName={{@footerClassName}}
-									/>
-								{{/unless}}
+							{{#unless @hideFooter}}
+								<UlxSlidePaneFooter
+									@hideFooter={{@hideFooter}}
+									@hideCancelButton={{@hideCancelButton}}
+									@hideDoneButton={{@hideDoneButton}}
+									@showBackButton={{this.showBackInHeader}}
+									@cancelLabel={{@cancelButtonLabel}}
+									@doneLabel={{@doneButtonLabel}}
+									@submittingLabel={{@submittingLabel}}
+									@cancelButtonDataQa={{@cancelButtonDataQa}}
+									@doneButtonDataQa={{@doneButtonDataQa}}
+									@backButtonDataQa={{@backButtonDataQa}}
+									@doneButtonDisabled={{@doneButtonDisabled}}
+									@onCancel={{this.handleCancel}}
+									@onDone={{this.handleDone}}
+									@onBack={{this.handleBack}}
+									@footerClassName={{@footerClassName}}
+								/>
+							{{/unless}}
 							{{/if}}
 						</div>
 					</div>

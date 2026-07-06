@@ -14,6 +14,7 @@ export const actionMenuDemoItems = [
   {
     label: 'Delete',
     icon: 'bs-icons1 close-icon-01',
+    linkClass: 'fg-red',
     command: () => console.log('Delete clicked')
   }
 ];

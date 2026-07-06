@@ -19,7 +19,7 @@ export default class DemoDataViewLoading extends Component {
   get layoutOptions() {
     return [
       { label: 'List', value: 'list' },
-      { label: 'Grid', value: 'grid' },
+      { label: 'Grid', value: 'grid' }
     ];
   }
 
@@ -141,6 +141,7 @@ export default class DemoDataViewLoading extends Component {
     </UlxDataView>
   </template>
 }
+
 
 
 

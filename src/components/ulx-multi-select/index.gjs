@@ -1388,6 +1388,10 @@ export default class UlxMultiSelect extends Component {
 			<div
 				id={{this.listboxId}}
 				class="ulx-multiselect-panel"
+				data-qa="multiselect-panel"
+				role="listbox"
+				aria-multiselectable="true"
+				aria-activedescendant={{this.activeDescendantId}}
 				aria-hidden="false"
 				{{this.panelRef}}
 				{{overlayPortal this.overlayVisible this.resolvedContext}}
@@ -1496,6 +1500,7 @@ export default class UlxMultiSelect extends Component {
 											<li
 												role="option"
 												id="{{this.triggerId}}-item-{{entry.virtualIndex}}"
+												data-qa="multiselect-option"
 												class="multiselect-item
 													{{if
 														(eq entry.virtualIndex this.focusedOptionIndex)
@@ -1550,7 +1555,11 @@ export default class UlxMultiSelect extends Component {
 					{{else}}
 						<ul class="multiselect-list" role="listbox" aria-multiselectable="true">
 							{{#if (eq this.visibleOptions.length 0)}}
-								<li class="multiselect-empty-message" role="option">
+								<li
+									class="multiselect-empty-message"
+									role="option"
+									data-qa="multiselect-empty-message"
+								>
 									{{or
 										(and this.isFilterEnabled @emptyFilterMessage)
 										@emptyMessage
@@ -1572,6 +1581,7 @@ export default class UlxMultiSelect extends Component {
 											<li
 												role="option"
 												id="{{this.triggerId}}-item-{{row.flatIndex}}"
+												data-qa="multiselect-option"
 												class="multiselect-item
 													{{if (eq row.flatIndex this.focusedOptionIndex) this.focusItemClass ''}}
 													{{if (this.isOptionSelected option) 'selected' ''}}
@@ -1619,6 +1629,7 @@ export default class UlxMultiSelect extends Component {
 										<li
 											role="option"
 											id="{{this.triggerId}}-item-{{index}}"
+											data-qa="multiselect-option"
 											class="multiselect-item
 												{{if (eq index this.focusedOptionIndex) this.focusItemClass ''}}
 												{{if (this.isOptionSelected option) 'selected' ''}}
