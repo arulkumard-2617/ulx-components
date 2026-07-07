@@ -16,13 +16,21 @@ const outDir = resolve(addonRoot, 'dev-releases/css');
 const styleBundles = [
 	{
 		name: 'ULX Editor',
+		appName: 'editor',
 		entryFile: resolve(stylesRoot, 'ulx-editor.less'),
 		outMinFile: resolve(outDir, 'ulx-editor.min.css')
 	},
 	{
 		name: 'ULX Community',
+		appName: 'community',
 		entryFile: resolve(stylesRoot, 'ulx-community.less'),
 		outMinFile: resolve(outDir, 'ulx-community.min.css')
+	},
+	{
+		name: 'ULX Onair',
+		appName: 'onair',
+		entryFile: resolve(stylesRoot, 'ulx-onair.less'),
+		outMinFile: resolve(outDir, 'ulx-onair.min.css')
 	}
 ];
 
@@ -61,11 +69,21 @@ try {
 }
 
 // Resolve prefix from config (for LESS variable injection)
-// Supports per-app: ULS_APP env → prefixes[appName] → prefix → 'ulx-'
-const appName = (process.env.ULS_APP || ulxConfig.defaultApp || 'editor').toString().trim();
-const componentPrefix = ulxConfig.prefixes?.[appName] || ulxConfig.prefix || 'ulx-';
-const cssVarPrefix =
-	ulxConfig.cssVarPrefixes?.[appName] || ulxConfig.cssVarPrefix || ulxConfig.prefix || 'ulx-';
+// Supports per-bundle appName, or ULS_APP env → prefixes[appName] → prefix → 'ulx-'
+const defaultAppName = (process.env.ULS_APP || ulxConfig.defaultApp || 'editor').toString().trim();
+
+function resolvePrefixes(bundleAppName) {
+	const appName = (bundleAppName || defaultAppName).toString().trim();
+	return {
+		appName,
+		componentPrefix: ulxConfig.prefixes?.[appName] || ulxConfig.prefix || 'ulx-',
+		cssVarPrefix:
+			ulxConfig.cssVarPrefixes?.[appName] ||
+			ulxConfig.cssVarPrefix ||
+			ulxConfig.prefix ||
+			'ulx-'
+	};
+}
 
 // Paths for LESS compilation (similar to vite config)
 const nodeModulesPath = resolve(addonRoot, 'node_modules');
@@ -88,7 +106,11 @@ async function compileCSS(bundle) {
 		const entryDir = dirname(bundle.entryFile);
 		const src = readFileSync(bundle.entryFile, 'utf8');
 
-		console.log(`Compiling ${bundle.entryFile}... (prefix: ${componentPrefix})`);
+		const { appName, componentPrefix, cssVarPrefix } = resolvePrefixes(bundle.appName);
+
+		console.log(
+			`Compiling ${bundle.entryFile}... (app: ${appName}, prefix: ${componentPrefix})`
+		);
 
 		const minResult = await less.render(src, {
 			filename: bundle.entryFile,

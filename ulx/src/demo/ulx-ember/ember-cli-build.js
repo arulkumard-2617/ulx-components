@@ -75,6 +75,9 @@ module.exports = function (defaults) {
   app.import('node_modules/sortablejs/Sortable.js');
   app.import('node_modules/flatpickr/dist/flatpickr.min.css');
   app.import('node_modules/quill/dist/quill.snow.css');
+  app.import(
+    path.resolve(__dirname, '../../../../dev-releases/css/ulx-onair.min.css')
+  );
 
   const demoSourceTree = new DemoSourceTree({
     demoRoot: path.join(projectRoot, 'app/components/Demo'),

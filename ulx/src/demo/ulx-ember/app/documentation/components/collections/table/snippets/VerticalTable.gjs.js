@@ -1,3 +1,4 @@
+export default `
 import Component from '@glimmer/component';
 import { UlxTable } from 'ulx-components';
 
@@ -95,3 +96,5 @@ export default class DemoTableVertical extends Component {
     />
   </template>
 }
+
+`;

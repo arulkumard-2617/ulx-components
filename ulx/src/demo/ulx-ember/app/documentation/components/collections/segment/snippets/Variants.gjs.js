@@ -1,3 +1,4 @@
+export default `
 import Component from '@glimmer/component';
 import { eq } from 'ember-truth-helpers';
 import {
@@ -13,58 +14,48 @@ export default class VariantsDemoComponent extends Component {
     return [
       {
         customClass: 'color-primary',
-        sampleText: 'Primary box with white text'
+        label: 'color-primary',
+        description: 'Solid primary surface'
       },
       {
         customClass: 'color-primary-layer1',
-        sampleText: 'Primary layer1 box with default text'
+        label: 'color-primary-layer1',
+        description: 'Primary layer 1 surface, borderless by default'
       },
       {
         customClass: 'color-primary-layer1 bordered',
-        sampleText: 'Primary layer1 box with default text and border'
+        label: 'color-primary-layer1 bordered',
+        description: 'Primary layer 1 with surface-border'
       },
-      {
-        customClass: 'color-primary-layer1 bordered fg-primary',
-        sampleText: 'Primary layer1 box with primary text and border'
-      },
-      {
-        customClass: 'color-primary-layer1 bordered marked fg-primary',
-        sampleText: 'Marked box with primary text',
-        useTag: true
-      },
-      {
-        customClass: 'color-primary-layer1 bordered marked',
-        sampleText: 'Marked box with default text',
-        useTag: true
-      }
-    ];
-  }
-
-  get additionalColorContextVariants() {
-    return [
       {
         customClass: 'color-primary-soft',
-        sampleText: 'Alias for primary layer 1 surface'
+        label: 'color-primary-soft',
+        description: 'Alias for primary layer 1 surface'
       },
       {
         customClass: 'color-primary-layer2',
-        sampleText: 'Primary layer 2 surface'
+        label: 'color-primary-layer2',
+        description: 'Primary layer 2 surface'
       },
       {
         customClass: 'color-primary-layer3',
-        sampleText: 'Primary layer 3 surface'
+        label: 'color-primary-layer3',
+        description: 'Primary layer 3 surface'
       },
       {
         customClass: 'color-primary-layer4',
-        sampleText: 'Primary layer 4 surface'
+        label: 'color-primary-layer4',
+        description: 'Primary layer 4 surface'
       },
       {
         customClass: 'primary-border-start',
-        sampleText: 'Primary inline-start accent only'
+        label: 'primary-border-start',
+        description: 'Primary inline-start accent only — no surface bg/fg'
       },
       {
         customClass: 'color-primary-layer1 primary-border-start',
-        sampleText: 'Primary layer 1 with inline-start accent'
+        label: 'color-primary-layer1 primary-border-start',
+        description: 'Primary layer 1 surface with primary inline-start accent'
       }
     ];
   }
@@ -108,41 +99,22 @@ export default class VariantsDemoComponent extends Component {
       <p class="mb-5">Apply ULS primary color context classes via
         <code>@customClass</code>
         on
-        <code>UlxSegment</code>. Surfaces are borderless by default; add
+        <code>UlxSegment</code>. Primary surfaces are borderless by default; add
         <code>bordered</code>
-        for an outline,
-        <code>fg-primary</code>
-        to override text color. Use
-        <code>marked</code>
-        on
-        <code>UlxTag</code>
-        for a leading accent dot paired with a
-        <code>color-*</code>
-        surface.</p>
+        for a
+        <code>surface-border</code>
+        outline. Pair with
+        <code>primary-border-start</code>
+        for an inline-start accent.</p>
 
       <div class="flex flex-col gap-3">
         {{#each this.colorContextVariants as |item|}}
-          {{#if item.useTag}}
-            <div>
-              <UlxTag
-                @value={{item.sampleText}}
-                @size="m-size"
-                @customClass={{item.customClass}}
-              />
-            </div>
-          {{else}}
-            <UlxSegment @customClass={{item.customClass}}>
-              <p class="mb-0">{{item.sampleText}}</p>
-            </UlxSegment>
-          {{/if}}
-        {{/each}}
-      </div>
-
-      <h3 class="mt-8 mb-4">Additional primary variants</h3>
-      <div class="flex flex-col gap-3">
-        {{#each this.additionalColorContextVariants as |item|}}
           <UlxSegment @customClass={{item.customClass}}>
-            <p class="mb-0">{{item.sampleText}}</p>
+            <p>
+              <span class="semibold-font">{{item.label}}</span>
+              —
+              {{item.description}}
+            </p>
           </UlxSegment>
         {{/each}}
       </div>
@@ -264,3 +236,5 @@ export default class VariantsDemoComponent extends Component {
     </div>
   </template>
 }
+
+`;
