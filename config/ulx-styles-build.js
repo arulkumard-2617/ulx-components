@@ -78,10 +78,7 @@ function resolvePrefixes(bundleAppName) {
 		appName,
 		componentPrefix: ulxConfig.prefixes?.[appName] || ulxConfig.prefix || 'ulx-',
 		cssVarPrefix:
-			ulxConfig.cssVarPrefixes?.[appName] ||
-			ulxConfig.cssVarPrefix ||
-			ulxConfig.prefix ||
-			'ulx-'
+			ulxConfig.cssVarPrefixes?.[appName] || ulxConfig.cssVarPrefix || ulxConfig.prefix || 'ulx-'
 	};
 }
 
@@ -107,10 +104,6 @@ async function compileCSS(bundle) {
 		const src = readFileSync(bundle.entryFile, 'utf8');
 
 		const { appName, componentPrefix, cssVarPrefix } = resolvePrefixes(bundle.appName);
-
-		console.log(
-			`Compiling ${bundle.entryFile}... (app: ${appName}, prefix: ${componentPrefix})`
-		);
 
 		const minResult = await less.render(src, {
 			filename: bundle.entryFile,
