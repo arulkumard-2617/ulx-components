@@ -1,39 +1,51 @@
 import Component from '@glimmer/component';
 import { UlxTag } from 'ulx-components';
 
+const sessionStatuses = [
+  { name: 'running', label: 'running-color' },
+  { name: 'completed', label: 'completed-color' },
+  { name: 'published', label: 'published-color' },
+  { name: 'draft', label: 'draft-color' },
+  { name: 'cancelled', label: 'cancelled-color' },
+];
+
+const otherStatuses = [
+  { name: 'user-in', label: 'user-in-label' },
+  { name: 'user-out', label: 'user-out-label' },
+  { name: 'user-yet-in', label: 'user-yet-in' },
+  { name: 'user-attended', label: 'user-attended' },
+  { name: 'offline', label: 'offline-color' },
+  { name: 'hybrid', label: 'hybrid-color' },
+  { name: 'online', label: 'online-color' },
+  { name: 'session-track', label: 'session-track-label' },
+  { name: 'shortcut-key', label: 'shortcut-key' },
+];
+
 export default class StatusLabelsTagDemo extends Component {
   get variants() {
     return [
-      // Session status tags
-      { label: 'running-color', class: 'running-color' },
-      { label: 'completed-color', class: 'completed-color' },
-
-      // Additional status tags
-      { label: 'published-color', class: 'published-color' },
-      { label: 'draft-color', class: 'draft-color' },
-      { label: 'cancelled-color', class: 'cancelled-color' },
-
-      // User check-in labels
-      { label: 'user-in-label', class: 'user-in-label' },
-      { label: 'user-out-label', class: 'user-out-label' },
-      { label: 'user-yet-in', class: 'user-yet-in' },
-      { label: 'user-attended', class: 'user-attended' },
-
-      // Event type tags
-      { label: 'offline-color', class: 'offline-color' },
-      { label: 'hybrid-color', class: 'hybrid-color' },
-      { label: 'online-color', class: 'online-color' },
-
-      // Generic/session labels
-      { label: 'session-track-label', class: 'session-track-label' },
-      { label: 'shortcut-key', class: 'shortcut-key' },
+      ...sessionStatuses.map(({ name, label }) => ({
+        label,
+        class: `color-${name}`,
+        customClass: `fg-color-${name}`,
+      })),
+      ...otherStatuses.map(({ name, label }) => ({
+        label,
+        class: `color-${name}`,
+        customClass: null,
+      })),
     ];
   }
 
   <template>
     <div class="flex flex-wrap gap-4">
-      {{#each this.variants key="class" as |item|}}
-        <UlxTag @value={{item.label}} @size="s-size" @variant={{item.class}} />
+      {{#each this.variants key="label" as |item|}}
+        <UlxTag
+          @value={{item.label}}
+          @size="s-size"
+          @variant={{item.class}}
+          @customClass={{item.customClass}}
+        />
       {{/each}}
     </div>
   </template>

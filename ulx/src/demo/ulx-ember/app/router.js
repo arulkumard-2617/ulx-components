@@ -11,6 +11,7 @@ Router.map(function () {
     this.route('overview');
     this.route('quick-start');
     this.route('styles-and-theming');
+    this.route('color-context');
     this.route('common-mistakes');
     this.route('ai-guide');
     this.route('docs-walkthrough');

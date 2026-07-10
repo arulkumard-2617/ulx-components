@@ -25,6 +25,10 @@ export const DocNavItems = [
         route: 'getting-started.styles-and-theming'
       },
       {
+        menuItem: 'Color context',
+        route: 'getting-started.color-context'
+      },
+      {
         menuItem: 'Common mistakes',
         route: 'getting-started.common-mistakes'
       },
