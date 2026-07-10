@@ -15,8 +15,8 @@ export default class RouterDemoComponent extends Component {
         route: 'components.tab-menu',
       },
       {
-        label: "Walkthrough",
-        route: 'getting-started.docs-walkthrough',
+        label: "Color context",
+        route: 'getting-started.color-context',
       },
       {
         label: "Utilities",

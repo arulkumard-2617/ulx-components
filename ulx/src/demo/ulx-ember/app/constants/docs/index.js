@@ -17,28 +17,8 @@ export const DocNavItems = [
         route: 'getting-started.overview'
       },
       {
-        menuItem: 'Quick Start',
-        route: 'getting-started.quick-start'
-      },
-      {
-        menuItem: 'Styles and Theming',
-        route: 'getting-started.styles-and-theming'
-      },
-      {
         menuItem: 'Color context',
         route: 'getting-started.color-context'
-      },
-      {
-        menuItem: 'Common mistakes',
-        route: 'getting-started.common-mistakes'
-      },
-      {
-        menuItem: 'AI guide',
-        route: 'getting-started.ai-guide'
-      },
-      {
-        menuItem: 'Docs Walkthrough',
-        route: 'getting-started.docs-walkthrough'
       }
     ]
   },
