@@ -41,7 +41,7 @@ export default class MarkedLabelTagDemo extends Component {
       ...sessionStatuses.map(({ name, label }) => ({
         label,
         class: `color-${name}`,
-        customClass: `marked fg-color-${name}`
+        customClass: `marked fg-${name}`
       })),
       ...otherStatuses.map(({ name, label }) => ({
         label,

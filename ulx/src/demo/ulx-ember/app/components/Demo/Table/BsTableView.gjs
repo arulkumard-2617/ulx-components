@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
-import { fn } from '@ember/helper';
+import { fn, array } from '@ember/helper';
 import eq from 'ember-truth-helpers/helpers/eq';
 import {
   UlxTable,
@@ -258,7 +258,6 @@ export default class DemoTableBsTableView extends Component {
   columns = columns;
   sortOptions = sortOptions;
   filterGroups = filterGroups;
-  rowsPerPageOptions = [25, 50, 100];
 
   @tracked sortBy = '';
   @tracked invitePaneOpen = false;
@@ -337,6 +336,7 @@ export default class DemoTableBsTableView extends Component {
       @scrollable={{true}}
       @scrollHeight="400px"
       @paginator={{true}}
+      @rowsPerPageOptions={{array 25 50 100}}
     >
       <:postRightMenu>
         <UlxButton

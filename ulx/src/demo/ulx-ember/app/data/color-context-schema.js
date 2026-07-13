@@ -169,8 +169,8 @@ const statusGroups = [
 
 function statusSemanticForegroundSwatches(names) {
   return names.map((name) => ({
-    label: `color-${name} fg-color-${name}`,
-    classes: `${swatchBase} color-${name} fg-color-${name}`,
+    label: `color-${name} fg-${name}`,
+    classes: `${swatchBase} color-${name} fg-${name}`,
     sampleText: 'Aa'
   }));
 }
@@ -189,7 +189,7 @@ function statusSection() {
     sectionNav: 'Status',
     kind: 'swatches',
     subtitle:
-      'Status surfaces with default foreground (static-black for running, published, completed, draft; text-color for others). Pair fg-color-* with color-* to apply semantic foreground tokens.',
+      'Status surfaces with default foreground (static-black for running, published, completed, draft; text-color for others). Pair fg-* with color-* to apply semantic foreground tokens.',
     groups: [
       ...statusGroups.map(({ title, names }) => ({
         title: `Surface — ${title}`,
@@ -209,7 +209,7 @@ function othersSection() {
     sectionNav: 'Others',
     kind: 'swatches',
     subtitle:
-      'Decorative accent colors with a solid surface and a light variant. Bordered and border-start modifiers apply to light surfaces only.',
+      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Bordered and border-start modifiers apply to light surfaces only.',
     groups: [
       {
         title: 'Solid',
@@ -218,6 +218,14 @@ function othersSection() {
       {
         title: 'Light',
         rows: otherLightSwatches()
+      },
+      {
+        title: 'Foreground',
+        rows: otherColors.map(({ name }) => ({
+          label: `fg-${name}`,
+          classes: `${swatchBase} fg-${name}`,
+          sampleText: 'Aa'
+        }))
       },
       {
         title: 'Bordered',

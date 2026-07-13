@@ -27,7 +27,7 @@ export default class StatusLabelsTagDemo extends Component {
       ...sessionStatuses.map(({ name, label }) => ({
         label,
         class: `color-${name}`,
-        customClass: `fg-color-${name}`,
+        customClass: `fg-${name}`,
       })),
       ...otherStatuses.map(({ name, label }) => ({
         label,
