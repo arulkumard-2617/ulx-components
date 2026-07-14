@@ -81,7 +81,9 @@ module.exports = function (defaults) {
     templateRoot: path.join(projectRoot, 'app/components/Template')
   });
 
-  app.trees.app = mergeTrees([app.trees.app, demoSourceTree], { overwrite: false });
+  app.trees.app = mergeTrees([app.trees.app, demoSourceTree], {
+    overwrite: false
+  });
 
   return app.toTree();
 };

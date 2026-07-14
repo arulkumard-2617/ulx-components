@@ -8,7 +8,6 @@ export default class FoundationSectionComponent extends Component {
         {{#if @subtitle}}
           <p class="mb-5 font-regular fg-text-secondary me-0">
             {{@subtitle}}
-            asdasasdasdasd
           </p>
         {{/if}}
       </header>

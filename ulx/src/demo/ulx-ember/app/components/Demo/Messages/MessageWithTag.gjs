@@ -72,7 +72,7 @@ export default class MessageWithTagDemo extends Component {
           <UlxBannerMessage
             @message={{this.message}}
             @onRemove={{this.removeMessage}}
-            @size="xl-size"
+            @size="l-size"
             @customClass="overflow-hidden"
           >
             <:leftItem>
