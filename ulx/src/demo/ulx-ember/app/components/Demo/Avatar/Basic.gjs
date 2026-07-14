@@ -1,5 +1,5 @@
 import { hash } from '@ember/helper';
-import { UlxAvatar, t } from 'ulx-components';
+import { UlxAvatar, t, tooltip } from 'ulx-components';
 
 <template>
   <div class="ulx-grid col-2">

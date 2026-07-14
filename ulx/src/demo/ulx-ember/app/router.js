@@ -49,6 +49,7 @@ Router.map(function () {
     this.route('popup');
     this.route('progressbar');
     this.route('progressspinner');
+    this.route('loading');
     this.route('radio');
     this.route('rating');
     this.route('segment');
