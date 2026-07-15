@@ -8,6 +8,7 @@ import {
   NumberOfStarsDemo,
   TemplateDemo,
   ReadonlyDemo,
+  ScoreDemo,
   DisabledDemo,
   AccessibilityDemo,
   ImportSource,
@@ -16,6 +17,7 @@ import {
   NumberOfStarsSource,
   TemplateSource,
   ReadonlySource,
+  ScoreSource,
   DisabledSource,
   AccessibilitySource,
 } from './imports';
@@ -131,6 +133,26 @@ export const RatingFeatureItems = [
       props: {
         source: ReadonlySource,
         snippetName: 'readonly',
+        language: 'handlebars',
+      },
+    },
+  },
+  {
+    id: 'score',
+    sectionNav: 'Score',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Use <code>@type="score"</code> for a compact display with a single filled star and the numeric rating value.',
+      },
+    },
+    demo: {
+      component: ScoreDemo,
+      props: {
+        source: ScoreSource,
+        snippetName: 'score',
         language: 'handlebars',
       },
     },

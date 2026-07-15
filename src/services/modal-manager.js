@@ -38,7 +38,10 @@ export default class ModalService extends Service {
 	 * @param {string} [options.size='s-size'] - Modal size
 	 * @param {string} [options.width='480px'] - Modal width
 	 * @param {boolean} [options.closeOnBackdrop=false] - Close when backdrop is clicked
-	 * @param {string} [options.customClass] - Extra class on dialog content
+	 * @param {string} [options.contentClassName] - Extra class for content area (dialog-content)
+	 * @param {string} [options.headerClassName] - Extra class for header (dialog-header)
+	 * @param {string} [options.footerClassName] - Extra class for footer (dialog-footer)
+	 * @param {string} [options.customClass] - Deprecated alias for contentClassName
 	 */
 	openModal({
 		title,
@@ -62,6 +65,9 @@ export default class ModalService extends Service {
 		size = "s-size",
 		width = "480px",
 		closeOnBackdrop = false,
+		contentClassName,
+		headerClassName,
+		footerClassName,
 		customClass
 	} = {}) {
 		const dismiss = () => {
@@ -107,7 +113,9 @@ export default class ModalService extends Service {
 			size,
 			width,
 			closeOnBackdrop,
-			customClass
+			contentClassName: contentClassName ?? customClass,
+			headerClassName,
+			footerClassName
 		};
 	}
 

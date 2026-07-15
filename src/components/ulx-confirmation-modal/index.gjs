@@ -41,7 +41,9 @@ export default class UlxConfirmationModal extends Component {
 				@size={{this.props.size}}
 				@width={{this.props.width}}
 				@closeOnBackdrop={{this.props.closeOnBackdrop}}
-				@contentClassName={{this.props.customClass}}
+				@contentClassName={{this.props.contentClassName}}
+				@headerClassName={{this.props.headerClassName}}
+				@footerClassName={{this.props.footerClassName}}
 				@onHide={{this.props.onHide}}
 				@onCancel={{this.props.onCancel}}
 				@onDone={{this.props.onConfirm}}
