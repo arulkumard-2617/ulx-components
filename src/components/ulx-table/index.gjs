@@ -148,10 +148,10 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  *
  * ── Pagination ──────────────────────────────────────────────────────────────
  * @param {boolean} [paginator]             - enable pagination
- * @param {number}  [rows=10]               - rows per page
+ * @param {number}  [rows]                  - rows per page; when omitted, defaults to the first `@rowsPerPageOptions` value, otherwise 10
  * @param {number}  [first=0]               - zero-based first row index
  * @param {number}  [totalRecords]          - total records (lazy mode)
- * @param {Array}   [rowsPerPageOptions]    - e.g. [10, 25, 50]
+ * @param {Array}   [rowsPerPageOptions]    - e.g. [10, 25, 50]; first value is used as the default page size when `@rows` is omitted
  * @param {string}  [paginatorTemplate]     - paginator layout string; defaults to prev/page links/next + rows dropdown + current page report (no first/last). Include `CurrentPageReport` in the string to show the report; omit that token to hide it.
  * @param {string}  [currentPageReportTemplate] - Placeholders: {currentPage}, {totalPages}, {first}, {last}, {rows}, {totalRecords}. Used only when `CurrentPageReport` is present in @paginatorTemplate.
  * @param {string}  [paginatorPosition='bottom'] - 'top' | 'bottom' | 'both'
@@ -251,7 +251,8 @@ export default class UlxTable extends Component {
 
 	// ─── Internal pagination state (uncontrolled) ────────────────────────────
 	@tracked _first = 0;
-	@tracked _rows = 10;
+	/** @type {number|null} null = use first rowsPerPageOptions value (or 10) */
+	@tracked _rows = null;
 
 	// ─── Column management ───────────────────────────────────────────────────
 	@tracked _visibleColumnFields = null;
@@ -449,8 +450,20 @@ export default class UlxTable extends Component {
 		return this.args.first !== undefined ? this.args.first : this._first;
 	}
 
+	get normalizedRowsPerPageOptions() {
+		const rowsPerPageOptions = this.args.rowsPerPageOptions ?? [];
+		return rowsPerPageOptions.filter((rowOption) => {
+			return typeof rowOption === "number" && Number.isFinite(rowOption) && rowOption > 0;
+		});
+	}
+
+	get defaultRows() {
+		return this.normalizedRowsPerPageOptions[0] ?? DEFAULT_MINIMUM_PAGINATOR_ROWS;
+	}
+
 	get rows() {
-		return this.args.rows !== undefined ? this.args.rows : this._rows;
+		if (this.args.rows !== undefined) return this.args.rows;
+		return this._rows ?? this.defaultRows;
 	}
 
 	get totalRecords() {
@@ -563,11 +576,7 @@ export default class UlxTable extends Component {
 	}
 
 	get minimumPaginatorRows() {
-		const rowsPerPageOptions = this.args.rowsPerPageOptions ?? [];
-		const rowOptions = rowsPerPageOptions.filter((rowOption) => {
-			return typeof rowOption === "number" && Number.isFinite(rowOption) && rowOption > 0;
-		});
-
+		const rowOptions = this.normalizedRowsPerPageOptions;
 		return rowOptions.length ? Math.min(...rowOptions) : DEFAULT_MINIMUM_PAGINATOR_ROWS;
 	}
 

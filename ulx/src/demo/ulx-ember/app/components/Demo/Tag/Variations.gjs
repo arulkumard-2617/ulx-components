@@ -4,15 +4,15 @@ import { UlxTag } from 'ulx-components';
 export default class VariationsDemoComponent extends Component {
   get variations() {
     return [
-      { label: 'primary', class: 'primary' },
-      { label: 'secondary', class: 'secondary' },
-      { label: 'success', class: 'success' },
-      { label: 'info', class: 'info' },
-      { label: 'warning', class: 'warning' },
-      { label: 'danger', class: 'danger' },
-      { label: 'contrast', class: 'contrast' },
-      { label: 'white', class: 'white' },
-      { label: 'black', class: 'black' },
+      { label: 'primary', class: 'color-primary' },
+      { label: 'secondary', class: 'color-black-layer2' },
+      { label: 'success', class: 'color-green' },
+      { label: 'info', class: 'color-blue' },
+      { label: 'warning', class: 'color-gold' },
+      { label: 'danger', class: 'color-red' },
+      { label: 'contrast', class: 'color-black' },
+      { label: 'white', class: 'color-black-layer1' },
+      { label: 'black', class: 'color-black' },
     ];
   }
 

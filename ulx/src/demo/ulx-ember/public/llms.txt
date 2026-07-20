@@ -2,9 +2,8 @@
 > Ember 6.8 components on ULS_V2. Read each component Usages section before implementing.
 
 ## Setup
-- /getting-started/quick-start
-- /getting-started/styles-and-theming
-- /getting-started/ai-guide
+- /getting-started/overview
+- /getting-started/color-context
 
 ## Machine-readable catalog
 - /ai/manifest.json

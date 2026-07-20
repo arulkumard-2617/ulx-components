@@ -1328,7 +1328,7 @@ export default class UlxMultiSelect extends Component {
 											to="chip"
 										}}
 									{{else}}
-										<span class="multiselect-token">
+										<span class="multiselect-token" data-qa="multiselect-token">
 											<span class="multiselect-token-label">
 												{{this.getOptionLabel option}}
 											</span>
