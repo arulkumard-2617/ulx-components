@@ -39,7 +39,9 @@ export default class UlxConfirmationModal extends Component {
 				@visible={{this.props.visible}}
 				@title={{this.props.title}}
 				@size={{this.props.size}}
-				@width={{this.props.width}}
+				@hideHeader={{this.props.hideHeader}}
+				@showCloseButton={{this.props.showCloseButton}}
+				@footerAlign={{this.props.footerAlign}}
 				@closeOnBackdrop={{this.props.closeOnBackdrop}}
 				@contentClassName={{this.props.contentClassName}}
 				@headerClassName={{this.props.headerClassName}}
@@ -53,7 +55,6 @@ export default class UlxConfirmationModal extends Component {
 				@autoCloseOnDone={{false}}
 				@autoCloseOnCancel={{false}}
 				@closeOnEscape={{true}}
-				@showCloseButton={{true}}
 				@scrollable={{true}}
 				@maskQa="ulx-confirmation-modal-mask"
 			>

@@ -74,7 +74,7 @@ export default class FooterAlignmentModalDemo extends Component {
     <UlxModal
       @visible={{this.defaultFooterVisible}}
       @title="Default footer: {{this.defaultAlignment}}"
-      @alignment={{this.defaultAlignment}}
+      @footerAlign={{this.defaultAlignment}}
       @onHide={{this.closeDefaultFooterModal}}
       @cancelButtonLabel="Cancel"
       @doneButtonLabel="Confirm"
@@ -83,7 +83,7 @@ export default class FooterAlignmentModalDemo extends Component {
     >
       <p>
         Footer actions are aligned with
-        <code>@alignment="{{this.defaultAlignment}}"</code>
+        <code>@footerAlign="{{this.defaultAlignment}}"</code>
         on the default footer.
       </p>
     </UlxModal>
@@ -91,13 +91,13 @@ export default class FooterAlignmentModalDemo extends Component {
     <UlxModal
       @visible={{this.customFooterVisible}}
       @title="Custom footer: {{this.customAlignment}}"
-      @alignment={{this.customAlignment}}
+      @footerAlign={{this.customAlignment}}
       @onHide={{this.closeCustomFooterModal}}
     >
       <:default>
         <p>
           Footer actions are aligned with
-          <code>@alignment="{{this.customAlignment}}"</code>
+          <code>@footerAlign="{{this.customAlignment}}"</code>
           on a custom
           <code>:footer</code>
           block.

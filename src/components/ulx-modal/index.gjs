@@ -107,7 +107,7 @@ const BODY_OVERFLOW_STYLE = {
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
  * @param {string} [submittingLabel] - Label for done button during submission (defaults to doneButtonLabel)
  * @param {boolean} [hideFooter=false] - When true, hide default footer (when no :footer block)
- * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
+ * @param {string} [footerAlign="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {boolean} [hideHeader=false] - When true, hide the header
  * @param {number} [zIndexBase=1000] - Base z-index for modal stacking
  * @param {string} [maskQa] - Optional `data-qa` on the mask (defaults to `ulx-modal-mask`).
@@ -165,7 +165,7 @@ export default class UlxModal extends Component {
 	}
 
 	get footerAlignmentClasses() {
-		return getFooterAlignmentClasses(this.args.alignment);
+		return getFooterAlignmentClasses(this.args.footerAlign);
 	}
 
 	get maskClasses() {
@@ -515,7 +515,7 @@ export default class UlxModal extends Component {
 										@onCancel={{this.handleCancel}}
 										@onDone={{this.handleDone}}
 										@footerClassName={{@footerClassName}}
-										@alignment={{@alignment}}
+										@footerAlign={{@footerAlign}}
 									/>
 								{{/unless}}
 							{{/if}}
