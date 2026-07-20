@@ -1,14 +1,37 @@
 import Component from '@glimmer/component';
-import { UlxSegment } from 'ulx-components';
+import { UlxSegment, UlxTag } from 'ulx-components';
 
 export default class BorderedDemoComponent extends Component {
+  get borderedSurfaces() {
+    return [
+      {
+        customClass: 'color-primary-layer1 bordered',
+        sampleText: 'Primary layer 1 with border and default text'
+      },
+      {
+        customClass: 'color-primary-layer1 bordered fg-primary',
+        sampleText: 'Primary layer 1 with border and primary text'
+      },
+      {
+        customClass: 'color-green-layer1 bordered',
+        sampleText: 'Green layer 1 with border and default text'
+      },
+      {
+        customClass: 'color-green-layer1 bordered fg-green',
+        sampleText: 'Green layer 1 with border and green text'
+      }
+    ];
+  }
+
   <template>
     <div class="bordered-demo">
-      <h3 class="mb-1">{{"Colored Border Segments"}}</h3>
-      <p class="mb-5">Segment with primary colored left border (3px width)</p>
-      <UlxSegment @borderSide="left" @borderColor="primary">
-        <p>Primary left border</p>
-      </UlxSegment>
+      <div class="ulx-grid col-4 gap-3">
+        {{#each this.borderedSurfaces as |item|}}
+          <UlxSegment @customClass={{item.customClass}}>
+            <p class="mb-0">{{item.sampleText}}</p>
+          </UlxSegment>
+        {{/each}}
+      </div>
     </div>
   </template>
 }

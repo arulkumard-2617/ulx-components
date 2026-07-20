@@ -59,7 +59,6 @@ export default class BasicModalDemo extends Component {
 
       <UlxModal
         @visible={{this.isVisible}}
-        @title="Basic Modal"
         @onHide={{this.closeModal}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Confirm"

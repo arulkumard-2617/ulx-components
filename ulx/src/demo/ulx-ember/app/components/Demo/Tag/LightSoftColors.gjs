@@ -4,31 +4,31 @@ import { UlxTag } from 'ulx-components';
 export default class LightSoftColorsTagDemo extends Component {
   get variants() {
     return [
-      // Light tone variants (lt-*)
-      { label: 'lt-green', class: 'lt-green' },
-      { label: 'lt-gold', class: 'lt-gold' },
-      { label: 'lt-purple', class: 'lt-purple' },
-      { label: 'lt-blue', class: 'lt-blue' },
-      { label: 'lt-red', class: 'lt-red' },
-      { label: 'lt-primary', class: 'lt-primary' },
+      // Palette layer surfaces (color-{family}-layer{n})
+      { label: 'Green layer2', class: 'color-green-layer2' },
+      { label: 'Gold layer2', class: 'color-gold-layer2' },
+      { label: 'Purple layer1', class: 'color-purple-layer1' },
+      { label: 'Blue layer1', class: 'color-blue-layer1' },
+      { label: 'Red layer1', class: 'color-red-layer1' },
+      { label: 'Primary layer3', class: 'color-primary-layer3' },
 
-      // Light palette variants (light-*)
-      { label: 'light-nebula-blue', class: 'light-nebula-blue' },
-      { label: 'light-salmon-red', class: 'light-salmon-red' },
-      { label: 'light-jungle-green', class: 'light-jungle-green' },
-      { label: 'light-cyber-yellow', class: 'light-cyber-yellow' },
-      { label: 'light-cerise-pink', class: 'light-cerise-pink' },
-      { label: 'light-royal-violet', class: 'light-royal-violet' },
-      { label: 'light-medium-orchid', class: 'light-medium-orchid' },
-      { label: 'light-turquoise-green', class: 'light-turquoise-green' },
-      { label: 'light-not-blue', class: 'light-not-blue' },
-      { label: 'light-bs-grey', class: 'light-bs-grey' },
-      { label: 'light-grass-green', class: 'light-grass-green' },
-      { label: 'light-sandal-yellow', class: 'light-sandal-yellow' },
-      { label: 'light-lomo-blue', class: 'light-lomo-blue' },
-      { label: 'light-candy-orange', class: 'light-candy-orange' },
-      { label: 'light-dairy-violet', class: 'light-dairy-violet' },
-      { label: 'just-grey', class: 'just-grey' },
+      // Other light surfaces (color-light-{name})
+      { label: 'Light nebula blue', class: 'color-light-nebula-blue' },
+      { label: 'Light salmon red', class: 'color-light-salmon-red' },
+      { label: 'Light jungle green', class: 'color-light-jungle-green' },
+      { label: 'Light cyber yellow', class: 'color-light-cyber-yellow' },
+      { label: 'Light cerise pink', class: 'color-light-cerise-pink' },
+      { label: 'Light royal violet', class: 'color-light-royal-violet' },
+      { label: 'Light medium orchid', class: 'color-light-medium-orchid' },
+      { label: 'Light turquoise green', class: 'color-light-turquoise-green' },
+      { label: 'Light not blue', class: 'color-light-not-blue' },
+      { label: 'Light bs grey', class: 'color-light-bs-grey' },
+      { label: 'Light grass green', class: 'color-light-grass-green' },
+      { label: 'Light sandal yellow', class: 'color-light-sandal-yellow' },
+      { label: 'Light lomo blue', class: 'color-light-lomo-blue' },
+      { label: 'Light candy orange', class: 'color-light-candy-orange' },
+      { label: 'Light dairy violet', class: 'color-light-dairy-violet' },
+      { label: 'Just grey', class: 'color-just-grey' },
     ];
   }
 

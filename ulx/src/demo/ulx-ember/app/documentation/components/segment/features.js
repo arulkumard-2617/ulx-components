@@ -5,18 +5,24 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   // Demos
   BasicDemo,
-  
-  VariantsDemo,
+  SolidBackgroundsDemo,
+  PrimaryLayersDemo,
+  GreenLayersDemo,
   BorderedDemo,
-  
+  BorderStartDemo,
   GroupDemo,
-  DisabledDemo,// Sources
+  DisabledDemo,
+  // Sources
   ImportSource,
   BasicSource,
-  VariantsSource,
+  SolidBackgroundsSource,
+  PrimaryLayersSource,
+  GreenLayersSource,
   BorderedSource,
+  BorderStartSource,
   GroupSource,
-  DisabledSource} from './imports';
+  DisabledSource
+} from './imports';
 
 export const SegmentFeatureItems = [
   {
@@ -30,7 +36,7 @@ export const SegmentFeatureItems = [
       }
     },
     demo: {
-      component: null, // Import section doesn't need demo
+      component: null,
       props: {
         source: ImportSource,
         snippetName: "import",
@@ -56,28 +62,64 @@ export const SegmentFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
   {
-    id: "variants",
-    sectionNav: "Variants",
+    id: "solid-backgrounds",
+    sectionNav: "Solid backgrounds",
     sectionDesc: {
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Variants</code> demo shows Variants usage of the Segment component."
+        content: "Solid color context surfaces (<code>color-primary</code>, <code>color-green</code>) via <code>@customClass</code> on <code>UlxSegment</code>."
       }
     },
     demo: {
-      component: VariantsDemo,
+      component: SolidBackgroundsDemo,
       props: {
-        source: VariantsSource,
-        snippetName: "variants",
+        source: SolidBackgroundsSource,
+        snippetName: "solid-backgrounds",
         language: "handlebars"
       }
     }
-  }
-,
+  },
+  {
+    id: "primary-layers",
+    sectionNav: "Primary layers",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Tinted primary layer surfaces (<code>color-primary-layer1</code>–<code>layer4</code>) via <code>@customClass</code> on <code>UlxSegment</code>."
+      }
+    },
+    demo: {
+      component: PrimaryLayersDemo,
+      props: {
+        source: PrimaryLayersSource,
+        snippetName: "primary-layers",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "green-layers",
+    sectionNav: "Green layers",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Tinted green layer surfaces (<code>color-green-layer1</code>–<code>layer3</code>) via <code>@customClass</code> on <code>UlxSegment</code>."
+      }
+    },
+    demo: {
+      component: GreenLayersDemo,
+      props: {
+        source: GreenLayersSource,
+        snippetName: "green-layers",
+        language: "handlebars"
+      }
+    }
+  },
   {
     id: "bordered",
     sectionNav: "Bordered",
@@ -85,7 +127,7 @@ export const SegmentFeatureItems = [
       component: RichText,
       props: {
         as: "span",
-        content: "The <code>Bordered</code> demo shows Bordered usage of the Segment component."
+        content: "Add <code>bordered</code> to a <code>color-*</code> surface for a 1px outline. Override text with <code>fg-primary</code> or <code>fg-green</code>. Use <code>marked</code> on <code>UlxTag</code> for a leading accent dot."
       }
     },
     demo: {
@@ -96,8 +138,26 @@ export const SegmentFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
+  {
+    id: "border-start",
+    sectionNav: "Border start",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Inline-start accent borders via <code>primary-border-start</code> or <code>green-border-start</code>, paired with a <code>color-*</code> surface or used alone."
+      }
+    },
+    demo: {
+      component: BorderStartDemo,
+      props: {
+        source: BorderStartSource,
+        snippetName: "border-start",
+        language: "handlebars"
+      }
+    }
+  },
   {
     id: "group",
     sectionNav: "Group",
@@ -116,8 +176,7 @@ export const SegmentFeatureItems = [
         language: "handlebars"
       }
     }
-  }
-,
+  },
   {
     id: "disabled",
     sectionNav: "Disabled",
