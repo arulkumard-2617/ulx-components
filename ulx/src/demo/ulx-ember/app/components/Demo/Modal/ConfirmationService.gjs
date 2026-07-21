@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { inject as service } from '@ember/service';
 import { UlxButton } from 'ulx-components';
+import ConfirmationBodyTemplate from './ConfirmationServiceBodyTemplate';
 
 export default class ConfirmationServiceDemo extends Component {
   @service modalManager;
@@ -20,8 +21,8 @@ export default class ConfirmationServiceDemo extends Component {
   @action
   openDeleteConfirm() {
     this.modalManager.openModal({
-      title: 'Delete item?',
-      message: 'This action cannot be undone.',
+      hideHeader: true,
+      template: ConfirmationBodyTemplate,
       confirmLabel: 'Delete',
       confirmVariant: 'danger',
       onConfirm: () => {
@@ -40,7 +41,7 @@ export default class ConfirmationServiceDemo extends Component {
         {{on "click" this.openSimpleConfirm}}
       />
       <UlxButton
-        @label="Delete (async)"
+        @label="Delete Modal"
         @variant="danger"
         {{on "click" this.openDeleteConfirm}}
       />

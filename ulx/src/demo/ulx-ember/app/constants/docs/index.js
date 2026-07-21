@@ -366,6 +366,11 @@ export const DocNavItems = [
             route: 'components.progressspinner'
           },
           {
+            menuItem: 'Loading',
+            to: '/components/loading',
+            route: 'components.loading'
+          },
+          {
             menuItem: 'Skeleton',
             to: '/components/skeleton',
             route: 'components.skeleton'

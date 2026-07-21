@@ -120,6 +120,7 @@
       "./components/ulx-image/index.js": "./dist/_app_/components/ulx-image/index.js",
       "./components/ulx-input-group/index.js": "./dist/_app_/components/ulx-input-group/index.js",
       "./components/ulx-input/index.js": "./dist/_app_/components/ulx-input/index.js",
+      "./components/ulx-loading/index.js": "./dist/_app_/components/ulx-loading/index.js",
       "./components/ulx-message/index.js": "./dist/_app_/components/ulx-message/index.js",
       "./components/ulx-modal/body.js": "./dist/_app_/components/ulx-modal/body.js",
       "./components/ulx-modal/footer-alignment.js": "./dist/_app_/components/ulx-modal/footer-alignment.js",

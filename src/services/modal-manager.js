@@ -1,6 +1,6 @@
-import Service from "@ember/service";
-import { tracked } from "@glimmer/tracking";
-import { t } from "../utils/i18n";
+import Service from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { t } from '../utils/i18n';
 
 /**
  * Imperative confirmation modal API. Mount {@link UlxConfirmationModal} once at the app root,
@@ -36,15 +36,20 @@ export default class ModalService extends Service {
 	 * @param {Function} [options.onConfirm] - Called on confirm; may return a Promise
 	 * @param {Function} [options.onCancel] - Called on dismiss
 	 * @param {string} [options.size='s-size'] - Modal size
-	 * @param {string} [options.width='480px'] - Modal width
+	 * @param {boolean} [options.hideHeader=false] - When true, hide the modal header
+	 * @param {boolean} [options.showCloseButton] - Show header close button (defaults to false when hideHeader)
+	 * @param {string} [options.footerAlign='end'] - Footer alignment: "start", "center", "end", "space-between"
 	 * @param {boolean} [options.closeOnBackdrop=false] - Close when backdrop is clicked
-	 * @param {string} [options.customClass] - Extra class on dialog content
+	 * @param {string} [options.contentClassName] - Extra class for content area (dialog-content)
+	 * @param {string} [options.headerClassName] - Extra class for header (dialog-header)
+	 * @param {string} [options.footerClassName] - Extra class for footer (dialog-footer)
+	 * @param {string} [options.customClass] - Deprecated alias for contentClassName
 	 */
 	openModal({
 		title,
 		iconName,
-		iconType = "font",
-		iconComponentClass = "bs-icons1",
+		iconType = 'font',
+		iconComponentClass = 'bs-icons1',
 		iconSize,
 		iconAriaLabel,
 		iconHtml,
@@ -56,12 +61,17 @@ export default class ModalService extends Service {
 		templateArgs,
 		confirmLabel,
 		cancelLabel,
-		confirmVariant = "primary",
+		confirmVariant = 'primary',
 		onConfirm,
 		onCancel,
-		size = "s-size",
-		width = "480px",
+		size = 's-size',
+		hideHeader = false,
+		showCloseButton,
+		footerAlign = 'end',
 		closeOnBackdrop = false,
+		contentClassName,
+		headerClassName,
+		footerClassName,
 		customClass
 	} = {}) {
 		const dismiss = () => {
@@ -98,16 +108,20 @@ export default class ModalService extends Service {
 			htmlMessage,
 			template,
 			templateArgs,
-			confirmLabel: confirmLabel ?? t("label.confirm"),
-			cancelLabel: cancelLabel ?? t("label.cancel"),
+			confirmLabel: confirmLabel ?? t('label.confirm'),
+			cancelLabel: cancelLabel ?? t('label.cancel'),
 			confirmVariant,
 			onConfirm: handleConfirm,
 			onCancel: dismiss,
 			onHide: dismiss,
 			size,
-			width,
+			hideHeader,
+			showCloseButton: showCloseButton ?? !hideHeader,
+			footerAlign,
 			closeOnBackdrop,
-			customClass
+			contentClassName: contentClassName ?? customClass,
+			headerClassName,
+			footerClassName
 		};
 	}
 
