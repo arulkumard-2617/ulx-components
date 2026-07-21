@@ -16,7 +16,7 @@ export default {
   tabs: [
     { name: 'Features', route: '/features', id: 'features' },
     { name: 'Params', route: '/params', id: 'params' },
-    { name: 'Architecture', route: '/architecture', id: 'architecture' },
+    { name: 'Architecture', route: '/architecture', id: 'architecture' }
   ],
 
   importMsg: "import { UlxLoading } from 'ulx-components';",
@@ -24,6 +24,6 @@ export default {
   accessibility: {
     description:
       'Loading uses role="status" with aria-live="polite" and an accessible name from @ariaLabel or the loading label.',
-    example: '<UlxLoading @mode="cover" @ariaLabel="Loading" />',
-  },
+    example: '<UlxLoading @mode="cover" @ariaLabel="Loading" />'
+  }
 };

@@ -19,7 +19,7 @@ import {
   ReadonlySource,
   ScoreSource,
   DisabledSource,
-  AccessibilitySource,
+  AccessibilitySource
 } from './imports';
 
 export const RatingFeatureItems = [
@@ -30,17 +30,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'The <code>import</code> property is used to import the <code>UlxRating</code> component.',
-      },
+        content: 'The <code>import</code> property is used to import the <code>UlxRating</code> component.'
+      }
     },
     demo: {
       component: null,
       props: {
         source: ImportSource,
         snippetName: 'import',
-        language: 'jsx',
-      },
-    },
+        language: 'jsx'
+      }
+    }
   },
   {
     id: 'basic',
@@ -49,17 +49,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'Rating is used as a controlled input with <code>value</code> and <code>onChange</code>.',
-      },
+        content: 'Rating is used as a controlled input with <code>value</code> and <code>onChange</code>.'
+      }
     },
     demo: {
       component: BasicDemo,
       props: {
         source: BasicSource,
         snippetName: 'basic',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'without-cancel',
@@ -68,17 +68,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'Set <code>cancel=false</code> to hide the reset icon.',
-      },
+        content: 'Set <code>cancel=false</code> to hide the reset icon.'
+      }
     },
     demo: {
       component: WithoutCancelDemo,
       props: {
         source: WithoutCancelSource,
         snippetName: 'without-cancel',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'number-of-stars',
@@ -87,17 +87,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'Use the <code>stars</code> property to define how many stars to display.',
-      },
+        content: 'Use the <code>stars</code> property to define how many stars to display.'
+      }
     },
     demo: {
       component: NumberOfStarsDemo,
       props: {
         source: NumberOfStarsSource,
         snippetName: 'number-of-stars',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'template',
@@ -106,17 +106,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'Customize icons with <code>&lt;:onIcon&gt;</code>, <code>&lt;:offIcon&gt;</code> and <code>&lt;:cancelIcon&gt;</code> blocks.',
-      },
+        content: 'Customize icons with <code>&lt;:onIcon&gt;</code>, <code>&lt;:offIcon&gt;</code> and <code>&lt;:cancelIcon&gt;</code> blocks.'
+      }
     },
     demo: {
       component: TemplateDemo,
       props: {
         source: TemplateSource,
         snippetName: 'template',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'readonly',
@@ -125,17 +125,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'When <code>readOnly</code> is set, the value cannot be changed.',
-      },
+        content: 'When <code>readOnly</code> is set, the value cannot be changed.'
+      }
     },
     demo: {
       component: ReadonlyDemo,
       props: {
         source: ReadonlySource,
         snippetName: 'readonly',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'score',
@@ -145,17 +145,17 @@ export const RatingFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@type="score"</code> for a compact display with a single filled star and the numeric rating value.',
-      },
+          'Use <code>@type="score"</code> for a compact display with a single filled star and the numeric rating value.'
+      }
     },
     demo: {
       component: ScoreDemo,
       props: {
         source: ScoreSource,
         snippetName: 'score',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'disabled',
@@ -164,17 +164,17 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'When <code>disabled</code> is set, a visual hint indicates the rating cannot be interacted with.',
-      },
+        content: 'When <code>disabled</code> is set, a visual hint indicates the rating cannot be interacted with.'
+      }
     },
     demo: {
       component: DisabledDemo,
       props: {
         source: DisabledSource,
         snippetName: 'disabled',
-        language: 'handlebars',
-      },
-    },
+        language: 'handlebars'
+      }
+    }
   },
   {
     id: 'accessibility',
@@ -183,18 +183,18 @@ export const RatingFeatureItems = [
       component: RichText,
       props: {
         as: 'span',
-        content: 'Use <code>ariaLabel</code> or a visible label for an accessible name. Keyboard: Tab, Left/Right, Space.',
-      },
+        content: 'Use <code>ariaLabel</code> or a visible label for an accessible name. Keyboard: Tab, Left/Right, Space.'
+      }
     },
     demo: {
       component: AccessibilityDemo,
       props: {
         source: AccessibilitySource,
         snippetName: 'accessibility',
-        language: 'handlebars',
-      },
-    },
-  },
+        language: 'handlebars'
+      }
+    }
+  }
 ];
 
 export default function RatingFeatures() {

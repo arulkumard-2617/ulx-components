@@ -6,7 +6,7 @@ export default class ComponentsElementsLoadingRoute extends Route {
   model() {
     return {
       features: LoadingFeatureItems,
-      meta,
+      meta
     };
   }
 }
