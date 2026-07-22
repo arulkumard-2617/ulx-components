@@ -76,6 +76,21 @@ function borderStartClass(family) {
     : `${family}-border-start`;
 }
 
+function outlinedSolidSwatches(family) {
+  return [
+    {
+      label: `color-${family} outlined`,
+      classes: `${swatchBase} color-${family} outlined`,
+      sampleText: 'Aa'
+    },
+    {
+      label: `color-${family} outlined fg-${family}`,
+      classes: `${swatchBase} color-${family} outlined fg-${family}`,
+      sampleText: 'Aa'
+    }
+  ];
+}
+
 function colorFamilySection({ family, sectionNav, layerCount, unnumberedLayer = false }) {
   const borderStart = borderStartClass(family);
   const layerTitle = layerCount === 1 && unnumberedLayer ? 'Layer' : 'Layers';
@@ -84,7 +99,7 @@ function colorFamilySection({ family, sectionNav, layerCount, unnumberedLayer = 
     id: `color-context-${family}`,
     sectionNav,
     kind: 'swatches',
-    subtitle: `Solid ${sectionNav.toLowerCase()} surface, tinted layers, and layer modifiers for bordered outlines and inline-start accent stripes.`,
+    subtitle: `Solid ${sectionNav.toLowerCase()} surface, tinted layers, and modifiers for bordered (solid / dashed / dotted), transparent outlined strokes (default text-color; optional fg-*), and inline-start accent stripes.`,
     groups: [
       {
         title: 'Solid',
@@ -103,6 +118,18 @@ function colorFamilySection({ family, sectionNav, layerCount, unnumberedLayer = 
       {
         title: 'Bordered',
         rows: layerSwatches(family, layerCount, 'bordered', unnumberedLayer)
+      },
+      {
+        title: 'Bordered dashed',
+        rows: layerSwatches(family, layerCount, 'bordered dashed', unnumberedLayer)
+      },
+      {
+        title: 'Bordered dotted',
+        rows: layerSwatches(family, layerCount, 'bordered dotted', unnumberedLayer)
+      },
+      {
+        title: 'Outlined',
+        rows: outlinedSolidSwatches(family)
       },
       {
         title: 'Border start',
@@ -175,6 +202,21 @@ function statusSemanticForegroundSwatches(names) {
   }));
 }
 
+function statusOutlinedSwatches(names) {
+  return names.flatMap((name) => [
+    {
+      label: `color-${name} outlined`,
+      classes: `${swatchBase} color-${name} outlined`,
+      sampleText: 'Aa'
+    },
+    {
+      label: `color-${name} outlined fg-${name}`,
+      classes: `${swatchBase} color-${name} outlined fg-${name}`,
+      sampleText: 'Aa'
+    }
+  ]);
+}
+
 const sessionStatusNames = [
   'running',
   'completed',
@@ -189,7 +231,7 @@ function statusSection() {
     sectionNav: 'Status',
     kind: 'swatches',
     subtitle:
-      'Status surfaces with default foreground (static-black for running, published, completed, draft; text-color for others). Pair fg-* with color-* to apply semantic foreground tokens.',
+      'Status surfaces with default foreground (static-black for running, published, completed, draft; text-color for others). Pair fg-* with color-* for semantic text. Outlined uses text-color by default; add fg-* for chromatic text.',
     groups: [
       ...statusGroups.map(({ title, names }) => ({
         title: `Surface — ${title}`,
@@ -198,9 +240,28 @@ function statusSection() {
       {
         title: 'Semantic foreground — Session status',
         rows: statusSemanticForegroundSwatches(sessionStatusNames)
+      },
+      {
+        title: 'Outlined — Session status',
+        rows: statusOutlinedSwatches(sessionStatusNames)
       }
     ]
   };
+}
+
+function otherOutlinedSwatches() {
+  return otherColors.flatMap(({ name }) => [
+    {
+      label: `color-${name} outlined`,
+      classes: `${swatchBase} color-${name} outlined`,
+      sampleText: 'Aa'
+    },
+    {
+      label: `color-${name} outlined fg-${name}`,
+      classes: `${swatchBase} color-${name} outlined fg-${name}`,
+      sampleText: 'Aa'
+    }
+  ]);
 }
 
 function othersSection() {
@@ -209,7 +270,7 @@ function othersSection() {
     sectionNav: 'Others',
     kind: 'swatches',
     subtitle:
-      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Bordered and border-start modifiers apply to light surfaces only.',
+      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Outlined uses text-color by default; add fg-* for chromatic text. Bordered (solid / dashed / dotted) and border-start modifiers apply to light surfaces only.',
     groups: [
       {
         title: 'Solid',
@@ -221,15 +282,29 @@ function othersSection() {
       },
       {
         title: 'Foreground',
-        rows: otherColors.map(({ name }) => ({
-          label: `fg-${name}`,
-          classes: `${swatchBase} fg-${name}`,
-          sampleText: 'Aa'
-        }))
+        rows: otherColors
+          .filter(({ hasLayer = true }) => hasLayer)
+          .map(({ name }) => ({
+            label: `color-light-${name} fg-${name}`,
+            classes: `${swatchBase} color-light-${name} fg-${name}`,
+            sampleText: 'Aa'
+          }))
+      },
+      {
+        title: 'Outlined',
+        rows: otherOutlinedSwatches()
       },
       {
         title: 'Bordered',
         rows: otherLightSwatches(() => 'bordered')
+      },
+      {
+        title: 'Bordered dashed',
+        rows: otherLightSwatches(() => 'bordered dashed')
+      },
+      {
+        title: 'Bordered dotted',
+        rows: otherLightSwatches(() => 'bordered dotted')
       },
       {
         title: 'Border start',
@@ -242,7 +317,7 @@ function othersSection() {
 export const colorContextSchema = {
   title: 'Color context',
   description:
-    'Composable surface classes from uls-styles/less/colors. Each class binds surface role tokens (--surface-bg, --surface-fg, --surface-border, --surface-border-accent) for coordinated backgrounds, text, and borders.',
+    'Composable surface classes from uls-styles/less/colors. Each class binds surface role tokens (--surface-bg, --surface-fg, --surface-border, --surface-border-accent) for coordinated backgrounds, text, and borders. color-* outlined uses text-color by default; add fg-* for chromatic text. Pair bordered with dashed or dotted for border-style (e.g. color-blue-layer1 bordered dashed).',
 
   sections: [
     ...colorFamilies.map(colorFamilySection),

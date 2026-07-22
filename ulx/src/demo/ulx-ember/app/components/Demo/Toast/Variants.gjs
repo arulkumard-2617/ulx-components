@@ -8,45 +8,42 @@ export default class VariantsToastDemo extends Component {
   @tracked messages = [];
 
   @action
-  showElevated() {
+  showInfo() {
     this.messages = [
       ...this.messages,
       {
-        id: `msg-${Date.now()}-elevated`,
-        variant: 'info',
-        summary: "Elevated",
-        detail: "Variant: elevated",
-        type: 'elevated',
-      },
+        id: `msg-${Date.now()}-info`,
+        variant: 'color-info-layer info-border-start bordered fg-text',
+        summary: 'Info',
+        detail: 'color-info-layer info-border-start bordered fg-text'
+      }
     ];
   }
 
   @action
-  showFlat() {
+  showSuccess() {
     this.messages = [
       ...this.messages,
       {
-        id: `msg-${Date.now()}-flat`,
-        variant: 'success',
-        summary: "Flat",
-        detail: "Variant: flat",
-        type: 'flat',
-      },
+        id: `msg-${Date.now()}-success`,
+        variant: 'color-success-layer success-border-start bordered fg-text',
+        summary: 'Success',
+        detail: 'color-success-layer success-border-start bordered fg-text'
+      }
     ];
   }
 
   @action
-  showOutlined() {
+  showWarn() {
     this.messages = [
       ...this.messages,
       {
-        id: `msg-${Date.now()}-outlined`,
-        variant: 'warn',
-        summary: "Outlined",
-        detail: "Variant: outlined",
-        type: 'outlined',
-        sticky: true,
-      },
+        id: `msg-${Date.now()}-warn`,
+        variant: 'color-warning-layer warning-border-start bordered fg-text',
+        summary: 'Warning',
+        detail: 'color-warning-layer warning-border-start bordered fg-text',
+        sticky: true
+      }
     ];
   }
 
@@ -56,11 +53,11 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-withicon`,
-        variant: 'info',
-        summary: "With icon",
+        variant: 'color-info-layer info-border-start bordered fg-text',
+        summary: 'With icon',
         detail: 'showIcon: true',
-        showIcon: true,
-      },
+        showIcon: true
+      }
     ];
   }
 
@@ -70,11 +67,11 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-sticky`,
-        variant: 'info',
-        summary: "Sticky",
-        detail: "Does not auto-close",
-        sticky: true,
-      },
+        variant: 'color-info-layer info-border-start bordered fg-text',
+        summary: 'Sticky',
+        detail: 'Does not auto-close',
+        sticky: true
+      }
     ];
   }
 
@@ -85,21 +82,21 @@ export default class VariantsToastDemo extends Component {
 
   <template>
     <div class="">
-      <div class="fx gap8 flxw">
+      <div class="flex gap-8">
         <UlxButton
-          @label="Elevated"
-          @variant="primary"
-          {{on "click" this.showElevated}}
+          @label="Info"
+          @variant="color-info"
+          {{on "click" this.showInfo}}
         />
         <UlxButton
-          @label="Flat"
-          @variant="success"
-          {{on "click" this.showFlat}}
+          @label="Success"
+          @variant="color-success"
+          {{on "click" this.showSuccess}}
         />
         <UlxButton
-          @label="Outlined"
-          @variant="warning"
-          {{on "click" this.showOutlined}}
+          @label="Warn"
+          @variant="color-warning"
+          {{on "click" this.showWarn}}
         />
         <UlxButton
           @label="With icon"

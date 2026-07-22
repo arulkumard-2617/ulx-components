@@ -13,10 +13,10 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-sticky`,
-        variant: 'success',
+        variant: 'color-success-layer success-border-start bordered fg-text',
         summary: 'Speakers added',
-        sticky: true,
-      },
+        sticky: true
+      }
     ];
   }
 
@@ -26,9 +26,9 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-life`,
-        variant: 'success',
-        summary: 'Speakers added',
-      },
+        variant: 'color-success-layer success-border-start bordered fg-text',
+        summary: 'Speakers added'
+      }
     ];
   }
 
@@ -44,7 +44,7 @@ export default class StickyToastDemo extends Component {
 
   <template>
     <div class="">
-      <div class="fx gap8 flxw">
+      <div class="flex gap-8">
         <UlxButton
           @label="Sticky"
           @variant="success"
