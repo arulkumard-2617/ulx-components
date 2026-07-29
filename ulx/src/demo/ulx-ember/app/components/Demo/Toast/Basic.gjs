@@ -13,7 +13,7 @@ export default class BasicToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}`,
-        variant: 'color-info-layer info-border-start bordered fg-text',
+        variant: 'info',
         summary:
           'It is a long established fact that a reader will be distracted.',
       },

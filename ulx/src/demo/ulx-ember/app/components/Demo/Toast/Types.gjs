@@ -5,16 +5,6 @@ import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { UlxToast, UlxButton, t } from 'ulx-components';
 
-/** Color-context surface classes applied via message.variant. */
-const VARIANT_SURFACES = {
-  info: 'color-info-layer info-border-start bordered fg-text',
-  success: 'color-success-layer success-border-start bordered fg-text',
-  warn: 'color-warning-layer warning-border-start bordered fg-text',
-  error: 'color-danger-layer danger-border-start bordered fg-text',
-  secondary: 'color-secondary-layer secondary-border-start bordered fg-text',
-  contrast: 'color-black-layer4 black-border-start bordered fg-text'
-};
-
 export default class TypesToastDemo extends Component {
   @tracked messages = [];
 
@@ -32,7 +22,7 @@ export default class TypesToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-${variant}`,
-        variant: VARIANT_SURFACES[variant],
+        variant,
         summary: labels[variant] ?? variant,
         detail: t('msg.type.message', { type: labels[variant] ?? variant })
       }
@@ -54,7 +44,7 @@ export default class TypesToastDemo extends Component {
         />
         <UlxButton
           @label="Success"
-          @variant="color-success"
+          @variant="success"
           {{on "click" (fn this.addMessage "success")}}
         />
         <UlxButton
@@ -64,12 +54,12 @@ export default class TypesToastDemo extends Component {
         />
         <UlxButton
           @label="Error"
-          @variant="color-danger"
+          @variant="danger"
           {{on "click" (fn this.addMessage "error")}}
         />
         <UlxButton
           @label="Secondary"
-          @variant="color-secondary"
+          @variant="secondary"
           {{on "click" (fn this.addMessage "secondary")}}
         />
         <UlxButton

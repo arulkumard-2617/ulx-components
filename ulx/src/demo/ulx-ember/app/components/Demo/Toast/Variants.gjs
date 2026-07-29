@@ -8,40 +8,43 @@ export default class VariantsToastDemo extends Component {
   @tracked messages = [];
 
   @action
-  showInfo() {
+  showElevated() {
     this.messages = [
       ...this.messages,
       {
-        id: `msg-${Date.now()}-info`,
-        variant: 'color-info-layer info-border-start bordered fg-text',
-        summary: 'Info',
-        detail: 'color-info-layer info-border-start bordered fg-text'
+        id: `msg-${Date.now()}-elevated`,
+        variant: 'info',
+        summary: 'Elevated',
+        detail: 'Variant: elevated',
+        type: 'elevated'
       }
     ];
   }
 
   @action
-  showSuccess() {
+  showFlat() {
     this.messages = [
       ...this.messages,
       {
-        id: `msg-${Date.now()}-success`,
-        variant: 'color-success-layer success-border-start bordered fg-text',
-        summary: 'Success',
-        detail: 'color-success-layer success-border-start bordered fg-text'
+        id: `msg-${Date.now()}-flat`,
+        variant: 'success',
+        summary: 'Flat',
+        detail: 'Variant: flat',
+        type: 'flat'
       }
     ];
   }
 
   @action
-  showWarn() {
+  showOutlined() {
     this.messages = [
       ...this.messages,
       {
-        id: `msg-${Date.now()}-warn`,
-        variant: 'color-warning-layer warning-border-start bordered fg-text',
-        summary: 'Warning',
-        detail: 'color-warning-layer warning-border-start bordered fg-text',
+        id: `msg-${Date.now()}-outlined`,
+        variant: 'warn',
+        summary: 'Outlined',
+        detail: 'Variant: outlined',
+        type: 'outlined',
         sticky: true
       }
     ];
@@ -53,7 +56,7 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-withicon`,
-        variant: 'color-info-layer info-border-start bordered fg-text',
+        variant: 'info',
         summary: 'With icon',
         detail: 'showIcon: true',
         showIcon: true
@@ -67,7 +70,7 @@ export default class VariantsToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-sticky`,
-        variant: 'color-info-layer info-border-start bordered fg-text',
+        variant: 'info',
         summary: 'Sticky',
         detail: 'Does not auto-close',
         sticky: true
@@ -84,19 +87,19 @@ export default class VariantsToastDemo extends Component {
     <div class="">
       <div class="flex gap-8">
         <UlxButton
-          @label="Info"
-          @variant="color-info"
-          {{on "click" this.showInfo}}
+          @label="Elevated"
+          @variant="primary"
+          {{on "click" this.showElevated}}
         />
         <UlxButton
-          @label="Success"
-          @variant="color-success"
-          {{on "click" this.showSuccess}}
+          @label="Flat"
+          @variant="success"
+          {{on "click" this.showFlat}}
         />
         <UlxButton
-          @label="Warn"
-          @variant="color-warning"
-          {{on "click" this.showWarn}}
+          @label="Outlined"
+          @variant="warning"
+          {{on "click" this.showOutlined}}
         />
         <UlxButton
           @label="With icon"

@@ -14,7 +14,7 @@ export default class TemplateToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-template`,
-        variant: 'color-success-layer success-border-start bordered fg-text',
+        variant: 'success',
         summary: "Can you send me the report?",
         sticky: true,
       },

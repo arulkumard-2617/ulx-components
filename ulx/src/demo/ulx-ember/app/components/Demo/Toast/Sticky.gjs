@@ -13,7 +13,7 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-sticky`,
-        variant: 'color-success-layer success-border-start bordered fg-text',
+        variant: 'success',
         summary: 'Speakers added',
         sticky: true
       }
@@ -26,7 +26,7 @@ export default class StickyToastDemo extends Component {
       ...this.messages,
       {
         id: `msg-${Date.now()}-life`,
-        variant: 'color-success-layer success-border-start bordered fg-text',
+        variant: 'success',
         summary: 'Speakers added'
       }
     ];

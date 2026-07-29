@@ -13,27 +13,27 @@ export default class MultipleToastDemo extends Component {
     const newMessages = [
       {
         id: `msg-${now}-1`,
-        variant: 'color-info-layer info-border-start bordered fg-text',
-        summary: "Info",
-        detail: "Info message.",
+        variant: 'info',
+        summary: 'Info',
+        detail: 'Info message.',
       },
       {
         id: `msg-${now}-2`,
-        variant: 'color-success-layer success-border-start bordered fg-text',
-        summary: "Success",
-        detail: "Success message.",
+        variant: 'success',
+        summary: 'Success',
+        detail: 'Success message.',
       },
       {
         id: `msg-${now}-3`,
-        variant: 'color-warning-layer warning-border-start bordered fg-text',
-        summary: "Warn",
-        detail: "Warn message.",
+        variant: 'warn',
+        summary: 'Warn',
+        detail: 'Warn message.',
       },
       {
         id: `msg-${now}-4`,
-        variant: 'color-danger-layer danger-border-start bordered fg-text',
-        summary: "Error",
-        detail: "Error message.",
+        variant: 'error',
+        summary: 'Error',
+        detail: 'Error message.',
       },
     ];
     this.messages = [...this.messages, ...newMessages];
