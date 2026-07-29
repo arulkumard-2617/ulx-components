@@ -670,7 +670,7 @@ export default class UlxMultiSelect extends Component {
 
 		if (wrapperEl) {
 			wrapperEl.style.removeProperty("height");
-			wrapperEl.style.maxHeight = `${wrapperMax}px`;
+			wrapperEl.style.removeProperty("max-height");
 		}
 
 		const panelHeight = panelEl.offsetHeight || chromeH + wrapperMax;
