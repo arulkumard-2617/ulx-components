@@ -137,6 +137,7 @@ export default class UlxCheckboxItem extends Component {
 				disabled={{@disabled}}
 				required={{@required}}
 				aria-required={{@required}}
+				data-qa="checkbox-input-item"
 				{{on "change" @onChange}}
 				{{checkboxIndeterminate @indeterminate}}
 				...attributes

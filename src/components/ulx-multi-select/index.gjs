@@ -1337,6 +1337,7 @@ export default class UlxMultiSelect extends Component {
 												@iconName="close-icon-01"
 												@componentClass="bs-icons1"
 												@size="s16"
+												@dataQa="close-icon"
 												class="multiselect-token-icon"
 												role="button"
 												tabindex="0"
