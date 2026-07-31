@@ -1,0 +1,5 @@
+// Scoped fix for Quill bold rendering.
+//
+// Some themes define `--ulx-font-face-bold` as a font-family token (string),
+// but global CSS mistakenly uses it as `font-weight`, which is invalid.
+// Quill uses real <strong>/<b> tags for bold, so ensure a numeric weight here.
