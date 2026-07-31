@@ -32,7 +32,7 @@ function valueEquals(left, right) {
  * @param {object} [field] - Yield hash from `UlxField` (`key`, `describedBy`, `errorId`, `rules`, `error`).
  * @param {string} [id] - Stable ID base for the group and radio inputs.
  * @param {string} [key] - Stable key when `@id` is omitted.
- * @param {Array<object>} [items] - Radio items: `{ label, value, checked, disabled, customClass, id }`.
+ * @param {Array<object>} [items] - Radio items: `{ label, value, checked, disabled, customClass, id, dataQa }`.
  * @param {unknown} [value] - Selected value. When omitted, each item's `checked` flag is used.
  * @param {Function} [onChange] - `(value, item, event) => void` when a radio is selected.
  * @param {Function} [onItemChange] - `(item, checked, event) => void` when a radio changes.
@@ -205,6 +205,7 @@ export default class UlxRadioPanelGroup extends Component {
 						@ariaErrorMessage={{this.ariaErrorMessage}}
 						@name={{this.groupId}}
 						@value={{entry.item.value}}
+						@dataQa={{entry.item.dataQa}}
 						@onChange={{fn this.handleItemChange entry.item}}
 					/>
 
