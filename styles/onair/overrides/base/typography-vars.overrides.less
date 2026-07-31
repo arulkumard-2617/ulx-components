@@ -1,0 +1,28 @@
+// ==========================================================================
+// Onair typography vars (LESS static size tokens)
+// ==========================================================================
+// Keep compile-time sizes aligned with root-config onair CSS font scale.
+
+@sizeH1: 34px;
+@sizeH2: 24px;
+@sizeH3: 20px;
+@sizeH4: 18px;
+@sizeH5: 16px;
+@sizeH6: 15px;
+@sizeH7: 14px;
+
+@sizeDefault: 13px;
+@sizeSmall: 12px;
+@sizeTiny: 11px;
+@sizeMini: 10px;
+@sizeXs: 9px;
+@sizeXxs: 9px;
+
+@default-lineheight: unit((20 / @sizeDefault), em);
+@small-lineheight: unit((18 / @sizeSmall), em);
+@tiny-lineheight: unit((16 / @sizeTiny), em);
+@mini-lineheight: unit((14 / @sizeMini), em);
+@xs-lineheight: unit((12 / @sizeXs), em);
+@xxs-lineheight: unit((12 / @sizeXxs), em);
+
+@font-size-xxs: ~"var(--@{uls-css-var-prefix}font-size-xxs)";
