@@ -670,7 +670,7 @@ export default class UlxMultiSelect extends Component {
 
 		if (wrapperEl) {
 			wrapperEl.style.removeProperty("height");
-			wrapperEl.style.maxHeight = `${wrapperMax}px`;
+			wrapperEl.style.removeProperty("max-height");
 		}
 
 		const panelHeight = panelEl.offsetHeight || chromeH + wrapperMax;
@@ -1337,6 +1337,7 @@ export default class UlxMultiSelect extends Component {
 												@iconName="close-icon-01"
 												@componentClass="bs-icons1"
 												@size="s16"
+												@dataQa="close-icon"
 												class="multiselect-token-icon"
 												role="button"
 												tabindex="0"

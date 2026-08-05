@@ -10,27 +10,19 @@
   "projects": [
     {
       "idx": 1,
-      "id": "26448000000012001",
-      "name": "ulx",
+      "id": "39778000005657650",
+      "name": "ULX",
       "domain": {
-        "id": "50038934835",
-        "name": "ulx-60063124808.development"
+        "id": "50044465866",
+        "name": "ulx-60071612134.development"
       },
       "timezone": "Asia/Kolkata",
       "env": [
         {
           "idx": 1,
-          "id": "60063124808",
+          "id": "60071612134",
           "name": "Development",
-          "type": 3,
-          "env_status": "Active",
-          "project_details": {
-            "project_name": "ulx",
-            "id": "26448000000012001",
-            "project_type": "Live"
-          },
-          "is_default": true,
-          "action_required": false
+          "type": 3
         }
       ]
     }

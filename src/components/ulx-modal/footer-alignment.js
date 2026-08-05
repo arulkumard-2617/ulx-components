@@ -8,10 +8,10 @@ const FOOTER_ALIGNMENT_TO_CLASS = {
 /**
  * Utility classes for footer action alignment on an inner flex row.
  *
- * @param {string} [alignment="end"]
+ * @param {string} [footerAlign="end"]
  * @returns {string}
  */
-export function getFooterAlignmentClasses(alignment = "end") {
-	const justifyClass = FOOTER_ALIGNMENT_TO_CLASS[alignment] ?? FOOTER_ALIGNMENT_TO_CLASS.end;
+export function getFooterAlignmentClasses(footerAlign = "end") {
+	const justifyClass = FOOTER_ALIGNMENT_TO_CLASS[footerAlign] ?? FOOTER_ALIGNMENT_TO_CLASS.end;
 	return `flex w-full gap-2 ${justifyClass}`;
 }

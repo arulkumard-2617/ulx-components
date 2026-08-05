@@ -12,16 +12,18 @@ import UlxIcon from "../ulx-icon/index.gjs";
  * Uses existing rating.less classes (ulx-rating, ulx-rating-icon, onicon, cancelicon).
  *
  * ## WCAG
- * - role="radiogroup" with aria-label; each star is role="radio" with aria-checked.
+ * - Default: role="radiogroup" with aria-label; each star is role="radio" with aria-checked.
  * - Keyboard: Tab to focus, Left/Right to change, Space to set value.
+ * - Score type: role="img" with aria-label; single filled star + numeric value (non-interactive).
  *
  * @class UlxRating
  * @param {number} [value=0] - Current rating (0 to stars).
  * @param {Function} [onChange] - Called with new value: (value) => void.
- * @param {number} [stars=5] - Number of stars to display.
+ * @param {number} [stars=5] - Number of stars to display (ignored when `@type="score"`).
  * @param {boolean} [cancel=true] - Whether to show the cancel (reset) icon.
  * @param {boolean} [readOnly=false] - When true, value cannot be changed.
  * @param {boolean} [disabled=false] - Disables interaction.
+ * @param {string} [type] - Display type: omit or any value for multi-star input; `"score"` for compact star + value.
  * @param {string} [size="xxs-size"] - Size: xxxs-size, xxs-size, xs-size, s-size, m-size, l-size, xl-size.
  * @param {string} [variant] - Optional: "filled" or "elevated".
  * @param {string} [customClass] - Extra CSS classes on root.
@@ -41,6 +43,10 @@ export default class UlxRating extends Component {
 		return "rating-icon";
 	}
 
+	get isScoreType() {
+		return this.args.type === "score";
+	}
+
 	get rootClasses() {
 		const {
 			size = "xxs-size",
@@ -52,9 +58,10 @@ export default class UlxRating extends Component {
 
 		const parts = [this.baseClass];
 		parts.push(size);
+		this.isScoreType && parts.push("score");
 		variant && parts.push(variant);
 		disabled && parts.push("disabled");
-		readOnly && parts.push("readonly");
+		(readOnly || this.isScoreType) && parts.push("readonly");
 		customClass && parts.push(customClass);
 
 		return [...new Set(parts.filter(Boolean))].join(" ");
@@ -68,12 +75,13 @@ export default class UlxRating extends Component {
 	get currentValue() {
 		const v = Number(this.args.value);
 		if (Number.isNaN(v) || v < 0) return 0;
+		if (this.isScoreType) return v;
 		return Math.min(v, this.starsCount);
 	}
 
 	get isInteractive() {
 		const { disabled = false, readOnly = false } = this.args;
-		return !disabled && !readOnly;
+		return !this.isScoreType && !disabled && !readOnly;
 	}
 
 	get showCancel() {
@@ -82,6 +90,10 @@ export default class UlxRating extends Component {
 
 	get ariaLabelText() {
 		return this.args.ariaLabel ?? t("label.rating");
+	}
+
+	get scoreAriaLabel() {
+		return this.args.ariaLabel ?? `${t("label.rating")}: ${this.currentValue}`;
 	}
 
 	get starIndices() {
@@ -142,83 +154,111 @@ export default class UlxRating extends Component {
 	}
 
 	<template>
-		<div
-			class={{this.rootClasses}}
-			role="radiogroup"
-			aria-label={{this.ariaLabelText}}
-			data-qa={{this.rootDataQa}}
-			...attributes
-		>
-			{{#if this.showCancel}}
-				{{#if (has-block "cancelIcon")}}
-					<span
-						role="button"
-						tabindex="0"
-						class="{{this.iconClass}} cancelicon"
-						aria-label={{t "lbl.rating.cancel"}}
-						data-qa="ulx-rating-cancel"
-						{{on "click" this.handleCancelClick}}
-						{{on "keydown" (fn this.handleKeydown "cancel" 0)}}
-					>
-						{{yield to="cancelIcon"}}
-					</span>
-				{{else}}
-					<UlxIcon
-						@type="font"
-						@iconName="taken-icon"
-						@componentClass="bs-icons1"
-						@customClass="{{this.iconClass}} cancelicon"
-						role="button"
-						tabindex="0"
-						aria-label={{t "lbl.rating.cancel"}}
-						data-qa="ulx-rating-cancel"
-						{{on "click" this.handleCancelClick}}
-						{{on "keydown" (fn this.handleKeydown "cancel" 0)}}
-					/>
-				{{/if}}
-			{{/if}}
-			{{#each this.starIndices as |starValue|}}
+		{{#if this.isScoreType}}
+			<div
+				class={{this.rootClasses}}
+				role="img"
+				aria-label={{this.scoreAriaLabel}}
+				data-qa={{this.rootDataQa}}
+				...attributes
+			>
 				{{#if (has-block "onIcon")}}
-					<span
-						class="{{this.iconClass}} {{if (lte starValue this.currentValue) 'onicon' ''}}"
-						role="radio"
-						aria-checked={{eq starValue this.currentValue}}
-						aria-posinset={{starValue}}
-						aria-setsize={{this.starsCount}}
-						aria-disabled={{not this.isInteractive}}
-						tabindex="0"
-						data-qa="ulx-rating-star"
-						{{on "click" (fn this.handleStarClick starValue)}}
-						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
-					>
-						{{#if (lte starValue this.currentValue)}}
-							{{yield to="onIcon"}}
-						{{else}}
-							{{yield to="offIcon"}}
-						{{/if}}
+					<span class="{{this.iconClass}} onicon" aria-hidden="true" data-qa="ulx-rating-star">
+						{{yield to="onIcon"}}
 					</span>
 				{{else}}
 					<UlxIcon
 						@type="font"
-						@iconName={{if
-							(lte starValue this.currentValue)
-							"ls-star-filled-icon"
-							"ls-star-stroke-icon"
-						}}
+						@iconName="ls-star-filled-icon"
 						@componentClass="bs-icons1"
-						@customClass="{{this.iconClass}} {{if (lte starValue this.currentValue) 'onicon' ''}}"
-						role="radio"
-						aria-checked={{eq starValue this.currentValue}}
-						aria-posinset={{starValue}}
-						aria-setsize={{this.starsCount}}
-						aria-disabled={{not this.isInteractive}}
-						tabindex="0"
+						@customClass="{{this.iconClass}} onicon"
+						aria-hidden="true"
 						data-qa="ulx-rating-star"
-						{{on "click" (fn this.handleStarClick starValue)}}
-						{{on "keydown" (fn this.handleKeydown "star" starValue)}}
 					/>
 				{{/if}}
-			{{/each}}
-		</div>
+				<span class="rating-value" data-qa="ulx-rating-value" aria-hidden="true">
+					{{this.currentValue}}
+				</span>
+			</div>
+		{{else}}
+			<div
+				class={{this.rootClasses}}
+				role="radiogroup"
+				aria-label={{this.ariaLabelText}}
+				data-qa={{this.rootDataQa}}
+				...attributes
+			>
+				{{#if this.showCancel}}
+					{{#if (has-block "cancelIcon")}}
+						<span
+							role="button"
+							tabindex="0"
+							class="{{this.iconClass}} cancelicon"
+							aria-label={{t "lbl.rating.cancel"}}
+							data-qa="ulx-rating-cancel"
+							{{on "click" this.handleCancelClick}}
+							{{on "keydown" (fn this.handleKeydown "cancel" 0)}}
+						>
+							{{yield to="cancelIcon"}}
+						</span>
+					{{else}}
+						<UlxIcon
+							@type="font"
+							@iconName="taken-icon"
+							@componentClass="bs-icons1"
+							@customClass="{{this.iconClass}} cancelicon"
+							role="button"
+							tabindex="0"
+							aria-label={{t "lbl.rating.cancel"}}
+							data-qa="ulx-rating-cancel"
+							{{on "click" this.handleCancelClick}}
+							{{on "keydown" (fn this.handleKeydown "cancel" 0)}}
+						/>
+					{{/if}}
+				{{/if}}
+				{{#each this.starIndices as |starValue|}}
+					{{#if (has-block "onIcon")}}
+						<span
+							class="{{this.iconClass}} {{if (lte starValue this.currentValue) 'onicon' ''}}"
+							role="radio"
+							aria-checked={{eq starValue this.currentValue}}
+							aria-posinset={{starValue}}
+							aria-setsize={{this.starsCount}}
+							aria-disabled={{not this.isInteractive}}
+							tabindex="0"
+							data-qa="ulx-rating-star"
+							{{on "click" (fn this.handleStarClick starValue)}}
+							{{on "keydown" (fn this.handleKeydown "star" starValue)}}
+						>
+							{{#if (lte starValue this.currentValue)}}
+								{{yield to="onIcon"}}
+							{{else}}
+								{{yield to="offIcon"}}
+							{{/if}}
+						</span>
+					{{else}}
+						<UlxIcon
+							@type="font"
+							@iconName={{if
+								(lte starValue this.currentValue)
+								"ls-star-filled-icon"
+								"ls-star-stroke-icon"
+							}}
+							@componentClass="bs-icons1"
+							@customClass="{{this.iconClass}} {{if (lte starValue this.currentValue) 'onicon' ''}}"
+							role="radio"
+							aria-checked={{eq starValue this.currentValue}}
+							aria-posinset={{starValue}}
+							aria-setsize={{this.starsCount}}
+							aria-disabled={{not this.isInteractive}}
+							tabindex="0"
+							data-qa="ulx-rating-star"
+							{{on "click" (fn this.handleStarClick starValue)}}
+							{{on "keydown" (fn this.handleKeydown "star" starValue)}}
+						/>
+					{{/if}}
+				{{/each}}
+			</div>
+		{{/if}}
 	</template>
 }

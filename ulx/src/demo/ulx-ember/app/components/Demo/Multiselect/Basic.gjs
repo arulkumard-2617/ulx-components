@@ -10,6 +10,13 @@ const CITIES = [
   { label: 'Rome', value: 'RM' },
   { label: 'London', value: 'LDN' },
   { label: 'Istanbul', value: 'IST' },
+  { label: 'Paris', value: 'PRS' },
+  { label: 'New York', value: 'NY' },
+  { label: 'Chicago', value: 'CHI' },
+  { label: 'Los Angeles', value: 'LA' },
+  { label: 'Rome', value: 'RM' },
+  { label: 'London', value: 'LDN' },
+  { label: 'Istanbul', value: 'IST' },
   { label: 'Paris', value: 'PRS' }
 ];
 
@@ -55,7 +62,7 @@ export default class DemoMultiselectBasic extends Component {
       <UlxField
         @label="Chips (wrap when full)"
         @fieldId="multiselect-basic-wrap"
-        @fieldClass="col-6"
+        @fieldClass="col-6 w-200"
         as |field|
       >
         <UlxMultiSelect

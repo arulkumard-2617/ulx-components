@@ -14,10 +14,10 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-elevated`,
         variant: 'info',
-        summary: "Elevated",
-        detail: "Variant: elevated",
-        type: 'elevated',
-      },
+        summary: 'Elevated',
+        detail: 'Variant: elevated',
+        type: 'elevated'
+      }
     ];
   }
 
@@ -28,10 +28,10 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-flat`,
         variant: 'success',
-        summary: "Flat",
-        detail: "Variant: flat",
-        type: 'flat',
-      },
+        summary: 'Flat',
+        detail: 'Variant: flat',
+        type: 'flat'
+      }
     ];
   }
 
@@ -42,11 +42,11 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-outlined`,
         variant: 'warn',
-        summary: "Outlined",
-        detail: "Variant: outlined",
+        summary: 'Outlined',
+        detail: 'Variant: outlined',
         type: 'outlined',
-        sticky: true,
-      },
+        sticky: true
+      }
     ];
   }
 
@@ -57,10 +57,10 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-withicon`,
         variant: 'info',
-        summary: "With icon",
+        summary: 'With icon',
         detail: 'showIcon: true',
-        showIcon: true,
-      },
+        showIcon: true
+      }
     ];
   }
 
@@ -71,10 +71,10 @@ export default class VariantsToastDemo extends Component {
       {
         id: `msg-${Date.now()}-sticky`,
         variant: 'info',
-        summary: "Sticky",
-        detail: "Does not auto-close",
-        sticky: true,
-      },
+        summary: 'Sticky',
+        detail: 'Does not auto-close',
+        sticky: true
+      }
     ];
   }
 
@@ -85,7 +85,7 @@ export default class VariantsToastDemo extends Component {
 
   <template>
     <div class="">
-      <div class="fx gap8 flxw">
+      <div class="flex gap-8">
         <UlxButton
           @label="Elevated"
           @variant="primary"

@@ -119,7 +119,7 @@ export default class UlxRadioItem extends Component {
 				disabled={{@disabled}}
 				required={{@required}}
 				aria-required={{@required}}
-				data-qa="ulx-radio-item-input"
+				data-qa="radio-input-item"
 				{{on "change" @onChange}}
 				...attributes
 			/>

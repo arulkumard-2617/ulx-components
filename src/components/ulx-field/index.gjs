@@ -31,8 +31,10 @@ import {
  * @param {string} [helpText] - Help copy rendered below the control (linked via `aria-describedby`).
  * @param {string} [error] - Error copy; when set, invalid region is shown and linked via `aria-errormessage`.
  * @param {string} [tooltipMessage] - Optional info icon tooltip next to the label. The icon exposes `lbl.a11y.field.moreInformation` as its accessible name; tooltip text is linked as supplementary description on focus/hover.
+ * @param {string} [tooltipIconDataQa] - Optional `data-qa` for the tooltip info icon. Defaults to UlxIcon's `ulx-icon`.
  * @param {object} [rules] - `{ required: true }` or editor-style `{ required: t('…'), format: { with, allowBlank, msg }, maxLength: { value?, msg } }`.
  * @param {string} [dataQa] - Optional root `data-qa` for automation.
+ * @param {string} [labelDataQa] - Optional `data-qa` on the label element.
  */
 export default class UlxField extends Component {
 	get fieldClass() {
@@ -182,7 +184,7 @@ export default class UlxField extends Component {
 
 			{{! LABEL (safe render) }}
 			{{#if (or (has-block "label") @label)}}
-				<label for={{this.labelForId}} id={{this.labelId}}>
+				<label for={{this.labelForId}} id={{this.labelId}} data-qa={{@labelDataQa}}>
 					<span class="label-text">
 
 						{{#if (has-block "label")}}
@@ -202,6 +204,7 @@ export default class UlxField extends Component {
 								@iconName="info-icon"
 								@size="s16"
 								@ariaLabel={{this.tooltipIconAriaLabel}}
+								@dataQa={{@tooltipIconDataQa}}
 							/>
 						{{/if}}
 

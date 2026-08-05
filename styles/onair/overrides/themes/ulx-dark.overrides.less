@@ -1,1 +1,80 @@
-// // ulx-dark overrides here
+// ==========================================================================
+// Onair dark palette (from guls-vars / color-vars-1 defaults)
+// ==========================================================================
+[class*='@{uls-prefix}dark-mode'] {
+	// Brand (accent)
+	--@{uls-css-var-prefix}primary-color: #588cec;
+	--@{uls-css-var-prefix}primary-fg-color: #ffffff;
+	--@{uls-css-var-prefix}primary-text-color: #588cec;
+	--@{uls-css-var-prefix}primary-hover-color: #4877ce;
+	--@{uls-css-var-prefix}primary-disabled-color: #99a6bb;
+
+	// Surfaces
+	--@{uls-css-var-prefix}body-bg: #111228;
+	--@{uls-css-var-prefix}default-bg: #111228;
+	--@{uls-css-var-prefix}secondary-bg: #202343;
+
+	// Layers
+	--@{uls-css-var-prefix}layer1-bg: #1b1c34;
+	--@{uls-css-var-prefix}layer2-bg: #21223f;
+	--@{uls-css-var-prefix}layer3-bg: #262745;
+	--@{uls-css-var-prefix}layer4-bg: #2a2b4a;
+	--@{uls-css-var-prefix}layer5-bg: #2f304e;
+	--@{uls-css-var-prefix}layer1-fg: ~'var(--@{uls-css-var-prefix}text-color)';
+
+	// Text
+	--@{uls-css-var-prefix}text-color: #cedaed;
+	--@{uls-css-var-prefix}secondary-text-color: #99a6bb;
+	--@{uls-css-var-prefix}tertiary-text-color: #99a6bb;
+	--@{uls-css-var-prefix}place-holder-color: #768092;
+	--@{uls-css-var-prefix}link-color: #588cec;
+	--@{uls-css-var-prefix}link-hover-color: #4877ce;
+	--@{uls-css-var-prefix}link-bg-color: ~'var(--@{uls-css-var-prefix}layer1-bg)';
+
+	// Borders / elevation
+	--@{uls-css-var-prefix}default-border-color: #3a3b56;
+	--@{uls-css-var-prefix}dark-border-color: #586477;
+	--@{uls-css-var-prefix}light-border-color: #3a3b56;
+	--@{uls-css-var-prefix}input-border-color: #586477;
+	--@{uls-css-var-prefix}box-shadow: #313448;
+	--@{uls-css-var-prefix}default-hover-bg: #202343;
+	--@{uls-css-var-prefix}overlay-bg: rgba(0, 0, 0, 0.54);
+
+	// Inputs
+	--@{uls-css-var-prefix}input-bg-color: #111228;
+	--@{uls-css-var-prefix}input-fg-color: #cedaed;
+	--@{uls-css-var-prefix}input-disable-bg: ~'var(--@{uls-css-var-prefix}layer1-bg)';
+
+	// Main nav
+	--@{uls-css-var-prefix}nav-bg-color: #000000;
+	--@{uls-css-var-prefix}nav-fg-color: #cedaed;
+	--@{uls-css-var-prefix}navlink-fg-color: #cedaed;
+	--@{uls-css-var-prefix}nav-item-active-bg-color: #232431;
+	--@{uls-css-var-prefix}nav-item-active-fg-color: #588cec;
+
+	// Vertical nav
+	--@{uls-css-var-prefix}vnav-bg-color: #111228;
+	--@{uls-css-var-prefix}vnav-fg-color: #cedaed;
+	--@{uls-css-var-prefix}vnav-link-fg-color: #cedaed;
+	--@{uls-css-var-prefix}vnav-item-active-bg-color: ~'var(--@{uls-css-var-prefix}layer3-bg)';
+	--@{uls-css-var-prefix}vnav-item-active-fg-color: #588cec;
+	--@{uls-css-var-prefix}vnavitem-divider-color: #3a3b56;
+
+	// Pointing / tab menu
+	--@{uls-css-var-prefix}pointing-menu-fg: #cedaed;
+	--@{uls-css-var-prefix}pointing-menu-active: #588cec;
+
+	// Modal
+	--@{uls-css-var-prefix}modal-bg-color: #111228;
+	--@{uls-css-var-prefix}modal-fg-color: #cedaed;
+	--@{uls-css-var-prefix}modalfooter-bg-color: #111228;
+
+	// Tooltip border
+	--@{uls-css-var-prefix}tooltip-inverted-border: #3a3b56;
+
+	// Focus / toggle
+	--@{uls-css-var-prefix}focus-default-color: #b7bcd0;
+	--@{uls-css-var-prefix}toggle-after-bg: #ffffff;
+	--@{uls-css-var-prefix}toggle-before-bg: #384157;
+	--@{uls-css-var-prefix}switch-before-bg: #384157;
+}

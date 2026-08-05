@@ -15,8 +15,8 @@ export default class StickyToastDemo extends Component {
         id: `msg-${Date.now()}-sticky`,
         variant: 'success',
         summary: 'Speakers added',
-        sticky: true,
-      },
+        sticky: true
+      }
     ];
   }
 
@@ -27,8 +27,8 @@ export default class StickyToastDemo extends Component {
       {
         id: `msg-${Date.now()}-life`,
         variant: 'success',
-        summary: 'Speakers added',
-      },
+        summary: 'Speakers added'
+      }
     ];
   }
 
@@ -44,7 +44,7 @@ export default class StickyToastDemo extends Component {
 
   <template>
     <div class="">
-      <div class="fx gap8 flxw">
+      <div class="flex gap-8">
         <UlxButton
           @label="Sticky"
           @variant="success"
