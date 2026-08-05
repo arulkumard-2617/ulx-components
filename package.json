@@ -28,7 +28,8 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "rollup --config config/rollup.config.mjs --watch",
-    "test": "echo 'A v2 addon does not have tests, run tests in test-app'"
+    "test": "npm run test --prefix test-app",
+    "test:ember": "npm run test:ember --prefix test-app"
   },
   "dependencies": {
     "@babel/core": "^7.23.7",

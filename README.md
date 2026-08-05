@@ -143,6 +143,17 @@ npm run lint
 npm run lint:fix
 ```
 
+### Component tests (`test-app/`)
+
+Addon rendering tests live in the dedicated classic Ember host at `test-app/` (not in the docs demo app).
+
+```bash
+npm run build        # rebuild addon dist after src changes
+npm test             # runs test-app ember tests
+# or:
+cd test-app && npm run test:ember -- --filter="ulx-button"
+```
+
 ## Development Workflow
 
 **Terminal 1 (Addon):**

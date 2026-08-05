@@ -1,0 +1,44 @@
+{
+  "kind": "ulx-migration-module-summary",
+  "version": 1,
+  "updatedAt": "2026-08-04T09:58:04.338Z",
+  "activeModule": "create-event",
+  "moduleTitle": "Create Event Module Summary",
+  "primaryReport": "create-event/migration-report-create-event-modal.json",
+  "primaryLabel": "create-event-modal",
+  "page": {
+    "title": "Zoho Backstage",
+    "url": "https://backstage.zoho.in/home#/portal/60048013434/brand/49382000000002010/events",
+    "analyzedAt": "2026-08-04T09:58:02.470Z"
+  },
+  "modules": [
+    {
+      "id": "create-event-list",
+      "moduleId": "create-event",
+      "name": "create-event-list",
+      "score": 32,
+      "ulx": 10,
+      "legacy": 7,
+      "native": 14,
+      "total": 31,
+      "reportPath": "create-event/migration-report-create-event-list.json",
+      "absolutePath": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/reports/migration/create-event/migration-report-create-event-list.json",
+      "url": "https://backstage.zoho.in/home#/portal/60048013434/brand/49382000000002010/events",
+      "screenshotsDir": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/reports/migration/create-event/screenshots/create-event-list"
+    },
+    {
+      "id": "create-event-modal",
+      "moduleId": "create-event",
+      "name": "create-event-modal",
+      "score": 50,
+      "ulx": 29,
+      "legacy": 7,
+      "native": 22,
+      "total": 58,
+      "reportPath": "create-event/migration-report-create-event-modal.json",
+      "absolutePath": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/reports/migration/create-event/migration-report-create-event-modal.json",
+      "url": "https://backstage.zoho.in/home#/portal/60048013434/brand/49382000000002010/events",
+      "screenshotsDir": "/Users/bhuvanesh-12328/Documents/Backstage/backstage_UI/ulx-components/ulx/src/reports/migration/create-event/screenshots/create-event-modal"
+    }
+  ]
+}
