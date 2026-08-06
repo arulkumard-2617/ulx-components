@@ -19,11 +19,31 @@ const colorFamilies = [
 ];
 
 const semanticColorFamilies = [
-  { family: 'success', sectionNav: 'Success', layerCount: 1, unnumberedLayer: true },
-  { family: 'warning', sectionNav: 'Warning', layerCount: 1, unnumberedLayer: true },
-  { family: 'danger', sectionNav: 'Danger', layerCount: 1, unnumberedLayer: true },
+  {
+    family: 'success',
+    sectionNav: 'Success',
+    layerCount: 1,
+    unnumberedLayer: true
+  },
+  {
+    family: 'warning',
+    sectionNav: 'Warning',
+    layerCount: 1,
+    unnumberedLayer: true
+  },
+  {
+    family: 'danger',
+    sectionNav: 'Danger',
+    layerCount: 1,
+    unnumberedLayer: true
+  },
   { family: 'info', sectionNav: 'Info', layerCount: 1, unnumberedLayer: true },
-  { family: 'secondary', sectionNav: 'Secondary', layerCount: 1, unnumberedLayer: true }
+  {
+    family: 'secondary',
+    sectionNav: 'Secondary',
+    layerCount: 1,
+    unnumberedLayer: true
+  }
 ];
 
 const otherColors = [
@@ -44,8 +64,20 @@ const otherColors = [
   { name: 'lomo-blue' },
   { name: 'candy-orange' },
   { name: 'dairy-violet' },
-  { name: 'radical-red' }
+  { name: 'radical-red' },
+  // Additional accents from color-vars (solid + fg-* only; no light surfaces)
+  { name: 'yellow', hasLayer: false },
+  { name: 'violet', hasLayer: false },
+  { name: 'pink', hasLayer: false },
+  { name: 'brown', hasLayer: false },
+  { name: 'teal', hasLayer: false },
+  { name: 'darkturquoise', hasLayer: false },
+  { name: 'olive', hasLayer: false },
+  { name: 'nightblue', hasLayer: false }
 ];
+
+// Sparse layer surfaces (define-color-surface) — not consecutive layer1…N families.
+const otherSparseLayers = ['brown-layer2', 'teal-layer3'];
 
 function layerClassName(family, layer, unnumberedLayer = false) {
   if (unnumberedLayer) {
@@ -55,7 +87,12 @@ function layerClassName(family, layer, unnumberedLayer = false) {
   return `color-${family}-layer${layer}`;
 }
 
-function layerSwatches(family, layerCount, modifier = '', unnumberedLayer = false) {
+function layerSwatches(
+  family,
+  layerCount,
+  modifier = '',
+  unnumberedLayer = false
+) {
   const suffix = modifier ? ` ${modifier}` : '';
 
   return Array.from({ length: layerCount }, (_, index) => {
@@ -76,7 +113,12 @@ function borderStartClass(family) {
     : `${family}-border-start`;
 }
 
-function colorFamilySection({ family, sectionNav, layerCount, unnumberedLayer = false }) {
+function colorFamilySection({
+  family,
+  sectionNav,
+  layerCount,
+  unnumberedLayer = false
+}) {
   const borderStart = borderStartClass(family);
   const layerTitle = layerCount === 1 && unnumberedLayer ? 'Layer' : 'Layers';
 
@@ -154,10 +196,6 @@ const statusGroups = [
     names: ['running', 'completed', 'published', 'draft', 'cancelled']
   },
   {
-    title: 'User check-in',
-    names: ['user-in', 'user-out', 'user-yet-in', 'user-attended']
-  },
-  {
     title: 'Event type',
     names: ['offline', 'hybrid', 'online']
   },
@@ -166,6 +204,9 @@ const statusGroups = [
     names: ['session-track', 'shortcut-key']
   }
 ];
+
+const userCheckInSolidNames = ['user-in', 'user-out', 'user-yet-in', 'user-attended'];
+const userCheckInLayerNames = ['user-in', 'user-out', 'user-yet-in'];
 
 function statusSemanticForegroundSwatches(names) {
   return names.map((name) => ({
@@ -189,15 +230,39 @@ function statusSection() {
     sectionNav: 'Status',
     kind: 'swatches',
     subtitle:
-      'Status surfaces with default foreground (static-black for running, published, completed, draft; text-color for others). Pair fg-* with color-* to apply semantic foreground tokens.',
+      'Status surfaces with default foreground (static-black for session status; static-white for user check-in solids; text-color for event/generic). Pair .lb-marked with color-user-in / user-out / user-yet-in to swap to LayerBg + solid accent dot (or use color-*-layer). Pair fg-* with color-* for semantic foreground tokens.',
     groups: [
       ...statusGroups.map(({ title, names }) => ({
         title: `Surface — ${title}`,
         rows: statusSwatches(names, 'color')
       })),
       {
+        title: 'Surface — User check-in',
+        rows: statusSwatches(userCheckInSolidNames, 'color')
+      },
+      {
+        title: 'Layer — User check-in',
+        rows: userCheckInLayerNames.map((name) => {
+          const className = `color-${name}-layer`;
+
+          return {
+            label: className,
+            classes: `${swatchBase} ${className}`,
+            sampleText: 'Aa'
+          };
+        })
+      },
+      {
         title: 'Semantic foreground — Session status',
         rows: statusSemanticForegroundSwatches(sessionStatusNames)
+      },
+      {
+        title: 'Foreground — User check-in',
+        rows: userCheckInLayerNames.map((name) => ({
+          label: `fg-${name}`,
+          classes: `${swatchBase} fg-${name}`,
+          sampleText: 'Aa'
+        }))
       }
     ]
   };
@@ -209,7 +274,7 @@ function othersSection() {
     sectionNav: 'Others',
     kind: 'swatches',
     subtitle:
-      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Bordered and border-start modifiers apply to light surfaces only.',
+      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Bordered and border-start modifiers apply to light surfaces only. Yellow–nightblue accents are solid-only; brown and teal also expose sparse layer surfaces.',
     groups: [
       {
         title: 'Solid',
@@ -218,6 +283,10 @@ function othersSection() {
       {
         title: 'Light',
         rows: otherLightSwatches()
+      },
+      {
+        title: 'Sparse layers',
+        rows: statusSwatches(otherSparseLayers, 'color')
       },
       {
         title: 'Foreground',

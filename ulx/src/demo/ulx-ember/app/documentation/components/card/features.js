@@ -8,12 +8,14 @@ import {
   OutlinedDemo,
   GradientDemo,
   AdvancedDemo,
+  MediaDemo,
   AccessibilityDemo,
   ImportSource,
   BasicSource,
   OutlinedSource,
   GradientSource,
   AdvancedSource,
+  MediaSource,
   AccessibilitySource,
 } from './imports';
 
@@ -75,6 +77,14 @@ export const CardFeatureItems = [
     AdvancedDemo,
     AdvancedSource,
     'advanced'
+  ),
+  section(
+    'media',
+    "Media",
+    'Media file card using the <code>media-card</code> pattern from <code>card.less</code>. Preview sits in a muted media well; type label and actions appear on hover or keyboard focus. Footer shows a truncated filename and info action.',
+    MediaDemo,
+    MediaSource,
+    'media'
   ),
   section(
     'accessibility',

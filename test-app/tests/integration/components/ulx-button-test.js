@@ -1,5 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'test-app/tests/helpers';
+import {
+  setupRenderingTest,
+  dispatchClick,
+  createDeferred,
+  createHandledDeferred,
+  resolveAndSettle,
+  rejectAndSettle,
+} from 'test-app/tests/helpers';
 import {
   render,
   clearRender,
@@ -16,17 +23,6 @@ const INK = `${BUTTON} .ulx-button-ink`;
 const LOADING_ICON = `${BUTTON} .ulx-button-loading-icon`;
 const SPINNER = '[data-qa="ulx-progressspinner"]';
 const RIPPLE_DURATION_MS = 200;
-
-function dispatchClick(element) {
-  const event = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-    clientX: 24,
-    clientY: 16,
-  });
-  element.dispatchEvent(event);
-  return event;
-}
 
 module('Integration | Component | ulx-button', function (hooks) {
   setupRenderingTest(hooks);
@@ -360,14 +356,8 @@ module('Integration | Component | ulx-button', function (hooks) {
   // ---------------------------------------------------------------------------
   module('Promise Loading', function () {
     test('promise sets loading state with spinner and disabled button', async function (assert) {
-      let resolvePromise;
-      this.set(
-        'onClick',
-        () =>
-          new Promise((resolve) => {
-            resolvePromise = resolve;
-          }),
-      );
+      const deferred = createDeferred();
+      this.set('onClick', () => deferred.promise);
 
       await render(
         hbs`<UlxButton @label="Save" @submittingLabel="Saving…" @onClick={{this.onClick}} />`,
@@ -380,19 +370,12 @@ module('Integration | Component | ulx-button', function (hooks) {
       assert.dom(SPINNER).exists();
       assert.dom(LABEL).hasText('Saving…');
 
-      resolvePromise();
-      await settled();
+      await resolveAndSettle(deferred);
     });
 
     test('label restored and loading class removed after promise resolves', async function (assert) {
-      let resolvePromise;
-      this.set(
-        'onClick',
-        () =>
-          new Promise((resolve) => {
-            resolvePromise = resolve;
-          }),
-      );
+      const deferred = createDeferred();
+      this.set('onClick', () => deferred.promise);
 
       await render(
         hbs`<UlxButton @label="Save" @submittingLabel="Saving…" @onClick={{this.onClick}} />`,
@@ -401,8 +384,7 @@ module('Integration | Component | ulx-button', function (hooks) {
 
       assert.dom(LABEL).hasText('Saving…');
 
-      resolvePromise();
-      await settled();
+      await resolveAndSettle(deferred);
 
       assert.dom(LABEL).hasText('Save');
       assert.dom(BUTTON).doesNotHaveClass('loading');
@@ -412,27 +394,15 @@ module('Integration | Component | ulx-button', function (hooks) {
     });
 
     test('promise rejection also clears loading', async function (assert) {
-      let rejectInner;
-      this.set('onClick', () => {
-        const inner = new Promise((_, reject) => {
-          rejectInner = reject;
-        });
-
-        // Swallow rejection so QUnit does not see an unhandledrejection,
-        // while still exposing a pending thenable to UlxButton.
-        return inner.then(
-          () => undefined,
-          () => undefined,
-        );
-      });
+      const deferred = createHandledDeferred();
+      this.set('onClick', () => deferred.thenable);
 
       await render(hbs`<UlxButton @label="Save" @onClick={{this.onClick}} />`);
       await click(BUTTON);
 
       assert.dom(BUTTON).hasClass('loading');
 
-      rejectInner(new Error('failed'));
-      await settled();
+      await rejectAndSettle(deferred, new Error('failed'));
 
       assert.dom(BUTTON).doesNotHaveClass('loading');
       assert.dom(BUTTON).isNotDisabled();
