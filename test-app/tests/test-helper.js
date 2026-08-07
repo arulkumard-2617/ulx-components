@@ -10,5 +10,5 @@ setApplication(Application.create(config.APP));
 
 setup(QUnit.assert);
 setupEmberOnerrorValidation();
-loadTests();
-start();
+loadTests(); // This scans and registers every test
+start(); // Test Excution
