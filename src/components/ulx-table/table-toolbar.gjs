@@ -39,11 +39,7 @@ export default class TableToolbar extends Component {
 				<div class="datatable-toolbar-left flex gap-4">
 					{{yield to="preLeftMenu"}}
 					{{#if @showGlobalFilter}}
-						<div
-							class="datatable-globalfilter"
-							role="search"
-							data-qa="search"
-						>
+						<div class="datatable-globalfilter" role="search" data-qa="search">
 							<UlxIconInput
 								@iconLeft="search-icon"
 								@iconType="font"
@@ -70,81 +66,77 @@ export default class TableToolbar extends Component {
 				<div class="datatable-toolbar-right flex gap-4">
 					{{yield to="preRightMenu"}}
 					{{#if this.showRightCluster}}
-						<UlxButtonGroup
-							@size="m-size"
-							@customClass="uls-inline-popup"
-							@dataQa={{this.getDataQa "icon-button-group"}}
-						>
-						{{#if @hasFilterGroups}}
-							<UlxBadgeButton
-								@size="xl-size"
-								@dataQa="filter"
-								@badge={{if (gt @activeFilterCount 0) @activeFilterCount}}
-								@badgeType="circle"
-								@onClick={{@onOpenFilterPane}}
-								@badgeCustomClass="h-16 w-16 "
-								@badgeSize="text-xs"
-								@customClass={{if (gt @activeFilterCount 0) "highlighted icon-only" "icon-only"}}
-								aria-label={{if
-									(gt @activeFilterCount 0)
-									(t "lbl.a11y.table.toolbar.filter.active" count=@activeFilterCount)
-									(t "lbl.filter")
-								}}
-							{{tooltip (t "lbl.filter") position="bottom" disabled=@filterPaneOpen}}
-						>
-								<:prefix>
-									<UlxIcon
-										@iconName="filter-icon"
-										@type="font"
-										@componentClass="bs-icons1"
-										@size="s16"
-										aria-hidden="true"
-									/>
-								</:prefix>
-							</UlxBadgeButton>
-						{{/if}}
-						{{#if (and @sortOptions (gt @sortOptions.length 0))}}
-							<UlxBadgeButton
-								@size="xl-size"
-								@dataQa="sort"
+						<UlxButtonGroup @size="m-size" @dataQa={{this.getDataQa "icon-button-group"}}>
+							{{#if @hasFilterGroups}}
+								<UlxBadgeButton
+									@size="xl-size"
+									@dataQa="filter"
+									@badge={{if (gt @activeFilterCount 0) @activeFilterCount}}
+									@badgeType="circle"
+									@onClick={{@onOpenFilterPane}}
+									@badgeCustomClass="h-16 w-16 "
+									@badgeSize="text-xs"
+									@customClass={{if (gt @activeFilterCount 0) "highlighted icon-only" "icon-only"}}
+									aria-label={{if
+										(gt @activeFilterCount 0)
+										(t "lbl.a11y.table.toolbar.filter.active" count=@activeFilterCount)
+										(t "lbl.filter")
+									}}
+									{{tooltip (t "lbl.filter") position="bottom" disabled=@filterPaneOpen}}
+								>
+									<:prefix>
+										<UlxIcon
+											@iconName="filter-icon"
+											@type="font"
+											@componentClass="bs-icons1"
+											@size="s16"
+											aria-hidden="true"
+										/>
+									</:prefix>
+								</UlxBadgeButton>
+							{{/if}}
+							{{#if (and @sortOptions (gt @sortOptions.length 0))}}
+								<UlxBadgeButton
+									@size="xl-size"
+									@dataQa="sort"
 									@onClick={{@onOpenSortPopover}}
-								@customClass="icon-only"
-								aria-label={{t "lbl.sort"}}
-								aria-expanded={{@showSortPopover}}
-								{{tooltip (t "lbl.sort") position="bottom" disabled=@showSortPopover}}
-							>
-								<:prefix>
-									<UlxIcon
-										@iconName="sort-icon"
-										@type="font"
-										@componentClass="bs-icons1"
-										@size="s16"
-										aria-hidden="true"
-									/>
-								</:prefix>
-							</UlxBadgeButton>
-						{{/if}}
-						{{#if @showManageColumns}}
-							<UlxBadgeButton
-								@size="xl-size"
-								@dataQa="manage-columns"
-								@onClick={{@onOpenManageColumns}}
-								@customClass="icon-only"
-								aria-label={{t "lbl.columns"}}
-								aria-expanded={{@showManageColumnsPopup}}
-								{{tooltip (t "lbl.columns") position="bottom" disabled=@showManageColumnsPopup}}
-							>
-								<:prefix>
-									<UlxIcon
-										@iconName="columns-icon"
-										@type="font"
-										@componentClass="bs-icons1"
-										@size="s16"
-										aria-hidden="true"
-									/>
-								</:prefix>
-							</UlxBadgeButton>
-						{{/if}}
+									@customClass="icon-only"
+									aria-label={{t "lbl.sort"}}
+									aria-expanded={{@showSortPopover}}
+									{{tooltip (t "lbl.sort") position="bottom" disabled=@showSortPopover}}
+								>
+									<:prefix>
+										<UlxIcon
+											@iconName="sort-icon"
+											@type="font"
+											@componentClass="bs-icons1"
+											@size="s16"
+											aria-hidden="true"
+										/>
+									</:prefix>
+								</UlxBadgeButton>
+							{{/if}}
+							{{#if @showManageColumns}}
+								<UlxBadgeButton
+									@size="xl-size"
+									@dataQa="manage-columns"
+									@onClick={{@onOpenManageColumns}}
+									@customClass="icon-only"
+									aria-label={{t "lbl.columns"}}
+									aria-expanded={{@showManageColumnsPopup}}
+									{{tooltip (t "lbl.columns") position="bottom" disabled=@showManageColumnsPopup}}
+								>
+									<:prefix>
+										<UlxIcon
+											@iconName="columns-icon"
+											@type="font"
+											@componentClass="bs-icons1"
+											@size="s16"
+											aria-hidden="true"
+										/>
+									</:prefix>
+								</UlxBadgeButton>
+							{{/if}}
 						</UlxButtonGroup>
 						{{#if this.showViewToggle}}
 							<UlxSelectButton
