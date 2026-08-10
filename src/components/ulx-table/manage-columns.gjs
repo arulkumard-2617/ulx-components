@@ -237,6 +237,10 @@ export default class ManageColumns extends Component {
 		return null;
 	}
 
+	getColumnDataQa(col) {
+		return col.dataQa ?? `manage-column-${col.field}`;
+	}
+
 	<template>
 		<div class="datatable-manage-columns-panel" {{this.registerRefModifier}}>
 
@@ -252,6 +256,7 @@ export default class ManageColumns extends Component {
 				{{#each this.orderedColumns as |col index|}}
 					<li
 						class="drag-item {{if (this.isLocked col) 'locked'}}"
+						data-qa={{this.getColumnDataQa col}}
 						draggable={{if (not (this.isLocked col)) "true"}}
 						tabindex={{if (not (this.isLocked col)) "0" "-1"}}
 						{{on "dragstart" (fn this.handleDragStart index)}}
