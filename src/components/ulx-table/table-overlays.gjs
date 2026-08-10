@@ -70,6 +70,7 @@ export default class TableOverlays extends Component {
 					@title={{t "lbl.manage.columns"}}
 					@onHide={{this.manageColumns.onClose}}
 					@ariaLabel={{t "lbl.manage.columns"}}
+					@dataQa="manage-columns-popup"
 					@hideTertiaryButton={{false}}
 					@tertiaryButtonLabel={{t "lbl.reset.to.default"}}
 					@tertiaryButtonIcon="reset-icon"
