@@ -13,6 +13,7 @@ import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxIcon from "../ulx-icon/index.gjs";
 import { getFieldValue } from "./utils.js";
 import { t } from "../../utils/i18n.js";
+import { NAMESPACE } from "../../utils/component-config";
 
 /**
  * Internal tbody for UlxTable.
@@ -138,6 +139,20 @@ export default class TableBody extends Component {
 			parts.push(rowClassName);
 		}
 		return parts.filter(Boolean).join(" ");
+	}
+
+	@action
+	rowStyle(row, index) {
+		const { rowIndicatorColor } = this.args;
+		if (!rowIndicatorColor) return undefined;
+
+		const color =
+			typeof rowIndicatorColor === "function"
+				? rowIndicatorColor(row, index)
+				: rowIndicatorColor;
+
+		if (typeof color !== "string" || color.length === 0) return undefined;
+		return `--${NAMESPACE}-tr-indicator: ${color};`;
 	}
 
 	@action
@@ -510,6 +525,7 @@ export default class TableBody extends Component {
 					<tr
 						data-row-index={{index}}
 						class={{this.rowClass row index}}
+						style={{this.rowStyle row index}}
 						role="row"
 						aria-selected={{this.isRowSelected row}}
 						aria-rowindex={{this.rowAriaIndex index}}
