@@ -1,83 +1,51 @@
-import { hash } from '@ember/helper';
-import { UlxAvatar, t } from 'ulx-components';
+import Component from '@glimmer/component';
+import { UlxAvatar } from 'ulx-components';
 
-<template>
-  <div class="flex flex-col gap-6">
-    <div>
-      <h6 class="bold-font mb-3">{{"Image avatar"}}</h6>
-      <div class="flex wrap gap-4 items-center">
+export default class MemberDemoComponent extends Component {
+  get profiles() {
+    return [
+      {
+        fullName: 'Jasper G',
+        avatarUrl: 'https://randomuser.me/api/portraits/women/90.jpg',
+        hasBsAvatar: true
+      },
+      {
+        fullName: 'John Smith',
+        avatarUrl: 'https://randomuser.me/api/portraits/women/91.jpg',
+        hasIAMPhoto: true
+      },
+      {
+        fullName: 'Peter Miller',
+        avatarUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
+        hasBsAvatar: true
+      },
+      {
+        nameOnly: true,
+        name: 'Emily Carter'
+      },
+      {
+        nameOnly: true,
+        name: 'Legacy Member'
+      },
+      {
+        nameOnly: true,
+        name: 'Another Member'
+      }
+    ];
+  }
+
+  <template>
+    <div class="flex wrap gap-4 items-center">
+      {{#each this.profiles as |profile index|}}
         <UlxAvatar
-          @memberProfile={{hash
-            fullName="Jasper g"
-            avatarUrl="https://randomuser.me/api/portraits/women/90.jpg"
-            hasBsAvatar=true
-          }}
+          @memberProfile={{unless profile.nameOnly profile}}
+          @nameOnly={{profile.nameOnly}}
+          @name={{profile.name}}
+          @index={{index}}
           @size="l-size"
           @shape="circle"
         />
-
-        <UlxAvatar
-          @memberProfile={{hash
-            fullName="John Smith"
-            avatarUrl="https://randomuser.me/api/portraits/women/91.jpg"
-            hasIAMPhoto=true
-          }}
-          @size="l-size"
-          @shape="circle"
-        />
-
-        <UlxAvatar
-          @memberProfile={{hash
-            fullName="Peter Miller"
-            avatarUrl="https://randomuser.me/api/portraits/men/32.jpg"
-            hasBsAvatar=true
-          }}
-          @size="l-size"
-          @shape="circle"
-        />
-      </div>
+      {{/each}}
     </div>
-
-    <div>
-      <h6 class="bold-font mb-3">{{"Initials fallback"}}</h6>
-      <div class="flex wrap gap-4 items-center">
-        <UlxAvatar
-          @memberProfile={{hash
-            fullName="Emily Carter"
-            hasImage=false
-            colorTheme="blue"
-          }}
-          @size="m-size"
-          @shape="circle"
-        />
-
-        <UlxAvatar
-          @nameOnly={{true}}
-          @name="Legacy Member"
-          @index={{0}}
-          @size="m-size"
-          @shape="circle"
-        />
-
-        <UlxAvatar
-          @nameOnly={{true}}
-          @name="Another Member"
-          @index={{3}}
-          @size="m-size"
-          @shape="circle"
-        />
-      </div>
-    </div>
-
-    <div>
-      <h6 class="bold-font mb-3">{{"Anonymous avatar"}}</h6>
-      <div class="flex wrap gap-4 items-center">
-        <UlxAvatar
-          @memberProfile={{hash isAnnon=true}}
-          @size="m-size"
-          @shape="circle"
-        />
-      </div>
-    </div>
-  </div>
-</template>
+  </template>
+}
