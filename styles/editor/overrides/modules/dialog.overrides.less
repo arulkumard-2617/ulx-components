@@ -117,9 +117,7 @@
 
 // Payment modal (third-party zs_widget embed)
 .ulx-dialog.bg-payment-modal {
-	background-color: transparent;
 	box-shadow: none;
-	min-block-size: 394px;
 
 	> .dialog-header,
 	> .dialog-content {
@@ -161,6 +159,7 @@
 .ulx-dialog.payment-credit-dialog {
 	> .dialog-content {
 		padding: 0;
+		border-radius: @border-radius-md;
 
 		> .zs_widget {
 			inline-size: 100%;
@@ -169,8 +168,6 @@
 			background: none;
 
 			.zs_widget_popupContent {
-				border-radius: @border-radius-md;
-
 				.zs_widget_popupHeading {
 					border-block-end: 1px solid @default-border-color;
 					padding: @16px @24px;
@@ -182,7 +179,7 @@
 				.zs_widget_mainContainer {
 					font-size: @font-size-default;
 					line-height: @default-lineheight;
-					padding: @20px @24px @24px;
+					padding: @38px @28px;
 					background: @modal-bg-color;
 					border-collapse: separate;
 					color: @modal-fg-color;
