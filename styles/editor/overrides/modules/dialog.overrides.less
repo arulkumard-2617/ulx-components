@@ -1,6 +1,6 @@
 // dialog overrides here
 .ulx-dialog.ulx-panel-modal {
-	>.dialog-content {
+	> .dialog-content {
 		padding: 0 !important;
 	}
 
@@ -73,7 +73,7 @@
 .ulx-dialog.ed-pricing-upgrade-modal {
 	border-radius: 8px;
 
-	>.dialog-content {
+	> .dialog-content {
 		padding: 0;
 		border-radius: 8px;
 	}
@@ -111,6 +111,122 @@
 
 		.plan-img {
 			height: 300px;
+		}
+	}
+}
+
+// Payment modal (third-party zs_widget embed)
+.ulx-dialog.bg-payment-modal {
+	background-color: transparent;
+	box-shadow: none;
+	min-block-size: 394px;
+
+	> .dialog-header,
+	> .dialog-content {
+		background-color: transparent;
+		padding: 0;
+	}
+
+	> .dialog-content > .zs_widget {
+		inline-size: 100%;
+		block-size: 378px;
+		box-shadow: none;
+	}
+
+	.zs_widget_clUnitPrice {
+		block-size: @32px;
+	}
+
+	.zs_widget_graybtn {
+		text-transform: uppercase;
+	}
+
+	.zs_widget_greenbtn,
+	.zs_widget_primarybtn {
+		background-color: @primary-color !important;
+		border-color: @primary-color !important;
+		text-transform: uppercase;
+	}
+
+	.zs_widget_transactionPopup {
+		margin-block-start: @12px;
+
+		td {
+			padding-block: @12px !important;
+			padding-inline: @28px !important;
+		}
+	}
+}
+
+.ulx-dialog.payment-credit-dialog {
+	> .dialog-content {
+		padding: 0;
+
+		> .zs_widget {
+			inline-size: 100%;
+			block-size: auto;
+			box-shadow: none;
+			background: none;
+
+			.zs_widget_popupContent {
+				border-radius: @border-radius-md;
+
+				.zs_widget_popupHeading {
+					border-block-end: 1px solid @default-border-color;
+					padding: @16px @24px;
+					font-weight: normal;
+					color: @text-color;
+					background-color: @modal-bg-color;
+				}
+
+				.zs_widget_mainContainer {
+					font-size: @font-size-default;
+					line-height: @default-lineheight;
+					padding: @20px @24px @24px;
+					background: @modal-bg-color;
+					border-collapse: separate;
+					color: @modal-fg-color;
+
+					.zs_widget_plan-details-container {
+						padding: 0;
+						border-block-end: none;
+					}
+
+					.zs_widget_planDetails_table td input[type='text'] {
+						color: @input-fg-color;
+						background: @input-bg-color;
+						border: 1px solid @dark-border-color;
+					}
+
+					.zs_widget_planDetails_table {
+						.zs_widget_pricetxt {
+							color: @text-color;
+						}
+
+						tr.zs-widget-currencyCont-OTP {
+							display: none;
+						}
+
+						td {
+							padding: 0;
+						}
+					}
+				}
+
+				.zs_widget_actionContent {
+					background: @modalfooter-bg-color;
+					padding: @16px @24px;
+					border: none;
+					text-align: end;
+					border-block-start: 1px solid @default-border-color;
+					border-end-start-radius: @border-radius-md;
+					border-end-end-radius: @border-radius-md;
+
+					> button {
+						border-radius: @border-radius-md;
+					}
+				}
+			}
 		}
 	}
 }
