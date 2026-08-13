@@ -1,6 +1,6 @@
 // dialog overrides here
 .ulx-dialog.ulx-panel-modal {
-	>.dialog-content {
+	> .dialog-content {
 		padding: 0 !important;
 	}
 
@@ -73,7 +73,7 @@
 .ulx-dialog.ed-pricing-upgrade-modal {
 	border-radius: 8px;
 
-	>.dialog-content {
+	> .dialog-content {
 		padding: 0;
 		border-radius: 8px;
 	}
@@ -112,5 +112,24 @@
 		.plan-img {
 			height: 300px;
 		}
+	}
+}
+
+// Register attendee dialog: fixed-height scroll area; content overflow unset so scrolling stays on .scroll-container
+.ulx-dialog.register-attendee-dialog {
+	> .dialog-content {
+		overflow: unset !important;
+		padding: 0;
+	}
+
+	.scroll-container {
+		padding: 0 @20px @20px;
+		overflow: auto;
+		min-height: 450px;
+		max-height: 450px;
+	}
+
+	.site-form .bs-form {
+		margin: 0;
 	}
 }
