@@ -52,6 +52,9 @@ qodana-report/
 .env.local
 .env.*.local
 
+# Playwright auth / session state (local secrets)
+ulx/src/Playwright/.auth/
+
 # IDE / local workspace (not allowed at repo root per CM policy)
 *.code-workspace
 ulx-components.code-workspace
