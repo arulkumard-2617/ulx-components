@@ -44,6 +44,7 @@ export default class ModalService extends Service {
 	 * @param {string} [options.headerClassName] - Extra class for header (dialog-header)
 	 * @param {string} [options.footerClassName] - Extra class for footer (dialog-footer)
 	 * @param {string} [options.customClass] - Deprecated alias for contentClassName
+	 * @param {boolean} [options.hideCancelButton=false] - Hide the cancel button
 	 */
 	openModal({
 		title,
@@ -72,7 +73,8 @@ export default class ModalService extends Service {
 		contentClassName,
 		headerClassName,
 		footerClassName,
-		customClass
+		customClass,
+		hideCancelButton
 	} = {}) {
 		const dismiss = () => {
 			this.confirmationProps = null;
@@ -121,7 +123,8 @@ export default class ModalService extends Service {
 			closeOnBackdrop,
 			contentClassName: contentClassName ?? customClass,
 			headerClassName,
-			footerClassName
+			footerClassName,
+			hideCancelButton
 		};
 	}
 
