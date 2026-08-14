@@ -35,7 +35,7 @@ const TOGGLEABLE_PHASE_CLASSES = {
  * @param {Function} [onTabClose] - Called when a tab closes: ({ originalEvent, index }) => void
  * @param {Function} [onTabChange] - Called when open state changes: ({ originalEvent, index }) => void; index is number or number[]
  * @param {string} [size='s-size'] - Size: xs-size, s-size, m-size, l-size, xl-size
- * @param {string} [variant] - Visual: filled, elevated, flat
+ * @param {string} [variant] - Visual: filled, elevated, flat, link-header
  * @param {string} [spacing] - compact, spacious
  * @param {string} [rounded] - rounded, square
  * @param {string} [customClass] - Extra CSS classes on the root accordion element
