@@ -5,6 +5,7 @@ import RichText from '../../../components/doc-shared/doc-main/rich-text';
 import {
   BasicDemo,
   SingleDemo,
+  LinkDemo,
   MultipleDemo,
   DisabledDemo,
   ControlledDemo,
@@ -13,6 +14,7 @@ import {
   ImportSource,
   BasicSource,
   SingleSource,
+  LinkSource,
   MultipleSource,
   DisabledSource,
   ControlledSource,
@@ -93,6 +95,25 @@ export const AccordionFeatureItems = [
       props: {
         source: SingleSource,
         snippetName: 'single',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'link',
+    sectionNav: 'Link',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content: "Use <code>@variant=\"link-header\"</code> for a borderless accordion with link-styled headers."
+      }
+    },
+    demo: {
+      component: LinkDemo,
+      props: {
+        source: LinkSource,
+        snippetName: 'link',
         language: 'handlebars'
       }
     }
