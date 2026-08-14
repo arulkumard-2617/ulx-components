@@ -40,9 +40,9 @@ import { on } from "@ember/modifier";
  * // Member-aware arguments (optional)
  * @param {object} [memberProfile] - Member profile object containing avatar and name information.
  * @param {string} [fullName] - Explicit full name for the member. Falls back to profile fields when not provided.
- * @param {boolean} [nameOnly=false] - When true, renders initials based on `@name` or `@fullName` without image.
+ * @param {boolean} [nameOnly=false] - When true, forces initials from `@name` / `@fullName` and skips the profile image even if one exists.
  * @param {string} [name] - Display name used for initials when `@nameOnly` is true.
- * @param {number} [index] - Optional index used to derive pseudo-unique color variants in `nameOnly` mode.
+ * @param {number|string} [index] - Optional list index (also used as a color seed when initials are shown and the profile has no `colorTheme`). Forwards to `@onShowProfile`. When omitted, color seed falls back to profile id, email, or name.
  * @param {string} [avatarSize] - Legacy avatar size. Mapped to `@size` when provided.
  * @param {boolean} [circular=false] - Convenience flag to force circle shape when `@shape` is not provided.
  * @param {boolean} [canShowAvatar] - Optional explicit flag to control whether the image avatar should be shown.
@@ -50,7 +50,6 @@ import { on } from "@ember/modifier";
  * @param {object} [member] - Domain member object forwarded to `@onShowProfile` when the avatar is clicked.
  * @param {Function} [onShowProfile] - Optional callback invoked on click with `(member, members, index)` to approximate legacy `showProfile` action.
  * @param {Array} [members] - Optional members collection forwarded to `@onShowProfile` for parity with legacy API.
- * @param {number} [index] - Optional index forwarded to `@onShowProfile` for parity with legacy API.
  */
 export default class UlxAvatar extends Component {
 	@tracked isImageLoaded = false;
@@ -294,18 +293,32 @@ export default class UlxAvatar extends Component {
 			return variant;
 		}
 
+		// Apply colors only when a real photo is not (yet) shown.
 		if (!this.isImageLoaded || !this.canShowAvatar) {
 			if (this.isAnonymous) {
 				return "grey";
 			}
 
+			const colorTheme = getValue(this.memberProfile, "colorTheme");
+			if (colorTheme) {
+				return colorTheme;
+			}
+
+			// Legacy nameOnly: keep the same index-based palette as before.
 			if (nameOnly) {
 				return GeneralUtil.getPseudoUniqueColorClass(index);
 			}
 
-			const colorTheme = getValue(this.memberProfile, "colorTheme");
-			if (colorTheme) {
-				return colorTheme;
+			// Member initials with no photo and no colorTheme: auto-pick a stable palette color.
+			// Gate on !canShowAvatar so photo avatars do not flash a color while the image loads.
+			if (this.memberProfile && !this.canShowAvatar) {
+				const seed =
+					index ??
+					getValue(this.memberProfile, "id") ??
+					getValue(this.memberProfile, "email") ??
+					this.resolvedFullName;
+
+				return GeneralUtil.getPseudoUniqueColorClass(seed);
 			}
 		}
 
