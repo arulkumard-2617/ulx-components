@@ -169,7 +169,7 @@ export default class UlxRating extends Component {
 				{{else}}
 					<UlxIcon
 						@type="font"
-						@iconName="ls-star-filled-icon"
+						@iconName="rating-star-icon-01"
 						@componentClass="bs-icons1"
 						@customClass="{{this.iconClass}} onicon"
 						aria-hidden="true"
@@ -241,8 +241,8 @@ export default class UlxRating extends Component {
 							@type="font"
 							@iconName={{if
 								(lte starValue this.currentValue)
-								"ls-star-filled-icon"
-								"ls-star-stroke-icon"
+								"rating-star-icon-01"
+								"rating-star-icon-02"
 							}}
 							@componentClass="bs-icons1"
 							@customClass="{{this.iconClass}} {{if (lte starValue this.currentValue) 'onicon' ''}}"

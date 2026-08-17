@@ -12,7 +12,7 @@ const POSITIONS = [
   'center',
   'bottom-left',
   'bottom-center',
-  'bottom-right',
+  'bottom-right'
 ];
 
 export default class PositionsToastDemo extends Component {
@@ -24,7 +24,7 @@ export default class PositionsToastDemo extends Component {
     const byPos = this.messagesByPosition;
     return POSITIONS.map((pos) => ({
       position: pos,
-      messages: byPos[pos] ?? [],
+      messages: byPos[pos] ?? []
     }));
   }
 
@@ -34,29 +34,29 @@ export default class PositionsToastDemo extends Component {
     const newMessage = {
       id: `msg-${Date.now()}-${pos}`,
       variant: 'info',
-      summary: "Position",
-      detail: t('msg.toast.at.position', { position: pos }),
+      summary: 'Position',
+      detail: t('msg.toast.at.position', { position: pos })
     };
     this.messagesByPosition = {
       ...this.messagesByPosition,
-      [pos]: [...messages, newMessage],
+      [pos]: [...messages, newMessage]
     };
   }
 
   @action
   removeMessage(position, message) {
     const messages = (this.messagesByPosition[position] ?? []).filter(
-      (m) => m.id !== message.id,
+      (m) => m.id !== message.id
     );
     this.messagesByPosition = {
       ...this.messagesByPosition,
-      [position]: messages,
+      [position]: messages
     };
   }
 
   <template>
     <div class="">
-      <div class="fx gap8 flxw">
+      <div class="flex gap-8">
         {{#each POSITIONS as |pos|}}
           <UlxButton
             @label={{pos}}

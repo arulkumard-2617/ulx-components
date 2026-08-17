@@ -6,13 +6,15 @@ import {
   // Demos
   BasicDemo,
   PopupDemo,
+  ContextDemo,
   TemplateDemo,
-  
   CommandDemo,
-  RouterDemo,// Sources
+  RouterDemo,
+  // Sources
   ImportSource,
   BasicSource,
   PopupSource,
+  ContextSource,
   TemplateSource,
   CommandSource,
   RouterSource
@@ -72,6 +74,25 @@ export const TieredmenuFeatureItems = [
       props: {
         source: PopupSource,
         snippetName: "popup",
+        language: "handlebars"
+      }
+    }
+  },
+  {
+    id: "context",
+    sectionNav: "Context",
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: "span",
+        content: "Click the card to open the menu. Pass the <code>Add Material</code> heading element to <code>@context</code> so the popup panel portals into that child container."
+      }
+    },
+    demo: {
+      component: ContextDemo,
+      props: {
+        source: ContextSource,
+        snippetName: "context",
         language: "handlebars"
       }
     }
