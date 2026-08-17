@@ -11,12 +11,12 @@ export default class TypesToastDemo extends Component {
   @action
   addMessage(variant) {
     const labels = {
-      info: "Info",
-      success: "Success",
-      warn: "Warning",
-      error: "Error",
-      secondary: "Secondary",
-      contrast: "Contrast",
+      info: 'Info',
+      success: 'Success',
+      warn: 'Warning',
+      error: 'Error',
+      secondary: 'Secondary',
+      contrast: 'Contrast'
     };
     this.messages = [
       ...this.messages,
@@ -24,8 +24,8 @@ export default class TypesToastDemo extends Component {
         id: `msg-${Date.now()}-${variant}`,
         variant,
         summary: labels[variant] ?? variant,
-        detail: t('msg.type.message', { type: labels[variant] ?? variant }),
-      },
+        detail: t('msg.type.message', { type: labels[variant] ?? variant })
+      }
     ];
   }
 
@@ -36,10 +36,10 @@ export default class TypesToastDemo extends Component {
 
   <template>
     <div class="">
-      <div class="fx gap8 flxw">
+      <div class="flex gap-8">
         <UlxButton
           @label="Info"
-          @variant="info"
+          @variant="color-info"
           {{on "click" (fn this.addMessage "info")}}
         />
         <UlxButton
@@ -49,7 +49,7 @@ export default class TypesToastDemo extends Component {
         />
         <UlxButton
           @label="Warn"
-          @variant="warning"
+          @variant="color-warning"
           {{on "click" (fn this.addMessage "warn")}}
         />
         <UlxButton

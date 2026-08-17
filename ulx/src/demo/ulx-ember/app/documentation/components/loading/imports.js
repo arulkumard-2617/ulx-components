@@ -5,7 +5,7 @@
 export { default as BasicDemo } from '../../../components/Demo/Loading/Basic';
 export { default as ContainerDemo } from '../../../components/Demo/Loading/Container';
 export { default as WithLabelDemo } from '../../../components/Demo/Loading/WithLabel';
-export { default as FullPageDemo } from '../../../components/Demo/Loading/Loadingfullpage';
+export { default as FullPageDemo } from '../../../components/Demo/Loading/LoadingFullPage';
 
 export const ImportSource = `
 import { UlxLoading } from 'ulx-components';

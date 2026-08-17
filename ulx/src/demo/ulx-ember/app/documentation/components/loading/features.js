@@ -110,7 +110,7 @@ export const LoadingFeatureItems = [
       component: FullPageDemo,
       props: {
         source: FullPageSource,
-        snippetName: 'full-page',
+        snippetName: 'loading-full-page',
         language: 'handlebars'
       }
     }

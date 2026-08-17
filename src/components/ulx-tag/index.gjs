@@ -10,7 +10,7 @@ function buildSurfaceClass(rootClasses, icon, hasIconBlock, hasDefaultBlock) {
 	const hasIcon = Boolean(icon) || Boolean(hasIconBlock);
 	return joinClassNames(
 		rootClasses,
-		hasIcon ? "with-icon" : "text-only",
+		hasIcon ? "with-icon" : "",
 		hasDefaultBlock && "with-template"
 	);
 }
