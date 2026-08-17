@@ -32,7 +32,8 @@ function buildRadioId(namespace, idArg, key) {
  *
  * @param {Array<object>} [items] - Optional list of radio items. When provided, the component renders a group.
  *   Each item supports: `{ label, value, checked, disabled, customClass, id }`. Pass string `id` when the list can reorder; otherwise ids use the item index (stable when toggling selection).
- * @param {Function} [onItemChange] - When `@items` is provided: (item, checked, event) => void.
+ * @param {Function} [onValueChange] - When `@items` is provided: `(value, item, event) => void` for the newly selected radio. Value-first so callers can use `mut` / `fn (mut path)`.
+ * @param {Function} [onItemChange] - When `@items` is provided: `(item, checked, event) => void`. Prefer `@onValueChange` when only the selected value is needed.
  *
  * @param {boolean} [checked] - Whether the radio is checked (controlled) (single mode).
  * @param {string} [value] - Value attribute for form submissions (single mode).
@@ -153,8 +154,14 @@ export default class UlxRadio extends Component {
 
 	@action
 	handleItemChange(item, event) {
-		if (!this.args.onItemChange) return;
-		this.args.onItemChange(item, event.target.checked, event);
+		const checked = event.target.checked;
+		
+		if (!checked) {
+			return;
+		}
+		
+		this.args.onValueChange?.(item.value, item, event);
+		this.args.onItemChange?.(item, checked, event);
 	}
 
 	@action
