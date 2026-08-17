@@ -234,6 +234,7 @@ export default class UlxRadio extends Component {
 						@size={{@size}}
 						@customClass={{entry.item.customClass}}
 						@itemLabel={{entry.item.label}}
+						@dataQa={{entry.item.dataQa}}
 						@ariaDescribedBy={{this.ariaDescribedBy}}
 						@ariaErrorMessage={{this.ariaErrorMessage}}
 						@name={{this.groupName}}

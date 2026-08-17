@@ -214,6 +214,9 @@ const INTERACTION_WITH_DELEGATION = new Set(["hover", "click", "hover-click"]);
  * @param {Function} [onTertiary] - Callback when default footer tertiary button is clicked.
  * @param {boolean} [hideCancelButton=false] - In default footer, hide the cancel button.
  * @param {boolean} [hideDoneButton=false] - In default footer, hide the done button.
+ * @param {string} [tertiaryButtonDataQa] - data-qa for default footer tertiary button
+ * @param {string} [cancelButtonDataQa] - data-qa for default footer cancel button
+ * @param {string} [doneButtonDataQa] - data-qa for default footer done button
  *
  * ## Named blocks (passable, like UlxModal)
  * - **<:trigger>** – Optional anchor markup; with **`@interactionMode`**: **`hover`** / **`hover-click`** (**`mouseenter`** / **`mouseleave`** + deferred hide; **`hover`** adds **`focusin`** / **`focusout`** parity); **`click`** / **`hover-click`** (**`click`**, **`Enter`** / **`Space`**); invokes **`@onShow`**, **`hide()`** where applicable (outside-dismiss unchanged).
@@ -1322,10 +1325,13 @@ export default class UlxPopup extends Component {
 								@tertiaryButtonLabel={{@tertiaryButtonLabel}}
 								@tertiaryButtonIcon={{@tertiaryButtonIcon}}
 								@tertiaryIconPos={{@tertiaryIconPos}}
+								@tertiaryButtonDataQa={{@tertiaryButtonDataQa}}
 								@onTertiary={{@onTertiary}}
 								@hideTertiaryButton={{@hideTertiaryButton}}
 								@cancelLabel={{@cancelButtonLabel}}
 								@doneLabel={{@doneButtonLabel}}
+								@cancelButtonDataQa={{@cancelButtonDataQa}}
+								@doneButtonDataQa={{@doneButtonDataQa}}
 								@onCancel={{@onCancel}}
 								@onDone={{@onDone}}
 								@hideCancelButton={{@hideCancelButton}}

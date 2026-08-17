@@ -191,6 +191,9 @@ const DEFAULT_MINIMUM_PAGINATOR_ROWS = 10;
  * @param {Function}[onRowDoubleClick]      - ({row, index, originalEvent}) => void
  * @param {Function}[onContextMenu]         - ({row, index, originalEvent}) => void
  * @param {string|Function}[rowClassName]   - extra class string or fn(row)=>string
+ * @param {string|Function}[rowIndicatorColor] - color string or fn(row, index)=>string; sets
+ *                                            `--{prefix}tr-indicator` on each body `<tr>` when
+ *                                            paired with `@customClass="row-indicator"`.
  *
  * ── State persistence ───────────────────────────────────────────────────────
  * @param {string}  [stateKey]              - localStorage key; only column order and column visibility
@@ -1657,6 +1660,7 @@ export default class UlxTable extends Component {
 					@editingRows={{this.editingRows}}
 					@editingCell={{this.editingCell}}
 					@rowClassName={{@rowClassName}}
+					@rowIndicatorColor={{@rowIndicatorColor}}
 					@loading={{@loading}}
 					@emptyMessage={{@emptyMessage}}
 					@onSort={{this.handleSort}}

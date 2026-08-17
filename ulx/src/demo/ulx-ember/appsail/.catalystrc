@@ -22,7 +22,21 @@
           "idx": 1,
           "id": "60071612134",
           "name": "Development",
-          "type": 3
+          "type": 3,
+          "env_status": "Active",
+          "project_details": {
+            "project_name": "ULX",
+            "id": "39778000005657650",
+            "project_type": "Live"
+          },
+          "is_default": true,
+          "action_required": false
+        },
+        {
+          "idx": 2,
+          "id": "50044500322",
+          "name": "Production",
+          "type": 1
         }
       ]
     }

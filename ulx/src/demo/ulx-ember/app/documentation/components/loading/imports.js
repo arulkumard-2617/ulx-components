@@ -14,4 +14,4 @@ import { UlxLoading } from 'ulx-components';
 export { default as BasicSource } from '../../../demo-sources/demo/loading/basic';
 export { default as ContainerSource } from '../../../demo-sources/demo/loading/container';
 export { default as WithLabelSource } from '../../../demo-sources/demo/loading/with-label';
-export { default as FullPageSource } from '../../../demo-sources/demo/loading/loading-full-page';
+export { default as FullPageSource } from '../../../demo-sources/demo/loading/loadingfullpage';
