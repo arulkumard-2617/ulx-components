@@ -14,9 +14,8 @@ import {
   t
 } from 'ulx-components';
 
-const MEMBERS = [
+const MEMBER_SEEDS = [
   {
-    id: 1,
     name: 'Priya B',
     emailId: 'priya@test.com',
     role: 'not Admin',
@@ -25,7 +24,6 @@ const MEMBERS = [
     tags: ['VIP', 'Mentor']
   },
   {
-    id: 2,
     name: 'Aaru',
     emailId: 'aaru@zohocorp.com',
     role: 'Portal Admin',
@@ -34,7 +32,6 @@ const MEMBERS = [
     tags: ['Beta']
   },
   {
-    id: 3,
     name: 'Sam Wilson',
     emailId: 'sam@example.com',
     role: 'not Admin',
@@ -43,7 +40,6 @@ const MEMBERS = [
     tags: ['Remote', 'Contractor']
   },
   {
-    id: 4,
     name: 'Jordan Lee',
     emailId: 'jordan@example.com',
     role: 'Portal Admin',
@@ -52,7 +48,6 @@ const MEMBERS = [
     tags: ['VIP']
   },
   {
-    id: 5,
     name: 'Casey Rowe',
     emailId: 'casey@example.com',
     role: 'not Admin',
@@ -61,7 +56,6 @@ const MEMBERS = [
     tags: ['Contractor']
   },
   {
-    id: 6,
     name: 'Morgan Blake',
     emailId: 'morgan@example.com',
     role: 'Portal Admin',
@@ -70,7 +64,6 @@ const MEMBERS = [
     tags: ['Beta', 'Remote']
   },
   {
-    id: 7,
     name: 'Alex Kim',
     emailId: 'alex@example.com',
     role: 'not Admin',
@@ -79,7 +72,6 @@ const MEMBERS = [
     tags: ['Mentor']
   },
   {
-    id: 8,
     name: 'Dana Cruz',
     emailId: 'dana@example.com',
     role: 'Portal Admin',
@@ -88,7 +80,6 @@ const MEMBERS = [
     tags: ['VIP', 'Beta']
   },
   {
-    id: 9,
     name: 'Riley Patel',
     emailId: 'riley@example.com',
     role: 'not Admin',
@@ -97,7 +88,6 @@ const MEMBERS = [
     tags: ['Remote']
   },
   {
-    id: 10,
     name: 'Taylor Nguyen',
     emailId: 'taylor@example.com',
     role: 'Portal Admin',
@@ -106,7 +96,6 @@ const MEMBERS = [
     tags: ['Contractor', 'Mentor']
   },
   {
-    id: 11,
     name: 'Quinn Foster',
     emailId: 'quinn@example.com',
     role: 'not Admin',
@@ -115,7 +104,6 @@ const MEMBERS = [
     tags: ['Beta', 'Contractor']
   },
   {
-    id: 12,
     name: 'Skyler Adams',
     emailId: 'skyler@example.com',
     role: 'Portal Admin',
@@ -124,6 +112,20 @@ const MEMBERS = [
     tags: ['VIP', 'Remote']
   }
 ];
+
+const MEMBERS = Array.from({ length: 100 }, (_, index) => {
+  const seed = MEMBER_SEEDS[index % MEMBER_SEEDS.length];
+  const id = index + 1;
+
+  return {
+    ...seed,
+    id,
+    name: id <= MEMBER_SEEDS.length ? seed.name : `${seed.name} ${id}`,
+    emailId:
+      id <= MEMBER_SEEDS.length ? seed.emailId : `member${id}@example.com`,
+    tags: [...seed.tags]
+  };
+});
 
 function initials(name) {
   if (!name || typeof name !== 'string') return '?';
@@ -334,7 +336,7 @@ export default class DemoTableBsTableView extends Component {
       @scrollable={{true}}
       @scrollHeight="400px"
       @paginator={{true}}
-      @rowsPerPageOptions={{array 10 25 50 100}}
+      @rowsPerPageOptions={{array 25 50 100}}
     >
       <:postRightMenu>
         <UlxButton

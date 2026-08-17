@@ -15,17 +15,20 @@ export { default as ExhibitorDetailsDemo } from '../../../components/Demo/Slidep
 export { default as DetailLayoutDemo } from '../../../components/Demo/Slidepane/DetailLayout';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Slidepane } from 'ulx-components';
+
+`;
 
 // Slidepane Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Slidepane demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as PositionSource } from './snippets/Position.gjs';
-export { default as FullscreenSource } from './snippets/Fullscreen.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as WithoutoverlaySource } from './snippets/Withoutoverlay.gjs';
-export { default as NestedpanesSource } from './snippets/Nestedpanes.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as ExhibitorDetailsSource } from './snippets/ExhibitorDetails.gjs';
-export { default as DetailLayoutSource } from './snippets/DetailLayout.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/slidepane/basic';
+export { default as PositionSource } from '../../../demo-sources/demo/slidepane/position';
+export { default as FullscreenSource } from '../../../demo-sources/demo/slidepane/fullscreen';
+export { default as TemplateSource } from '../../../demo-sources/demo/slidepane/template';
+export { default as WithoutoverlaySource } from '../../../demo-sources/demo/slidepane/withoutoverlay';
+export { default as NestedpanesSource } from '../../../demo-sources/demo/slidepane/nestedpanes';
+export { default as SizesSource } from '../../../demo-sources/demo/slidepane/sizes';
+export { default as ExhibitorDetailsSource } from '../../../demo-sources/demo/slidepane/exhibitor-details';
+export { default as DetailLayoutSource } from '../../../demo-sources/demo/slidepane/detail-layout';

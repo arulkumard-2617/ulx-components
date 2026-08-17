@@ -16,18 +16,21 @@ export { default as VerticalDemo } from '../../../components/Demo/TabMenu/Vertic
 export { default as VerticalBorderedDemo } from '../../../components/Demo/TabMenu/VerticalBordered';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { TabMenu } from 'ulx-components';
+
+`;
 
 // TabMenu Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all TabMenu demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as ControlledSource } from './snippets/Controlled.gjs';
-export { default as NamedblocksSource } from './snippets/Namedblocks.gjs';
-export { default as RouterSource } from './snippets/Router.gjs';
-export { default as CommandSource } from './snippets/Command.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
-export { default as CardTabsSource } from './snippets/CardTabs.gjs';
-export { default as LabeledSource } from './snippets/Labeled.gjs';
-export { default as VerticalSource } from './snippets/Vertical.gjs';
-export { default as VerticalBorderedSource } from './snippets/VerticalBordered.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/tab-menu/basic';
+export { default as ControlledSource } from '../../../demo-sources/demo/tab-menu/controlled';
+export { default as NamedblocksSource } from '../../../demo-sources/demo/tab-menu/namedblocks';
+export { default as RouterSource } from '../../../demo-sources/demo/tab-menu/router';
+export { default as CommandSource } from '../../../demo-sources/demo/tab-menu/command';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/tab-menu/accessibility';
+export { default as CardTabsSource } from '../../../demo-sources/demo/tab-menu/card-tabs';
+export { default as LabeledSource } from '../../../demo-sources/demo/tab-menu/labeled';
+export { default as VerticalSource } from '../../../demo-sources/demo/tab-menu/vertical';
+export { default as VerticalBorderedSource } from '../../../demo-sources/demo/tab-menu/vertical-bordered';

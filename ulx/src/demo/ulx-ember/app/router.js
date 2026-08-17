@@ -9,11 +9,7 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('getting-started', function () {
     this.route('overview');
-    this.route('quick-start');
-    this.route('styles-and-theming');
-    this.route('common-mistakes');
-    this.route('ai-guide');
-    this.route('docs-walkthrough');
+    this.route('color-context');
   });
 
   this.route('components', function () {
@@ -53,6 +49,7 @@ Router.map(function () {
     this.route('popup');
     this.route('progressbar');
     this.route('progressspinner');
+    this.route('loading');
     this.route('radio');
     this.route('rating');
     this.route('segment');

@@ -24,9 +24,9 @@ import { t } from "../../utils/i18n";
  * @param {Function} [onBack] - Callback when back button is clicked (nested slide panes)
  * @param {boolean} [doneButtonDisabled=false] - Disable done button
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
- * @param {string} [cancelButtonDataQa] - data-qa for cancel button
- * @param {string} [doneButtonDataQa] - data-qa for done button
- * @param {string} [backButtonDataQa] - data-qa for back button
+ * @param {string} [cancelButtonDataQa="cancel-button"] - data-qa for cancel button
+ * @param {string} [doneButtonDataQa="done-button"] - data-qa for done button
+ * @param {string} [backButtonDataQa="back-button"] - data-qa for back button
  * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to slidepane-footer)
  */
@@ -53,6 +53,18 @@ export default class UlxSlidePaneFooter extends Component {
 
 	get backLabel() {
 		return this.args.backLabel || t("label.back");
+	}
+
+	get cancelButtonDataQa() {
+		return this.args.cancelButtonDataQa ?? "cancel-button";
+	}
+
+	get doneButtonDataQa() {
+		return this.args.doneButtonDataQa ?? "done-button";
+	}
+
+	get backButtonDataQa() {
+		return this.args.backButtonDataQa ?? "back-button";
 	}
 
 	get footerClasses() {
@@ -87,7 +99,7 @@ export default class UlxSlidePaneFooter extends Component {
 						<UlxButton
 							@label={{this.backLabel}}
 							@variant="basic"
-							@dataQa={{@backButtonDataQa}}
+							@dataQa={{this.backButtonDataQa}}
 							@onClick={{this.handleBack}}
 						/>
 					{{/if}}
@@ -97,7 +109,7 @@ export default class UlxSlidePaneFooter extends Component {
 							@label={{this.cancelLabel}}
 							@variant="basic"
 							@disabled={{@cancelButtonDisabled}}
-							@dataQa={{@cancelButtonDataQa}}
+							@dataQa={{this.cancelButtonDataQa}}
 							@onClick={{this.handleCancel}}
 						/>
 					{{/unless}}
@@ -108,7 +120,7 @@ export default class UlxSlidePaneFooter extends Component {
 							@submittingLabel={{@submittingLabel}}
 							@variant="primary"
 							@disabled={{@doneButtonDisabled}}
-							@dataQa={{@doneButtonDataQa}}
+							@dataQa={{this.doneButtonDataQa}}
 							@onClick={{this.handleDone}}
 						/>
 					{{/unless}}

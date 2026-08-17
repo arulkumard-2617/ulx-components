@@ -6,7 +6,7 @@ export default class ComponentsModulesModalRoute extends Route {
   model() {
     return {
       features: ModalFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

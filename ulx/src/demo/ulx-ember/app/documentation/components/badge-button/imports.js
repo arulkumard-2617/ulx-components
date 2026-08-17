@@ -8,9 +8,12 @@ export { default as TemplateDemo } from '../../../components/Demo/BadgeButton/Te
 export { default as GroupDemo } from '../../../components/Demo/BadgeButton/Group';
 export { default as DisabledDemo } from '../../../components/Demo/BadgeButton/Disabled';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantsSource } from './snippets/Variants.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as GroupSource } from './snippets/Group.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
+export const ImportSource = `
+import { UlxBadgeButton } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/badge-button/basic';
+export { default as VariantsSource } from '../../../demo-sources/demo/badge-button/variants';
+export { default as TemplateSource } from '../../../demo-sources/demo/badge-button/template';
+export { default as GroupSource } from '../../../demo-sources/demo/badge-button/group';
+export { default as DisabledSource } from '../../../demo-sources/demo/badge-button/disabled';

@@ -24,6 +24,9 @@ import { t } from "../../utils/i18n";
  * @param {Function} [onDone] - Callback when done button is clicked
  * @param {string} [footerClassName] - Extra class for the footer wrapper (passed from UlxPopup when using default footer).
  * @param {string} [dataQa] - Optional data-qa for the footer wrapper (e.g. from UlxPopup automation hooks).
+ * @param {string} [tertiaryButtonDataQa="reset-to-default"] - data-qa for tertiary button
+ * @param {string} [cancelButtonDataQa="cancel-button"] - data-qa for cancel button
+ * @param {string} [doneButtonDataQa="done-button"] - data-qa for done button
  */
 export default class UlxPopupFooter extends Component {
 	get footerWrapperClass() {
@@ -64,6 +67,18 @@ export default class UlxPopupFooter extends Component {
 		return this.args.hideDoneButton ?? false;
 	}
 
+	get tertiaryButtonDataQa() {
+		return this.args.tertiaryButtonDataQa ?? "reset-to-default";
+	}
+
+	get cancelButtonDataQa() {
+		return this.args.cancelButtonDataQa ?? "cancel-button";
+	}
+
+	get doneButtonDataQa() {
+		return this.args.doneButtonDataQa ?? "done-button";
+	}
+
 	@action
 	handleTertiary(event) {
 		event?.preventDefault();
@@ -90,6 +105,7 @@ export default class UlxPopupFooter extends Component {
 					@iconLeft={{this.tertiaryIconLeft}}
 					@iconRight={{this.tertiaryIconRight}}
 					@variant="link"
+					@dataQa={{this.tertiaryButtonDataQa}}
 					{{on "click" this.handleTertiary}}
 				/>
 			{{/if}}
@@ -97,11 +113,17 @@ export default class UlxPopupFooter extends Component {
 				<UlxButton
 					@label={{this.cancelLabel}}
 					@variant="basic"
+					@dataQa={{this.cancelButtonDataQa}}
 					{{on "click" this.handleCancel}}
 				/>
 			{{/unless}}
 			{{#unless this.hideDoneButton}}
-				<UlxButton @label={{this.doneLabel}} @variant="primary" {{on "click" this.handleDone}} />
+				<UlxButton
+					@label={{this.doneLabel}}
+					@variant="primary"
+					@dataQa={{this.doneButtonDataQa}}
+					{{on "click" this.handleDone}}
+				/>
 			{{/unless}}
 		</div>
 	</template>

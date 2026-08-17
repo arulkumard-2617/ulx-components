@@ -1,5 +1,5 @@
 // Import ULX master file (includes all ULX styles and overrides)
-@import "ulx-editor.less";
+@import "ulx-onair.less";
 
 // Prevent page-level horizontal scroll (e.g. from code blocks or wide content)
 body {
@@ -61,11 +61,6 @@ select {
 .ulx-theme-badge-tangerine {
   background-color: #ebb625;
   border-color: #ebb625;
-}
-
-::-webkit-scrollbar-thumb {
-  background: transparent;
-  display: none;
 }
 
 .doc-sidebar {
@@ -166,14 +161,107 @@ pre[class*="language-"] {
   tab-size: 2;
 }
 
-// Dark theme for code blocks
+// Dark theme for code blocks (CodeMirror + legacy Prism)
 .code-block-dark,
 pre.code-block-dark,
 code.code-block-dark,
 .code-block-dark pre,
-.code-block-dark code {
-  background: #1e1e1e !important;
+.code-block-dark code,
+.ulx-code-preview-editor {
+  background: #272822 !important;
   color: #d4d4d4 !important;
+}
+
+.ulx-code-preview-editor {
+  .cm-editor {
+    background: #272822;
+  }
+
+  .cm-scroller {
+    max-block-size: var(--ulx-code-preview-max-height, 480px);
+    transition: max-block-size @transition-slow ease;
+  }
+}
+
+.ulx-code-preview-editor-wrap {
+  position: relative;
+
+  &.is-expanded .ulx-code-preview-editor .cm-scroller {
+    max-block-size: none;
+  }
+
+  &.has-filename .ulx-code-preview-toolbar {
+    inset-block-start: calc(@28px + @8px);
+  }
+}
+
+.ulx-code-preview-editor-shell {
+  background: #272822;
+}
+
+.ulx-code-preview-filename {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  border-block-end: 1px solid fade(#fff, 8%);
+}
+
+.ulx-code-preview-toolbar {
+  z-index: 2;
+}
+
+.ulx-code-preview-action {
+  display: inline-flex;
+  align-items: center;
+  gap: @4px;
+  padding: @4px @8px;
+  border: 0;
+  border-radius: @border-radius-sm;
+  background: fade(#272822, 72%);
+  cursor: pointer;
+
+  &:hover {
+    background: fade(#272822, 92%);
+  }
+}
+
+.ulx-code-preview-copied-label {
+  max-inline-size: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    max-inline-size @transition-base ease,
+    opacity @transition-base ease;
+}
+
+.is-copied .ulx-code-preview-copied-label {
+  max-inline-size: 4rem;
+  opacity: 1;
+}
+
+.ulx-code-preview-expand-icon path {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    transform @transition-base ease,
+    opacity @transition-base ease;
+}
+
+.ulx-code-preview-expand-icon .arrow.left {
+  transform: translateX(2px);
+}
+
+.ulx-code-preview-expand-icon .arrow.right {
+  transform: translateX(-2px);
+}
+
+.is-expanded .ulx-code-preview-expand-icon .arrow.left {
+  transform: translateX(-2px);
+}
+
+.is-expanded .ulx-code-preview-expand-icon .arrow.right {
+  transform: translateX(2px);
 }
 
 pre.code-block-dark,

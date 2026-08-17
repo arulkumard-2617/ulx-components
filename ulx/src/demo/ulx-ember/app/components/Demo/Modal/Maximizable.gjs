@@ -32,10 +32,9 @@ export default class MaximizableDemoComponent extends Component {
 
       <UlxModal
         @visible={{this.isVisible}}
-        @title="Maximizable Modal"
         @onHide={{this.closeModal}}
         @maximizable={{true}}
-        @size="l-size"
+        @size="maximized"
         @scrollable={{true}}
         @cancelButtonLabel="Cancel"
         @doneButtonLabel="Close"

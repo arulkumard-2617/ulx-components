@@ -6,7 +6,7 @@ export default class ComponentsElementsSkeletonRoute extends Route {
   model() {
     return {
       features: SkeletonFeatureItems,
-      meta,
+      meta
     };
   }
 }

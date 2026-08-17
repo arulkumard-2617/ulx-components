@@ -10,12 +10,22 @@ export { default as TemplateDemo } from '../../../components/Demo/Password/Templ
 export { default as InvalidDemo } from '../../../components/Demo/Password/Invalid';
 export { default as DisabledDemo } from '../../../components/Demo/Password/Disabled';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as MeterSource } from './snippets/Meter.gjs';
-export { default as LocaleSource } from './snippets/Locale.gjs';
-export { default as ToggleMaskSource } from './snippets/ToggleMask.gjs';
-export { default as TemplateSource } from './snippets/Template.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+export const ImportSource = `
+import { UlxPassword } from 'ulx-components';
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/password/basic';
+export { default as MeterSource } from '../../../demo-sources/demo/password/meter';
+export { default as LocaleSource } from '../../../demo-sources/demo/password/locale';
+export { default as ToggleMaskSource } from '../../../demo-sources/demo/password/toggle-mask';
+export { default as TemplateSource } from '../../../demo-sources/demo/password/template';
+export { default as InvalidSource } from '../../../demo-sources/demo/password/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/password/disabled';
+export const AccessibilitySource = `
+<label for="pwd1">Password</label>
+<UlxPassword @id="pwd1" @feedback={{false}} />
+
+<span id="pwd2">Password</span>
+<UlxPassword aria-labelledby="pwd2" @feedback={{false}} />
+
+<UlxPassword aria-label="Password" @feedback={{false}} />
+`;

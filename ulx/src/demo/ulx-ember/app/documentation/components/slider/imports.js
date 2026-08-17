@@ -11,13 +11,23 @@ export { default as FilterDemo } from '../../../components/Demo/Slider/Filter';
 export { default as VerticalDemo } from '../../../components/Demo/Slider/Vertical';
 export { default as AccessibilityDemo } from '../../../components/Demo/Slider/Accessibility';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as SizeSource } from './snippets/Size.gjs';
-export { default as InputSource } from './snippets/Input.gjs';
-export { default as StepSource } from './snippets/Step.gjs';
-export { default as RangeSource } from './snippets/Range.gjs';
-export { default as FilterSource } from './snippets/Filter.gjs';
-export { default as VerticalSource } from './snippets/Vertical.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
+export const ImportSource = `
+import Component from '@glimmer/component';
+import { UlxSlider } from 'ulx-components';
+
+export default class DemoSliderImport extends Component {
+  <template>
+    <UlxSlider />
+  </template>
+}
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/slider/basic';
+export { default as SizeSource } from '../../../demo-sources/demo/slider/size';
+export { default as InputSource } from '../../../demo-sources/demo/slider/input';
+export { default as StepSource } from '../../../demo-sources/demo/slider/step';
+export { default as RangeSource } from '../../../demo-sources/demo/slider/range';
+export { default as FilterSource } from '../../../demo-sources/demo/slider/filter';
+export { default as VerticalSource } from '../../../demo-sources/demo/slider/vertical';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/slider/accessibility';
 

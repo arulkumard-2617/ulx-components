@@ -4639,7 +4639,11 @@ export const utilSchema = {
         "rows": [
           {
             "class": "border",
-            "styles": "border-width: 1px;"
+            "styles": "border-width: 1px; border-style: solid; border-color: @default-border-color;"
+          },
+          {
+            "class": "border-default",
+            "styles": "border-width: 1px; border-style: solid; border-color: @default-border-color;"
           },
           {
             "class": "border-1",
@@ -4699,10 +4703,6 @@ export const utilSchema = {
       {
         "title": "Border Color Utilities",
         "rows": [
-          {
-            "class": "border-default",
-            "styles": "border-color: @default-border-color;"
-          },
           {
             "class": "border-dark",
             "styles": "border-color: @dark-border-color;"
@@ -5033,6 +5033,21 @@ export const utilSchema = {
           {
             "class": "whitespace-break-spaces",
             "styles": "white-space: break-spaces;"
+          }
+        ]
+      }
+    ]
+  },
+  "textEllipsis": {
+    "title": "Text Ellipsis",
+    "description": "Utilities for controlling text overflow with an ellipsis.",
+    "sections": [
+      {
+        "title": "Text Overflow Utilities",
+        "rows": [
+          {
+            "class": "text-ellipsis",
+            "styles": "text-overflow: ellipsis;"
           }
         ]
       }

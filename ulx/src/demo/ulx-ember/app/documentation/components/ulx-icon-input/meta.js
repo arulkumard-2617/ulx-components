@@ -28,11 +28,6 @@ export default {
       id: 'theming',
     },
     {
-      name: 'Builder',
-      route: '/builder',
-      id: 'builder',
-    },
-    {
       name: 'Pass Through',
       route: '/passthrough',
       id: 'passthrough',

@@ -6,7 +6,7 @@ export default class ComponentsModulesDataViewRoute extends Route {
   model() {
     return {
       features: DataViewFeatureItems,
-      meta,
+      meta
     };
   }
 }

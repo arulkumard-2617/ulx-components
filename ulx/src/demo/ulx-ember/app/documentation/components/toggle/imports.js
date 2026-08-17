@@ -11,12 +11,15 @@ export { default as ColorsDemo } from '../../../components/Demo/Toggle/Colors';
 export { default as SizesDemo } from '../../../components/Demo/Toggle/Sizes';
 export { default as WithLabelDemo } from '../../../components/Demo/Toggle/WithLabel';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as PreselectionSource } from './snippets/Preselection.gjs';
-export { default as InvalidSource } from './snippets/Invalid.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as AccessibilitySource } from './snippets/Accessibility.gjs';
-export { default as ColorsSource } from './snippets/Colors.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as WithLabelSource } from './snippets/WithLabel.gjs';
+export const ImportSource = `
+import { UlxToggle } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/toggle/basic';
+export { default as PreselectionSource } from '../../../demo-sources/demo/toggle/preselection';
+export { default as InvalidSource } from '../../../demo-sources/demo/toggle/invalid';
+export { default as DisabledSource } from '../../../demo-sources/demo/toggle/disabled';
+export { default as AccessibilitySource } from '../../../demo-sources/demo/toggle/accessibility';
+export { default as ColorsSource } from '../../../demo-sources/demo/toggle/colors';
+export { default as SizesSource } from '../../../demo-sources/demo/toggle/sizes';
+export { default as WithLabelSource } from '../../../demo-sources/demo/toggle/with-label';

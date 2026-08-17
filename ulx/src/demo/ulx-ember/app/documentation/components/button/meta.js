@@ -28,11 +28,6 @@ export default {
       route: '/theming',
       id: 'theming',
     },
-    {
-      name: 'Builder',
-      route: '/builder',
-      id: 'builder',
-    },
   ],
 
   // Import message for the component

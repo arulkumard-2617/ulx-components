@@ -17,24 +17,8 @@ export const DocNavItems = [
         route: 'getting-started.overview'
       },
       {
-        menuItem: 'Quick Start',
-        route: 'getting-started.quick-start'
-      },
-      {
-        menuItem: 'Styles and Theming',
-        route: 'getting-started.styles-and-theming'
-      },
-      {
-        menuItem: 'Common mistakes',
-        route: 'getting-started.common-mistakes'
-      },
-      {
-        menuItem: 'AI guide',
-        route: 'getting-started.ai-guide'
-      },
-      {
-        menuItem: 'Docs Walkthrough',
-        route: 'getting-started.docs-walkthrough'
+        menuItem: 'Color context',
+        route: 'getting-started.color-context'
       }
     ]
   },
@@ -380,6 +364,11 @@ export const DocNavItems = [
             menuItem: 'ProgressSpinner',
             to: '/components/progressspinner',
             route: 'components.progressspinner'
+          },
+          {
+            menuItem: 'Loading',
+            to: '/components/loading',
+            route: 'components.loading'
           },
           {
             menuItem: 'Skeleton',

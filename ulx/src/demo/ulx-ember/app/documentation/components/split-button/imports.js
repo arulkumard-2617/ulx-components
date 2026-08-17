@@ -19,20 +19,23 @@ export { default as PopupClosableDemo } from '../../../components/Demo/SplitButt
 export { default as PopupPositionsDemo } from '../../../components/Demo/SplitButton/PopupPositions';
 export { default as SeparatorDemo } from '../../../components/Demo/SplitButton/Separator';
 
-export { default as ImportSource } from './snippets/Import.gjs';
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantsSource } from './snippets/Variants.gjs';
-export { default as LoadingSource } from './snippets/Loading.gjs';
-export { default as DisabledSource } from './snippets/Disabled.gjs';
-export { default as TextSource } from './snippets/Text.gjs';
-export { default as OutlinedSource } from './snippets/Outlined.gjs';
-export { default as SizesSource } from './snippets/Sizes.gjs';
-export { default as PopupSource } from './snippets/Popup.gjs';
-export { default as PopupNamedBlocksSource } from './snippets/PopupNamedBlocks.gjs';
-export { default as PopupDefaultHeaderSource } from './snippets/PopupDefaultHeader.gjs';
-export { default as PopupWithoutHeaderSource } from './snippets/PopupWithoutHeader.gjs';
-export { default as PopupDefaultFooterSource } from './snippets/PopupDefaultFooter.gjs';
-export { default as PopupBodyOnlySource } from './snippets/PopupBodyOnly.gjs';
-export { default as PopupClosableSource } from './snippets/PopupClosable.gjs';
-export { default as PopupPositionsSource } from './snippets/PopupPositions.gjs';
-export { default as SeparatorSource } from './snippets/Separator.gjs';
+export const ImportSource = `
+import { UlxSplitButton } from 'ulx-components';
+
+`;
+export { default as BasicSource } from '../../../demo-sources/demo/split-button/basic';
+export { default as VariantsSource } from '../../../demo-sources/demo/split-button/variants';
+export { default as LoadingSource } from '../../../demo-sources/demo/split-button/loading';
+export { default as DisabledSource } from '../../../demo-sources/demo/split-button/disabled';
+export { default as TextSource } from '../../../demo-sources/demo/split-button/text';
+export { default as OutlinedSource } from '../../../demo-sources/demo/split-button/outlined';
+export { default as SizesSource } from '../../../demo-sources/demo/split-button/sizes';
+export { default as PopupSource } from '../../../demo-sources/demo/split-button/popup';
+export { default as PopupNamedBlocksSource } from '../../../demo-sources/demo/split-button/popup-named-blocks';
+export { default as PopupDefaultHeaderSource } from '../../../demo-sources/demo/split-button/popup-default-header';
+export { default as PopupWithoutHeaderSource } from '../../../demo-sources/demo/split-button/popup-without-header';
+export { default as PopupDefaultFooterSource } from '../../../demo-sources/demo/split-button/popup-default-footer';
+export { default as PopupBodyOnlySource } from '../../../demo-sources/demo/split-button/popup-body-only';
+export { default as PopupClosableSource } from '../../../demo-sources/demo/split-button/popup-closable';
+export { default as PopupPositionsSource } from '../../../demo-sources/demo/split-button/popup-positions';
+export { default as SeparatorSource } from '../../../demo-sources/demo/split-button/separator';

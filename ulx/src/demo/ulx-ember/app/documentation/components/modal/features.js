@@ -237,7 +237,7 @@ export const ModalFeatureItems = [
       props: {
         as: 'span',
         content:
-          'Use <code>@alignment</code> to control footer action placement: <code>start</code>, <code>center</code>, <code>end</code>, or <code>space-between</code>. Works with the default footer and with a custom <code>:footer</code> block.'
+          'Use <code>@footerAlign</code> to control footer action placement: <code>start</code>, <code>center</code>, <code>end</code>, or <code>space-between</code>. Works with the default footer and with a custom <code>:footer</code> block.'
       }
     },
     demo: {

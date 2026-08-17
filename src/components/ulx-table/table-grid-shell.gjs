@@ -64,6 +64,7 @@ export default class TableGridShell extends Component {
 						@editingRows={{@editingRows}}
 						@editingCell={{@editingCell}}
 						@rowClassName={{@rowClassName}}
+						@rowIndicatorColor={{@rowIndicatorColor}}
 						@showManageColumns={{@showManageColumns}}
 						@hasOptionCell={{@hasOptionCell}}
 						@emptyMessage={{@emptyMessage}}
@@ -98,6 +99,7 @@ export default class TableGridShell extends Component {
 					@editingRows={{@editingRows}}
 					@editingCell={{@editingCell}}
 					@rowClassName={{@rowClassName}}
+					@rowIndicatorColor={{@rowIndicatorColor}}
 					@showManageColumns={{@showManageColumns}}
 					@hasOptionCell={{@hasOptionCell}}
 					@emptyMessage={{@emptyMessage}}

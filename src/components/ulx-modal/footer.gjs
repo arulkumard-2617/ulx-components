@@ -39,7 +39,7 @@ import { getFooterAlignmentClasses } from "./footer-alignment.js";
  * @param {boolean} [cancelButtonDisabled=false] - Disable cancel button
  * @param {string} [cancelButtonCustomClass] - Extra class on the cancel button
  * @param {'primary'|'secondary'|'success'|'info'|'warning'|'help-button'|'danger'|'white'} [doneButtonVariant='primary'] - Done/confirm button variant
- * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
+ * @param {string} [footerAlign="end"] - Footer alignment: "start", "center", "end", "space-between"
  * @param {string} [footerClassName] - Extra class for the footer root (applied next to dialog-footer)
  */
 export default class UlxModalFooter extends Component {
@@ -68,7 +68,7 @@ export default class UlxModalFooter extends Component {
 	}
 
 	get footerAlignmentClasses() {
-		return getFooterAlignmentClasses(this.args.alignment);
+		return getFooterAlignmentClasses(this.args.footerAlign);
 	}
 
 	@action

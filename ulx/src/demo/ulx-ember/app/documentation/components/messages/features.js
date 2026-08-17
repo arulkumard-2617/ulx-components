@@ -9,13 +9,15 @@ import {
   ClosableDemo,
   WithBadgeAnnouncementDemo,
   WithBadgeAnnouncementSuccessDemo,
+  MessageWithTagDemo,
   ImportSource,
   BasicSource,
   VariantSource,
   DynamicSource,
   ClosableSource,
   WithBadgeAnnouncementSource,
-  WithBadgeAnnouncementSuccessSource
+  WithBadgeAnnouncementSuccessSource,
+  MessageWithTagSource
 } from './imports';
 
 const section = (id, sectionNav, content, Demo, Source, snippetName) => ({
@@ -91,6 +93,14 @@ export const MessagesFeatureItems = [
     WithBadgeAnnouncementSuccessDemo,
     WithBadgeAnnouncementSuccessSource,
     'with-badge-announcement-success'
+  ),
+  section(
+    'message-with-tag',
+    'Message With Tag',
+    'Promotional banner with a <code>running-color</code> <code>with-star</code> tag, illustration via <code>leftItem</code>, action buttons, and a gradient card sidebar.',
+    MessageWithTagDemo,
+    MessageWithTagSource,
+    'message-with-tag'
   )
 ];
 

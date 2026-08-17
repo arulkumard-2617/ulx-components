@@ -10,12 +10,15 @@ export { default as TypeDemo } from '../../../components/Demo/Badge/Type';
 export { default as SizeDemo } from '../../../components/Demo/Badge/Size';
 
 // Import source (for import section)
-export { default as ImportSource } from './snippets/Import.gjs';
+export const ImportSource = `
+import { Badge } from 'ulx-components';
+
+`;
 
 // Badge Demo Sources Barrel Export
 // ==========================================================================
 // Centralized exports for all Badge demo source files
-export { default as BasicSource } from './snippets/Basic.gjs';
-export { default as VariantsSource } from './snippets/Variants.gjs';
-export { default as TypeSource } from './snippets/Type.gjs';
-export { default as SizeSource } from './snippets/Size.gjs';
+export { default as BasicSource } from '../../../demo-sources/demo/badge/basic';
+export { default as VariantsSource } from '../../../demo-sources/demo/badge/variants';
+export { default as TypeSource } from '../../../demo-sources/demo/badge/type';
+export { default as SizeSource } from '../../../demo-sources/demo/badge/size';

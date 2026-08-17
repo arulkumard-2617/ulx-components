@@ -30,6 +30,7 @@ export { default as UlxAvatar } from './components/ulx-avatar/index.gjs';
 export { default as UlxAvatarGroup } from './components/ulx-avatar-group/index.gjs';
 export { default as UlxProgressSpinner } from './components/ulx-progressspinner/index.gjs';
 export { default as UlxProgressBar } from './components/ulx-progress-bar/index.gjs';
+export { default as UlxLoading } from './components/ulx-loading/index.gjs';
 export { default as UlxSelectButton } from './components/ulx-select-button/index.gjs';
 export { default as UlxSplitButton } from './components/ulx-split-button/index.gjs';
 export { default as UlxActionButtons } from './components/ulx-action-buttons/index.gjs';

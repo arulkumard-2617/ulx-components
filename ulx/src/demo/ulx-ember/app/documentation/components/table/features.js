@@ -20,6 +20,8 @@ import {
   TreeTableSource,
   TimelineTableDemo,
   TimelineTableSource,
+  RowIndicatorDemo,
+  RowIndicatorSource,
   ColumnTemplateDemo,
   ColumnTemplateSource,
   GridLinesDemo,
@@ -479,6 +481,26 @@ export const TableFeatureItems = [
       props: {
         source: TimelineTableSource,
         snippetName: 'timeline-table',
+        language: 'handlebars'
+      }
+    }
+  },
+  {
+    id: 'row-indicator',
+    sectionNav: 'Row Indicator',
+    sectionDesc: {
+      component: RichText,
+      props: {
+        as: 'span',
+        content:
+          'Rows with a leading color strip. Use <code>@customClass="row-indicator"</code> and <code>@rowIndicatorColor</code> (color string or <code>fn(row, index) => color</code>) to set <code>--ulx-tr-indicator</code> on each body row.'
+      }
+    },
+    demo: {
+      component: RowIndicatorDemo,
+      props: {
+        source: RowIndicatorSource,
+        snippetName: 'row-indicator',
         language: 'handlebars'
       }
     }

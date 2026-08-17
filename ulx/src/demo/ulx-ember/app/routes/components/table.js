@@ -6,7 +6,7 @@ export default class ComponentsModulesTableRoute extends Route {
   model() {
     return {
       features: TableFeatureItems,
-      meta: meta,
+      meta: meta
     };
   }
 }

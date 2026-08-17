@@ -6,7 +6,7 @@ export default class ComponentsCollectionsSplitButtonRoute extends Route {
   model() {
     return {
       features: SplitButtonFeatureItems,
-      meta,
+      meta
     };
   }
 }

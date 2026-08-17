@@ -1,0 +1,25 @@
+{{page-title "Loading - ULS Ember Documentation"}}
+
+<DocShared::DocMain::ComponentLayout
+  @title={{@model.meta.header}}
+  @description={{@model.meta.subHeader}}
+  @tabs={{this.tabs}}
+  @activeTab={{this.activeTab}}
+  @onTabChange={{this.onTabChange}}
+>
+  {{#if this.isFeaturesTab}}
+    <DocShared::DocMain::DocPanel @features={{@model.features}} />
+  {{else if this.isThemingTab}}
+    <div class="doc-section">
+      <DocShared::DocMain::FoundationSection
+        @id="components-elements-loading-theming"
+        @title="Theming"
+        @subtitle="Theming documentation for Loading component."
+      >
+        <p class="fg-text-secondary">Loading uses ULS loading modes
+          (full-page, full-container, cover) from loading.less and
+          the dot-spinner indicator for the default loading state.</p>
+      </DocShared::DocMain::FoundationSection>
+    </div>
+  {{/if}}
+</DocShared::DocMain::ComponentLayout>

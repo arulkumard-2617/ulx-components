@@ -5,22 +5,20 @@ export default class LayeredTagDemo extends Component {
   get layerGroups() {
     return [
       {
-        label: 'Neutral',
+        label: 'Black',
         items: [
-          { label: 'layer1', class: 'layer1' },
-          { label: 'layer2', class: 'layer2' },
-          { label: 'layer3', class: 'layer3' },
-          { label: 'layer4', class: 'layer4' },
-          { label: 'layer5', class: 'layer5' },
-          { label: 'layer6', class: 'layer6' },
+          { label: 'black-layer1', class: 'color-black-layer1' },
+          { label: 'black-layer2', class: 'color-black-layer2' },
+          { label: 'black-layer3', class: 'color-black-layer3' },
+          { label: 'black-layer4', class: 'color-black-layer4' },
         ],
       },
       {
         label: 'Blue',
         items: [
-          { label: 'blue-layer1', class: 'blue-layer1' },
-          { label: 'blue-layer2', class: 'blue-layer2' },
-          { label: 'blue-layer3', class: 'blue-layer3' },
+          { label: 'blue-layer1', class: 'color-blue-layer1' },
+          { label: 'blue-layer2', class: 'color-blue-layer2' },
+          { label: 'blue-layer3', class: 'color-blue-layer3' },
         ],
       },
     ];

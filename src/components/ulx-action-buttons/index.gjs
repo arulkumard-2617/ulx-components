@@ -4,25 +4,12 @@ import { modifier } from "ember-modifier";
 import UlxIconButton from "../ulx-icon-button/index.gjs";
 import UlxSplitButton from "../ulx-split-button/index.gjs";
 
-function resolveItemCommand(item) {
-	return item?.command ?? item?.action;
-}
-
-function toMenuItem(item) {
-	if (item?.separator === true) {
-		return { separator: true };
-	}
-
-	const command = resolveItemCommand(item);
-	return command && !item.command ? { ...item, command } : item;
-}
-
 /**
  * Renders a primary {@link UlxIconButton} or {@link UlxSplitButton} from a list of action descriptors.
  * First item is the main action; additional items appear in the split dropdown.
  *
  * @class UlxActionButtons
- * @param {object[]} [actionButtons] - Action descriptors for UlxTieredmenu (see UlxTieredmenu model structure). First item is the primary button; additional items appear in the split dropdown. Supports `label`, `icon`, `command`, `separator`, `disabled`, `dataQa`, `linkClass`, etc. Legacy `action` is used when `command` is omitted.
+ * @param {object[]} [actionButtons] - Action descriptors for UlxTieredmenu (see UlxTieredmenu model structure). First item is the primary button; additional items appear in the split dropdown. Supports `label`, `icon`, `command`, `separator`, `disabled`, `dataQa`, `linkClass`, etc. Legacy `action` is used when `command` is omitted; optional `customParam` is passed as the sole argument to legacy `action` handlers.
  * @param {string} [variant='primary'] - Passed to the underlying Ulx controls.
  * @param {boolean} [outlined=false]
  * @param {string} [size='m-size']
@@ -56,8 +43,31 @@ export default class UlxActionButtons extends Component {
 	}
 
 	get secondaryActionButtons() {
-		return this.actionButtonsList.slice(1).map(toMenuItem);
+		return this.actionButtonsList.slice(1).map((item) => {
+			if (item?.separator === true) {
+		return { separator: true };
 	}
+
+	if (typeof item?.command === "function") {
+		return item;
+	}
+
+	const action = item?.action;
+	if (typeof action !== "function") {
+		return item;
+	}
+
+	return {
+		label: item.label,
+		icon: item.icon,
+		command: () => this.triggerActionButton(item),
+		...(item.dataQa ? { dataQa: item.dataQa } : {}),
+		...(item.linkClass ? { linkClass: item.linkClass } : {}),
+		...(item.disabled !== undefined ? { disabled: item.disabled } : {})
+	};
+		});
+	}
+
 
 	get variant() {
 		return this.args.variant ?? "primary";
@@ -80,11 +90,23 @@ export default class UlxActionButtons extends Component {
 	}
 
 	@action
-	handlePrimaryAction() {
-		const command = resolveItemCommand(this.primaryActionButton);
-		if (typeof command === "function") {
-			command();
+	triggerActionButton(actionButton) {
+		const actionFn = actionButton?.command ?? actionButton?.action;
+		if (typeof actionFn !== "function") {
+			return;
 		}
+
+		if (actionButton?.customParam !== undefined) {
+			actionFn(actionButton.customParam);
+			return;
+		}
+
+		actionFn();
+	}
+
+	@action
+	handlePrimaryAction() {
+		this.triggerActionButton(this.primaryActionButton);
 	}
 
 	<template>
