@@ -1,0 +1,25 @@
+// ==========================================================================
+// Onair typography scale (CSS custom properties)
+// ==========================================================================
+// Overrides unscaled base fonts so scaled --font-size-* tokens follow.
+
+:root {
+	--@{uls-css-var-prefix}base-font-size: 13px;
+
+	--@{uls-css-var-prefix}h1-font: 34px;
+	--@{uls-css-var-prefix}h2-font: 24px;
+	--@{uls-css-var-prefix}h3-font: 20px;
+	--@{uls-css-var-prefix}h4-font: 18px;
+	--@{uls-css-var-prefix}h5-font: 16px;
+	--@{uls-css-var-prefix}h6-font: 15px;
+	--@{uls-css-var-prefix}h7-font: 14px;
+
+	--@{uls-css-var-prefix}default-font: 13px;
+	--@{uls-css-var-prefix}small-font: 12px;
+	--@{uls-css-var-prefix}tiny-font: 11px;
+	--@{uls-css-var-prefix}mini-font: 10px;
+	--@{uls-css-var-prefix}xs-font: 9px;
+	--@{uls-css-var-prefix}xxs-font: 9px;
+
+	--@{uls-css-var-prefix}font-size-xxs: ~"calc(var(--@{uls-css-var-prefix}xxs-font) * var(--@{uls-css-var-prefix}global-text-size))";
+}

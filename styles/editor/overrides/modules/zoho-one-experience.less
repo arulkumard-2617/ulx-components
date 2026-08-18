@@ -1,0 +1,298 @@
+#zunify-one-bar-container {
+	z-index: 1000;
+	display: none;
+	position: relative;
+	flex: 0 0 40px;
+	order: 0;
+	align-self: stretch;
+	left: 0;
+	right: auto;
+	width: var(--oe-left-offset, 40px);
+	min-width: var(--oe-left-offset, 40px);
+	height: 100vh;
+	min-height: 100vh;
+	box-sizing: border-box;
+	z-index: 10000;
+	overflow: hidden;
+}
+
+body.zunify-one-experience-active {
+	#zunify-one-bar-container {
+		display: block !important;
+	}
+
+	#zunify-side-pane {
+		display: block !important;
+		position: fixed;
+		top: 48px;
+		left: 0;
+		bottom: 0;
+		width: 600px;
+		z-index: 9999;
+	}
+}
+
+body:not(.zunify-one-experience-active) > .zu-apps-menu {
+	display: none !important;
+}
+
+body.zunify-one-experience-active.oe-nav-requested {
+	padding-left: 0 !important;
+	padding-top: 0 !important;
+}
+
+body.zunify-one-experience-active.oe-nav-requested:has(.zu-apps-men)::before {
+	display: none;
+}
+
+body.zunify-one-experience-active.oe-nav-requested:has(.oe-left-nav-hidden)::before {
+	display: none;
+}
+
+body.zunify-one-experience-active.oe-nav-requested #oe-service-root,
+body.zunify-one-experience-active.oe-nav-requested #oe-service-root .oe-main-container {
+	padding-top: 0 !important;
+	margin-top: 0 !important;
+}
+
+body.zunify-one-experience-active.oe-nav-requested #oe-service-root {
+	align-items: stretch !important;
+}
+
+body.zunify-one-experience-active.oe-nav-requested #oe-service-root > div:first-child {
+	flex: 0 0 auto;
+	min-width: 0;
+	max-width: ~'min(100%, 400px)';
+}
+
+body.zunify-one-experience-active.oe-nav-requested #oe-service-root .oe-main-container {
+	align-self: stretch !important;
+	display: block !important;
+	flex: 1 1 auto !important;
+	min-width: 0 !important;
+}
+
+body.zunify-one-experience-active .page-left-panel,
+body.oe-nav-requested .page-left-panel {
+	display: none !important;
+}
+
+//CSS color mapping for ZUnify One Experience (ZOE) to Backstage theme tokens
+body.zunify-one-experience-active {
+	--oe-text-accent: var(--uls-vnav-item-active-fg-color) !important;
+	--oe-states-onclick: var(--primary-layer3-bg) !important;
+	--oe-states-hover: var(--primary-layer2-bg) !important;
+	--oe-text-primary: var(--uls-text-color) !important;
+	--oe-text-onhover: var(--uls-text-color) !important;
+	--oe-icon-secondary: var(--uls-text-color) !important;
+	--oe-nav-bg: var(--guls-vnav-bg-color) !important;
+	--oe-border-accent-100: var(--uls-vnavitem-divider-color) !important;
+	--oe-default-bg: var(--uls-default-bg) !important;
+	--svg-bslogo-logo-color: #226db4 !important;
+	--oe-action-icon-color-hover: var(--uls-vnav-item-active-fg-color) !important;
+	--oe-text-hover: var(--uls-text-color) !important;
+	--oe-icon-accent: var(--uls-vnav-item-active-fg-color) !important;
+	--oe-icon-primary: var(--uls-text-color) !important;
+	--oe-bg-default: var(--uls-default-bg) !important;
+	--oe-text-secondary: var(--uls-secondary-text-color) !important;
+	--oe-nav-toggle-bg: var(--primary-layer3-bg) !important;
+	--oe-nav-toggle-icon: var(--oe-text-accent) !important;
+	--oe-nav-toggle-border: var(--uls-primary-color) !important;
+	--oe-border-accent-300: var(--uls-default-border) !important;
+	--oe-border-accent-primary: var(--uls-primary-color) !important;
+
+	//To be discussed with ZOne-Team.
+	--oe-icon-tertiary: var(--uls-text-color) !important;
+
+	--uls-topbar-bg-color: var(--uls-default-bg) !important;
+	--uls-topbar-fg-color: var(--uls-text-color) !important;
+	--uls-nav-bg-color: var(--uls-default-bg) !important;
+	--uls-topbar-link-color: var(--uls-link-color) !important;
+
+	&.ulx-dark-mode {
+		--svg-bslogo-logo-color: #ffffff !important;
+	}
+}
+
+body.zunify-one-experience-active {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	min-height: 100vh;
+	padding-top: 48px;
+	padding-left: 0;
+	box-sizing: border-box;
+
+	.oe-left-nav-column {
+		position: relative;
+		z-index: 1000;
+
+		.oe-left-nav-hidden {
+			display: none !important;
+		}
+	}
+
+	&:not(.oe-nav-requested) {
+		padding-left: 400px;
+	}
+
+	&.oe-nav-requested {
+		#zunify-side-pane {
+			display: none !important;
+		}
+
+		#zunify-dropdown-wrapper {
+			display: none !important;
+			height: 0 !important;
+			min-height: 0 !important;
+			overflow: hidden !important;
+		}
+	}
+
+	> #editor-main-wrapper.editor-main-wrapper {
+		z-index: 1000;
+		flex: 1 1 auto;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	#editor-main-wrapper > #editor {
+		flex: 1 1 auto;
+		min-height: 0;
+		width: 100%;
+		min-width: 0;
+	}
+
+	#editor-main-wrapper > #editor > * {
+		width: 100%;
+		min-width: 0;
+		box-sizing: border-box;
+	}
+
+	#oe-service-root.backstage-layout-modern {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.uls-top-bar {
+		z-index: 2 !important;
+
+		.uls-button-icon {
+			color: var(--guls-text-color) !important;
+
+			&.onhvr.primary:hover {
+				color: var(--guls-primary-fg-color) !important;
+			}
+		}
+
+		.uls-button-link.nav-link:not(.onhvr-invert) {
+			color: var(--guls-link-color) !important;
+
+			&:hover {
+				color: var(--guls-link-color) !important;
+			}
+		}
+
+		.uls-button-icon.onhvr.primary:hover {
+			color: var(--guls-primary-fg-color) !important;
+		}
+	}
+
+	.uls-main-menu {
+		background-color: var(--uls-vnav-bg-color) !important;
+
+		.right-menu > .menu-item {
+			color: var(--uls-text-color) !important;
+		}
+
+		.uls-button-icon.onhvr {
+			color: var(--guls-text-color) !important;
+		}
+	}
+
+	.unified-side-navigation-container .unified-side-navigation .groups-menu .expanded-content {
+		.inline-tab-header-title-row {
+			margin-top: 2px;
+		}
+
+		> .inline-tab-header {
+			margin-top: 8px;
+			padding-bottom: 12px;
+			border-bottom-style: dashed;
+		}
+	}
+}
+
+//Temp fix for Zone side issue they will fix this in their side will remove it in future
+body.zunify-one-experience-active
+	.zu-apps-menu
+	._pinned-section
+	._app-item
+	.zod-icons._icon_home_outline:last-child {
+	display: none !important;
+}
+
+body.zunify-one-experience-active
+	.zu-apps-menu
+	._pinned-section
+	._app-item
+	.zod-app-logo-with-border:last-child {
+	display: none !important;
+}
+
+body.zunify-one-experience-active
+	.unified-side-navigation-container
+	.unified-side-navigation
+	.scrollable-container
+	.accordion-item {
+	&.selected.expanded > .accordion-title {
+		background: var(--oe-states-hover) !important;
+		color: var(--oe-text-accent) !important;
+	}
+
+	> .accordion-title:not(:hover) {
+		background: var(--oe-nav-bg) !important;
+	}
+}
+
+body.zunify-one-experience-active,
+body.zunify-one-experience-inactive {
+	.uls-top-bar {
+		--uls-topbar-fg-color: var(--uls-text-color) !important;
+		background-color: var(--uls-vnav-bg-color) !important;
+
+		.uls-button-icon {
+			color: var(--guls-text-color) !important;
+
+			&.onhvr.primary:hover {
+				color: var(--guls-primary-fg-color) !important;
+			}
+		}
+
+		.uls-button-link.nav-link:not(.onhvr-invert) {
+			color: var(--guls-link-color) !important;
+
+			&:hover {
+				color: var(--guls-link-color) !important;
+			}
+		}
+
+		.nav-bar-action {
+			color: var(--guls-link-color) !important;
+		}
+	}
+
+	&.uls-dark-mode {
+		//active and inactive case
+		--uls-topbar-bg-color: #000000 !important;
+		--uls-vnav-bg-color: #000000 !important;
+		--uls-small-vnav-bg-color: #000000 !important;
+
+		.uls-topbar {
+			.uls-button-icon.onhvr.primary:hover {
+				color: var(--guls-primary-fg-color) !important;
+			}
+		}
+	}
+}

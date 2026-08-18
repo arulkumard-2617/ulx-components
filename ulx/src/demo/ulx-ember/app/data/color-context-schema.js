@@ -19,31 +19,11 @@ const colorFamilies = [
 ];
 
 const semanticColorFamilies = [
-  {
-    family: 'success',
-    sectionNav: 'Success',
-    layerCount: 1,
-    unnumberedLayer: true
-  },
-  {
-    family: 'warning',
-    sectionNav: 'Warning',
-    layerCount: 1,
-    unnumberedLayer: true
-  },
-  {
-    family: 'danger',
-    sectionNav: 'Danger',
-    layerCount: 1,
-    unnumberedLayer: true
-  },
+  { family: 'success', sectionNav: 'Success', layerCount: 1, unnumberedLayer: true },
+  { family: 'warning', sectionNav: 'Warning', layerCount: 1, unnumberedLayer: true },
+  { family: 'danger', sectionNav: 'Danger', layerCount: 1, unnumberedLayer: true },
   { family: 'info', sectionNav: 'Info', layerCount: 1, unnumberedLayer: true },
-  {
-    family: 'secondary',
-    sectionNav: 'Secondary',
-    layerCount: 1,
-    unnumberedLayer: true
-  }
+  { family: 'secondary', sectionNav: 'Secondary', layerCount: 1, unnumberedLayer: true }
 ];
 
 const otherColors = [
@@ -64,20 +44,8 @@ const otherColors = [
   { name: 'lomo-blue' },
   { name: 'candy-orange' },
   { name: 'dairy-violet' },
-  { name: 'radical-red' },
-  // Additional accents from color-vars (solid + fg-* only; no light surfaces)
-  { name: 'yellow', hasLayer: false },
-  { name: 'violet', hasLayer: false },
-  { name: 'pink', hasLayer: false },
-  { name: 'brown', hasLayer: false },
-  { name: 'teal', hasLayer: false },
-  { name: 'darkturquoise', hasLayer: false },
-  { name: 'olive', hasLayer: false },
-  { name: 'nightblue', hasLayer: false }
+  { name: 'radical-red' }
 ];
-
-// Sparse layer surfaces (define-color-surface) — not consecutive layer1…N families.
-const otherSparseLayers = ['brown-layer2', 'teal-layer3'];
 
 function layerClassName(family, layer, unnumberedLayer = false) {
   if (unnumberedLayer) {
@@ -87,12 +55,7 @@ function layerClassName(family, layer, unnumberedLayer = false) {
   return `color-${family}-layer${layer}`;
 }
 
-function layerSwatches(
-  family,
-  layerCount,
-  modifier = '',
-  unnumberedLayer = false
-) {
+function layerSwatches(family, layerCount, modifier = '', unnumberedLayer = false) {
   const suffix = modifier ? ` ${modifier}` : '';
 
   return Array.from({ length: layerCount }, (_, index) => {
@@ -113,12 +76,22 @@ function borderStartClass(family) {
     : `${family}-border-start`;
 }
 
-function colorFamilySection({
-  family,
-  sectionNav,
-  layerCount,
-  unnumberedLayer = false
-}) {
+function outlinedSolidSwatches(family) {
+  return [
+    {
+      label: `color-${family} outlined`,
+      classes: `${swatchBase} color-${family} outlined`,
+      sampleText: 'Aa'
+    },
+    {
+      label: `color-${family} outlined fg-${family}`,
+      classes: `${swatchBase} color-${family} outlined fg-${family}`,
+      sampleText: 'Aa'
+    }
+  ];
+}
+
+function colorFamilySection({ family, sectionNav, layerCount, unnumberedLayer = false }) {
   const borderStart = borderStartClass(family);
   const layerTitle = layerCount === 1 && unnumberedLayer ? 'Layer' : 'Layers';
 
@@ -126,7 +99,7 @@ function colorFamilySection({
     id: `color-context-${family}`,
     sectionNav,
     kind: 'swatches',
-    subtitle: `Solid ${sectionNav.toLowerCase()} surface, tinted layers, and layer modifiers for bordered outlines and inline-start accent stripes.`,
+    subtitle: `Solid ${sectionNav.toLowerCase()} surface, tinted layers, and modifiers for bordered (solid / dashed / dotted), transparent outlined strokes (default text-color; optional fg-*), and inline-start accent stripes.`,
     groups: [
       {
         title: 'Solid',
@@ -145,6 +118,18 @@ function colorFamilySection({
       {
         title: 'Bordered',
         rows: layerSwatches(family, layerCount, 'bordered', unnumberedLayer)
+      },
+      {
+        title: 'Bordered dashed',
+        rows: layerSwatches(family, layerCount, 'bordered dashed', unnumberedLayer)
+      },
+      {
+        title: 'Bordered dotted',
+        rows: layerSwatches(family, layerCount, 'bordered dotted', unnumberedLayer)
+      },
+      {
+        title: 'Outlined',
+        rows: outlinedSolidSwatches(family)
       },
       {
         title: 'Border start',
@@ -196,6 +181,10 @@ const statusGroups = [
     names: ['running', 'completed', 'published', 'draft', 'cancelled']
   },
   {
+    title: 'User check-in',
+    names: ['user-in', 'user-out', 'user-yet-in', 'user-attended']
+  },
+  {
     title: 'Event type',
     names: ['offline', 'hybrid', 'online']
   },
@@ -205,15 +194,27 @@ const statusGroups = [
   }
 ];
 
-const userCheckInSolidNames = ['user-in', 'user-out', 'user-yet-in', 'user-attended'];
-const userCheckInLayerNames = ['user-in', 'user-out', 'user-yet-in'];
-
 function statusSemanticForegroundSwatches(names) {
   return names.map((name) => ({
     label: `color-${name} fg-${name}`,
     classes: `${swatchBase} color-${name} fg-${name}`,
     sampleText: 'Aa'
   }));
+}
+
+function statusOutlinedSwatches(names) {
+  return names.flatMap((name) => [
+    {
+      label: `color-${name} outlined`,
+      classes: `${swatchBase} color-${name} outlined`,
+      sampleText: 'Aa'
+    },
+    {
+      label: `color-${name} outlined fg-${name}`,
+      classes: `${swatchBase} color-${name} outlined fg-${name}`,
+      sampleText: 'Aa'
+    }
+  ]);
 }
 
 const sessionStatusNames = [
@@ -230,42 +231,37 @@ function statusSection() {
     sectionNav: 'Status',
     kind: 'swatches',
     subtitle:
-      'Status surfaces with default foreground (static-black for session status; static-white for user check-in solids; text-color for event/generic). Pair .lb-marked with color-user-in / user-out / user-yet-in to swap to LayerBg + solid accent dot (or use color-*-layer). Pair fg-* with color-* for semantic foreground tokens.',
+      'Status surfaces with default foreground (static-black for running, published, completed, draft; text-color for others). Pair fg-* with color-* for semantic text. Outlined uses text-color by default; add fg-* for chromatic text.',
     groups: [
       ...statusGroups.map(({ title, names }) => ({
         title: `Surface — ${title}`,
         rows: statusSwatches(names, 'color')
       })),
       {
-        title: 'Surface — User check-in',
-        rows: statusSwatches(userCheckInSolidNames, 'color')
-      },
-      {
-        title: 'Layer — User check-in',
-        rows: userCheckInLayerNames.map((name) => {
-          const className = `color-${name}-layer`;
-
-          return {
-            label: className,
-            classes: `${swatchBase} ${className}`,
-            sampleText: 'Aa'
-          };
-        })
-      },
-      {
         title: 'Semantic foreground — Session status',
         rows: statusSemanticForegroundSwatches(sessionStatusNames)
       },
       {
-        title: 'Foreground — User check-in',
-        rows: userCheckInLayerNames.map((name) => ({
-          label: `fg-${name}`,
-          classes: `${swatchBase} fg-${name}`,
-          sampleText: 'Aa'
-        }))
+        title: 'Outlined — Session status',
+        rows: statusOutlinedSwatches(sessionStatusNames)
       }
     ]
   };
+}
+
+function otherOutlinedSwatches() {
+  return otherColors.flatMap(({ name }) => [
+    {
+      label: `color-${name} outlined`,
+      classes: `${swatchBase} color-${name} outlined`,
+      sampleText: 'Aa'
+    },
+    {
+      label: `color-${name} outlined fg-${name}`,
+      classes: `${swatchBase} color-${name} outlined fg-${name}`,
+      sampleText: 'Aa'
+    }
+  ]);
 }
 
 function othersSection() {
@@ -274,7 +270,7 @@ function othersSection() {
     sectionNav: 'Others',
     kind: 'swatches',
     subtitle:
-      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Bordered and border-start modifiers apply to light surfaces only. Yellow–nightblue accents are solid-only; brown and teal also expose sparse layer surfaces.',
+      'Decorative accent colors with a solid surface and a light variant. Pair fg-* with color-* or color-light-* for semantic foreground. Outlined uses text-color by default; add fg-* for chromatic text. Bordered (solid / dashed / dotted) and border-start modifiers apply to light surfaces only.',
     groups: [
       {
         title: 'Solid',
@@ -285,20 +281,30 @@ function othersSection() {
         rows: otherLightSwatches()
       },
       {
-        title: 'Sparse layers',
-        rows: statusSwatches(otherSparseLayers, 'color')
+        title: 'Foreground',
+        rows: otherColors
+          .filter(({ hasLayer = true }) => hasLayer)
+          .map(({ name }) => ({
+            label: `color-light-${name} fg-${name}`,
+            classes: `${swatchBase} color-light-${name} fg-${name}`,
+            sampleText: 'Aa'
+          }))
       },
       {
-        title: 'Foreground',
-        rows: otherColors.map(({ name }) => ({
-          label: `fg-${name}`,
-          classes: `${swatchBase} fg-${name}`,
-          sampleText: 'Aa'
-        }))
+        title: 'Outlined',
+        rows: otherOutlinedSwatches()
       },
       {
         title: 'Bordered',
         rows: otherLightSwatches(() => 'bordered')
+      },
+      {
+        title: 'Bordered dashed',
+        rows: otherLightSwatches(() => 'bordered dashed')
+      },
+      {
+        title: 'Bordered dotted',
+        rows: otherLightSwatches(() => 'bordered dotted')
       },
       {
         title: 'Border start',
@@ -311,7 +317,7 @@ function othersSection() {
 export const colorContextSchema = {
   title: 'Color context',
   description:
-    'Composable surface classes from uls-styles/less/colors. Each class binds surface role tokens (--surface-bg, --surface-fg, --surface-border, --surface-border-accent) for coordinated backgrounds, text, and borders.',
+    'Composable surface classes from uls-styles/less/colors. Each class binds surface role tokens (--surface-bg, --surface-fg, --surface-border, --surface-border-accent) for coordinated backgrounds, text, and borders. color-* outlined uses text-color by default; add fg-* for chromatic text. Pair bordered with dashed or dotted for border-style (e.g. color-blue-layer1 bordered dashed).',
 
   sections: [
     ...colorFamilies.map(colorFamilySection),

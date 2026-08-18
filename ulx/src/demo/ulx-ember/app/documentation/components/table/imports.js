@@ -6,6 +6,7 @@ export { default as FilterDemo }             from '../../../components/Demo/Tabl
 export { default as ExpansionDemo }          from '../../../components/Demo/Table/Expansion';
 export { default as TreeTableDemo }          from '../../../components/Demo/Table/TreeTable';
 export { default as TimelineTableDemo }      from '../../../components/Demo/Table/TimelineTable';
+export { default as RowIndicatorDemo }       from '../../../components/Demo/Table/RowIndicator';
 export { default as ColumnTemplateDemo }     from '../../../components/Demo/Table/ColumnTemplate';
 export { default as GridLinesDemo }          from '../../../components/Demo/Table/GridLines';
 export { default as SizeVariantsDemo }       from '../../../components/Demo/Table/SizeVariants';
@@ -41,6 +42,7 @@ export { default as SelectionSource } from '../../../demo-sources/demo/table/sel
 export { default as ExpansionSource } from '../../../demo-sources/demo/table/expansion';
 export { default as TreeTableSource } from '../../../demo-sources/demo/table/tree-table';
 export { default as TimelineTableSource } from '../../../demo-sources/demo/table/timeline-table';
+export { default as RowIndicatorSource } from '../../../demo-sources/demo/table/row-indicator';
 export { default as ConditionalStyleSource } from '../../../demo-sources/demo/table/conditional-style';
 export { default as RowReorderSource } from '../../../demo-sources/demo/table/row-reorder';
 export { default as LoadingSource } from '../../../demo-sources/demo/table/loading';

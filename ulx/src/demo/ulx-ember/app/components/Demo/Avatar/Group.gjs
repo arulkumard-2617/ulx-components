@@ -7,33 +7,38 @@ export default class GroupDemoComponent extends Component {
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/women/90.jpg',
-        imageAlt: "User profile picture",
-        ariaLabel: "User profile",
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+        fullName: 'User profile'
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/women/91.jpg',
-        imageAlt: "User profile picture",
-        ariaLabel: "User profile",
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+        fullName: 'User profile'
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/men/32.jpg',
-        imageAlt: "User profile picture",
-        ariaLabel: "User profile",
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+        fullName: 'User profile'
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/women/44.jpg',
-        imageAlt: "User profile picture",
-        ariaLabel: "User profile",
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+        fullName: 'User profile'
       },
       {
         type: 'image',
         image: 'https://randomuser.me/api/portraits/men/75.jpg',
-        imageAlt: "User profile picture",
-        ariaLabel: "User profile",
-      },
+        imageAlt: 'User profile picture',
+        ariaLabel: 'User profile',
+        fullName: 'User profile'
+      }
     ];
   }
 

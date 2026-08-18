@@ -37,7 +37,8 @@ export default class SortOptions extends Component {
 		return options.map((opt) => ({
 			label: opt.lbl,
 			value: opt.key,
-			checked: opt.key === currentKey
+			checked: opt.key === currentKey,
+			dataQa: opt.dataQa ?? `sort-by-${opt.key}`
 		}));
 	}
 
