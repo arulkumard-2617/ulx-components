@@ -26,6 +26,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
 import UlxProgressSpinner from "../ulx-progressspinner/index.gjs";
 import { eq, and, not, or } from "ember-truth-helpers";
 import { hash, concat } from "@ember/helper";
+import { isHTMLSafe } from "@ember/template";
 
 const MIN_FILTER_OPTION_COUNT = 5;
 const DROPDOWN_PANEL_POSITION_AUTO = "auto";
@@ -246,9 +247,17 @@ export default class UlxDropdown extends Component {
 		if (option == null) return "";
 		if (typeof option === "object" && option !== null) {
 			const label = this.getResolved(option, this.optionLabelKey);
-			return label != null ? String(label) : "";
+			if (label == null) return "";
+			// Preserve SafeString so HTML labels (e.g. bsHtmlSafe) render without escaping.
+			if (isHTMLSafe(label)) return label;
+			return String(label);
 		}
 		return String(option);
+	}
+
+	@action
+	getOptionLabelText(option) {
+		return String(this.getOptionLabel(option));
 	}
 
 	@action
@@ -335,11 +344,11 @@ export default class UlxDropdown extends Component {
 
 		if (this.hasGroups) {
 			return sourceOptionsList.filter(({ item }) =>
-				this.getOptionLabel(item).toLowerCase().includes(normalizedFilterValue)
+				this.getOptionLabelText(item).toLowerCase().includes(normalizedFilterValue)
 			);
 		}
 		return sourceOptionsList.filter((option) =>
-			this.getOptionLabel(option).toLowerCase().includes(normalizedFilterValue)
+			this.getOptionLabelText(option).toLowerCase().includes(normalizedFilterValue)
 		);
 	}
 
