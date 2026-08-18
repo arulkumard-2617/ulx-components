@@ -8,9 +8,9 @@ module.exports = function (environment) {
     locationType: 'history',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
-      FEATURES: {},
+      FEATURES: {}
     },
-    APP: {},
+    APP: {}
   };
 
   if (environment === 'test') {

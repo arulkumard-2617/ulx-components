@@ -4,7 +4,7 @@ import {
   createDeferred,
   createHandledDeferred,
   resolveAndSettle,
-  rejectAndSettle,
+  rejectAndSettle
 } from 'test-app/tests/helpers';
 import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';

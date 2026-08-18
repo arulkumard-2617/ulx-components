@@ -2,7 +2,7 @@ export { default } from 'ember-qunit';
 export {
   setupApplicationTest,
   setupRenderingTest,
-  setupTest,
+  setupTest
 } from 'ember-qunit';
 
 export { dispatchClick } from './dispatch-click';
@@ -10,5 +10,5 @@ export {
   createDeferred,
   createHandledDeferred,
   resolveAndSettle,
-  rejectAndSettle,
+  rejectAndSettle
 } from './deferred';
