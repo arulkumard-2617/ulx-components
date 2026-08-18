@@ -1,0 +1,372 @@
+{
+  "kind": "ulx-migration-report",
+  "version": 1,
+  "generatedAt": "2026-08-01T07:46:47.004Z",
+  "meta": {
+    "url": "http://localhost:4200/components/button",
+    "title": "UlxEmber",
+    "capturedAt": "2026-08-01T07:46:46.909Z",
+    "elementCount": 497
+  },
+  "overall": {
+    "migrationPercent": 60,
+    "totals": {
+      "ulx": 6,
+      "legacy": 0,
+      "native": 4,
+      "unknown": 0,
+      "total": 10
+    }
+  },
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "counts": {
+        "ulx": 2,
+        "legacy": 0,
+        "native": 4,
+        "unknown": 0
+      },
+      "total": 6,
+      "migrationPercent": 33
+    },
+    {
+      "id": "input",
+      "name": "Input",
+      "counts": {
+        "ulx": 1,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 1,
+      "migrationPercent": 100
+    },
+    {
+      "id": "textarea",
+      "name": "Textarea",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "dropdown",
+      "name": "Dropdown",
+      "counts": {
+        "ulx": 2,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 2,
+      "migrationPercent": 100
+    },
+    {
+      "id": "multiselect",
+      "name": "MultiSelect",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "checkbox",
+      "name": "Checkbox",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "toggle",
+      "name": "Toggle",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "dialog",
+      "name": "Dialog",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "table",
+      "name": "Table",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "accordion",
+      "name": "Accordion",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "tabmenu",
+      "name": "TabMenu",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "paginator",
+      "name": "Paginator",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "chip",
+      "name": "Chip",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "badge",
+      "name": "Badge",
+      "counts": {
+        "ulx": 1,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 1,
+      "migrationPercent": 100
+    },
+    {
+      "id": "tag",
+      "name": "Tag",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "toast",
+      "name": "Toast",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    }
+  ],
+  "discoveries": [
+    {
+      "componentId": "dropdown",
+      "componentName": "Dropdown",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-dropdown\"]",
+      "path": "194",
+      "tagName": "div",
+      "attributes": {
+        "id": "ulx-font-select",
+        "class": "ulx-dropdown m-size w-200",
+        "data-qa": "ulx-dropdown",
+        "role": "combobox",
+        "aria-haspopup": "listbox",
+        "aria-invalid": "false",
+        "aria-disabled": "false",
+        "tabindex": "0"
+      }
+    },
+    {
+      "componentId": "dropdown",
+      "componentName": "Dropdown",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-dropdown\"]",
+      "path": "200",
+      "tagName": "div",
+      "attributes": {
+        "id": "ulx-theme-select",
+        "class": "ulx-dropdown m-size w-152",
+        "data-qa": "ulx-dropdown",
+        "role": "combobox",
+        "aria-haspopup": "listbox",
+        "aria-invalid": "false",
+        "aria-disabled": "false",
+        "tabindex": "0"
+      }
+    },
+    {
+      "componentId": "badge",
+      "componentName": "Badge",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-badge\"]",
+      "path": "204",
+      "tagName": "span",
+      "attributes": {
+        "data-qa": "ulx-badge",
+        "class": "ulx-badge ulx-theme-badge-default l-size dot",
+        "aria-hidden": "true"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-button\"]",
+      "path": "208",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "ulx-button",
+        "class": "ulx-button basic m-size icon-only ",
+        "aria-label": "Switch to dark theme",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-button\"]",
+      "path": "211",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "ulx-button",
+        "class": "ulx-button basic m-size icon-only ",
+        "aria-label": "Accessibility options",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "input",
+      "componentName": "Input",
+      "category": "ulx",
+      "matchedSelector": ".ulx-input",
+      "path": "220",
+      "tagName": "input",
+      "attributes": {
+        "id": "ember64",
+        "class": "ulx-input m-size w-full",
+        "placeholder": "Search",
+        "aria-required": "false",
+        "aria-invalid": "false",
+        "aria-label": "Search",
+        "type": "text"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "225",
+      "tagName": "button",
+      "attributes": {
+        "class": "flex items-center gap-2 text-start\n                    ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "229",
+      "tagName": "button",
+      "attributes": {
+        "class": "ms-auto ps-1",
+        "aria-label": "Toggle Getting Started menu",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "238",
+      "tagName": "button",
+      "attributes": {
+        "class": "flex items-center gap-2 w-full",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "474",
+      "tagName": "button",
+      "attributes": {
+        "class": "flex items-center gap-2 w-full",
+        "type": "button"
+      }
+    }
+  ]
+}

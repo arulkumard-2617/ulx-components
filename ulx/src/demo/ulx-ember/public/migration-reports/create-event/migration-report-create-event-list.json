@@ -1,0 +1,717 @@
+{
+  "kind": "ulx-migration-report",
+  "version": 1,
+  "generatedAt": "2026-08-04T09:58:02.055Z",
+  "meta": {
+    "url": "https://backstage.zoho.in/home#/portal/60048013434/brand/49382000000002010/events",
+    "title": "Zoho Backstage",
+    "capturedAt": "2026-08-04T09:58:01.634Z",
+    "elementCount": 2558
+  },
+  "overall": {
+    "migrationPercent": 32,
+    "totals": {
+      "ulx": 10,
+      "legacy": 7,
+      "native": 14,
+      "unknown": 0,
+      "total": 31
+    }
+  },
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "counts": {
+        "ulx": 5,
+        "legacy": 4,
+        "native": 8,
+        "unknown": 0
+      },
+      "total": 17,
+      "migrationPercent": 29
+    },
+    {
+      "id": "splitbutton",
+      "name": "SplitButton",
+      "counts": {
+        "ulx": 2,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 2,
+      "migrationPercent": 100
+    },
+    {
+      "id": "input",
+      "name": "Input",
+      "counts": {
+        "ulx": 0,
+        "legacy": 2,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 2,
+      "migrationPercent": 0
+    },
+    {
+      "id": "textarea",
+      "name": "Textarea",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "dropdown",
+      "name": "Dropdown",
+      "counts": {
+        "ulx": 0,
+        "legacy": 1,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 1,
+      "migrationPercent": 0
+    },
+    {
+      "id": "multiselect",
+      "name": "MultiSelect",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "checkbox",
+      "name": "Checkbox",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 3,
+        "unknown": 0
+      },
+      "total": 3,
+      "migrationPercent": 0
+    },
+    {
+      "id": "toggle",
+      "name": "Toggle",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "dialog",
+      "name": "Dialog",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "table",
+      "name": "Table",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "accordion",
+      "name": "Accordion",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "tabmenu",
+      "name": "TabMenu",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 2,
+        "unknown": 0
+      },
+      "total": 2,
+      "migrationPercent": 0
+    },
+    {
+      "id": "paginator",
+      "name": "Paginator",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "chip",
+      "name": "Chip",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "badge",
+      "name": "Badge",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "tag",
+      "name": "Tag",
+      "counts": {
+        "ulx": 3,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 3,
+      "migrationPercent": 100
+    },
+    {
+      "id": "toast",
+      "name": "Toast",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 1,
+        "unknown": 0
+      },
+      "total": 1,
+      "migrationPercent": 0
+    }
+  ],
+  "discoveries": [
+    {
+      "componentId": "tag",
+      "componentName": "Tag",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-tag\"]",
+      "path": "1462",
+      "tagName": "span",
+      "attributes": {
+        "class": "ulx-tag lt-gold xxs-size with-icon",
+        "data-qa": "ulx-tag"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-button\"]",
+      "path": "1477",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "ulx-button",
+        "class": "ulx-button basic s-size ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-button\"]",
+      "path": "1495",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "ulx-button",
+        "class": "ulx-button link on-hover s-size ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": ".ulx-button",
+      "path": "1500",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "ulx-banner-message-close",
+        "class": "ulx-button secondary pilled l-size icon-only message-close-button ",
+        "aria-label": "Close Notification",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "splitbutton",
+      "componentName": "SplitButton",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-splitbutton\"]",
+      "path": "1519",
+      "tagName": "div",
+      "attributes": {
+        "class": "ulx-splitbutton primary m-size",
+        "data-qa": "ulx-splitbutton"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": ".ulx-button",
+      "path": "1520",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "create-event-button",
+        "class": "ulx-button primary m-size split-button ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "splitbutton",
+      "componentName": "SplitButton",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"create-event-button\"]",
+      "path": "1520",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "create-event-button",
+        "class": "ulx-button primary m-size split-button ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": ".ulx-button",
+      "path": "1524",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "ulx-splitbutton-dropdown",
+        "class": "ulx-button primary m-size icon-only ",
+        "aria-label": "More Options",
+        "aria-haspopup": "menu",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "tag",
+      "componentName": "Tag",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-tag\"]",
+      "path": "1654",
+      "tagName": "span",
+      "attributes": {
+        "class": "ulx-tag running-color xxs-size text-only",
+        "data-qa": "ulx-tag",
+        "data-a11y": "critical"
+      }
+    },
+    {
+      "componentId": "tag",
+      "componentName": "Tag",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-tag\"]",
+      "path": "1691",
+      "tagName": "span",
+      "attributes": {
+        "class": "ulx-tag running-color xxs-size text-only",
+        "data-qa": "ulx-tag",
+        "data-a11y": "critical"
+      }
+    },
+    {
+      "componentId": "input",
+      "componentName": "Input",
+      "category": "legacy",
+      "matchedSelector": ".uls-input",
+      "path": "1356",
+      "tagName": "input",
+      "attributes": {
+        "_linkedmodel": "model",
+        "placeholder": "Search Space",
+        "id": "brandSwitcherSearch",
+        "class": "ember-text-field ember-view uls-input m-size ",
+        "aria-labelledby": "label-brandSwitcherSearch",
+        "aria-required": "false",
+        "aria-label": "Search Space",
+        "type": "search"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1381",
+      "tagName": "button",
+      "attributes": {
+        "aria-disabled": "false",
+        "class": "uls-button-link m-size default-color ",
+        "popovertarget": "brandSwitcher",
+        "popovertargetaction": "hide",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1385",
+      "tagName": "button",
+      "attributes": {
+        "aria-label": "help document",
+        "aria-disabled": "false",
+        "class": "uls-button-icon m-size onhvr primary ",
+        "data-click": "help",
+        "type": "button",
+        "popovertarget": "ember10",
+        "popovertargetaction": "toggle",
+        "aria-haspopup": "true",
+        "aria-describedby": "ember10",
+        "aria-expanded": "false",
+        "style": "anchor-name: --ember10;"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "legacy",
+      "matchedSelector": ".uls-button",
+      "path": "1413",
+      "tagName": "button",
+      "attributes": {
+        "style": "",
+        "id": "ember12",
+        "class": "l-size primary uls-button ember-view"
+      }
+    },
+    {
+      "componentId": "dropdown",
+      "componentName": "Dropdown",
+      "category": "legacy",
+      "matchedSelector": ".ui.dropdown",
+      "path": "1414",
+      "tagName": "div",
+      "attributes": {
+        "class": "ui dropdown\n\t\t\t\tcompact selection\n\t\t\t\t\n\t\t\t\tprimary\n\t\t\t\tl-size\n\t\t\t\t",
+        "role": "combobox",
+        "aria-haspopup": "listbox",
+        "aria-expanded": "false",
+        "aria-label": "More Actions",
+        "tabindex": "0",
+        "data-ember-action": "",
+        "data-ember-action-13": "13"
+      }
+    },
+    {
+      "componentId": "tabmenu",
+      "componentName": "TabMenu",
+      "category": "native",
+      "matchedSelector": "[role=\"tablist\"]",
+      "path": "1420",
+      "tagName": "div",
+      "attributes": {
+        "class": "left-menu",
+        "role": "tablist"
+      }
+    },
+    {
+      "componentId": "toast",
+      "componentName": "Toast",
+      "category": "native",
+      "matchedSelector": "[role=\"alert\"]",
+      "path": "1457",
+      "tagName": "div",
+      "attributes": {
+        "class": "ulx-banner-message primary l-size overflow-hidden enter-done",
+        "role": "alert",
+        "aria-live": "assertive",
+        "aria-atomic": "true",
+        "data-qa": "ulx-banner-message"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1504",
+      "tagName": "button",
+      "attributes": {
+        "type": "button",
+        "role": "presentation",
+        "class": "owl-prev disabled",
+        "aria-label": "Missing translation: lbl.prev.slide",
+        "aria-disabled": "true"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1507",
+      "tagName": "button",
+      "attributes": {
+        "type": "button",
+        "role": "presentation",
+        "class": "owl-next disabled",
+        "aria-label": "Missing translation: lbl.next.slide",
+        "aria-disabled": "true"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1511",
+      "tagName": "button",
+      "attributes": {
+        "role": "button",
+        "class": "owl-dot active",
+        "aria-pressed": "true",
+        "aria-label": "Go to Slide 1"
+      }
+    },
+    {
+      "componentId": "tabmenu",
+      "componentName": "TabMenu",
+      "category": "native",
+      "matchedSelector": "[role=\"tablist\"]",
+      "path": "1532",
+      "tagName": "div",
+      "attributes": {
+        "class": "left-menu gp5",
+        "role": "tablist",
+        "tabindex": "0",
+        "aria-label": "Search our event listing"
+      }
+    },
+    {
+      "componentId": "input",
+      "componentName": "Input",
+      "category": "legacy",
+      "matchedSelector": ".uls-input",
+      "path": "1552",
+      "tagName": "input",
+      "attributes": {
+        "_linkedmodel": "model",
+        "placeholder": "Search",
+        "id": "search",
+        "class": "ember-text-field ember-view uls-input m-size ",
+        "aria-labelledby": "label-search",
+        "aria-required": "false",
+        "type": "search"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "legacy",
+      "matchedSelector": ".uls-button",
+      "path": "1557",
+      "tagName": "button",
+      "attributes": {
+        "aria-label": "Filter",
+        "aria-disabled": "false",
+        "class": "uls-button m-size default-color compact ",
+        "data-now": "0",
+        "type": "button",
+        "popovertarget": "ember20",
+        "popovertargetaction": "toggle",
+        "aria-haspopup": "true",
+        "aria-describedby": "ember20",
+        "aria-expanded": "false",
+        "style": "anchor-name: --ember20;"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "legacy",
+      "matchedSelector": ".uls-button",
+      "path": "1563",
+      "tagName": "button",
+      "attributes": {
+        "aria-label": "Sort",
+        "aria-disabled": "false",
+        "class": "uls-button m-size default-color compact",
+        "type": "button",
+        "popovertarget": "ember22",
+        "popovertargetaction": "toggle",
+        "aria-haspopup": "true",
+        "aria-expanded": "false",
+        "style": "anchor-name: --ember22;"
+      }
+    },
+    {
+      "componentId": "radio",
+      "componentName": "Radio",
+      "category": "native",
+      "matchedSelector": "input[type=\"radio\"]",
+      "path": "1575",
+      "tagName": "input",
+      "attributes": {
+        "id": "ember23",
+        "role": "radio",
+        "tabindex": "0",
+        "name": "sortType",
+        "aria-hidden": "true",
+        "type": "radio",
+        "value": "createdTime"
+      }
+    },
+    {
+      "componentId": "radio",
+      "componentName": "Radio",
+      "category": "native",
+      "matchedSelector": "input[type=\"radio\"]",
+      "path": "1577",
+      "tagName": "input",
+      "attributes": {
+        "id": "ember24",
+        "role": "radio",
+        "tabindex": "0",
+        "name": "sortType",
+        "aria-hidden": "true",
+        "type": "radio",
+        "value": "startDate"
+      }
+    },
+    {
+      "componentId": "radio",
+      "componentName": "Radio",
+      "category": "native",
+      "matchedSelector": "input[type=\"radio\"]",
+      "path": "1579",
+      "tagName": "input",
+      "attributes": {
+        "id": "ember25",
+        "role": "radio",
+        "tabindex": "0",
+        "name": "sortType",
+        "aria-hidden": "true",
+        "type": "radio",
+        "value": "lastModifiedTime"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "legacy",
+      "matchedSelector": ".uls-button",
+      "path": "1588",
+      "tagName": "button",
+      "attributes": {
+        "aria-disabled": "false",
+        "class": "uls-button rds2 m-size default-color ",
+        "type": "button",
+        "popovertarget": "ember27",
+        "popovertargetaction": "toggle",
+        "aria-haspopup": "true",
+        "aria-expanded": "false",
+        "style": "anchor-name: --ember27;"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1656",
+      "tagName": "button",
+      "attributes": {
+        "aria-label": "More Actions",
+        "aria-disabled": "false",
+        "class": "uls-button-icon square onhvr left-item m-size default-color ",
+        "aria-haspopup-": "true",
+        "tabindex": "0",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "1693",
+      "tagName": "button",
+      "attributes": {
+        "aria-label": "More Actions",
+        "aria-disabled": "false",
+        "class": "uls-button-icon square onhvr left-item m-size default-color ",
+        "aria-haspopup-": "true",
+        "tabindex": "0",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "10227",
+      "tagName": "button",
+      "attributes": {
+        "data-aria-focustyle": "zd-launcheraccessibility-target__focus",
+        "aria-disabled": "false",
+        "aria-label": "Open asap",
+        "class": "zd-launcher-close__app zd_asap_launcher_close zd-launcher-square zd-launcher-right   zd-launcher-button zd_asap_launcher_button data-theme-asap-launcher-custom ",
+        "data-id": "button",
+        "id": "zohohc-asap-web-button",
+        "style": "display: none;"
+      }
+    }
+  ]
+}

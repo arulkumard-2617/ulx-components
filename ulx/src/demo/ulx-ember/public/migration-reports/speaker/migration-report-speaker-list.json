@@ -1,0 +1,445 @@
+{
+  "kind": "ulx-migration-report",
+  "version": 1,
+  "generatedAt": "2026-08-01T08:31:05.658Z",
+  "meta": {
+    "url": "https://backstage.zoho.in/home#/portal/60048013434/brand/49382000000002010/event/49382000017736001/speakers-dashboard/speakers",
+    "title": "ULX Migration 2026-08-01 - Speakers",
+    "capturedAt": "2026-08-01T08:31:05.346Z",
+    "elementCount": 2368
+  },
+  "overall": {
+    "migrationPercent": 29,
+    "totals": {
+      "ulx": 4,
+      "legacy": 4,
+      "native": 6,
+      "unknown": 0,
+      "total": 14
+    }
+  },
+  "components": [
+    {
+      "id": "button",
+      "name": "Button",
+      "counts": {
+        "ulx": 2,
+        "legacy": 2,
+        "native": 4,
+        "unknown": 0
+      },
+      "total": 8,
+      "migrationPercent": 25
+    },
+    {
+      "id": "splitbutton",
+      "name": "SplitButton",
+      "counts": {
+        "ulx": 1,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 1,
+      "migrationPercent": 100
+    },
+    {
+      "id": "input",
+      "name": "Input",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "textarea",
+      "name": "Textarea",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "dropdown",
+      "name": "Dropdown",
+      "counts": {
+        "ulx": 0,
+        "legacy": 2,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 2,
+      "migrationPercent": 0
+    },
+    {
+      "id": "multiselect",
+      "name": "MultiSelect",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "checkbox",
+      "name": "Checkbox",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "radio",
+      "name": "Radio",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "toggle",
+      "name": "Toggle",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "dialog",
+      "name": "Dialog",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "table",
+      "name": "Table",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "accordion",
+      "name": "Accordion",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "tabmenu",
+      "name": "TabMenu",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 2,
+        "unknown": 0
+      },
+      "total": 2,
+      "migrationPercent": 0
+    },
+    {
+      "id": "paginator",
+      "name": "Paginator",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "chip",
+      "name": "Chip",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "badge",
+      "name": "Badge",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    },
+    {
+      "id": "tag",
+      "name": "Tag",
+      "counts": {
+        "ulx": 1,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 1,
+      "migrationPercent": 100
+    },
+    {
+      "id": "toast",
+      "name": "Toast",
+      "counts": {
+        "ulx": 0,
+        "legacy": 0,
+        "native": 0,
+        "unknown": 0
+      },
+      "total": 0,
+      "migrationPercent": 0
+    }
+  ],
+  "discoveries": [
+    {
+      "componentId": "tag",
+      "componentName": "Tag",
+      "category": "ulx",
+      "matchedSelector": "[data-qa=\"ulx-tag\"]",
+      "path": "686",
+      "tagName": "span",
+      "attributes": {
+        "class": "ulx-tag draft-color xxs-size pill text-only",
+        "data-qa": "ulx-tag",
+        "data-a11y": "critical"
+      }
+    },
+    {
+      "componentId": "splitbutton",
+      "componentName": "SplitButton",
+      "category": "ulx",
+      "matchedSelector": ".ulx-splitbutton",
+      "path": "842",
+      "tagName": "div",
+      "attributes": {
+        "class": "ulx-splitbutton primary m-size",
+        "data-qa": "add-speaker"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": ".ulx-button",
+      "path": "843",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "add-speaker-default",
+        "class": "ulx-button primary m-size split-button ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "ulx",
+      "matchedSelector": ".ulx-button",
+      "path": "847",
+      "tagName": "button",
+      "attributes": {
+        "data-qa": "add-speaker-dropdown",
+        "class": "ulx-button primary m-size icon-only ",
+        "aria-label": "More Options",
+        "aria-haspopup": "menu",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "691",
+      "tagName": "button",
+      "attributes": {
+        "aria-disabled": "false",
+        "class": "uls-button-link m-size nav-link default-color ",
+        "type": "button",
+        "popovertarget": "ember39",
+        "popovertargetaction": "toggle",
+        "aria-haspopup": "true",
+        "aria-expanded": "false",
+        "style": "anchor-name: --ember39;"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "706",
+      "tagName": "button",
+      "attributes": {
+        "aria-disabled": "false",
+        "class": "uls-button-link m-size wt-icon default-color ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "719",
+      "tagName": "button",
+      "attributes": {
+        "aria-label": "help document",
+        "aria-disabled": "false",
+        "class": "uls-button-icon m-size onhvr primary ",
+        "data-click": "help",
+        "type": "button",
+        "popovertarget": "ember41",
+        "popovertargetaction": "toggle",
+        "aria-haspopup": "true",
+        "aria-describedby": "ember41",
+        "aria-expanded": "false",
+        "style": "anchor-name: --ember41;"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "legacy",
+      "matchedSelector": ".uls-button",
+      "path": "728",
+      "tagName": "button",
+      "attributes": {
+        "style": "",
+        "id": "ember43",
+        "class": "m-size primary uls-publish-popup uls-button ember-view"
+      }
+    },
+    {
+      "componentId": "dropdown",
+      "componentName": "Dropdown",
+      "category": "legacy",
+      "matchedSelector": ".dropdown",
+      "path": "729",
+      "tagName": "div",
+      "attributes": {
+        "class": "ui dropdown\n\t\t\t\tcompact selection\n\t\t\t\tuls-publish-popup publish-dropdown\n\t\t\t\tprimary uls-publish-popup\n\t\t\t\tm-size\n\t\t\t\t",
+        "role": "combobox",
+        "aria-haspopup": "listbox",
+        "aria-expanded": "false",
+        "aria-label": "More Actions",
+        "tabindex": "0",
+        "data-ember-action": "",
+        "data-ember-action-44": "44"
+      }
+    },
+    {
+      "componentId": "dropdown",
+      "componentName": "Dropdown",
+      "category": "legacy",
+      "matchedSelector": ".dropdown",
+      "path": "730",
+      "tagName": "i",
+      "attributes": {
+        "class": "dropdown icon",
+        "aria-hidden": "true"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "legacy",
+      "matchedSelector": ".uls-button",
+      "path": "736",
+      "tagName": "button",
+      "attributes": {
+        "aria-disabled": "false",
+        "class": "uls-button mgl2 s-size default-color ",
+        "type": "button"
+      }
+    },
+    {
+      "componentId": "tabmenu",
+      "componentName": "TabMenu",
+      "category": "native",
+      "matchedSelector": "[role=\"tablist\"]",
+      "path": "745",
+      "tagName": "div",
+      "attributes": {
+        "class": "uls-nav-items",
+        "role": "tablist",
+        "tabindex": "0",
+        "aria-label": "nav items"
+      }
+    },
+    {
+      "componentId": "tabmenu",
+      "componentName": "TabMenu",
+      "category": "native",
+      "matchedSelector": "[role=\"tablist\"]",
+      "path": "772",
+      "tagName": "div",
+      "attributes": {
+        "class": "panel-items",
+        "role": "tablist"
+      }
+    },
+    {
+      "componentId": "button",
+      "componentName": "Button",
+      "category": "native",
+      "matchedSelector": "button",
+      "path": "10038",
+      "tagName": "button",
+      "attributes": {
+        "data-aria-focustyle": "zd-launcheraccessibility-target__focus",
+        "aria-disabled": "false",
+        "aria-label": "Open asap",
+        "class": "zd-launcher-close__app zd_asap_launcher_close zd-launcher-square zd-launcher-right   zd-launcher-button zd_asap_launcher_button data-theme-asap-launcher-custom ",
+        "data-id": "button",
+        "id": "zohohc-asap-web-button",
+        "style": "display: none;"
+      }
+    }
+  ]
+}
