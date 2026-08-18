@@ -89,5 +89,6 @@ Router.map(function () {
     this.route('segment');
     this.route('list');
     this.route('message');
+    this.route('slidepane');
   });
 });

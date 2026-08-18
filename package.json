@@ -204,6 +204,7 @@
       "./modifiers/overlay-lifecycle.js": "./dist/_app_/modifiers/overlay-lifecycle.js",
       "./modifiers/overlay-portal.js": "./dist/_app_/modifiers/overlay-portal.js",
       "./modifiers/overlay-scroll-close.js": "./dist/_app_/modifiers/overlay-scroll-close.js",
+      "./modifiers/scroll-to-top-on.js": "./dist/_app_/modifiers/scroll-to-top-on.js",
       "./modifiers/sortable.js": "./dist/_app_/modifiers/sortable.js",
       "./modifiers/textarea-resize-y.js": "./dist/_app_/modifiers/textarea-resize-y.js",
       "./modifiers/tooltip.js": "./dist/_app_/modifiers/tooltip.js",

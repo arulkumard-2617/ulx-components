@@ -427,6 +427,11 @@ export const DocNavItems = [
         menuItem: 'Message',
         to: '/templates/message',
         route: 'templates.message'
+      },
+      {
+        menuItem: 'Slidepane',
+        to: '/templates/slidepane',
+        route: 'templates.slidepane'
       }
     ]
   }
