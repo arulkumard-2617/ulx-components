@@ -37,6 +37,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *   - `query` (Object): Query parameters for LinkTo (e.g., { page: 1 })
  *   - `url` (string): URL for navigation (used when `route` is not provided)
  *   - `target` (string): Target attribute for links (e.g., "_blank")
+ *   - `dataQa` (string): Optional full `data-qa` on the clickable control only (LinkTo, `a`, `button`, or disabled `span`). The `li` always keeps `{root}-item`.
  * @param {number} [activeIndex] - Controlled active tab index (0-based). When provided, component is controlled.
  * @param {Function} [onTabChange] - Callback fired when active tab changes: (event) => void. Event has `index` and `originalEvent` properties.
  * @param {string} [variant] - Visual variant (for future use).
@@ -441,6 +442,7 @@ export default class UlxTabmenu extends Component {
 									aria-label={{item.label}}
 									aria-disabled="true"
 									tabindex="-1"
+									data-qa={{item.dataQa}}
 								>
 									{{#if (has-block "item")}}
 										{{yield item to="item"}}
@@ -475,6 +477,7 @@ export default class UlxTabmenu extends Component {
 												role="menuitem"
 												aria-label={{item.label}}
 												tabindex={{this.getTabIndex index}}
+												data-qa={{item.dataQa}}
 												{{on "click" (fn this.handleItemClick item index)}}
 												{{on "keydown" (fn this.handleKeydown item index)}}
 											>
@@ -506,6 +509,7 @@ export default class UlxTabmenu extends Component {
 												role="menuitem"
 												aria-label={{item.label}}
 												tabindex={{this.getTabIndex index}}
+												data-qa={{item.dataQa}}
 												{{on "click" (fn this.handleItemClick item index)}}
 												{{on "keydown" (fn this.handleKeydown item index)}}
 											>
@@ -538,6 +542,7 @@ export default class UlxTabmenu extends Component {
 											role="menuitem"
 											aria-label={{item.label}}
 											tabindex={{this.getTabIndex index}}
+											data-qa={{item.dataQa}}
 											{{on "click" (fn this.handleItemClick item index)}}
 											{{on "keydown" (fn this.handleKeydown item index)}}
 											{{on "focus" (fn this.handleFocus index)}}
@@ -570,6 +575,7 @@ export default class UlxTabmenu extends Component {
 											role="menuitem"
 											aria-label={{item.label}}
 											tabindex={{this.getTabIndex index}}
+											data-qa={{item.dataQa}}
 											{{on "click" (fn this.handleItemClick item index)}}
 											{{on "keydown" (fn this.handleKeydown item index)}}
 											{{on "focus" (fn this.handleFocus index)}}
@@ -607,6 +613,7 @@ export default class UlxTabmenu extends Component {
 								aria-label={{item.label}}
 								aria-disabled={{if item.disabled "true"}}
 								tabindex={{this.getTabIndex index}}
+								data-qa={{item.dataQa}}
 								{{on "click" (fn this.handleItemClick item index)}}
 								{{on "keydown" (fn this.handleKeydown item index)}}
 								{{on "focus" (fn this.handleFocus index)}}
@@ -641,6 +648,7 @@ export default class UlxTabmenu extends Component {
 								aria-disabled={{if item.disabled "true"}}
 								disabled={{item.disabled}}
 								tabindex={{this.getTabIndex index}}
+								data-qa={{item.dataQa}}
 								{{on "click" (fn this.handleItemClick item index)}}
 								{{on "keydown" (fn this.handleKeydown item index)}}
 								{{on "focus" (fn this.handleFocus index)}}
