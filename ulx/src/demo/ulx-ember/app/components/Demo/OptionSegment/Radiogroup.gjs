@@ -33,7 +33,7 @@ export default class RadiogroupDemoComponent extends Component {
   }
 
   @action
-  handleItemSelect(_selected, value) {
+  handleValueChange(value) {
     this.activeValue = value;
   }
 
@@ -41,7 +41,7 @@ export default class RadiogroupDemoComponent extends Component {
     <UlxOptionSegment
       @type="radio"
       @items={{this.items}}
-      @onSelect={{this.handleItemSelect}}
+      @onValueChange={{this.handleValueChange}}
       @ariaLabel="Radio option group"
     />
   </template>

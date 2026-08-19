@@ -73,8 +73,9 @@ function buildOptionSegmentId(namespace, idArg, key) {
  * @param {boolean} [selected=false] - Single-item selected state (when `@items` is not used)
  * @param {boolean} [disabled=false] - Disable interaction when true (group-level)
  * @param {boolean} [compact=false] - Use the compact visual variant (group-level)
- * @param {string} [value] - Value passed back to `@onSelect` (single-item mode)
- * @param {Function} [onSelect] - Callback invoked on click / key activation: `(selected, value, event) => void`
+ * @param {string} [value] - Value passed back to `@onSelect` / `@onValueChange` (single-item mode)
+ * @param {Function} [onSelect] - Callback invoked on click / key activation: `(selected, value, event, item) => void`
+ * @param {Function} [onValueChange] - When an option becomes selected: `(value, item, event) => void`. Value-first so callers can use `mut` / `fn (mut path)`. Prefer this when only the selected value is needed.
  * @param {string} [title] - Primary label text when no `title` block is provided
  * @param {string} [description] - Helper text when no `description` block is provided
  * @param {string} [itemClass] - CSS class applied to every `.option-item` root (before each item's own `itemClass`)
@@ -294,6 +295,10 @@ export default class UlxOptionSegment extends Component {
 	handleItemSelect(selected, value, event, item) {
 		if (typeof this.args.onSelect === "function") {
 			this.args.onSelect(selected, value, event, item);
+		}
+
+		if (selected) {
+			this.args.onValueChange?.(value, item, event);
 		}
 	}
 

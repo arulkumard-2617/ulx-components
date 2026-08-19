@@ -94,7 +94,7 @@ export const OptionSegmentFeatureItems = [
       props: {
         as: 'span',
         content:
-          'The <code>Radiogroup</code> demo shows RadioGroup usage of the OptionSegment component.'
+          'The <code>Radiogroup</code> demo uses <code>@onValueChange</code> (value-first) when only the selected value is needed. <code>@onSelect</code> still receives <code>(selected, value, event, item)</code> for checkbox and toggle cases.'
       }
     },
     demo: {
