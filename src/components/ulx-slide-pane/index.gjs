@@ -13,7 +13,9 @@ import {
 	shouldShowOverlay,
 	buildOverlayLifecycleOptions
 } from "../../utils/overlay-helpers";
+import { scrollElementToTop } from "../../utils/scroll-util";
 import overlayLifecycle from "../../modifiers/overlay-lifecycle";
+import scrollToTopOn from "../../modifiers/scroll-to-top-on";
 import UlxSlidePaneHeader from "./header.gjs";
 import UlxSlidePaneBody from "./body.gjs";
 import UlxSlidePaneFooter from "./footer.gjs";
@@ -69,6 +71,7 @@ const SLIDEPANE_DOCKED_CLASS_BY_POSITION = {
  * @param {boolean} [overlay=true] - When false, mask does not block pointer events (clicks pass through to content behind)
  * @param {boolean} [blockScroll=true] - Block body scroll when open
  * @param {boolean} [scrollable=true] - Scrollable content area
+ * @param {*} [scrollBodyKey] - When this value changes, scroll the body content to top (opt-in; skips initial mount)
  * @param {Function} [onHide] - Callback when pane closes
  * @param {Function} [onShow] - Callback when pane opens
  * @param {Function} [onDone] - Primary action; if it returns a Promise, pane waits before closing
@@ -108,10 +111,31 @@ export default class UlxSlidePane extends Component {
 	@tracked transitionState = "";
 	@tracked shouldRender = false;
 	@tracked isMaximized = false;
+	/** Scrollport element (`.slidepane-content`) for `scrollBodyToTop`. */
+	bodyElement = null;
 	/** Read/written by `overlayLifecycle` (focus return and open/close edge tracking). */
 	previousVisible = false;
 	/** Read/written by `overlayLifecycle` when saving/restoring document focus. */
 	previousActiveElement = null;
+
+	/** Register the body scroll container for imperative `scrollBodyToTop`. */
+	registerBodyElement = modifier((element) => {
+		this.bodyElement = element;
+		return () => {
+			if (this.bodyElement === element) {
+				this.bodyElement = null;
+			}
+		};
+	});
+
+	/**
+	 * Scroll the pane body content to the top.
+	 * @param {ScrollBehavior} [behavior="auto"]
+	 */
+	@action
+	scrollBodyToTop(behavior = "auto") {
+		scrollElementToTop(this.bodyElement, behavior);
+	}
 
 	get destinationElement() {
 		return getDestinationElement();
@@ -386,6 +410,8 @@ export default class UlxSlidePane extends Component {
 									class={{this.bodyContentClasses}}
 									data-qa={{this.getDataQa "body"}}
 									style={{this.bodyContentStyle}}
+									{{this.registerBodyElement}}
+									{{scrollToTopOn @scrollBodyKey}}
 								>
 									{{yield to="body"}}
 								</div>
@@ -393,39 +419,37 @@ export default class UlxSlidePane extends Component {
 								<UlxSlidePaneBody
 									@scrollable={{this.scrollable}}
 									@contentClassName={{@contentClassName}}
+									{{this.registerBodyElement}}
+									{{scrollToTopOn @scrollBodyKey}}
 								>
 									{{yield}}
 								</UlxSlidePaneBody>
 							{{/if}}
 
 							{{#if (has-block "footer")}}
-								<div
-									class={{this.footerWrapperClasses}}
-									data-qa={{this.getDataQa "footer"}}
-									style="justify-content: flex-end;"
-								>
+								<div class={{this.footerWrapperClasses}} data-qa={{this.getDataQa "footer"}}>
 									{{yield to="footer"}}
 								</div>
 							{{else}}
-							{{#unless @hideFooter}}
-								<UlxSlidePaneFooter
-									@hideFooter={{@hideFooter}}
-									@hideCancelButton={{@hideCancelButton}}
-									@hideDoneButton={{@hideDoneButton}}
-									@showBackButton={{this.showBackInHeader}}
-									@cancelLabel={{@cancelButtonLabel}}
-									@doneLabel={{@doneButtonLabel}}
-									@submittingLabel={{@submittingLabel}}
-									@cancelButtonDataQa={{@cancelButtonDataQa}}
-									@doneButtonDataQa={{@doneButtonDataQa}}
-									@backButtonDataQa={{@backButtonDataQa}}
-									@doneButtonDisabled={{@doneButtonDisabled}}
-									@onCancel={{this.handleCancel}}
-									@onDone={{this.handleDone}}
-									@onBack={{this.handleBack}}
-									@footerClassName={{@footerClassName}}
-								/>
-							{{/unless}}
+								{{#unless @hideFooter}}
+									<UlxSlidePaneFooter
+										@hideFooter={{@hideFooter}}
+										@hideCancelButton={{@hideCancelButton}}
+										@hideDoneButton={{@hideDoneButton}}
+										@showBackButton={{this.showBackInHeader}}
+										@cancelLabel={{@cancelButtonLabel}}
+										@doneLabel={{@doneButtonLabel}}
+										@submittingLabel={{@submittingLabel}}
+										@cancelButtonDataQa={{@cancelButtonDataQa}}
+										@doneButtonDataQa={{@doneButtonDataQa}}
+										@backButtonDataQa={{@backButtonDataQa}}
+										@doneButtonDisabled={{@doneButtonDisabled}}
+										@onCancel={{this.handleCancel}}
+										@onDone={{this.handleDone}}
+										@onBack={{this.handleBack}}
+										@footerClassName={{@footerClassName}}
+									/>
+								{{/unless}}
 							{{/if}}
 						</div>
 					</div>

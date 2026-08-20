@@ -27,8 +27,9 @@ import { t } from "../../utils/i18n";
  * @param {string} [cancelButtonDataQa="cancel-button"] - data-qa for cancel button
  * @param {string} [doneButtonDataQa="done-button"] - data-qa for done button
  * @param {string} [backButtonDataQa="back-button"] - data-qa for back button
- * @param {string} [alignment="end"] - Footer alignment: "start", "center", "end", "space-between"
- * @param {string} [footerClassName] - Extra class for the footer root (applied next to slidepane-footer)
+ * @param {string} [footerClassName] - Extra class for the footer root (applied next to slidepane-footer).
+ *   For custom <:footer> layouts, wrap buttons in `.footer-left-actions` and `.footer-right-actions`;
+ *   `.slidepane-footer` already uses `justify-content: space-between`.
  */
 export default class UlxSlidePaneFooter extends Component {
 	get cancelLabel() {

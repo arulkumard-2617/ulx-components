@@ -267,6 +267,10 @@ export default class UlxModal extends Component {
 
 	@action
 	handleBackdropClick(event) {
+		if (this.isMaximized) {
+			return;
+		}
+
 		this.args.onMaskClick?.(event);
 
 		if (this.closeOnBackdrop && event.target.classList.contains("dialog-mask")) {

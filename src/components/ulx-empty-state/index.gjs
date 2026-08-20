@@ -64,14 +64,22 @@ export default class UlxEmptyState extends Component {
 		return this.args.subHeaderText ? this.subtitleId : null;
 	}
 
+	get emptyIconType() {
+		return this.args.emptyIconType || "svg";
+	}
+
+	get emptyIconComponentClass() {
+		return this.args.emptyIconComponentClass || "empty-svg-size";
+	}
+
 	<template>
 		<div aria-label={{this.ariaLabel}} data-qa={{this.rootDataQa}} ...attributes>
 			<div class={{this.rootClasses}}>
 				{{#if @iconName}}
 					<div class="empty-state-icon" data-qa="ulx-empty-state-icon">
 						<UlxIcon
-							@type="svg"
-							@componentClass="empty-svg-size"
+							@type={{this.emptyIconType}}
+							@componentClass={{this.emptyIconComponentClass}}
 							@iconName={{@iconName}}
 							@size={{this.iconSize}}
 							aria-hidden="true"

@@ -114,7 +114,7 @@ export function scheduleOverlayInitialFocus(
 	setTimeout(() => {
 		const resolved = resolveOverlayInitialFocus(maskElement, overlaySelector, initialFocusSelector);
 		if (!resolved) return;
-		resolved.focusTarget.focus();
+		resolved.focusTarget.focus({ preventScroll: true });
 	}, delayMs);
 }
 

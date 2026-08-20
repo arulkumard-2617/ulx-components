@@ -9,12 +9,19 @@ import UlxIcon from "../ulx-icon/index.gjs";
 
 const STEP_LINK_DIRECTION = {
 	NEXT: "next",
-	PREV: "prev",
+	PREV: "prev"
 };
 
 const STEP_LINK_FOCUS_POSITION = {
 	FIRST: "first",
-	LAST: "last",
+	LAST: "last"
+};
+
+const STEPS_ALIGN_TO_JUSTIFY = {
+	start: "justify-start",
+	center: "justify-center",
+	end: "justify-end",
+	"space-between": "justify-between"
 };
 
 /**
@@ -63,6 +70,7 @@ const STEP_LINK_FOCUS_POSITION = {
  * @param {string} [activeStepIcon='ls-circle-filled-icon'] - Default active step icon
  * @param {string} [pendingStepIcon='ls-circle-stroke-icon'] - Default pending step icon
  * @param {string} [inactiveStepIcon] - Alias for `@pendingStepIcon`
+ * @param {'start'|'center'|'end'|'space-between'} [align='center'] - Horizontal alignment of the steps list
  * @param {string} [customClass] - Extra CSS classes appended to the root element
  * @param {string} [dataQa] - Override root data-qa attribute
  *
@@ -98,6 +106,14 @@ export default class UlxSteps extends Component {
 
 	get listTabIndex() {
 		return this.readOnly ? undefined : "0";
+	}
+
+	get listClasses() {
+		const { align = "center" } = this.args;
+		const justifyClass = STEPS_ALIGN_TO_JUSTIFY[align] ?? STEPS_ALIGN_TO_JUSTIFY.center;
+
+		// `justify-*` utilities only apply when paired with `.inline-grid` (uls grid.less).
+		return `steps-list inline-grid ${justifyClass}`;
 	}
 
 	get rootClasses() {
@@ -171,36 +187,24 @@ export default class UlxSteps extends Component {
 
 	@action
 	getStepIcon(item, index) {
-		const { icon, activeIcon, completedIcon, pendingIcon, inactiveIcon } =
-			item ?? {};
+		const { icon, activeIcon, completedIcon, pendingIcon, inactiveIcon } = item ?? {};
 		const {
 			completedStepIcon = "success-icon",
 			activeStepIcon = "ls-circle-filled-icon",
 			pendingStepIcon = "ls-circle-stroke-icon",
-			inactiveStepIcon,
+			inactiveStepIcon
 		} = this.args;
 		const defaultPendingIcon = inactiveStepIcon ?? pendingStepIcon;
 
 		if (this.isStepCompleted(index)) {
-			return (
-				completedIcon ??
-				completedStepIcon ??
-				icon ??
-				defaultPendingIcon
-			);
+			return completedIcon ?? completedStepIcon ?? icon ?? defaultPendingIcon;
 		}
 
 		if (this.isStepActive(index)) {
 			return activeIcon ?? activeStepIcon ?? icon ?? defaultPendingIcon;
 		}
 
-		return (
-			pendingIcon ??
-			inactiveIcon ??
-			defaultPendingIcon ??
-			icon ??
-			activeStepIcon
-		);
+		return pendingIcon ?? inactiveIcon ?? defaultPendingIcon ?? icon ?? activeStepIcon;
 	}
 
 	@action
@@ -233,10 +237,7 @@ export default class UlxSteps extends Component {
 					? listItem.nextElementSibling
 					: listItem.previousElementSibling;
 			if (!listItem) break;
-			if (
-				!listItem.classList.contains("steps-item") ||
-				listItem.classList.contains("disabled")
-			) {
+			if (!listItem.classList.contains("steps-item") || listItem.classList.contains("disabled")) {
 				continue;
 			}
 
@@ -248,9 +249,7 @@ export default class UlxSteps extends Component {
 	}
 
 	getFocusableStepLinks() {
-		return this.listElement?.querySelectorAll(
-			"li.steps-item:not(.disabled) .steps-link",
-		);
+		return this.listElement?.querySelectorAll("li.steps-item:not(.disabled) .steps-link");
 	}
 
 	@action
@@ -258,10 +257,7 @@ export default class UlxSteps extends Component {
 		const links = this.getFocusableStepLinks();
 		if (!links?.length) return;
 
-		const link =
-			position === STEP_LINK_FOCUS_POSITION.LAST
-				? links[links.length - 1]
-				: links[0];
+		const link = position === STEP_LINK_FOCUS_POSITION.LAST ? links[links.length - 1] : links[0];
 		this.setFocusToMenuitem(link);
 	}
 
@@ -293,19 +289,13 @@ export default class UlxSteps extends Component {
 
 		switch (originalEvent.code) {
 			case "ArrowRight": {
-				const nextItem = this.findAdjacentStepLink(
-					originalEvent.target,
-					STEP_LINK_DIRECTION.NEXT,
-				);
+				const nextItem = this.findAdjacentStepLink(originalEvent.target, STEP_LINK_DIRECTION.NEXT);
 				nextItem && this.setFocusToMenuitem(nextItem);
 				originalEvent.preventDefault();
 				break;
 			}
 			case "ArrowLeft": {
-				const prevItem = this.findAdjacentStepLink(
-					originalEvent.target,
-					STEP_LINK_DIRECTION.PREV,
-				);
+				const prevItem = this.findAdjacentStepLink(originalEvent.target, STEP_LINK_DIRECTION.PREV);
 				prevItem && this.setFocusToMenuitem(prevItem);
 				originalEvent.preventDefault();
 				break;
@@ -343,7 +333,7 @@ export default class UlxSteps extends Component {
 			...attributes
 		>
 			<ol
-				class="steps-list"
+				class={{this.listClasses}}
 				data-qa={{this.getDataQa "list"}}
 				tabindex={{this.listTabIndex}}
 				{{this.setListRef}}

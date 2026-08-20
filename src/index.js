@@ -82,6 +82,11 @@ export { ulxHtmlSafe } from './helpers/ulx-html-safe.js';
 export { getConstraintValue, isRulesRequired } from './utils/input-util.js';
 export { SVG_NAMESPACE } from './utils/svg-namespace.js';
 export {
+	scrollElementTo,
+	scrollElementToTop,
+	getScrollParent
+} from './utils/scroll-util.js';
+export {
 	momentPatternToFlatpickrFormat,
 	resolveFlatpickrDateFormat,
 	wallCalendarDateInZone,
@@ -102,3 +107,4 @@ export { default as flatpickrModifier } from './modifiers/flatpickr.js';
 export { default as tooltip } from './modifiers/tooltip.js';
 export { default as overlayDismiss } from './modifiers/overlay-dismiss.js';
 export { default as sortable } from './modifiers/sortable.js';
+export { default as scrollToTopOn } from './modifiers/scroll-to-top-on.js';
