@@ -37,6 +37,7 @@ import UlxIcon from "../ulx-icon/index.gjs";
  *   - `query` (Object): Query parameters for LinkTo (e.g., { page: 1 })
  *   - `url` (string): URL for navigation (used when `route` is not provided)
  *   - `target` (string): Target attribute for links (e.g., "_blank")
+ *   - `dataQa` (string): Override `data-qa` on this item's `<li>`. Defaults to `{root}-item`.
  * @param {number} [activeIndex] - Controlled active tab index (0-based). When provided, component is controlled.
  * @param {Function} [onTabChange] - Callback fired when active tab changes: (event) => void. Event has `index` and `originalEvent` properties.
  * @param {string} [variant] - Visual variant (for future use).
@@ -123,6 +124,11 @@ export default class UlxTabmenu extends Component {
 	@action
 	getDataQa(part) {
 		return buildDataQa(this.rootDataQa, part);
+	}
+
+	@action
+	getItemDataQa(item) {
+		return item?.dataQa ?? this.getDataQa("item");
 	}
 
 	get inkbarStyleString() {
@@ -428,7 +434,7 @@ export default class UlxTabmenu extends Component {
 				{{#each this.items as |item index|}}
 					<li
 						class={{this.getItemClasses index}}
-						data-qa={{this.getDataQa "item"}}
+						data-qa={{this.getItemDataQa item}}
 						role="presentation"
 					>
 						{{#if item.route}}
